@@ -1,21 +1,15 @@
-# --- First-time setup ---
-
-# First-time setup: restore/generate AGE key, sync with Bitwarden, configure .sops.yaml
-catalog-setup:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    if [ -z "${BW_SESSION:-}" ]; then
-        echo "BW_SESSION not set. Run 'unlock' first."
-        exit 1
-    fi
-    bash scripts/init-secrets.sh
-
 # --- Secrets management ---
 
+# Komodo's AGE key (Key B) lives at a different path than the container-wide
+# SOPS_AGE_KEY_FILE default (which points at the ansible key, Key A) — every
+# recipe below overrides it explicitly rather than relying on the ambient env.
+komodo_age_key_file := env_var('HOME') / ".config/sops/komodo/age/keys.txt"
+
 # Edit encrypted secrets ('all' for shared, or a hostname for host-specific)
-catalog-secrets TARGET="all":
+komodo-secrets TARGET="all":
     #!/usr/bin/env bash
     set -euo pipefail
+    export SOPS_AGE_KEY_FILE="{{komodo_age_key_file}}"
     if [ "{{TARGET}}" = "all" ]; then
         SECRET="komodo/secrets.sops.yaml"
         TEMPLATE="komodo/secrets.example.yaml"
@@ -37,10 +31,11 @@ catalog-secrets TARGET="all":
 decrypt OUTPUT="/etc/komodo/core.secrets.toml":
     #!/usr/bin/env bash
     set -euo pipefail
+    export SOPS_AGE_KEY_FILE="{{komodo_age_key_file}}"
     SOPS_CONFIG="komodo/.sops.yaml"
     GLOBAL="komodo/secrets.sops.yaml"
     if [ ! -f "$GLOBAL" ]; then
-        echo "Error: $GLOBAL not found. Run 'just catalog-secrets' first."
+        echo "Error: $GLOBAL not found. Run 'just komodo-secrets' first."
         exit 1
     fi
     echo "Decrypting to {{OUTPUT}} ..."
@@ -63,6 +58,7 @@ decrypt OUTPUT="/etc/komodo/core.secrets.toml":
 # Show decrypted secrets (stdout only, does not write files)
 show-secrets TARGET="all":
     #!/usr/bin/env bash
+    export SOPS_AGE_KEY_FILE="{{komodo_age_key_file}}"
     if [ "{{TARGET}}" = "all" ]; then
         sops -d --config komodo/.sops.yaml komodo/secrets.sops.yaml
     else
@@ -72,7 +68,7 @@ show-secrets TARGET="all":
 # --- Linting & Validation ---
 
 # Lint all compose files, env files, and YAML
-catalog-lint: lint-yaml lint-compose lint-env
+komodo-lint: lint-yaml lint-compose lint-env
 
 # YAML lint (all yml/yaml files)
 lint-yaml:

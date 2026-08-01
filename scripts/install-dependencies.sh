@@ -95,6 +95,8 @@ else
 fi
 
 echo "==> Restoring SOPS age keys from Bitwarden (if not present)..."
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/lib/bw-item-names.sh"
 ANSIBLE_AGE_KEY_FILE="$HOME/.config/sops/ansible/age/keys.txt"
 KOMODO_AGE_KEY_FILE="$HOME/.config/sops/komodo/age/keys.txt"
 restore_age_key() {
@@ -112,14 +114,14 @@ restore_age_key() {
             chmod 600 "$key_file"
             echo "    $bw_item_name: restored from Bitwarden"
         else
-            echo "    $bw_item_name: not found in Bitwarden — run 'just init' to create one"
+            echo "    $bw_item_name: not found in Bitwarden — run 'just setup' to create one"
         fi
     else
-        echo "    $bw_item_name: no BW_SESSION — set it to auto-restore, or run 'just init'"
+        echo "    $bw_item_name: no BW_SESSION — set it to auto-restore, or run 'just setup'"
     fi
 }
-restore_age_key "$ANSIBLE_AGE_KEY_FILE" "Homelab SOPS Age Key"
-restore_age_key "$KOMODO_AGE_KEY_FILE" "Homelab Komodo SOPS Age Key"
+restore_age_key "$ANSIBLE_AGE_KEY_FILE" "$HOMELAB_ANSIBLE_AGE_KEY_BW_ITEM"
+restore_age_key "$KOMODO_AGE_KEY_FILE" "$HOMELAB_KOMODO_AGE_KEY_BW_ITEM"
 
 # --------------------------------------------------------------------------
 # Layer 3: DevContainer shell customizations
@@ -143,7 +145,7 @@ for rc in /etc/bash.bashrc /etc/zsh/zshrc /etc/profile /etc/zsh/zprofile; do
     fi
 done
 
-echo "==> Configuring host-aware 'just' completions (deploy/bootstrap/vars/secrets/trust/rename)..."
+echo "==> Configuring host-aware 'just' completions (deploy/bootstrap/vars/ansible-secrets/komodo-secrets/trust/rename)..."
 JUST_COMPLETION_MARKER="# homelab-infra: just completions"
 REPO_ROOT="$(pwd)"
 JUST_COMPLETION_SNIPPET="

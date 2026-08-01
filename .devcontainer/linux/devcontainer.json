@@ -12,8 +12,7 @@
 
     "mounts": [
         "source=homelab-infra-ssh,target=/home/vscode/.ssh,type=volume",
-        "source=homelab-infra-sops-ansible,target=/home/vscode/.config/sops/ansible,type=volume",
-        "source=homelab-infra-sops-komodo,target=/home/vscode/.config/sops/komodo,type=volume",
+        "source=homelab-infra-sops,target=/home/vscode/.config/sops,type=volume",
         "source=/run/user/1000/gnupg/S.gpg-agent.ssh,target=/run/user/1000/gnupg/S.gpg-agent.ssh,type=bind",
         "source=${localEnv:HOME}/snap/bw/current/Bitwarden CLI,target=/home/vscode/.config/Bitwarden CLI,type=bind,consistency=cached"
     ],

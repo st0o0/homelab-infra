@@ -21,5 +21,5 @@ if [ -f "$ANSIBLE_AGE_KEY_FILE" ] && command -v just >/dev/null 2>&1 && command 
     echo "==> Syncing SSH config entries for hosts with a restored backup key..."
     just sshsync || true
 elif [ ! -f "$ANSIBLE_AGE_KEY_FILE" ]; then
-    echo "==> Ansible age key not set up yet — skipping SSH config sync (run 'just init' first)"
+    echo "==> Ansible age key not set up yet — skipping SSH config sync (run 'just setup' first)"
 fi

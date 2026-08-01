@@ -14,18 +14,19 @@ this is the same flow with the "why" and the gotchas filled in.
 ## 1. Generate your SOPS age key
 
 ```bash
-just catalog-setup
+just setup
 ```
 
 This runs `scripts/init-secrets.sh`: generates (or restores from Bitwarden,
-if `BW_SESSION` is set) an age keypair at `~/.config/sops/komodo/age/keys.txt`,
-and writes the public key into `komodo/.sops.yaml` so future secrets get
-encrypted for it. Commit that file once it's updated.
+if `BW_SESSION` is set) age keypairs for both trust boundaries, including
+one at `~/.config/sops/komodo/age/keys.txt`, and writes the Komodo public
+key into `komodo/.sops.yaml` so future secrets get encrypted for it. Commit
+that file once it's updated.
 
 ## 2. Fill in shared secrets
 
 ```bash
-just catalog-secrets
+just komodo-secrets
 ```
 
 Opens `komodo/secrets.sops.yaml` (created from `komodo/secrets.example.yaml`
@@ -40,7 +41,7 @@ Every host needs at least a `host_ip` secret so Komodo can reach its
 Periphery agent:
 
 ```bash
-just catalog-secrets FeelsStrongMan   # repeat for each host in servers.toml
+just komodo-secrets FeelsStrongMan   # repeat for each host in servers.toml
 ```
 
 This copies `komodo/hosts/secrets.sops.yaml.tpl` into
@@ -123,7 +124,7 @@ Ansible controller**, assembles `core.secrets.toml`, and pushes it to the
 Core host. The AGE private key never touches the target host.
 
 Decryption needs an AGE key on the controller. Rather than a separate copy
-of it, the role restores the same key `just catalog-setup` (step 1)
+of it, the role restores the same key `just setup` (step 1)
 already put in Bitwarden, from the Secure Note named `Homelab Komodo SOPS
 Age Key` — one key, one source of truth for both the ansible and Komodo
 sides of this repo. Before running:
@@ -135,7 +136,7 @@ export BW_SESSION=$(bw unlock --raw)
 Controller-side requirements: `bw` (Bitwarden CLI), plus `sops` and `jq`
 (already prerequisites per step 0).
 
-In practice this means step 2/3 here (`just catalog-secrets`) is the
+In practice this means step 2/3 here (`just komodo-secrets`) is the
 *only* place secret values get edited for this option too — same as
 Option A. To pick up a change without a full redeploy, run the role
 standalone:
@@ -222,7 +223,7 @@ Covered in full in [CONTRIBUTING.md](CONTRIBUTING.md#adding-a-stack):
 create `stacks/<service>/compose.yml` + `.env.example`, validate locally
 with `docker compose config`, add a `[[stack]]` block to
 `komodo/resources/stacks.toml` assigning it to a server, add any new
-secrets via `just catalog-secrets`, commit, push, then repeat step 7's sync +
+secrets via `just komodo-secrets`, commit, push, then repeat step 7's sync +
 step 8's deploy for just that one stack.
 
 ## Troubleshooting

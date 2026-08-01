@@ -76,7 +76,7 @@ CI runs the same check against every `stacks/*/compose.yml` on push/PR
 
 Add a `[[stack]]` entry to `komodo/resources/stacks.toml` assigning the
 new stack to a server declared in `komodo/resources/servers.toml`. Secret
-values go through `[[SECRET_NAME]]`, added via `just catalog-secrets` (see
+values go through `[[SECRET_NAME]]`, added via `just komodo-secrets` (see
 [komodo/README.md](komodo/README.md)) — never commit a real secret value
 into `stacks.toml` directly.
 

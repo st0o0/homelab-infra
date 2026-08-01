@@ -19,16 +19,17 @@ from the **repo root**, not this directory.
 ### 1. Initialize SOPS encryption
 
 ```bash
-just init
+just setup
 ```
 
 This will:
-- Generate an age keypair (or restore it from Bitwarden if it exists)
-- Back up the private key to Bitwarden as a Secure Note
-- Update `ansible/.sops.yaml` with your public key
+- Generate an age keypair for both trust boundaries (or restore them from Bitwarden if they exist)
+- Back up the private keys to Bitwarden as Secure Notes
+- Update `ansible/.sops.yaml` with the ansible public key
 - Create encrypted `secrets.sops.yml` files for every host in `hosts.yml`
+- Restore SSH backup keys from Bitwarden for hosts that have one
 
-On a new machine, `just init` automatically restores your age key from Bitwarden — no manual key copying needed.
+On a new machine, `just setup` automatically restores your age keys from Bitwarden — no manual key copying needed.
 
 ### 2. Fill in secrets
 
@@ -127,7 +128,7 @@ Run all of these from the **repo root**, not from `ansible/`.
 | `just update` | apt dist-upgrade on all hosts |
 | `just sync-dotfiles` | Enable chezmoi where missing + pull/apply latest dotfiles everywhere |
 | `just bootstrap HOST [USER]` | First-time setup (default: root) |
-| `just ansible-setup` | New workstation — restore age key + SSH keys from Bitwarden |
+| `just setup` | New workstation — both age keys + SSH keys from Bitwarden |
 | `just ansible-secrets HOST` | Edit encrypted secrets |
 | `just vars HOST` | Edit plaintext feature toggles |
 | `just new-host HOST` | Scaffold a new host |
@@ -135,7 +136,6 @@ Run all of these from the **repo root**, not from `ansible/`.
 | `just trust HOST` | Test if Ansible can reach a host |
 | `just sshsync` | Backfill `~/.ssh/config` entries for hosts with an existing backup key |
 | `just rename OLD NEW` | Rename a host everywhere |
-| `just init` | First-time SOPS/age setup |
 | `just ansible-lint` | Run ansible-lint |
 
 ### Tags
@@ -370,11 +370,11 @@ Edit the template to add fields that every host needs.
 
 ### Key recovery
 
-The age private key is backed up to Bitwarden as a Secure Note ("Homelab SOPS Age Key"). On a new machine:
+The age private key is backed up to Bitwarden as a Secure Note (`homelab_ansible_age_key`). On a new machine:
 
 ```bash
 unlock                    # set BW_SESSION
-just init                 # auto-restores the key from Bitwarden
+just setup                # auto-restores both keys from Bitwarden
 ```
 
 ---
@@ -460,7 +460,7 @@ just ansible-secrets myhost
 
 ```bash
 unlock
-just init                  # restores from Bitwarden
+just setup                 # restores both keys from Bitwarden
 ```
 
 ### "dpkg was interrupted"

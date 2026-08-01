@@ -46,7 +46,7 @@
             | list | length) > 0
         fail_msg: >-
           No Bitwarden item named '{{ komodo_secrets_bw_item_name }}' found.
-          Run 'just catalog-setup' once, with BW_SESSION set, to create it.
+          Run 'just setup' once, with BW_SESSION set, to create it.
       delegate_to: localhost
       become: false
       run_once: true

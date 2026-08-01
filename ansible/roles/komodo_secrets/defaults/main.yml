@@ -4,5 +4,7 @@
 komodo_secrets_local_path: "{{ playbook_dir }}/../komodo"
 
 # Bitwarden Secure Note that scripts/init-secrets.sh also reads/writes —
-# same AGE key, single source of truth for it too.
-komodo_secrets_bw_item_name: "Homelab Komodo SOPS Age Key"
+# same AGE key, single source of truth for it too. Must match
+# HOMELAB_KOMODO_AGE_KEY_BW_ITEM in scripts/lib/bw-item-names.sh (Ansible
+# can't source that shell file directly, so this is a manually-synced copy).
+komodo_secrets_bw_item_name: "homelab_komodo_age_key"

@@ -64,8 +64,7 @@ yamllint, dotenv-linter.
 
 ```bash
 unlock                        # sets BW_SESSION for the current shell
-just init                     # ansible: age key (Key A) + per-host secrets
-just catalog-setup            # komodo: age key (Key B) + .sops.yaml
+just setup                    # both age keys (Key A + Key B), SSH backup keys, host secrets
 ```
 
 See [ansible/README.md](ansible/README.md) for the full ansible secrets
@@ -128,14 +127,15 @@ Run `just --list` from the repo root to see every recipe. Highlights:
 | Command | Description |
 |---|---|
 | `just up` / `down` / `rebuild` / `shell` / `exec` | DevContainer management |
-| `just lint` | Run both ansible-lint and the Komodo/stacks linters |
+| `just lint` | Ansible-lint, YAML, `.env`, and Compose checks — one command, no sub-checks |
 | `just ping` / `just deploy HOST` / `just run` | Ansible: connectivity + convergence |
-| `just ansible-secrets HOST` / `just ansible-setup` | Ansible secrets (Key A) |
-| `just catalog-secrets [TARGET]` / `just catalog-setup` | Komodo secrets (Key B) |
+| `just setup` | First-time/re-run setup: both age keys, SSH backup keys, host secrets |
+| `just ansible-secrets HOST` | Ansible secrets (Key A) |
+| `just komodo-secrets [TARGET]` | Komodo secrets (Key B) |
 | `just decrypt` / `just show-secrets [TARGET]` | Komodo: assemble/inspect `core.secrets.toml` |
 
 Ansible's day-to-day recipes (`ping`, `check`, `run`, `deploy`, `bootstrap`,
-`update`, `new-host`, `trust`, `vars`, `sshsync`, `show-key`, `init`) work
+`update`, `new-host`, `trust`, `vars`, `sshsync`, `show-key`) work
 unprefixed from the repo root — no need to `cd ansible/` first.
 
 ## Guidelines

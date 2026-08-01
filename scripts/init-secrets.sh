@@ -7,15 +7,23 @@ set -euo pipefail
 # .sops.yaml, and scaffolds per-host ansible secrets. Safe to re-run — skips
 # steps that are already done.
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/lib/bw-item-names.sh"
+
 ANSIBLE_AGE_KEY_FILE="$HOME/.config/sops/ansible/age/keys.txt"
 KOMODO_AGE_KEY_FILE="$HOME/.config/sops/komodo/age/keys.txt"
 ANSIBLE_SOPS_CONFIG="ansible/.sops.yaml"
 KOMODO_SOPS_CONFIG="komodo/.sops.yaml"
 ANSIBLE_HOSTS_FILE="ansible/hosts.yml"
-ANSIBLE_BW_ITEM_NAME="Homelab SOPS Age Key"
-KOMODO_BW_ITEM_NAME="Homelab Komodo SOPS Age Key"
+ANSIBLE_BW_ITEM_NAME="$HOMELAB_ANSIBLE_AGE_KEY_BW_ITEM"
+KOMODO_BW_ITEM_NAME="$HOMELAB_KOMODO_AGE_KEY_BW_ITEM"
 
 cd "$(git rev-parse --show-toplevel)"
+
+if [ -n "${BW_SESSION:-}" ]; then
+    echo "==> Syncing Bitwarden vault..."
+    bw sync --session "$BW_SESSION" >/dev/null
+fi
 
 # `bw get item <name>` aborts with a non-JSON error if more than one item
 # shares that name, so look items up by exact-name filter instead. If several
@@ -211,5 +219,5 @@ if [ "$NEEDS_EDIT" = true ]; then
 else
     echo "    All ansible secrets already configured. Test: just ping"
 fi
-echo "    Edit Komodo secrets: just catalog-secrets"
+echo "    Edit Komodo secrets: just komodo-secrets"
 echo "    Commit:              git add komodo/.sops.yaml && git commit -m 'chore(komodo): configure SOPS age key'"

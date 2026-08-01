@@ -33,7 +33,7 @@ the private key up to Bitwarden as a secure note if `BW_SESSION` is set.
 
 ```bash
 export BW_SESSION=$(bw unlock --raw)   # optional, enables Bitwarden backup
-just catalog-setup
+just setup
 ```
 
 This runs `scripts/init-secrets.sh`, which:
@@ -52,8 +52,8 @@ new one, since a new key can't decrypt secrets encrypted for the old one.
 ## Editing secrets
 
 ```bash
-just catalog-secrets            # edit shared secrets (komodo/secrets.sops.yaml)
-just catalog-secrets nas-01     # edit per-host secrets (komodo/hosts/nas-01/secrets.sops.yaml)
+just komodo-secrets            # edit shared secrets (komodo/secrets.sops.yaml)
+just komodo-secrets nas-01     # edit per-host secrets (komodo/hosts/nas-01/secrets.sops.yaml)
 ```
 
 Opens the decrypted file in `$EDITOR` via `sops` and re-encrypts on save.
@@ -80,7 +80,7 @@ pick up changes.
 
 ## Rotating a secret
 
-1. `just catalog-secrets [TARGET]` — edit the value, save, it's re-encrypted automatically
+1. `just komodo-secrets [TARGET]` — edit the value, save, it's re-encrypted automatically
 2. Commit and push:
    ```bash
    git add komodo/secrets.sops.yaml   # or komodo/hosts/<TARGET>/secrets.sops.yaml
@@ -95,9 +95,9 @@ pick up changes.
 
 ```bash
 mkdir -p komodo/hosts/<hostname>
-just catalog-secrets <hostname>
+just komodo-secrets <hostname>
 ```
 
-`just catalog-secrets <hostname>` copies `komodo/hosts/secrets.sops.yaml.tpl` into
+`just komodo-secrets <hostname>` copies `komodo/hosts/secrets.sops.yaml.tpl` into
 `komodo/hosts/<hostname>/secrets.sops.yaml`, encrypts it, and opens it for
 editing. Values end up available as `[[<hostname>_<key>]]`.
