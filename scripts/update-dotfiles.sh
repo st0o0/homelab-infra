@@ -16,7 +16,10 @@ fi
 echo "==> Pulling latest dotfiles and re-applying..."
 "$CHEZMOI" update --force
 
-if command -v just >/dev/null 2>&1 && command -v ansible-inventory >/dev/null 2>&1; then
+ANSIBLE_AGE_KEY_FILE="$HOME/.config/sops/ansible/age/keys.txt"
+if [ -f "$ANSIBLE_AGE_KEY_FILE" ] && command -v just >/dev/null 2>&1 && command -v ansible-inventory >/dev/null 2>&1; then
     echo "==> Syncing SSH config entries for hosts with a restored backup key..."
     just sshsync || true
+elif [ ! -f "$ANSIBLE_AGE_KEY_FILE" ]; then
+    echo "==> Ansible age key not set up yet — skipping SSH config sync (run 'just init' first)"
 fi
