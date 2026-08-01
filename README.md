@@ -2,19 +2,19 @@
 
 Provisioning and GitOps for this homelab, in one repo:
 
-- **`ansible/`** — takes a fresh Debian server (IP + user + password) and
-  makes it production-ready: SSH hardened, Docker installed, monitoring
+- **`ansible/`**: takes a fresh Debian server (IP + user + password) and
+  makes it production-ready — SSH hardened, Docker installed, monitoring
   agent running, visible in Dockhand.
-- **repo root (`stacks/`, `komodo/`)** — a Komodo GitOps catalog. Every
+- **repo root (`stacks/`, `komodo/`)**: a Komodo GitOps catalog. Every
   service is a Docker Compose stack under `stacks/<service>/`, deployed and
-  kept in sync across hosts by [Komodo](https://komo.do/) — no manual
+  kept in sync across hosts by [Komodo](https://komo.do/). No manual
   `docker compose up`, no separate catalog UI.
 
-Everything runs from one DevContainer — no local tool installation needed.
+Everything runs from one DevContainer, no local tool installation needed.
 The two halves keep separate trust boundaries by design: separate AGE keys
 for ansible secrets (`ansible/host_vars/**/*.sops.yml`) and Komodo secrets
-(`komodo/**/*.sops.yaml`), and Komodo's GitOps sync only ever looks at
-`komodo/resources/` and each stack's `run_directory` — an ansible-only
+(`komodo/**/*.sops.yaml`). Komodo's GitOps sync only ever looks at
+`komodo/resources/` and each stack's `run_directory`, so an ansible-only
 commit can't trigger a stack redeploy.
 
 **Related repos:** [dotfiles](https://github.com/st0o0/dotfiles) (shell toolchain)
@@ -28,15 +28,15 @@ ansible/                      Server provisioning (see ansible/README.md)
 ├── hosts.yml                   flat inventory
 └── run.yml                     main playbook
 
-stacks/<service>/             WHAT is deployable — compose file, .env.example,
-                               optional README. Host-agnostic: nothing in here
-                               says which server it runs on.
+stacks/<service>/             WHAT is deployable: compose file, .env.example,
+                               optional README. Host-agnostic — nothing in
+                               here says which server it runs on.
 
-komodo/resources/             WHERE and WITH WHAT VALUES — ResourceSync TOML:
+komodo/resources/             WHERE and WITH WHAT VALUES: ResourceSync TOML
 ├── servers.toml                every host Komodo manages
 ├── stacks.toml                 which stack runs on which server, with which
 │                                 variables/secrets
-├── repos.toml                  shared git clone(s) stacks can attach to via
+├── repos.toml                  shared git clone(s) stacks attach to via
 │                                 `linked_repo`, one clone per server instead
 │                                 of one per stack
 ├── procedures.toml             deploy automation (pull once, redeploy only
@@ -45,7 +45,7 @@ komodo/resources/             WHERE and WITH WHAT VALUES — ResourceSync TOML:
 │   └── variables.toml          per-host, non-secret overrides ([[<host>_KEY]])
 └── variables.toml              shared non-secret values (TZ, PUID/PGID, ...)
 
-komodo/                       Secrets, SOPS-encrypted and committed (Key B):
+komodo/                       Secrets, SOPS-encrypted and committed (Key B)
 ├── secrets.sops.yaml            shared secrets, available as [[SECRET_NAME]]
 ├── hosts/<host>/
 │   └── secrets.sops.yaml        per-host secrets, available as [[<host>_KEY]]
@@ -53,10 +53,10 @@ komodo/                       Secrets, SOPS-encrypted and committed (Key B):
 ```
 
 A stack's server assignment lives in `komodo/resources/stacks.toml`, not in
-its directory path — reassigning a stack to a different host is a one-line
-TOML edit, not a file move. See [ROADMAP.md](ROADMAP.md) for what's still
-being built out and [komodo/README.md](komodo/README.md) for the full
-Komodo secrets workflow.
+its directory path, so reassigning a stack to a different host is a
+one-line TOML edit, not a file move. See [ROADMAP.md](ROADMAP.md) for
+what's still being built out and [komodo/README.md](komodo/README.md) for
+the full Komodo secrets workflow.
 
 ## Quick Start
 
@@ -98,25 +98,25 @@ stack's `.env.example`). Once running, decrypt secrets into its config:
 just k decrypt           # writes /etc/komodo/core.secrets.toml on the Core host
 ```
 
-Or run the `komodo` ansible role against that host, which renders
+Or run the `komodo` ansible role against that host. It renders
 `compose.yml` and `.env` from Ansible variables and handles secret
-provisioning (`core.secrets.toml`) automatically — no separate clone or
-manual `.env` edit needed for this path.
+provisioning (`core.secrets.toml`) automatically, so this path needs no
+separate clone or manual `.env` edit.
 
 ### 5. Point Komodo at this repo
 
 In the Komodo UI, add a ResourceSync pointed at `komodo/resources/` in this
 repo. Komodo reads `servers.toml`, `stacks.toml`, and `variables.toml` and
-shows you the resulting sync plan — review it, then execute.
+shows you the resulting sync plan. Review it, then execute.
 
 ### 6. Deploy `komodo-periphery` to remaining hosts
 
 Every host other than Core needs a `komodo-periphery` agent so Core can
-manage it — deploy `stacks/komodo-periphery/` there manually (see that
+manage it. Deploy `stacks/komodo-periphery/` there manually (see that
 stack's `.env.example`).
 
-`stacks/komodo/` and `stacks/komodo-periphery/` are deliberately **not**
-declared in `komodo/resources/stacks.toml` — Komodo has no native
+`stacks/komodo/` and `stacks/komodo-periphery/` are deliberately not
+declared in `komodo/resources/stacks.toml`. Komodo has no native
 self-update for either component, so managing its own control plane
 through itself would be a chicken-and-egg risk. Deploy and update both
 manually (`docker compose pull && docker compose up -d`, Core first, then
@@ -135,7 +135,7 @@ Run `just --list` from the repo root to see every recipe. Highlights:
 | Command | Description |
 |---|---|
 | `just up` / `down` / `rebuild` / `shell` / `exec` | DevContainer management |
-| `just lint` | Ansible-lint, YAML, `.env`, and Compose checks — one command, no sub-checks |
+| `just lint` | Ansible-lint, YAML, `.env`, and Compose checks in one command |
 | `just a ping` / `just a deploy HOST` / `just a run` | Ansible: connectivity + convergence |
 | `just setup` | First-time/re-run setup: both age keys, SSH backup keys, host secrets |
 | `just a secrets HOST` | Ansible secrets (Key A) |
@@ -144,7 +144,7 @@ Run `just --list` from the repo root to see every recipe. Highlights:
 
 Ansible's day-to-day recipes (`ping`, `check`, `run`, `deploy`, `bootstrap`,
 `update`, `new-host`, `trust`, `vars`, `sshsync`, `show-key`) work
-unprefixed from the repo root — no need to `cd ansible/` first.
+unprefixed from the repo root, no need to `cd ansible/` first.
 
 ## Guidelines
 

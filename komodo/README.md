@@ -46,7 +46,7 @@ This runs `scripts/init-secrets.sh`, which:
 
 On the **Komodo Core host**, install `sops`, `age`, and `jq`, then place the
 private key at `/etc/komodo/age.key` (or wherever `SOPS_AGE_KEY_FILE`
-points) — restore it from the Bitwarden backup rather than generating a
+points). Restore it from the Bitwarden backup rather than generating a
 new one, since a new key can't decrypt secrets encrypted for the old one.
 
 ## Editing secrets

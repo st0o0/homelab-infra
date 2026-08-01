@@ -18,7 +18,7 @@ docs: clarify secrets rotation workflow
 
 Common types: `feat`, `fix`, `docs`, `refactor`, `perf`, `test`, `build`,
 `ci`, `chore`, `revert`. A CI check (`commitlint.yml`) lints every commit
-in a PR against this format and fails if any of them don't match — clean
+in a PR against this format and fails if any of them don't match. Clean
 these up (`git rebase -i`) before merging.
 
 ## Project Structure
@@ -78,11 +78,12 @@ Add a `[[stack]]` entry to `komodo/resources/stacks.toml` assigning the
 new stack to a server declared in `komodo/resources/servers.toml`. Set
 `linked_repo = "homelab-infra"` (the shared Repo resource in
 `komodo/resources/repos.toml`) rather than the stack's own
-`git_account`/`repo` fields — every existing stack follows this
+`git_account`/`repo` fields. Every existing stack follows this
 convention so they share one clone per server instead of cloning
 independently.
+
 Secret values go through `[[SECRET_NAME]]`, added via `just k secrets`
-(see [komodo/README.md](komodo/README.md)) — never commit a real secret
+(see [komodo/README.md](komodo/README.md)). Never commit a real secret
 value into `stacks.toml` directly.
 
 ### 5. Commit and push
