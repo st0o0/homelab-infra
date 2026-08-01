@@ -6,7 +6,7 @@
 komodo_age_key_file := env_var('HOME') / ".config/sops/komodo/age/keys.txt"
 
 # Edit encrypted secrets ('all' for shared, or a hostname for host-specific)
-komodo-secrets TARGET="all":
+secrets TARGET="all":
     #!/usr/bin/env bash
     set -euo pipefail
     export SOPS_AGE_KEY_FILE="{{komodo_age_key_file}}"
@@ -35,7 +35,7 @@ decrypt OUTPUT="/etc/komodo/core.secrets.toml":
     SOPS_CONFIG="komodo/.sops.yaml"
     GLOBAL="komodo/secrets.sops.yaml"
     if [ ! -f "$GLOBAL" ]; then
-        echo "Error: $GLOBAL not found. Run 'just komodo-secrets' first."
+        echo "Error: $GLOBAL not found. Run 'just k secrets' first."
         exit 1
     fi
     echo "Decrypting to {{OUTPUT}} ..."
@@ -68,7 +68,7 @@ show-secrets TARGET="all":
 # --- Linting & Validation ---
 
 # Lint all compose files, env files, and YAML
-komodo-lint: lint-yaml lint-compose lint-env
+lint: lint-yaml lint-compose lint-env
 
 # YAML lint (all yml/yaml files)
 lint-yaml:

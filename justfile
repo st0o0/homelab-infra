@@ -1,13 +1,7 @@
-import "ansible/justfile"
-import "komodo.just"
+mod a 'ansible/justfile'
+mod k 'komodo.just'
 
 set windows-shell := ["pwsh", "-NoProfile", "-Command"]
-
-# --- Short aliases for the recipes typed most often ---
-alias as := ansible-secrets
-alias ks := komodo-secrets
-alias dec := decrypt
-alias ss := show-secrets
 
 # --- DevContainer management ---
 # On Linux: wraps .devcontainer/devcontainer.sh (VARIANT default: linux)
@@ -63,7 +57,9 @@ exec *ARGS:
 # --- Combined checks ---
 
 # Run both the ansible-origin and komodo-origin lint checks
-lint: ansible-lint komodo-lint
+lint:
+    just a lint
+    just k lint
 
 # First-time setup: both AGE keys, SSH backup keys, and host secrets scaffolding
 [working-directory: 'ansible']
@@ -96,4 +92,4 @@ setup:
         fi
     done
     echo ""
-    echo "Done. Run 'just ping' to verify connectivity, 'just ansible-secrets <host>' or 'just komodo-secrets' to edit secrets."
+    echo "Done. Run 'just a ping' to verify connectivity, 'just a secrets <host>' or 'just k secrets' to edit secrets."

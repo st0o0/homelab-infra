@@ -3,7 +3,6 @@ set dotenv-load
 # --- Ansible ---
 
 # Show available deploy tags with descriptions (derived from run.yml + each role's meta/main.yml)
-[working-directory: 'ansible']
 tags:
     #!/usr/bin/env python3
     import yaml
@@ -36,42 +35,35 @@ tags:
 
     print()
     print("Usage:")
-    print("  just deploy HOST --tags TAG[,TAG]     Deploy specific tags to a host")
-    print("  just deploy HOST --check              Dry-run on a host")
-    print("  just run TAG                          Run a tag across all hosts")
+    print("  just a deploy HOST --tags TAG[,TAG]     Deploy specific tags to a host")
+    print("  just a deploy HOST --check              Dry-run on a host")
+    print("  just a run TAG                          Run a tag across all hosts")
 
 # Bootstrap a new host (first run, as root with password)
-[working-directory: 'ansible']
 bootstrap HOST USER="root":
     ansible-playbook run.yml --tags bootstrap --limit {{HOST}} -e ansible_user={{USER}} -e ansible_ssh_private_key_file=~/.ssh/id_ansible --ask-pass
 
 # Converge all hosts (optionally filter by tags)
-[working-directory: 'ansible']
 run TAGS="" *ARGS:
     ansible-playbook run.yml {{ if TAGS != "" { "--tags " + TAGS } else { "" } }} {{ARGS}}
 
 # Converge specific hosts (optionally filter by tags)
-[working-directory: 'ansible']
 deploy HOSTS *ARGS:
     ansible-playbook run.yml --limit {{HOSTS}} {{ARGS}}
 
 # Run system updates (all hosts or single host)
-[working-directory: 'ansible']
 update *ARGS:
     ansible-playbook run.yml --tags bootstrap -e bootstrap_upgrade=true --skip-tags ssh {{ARGS}}
 
 # Sync dotfiles on all hosts
-[working-directory: 'ansible']
 sync-dotfiles *ARGS:
     ansible-playbook run.yml --tags dotfiles {{ARGS}}
 
 # Connectivity check
-[working-directory: 'ansible']
 ping:
     ansible -m ping all
 
 # Edit plaintext vars for a host (or 'all' for shared vars)
-[working-directory: 'ansible']
 vars HOST:
     #!/usr/bin/env bash
     if [ "{{HOST}}" = "all" ]; then
@@ -81,8 +73,7 @@ vars HOST:
     fi
 
 # Edit encrypted secrets (host or 'all' for shared secrets)
-[working-directory: 'ansible']
-ansible-secrets HOST:
+secrets HOST:
     #!/usr/bin/env bash
     if [ "{{HOST}}" = "all" ]; then
         SECRET="group_vars/all/secrets.sops.yml"
@@ -100,7 +91,6 @@ ansible-secrets HOST:
     sops "$SECRET" || true
 
 # Create a new host (scaffold host_vars + secrets)
-[working-directory: 'ansible']
 new-host HOST:
     #!/usr/bin/env bash
     mkdir -p "host_vars/{{HOST}}"
@@ -122,7 +112,6 @@ new-host HOST:
     echo "Add '    {{HOST}}:' under 'all: hosts:' in hosts.yml"
 
 # Show the container's SSH public key (copy this to your servers)
-[working-directory: 'ansible']
 show-key:
     #!/usr/bin/env bash
     KEY_FILE="$HOME/.ssh/id_ansible.pub"
@@ -143,7 +132,6 @@ show-key:
     echo ""
 
 # Check if Ansible can reach a host (tries backup key, then id_ansible)
-[working-directory: 'ansible']
 trust HOST:
     #!/usr/bin/env bash
     INV=$(ansible-inventory --host {{HOST}} 2>/dev/null) || { echo "Host '{{HOST}}' not found in inventory."; exit 1; }
@@ -165,11 +153,10 @@ trust HOST:
         echo "If this is a new server, deploy the container key from Windows (YubiKey):"
         echo "  ssh $USER@$HOST_IP \"mkdir -p ~/.ssh && echo '$(cat "$ANSIBLE_KEY.pub")' >> ~/.ssh/authorized_keys\""
         echo ""
-        echo "Then run: just bootstrap {{HOST}} $USER"
+        echo "Then run: just a bootstrap {{HOST}} $USER"
     fi
 
 # Backfill ~/.ssh/config entries for hosts that already have a backup key
-[working-directory: 'ansible']
 sshsync:
     #!/usr/bin/env bash
     set -euo pipefail
@@ -196,7 +183,6 @@ sshsync:
     done
 
 # Show bootstrap status of all hosts
-[working-directory: 'ansible']
 check:
     #!/usr/bin/env bash
     HOSTS=$(ansible-inventory --list 2>/dev/null | jq -r '._meta.hostvars | keys[]')
@@ -215,7 +201,6 @@ check:
     done
 
 # Rename a host (host_vars, hosts.yml, SSH keys, SSH config)
-[working-directory: 'ansible']
 rename OLD NEW:
     #!/usr/bin/env bash
     set -euo pipefail
@@ -282,11 +267,10 @@ rename OLD NEW:
     fi
     echo ""
     echo "Done. Apply hostname on server + commit:"
-    echo "  just deploy {{NEW}} --tags bootstrap"
+    echo "  just a deploy {{NEW}} --tags bootstrap"
     echo "  git add -A && git commit -m 'rename: {{OLD}} → {{NEW}}'"
 
 # Fix SSH public-key comments to match 'backup-<hostname>'
-[working-directory: 'ansible']
 localsshrename:
     #!/usr/bin/env bash
     set -euo pipefail
@@ -313,6 +297,5 @@ localsshrename:
     done
 
 # Lint
-[working-directory: 'ansible']
-ansible-lint:
+lint:
     ansible-lint
