@@ -3,7 +3,7 @@
 # Komodo's AGE key (Key B) lives at a different path than the container-wide
 # SOPS_AGE_KEY_FILE default (which points at the ansible key, Key A) — every
 # recipe below overrides it explicitly rather than relying on the ambient env.
-komodo_age_key_file := env_var('HOME') / ".config/sops/komodo/age/keys.txt"
+komodo_age_key_file := if os() == "windows" { env_var('USERPROFILE') / ".config/sops/komodo/age/keys.txt" } else { env_var('HOME') / ".config/sops/komodo/age/keys.txt" }
 
 # Edit encrypted secrets ('all' for shared, or a hostname for host-specific)
 secrets TARGET="all":
