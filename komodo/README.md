@@ -52,23 +52,23 @@ new one, since a new key can't decrypt secrets encrypted for the old one.
 ## Editing secrets
 
 ```bash
-just komodo-secrets            # edit shared secrets (komodo/secrets.sops.yaml)
-just komodo-secrets nas-01     # edit per-host secrets (komodo/hosts/nas-01/secrets.sops.yaml)
+just k secrets            # edit shared secrets (komodo/secrets.sops.yaml)
+just k secrets nas-01     # edit per-host secrets (komodo/hosts/nas-01/secrets.sops.yaml)
 ```
 
 Opens the decrypted file in `$EDITOR` via `sops` and re-encrypts on save.
 Creates the file from the matching template on first use.
 
 ```bash
-just show-secrets           # print decrypted shared secrets to stdout
-just show-secrets nas-01    # print decrypted per-host secrets to stdout
+just k show-secrets           # print decrypted shared secrets to stdout
+just k show-secrets nas-01    # print decrypted per-host secrets to stdout
 ```
 
 ## Decrypting on the Core host
 
 ```bash
-just decrypt                              # writes /etc/komodo/core.secrets.toml
-just decrypt /custom/path/config.toml     # custom output path
+just k decrypt                              # writes /etc/komodo/core.secrets.toml
+just k decrypt /custom/path/config.toml     # custom output path
 ```
 
 Equivalent to running `komodo/decrypt.sh` directly. Merges
@@ -80,7 +80,7 @@ pick up changes.
 
 ## Rotating a secret
 
-1. `just komodo-secrets [TARGET]` — edit the value, save, it's re-encrypted automatically
+1. `just k secrets [TARGET]` — edit the value, save, it's re-encrypted automatically
 2. Commit and push:
    ```bash
    git add komodo/secrets.sops.yaml   # or komodo/hosts/<TARGET>/secrets.sops.yaml
@@ -88,16 +88,16 @@ pick up changes.
    git push
    ```
 3. On the Core host: `git pull`
-4. `just decrypt` (or `komodo/decrypt.sh`)
+4. `just k decrypt` (or `komodo/decrypt.sh`)
 5. Restart Komodo Core to pick up the new value
 
 ## Adding a new host
 
 ```bash
 mkdir -p komodo/hosts/<hostname>
-just komodo-secrets <hostname>
+just k secrets <hostname>
 ```
 
-`just komodo-secrets <hostname>` copies `komodo/hosts/secrets.sops.yaml.tpl` into
+`just k secrets <hostname>` copies `komodo/hosts/secrets.sops.yaml.tpl` into
 `komodo/hosts/<hostname>/secrets.sops.yaml`, encrypts it, and opens it for
 editing. Values end up available as `[[<hostname>_<key>]]`.

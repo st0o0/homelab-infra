@@ -34,7 +34,7 @@ On a new machine, `just setup` automatically restores your age keys from Bitward
 ### 2. Fill in secrets
 
 ```bash
-just ansible-secrets obs-1
+just a secrets obs-1
 ```
 
 SOPS opens your editor with pre-populated fields. Replace the `CHANGEME` values:
@@ -47,14 +47,14 @@ node_agent_dockhand_url: "http://10.0.20.102:9000"
 node_agent_dockhand_token: "your-actual-token"
 ```
 
-Repeat for each host: `just ansible-secrets <hostname>`
+Repeat for each host: `just a secrets <hostname>`
 
 ### 3. Deploy the container's SSH key to your servers
 
 The DevContainer has its own SSH key. Servers need to trust it before Ansible can connect.
 
 ```bash
-just show-key          # prints the public key + copy-paste command
+just a show-key          # prints the public key + copy-paste command
 ```
 
 From your **Windows terminal** (where YubiKey works):
@@ -67,7 +67,7 @@ ssh user@10.0.20.102 "mkdir -p ~/.ssh && echo 'ssh-ed25519 AAAA...' >> ~/.ssh/au
 Back in the DevContainer, verify:
 
 ```bash
-just trust obs-1       # should print: ✓ obs-1 reachable
+just a trust obs-1       # should print: ✓ obs-1 reachable
 ```
 
 ### 4. Commit the encrypted secrets
@@ -86,10 +86,10 @@ The `secrets.sops.yml` files are safely encrypted — values are hidden, but the
 ### Fresh server with root password
 
 ```bash
-just new-host myserver                  # scaffold host_vars + edit secrets
+just a new-host myserver                  # scaffold host_vars + edit secrets
 # Add 'myserver:' to hosts.yml
-just bootstrap myserver                 # SSH keys, user creation, sshd hardening
-just deploy myserver                    # base packages, Docker, node agent
+just a bootstrap myserver                 # SSH keys, user creation, sshd hardening
+just a deploy myserver                    # base packages, Docker, node agent
 ```
 
 `bootstrap` connects as root with a password (`--ask-pass`), creates the deploy user, sets up SSH keys (backed up to Bitwarden), and hardens sshd. After this, root login is disabled and Ansible uses the backup key.
@@ -97,17 +97,17 @@ just deploy myserver                    # base packages, Docker, node agent
 ### Existing server (already has your SSH key)
 
 ```bash
-just new-host myserver                  # scaffold host_vars + edit secrets
+just a new-host myserver                  # scaffold host_vars + edit secrets
 # Add 'myserver:' to hosts.yml
-just show-key                           # deploy container SSH key from Windows
-just trust myserver                     # verify access
-just deploy myserver                    # provision everything
+just a show-key                           # deploy container SSH key from Windows
+just a trust myserver                     # verify access
+just a deploy myserver                    # provision everything
 ```
 
 ### Bootstrap as non-root user
 
 ```bash
-just bootstrap myserver st0o0           # connects as st0o0 instead of root
+just a bootstrap myserver st0o0           # connects as st0o0 instead of root
 ```
 
 ---
@@ -120,46 +120,46 @@ Run all of these from the **repo root**, not from `ansible/`.
 
 | Command | Description |
 |---|---|
-| `just ping` | Connectivity check — all hosts |
-| `just check` | Show bootstrap status of all hosts |
-| `just run` | Converge all hosts (all roles) |
-| `just deploy HOST` | Converge a single host |
-| `just deploy HOST --tags docker` | Run only specific roles on a host |
-| `just update` | apt dist-upgrade on all hosts |
-| `just sync-dotfiles` | Enable chezmoi where missing + pull/apply latest dotfiles everywhere |
-| `just bootstrap HOST [USER]` | First-time setup (default: root) |
+| `just a ping` | Connectivity check — all hosts |
+| `just a check` | Show bootstrap status of all hosts |
+| `just a run` | Converge all hosts (all roles) |
+| `just a deploy HOST` | Converge a single host |
+| `just a deploy HOST --tags docker` | Run only specific roles on a host |
+| `just a update` | apt dist-upgrade on all hosts |
+| `just a sync-dotfiles` | Enable chezmoi where missing + pull/apply latest dotfiles everywhere |
+| `just a bootstrap HOST [USER]` | First-time setup (default: root) |
 | `just setup` | New workstation — both age keys + SSH keys from Bitwarden |
-| `just ansible-secrets HOST` | Edit encrypted secrets |
-| `just vars HOST` | Edit plaintext feature toggles |
-| `just new-host HOST` | Scaffold a new host |
-| `just show-key` | Show container SSH public key |
-| `just trust HOST` | Test if Ansible can reach a host |
-| `just sshsync` | Backfill `~/.ssh/config` entries for hosts with an existing backup key |
-| `just rename OLD NEW` | Rename a host everywhere |
-| `just ansible-lint` | Run ansible-lint |
+| `just a secrets HOST` | Edit encrypted secrets |
+| `just a vars HOST` | Edit plaintext feature toggles |
+| `just a new-host HOST` | Scaffold a new host |
+| `just a show-key` | Show container SSH public key |
+| `just a trust HOST` | Test if Ansible can reach a host |
+| `just a sshsync` | Backfill `~/.ssh/config` entries for hosts with an existing backup key |
+| `just a rename OLD NEW` | Rename a host everywhere |
+| `just a lint` | Run ansible-lint |
 
 ### Tags
 
 Run specific roles with `--tags`:
 
 ```bash
-just run --tags base                  # only base packages + timezone
-just run --tags docker                # only Docker
-just run --tags hostname              # only set hostnames
-just run --tags motd                  # only login banner
-just run --tags swap                  # only swap configuration
-just run --tags ufw                   # only firewall
-just run --tags cron                  # only cron jobs
-just run --tags unattended_upgrades   # only auto-updates
-just run --tags node_agent            # only Alloy/Hawser agents
-just deploy myserver --tags docker,base
+just a run --tags base                  # only base packages + timezone
+just a run --tags docker                # only Docker
+just a run --tags hostname              # only set hostnames
+just a run --tags motd                  # only login banner
+just a run --tags swap                  # only swap configuration
+just a run --tags ufw                   # only firewall
+just a run --tags cron                  # only cron jobs
+just a run --tags unattended_upgrades   # only auto-updates
+just a run --tags node_agent            # only Alloy/Hawser agents
+just a deploy myserver --tags docker,base
 ```
 
 ### Dry run
 
 ```bash
-just run --check                  # show what would change without applying
-just deploy myserver --check -v   # verbose dry run for one host
+just a run --check                  # show what would change without applying
+just a deploy myserver --check -v   # verbose dry run for one host
 ```
 
 ---
@@ -171,7 +171,7 @@ ansible/                        # This directory — see ../.devcontainer/,
                                  # ../.github/workflows/, and ../scripts/ at
                                  # the repo root (shared with the Komodo half)
   ansible.cfg                    # Ansible settings (inventory, key, SOPS plugin)
-  justfile                       # Ansible-origin recipes, imported by the root justfile
+  justfile                       # Ansible-origin recipes, loaded as the `a` module by the root justfile
   .sops.yaml                    # SOPS encryption rules (age public key, Key A)
 
   run.yml                       # Main playbook: all roles
@@ -215,7 +215,7 @@ Installs standard tools (`btop`, `git`, `curl`, `ca-certificates`, `figlet`), se
 **Variables** (`group_vars/all/base.yml`):
 - `base_timezone` — default: `Europe/Berlin`
 - `base_packages` — list of packages to install
-- `base_upgrade` — set to `true` for dist-upgrade (default: `false`, use `just update`)
+- `base_upgrade` — set to `true` for dist-upgrade (default: `false`, use `just a update`)
 
 ### docker
 
@@ -351,7 +351,7 @@ ansible_user: ENC[AES256_GCM,data:xYz=,iv:...,tag:...,type:str]
 ### Editing secrets
 
 ```bash
-just ansible-secrets myhost # opens in $EDITOR, auto-encrypts on save
+just a secrets myhost # opens in $EDITOR, auto-encrypts on save
 ```
 
 ### Template
@@ -382,7 +382,7 @@ just setup                # auto-restores both keys from Bitwarden
 ## Renaming a Host
 
 ```bash
-just rename oldname newname
+just a rename oldname newname
 ```
 
 This renames everything in one step:
@@ -395,7 +395,7 @@ This renames everything in one step:
 Then apply the hostname on the server and commit:
 
 ```bash
-just deploy newname --tags hostname
+just a deploy newname --tags hostname
 git add -A && git commit -m "rename: oldname → newname"
 ```
 
@@ -437,14 +437,14 @@ winget install -e --id DEVCOM.JetBrainsMonoNerdFont
 Ansible can't connect. Check which key it's trying:
 
 ```bash
-just trust myhost          # tests backup key, shows deploy instructions if needed
+just a trust myhost          # tests backup key, shows deploy instructions if needed
 ```
 
 If the host was just bootstrapped, the backup key should be at `~/.ssh/id_backup_<hostname>`. If it's missing, restore from Bitwarden:
 
 ```bash
 unlock
-just bootstrap myhost      # re-runs SSH role, restores key from BW
+just a bootstrap myhost      # re-runs SSH role, restores key from BW
 ```
 
 ### "sops metadata not found"
@@ -453,7 +453,7 @@ The secret file wasn't created with SOPS. Delete and recreate:
 
 ```bash
 rm ansible/host_vars/myhost/secrets.sops.yml
-just ansible-secrets myhost
+just a secrets myhost
 ```
 
 ### "age key not found"
@@ -469,7 +469,7 @@ A previous apt run was interrupted on the server. Fix manually:
 
 ```bash
 ssh myhost "sudo dpkg --configure -a"
-just deploy myhost
+just a deploy myhost
 ```
 
 ### Windows: "Permission denied" when SSHing with YubiKey

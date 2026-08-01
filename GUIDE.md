@@ -26,7 +26,7 @@ that file once it's updated.
 ## 2. Fill in shared secrets
 
 ```bash
-just komodo-secrets
+just k secrets
 ```
 
 Opens `komodo/secrets.sops.yaml` (created from `komodo/secrets.example.yaml`
@@ -41,7 +41,7 @@ Every host needs at least a `host_ip` secret so Komodo can reach its
 Periphery agent:
 
 ```bash
-just komodo-secrets FeelsStrongMan   # repeat for each host in servers.toml
+just k secrets FeelsStrongMan   # repeat for each host in servers.toml
 ```
 
 This copies `komodo/hosts/secrets.sops.yaml.tpl` into
@@ -78,10 +78,9 @@ auto-registers as a server named `local`, which won't match the
 `compose.yml` and `.env` into `/docker/komodo/` on the target host from
 Ansible variables — nothing needs to be cloned separately onto the Core
 host for this path, since ansible provisioning and this catalog now live
-in the same checkout. `core.secrets.toml` is handled separately, by the
-`komodo_secrets` role (see step 5) — the `komodo` role includes it
-automatically on first provisioning. Run with the `komodo` tag against the
-Core host's inventory group.
+in the same checkout. `core.secrets.toml` is handled as part of the same
+role (see step 5), included automatically on first provisioning. Run with
+the `komodo` tag against the Core host's inventory group.
 
 Either way, Komodo Core and `komodo-periphery` are **not** managed through
 Komodo itself (no `[[stack]]` entry in `stacks.toml`) — there's no safe way
@@ -102,7 +101,7 @@ this repo there too (or syncing `komodo/secrets.sops.yaml` +
 `komodo/hosts/` to it):
 
 ```bash
-just decrypt   # writes /etc/komodo/core.secrets.toml, chmod 600
+just k decrypt   # writes /etc/komodo/core.secrets.toml, chmod 600
 ```
 
 Then point Core at it — uncomment and set in `stacks/komodo/.env`:
@@ -113,9 +112,9 @@ KOMODO_SECRETS_FILE=/etc/komodo/core.secrets.toml
 
 Restart Core to pick it up: `docker compose restart` in `stacks/komodo/`.
 Every time you rotate a secret, repeat: edit → push → `git pull` on Core →
-`just decrypt` → restart Core.
+`just k decrypt` → restart Core.
 
-**Option B — this repo's `ansible/` `komodo_secrets` role.** No second copy
+**Option B — this repo's `ansible/` `komodo` role.** No second copy
 of secrets to maintain: this role reads `komodo/secrets.sops.yaml` and any
 `komodo/hosts/<hostname>/secrets.sops.yaml` directly from this same
 checkout (no fetch, no ref/branch, no "must be pushed first" — even
@@ -136,16 +135,16 @@ export BW_SESSION=$(bw unlock --raw)
 Controller-side requirements: `bw` (Bitwarden CLI), plus `sops` and `jq`
 (already prerequisites per step 0).
 
-In practice this means step 2/3 here (`just komodo-secrets`) is the
+In practice this means step 2/3 here (`just k secrets`) is the
 *only* place secret values get edited for this option too — same as
-Option A. To pick up a change without a full redeploy, run the role
-standalone:
+Option A. To pick up a change without a full redeploy, run just the
+secrets task standalone:
 
 ```bash
 cd ansible && ansible-playbook run.yml --tags komodo_secrets -l <core-host>
 ```
 
-The `komodo` role also includes it automatically the first time it
+The `komodo` role also runs it automatically the first time it
 provisions Core, so a fresh `--tags komodo` run needs no separate step.
 
 ## 6. Deploy Periphery on every other host
@@ -223,13 +222,13 @@ Covered in full in [CONTRIBUTING.md](CONTRIBUTING.md#adding-a-stack):
 create `stacks/<service>/compose.yml` + `.env.example`, validate locally
 with `docker compose config`, add a `[[stack]]` block to
 `komodo/resources/stacks.toml` assigning it to a server, add any new
-secrets via `just komodo-secrets`, commit, push, then repeat step 7's sync +
+secrets via `just k secrets`, commit, push, then repeat step 7's sync +
 step 8's deploy for just that one stack.
 
 ## Troubleshooting
 
 - **Server shows unreachable in Komodo UI**: check the `host_ip` secret for
-  that host is set (`just show-secrets <hostname>`) and Periphery is
+  that host is set (`just k show-secrets <hostname>`) and Periphery is
   actually running there (`docker compose ps` in
   `stacks/komodo-periphery/`).
 - **Stack deploy fails on a missing env var**: the compose file's
@@ -238,7 +237,7 @@ step 8's deploy for just that one stack.
   spelled identically in `stacks.toml`/`variables.toml` and, for secrets,
   that it exists in `komodo/secrets.sops.yaml` (or the right per-host file)
   and Core's `/etc/komodo/core.secrets.toml` has been regenerated
-  (`just decrypt`) and Core restarted since.
+  (`just k decrypt`) and Core restarted since.
 - **Resource Sync shows unexpected deletions**: someone likely created a
   resource by hand in the UI instead of via `stacks.toml`/`servers.toml`.
   Resource Sync is authoritative — add it to the TOML instead of editing

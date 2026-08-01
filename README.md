@@ -74,9 +74,9 @@ secrets workflow.
 ### 3. Provision a server
 
 ```bash
-just new-host myserver
-just bootstrap myserver
-just deploy myserver
+just a new-host myserver
+just a bootstrap myserver
+just a deploy myserver
 ```
 
 See [ansible/README.md](ansible/README.md) for the complete provisioning
@@ -88,11 +88,11 @@ Deploy `stacks/komodo/` on the host that will run Komodo Core (see that
 stack's `.env.example`). Once running, decrypt secrets into its config:
 
 ```bash
-just decrypt           # writes /etc/komodo/core.secrets.toml on the Core host
+just k decrypt           # writes /etc/komodo/core.secrets.toml on the Core host
 ```
 
 Or run the `komodo` ansible role against that host, which handles this
-(and secret provisioning via `komodo_secrets`) automatically — see
+(including secret provisioning) automatically — see
 [GUIDE.md](GUIDE.md) for the full walkthrough of both options.
 
 ### 5. Point Komodo at this repo
@@ -128,11 +128,11 @@ Run `just --list` from the repo root to see every recipe. Highlights:
 |---|---|
 | `just up` / `down` / `rebuild` / `shell` / `exec` | DevContainer management |
 | `just lint` | Ansible-lint, YAML, `.env`, and Compose checks — one command, no sub-checks |
-| `just ping` / `just deploy HOST` / `just run` | Ansible: connectivity + convergence |
+| `just a ping` / `just a deploy HOST` / `just a run` | Ansible: connectivity + convergence |
 | `just setup` | First-time/re-run setup: both age keys, SSH backup keys, host secrets |
-| `just ansible-secrets HOST` | Ansible secrets (Key A) |
-| `just komodo-secrets [TARGET]` | Komodo secrets (Key B) |
-| `just decrypt` / `just show-secrets [TARGET]` | Komodo: assemble/inspect `core.secrets.toml` |
+| `just a secrets HOST` | Ansible secrets (Key A) |
+| `just k secrets [TARGET]` | Komodo secrets (Key B) |
+| `just k decrypt` / `just k show-secrets [TARGET]` | Komodo: assemble/inspect `core.secrets.toml` |
 
 Ansible's day-to-day recipes (`ping`, `check`, `run`, `deploy`, `bootstrap`,
 `update`, `new-host`, `trust`, `vars`, `sshsync`, `show-key`) work
