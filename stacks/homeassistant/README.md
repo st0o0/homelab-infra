@@ -32,7 +32,6 @@ Smart home stack with Home Assistant, Mosquitto MQTT, Zigbee2MQTT, Matter.js, an
 
 ```bash
 cp .env .env.local   # configure network and device paths
-mkdir -p data mosquitto/{config,data,log} zigbee2mqtt/data matter/data
 docker compose up -d
 ```
 

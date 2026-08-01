@@ -76,11 +76,11 @@ Alloy uses "copy `compose.override.*.yaml` → `compose.override.yaml`" for mode
 
 Several stacks mount `./subdirectory` paths that don't exist in the repo. Docker auto-creates them empty, but stacks expecting config files will fail.
 
-- [ ] `authentik/` — add `.gitkeep` to `media/`, `certs/`, `custom-templates/`
-- [ ] `backrest/` — commit a default `backrest/config/config.json` or switch to named volume
-- [ ] `downloader/` — add `.gitkeep` to `gluetun/config/`, `sabnzbd/config/`
-- [ ] `nut-upsd/` — commit default NUT configs to `nut/` and `peanut/`
-- [ ] `homeassistant/` — add `.gitkeep` to `data/`, `mosquitto/`, `zigbee2mqtt/data/`, `matter/data/`
+- [x] `authentik/` — add `.gitkeep` to `media/`, `certs/`, `custom-templates/`
+- [x] `backrest/` — add `.gitkeep` to `backrest/config/` (Backrest bootstraps `config.json` itself on first run; no default content needed)
+- [x] `downloader/` — add `.gitkeep` to `gluetun/config/`, `sabnzbd/config/`
+- [x] `nut-upsd/` — add `.gitkeep` to `nut/` and `peanut/` (both images bootstrap their own config on first run; no default content needed)
+- [x] `homeassistant/` — add `.gitkeep` to `data/`, `mosquitto/{config,data,log}/`, `zigbee2mqtt/data/`, `matter/data/`
 
 ## 7 — Secret management with SOPS
 
@@ -123,17 +123,13 @@ The TOML files that tell Komodo which stacks to deploy where, with which env var
 
 ## Stacks ready (no repo changes needed)
 
-immich, immich-postgres, observability, postgres, ups-monitor, vaultwarden, bifrost, mealie, pihole
+immich, immich-postgres, observability, postgres, ups-monitor, vaultwarden, bifrost, mealie, pihole, authentik, backrest, nut-upsd, homeassistant
 
 ## Stacks needing changes
 
 | Stack | Changes | Section |
 |-------|---------|---------|
 | arr | Fix CIFS volumes, external network | 2, 3 |
-| downloader | Fix CIFS volume, external network, commit config dirs | 2, 3, 6 |
+| downloader | Fix CIFS volume, external network | 2, 3 |
 | media | Fix CIFS volumes, external network | 2, 3 |
 | alloy | Module refactor, compose override | 4, 5 |
-| authentik | Commit config dirs | 6 |
-| backrest | Commit default config | 6 |
-| homeassistant | Commit config dirs (most host-specific stack) | 6 |
-| nut-upsd | Commit NUT configs | 6 |

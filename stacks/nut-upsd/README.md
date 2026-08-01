@@ -19,7 +19,6 @@ Network UPS Tools (NUT) server for USB-connected UPS devices with Peanut web das
 
 ```bash
 cp .env .env.local   # set NUT_DRIVER and NUT_API_PASSWORD
-mkdir -p peanut
 docker compose up -d
 ```
 

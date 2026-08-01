@@ -27,7 +27,6 @@ SABnzbd Usenet downloader routed through a Gluetun VPN tunnel (AirVPN/WireGuard)
 
 ```bash
 cp .env .env.local   # set WireGuard keys
-mkdir -p gluetun/config sabnzbd/config
 docker compose up -d
 ```
 

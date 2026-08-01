@@ -19,7 +19,6 @@ Restic backup UI for managing and monitoring backups.
 
 ```bash
 cp .env .env.local   # edit if needed
-mkdir -p backrest/config
 docker compose up -d
 ```
 

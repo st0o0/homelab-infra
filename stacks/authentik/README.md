@@ -28,7 +28,6 @@ Identity provider and SSO platform. Server handles HTTP/HTTPS requests, Worker p
 
 ```bash
 cp .env .env.local   # set secret key and DB password
-mkdir -p media certs custom-templates
 docker compose up -d
 ```
 
