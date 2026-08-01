@@ -1,6 +1,6 @@
-# PostgreSQL + CloudBeaver
+# PostgreSQL
 
-PostgreSQL database with CloudBeaver web admin UI.
+Shared PostgreSQL database.
 
 ## Quick start
 
@@ -18,10 +18,9 @@ docker compose up -d
 | `POSTGRES_DB` | no | `postgres` | Database name |
 | `POSTGRES_PORT` | no | `5432` | Published port |
 | `POSTGRES_BIND_IP` | no | `127.0.0.1` | Bind IP |
-| `CLOUDBEAVER_PORT` | no | `8978` | CloudBeaver web UI port |
+| `POSTGRES_DATA_PATH` | no | `/docker/postgres/data` | Database data directory |
 | `TZ` | no | `Europe/Berlin` | Timezone |
 
 ## Verify
 
 - PostgreSQL: `docker exec postgres pg_isready`
-- CloudBeaver: `http://localhost:8978`

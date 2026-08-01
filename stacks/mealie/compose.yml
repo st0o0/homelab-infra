@@ -18,7 +18,7 @@ services:
           memory: 1000M
           cpus: "0.25"
     volumes:
-      - ./data:/app/data/
+      - ${MEALIE_DATA_PATH:-./data}:/app/data/
     environment:
       - ALLOW_SIGNUP=${ALLOW_SIGNUP:-false}
       - ALLOW_PASSWORD_LOGIN=${ALLOW_PASSWORD_LOGIN:-false}

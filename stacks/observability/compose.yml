@@ -38,7 +38,7 @@ services:
       - GF_DATABASE_SSL_MODE=${GRAFANA_DB_SSL_MODE:-disable}
       - TZ=${TZ:-Europe/Berlin}
     volumes:
-      - grafana-data:/var/lib/grafana
+      - ${GRAFANA_DATA_PATH:-./data/grafana}:/var/lib/grafana
       - ./grafana/provisioning:/etc/grafana/provisioning:ro
     depends_on:
       victoriametrics:
@@ -64,7 +64,7 @@ services:
       # (e.g. 10.77.32.1) to accept remote observability agents.
       - "${VM_BIND_IP:-127.0.0.1}:8428:8428"
     volumes:
-      - vm-data:/storage
+      - ${VM_DATA_PATH:-./data/victoriametrics}:/storage
     healthcheck:
       test: wget -qO- http://127.0.0.1:8428/health || exit 1
       interval: 10s
@@ -87,14 +87,10 @@ services:
       # (e.g. 10.77.32.1) to accept remote observability agents.
       - "${VLOGS_BIND_IP:-127.0.0.1}:9428:9428"
     volumes:
-      - vlogs-data:/storage
+      - ${VLOGS_DATA_PATH:-./data/victorialogs}:/storage
     healthcheck:
       test: wget -qO- http://127.0.0.1:9428/health || exit 1
       interval: 10s
       timeout: 5s
       retries: 5
 
-volumes:
-  grafana-data:
-  vm-data:
-  vlogs-data:

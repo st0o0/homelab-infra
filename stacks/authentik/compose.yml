@@ -18,8 +18,8 @@ services:
       - AUTHENTIK_POSTGRESQL__NAME=${PG_DB:-authentik}
       - AUTHENTIK_POSTGRESQL__PASSWORD=${PG_PASS:?PG_PASS is required}
     volumes:
-      - ./media:/media
-      - ./custom-templates:/templates
+      - ${AUTHENTIK_MEDIA_PATH:-./media}:/media
+      - ${AUTHENTIK_TEMPLATES_PATH:-./custom-templates}:/templates
     ports:
       - "${AUTHENTIK_PORT_HTTP:-9000}:9000"
       - "${AUTHENTIK_PORT_HTTPS:-9443}:9443"
@@ -37,6 +37,6 @@ services:
       - AUTHENTIK_POSTGRESQL__NAME=${PG_DB:-authentik}
       - AUTHENTIK_POSTGRESQL__PASSWORD=${PG_PASS:?PG_PASS is required}
     volumes:
-      - ./media:/media
-      - ./certs:/certs
-      - ./custom-templates:/templates
+      - ${AUTHENTIK_MEDIA_PATH:-./media}:/media
+      - ${AUTHENTIK_CERTS_PATH:-./certs}:/certs
+      - ${AUTHENTIK_TEMPLATES_PATH:-./custom-templates}:/templates
