@@ -20,7 +20,9 @@ services:
       - SCRAPE_INTERVAL=${SCRAPE_INTERVAL:-30s}
       - REMOTE_WRITE_URL=${REMOTE_WRITE_URL:?REMOTE_WRITE_URL is required}
       - LOGS_PUSH_URL=${LOGS_PUSH_URL:?LOGS_PUSH_URL is required}
-      - NUT_EXPORTER_TARGET=${NUT_EXPORTER_TARGET:-}
+      - NUT_ENABLED=${NUT_ENABLED:-false}
+      - NUT_EXPORTER_TARGET=${NUT_EXPORTER_TARGET:-nut-exporter:9199}
+      - SECURITY_LOGS_ENABLED=${SECURITY_LOGS_ENABLED:-false}
     volumes:
       - ./alloy:/etc/alloy:ro
       - alloy-data:/var/lib/alloy/data

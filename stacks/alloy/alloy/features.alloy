@@ -1,0 +1,15 @@
+import.file "modules" {
+  filename = "/etc/alloy/modules"
+}
+
+modules.nut "default" {
+  enabled         = coalesce(env("NUT_ENABLED"), "false")
+  target          = coalesce(env("NUT_EXPORTER_TARGET"), "nut-exporter:9199")
+  scrape_interval = coalesce(env("SCRAPE_INTERVAL"), "30s")
+  forward_to      = [prometheus.remote_write.central.receiver]
+}
+
+modules.security_logs "default" {
+  enabled    = coalesce(env("SECURITY_LOGS_ENABLED"), "false")
+  forward_to = [loki.process.system.receiver]
+}

@@ -1,0 +1,35 @@
+declare "security_logs" {
+  argument "enabled" {
+    optional = true
+    default  = "false"
+  }
+
+  argument "forward_to" {
+    optional = false
+  }
+
+  local.file_match "security" {
+    path_targets = [
+      {__path__ = "/var/log/host/fail2ban.log", job = "fail2ban", __tmp_enabled = argument.enabled.value},
+      {__path__ = "/var/log/host/audit/audit.log", job = "auditd", __tmp_enabled = argument.enabled.value},
+      {__path__ = "/var/log/host/rkhunter-cron.log", job = "rkhunter", __tmp_enabled = argument.enabled.value},
+      {__path__ = "/var/log/host/clamav/scan.log", job = "clamav", __tmp_enabled = argument.enabled.value},
+      {__path__ = "/var/log/host/lynis.log", job = "lynis", __tmp_enabled = argument.enabled.value},
+    ]
+  }
+
+  discovery.relabel "security" {
+    targets = local.file_match.security.targets
+
+    rule {
+      source_labels = ["__tmp_enabled"]
+      regex         = "true"
+      action        = "keep"
+    }
+  }
+
+  loki.source.file "security" {
+    targets    = discovery.relabel.security.output
+    forward_to = argument.forward_to.value
+  }
+}

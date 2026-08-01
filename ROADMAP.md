@@ -52,11 +52,11 @@ Three stacks share `media-net` as an external network. Komodo deploys stacks ind
 
 The current `cp extras/*.alloy alloy/` workflow is a manual step that doesn't work with GitOps.
 
-- [ ] Move `extras/*.alloy` → `modules/*.alloy` as `declare` blocks
-- [ ] Add env-var guards (`enabled` argument) so modules no-op when not configured
-- [ ] Wire up `import.file "modules"` in main config
-- [ ] Remove `extras/` directory and copy instructions from `.env.example`
-- [ ] Test: Alloy starts cleanly with and without optional env vars
+- [x] Move `extras/*.alloy` → `modules/*.alloy` as `declare` blocks
+- [x] Add env-var guards (`enabled` argument) so modules no-op when not configured
+- [x] Wire up `import.file "modules"` in main config
+- [x] Remove `extras/` directory and copy instructions from `.env.example`
+- [x] Test: Alloy starts cleanly with and without optional env vars — verified against `grafana/alloy:v1.17.1` in Docker; `prometheus_scrape_targets_gauge` for the nut module reads `0` by default and `1` with `NUT_ENABLED=true`
 
 ## 5 — Resolve compose override pattern (alloy)
 
@@ -132,4 +132,4 @@ immich, immich-postgres, observability, postgres, ups-monitor, vaultwarden, bifr
 | arr | Fix CIFS volumes, external network | 2, 3 |
 | downloader | Fix CIFS volume, external network | 2, 3 |
 | media | Fix CIFS volumes, external network | 2, 3 |
-| alloy | Module refactor, compose override | 4, 5 |
+| alloy | Compose override pattern | 5 |
