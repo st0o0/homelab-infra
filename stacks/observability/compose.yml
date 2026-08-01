@@ -1,0 +1,100 @@
+# Keep container logs from growing unbounded
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: 10m
+    max-file: "3"
+
+services:
+  grafana:
+    image: grafana/grafana:13.1.0
+    container_name: grafana
+    restart: unless-stopped
+    logging: *default-logging
+    ports:
+      - "${GRAFANA_PORT:-3000}:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN_USER:-admin}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD:?GRAFANA_ADMIN_PASSWORD is required}
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_INSTALL_PLUGINS=victoriametrics-logs-datasource
+      # Set when running behind a reverse proxy, e.g. https://grafana.example.com/
+      - GF_SERVER_ROOT_URL=${GRAFANA_ROOT_URL:-%(protocol)s://%(domain)s:%(http_port)s/}
+      # No phone-home, no update banner, no news feed
+      - GF_ANALYTICS_REPORTING_ENABLED=false
+      - GF_ANALYTICS_CHECK_FOR_UPDATES=false
+      - GF_NEWS_NEWS_FEED_ENABLED=false
+      # SQLite WAL mode: fewer fsyncs, better behavior on small disks/SD cards
+      # (ignored when an external database is configured below)
+      - GF_DATABASE_WAL=true
+      # Optional external PostgreSQL for Grafana's config DB
+      # (users, dashboards, settings). Defaults to embedded SQLite;
+      # set GRAFANA_DB_TYPE=postgres + the connection vars to switch.
+      - GF_DATABASE_TYPE=${GRAFANA_DB_TYPE:-sqlite3}
+      - GF_DATABASE_HOST=${GRAFANA_DB_HOST:-}
+      - GF_DATABASE_NAME=${GRAFANA_DB_NAME:-grafana}
+      - GF_DATABASE_USER=${GRAFANA_DB_USER:-}
+      - GF_DATABASE_PASSWORD=${GRAFANA_DB_PASSWORD:-}
+      - GF_DATABASE_SSL_MODE=${GRAFANA_DB_SSL_MODE:-disable}
+      - TZ=${TZ:-Europe/Berlin}
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+    depends_on:
+      victoriametrics:
+        condition: service_healthy
+      victorialogs:
+        condition: service_healthy
+
+  victoriametrics:
+    image: victoriametrics/victoria-metrics:v1.147.0
+    container_name: victoriametrics
+    restart: unless-stopped
+    logging: *default-logging
+    command:
+      - --storageDataPath=/storage
+      - --retentionPeriod=${VM_RETENTION:-90d}
+      - --httpListenAddr=:8428
+      # Deduplication window — keep in sync with the Alloy scrape interval
+      - --dedup.minScrapeInterval=${SCRAPE_INTERVAL:-30s}
+      # VictoriaMetrics scrapes its own internals (vm_* metrics)
+      - --selfScrapeInterval=1m
+    ports:
+      # Loopback by default; set VM_BIND_IP to the WireGuard IP
+      # (e.g. 10.77.32.1) to accept remote observability agents.
+      - "${VM_BIND_IP:-127.0.0.1}:8428:8428"
+    volumes:
+      - vm-data:/storage
+    healthcheck:
+      test: wget -qO- http://127.0.0.1:8428/health || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  victorialogs:
+    image: victoriametrics/victoria-logs:v1.52.0
+    container_name: victorialogs
+    restart: unless-stopped
+    logging: *default-logging
+    command:
+      - --storageDataPath=/storage
+      - --retentionPeriod=${VL_RETENTION:-31d}
+      - --httpListenAddr=:9428
+      # Hard disk-usage cap as a safety net on small disks (0 = disabled)
+      - --retention.maxDiskSpaceUsageGB=${VL_MAX_DISK_GB:-0}
+    ports:
+      # Loopback by default; set VLOGS_BIND_IP to the WireGuard IP
+      # (e.g. 10.77.32.1) to accept remote observability agents.
+      - "${VLOGS_BIND_IP:-127.0.0.1}:9428:9428"
+    volumes:
+      - vlogs-data:/storage
+    healthcheck:
+      test: wget -qO- http://127.0.0.1:9428/health || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  grafana-data:
+  vm-data:
+  vlogs-data:

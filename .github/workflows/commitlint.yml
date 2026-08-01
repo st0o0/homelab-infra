@@ -1,0 +1,31 @@
+name: Commit Lint
+
+# Enforces Conventional Commits on every commit in the PR (not just the PR
+# title) — this repo uses rebase/merge, so individual commits land on main
+# as-is and are what release-please parses. See CONTRIBUTING.md.
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - "stacks/**"
+      - "komodo/**"
+      - "GUIDE.md"
+      - "ROADMAP.md"
+      - "CONTRIBUTING.md"
+      - "CHANGELOG.md"
+      - "release-please-config.json"
+      - ".release-please-manifest.json"
+
+permissions:
+  contents: read
+
+jobs:
+  commitlint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: wagoid/commitlint-github-action@v6

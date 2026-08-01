@@ -1,0 +1,290 @@
+# Komodo Stack resources — one per deployable stack in stacks/<service>/.
+#
+# stacks/komodo/ and stacks/komodo-periphery/ (Komodo's own Core/Periphery)
+# are deliberately NOT declared here. Komodo has no native self-update for
+# either component, and having Core manage its own deployment via itself is
+# a chicken-and-egg risk (a broken Core can't redeploy itself). Both are
+# deployed manually — see README.md Quick Start.
+#
+# All stacks pull compose files from this repo (git-sourced Stack, not
+# "files on host"). `git_account` must match a Git Provider account
+# configured in your Komodo instance's settings — replace the placeholder
+# below with that account's name before syncing.
+#
+# `environment` lists only each stack's *required* variables (see each
+# stacks/<service>/.env.example for the full optional list — those keep
+# their compose-file defaults unless overridden here). Secret-backed values
+# use [[SECRET_NAME]], resolved from komodo/secrets.sops.yaml /
+# komodo/hosts/<host>/secrets.sops.yaml (see komodo/README.md). Shared
+# non-secret values use [[VARIABLE_NAME]] from variables.toml.
+#
+# `backrest` has no confirmed host yet — left commented out (see design.md).
+#
+# New shared secret keys referenced below that don't exist in
+# komodo/secrets.sops.yaml yet — add via `just secrets` before syncing:
+#   POSTGRES_PASSWORD, IMMICH_POSTGRES_PASSWORD, PIHOLE_PASSWORD,
+#   BIFROST_PRIVATE_KEY, BIFROST_ADDRESS, BIFROST_PEER_PUBLIC_KEY,
+#   BIFROST_PEER_ENDPOINT, BIFROST_PEER_ALLOWED_IPS, ARR_SONARR_API_KEY,
+#   ARR_RADARR_API_KEY, ARR_TRACEARR_JWT_SECRET, ARR_TRACEARR_COOKIE_SECRET,
+#   AUTHENTIK_SECRET_KEY, AUTHENTIK_PG_PASS, MEALIE_POSTGRES_PASSWORD,
+#   MEALIE_POSTGRES_SERVER, DOWNLOADER_WIREGUARD_PRIVATE_KEY,
+#   DOWNLOADER_WIREGUARD_ADDRESSES, NUT_DRIVER, NUT_API_PASSWORD,
+#   OBSERVABILITY_REMOTE_WRITE_URL, OBSERVABILITY_LOGS_PUSH_URL,
+#   GRAFANA_ADMIN_PASSWORD
+# Per-host `host_ip` secrets (komodo/hosts/<host>/secrets.sops.yaml) are
+# also required for every host referenced as [[<host>_host_ip]] — see
+# tasks.md §1.0.
+
+# ── FeelsCozyMan ──────────────────────────────────────────────────────────
+
+[[stack]]
+name = "homeassistant"
+[stack.config]
+server = "FeelsCozyMan"
+run_directory = "stacks/homeassistant"
+file_paths = ["compose.yml"]
+git_account = "CONFIGURE_IN_KOMODO"
+repo = "st0o0/homelab-infra"
+environment = """
+TZ=[[TZ]]
+"""
+
+[[stack]]
+name = "vaultwarden"
+[stack.config]
+server = "FeelsCozyMan"
+run_directory = "stacks/vaultwarden"
+file_paths = ["compose.yml"]
+git_account = "CONFIGURE_IN_KOMODO"
+repo = "st0o0/homelab-infra"
+environment = """
+TZ=[[TZ]]
+"""
+
+# ── FeelsDataMan ──────────────────────────────────────────────────────────
+
+[[stack]]
+name = "postgres"
+[stack.config]
+server = "FeelsDataMan"
+run_directory = "stacks/postgres"
+file_paths = ["compose.yml"]
+git_account = "CONFIGURE_IN_KOMODO"
+repo = "st0o0/homelab-infra"
+environment = """
+POSTGRES_PASSWORD=[[POSTGRES_PASSWORD]]
+TZ=[[TZ]]
+"""
+
+[[stack]]
+name = "immich-postgres"
+[stack.config]
+server = "FeelsDataMan"
+run_directory = "stacks/immich-postgres"
+file_paths = ["compose.yml"]
+git_account = "CONFIGURE_IN_KOMODO"
+repo = "st0o0/homelab-infra"
+environment = """
+POSTGRES_PASSWORD=[[IMMICH_POSTGRES_PASSWORD]]
+TZ=[[TZ]]
+"""
+
+# ── FeelsNoSponsorMan ─────────────────────────────────────────────────────
+
+[[stack]]
+name = "pihole"
+[stack.config]
+server = "FeelsNoSponsorMan"
+run_directory = "stacks/pihole"
+file_paths = ["compose.yml"]
+git_account = "CONFIGURE_IN_KOMODO"
+repo = "st0o0/homelab-infra"
+environment = """
+PIHOLE_PASSWORD=[[PIHOLE_PASSWORD]]
+TZ=[[TZ]]
+"""
+
+# ── FeelsPrivateMan ───────────────────────────────────────────────────────
+
+[[stack]]
+name = "bifrost"
+[stack.config]
+server = "FeelsPrivateMan"
+run_directory = "stacks/bifrost"
+file_paths = ["compose.yml"]
+git_account = "CONFIGURE_IN_KOMODO"
+repo = "st0o0/homelab-infra"
+environment = """
+BIFROST_PRIVATE_KEY=[[BIFROST_PRIVATE_KEY]]
+BIFROST_ADDRESS=[[BIFROST_ADDRESS]]
+BIFROST_PEER_PUBLIC_KEY=[[BIFROST_PEER_PUBLIC_KEY]]
+BIFROST_PEER_ENDPOINT=[[BIFROST_PEER_ENDPOINT]]
+BIFROST_PEER_ALLOWED_IPS=[[BIFROST_PEER_ALLOWED_IPS]]
+"""
+
+# ── FeelsStrongMan ────────────────────────────────────────────────────────
+
+[[stack]]
+name = "arr"
+after = ["media"]
+[stack.config]
+server = "FeelsStrongMan"
+run_directory = "stacks/arr"
+file_paths = ["compose.yml"]
+git_account = "CONFIGURE_IN_KOMODO"
+repo = "st0o0/homelab-infra"
+environment = """
+SONARR_API_KEY=[[ARR_SONARR_API_KEY]]
+RADARR_API_KEY=[[ARR_RADARR_API_KEY]]
+TRACEARR_JWT_SECRET=[[ARR_TRACEARR_JWT_SECRET]]
+TRACEARR_COOKIE_SECRET=[[ARR_TRACEARR_COOKIE_SECRET]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+TZ=[[TZ]]
+"""
+
+[[stack]]
+name = "media"
+[stack.config]
+server = "FeelsStrongMan"
+run_directory = "stacks/media"
+file_paths = ["compose.yml"]
+git_account = "CONFIGURE_IN_KOMODO"
+repo = "st0o0/homelab-infra"
+environment = """
+PUID=[[PUID]]
+PGID=[[PGID]]
+TZ=[[TZ]]
+"""
+
+[[stack]]
+name = "authentik"
+[stack.config]
+server = "FeelsStrongMan"
+run_directory = "stacks/authentik"
+file_paths = ["compose.yml"]
+git_account = "CONFIGURE_IN_KOMODO"
+repo = "st0o0/homelab-infra"
+environment = """
+AUTHENTIK_SECRET_KEY=[[AUTHENTIK_SECRET_KEY]]
+PG_PASS=[[AUTHENTIK_PG_PASS]]
+"""
+
+[[stack]]
+name = "immich"
+[stack.config]
+server = "FeelsStrongMan"
+run_directory = "stacks/immich"
+file_paths = ["compose.yml"]
+git_account = "CONFIGURE_IN_KOMODO"
+repo = "st0o0/homelab-infra"
+environment = """
+DB_PASSWORD=[[IMMICH_POSTGRES_PASSWORD]]
+TZ=[[TZ]]
+"""
+
+[[stack]]
+name = "mealie"
+[stack.config]
+server = "FeelsStrongMan"
+run_directory = "stacks/mealie"
+file_paths = ["compose.yml"]
+git_account = "CONFIGURE_IN_KOMODO"
+repo = "st0o0/homelab-infra"
+environment = """
+POSTGRES_PASSWORD=[[MEALIE_POSTGRES_PASSWORD]]
+POSTGRES_SERVER=[[MEALIE_POSTGRES_SERVER]]
+TZ=[[TZ]]
+"""
+
+[[stack]]
+name = "downloader"
+after = ["media"]
+[stack.config]
+server = "FeelsStrongMan"
+run_directory = "stacks/downloader"
+file_paths = ["compose.yml"]
+git_account = "CONFIGURE_IN_KOMODO"
+repo = "st0o0/homelab-infra"
+environment = """
+WIREGUARD_PRIVATE_KEY=[[DOWNLOADER_WIREGUARD_PRIVATE_KEY]]
+WIREGUARD_ADDRESSES=[[DOWNLOADER_WIREGUARD_ADDRESSES]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+TZ=[[TZ]]
+"""
+
+# ── FeelsUPSMan ───────────────────────────────────────────────────────────
+
+[[stack]]
+name = "nut-upsd"
+[stack.config]
+server = "FeelsUPSMan"
+run_directory = "stacks/nut-upsd"
+file_paths = ["compose.yml"]
+git_account = "CONFIGURE_IN_KOMODO"
+repo = "st0o0/homelab-infra"
+environment = """
+NUT_DRIVER=[[NUT_DRIVER]]
+NUT_API_PASSWORD=[[NUT_API_PASSWORD]]
+TZ=[[TZ]]
+"""
+
+[[stack]]
+name = "ups-monitor"
+[stack.config]
+server = "FeelsUPSMan"
+run_directory = "stacks/ups-monitor"
+file_paths = ["compose.yml"]
+git_account = "CONFIGURE_IN_KOMODO"
+repo = "st0o0/homelab-infra"
+environment = """
+HOST_HOSTNAME=[[FeelsUPSMan_host_ip]]
+REMOTE_WRITE_URL=[[OBSERVABILITY_REMOTE_WRITE_URL]]
+LOGS_PUSH_URL=[[OBSERVABILITY_LOGS_PUSH_URL]]
+TZ=[[TZ]]
+"""
+
+# ── FeelsWatchMan ─────────────────────────────────────────────────────────
+
+[[stack]]
+name = "observability"
+[stack.config]
+server = "FeelsWatchMan"
+run_directory = "stacks/observability"
+file_paths = ["compose.yml"]
+git_account = "CONFIGURE_IN_KOMODO"
+repo = "st0o0/homelab-infra"
+environment = """
+GRAFANA_ADMIN_PASSWORD=[[GRAFANA_ADMIN_PASSWORD]]
+TZ=[[TZ]]
+"""
+
+[[stack]]
+name = "alloy"
+[stack.config]
+server = "FeelsWatchMan"
+run_directory = "stacks/alloy"
+file_paths = ["compose.yml"]
+git_account = "CONFIGURE_IN_KOMODO"
+repo = "st0o0/homelab-infra"
+environment = """
+HOST_HOSTNAME=[[FeelsWatchMan_host_ip]]
+REMOTE_WRITE_URL=[[OBSERVABILITY_REMOTE_WRITE_URL]]
+LOGS_PUSH_URL=[[OBSERVABILITY_LOGS_PUSH_URL]]
+TZ=[[TZ]]
+"""
+
+# ── Unassigned ────────────────────────────────────────────────────────────
+
+# [[stack]]
+# name = "backrest"
+# [stack.config]
+# server = "CHOOSE_A_HOST"
+# run_directory = "stacks/backrest"
+# file_paths = ["compose.yml"]
+# git_account = "CONFIGURE_IN_KOMODO"
+# repo = "st0o0/homelab-infra"
+# environment = """
+# TZ=[[TZ]]
+# """

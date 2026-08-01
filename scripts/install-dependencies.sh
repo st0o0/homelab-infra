@@ -1,0 +1,204 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# --------------------------------------------------------------------------
+# Layer 1: Shell toolchain (zsh, tmux, starship, chezmoi, fzf, zoxide)
+# --------------------------------------------------------------------------
+# Owned by the dotfiles repo — single source of truth for shell tools.
+echo "==> Installing shell toolchain via dotfiles/install.sh..."
+curl -fsSL https://raw.githubusercontent.com/st0o0/dotfiles/main/install.sh \
+    | bash -s -- --profile devcontainer
+
+# --------------------------------------------------------------------------
+# Layer 2: Infra tools (ansible provisioning + Komodo catalog toolchain)
+# --------------------------------------------------------------------------
+echo "==> Installing system dependencies..."
+sudo apt-get update -qq
+sudo apt-get install -y -qq --no-install-recommends \
+    sshpass \
+    python3-pip \
+    python3-venv \
+    yamllint \
+    jq \
+    > /dev/null
+
+echo "==> Installing Ansible via pip..."
+pip install --break-system-packages -q ansible ansible-lint
+
+echo "==> Installing Ansible collections..."
+ansible-galaxy collection install -r ansible/requirements.yml --force-with-deps > /dev/null
+
+echo "==> Installing dotenv-linter..."
+DOTENV_VERSION="v3.3.0"
+curl -fsSL "https://github.com/dotenv-linter/dotenv-linter/releases/download/${DOTENV_VERSION}/dotenv-linter-linux-x86_64.tar.gz" \
+    | sudo tar -xz -C /usr/local/bin/
+
+echo "==> Installing just..."
+curl -fsSL https://just.systems/install.sh | sudo bash -s -- --to /usr/local/bin
+
+echo "==> Installing commitlint dependencies..."
+npm install --save-dev @commitlint/cli @commitlint/config-conventional --silent
+
+echo "==> Installing Bitwarden CLI (latest)..."
+npm install -g @bitwarden/cli --silent
+
+echo "==> Configuring Bitwarden CLI..."
+if [ -n "${BW_SERVER_URL:-}" ]; then
+    CURRENT_URL=$(bw config server 2>/dev/null || true)
+    if [ "$CURRENT_URL" != "$BW_SERVER_URL" ]; then
+        bw logout 2>/dev/null || true
+        bw config server "$BW_SERVER_URL"
+        echo "    Server set: $BW_SERVER_URL"
+    else
+        echo "    Server already configured: $BW_SERVER_URL"
+    fi
+else
+    echo "    No BW_SERVER_URL set — using Bitwarden cloud"
+fi
+
+BW_HOST_DIRS=(
+    "/home/${USER:-vscode}/snap/bw/current/Bitwarden CLI"
+    "/root/snap/bw/current/Bitwarden CLI"
+)
+BW_TARGET="$HOME/.config/Bitwarden CLI"
+if [ ! -d "$BW_TARGET/data" ]; then
+    for dir in "${BW_HOST_DIRS[@]}"; do
+        if [ -d "$dir/data" ]; then
+            echo "    Found host BW config at $dir — linking..."
+            rm -rf "$BW_TARGET"
+            ln -s "$dir" "$BW_TARGET"
+            break
+        fi
+    done
+fi
+
+echo "==> Installing age..."
+curl -fsSL "https://dl.filippo.io/age/latest?for=linux/amd64" -o /tmp/age.tar.gz
+sudo tar -xzf /tmp/age.tar.gz -C /usr/local/bin/ --strip-components=1 age/age age/age-keygen
+rm /tmp/age.tar.gz
+
+echo "==> Installing SOPS..."
+SOPS_VERSION="v3.9.4"
+curl -fsSL "https://github.com/getsops/sops/releases/download/${SOPS_VERSION}/sops-${SOPS_VERSION}.linux.amd64" -o /tmp/sops
+sudo install -m 0755 /tmp/sops /usr/local/bin/sops
+rm /tmp/sops
+
+echo "==> Generating Ansible SSH key (if not present)..."
+if [ ! -f "$HOME/.ssh/id_ansible" ]; then
+    ssh-keygen -t ed25519 -f "$HOME/.ssh/id_ansible" -N "" -C "ansible-controller"
+    echo "    New key generated. Public key:"
+    echo ""
+    echo "    $(cat "$HOME/.ssh/id_ansible.pub")"
+    echo ""
+else
+    echo "    Key already exists (persistent volume)"
+fi
+
+echo "==> Restoring SOPS age keys from Bitwarden (if not present)..."
+ANSIBLE_AGE_KEY_FILE="$HOME/.config/sops/ansible/age/keys.txt"
+KOMODO_AGE_KEY_FILE="$HOME/.config/sops/komodo/age/keys.txt"
+restore_age_key() {
+    local key_file="$1" bw_item_name="$2"
+    if [ -f "$key_file" ]; then
+        echo "    $bw_item_name: age key already exists"
+        return
+    fi
+    if [ -n "${BW_SESSION:-}" ]; then
+        local age_key
+        age_key=$(bw get item "$bw_item_name" 2>/dev/null | jq -r '.notes // empty' 2>/dev/null || true)
+        if [ -n "$age_key" ]; then
+            mkdir -p "$(dirname "$key_file")"
+            printf '%s' "$age_key" > "$key_file"
+            chmod 600 "$key_file"
+            echo "    $bw_item_name: restored from Bitwarden"
+        else
+            echo "    $bw_item_name: not found in Bitwarden — run 'just init' to create one"
+        fi
+    else
+        echo "    $bw_item_name: no BW_SESSION — set it to auto-restore, or run 'just init'"
+    fi
+}
+restore_age_key "$ANSIBLE_AGE_KEY_FILE" "Homelab SOPS Age Key"
+restore_age_key "$KOMODO_AGE_KEY_FILE" "Homelab Komodo SOPS Age Key"
+
+# --------------------------------------------------------------------------
+# Layer 3: DevContainer shell customizations
+# --------------------------------------------------------------------------
+echo "==> Configuring system-wide tmux autostart..."
+TMUX_AUTOSTART_MARKER="# homelab-infra: tmux autostart"
+TMUX_AUTOSTART_SNIPPET="
+${TMUX_AUTOSTART_MARKER}
+if [ -z \"\${NO_AUTOSTART:-}\" ] && [ -z \"\${TMUX:-}\" ] && [ -n \"\${PS1:-}\" ] && command -v tmux >/dev/null 2>&1; then
+    exec tmux new-session -A -s main
+fi
+"
+for rc in /etc/bash.bashrc /etc/zsh/zshrc /etc/profile /etc/zsh/zprofile; do
+    sudo mkdir -p "$(dirname "$rc")"
+    sudo touch "$rc"
+    if ! sudo grep -q "$TMUX_AUTOSTART_MARKER" "$rc"; then
+        printf '%s\n' "$TMUX_AUTOSTART_SNIPPET" | sudo tee -a "$rc" > /dev/null
+        echo "    Added to $rc"
+    else
+        echo "    Already present in $rc"
+    fi
+done
+
+echo "==> Configuring host-aware 'just' completions (deploy/bootstrap/vars/secrets/trust/rename)..."
+JUST_COMPLETION_MARKER="# homelab-infra: just completions"
+REPO_ROOT="$(pwd)"
+JUST_COMPLETION_SNIPPET="
+${JUST_COMPLETION_MARKER}
+if command -v just >/dev/null 2>&1; then
+    eval \"\$(just --completions zsh)\"
+    [ -f \"${REPO_ROOT}/.devcontainer/completions/just.zsh\" ] && source \"${REPO_ROOT}/.devcontainer/completions/just.zsh\"
+fi
+"
+sudo mkdir -p /etc/zsh
+sudo touch /etc/zsh/zshrc
+if ! sudo grep -q "$JUST_COMPLETION_MARKER" /etc/zsh/zshrc; then
+    printf '%s\n' "$JUST_COMPLETION_SNIPPET" | sudo tee -a /etc/zsh/zshrc > /dev/null
+    echo "    Added to /etc/zsh/zshrc"
+else
+    echo "    Already present in /etc/zsh/zshrc"
+fi
+
+echo "==> Setting up devcontainer-specific shell aliases..."
+ALIAS_DIR="$HOME/.bash_aliases.d"
+mkdir -p "$ALIAS_DIR"
+DEVCONTAINER_ALIASES="$ALIAS_DIR/00-devcontainer.sh"
+if ! grep -q 'unlock()' "$DEVCONTAINER_ALIASES" 2>/dev/null; then
+    cat > "$DEVCONTAINER_ALIASES" <<'ALIASES'
+# Bitwarden unlock — sets BW_SESSION for the current shell
+unlock() {
+    export BW_SESSION=$(bw unlock --raw)
+    echo "Bitwarden unlocked."
+}
+ALIASES
+    echo "    Added 'unlock' alias"
+else
+    echo "    Aliases already present"
+fi
+
+# --------------------------------------------------------------------------
+# Verify
+# --------------------------------------------------------------------------
+echo "==> Verifying installations..."
+ansible --version | head -1
+yamllint --version
+dotenv-linter --version
+docker compose version
+just --version
+pwsh --version | head -1
+bw --version
+age --version
+sops --version
+tmux -V
+zsh --version
+fzf --version
+starship --version | head -1
+chezmoi --version | head -1
+echo "    SSH key:      $([ -f "$HOME/.ssh/id_ansible" ] && echo 'present' || echo 'missing')"
+echo "    Ansible key:  $([ -f "$ANSIBLE_AGE_KEY_FILE" ] && echo 'present' || echo 'missing')"
+echo "    Komodo key:   $([ -f "$KOMODO_AGE_KEY_FILE" ] && echo 'present' || echo 'missing')"
+
+echo "==> Done."

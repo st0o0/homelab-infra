@@ -1,0 +1,7 @@
+prometheus.scrape "alloy" {
+  targets = [{
+    __address__ = "localhost:12345",
+  }]
+  forward_to      = [prometheus.remote_write.central.receiver]
+  scrape_interval = "60s"
+}

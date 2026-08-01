@@ -1,0 +1,25 @@
+local.file_match "system" {
+  path_targets = [
+    {__path__ = "/var/log/host/syslog", job = "syslog"},
+    {__path__ = "/var/log/host/auth.log", job = "auth"},
+    {__path__ = "/var/log/host/kern.log", job = "kernel"},
+  ]
+}
+
+loki.source.file "system" {
+  targets    = local.file_match.system.targets
+  forward_to = [loki.process.system.receiver]
+}
+
+loki.process "system" {
+  stage.regex {
+    expression = "^(?P<timestamp>\\w{3}\\s+\\d{1,2}\\s+\\d{2}:\\d{2}:\\d{2})"
+  }
+
+  stage.timestamp {
+    source = "timestamp"
+    format = "Jan  2 15:04:05"
+  }
+
+  forward_to = [loki.write.central.receiver]
+}

@@ -1,0 +1,137 @@
+- name: Stop and disable Docker service when disabled
+  ansible.builtin.service:
+    name: docker
+    enabled: false
+    state: stopped
+  failed_when: false
+  when: not docker_enabled
+
+- name: Stop and disable containerd service when disabled
+  ansible.builtin.service:
+    name: containerd
+    enabled: false
+    state: stopped
+  failed_when: false
+  when: not docker_enabled
+
+- name: Remove Docker packages when disabled
+  ansible.builtin.apt:
+    name: "{{ docker_packages }}"
+    state: absent
+    purge: true
+  when: not docker_enabled
+
+- name: Remove Docker APT repository when disabled
+  ansible.builtin.apt_repository:
+    repo: >-
+      deb [arch={{ _docker_dpkg_arch | default('amd64') }}
+      signed-by={{ docker_apt_key_dest }}]
+      https://download.docker.com/linux/{{ ansible_distribution | lower }}
+      {{ ansible_distribution_release }} stable
+    filename: docker
+    state: absent
+  when: not docker_enabled
+
+- name: Remove Docker GPG key when disabled
+  ansible.builtin.file:
+    path: "{{ docker_apt_key_dest }}"
+    state: absent
+  when: not docker_enabled
+
+- name: Skip if docker disabled
+  ansible.builtin.meta: end_role
+  when: not docker_enabled
+
+- name: Set dpkg architecture fact
+  ansible.builtin.set_fact:
+    _docker_dpkg_arch: >-
+      {{ 'arm64' if ansible_architecture == 'aarch64'
+         else 'amd64' if ansible_architecture == 'x86_64'
+         else ansible_architecture }}
+
+- name: Create keyrings directory
+  ansible.builtin.file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: "0755"
+
+- name: Check if Docker GPG key exists
+  ansible.builtin.stat:
+    path: "{{ docker_apt_key_dest }}"
+  register: _docker_gpg_key
+
+- name: Add Docker GPG key
+  ansible.builtin.get_url:
+    url: "{{ docker_apt_key_url }}"
+    dest: "{{ docker_apt_key_dest }}"
+    mode: "0644"
+  when: not _docker_gpg_key.stat.exists
+
+- name: Add Docker APT repository
+  ansible.builtin.apt_repository:
+    repo: >-
+      deb [arch={{ _docker_dpkg_arch }} signed-by={{ docker_apt_key_dest }}]
+      https://download.docker.com/linux/{{ ansible_distribution | lower }}
+      {{ ansible_distribution_release }} stable
+    filename: docker
+    state: present
+  register: _docker_repo
+
+- name: Update apt cache after repo change
+  ansible.builtin.apt:
+    update_cache: true
+  when: _docker_repo.changed
+
+- name: Remove old Docker packages from distro repos
+  ansible.builtin.apt:
+    name:
+      - docker.io
+      - docker-compose-v2
+      - docker-doc
+      - podman-docker
+      - containerd
+      - runc
+    state: absent
+
+- name: Install Docker Engine
+  ansible.builtin.apt:
+    name: "{{ docker_packages }}"
+    state: present
+  ignore_errors: "{{ ansible_check_mode }}"
+
+- name: Enable and start containerd service
+  ansible.builtin.service:
+    name: containerd
+    enabled: true
+    state: started
+
+- name: Enable and start Docker service
+  ansible.builtin.service:
+    name: docker
+    enabled: true
+    state: started
+
+- name: Add user to docker group
+  ansible.builtin.user:
+    name: "{{ docker_user }}"
+    groups: docker
+    append: true
+  register: _docker_group
+
+- name: Reset SSH connection so new group membership takes effect # noqa: no-handler
+  ansible.builtin.meta: reset_connection
+  when: _docker_group.changed
+
+- name: Wait for Docker socket to be ready
+  ansible.builtin.wait_for:
+    path: /var/run/docker.sock
+    state: present
+    timeout: 30
+
+- name: Verify Docker is responding
+  ansible.builtin.command:
+    cmd: docker ps
+  become: true
+  become_user: "{{ docker_user }}"
+  changed_when: false
+  check_mode: false

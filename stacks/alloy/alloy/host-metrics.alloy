@@ -1,0 +1,15 @@
+prometheus.exporter.unix "host" {
+  procfs_path = "/host/proc"
+  sysfs_path  = "/host/sys"
+  rootfs_path = "/rootfs"
+
+  filesystem {
+    mount_points_exclude = "^/(dev|proc|sys|run|var/lib/docker/.+)($|/)"
+  }
+}
+
+prometheus.scrape "host" {
+  targets         = prometheus.exporter.unix.host.targets
+  forward_to      = [prometheus.remote_write.central.receiver]
+  scrape_interval = coalesce(env("SCRAPE_INTERVAL"), "30s")
+}

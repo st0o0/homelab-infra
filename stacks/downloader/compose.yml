@@ -1,0 +1,73 @@
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: 10m
+    max-file: "3"
+
+services:
+  gluetun:
+    image: ghcr.io/qdm12/gluetun:v3.41.1
+    container_name: gluetun
+    restart: unless-stopped
+    logging: *default-logging
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    ports:
+      - "${GLUETUN_PORT:-8079}:8000"
+      - "${SABNZBD_PORT:-8080}:8080"
+    environment:
+      - VPN_SERVICE_PROVIDER=${VPN_SERVICE_PROVIDER:-airvpn}
+      - VPN_TYPE=${VPN_TYPE:-wireguard}
+      - WIREGUARD_MTU=${WIREGUARD_MTU:-1380}
+      - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY:?WIREGUARD_PRIVATE_KEY is required}
+      - WIREGUARD_PRESHARED_KEY=${WIREGUARD_PRESHARED_KEY:-}
+      - WIREGUARD_ADDRESSES=${WIREGUARD_ADDRESSES:?WIREGUARD_ADDRESSES is required}
+      - SERVER_CITIES=${SERVER_CITIES:-Alblasserdam}
+      - DOT_PROVIDERS=${DOT_PROVIDERS:-quad9}
+      - TZ=${TZ:-Europe/Berlin}
+    volumes:
+      - ./gluetun/config:/gluetun
+    networks:
+      media:
+        aliases:
+          - sabnzbd
+
+  sabnzbd:
+    image: lscr.io/linuxserver/sabnzbd:5.0.4-ls263
+    container_name: sabnzbd
+    restart: unless-stopped
+    logging: *default-logging
+    cap_add:
+      - SYS_ADMIN
+    environment:
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+      - TZ=${TZ:-Europe/Berlin}
+    volumes:
+      - ./sabnzbd/config:/config
+      - sabnzbd_smb:/data/complete
+      - ${SABNZBD_SSD_PATH:-./sabnzbd/ssd}:/data/ssd
+    network_mode: service:gluetun
+    depends_on:
+      gluetun:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          memory: 1.5G
+          cpus: "1"
+
+networks:
+  media:
+    name: media-net
+    external: true
+
+volumes:
+  sabnzbd_smb:
+    driver: local
+    driver_opts:
+      type: cifs
+      device: "//${CIFS_DOWNLOADS_HOST:?CIFS_DOWNLOADS_HOST is required}/${CIFS_DOWNLOADS_SHARE:?CIFS_DOWNLOADS_SHARE is required}"
+      o: "username=${CIFS_DOWNLOADS_USER:?CIFS_DOWNLOADS_USER is required},password=${CIFS_DOWNLOADS_PASSWORD:?CIFS_DOWNLOADS_PASSWORD is required},vers=3.0,uid=${PUID:-1000},gid=${PGID:-1000}"

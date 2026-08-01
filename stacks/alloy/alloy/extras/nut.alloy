@@ -1,0 +1,8 @@
+prometheus.scrape "nut" {
+  targets = [{
+    __address__ = coalesce(env("NUT_EXPORTER_TARGET"), "nut-exporter:9199"),
+  }]
+  forward_to      = [prometheus.remote_write.central.receiver]
+  scrape_interval = coalesce(env("SCRAPE_INTERVAL"), "30s")
+  metrics_path    = "/nut"
+}

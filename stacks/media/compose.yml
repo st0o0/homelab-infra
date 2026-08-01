@@ -1,0 +1,64 @@
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: 10m
+    max-file: "3"
+
+services:
+  jellyfin:
+    image: jellyfin/jellyfin:10.11.1
+    container_name: jellyfin
+    restart: always
+    logging: *default-logging
+    devices:
+      - /dev/dri:/dev/dri
+    ports:
+      - "${JELLYFIN_PORT:-8096}:8096"
+    environment:
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+      - TZ=${TZ:-Europe/Berlin}
+    volumes:
+      - ${JELLYFIN_CONFIG_PATH:-./data/jellyfin/config}:/config
+      - ${JELLYFIN_CACHE_PATH:-./data/jellyfin/cache}:/cache
+      - ${JELLYFIN_PREVIEW_PATH:-./data/jellyfin/preview}:/preview
+      - media_smb:/data/media
+      - ${JELLYFIN_VIDEO_PATH:-./data/jellyfin/video}:/video
+    networks:
+      - media
+
+  audiobookshelf:
+    image: ghcr.io/advplyr/audiobookshelf:v2.36.0
+    container_name: audiobookshelf
+    restart: always
+    logging: *default-logging
+    environment:
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+      - TZ=${TZ:-Europe/Berlin}
+    ports:
+      - "${AUDIOBOOKSHELF_PORT:-13378}:80"
+    volumes:
+      - ${AUDIOBOOKSHELF_CONFIG_PATH:-./data/audiobookshelf/config}:/config
+      - ${AUDIOBOOKSHELF_METADATA_PATH:-./data/audiobookshelf/metadata}:/metadata
+      - audios_smb:/data/audios
+    networks:
+      - media
+
+networks:
+  media:
+    name: media-net
+
+volumes:
+  media_smb:
+    driver: local
+    driver_opts:
+      type: cifs
+      device: "//${CIFS_MEDIA_HOST:?CIFS_MEDIA_HOST is required}/${CIFS_MEDIA_SHARE:?CIFS_MEDIA_SHARE is required}"
+      o: "username=${CIFS_MEDIA_USER:?CIFS_MEDIA_USER is required},password=${CIFS_MEDIA_PASSWORD:?CIFS_MEDIA_PASSWORD is required},vers=3.0,uid=${PUID:-1000},gid=${PGID:-1000}"
+  audios_smb:
+    driver: local
+    driver_opts:
+      type: cifs
+      device: "//${CIFS_AUDIOS_HOST:?CIFS_AUDIOS_HOST is required}/${CIFS_AUDIOS_SHARE:?CIFS_AUDIOS_SHARE is required}"
+      o: "username=${CIFS_AUDIOS_USER:?CIFS_AUDIOS_USER is required},password=${CIFS_AUDIOS_PASSWORD:?CIFS_AUDIOS_PASSWORD is required},vers=3.0,uid=${PUID:-1000},gid=${PGID:-1000}"

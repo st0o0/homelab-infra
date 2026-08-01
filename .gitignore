@@ -1,0 +1,21 @@
+# Build output
+templates.json
+docs/public/templates.json
+docs/.vitepress/cache/
+docs/.vitepress/dist/
+
+.vscode/
+Thumbs.db
+.claude/
+node_modules/
+reports/
+
+# Secrets — only encrypted .sops.yaml/.sops.yml files are committed
+komodo/secrets.yaml
+*.secrets.toml
+*.agekey
+.sops-age-key
+.vault-password
+
+.devcontainer/linux/devcontainer-lock.json
+.devcontainer/windows/devcontainer-lock.json

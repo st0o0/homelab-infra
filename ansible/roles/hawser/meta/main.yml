@@ -1,0 +1,7 @@
+galaxy_info:
+  description: "Dockhand edge agent, optional Bifrost network"
+
+dependencies:
+  - role: docker
+  - role: bifrost
+    when: hawser_bifrost

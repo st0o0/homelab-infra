@@ -1,0 +1,14 @@
+local.file_match "security" {
+  path_targets = [
+    {__path__ = "/var/log/host/fail2ban.log", job = "fail2ban"},
+    {__path__ = "/var/log/host/audit/audit.log", job = "auditd"},
+    {__path__ = "/var/log/host/rkhunter-cron.log", job = "rkhunter"},
+    {__path__ = "/var/log/host/clamav/scan.log", job = "clamav"},
+    {__path__ = "/var/log/host/lynis.log", job = "lynis"},
+  ]
+}
+
+loki.source.file "security" {
+  targets    = local.file_match.security.targets
+  forward_to = [loki.process.system.receiver]
+}

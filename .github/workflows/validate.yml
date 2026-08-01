@@ -1,0 +1,19 @@
+name: Validate Stacks
+
+on:
+  push:
+    branches: [main]
+    paths: ["stacks/**", "komodo/**"]
+  pull_request:
+    paths: ["stacks/**", "komodo/**"]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: extractions/setup-just@v2
+
+      - name: Validate compose files
+        run: just lint-compose

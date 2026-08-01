@@ -1,0 +1,159 @@
+# Renders {{ komodo_deploy_path }}/core.secrets.toml on the target host from
+# the komodo/ subtree's SOPS secrets in this same checkout. All lookup/read/
+# decrypt work happens on the controller (delegate_to: localhost) — the
+# target host never sees the AGE private key.
+#
+# Requires on the controller: bw (Bitwarden CLI, logged in, BW_SESSION
+# exported), sops, jq.
+
+- name: Assert BW_SESSION is set
+  ansible.builtin.assert:
+    that: (lookup('ansible.builtin.env', 'BW_SESSION') | length) > 0
+    fail_msg: >-
+      BW_SESSION is not set. Run `export BW_SESSION=$(bw unlock --raw)`
+      before this play so the controller can restore the AGE key.
+  delegate_to: localhost
+  become: false
+  run_once: true
+
+- name: Create temp directory for secrets processing
+  ansible.builtin.tempfile:
+    state: directory
+    suffix: komodo-secrets
+  register: _komodo_secrets_tmp
+  check_mode: false
+  delegate_to: localhost
+  become: false
+  run_once: true
+
+- block:
+    - name: List Bitwarden items matching the AGE key note name
+      ansible.builtin.command:
+        cmd: bw list items --search "{{ komodo_secrets_bw_item_name }}"
+      register: _komodo_secrets_bw_list
+      changed_when: false
+      check_mode: false
+      no_log: true
+      delegate_to: localhost
+      become: false
+      run_once: true
+
+    - name: Assert the AGE key item exists in Bitwarden
+      ansible.builtin.assert:
+        that: >-
+          (_komodo_secrets_bw_list.stdout | from_json
+            | selectattr('name', 'equalto', komodo_secrets_bw_item_name)
+            | list | length) > 0
+        fail_msg: >-
+          No Bitwarden item named '{{ komodo_secrets_bw_item_name }}' found.
+          Run 'just catalog-setup' once, with BW_SESSION set, to create it.
+      delegate_to: localhost
+      become: false
+      run_once: true
+
+    - name: Write AGE key to temp file
+      ansible.builtin.copy:
+        content: >-
+          {{
+            (_komodo_secrets_bw_list.stdout | from_json
+              | selectattr('name', 'equalto', komodo_secrets_bw_item_name)
+              | list | sort(attribute='revisionDate') | last).notes
+          }}
+        dest: "{{ _komodo_secrets_tmp.path }}/age.key"
+        mode: "0600"
+      no_log: true
+      check_mode: false
+      delegate_to: localhost
+      become: false
+      run_once: true
+
+    - name: Read local global secrets.sops.yaml
+      ansible.builtin.copy:
+        src: "{{ komodo_secrets_local_path }}/secrets.sops.yaml"
+        dest: "{{ _komodo_secrets_tmp.path }}/secrets.sops.yaml"
+        remote_src: true
+        mode: "0600"
+      check_mode: false
+      delegate_to: localhost
+      become: false
+      run_once: true
+
+    - name: Check for per-host secrets.sops.yaml locally (tolerate missing file)
+      ansible.builtin.stat:
+        path: "{{ komodo_secrets_local_path }}/hosts/{{ item }}/secrets.sops.yaml"
+      loop: "{{ groups['all'] }}"
+      register: _komodo_secrets_host_stat
+      check_mode: false
+      delegate_to: localhost
+      become: false
+      run_once: true
+
+    - name: Copy per-host secrets.sops.yaml files that exist
+      ansible.builtin.copy:
+        src: "{{ item.stat.path }}"
+        dest: "{{ _komodo_secrets_tmp.path }}/host-{{ item.item }}.sops.yaml"
+        remote_src: true
+        mode: "0600"
+      loop: "{{ _komodo_secrets_host_stat.results }}"
+      loop_control:
+        label: "{{ item.item }}"
+      when: item.stat.exists
+      check_mode: false
+      delegate_to: localhost
+      become: false
+      run_once: true
+
+    - name: Decrypt and assemble core.secrets.toml content
+      ansible.builtin.shell: |
+        set -euo pipefail
+        export SOPS_AGE_KEY_FILE="{{ _komodo_secrets_tmp.path }}/age.key"
+        echo "# Managed by Ansible (komodo_secrets role) -- do not edit manually."
+        echo "[secrets]"
+        sops -d --output-type json "{{ _komodo_secrets_tmp.path }}/secrets.sops.yaml" \
+            | jq -r 'to_entries[] | "\(.key) = \"\(.value)\""'
+        for f in "{{ _komodo_secrets_tmp.path }}"/host-*.sops.yaml; do
+            [ -f "$f" ] || continue
+            host="$(basename "$f" .sops.yaml)"
+            host="${host#host-}"
+            sops -d --output-type json "$f" \
+                | jq -r --arg h "$host" 'to_entries[] | "\($h)_\(.key) = \"\(.value)\""'
+        done
+      args:
+        executable: /bin/bash
+      register: _komodo_secrets_toml
+      changed_when: false
+      check_mode: false
+      no_log: true
+      delegate_to: localhost
+      become: false
+      run_once: true
+
+    - name: Push core.secrets.toml to the Komodo Core host
+      ansible.builtin.copy:
+        content: "{{ _komodo_secrets_toml.stdout }}\n"
+        dest: "{{ komodo_deploy_path }}/core.secrets.toml"
+        owner: "{{ docker_user }}"
+        group: "{{ docker_user }}"
+        mode: "0600"
+      become: true
+      no_log: true
+      register: _komodo_secrets_pushed
+
+    - name: Restart komodo if secrets changed
+      community.docker.docker_compose_v2:
+        project_src: "{{ komodo_deploy_path }}"
+        state: restarted
+        remove_orphans: true
+      become: true
+      when: _komodo_secrets_pushed is changed
+      ignore_errors: "{{ ansible_check_mode }}"
+
+  always:
+    - name: Remove temp secrets directory from the controller
+      ansible.builtin.file:
+        path: "{{ _komodo_secrets_tmp.path }}"
+        state: absent
+      check_mode: false
+      delegate_to: localhost
+      become: false
+      run_once: true

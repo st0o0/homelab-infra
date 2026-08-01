@@ -1,0 +1,32 @@
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: 10m
+    max-file: "3"
+
+services:
+  backrest:
+    image: garethgeorge/backrest:v1.7.2
+    container_name: backrest
+    restart: unless-stopped
+    logging: *default-logging
+    environment:
+      - TZ=${TZ:-Europe/Berlin}
+      - BACKREST_DATA=/data
+      - BACKREST_CONFIG=/config/config.json
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
+        reservations:
+          memory: 128M
+    ports:
+      - "127.0.0.1:${BACKREST_PORT:-9898}:9898"
+    volumes:
+      - ./backrest/config:/config
+      - backrest-data:/data
+      - /docker:/docker:ro
+
+volumes:
+  backrest-data:

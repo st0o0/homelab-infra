@@ -1,0 +1,143 @@
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: 10m
+    max-file: "3"
+
+services:
+  homeassistant:
+    image: ghcr.io/home-assistant/home-assistant:2026.7.4
+    container_name: homeassistant
+    restart: always
+    logging: *default-logging
+    privileged: true
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    devices:
+      - ${HA_SERIAL_DEVICE:-/dev/serial1}:/dev/serial1
+    ports:
+      - "${HA_PORT:-8123}:8123"
+    networks:
+      default:
+        mac_address: ${HA_MAC_DEFAULT:-02:42:ac:11:00:02}
+      vlan88:
+        mac_address: ${HA_MAC_VLAN:-02:42:ac:12:00:02}
+        ipv4_address: ${HA_VLAN_IP:-10.44.88.254}
+    environment:
+      - TZ=${TZ:-Europe/Berlin}
+    volumes:
+      - ${HA_CONFIG_PATH:-./data}:/config
+      - /run/dbus:/run/dbus:ro
+    deploy:
+      resources:
+        limits:
+          memory: 1500M
+          cpus: "2"
+
+  mqtt:
+    image: eclipse-mosquitto:2.1.2
+    container_name: mosquitto
+    restart: always
+    logging: *default-logging
+    volumes:
+      - ${MQTT_CONFIG_PATH:-./mosquitto/config}:/mosquitto/config
+      - ${MQTT_DATA_PATH:-./mosquitto/data}:/mosquitto/data
+      - ${MQTT_LOG_PATH:-./mosquitto/log}:/mosquitto/log
+    ports:
+      - "${MQTT_PORT:-8124}:1883"
+
+  zigbee2mqtt:
+    image: ghcr.io/koenkk/zigbee2mqtt:2.12.1
+    container_name: zigbee2mqtt
+    restart: always
+    logging: *default-logging
+    depends_on:
+      - mqtt
+    volumes:
+      - ${Z2M_DATA_PATH:-./zigbee2mqtt/data}:/app/data
+    environment:
+      - TZ=${TZ:-Europe/Berlin}
+    ports:
+      - "${Z2M_PORT:-8125}:8080"
+
+  matterjs-server:
+    image: ghcr.io/matter-js/matterjs-server:1.2.8
+    container_name: matterjs-server
+    restart: unless-stopped
+    logging: *default-logging
+    network_mode: host
+    environment:
+      - LOG_LEVEL=${MATTER_LOG_LEVEL:-info}
+      - BLE_PROXY=${MATTER_BLE_PROXY:-true}
+    volumes:
+      - ${MATTER_DATA_PATH:-./matter/data}:/data
+
+  njord:
+    image: ghcr.io/st0o0/njord:pr-34
+    container_name: njord
+    restart: unless-stopped
+    logging: *default-logging
+    network_mode: host
+    deploy:
+      resources:
+        limits:
+          cpus: "1.5"
+          memory: 1G
+    volumes:
+      - njord-data:/app/data
+    environment:
+      - ASPNETCORE_URLS=http://+:${NJORD_PORT:-9090}
+      - Kestrel__Endpoints__health__Url=http://+:${NJORD_HEALTH_PORT:-9091}
+      - Njord__PollInterval=${NJORD_POLL_INTERVAL:-01:00:00}
+      - Njord__ForecastDays=${NJORD_FORECAST_DAYS:-7}
+      - Njord__Horizons__0=1
+      - Njord__Horizons__1=2
+      - Njord__Horizons__2=3
+      - Njord__Horizons__3=4
+      - Njord__Horizons__4=5
+      - Njord__Horizons__5=6
+      - Njord__Horizons__6=7
+      - Njord__Horizons__7=8
+      - Njord__Horizons__8=9
+      - Njord__Horizons__9=10
+      - Njord__Horizons__10=11
+      - Njord__Horizons__11=12
+      - Njord__Horizons__12=18
+      - Njord__Horizons__13=24
+      - Njord__Horizons__14=36
+      - Njord__Horizons__15=48
+      - Njord__Horizons__16=72
+      - Njord__Horizons__17=96
+      - Njord__Models__0=icon_global
+      - Njord__Models__1=ecmwf_ifs025
+      - Njord__Models__2=icon_eu
+      - Njord__Models__3=arpege_europe
+      - Njord__Models__4=ukmo_seamless
+      - Njord__Models__5=gfs_seamless
+      - Njord__Models__6=dmi_harmonie_arome_europe
+      - Njord__Models__7=knmi_harmonie_arome_europe
+      - Njord__Locations__0__Name=${NJORD_LOCATION_NAME:-vreden}
+      - Njord__Locations__0__Latitude=${NJORD_LOCATION_LAT:-52.0379}
+      - Njord__Locations__0__Longitude=${NJORD_LOCATION_LON:-6.828}
+      - Njord__Locations__0__Models__0=knmi_harmonie_arome_netherlands
+      - Njord__Locations__0__Models__1=icon_d2
+      - Njord__Parameters__Groups__0=Weather
+      - Njord__Enrichment__Consensus__Enabled=true
+      - Njord__Enrichment__Alerts__Enabled=true
+      - Njord__Enrichment__Alerts__PressureDropThreshold=1
+      - Njord__Enrichment__Indices__Enabled=true
+
+volumes:
+  njord-data:
+
+networks:
+  default:
+    driver: bridge
+  vlan88:
+    driver: macvlan
+    driver_opts:
+      parent: ${VLAN_PARENT:-vlan88}
+    ipam:
+      config:
+        - subnet: ${VLAN_SUBNET:-10.44.88.0/24}

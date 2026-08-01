@@ -1,0 +1,36 @@
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: 10m
+    max-file: "3"
+
+services:
+  pihole:
+    image: pihole/pihole:2026.07.2
+    container_name: pihole
+    restart: unless-stopped
+    logging: *default-logging
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - "${PIHOLE_DNS_PORT:-53}:53/tcp"
+      - "${PIHOLE_DNS_PORT:-53}:53/udp"
+      - "${PIHOLE_WEB_PORT:-1000}:80/tcp"
+    environment:
+      - TZ=${TZ:-Europe/Berlin}
+      - FTLCONF_webserver_api_password=${PIHOLE_PASSWORD:?PIHOLE_PASSWORD is required}
+    volumes:
+      - ${PIHOLE_DATA_PATH:-./data/pihole}:/etc/pihole
+      - ${PIHOLE_DNSMASQ_PATH:-./data/dnsmasq.d}:/etc/dnsmasq.d
+
+  nebula-sync:
+    image: ghcr.io/lovelaze/nebula-sync:v0.11.2
+    container_name: nebula-sync
+    restart: unless-stopped
+    logging: *default-logging
+    environment:
+      - PRIMARY=${NEBULA_PRIMARY:-}
+      - REPLICAS=${NEBULA_REPLICAS:-}
+      - FULL_SYNC=${NEBULA_FULL_SYNC:-true}
+      - RUN_GRAVITY=${NEBULA_RUN_GRAVITY:-true}
+      - CRON=${NEBULA_CRON:-0 23 * * *}

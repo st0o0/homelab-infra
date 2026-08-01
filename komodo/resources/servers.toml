@@ -1,0 +1,70 @@
+# Komodo Server resources — one entry per host in the homelab.
+#
+# `address` uses the per-host `host_ip` secret (see komodo/hosts/<host>/secrets.sops.yaml,
+# created via `just secrets <hostname>` — see komodo/README.md). Until that secret is
+# populated for a host, its server resource will fail to resolve; declaring it here is
+# still correct, it just won't be reachable yet.
+#
+# Periphery listens on 8120 by default (see stacks/komodo-periphery, stacks/komodo).
+#
+# FeelsCozyMan's local Periphery auto-registers on first boot using
+# KOMODO_FIRST_SERVER_NAME (stacks/komodo/.env.example) — set that to
+# "FeelsCozyMan" so the auto-registered server matches this declaration
+# instead of the default "local".
+
+[[server]]
+name = "FeelsCozyMan"
+description = "Komodo Core host — runs Core, MongoDB, and its own local Periphery agent"
+[server.config]
+address = "http://localhost:8120"
+enabled = true
+
+[[server]]
+name = "FeelsDataMan"
+[server.config]
+enabled = true
+
+[[server]]
+name = "FeelsNoSponsorMan"
+[server.config]
+enabled = true
+
+[[server]]
+name = "FeelsPrivateMan"
+[server.config]
+enabled = true
+
+[[server]]
+name = "FeelsStrongMan"
+[server.config]
+enabled = true
+
+[[server]]
+name = "FeelsUPSMan"
+[server.config]
+address = "http://[[FeelsUPSMan_host_ip]]:8120"
+# armv7 (Pi 2 B rev 1.2, 32-bit Raspbian) — komodo-periphery has no
+# linux/arm/v7 image, agent disabled in homelab-ansible. Re-enable if/when
+# this host is reinstalled 64-bit.
+enabled = false
+
+[[server]]
+name = "FeelsWatchMan"
+[server.config]
+enabled = true
+
+# Reserve hosts — declared but not currently running any assigned stacks.
+# Left disabled so Komodo doesn't try to poll a Periphery that may not be
+# registered yet; flip `enabled = true` once each host is actually in service.
+
+[[server]]
+name = "FeelsAmazingMan"
+description = "Reserve host — no stacks assigned yet"
+[server.config]
+enabled = false
+
+[[server]]
+name = "FeelsTestingMan"
+description = "Staging/test host — no stacks assigned yet"
+[server.config]
+enabled = false

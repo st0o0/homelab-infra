@@ -1,0 +1,6 @@
+hawser_deploy_path: /docker/hawser
+hawser_hostname: "{{ inventory_hostname }}"
+hawser_tz: Europe/Berlin
+hawser_enabled: true
+hawser_bifrost: false
+hawser_dockhand_heartbeat: 30

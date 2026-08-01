@@ -1,0 +1,227 @@
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: 10m
+    max-file: "3"
+
+x-common: &common
+  restart: unless-stopped
+  logging: *default-logging
+  environment: &common-env
+    PUID: ${PUID:-1000}
+    PGID: ${PGID:-1000}
+    TZ: ${TZ:-Europe/Berlin}
+
+services:
+  sonarr:
+    <<: *common
+    image: linuxserver/sonarr:4.0.16.2944-ls302
+    container_name: arr-sonarr
+    ports:
+      - "${SONARR_PORT:-1089}:8989"
+    volumes:
+      - media_smb:${MEDIA_PATH:-/data/media}
+      - ${SONARR_CONFIG_PATH:-./data/sonarr/config}:/config
+    networks:
+      - arr
+      - media
+
+  radarr:
+    <<: *common
+    image: linuxserver/radarr:6.3.0.10514-ls312
+    container_name: arr-radarr
+    ports:
+      - "${RADARR_PORT:-1078}:7878"
+    volumes:
+      - media_smb:${MEDIA_PATH:-/data/media}
+      - ${RADARR_CONFIG_PATH:-./data/radarr/config}:/config
+    networks:
+      - arr
+      - media
+
+  prowlarr:
+    <<: *common
+    image: linuxserver/prowlarr:2.5.2.5491-ls155
+    container_name: arr-prowlarr
+    ports:
+      - "${PROWLARR_PORT:-1096}:9696"
+    volumes:
+      - ${PROWLARR_CONFIG_PATH:-./data/prowlarr/config}:/config
+    networks:
+      - arr
+      - media
+
+  seerr:
+    image: ghcr.io/seerr-team/seerr:v3.4.0
+    container_name: arr-seerr
+    restart: unless-stopped
+    logging: *default-logging
+    init: true
+    environment:
+      - LOG_LEVEL=${SEERR_LOG_LEVEL:-debug}
+      - TZ=${TZ:-Europe/Berlin}
+      - PORT=5055
+    ports:
+      - "${SEERR_PORT:-1055}:5055"
+    volumes:
+      - ${SEERR_CONFIG_PATH:-./data/seerr/config}:/app/config
+    networks:
+      - arr
+
+  arr-dashboard:
+    <<: *common
+    image: khak1s/arr-dashboard:2.23.0
+    container_name: arr-dashboard
+    ports:
+      - "${DASHBOARD_PORT:-1005}:3000"
+    volumes:
+      - ${DASHBOARD_CONFIG_PATH:-./data/arrdashboard/config}:/config
+    networks:
+      - arr
+
+  recyclarr:
+    <<: *common
+    image: recyclarr/recyclarr:8.7.0
+    container_name: arr-recyclarr
+    ports:
+      - "${RECYCLARR_PORT:-7879}:7879"
+    environment:
+      <<: *common-env
+      SONARR_API_URL: ${SONARR_API_URL:-http://sonarr:8989}
+      RADARR_API_URL: ${RADARR_API_URL:-http://radarr:7878}
+      SONARR_API_KEY: ${SONARR_API_KEY:?SONARR_API_KEY is required}
+      RADARR_API_KEY: ${RADARR_API_KEY:?RADARR_API_KEY is required}
+      BACKUP_PATH: /data/backups
+    volumes:
+      - ${RECYCLARR_CONFIG_PATH:-./data/recyclarr/config}:/config
+      - ${RECYCLARR_BACKUP_PATH:-./data/recyclarr/backups}:/data/backups
+    networks:
+      - arr
+
+  mediathekarr:
+    <<: *common
+    image: pcjones/mediathekarr:beta
+    container_name: arr-mediathekarr
+    environment:
+      <<: *common-env
+      DOWNLOAD_INCOMPLETE_PATH: /data/temp
+      DOWNLOAD_COMPLETE_PATH: /data/complete/
+      CATEGORIES: ${MEDIATHEKARR_CATEGORIES:-series,movies,custom}
+      MEDIATHEKARR_API_BASE_URL: ${MEDIATHEKARR_API_BASE_URL:-https://mediathekarr.pcjones.de/api/v1}
+    volumes:
+      - ${MEDIATHEKARR_CONFIG_PATH:-./data/mediathekarr/config}:/app/config
+      - ${MEDIATHEKARR_TEMP_PATH:-./data/mediathekarr/temp}:/data/temp
+      - mediathek_smb:/data/complete
+    ports:
+      - "${MEDIATHEKARR_PORT:-1007}:5007"
+    networks:
+      - arr
+
+  flaresolverr:
+    image: flaresolverr/flaresolverr:v3.5.0
+    container_name: arr-flaresolverr
+    restart: unless-stopped
+    logging: *default-logging
+    ports:
+      - "${FLARESOLVERR_PORT:-8191}:8191"
+    environment:
+      - LOG_LEVEL=${FLARESOLVERR_LOG_LEVEL:-info}
+      - LOG_HTML=false
+      - CAPTCHA_SOLVER=none
+      - TZ=${TZ:-Europe/Berlin}
+    networks:
+      - arr
+
+  tracearr:
+    image: ghcr.io/connorgallopo/tracearr:v1.5.0
+    container_name: arr-tracearr
+    restart: unless-stopped
+    logging: *default-logging
+    ports:
+      - "${TRACEARR_PORT:-3300}:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - HOST=0.0.0.0
+      - TZ=${TZ:-Europe/Berlin}
+      - DATABASE_URL=postgres://tracearr:${TRACEARR_DB_PASSWORD:-tracearr}@tracearr-db:5432/tracearr
+      - REDIS_URL=redis://tracearr-redis:6379
+      - JWT_SECRET=${TRACEARR_JWT_SECRET:?TRACEARR_JWT_SECRET is required}
+      - COOKIE_SECRET=${TRACEARR_COOKIE_SECRET:?TRACEARR_COOKIE_SECRET is required}
+      - CORS_ORIGIN=${TRACEARR_CORS_ORIGIN:-*}
+      - LOG_LEVEL=${TRACEARR_LOG_LEVEL:-info}
+    depends_on:
+      tracearr-db:
+        condition: service_healthy
+      tracearr-redis:
+        condition: service_healthy
+    networks:
+      - arr
+
+  tracearr-db:
+    image: timescale/timescaledb:2.25.0-pg16
+    container_name: arr-tracearr-db
+    restart: unless-stopped
+    logging: *default-logging
+    shm_size: 512mb
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+    command: >-
+      postgres
+      -c timescaledb.max_tuples_decompressed_per_dml_transaction=0
+      -c max_locks_per_transaction=4096
+      -c timescaledb.telemetry_level=off
+    environment:
+      - POSTGRES_USER=tracearr
+      - POSTGRES_PASSWORD=${TRACEARR_DB_PASSWORD:-tracearr}
+      - POSTGRES_DB=tracearr
+    volumes:
+      - tracearr-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tracearr"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - arr
+
+  tracearr-redis:
+    image: redis:8.8.1-alpine
+    container_name: arr-tracearr-redis
+    restart: unless-stopped
+    logging: *default-logging
+    command: redis-server --appendonly yes
+    volumes:
+      - tracearr-redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - arr
+
+networks:
+  arr:
+    name: arr-net
+  media:
+    name: media-net
+    external: true
+
+volumes:
+  media_smb:
+    driver: local
+    driver_opts:
+      type: cifs
+      device: "//${CIFS_MEDIA_HOST:?CIFS_MEDIA_HOST is required}/${CIFS_MEDIA_SHARE:?CIFS_MEDIA_SHARE is required}"
+      o: "username=${CIFS_MEDIA_USER:?CIFS_MEDIA_USER is required},password=${CIFS_MEDIA_PASSWORD:?CIFS_MEDIA_PASSWORD is required},vers=3.0,uid=${PUID:-1000},gid=${PGID:-1000}"
+  mediathek_smb:
+    driver: local
+    driver_opts:
+      type: cifs
+      device: "//${CIFS_DOWNLOADS_HOST:?CIFS_DOWNLOADS_HOST is required}/${CIFS_DOWNLOADS_SHARE:?CIFS_DOWNLOADS_SHARE is required}"
+      o: "username=${CIFS_DOWNLOADS_USER:?CIFS_DOWNLOADS_USER is required},password=${CIFS_DOWNLOADS_PASSWORD:?CIFS_DOWNLOADS_PASSWORD is required},vers=3.0,uid=${PUID:-1000},gid=${PGID:-1000}"
+  tracearr-data:
+  tracearr-redis:

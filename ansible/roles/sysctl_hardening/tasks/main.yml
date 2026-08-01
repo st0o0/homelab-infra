@@ -1,0 +1,11 @@
+- name: Skip if sysctl hardening disabled
+  ansible.builtin.meta: end_role
+  when: not sysctl_hardening_enabled
+
+- name: Deploy hardened sysctl settings
+  ansible.builtin.template:
+    src: hardening.conf.j2
+    dest: /etc/sysctl.d/99-hardening.conf
+    owner: root
+    mode: "0644"
+  notify: Reload sysctl settings

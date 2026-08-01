@@ -1,0 +1,64 @@
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: 10m
+    max-file: "3"
+
+services:
+  alloy:
+    image: grafana/alloy:v1.17.1
+    container_name: ${ALLOY_CONTAINER_NAME:-alloy}
+    restart: unless-stopped
+    logging: *default-logging
+    command:
+      - run
+      - /etc/alloy/
+      - --storage.path=/var/lib/alloy/data
+      - --server.http.listen-addr=0.0.0.0:12345
+    environment:
+      - HOST_HOSTNAME=${HOST_HOSTNAME:?HOST_HOSTNAME is required}
+      - SCRAPE_INTERVAL=${SCRAPE_INTERVAL:-30s}
+      - REMOTE_WRITE_URL=${REMOTE_WRITE_URL:?REMOTE_WRITE_URL is required}
+      - LOGS_PUSH_URL=${LOGS_PUSH_URL:?LOGS_PUSH_URL is required}
+      - NUT_EXPORTER_TARGET=${NUT_EXPORTER_TARGET:-}
+    volumes:
+      - ./alloy:/etc/alloy:ro
+      - alloy-data:/var/lib/alloy/data
+      - /var/log:/var/log/host:ro
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
+        reservations:
+          memory: 128M
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.51.0
+    container_name: ${CADVISOR_CONTAINER_NAME:-cadvisor}
+    restart: unless-stopped
+    logging: *default-logging
+    network_mode: service:alloy
+    command:
+      - --housekeeping_interval=30s
+      - --docker_only=true
+      - --disable_metrics=advtcp,cpu_topology,cpuset,hugetlb,memory_numa,process,referenced_memory,resctrl,sched,tcp,udp
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker:/var/lib/docker:ro
+    deploy:
+      resources:
+        limits:
+          cpus: "0.10"
+          memory: 128M
+        reservations:
+          memory: 32M
+
+volumes:
+  alloy-data:

@@ -1,0 +1,46 @@
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: 10m
+    max-file: "3"
+
+services:
+  mealie:
+    image: ghcr.io/mealie-recipes/mealie:v3.22.0
+    container_name: mealie
+    restart: always
+    logging: *default-logging
+    ports:
+      - "${MEALIE_PORT:-9925}:9000"
+    deploy:
+      resources:
+        limits:
+          memory: 1000M
+          cpus: "0.25"
+    volumes:
+      - ./data:/app/data/
+    environment:
+      - ALLOW_SIGNUP=${ALLOW_SIGNUP:-false}
+      - ALLOW_PASSWORD_LOGIN=${ALLOW_PASSWORD_LOGIN:-false}
+      - BASE_URL=${BASE_URL:-}
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+      - TZ=${TZ:-Europe/Berlin}
+      # OIDC
+      - OIDC_AUTH_ENABLED=${OIDC_AUTH_ENABLED:-true}
+      - OIDC_PROVIDER_NAME=${OIDC_PROVIDER_NAME:-authentik}
+      - OIDC_CONFIGURATION_URL=${OIDC_CONFIGURATION_URL:-}
+      - OIDC_CLIENT_ID=${OIDC_CLIENT_ID:-}
+      - OIDC_CLIENT_SECRET=${OIDC_CLIENT_SECRET:-}
+      - OIDC_SIGNUP_ENABLED=${OIDC_SIGNUP_ENABLED:-true}
+      - OIDC_USER_GROUP=${OIDC_USER_GROUP:-mealie}
+      - OIDC_ADMIN_GROUP=${OIDC_ADMIN_GROUP:-admin}
+      - OIDC_AUTO_REDIRECT=${OIDC_AUTO_REDIRECT:-false}
+      - OIDC_REMEMBER_ME=${OIDC_REMEMBER_ME:-true}
+      # Database
+      - DB_ENGINE=postgres
+      - POSTGRES_USER=${POSTGRES_USER:-mealie}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+      - POSTGRES_SERVER=${POSTGRES_SERVER:?POSTGRES_SERVER is required}
+      - POSTGRES_PORT=${POSTGRES_PORT:-5432}
+      - POSTGRES_DB=${POSTGRES_DB:-mealie}

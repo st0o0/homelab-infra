@@ -1,0 +1,59 @@
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: 10m
+    max-file: "3"
+
+services:
+  nut-upsd:
+    image: instantlinux/nut-upsd:2.8.2
+    container_name: nut-upsd
+    restart: unless-stopped
+    logging: *default-logging
+    environment:
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+      - TZ=${TZ:-Europe/Berlin}
+      - DRIVER=${NUT_DRIVER:?NUT_DRIVER is required}
+      - NAME=${NUT_NAME:-ups}
+      - PORT=${NUT_PORT:-auto}
+      - POLLINTERVAL=${NUT_POLLINTERVAL:-15}
+      - API_USER=${NUT_API_USER:-upsmon}
+      - API_PASSWORD=${NUT_API_PASSWORD:?NUT_API_PASSWORD is required}
+    deploy:
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: 256M
+        reservations:
+          memory: 128M
+    devices:
+      - /dev/bus/usb:/dev/bus/usb
+    ports:
+      - "${NUT_BIND:-3493}:3493"
+    volumes:
+      - ./nut:/etc/nut
+
+  peanut:
+    image: brandawg93/peanut:v1.1.3
+    container_name: peanut
+    restart: unless-stopped
+    logging: *default-logging
+    environment:
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+      - WEB_PORT=${PEANUT_WEB_PORT:-8080}
+      - TZ=${TZ:-Europe/Berlin}
+    deploy:
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: 256M
+        reservations:
+          memory: 128M
+    ports:
+      - "${PEANUT_PORT:-8080}:${PEANUT_WEB_PORT:-8080}"
+    volumes:
+      - ./peanut:/config
+    depends_on:
+      - nut-upsd

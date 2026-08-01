@@ -1,0 +1,8 @@
+# Path to the komodo/ subtree's secrets, relative to this role's playbook
+# directory (ansible/). Reads the same checkout the playbook is running
+# from — no fetch, no ref/branch concept, no "must be pushed first".
+komodo_secrets_local_path: "{{ playbook_dir }}/../komodo"
+
+# Bitwarden Secure Note that scripts/init-secrets.sh also reads/writes —
+# same AGE key, single source of truth for it too.
+komodo_secrets_bw_item_name: "Homelab Komodo SOPS Age Key"

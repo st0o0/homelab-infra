@@ -1,0 +1,108 @@
+# ── Migrate from old node-stack path ─────────────────────────────────
+- name: Check if legacy node-stack directory exists
+  ansible.builtin.stat:
+    path: /docker/node-stack
+  register: _hawser_legacy_dir
+
+- name: Stop legacy node-stack
+  community.docker.docker_compose_v2:
+    project_src: /docker/node-stack
+    state: absent
+    remove_orphans: true
+  when: _hawser_legacy_dir.stat.exists
+  ignore_errors: "{{ ansible_check_mode }}"
+
+- name: Remove legacy node-stack directory
+  ansible.builtin.file:
+    path: /docker/node-stack
+    state: absent
+  when: _hawser_legacy_dir.stat.exists
+
+# ── Teardown (disabled) ─────────────────────────────────────────────
+- name: Check if deploy directory exists (teardown)
+  ansible.builtin.stat:
+    path: "{{ hawser_deploy_path }}"
+  register: _hawser_dir_teardown
+  when: not hawser_enabled
+
+- name: Stop hawser when disabled
+  community.docker.docker_compose_v2:
+    project_src: "{{ hawser_deploy_path }}"
+    state: absent
+    remove_orphans: true
+  check_mode: false
+  when:
+    - not hawser_enabled
+    - _hawser_dir_teardown.stat.exists
+
+- name: Remove hawser deploy directory when disabled
+  ansible.builtin.file:
+    path: "{{ hawser_deploy_path }}"
+    state: absent
+  when: not hawser_enabled
+
+- name: Skip hawser if disabled
+  ansible.builtin.meta: end_role
+  when: not hawser_enabled
+
+
+# ── Deploy ──────────────────────────────────────────────────────────
+- name: Create deploy directory
+  ansible.builtin.file:
+    path: "{{ hawser_deploy_path }}"
+    state: directory
+    owner: "{{ docker_user }}"
+    group: "{{ docker_user }}"
+    mode: "0755"
+
+- name: Deploy compose file
+  ansible.builtin.copy:
+    src: compose.yml
+    dest: "{{ hawser_deploy_path }}/compose.yml"
+    owner: "{{ docker_user }}"
+    group: "{{ docker_user }}"
+    mode: "0644"
+  notify: Restart hawser
+
+- name: Deploy Bifrost network override
+  ansible.builtin.copy:
+    src: compose.override.bifrost.yml
+    dest: "{{ hawser_deploy_path }}/compose.override.bifrost.yml"
+    owner: "{{ docker_user }}"
+    group: "{{ docker_user }}"
+    mode: "0644"
+  when: hawser_bifrost
+  notify: Restart hawser
+
+- name: Remove Bifrost network override when disabled
+  ansible.builtin.file:
+    path: "{{ hawser_deploy_path }}/compose.override.bifrost.yml"
+    state: absent
+  when: not hawser_bifrost
+  notify: Restart hawser
+
+- name: Deploy environment file
+  ansible.builtin.template:
+    src: env.j2
+    dest: "{{ hawser_deploy_path }}/.env"
+    owner: "{{ docker_user }}"
+    group: "{{ docker_user }}"
+    mode: "0600"
+  notify: Restart hawser
+
+# ── Ensure running ─────────────────────────────────────────────────
+- name: Wait for bifrost container
+  community.docker.docker_container_info:
+    name: bifrost
+  register: _hawser_bifrost_container
+  until: _hawser_bifrost_container.container.State.Running | default(false)
+  retries: 12
+  delay: 5
+  when: hawser_bifrost
+
+- name: Ensure hawser is running
+  community.docker.docker_compose_v2:
+    project_src: "{{ hawser_deploy_path }}"
+    state: present
+    remove_orphans: true
+  ignore_errors: "{{ ansible_check_mode }}"
