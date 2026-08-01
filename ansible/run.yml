@@ -33,16 +33,13 @@
     - role: lynis
       tags: [lynis]
     - role: shell
-      tags: [shell, motd, dotfiles]
+      tags: [shell]
     - role: bifrost
       tags: [bifrost]
     - role: hawser
       tags: [hawser]
     - role: komodo
       tags: [komodo]
-    - role: komodo_secrets
-      tags: [komodo_secrets, never]
-      when: komodo_enabled
     - role: agent
       tags: [agent]
     - role: stack_report

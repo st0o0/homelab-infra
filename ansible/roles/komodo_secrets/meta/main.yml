@@ -1,8 +1,0 @@
-galaxy_info:
-  description: >-
-    Renders Komodo Core's core.secrets.toml from the komodo/ subtree's
-    SOPS-encrypted secrets in this same checkout (single source of truth),
-    decrypting on the controller with an AGE key restored from Bitwarden.
-    Included by the komodo role on first provisioning, and runnable
-    standalone (--tags komodo_secrets) to rotate secrets without a full
-    redeploy.
