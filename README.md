@@ -105,9 +105,62 @@ separate clone or manual `.env` edit.
 
 ### 5. Point Komodo at this repo
 
-In the Komodo UI, add a ResourceSync pointed at `komodo/resources/` in this
-repo. Komodo reads `servers.toml`, `stacks.toml`, and `variables.toml` and
-shows you the resulting sync plan. Review it, then execute.
+**Before syncing**, make sure every secret key referenced in
+`komodo/resources/stacks.toml` actually exists — the file's header comment
+lists them. Check with:
+
+```bash
+just k show-secrets            # shared secrets (komodo/secrets.sops.yaml)
+just k show-secrets <host>     # per-host secrets, for every [[<host>_host_ip]] used
+```
+
+Add anything missing via `just k secrets [TARGET]` before continuing — a
+sync with an unresolved `[[SECRET_NAME]]` fails to apply that resource.
+
+In the Komodo UI:
+
+1. **Resources → Resource Syncs → Create.**
+2. Give it a name (e.g. `homelab-infra`).
+3. **Git Provider**: leave as `github.com` (default). **Git Account**: leave
+   empty — the repo is public, no account needed.
+4. **Repo**: `st0o0/homelab-infra`. **Branch**: `main`.
+5. **Resource Path**: `komodo/resources`. Komodo scans that folder
+   recursively for `.toml` files, so `servers.toml`, `stacks.toml`,
+   `variables.toml`, `repos.toml`, `procedures.toml`, and everything under
+   `hosts/` (except the `.tpl` template, which isn't a `.toml` file) are all
+   picked up from one path.
+6. Save, then click **Refresh** (or **Execute Sync** — it previews first).
+   Komodo computes a diff and shows every pending create/update: 1 Repo, 9
+   Servers, ~16 Stacks, 1 Procedure. Review it — a server showing as
+   unreachable just means its `komodo-periphery` isn't deployed yet (step
+   6 below), that's expected on a first sync.
+7. Confirm to execute. Re-running Refresh after any push to `main` shows
+   only the incremental diff.
+8. Optional: attach a Git webhook so pushes to `main` trigger a sync
+   automatically instead of waiting for the poll interval — either on this
+   Resource Sync directly, or via the `deploy-homelab-infra` Procedure's own
+   webhook (see `komodo/resources/procedures.toml`), configured under
+   **Settings → Git Providers**.
+
+**Verifying secret/variable interpolation:** pick one already-deployed,
+low-risk stack (e.g. `pihole`) and compare its resolved environment against
+the source values:
+
+```bash
+just k show-secrets            # or `just k vars` for non-secret variables
+```
+
+then, on that stack's host:
+
+```bash
+docker exec <container-name> env | grep <VAR_NAME>
+```
+
+The container's actual value should match what `just k show-secrets`/`vars`
+printed. If a container instead shows the literal `[[SECRET_NAME]]` string,
+the key is missing from `secrets.sops.yaml`/`variables.toml` or was added
+after the last sync — re-check step 5's pre-flight list and re-run the
+sync.
 
 ### 6. Deploy `komodo-periphery` to remaining hosts
 

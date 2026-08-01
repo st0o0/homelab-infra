@@ -32,6 +32,9 @@ a single deployment mechanism: Komodo.
 - [x] `stacks/komodo/` — Core + MongoDB + local Periphery agent
 - [x] `stacks/komodo-periphery/` — standalone Periphery agent for remote hosts
 - [x] `.env.example` for both with all configurable values
+- [x] Verified complete — both compose files guard every required var with
+  `:?...is required`, both have a matching `.env.example`, nothing further
+  needed here
 
 ## 2 — Fix CIFS volumes (arr, downloader, media)
 
@@ -110,8 +113,11 @@ The TOML files that tell Komodo which stacks to deploy where, with which env var
 - [x] `komodo/resources/servers.toml` — server inventory for all 9 hosts
 - [x] `komodo/resources/variables.toml` — non-sensitive shared variables
 - [x] `komodo/resources/stacks.toml` — per-host stack assignments with env overrides using `[[SECRET]]` references (`backrest` still unassigned — no confirmed host yet)
-- [ ] Point Komodo ResourceSync at this repo
-- [ ] Verify: secrets interpolate correctly into stack environments
+- [ ] Point Komodo ResourceSync at this repo — step-by-step guide now in
+  [README.md § Quick Start, step 5](README.md#5-point-komodo-at-this-repo);
+  still needs to actually be run against a live Komodo instance
+- [ ] Verify: secrets interpolate correctly into stack environments — see
+  same README section for the verification procedure
 
 ---
 
