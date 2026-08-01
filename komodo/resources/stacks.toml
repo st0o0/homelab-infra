@@ -25,8 +25,7 @@
 # it's optional at the compose layer (each has a relative `./...` fallback
 # default, for standalone `docker compose up` use outside Komodo). Declaring
 # them here — always as a literal `/docker/<stack-name>/...` value — keeps
-# one place where every stack's on-disk data location is visible, per the
-# `stack-data-layout` capability spec.
+# one place where every stack's on-disk data location is visible.
 #
 # `backrest` has no confirmed host yet — left commented out below until one
 # is chosen.

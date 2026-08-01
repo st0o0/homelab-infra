@@ -24,9 +24,8 @@ paths) instead of guessing at them.
    above.
 
 Dockhand and its only dependent (`stacks/hawser/`, which existed solely to
-report to a Dockhand server) have already been removed (see the
-`komodo-gitops-charter` OpenSpec change). This repo now has a single
-deployment mechanism: Komodo.
+report to a Dockhand server) have already been removed. This repo now has
+a single deployment mechanism: Komodo.
 
 ## 1 — Add Komodo stacks
 
@@ -38,7 +37,7 @@ deployment mechanism: Komodo.
 
 The CIFS volume definitions are incomplete — missing `device` and `o` (mount options). They would fail on `docker compose up` as-is.
 
-- [x] Add `device` and `o` driver opts using env vars so Komodo can inject them per host — consolidated to 3 shares (media, downloads, audios) across arr/downloader/media, see the `fix-cifs-and-media-net` OpenSpec change
+- [x] Add `device` and `o` driver opts using env vars so Komodo can inject them per host — consolidated to 3 shares (media, downloads, audios) across arr/downloader/media
 - [ ] Verify volumes work with `docker compose up` from a clean clone — **manual follow-up**: needs the real NAS/Samba server to confirm the `o=` mount option string (vers, uid/gid, charset) and real `CIFS_*` secret values
 
 ## 3 — Resolve external network `media-net` (arr, downloader, media)
