@@ -62,15 +62,9 @@ The current `cp extras/*.alloy alloy/` workflow is a manual step that doesn't wo
 
 Alloy uses "copy `compose.override.*.yaml` → `compose.override.yaml`" for mode selection (e.g. Bifrost routing). Komodo can't do manual file copies, but it supports multiple `file_paths`.
 
-- [ ] Keep override files as-is in the repo
-- [ ] Use Komodo's `file_paths` to select which compose files to apply per host:
-  ```toml
-  # host without bifrost
-  file_paths = ["stacks/alloy/compose.yml"]
-  # host with bifrost
-  file_paths = ["stacks/alloy/compose.yml", "stacks/alloy/compose.override.bifrost.yaml"]
-  ```
-- [ ] Update `.env.example` to document both modes without requiring file copies
+- [x] Keep override files as-is in the repo
+- [x] Use Komodo's `file_paths` to select which compose files to apply per host — `komodo/resources/stacks.toml`'s `alloy` entry documents the pattern inline (`file_paths = ["compose.yml", "compose.override.bifrost.yaml"]`, relative to `run_directory` per this repo's convention); no host needs it yet since the one deployed instance (`FeelsWatchMan`) is the observability host itself
+- [x] Update `.env.example` to document both modes without requiring file copies
 
 ## 6 — Commit missing config directories
 
@@ -123,7 +117,7 @@ The TOML files that tell Komodo which stacks to deploy where, with which env var
 
 ## Stacks ready (no repo changes needed)
 
-immich, immich-postgres, observability, postgres, ups-monitor, vaultwarden, bifrost, mealie, pihole, authentik, backrest, nut-upsd, homeassistant
+immich, immich-postgres, observability, postgres, ups-monitor, vaultwarden, bifrost, mealie, pihole, authentik, backrest, nut-upsd, homeassistant, alloy
 
 ## Stacks needing changes
 
@@ -132,4 +126,3 @@ immich, immich-postgres, observability, postgres, ups-monitor, vaultwarden, bifr
 | arr | Fix CIFS volumes, external network | 2, 3 |
 | downloader | Fix CIFS volume, external network | 2, 3 |
 | media | Fix CIFS volumes, external network | 2, 3 |
-| alloy | Compose override pattern | 5 |

@@ -296,6 +296,10 @@ name = "alloy"
 [stack.config]
 server = "FeelsWatchMan"
 run_directory = "stacks/alloy"
+# FeelsWatchMan is the observability host itself, so no Bifrost hop needed.
+# For a future Alloy instance on a remote host, add the override instead of
+# copying compose.override.bifrost.yaml -> compose.override.yaml:
+#   file_paths = ["compose.yml", "compose.override.bifrost.yaml"]
 file_paths = ["compose.yml"]
 linked_repo = "homelab-infra"
 environment = """
