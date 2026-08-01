@@ -21,37 +21,3 @@ description = "Default container user id"
 name = "PGID"
 value = "1000"
 description = "Default container group id"
-
-# CIFS shares shared across arr/downloader/media — host and share path are
-# not secret; credentials live in komodo/secrets.sops.yaml as
-# CIFS_*_USER / CIFS_*_PASSWORD.
-
-[[variable]]
-name = "CIFS_MEDIA_HOST"
-value = "CONFIGURE_IN_KOMODO"
-description = "CIFS server for the media library share (arr: sonarr/radarr, media: jellyfin)"
-
-[[variable]]
-name = "CIFS_MEDIA_SHARE"
-value = "CONFIGURE_IN_KOMODO"
-description = "CIFS share/export path for the media library"
-
-[[variable]]
-name = "CIFS_DOWNLOADS_HOST"
-value = "CONFIGURE_IN_KOMODO"
-description = "CIFS server for the completed-downloads share (arr: mediathekarr, downloader: sabnzbd)"
-
-[[variable]]
-name = "CIFS_DOWNLOADS_SHARE"
-value = "CONFIGURE_IN_KOMODO"
-description = "CIFS share/export path for completed downloads"
-
-[[variable]]
-name = "CIFS_AUDIOS_HOST"
-value = "CONFIGURE_IN_KOMODO"
-description = "CIFS server for the audiobooks share (media: audiobookshelf)"
-
-[[variable]]
-name = "CIFS_AUDIOS_SHARE"
-value = "CONFIGURE_IN_KOMODO"
-description = "CIFS share/export path for audiobooks"
