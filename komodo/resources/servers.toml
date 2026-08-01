@@ -42,7 +42,6 @@ enabled = true
 [[server]]
 name = "FeelsUPSMan"
 [server.config]
-address = "http://[[FeelsUPSMan_host_ip]]:8120"
 # armv7 (Pi 2 B rev 1.2, 32-bit Raspbian) — komodo-periphery has no
 # linux/arm/v7 image, agent disabled in homelab-ansible. Re-enable if/when
 # this host is reinstalled 64-bit.

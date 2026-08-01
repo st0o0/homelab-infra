@@ -6,10 +6,11 @@
 # a chicken-and-egg risk (a broken Core can't redeploy itself). Both are
 # deployed manually — see README.md Quick Start.
 #
-# All stacks pull compose files from this repo (git-sourced Stack, not
-# "files on host"). `git_account` must match a Git Provider account
-# configured in your Komodo instance's settings — replace the placeholder
-# below with that account's name before syncing.
+# All stacks source their compose files via `linked_repo = "homelab-infra"`
+# — the shared Repo resource declared in komodo/resources/repos.toml —
+# rather than each stack cloning its own copy of this repo. See GUIDE.md
+# §11 for why. No `git_account` needed anywhere here: st0o0/homelab-infra
+# is public, so repos.toml clones it over anonymous HTTPS.
 #
 # `environment` lists only each stack's *required* variables (see each
 # stacks/<service>/.env.example for the full optional list — those keep
@@ -17,6 +18,14 @@
 # use [[SECRET_NAME]], resolved from komodo/secrets.sops.yaml /
 # komodo/hosts/<host>/secrets.sops.yaml (see komodo/README.md). Shared
 # non-secret values use [[VARIABLE_NAME]] from variables.toml.
+#
+# One deliberate exception to "only required": every `*_PATH` variable for a
+# stack's persistent bind-mounted data is always set here too, even though
+# it's optional at the compose layer (each has a relative `./...` fallback
+# default, for standalone `docker compose up` use outside Komodo). Declaring
+# them here — always as a literal `/docker/<stack-name>/...` value — keeps
+# one place where every stack's on-disk data location is visible, per the
+# `stack-data-layout` capability spec.
 #
 # `backrest` has no confirmed host yet — left commented out (see design.md).
 #
@@ -43,10 +52,15 @@ name = "homeassistant"
 server = "FeelsCozyMan"
 run_directory = "stacks/homeassistant"
 file_paths = ["compose.yml"]
-git_account = "CONFIGURE_IN_KOMODO"
-repo = "st0o0/homelab-infra"
+linked_repo = "homelab-infra"
 environment = """
 TZ=[[TZ]]
+HA_CONFIG_PATH=/docker/homeassistant/data
+MQTT_CONFIG_PATH=/docker/homeassistant/mosquitto/config
+MQTT_DATA_PATH=/docker/homeassistant/mosquitto/data
+MQTT_LOG_PATH=/docker/homeassistant/mosquitto/log
+Z2M_DATA_PATH=/docker/homeassistant/zigbee2mqtt/data
+MATTER_DATA_PATH=/docker/homeassistant/matter/data
 """
 
 [[stack]]
@@ -55,10 +69,10 @@ name = "vaultwarden"
 server = "FeelsCozyMan"
 run_directory = "stacks/vaultwarden"
 file_paths = ["compose.yml"]
-git_account = "CONFIGURE_IN_KOMODO"
-repo = "st0o0/homelab-infra"
+linked_repo = "homelab-infra"
 environment = """
 TZ=[[TZ]]
+VAULTWARDEN_DATA_PATH=/docker/vaultwarden/data
 """
 
 # ── FeelsDataMan ──────────────────────────────────────────────────────────
@@ -69,11 +83,11 @@ name = "postgres"
 server = "FeelsDataMan"
 run_directory = "stacks/postgres"
 file_paths = ["compose.yml"]
-git_account = "CONFIGURE_IN_KOMODO"
-repo = "st0o0/homelab-infra"
+linked_repo = "homelab-infra"
 environment = """
 POSTGRES_PASSWORD=[[POSTGRES_PASSWORD]]
 TZ=[[TZ]]
+POSTGRES_DATA_PATH=/docker/postgres/data
 """
 
 [[stack]]
@@ -82,11 +96,11 @@ name = "immich-postgres"
 server = "FeelsDataMan"
 run_directory = "stacks/immich-postgres"
 file_paths = ["compose.yml"]
-git_account = "CONFIGURE_IN_KOMODO"
-repo = "st0o0/homelab-infra"
+linked_repo = "homelab-infra"
 environment = """
 POSTGRES_PASSWORD=[[IMMICH_POSTGRES_PASSWORD]]
 TZ=[[TZ]]
+IMMICH_POSTGRES_DATA_PATH=/docker/immich-postgres/data
 """
 
 # ── FeelsNoSponsorMan ─────────────────────────────────────────────────────
@@ -97,11 +111,12 @@ name = "pihole"
 server = "FeelsNoSponsorMan"
 run_directory = "stacks/pihole"
 file_paths = ["compose.yml"]
-git_account = "CONFIGURE_IN_KOMODO"
-repo = "st0o0/homelab-infra"
+linked_repo = "homelab-infra"
 environment = """
 PIHOLE_PASSWORD=[[PIHOLE_PASSWORD]]
 TZ=[[TZ]]
+PIHOLE_DATA_PATH=/docker/pihole/data
+PIHOLE_DNSMASQ_PATH=/docker/pihole/dnsmasq.d
 """
 
 # ── FeelsPrivateMan ───────────────────────────────────────────────────────
@@ -112,8 +127,7 @@ name = "bifrost"
 server = "FeelsPrivateMan"
 run_directory = "stacks/bifrost"
 file_paths = ["compose.yml"]
-git_account = "CONFIGURE_IN_KOMODO"
-repo = "st0o0/homelab-infra"
+linked_repo = "homelab-infra"
 environment = """
 BIFROST_PRIVATE_KEY=[[BIFROST_PRIVATE_KEY]]
 BIFROST_ADDRESS=[[BIFROST_ADDRESS]]
@@ -131,8 +145,7 @@ after = ["media"]
 server = "FeelsStrongMan"
 run_directory = "stacks/arr"
 file_paths = ["compose.yml"]
-git_account = "CONFIGURE_IN_KOMODO"
-repo = "st0o0/homelab-infra"
+linked_repo = "homelab-infra"
 environment = """
 SONARR_API_KEY=[[ARR_SONARR_API_KEY]]
 RADARR_API_KEY=[[ARR_RADARR_API_KEY]]
@@ -141,6 +154,15 @@ TRACEARR_COOKIE_SECRET=[[ARR_TRACEARR_COOKIE_SECRET]]
 PUID=[[PUID]]
 PGID=[[PGID]]
 TZ=[[TZ]]
+SONARR_CONFIG_PATH=/docker/arr/sonarr/config
+RADARR_CONFIG_PATH=/docker/arr/radarr/config
+PROWLARR_CONFIG_PATH=/docker/arr/prowlarr/config
+SEERR_CONFIG_PATH=/docker/arr/seerr/config
+DASHBOARD_CONFIG_PATH=/docker/arr/arrdashboard/config
+RECYCLARR_CONFIG_PATH=/docker/arr/recyclarr/config
+RECYCLARR_BACKUP_PATH=/docker/arr/recyclarr/backups
+MEDIATHEKARR_CONFIG_PATH=/docker/arr/mediathekarr/config
+MEDIATHEKARR_TEMP_PATH=/docker/arr/mediathekarr/temp
 """
 
 [[stack]]
@@ -149,12 +171,17 @@ name = "media"
 server = "FeelsStrongMan"
 run_directory = "stacks/media"
 file_paths = ["compose.yml"]
-git_account = "CONFIGURE_IN_KOMODO"
-repo = "st0o0/homelab-infra"
+linked_repo = "homelab-infra"
 environment = """
 PUID=[[PUID]]
 PGID=[[PGID]]
 TZ=[[TZ]]
+JELLYFIN_CONFIG_PATH=/docker/media/jellyfin/config
+JELLYFIN_CACHE_PATH=/docker/media/jellyfin/cache
+JELLYFIN_PREVIEW_PATH=/docker/media/jellyfin/preview
+JELLYFIN_VIDEO_PATH=/docker/media/jellyfin/video
+AUDIOBOOKSHELF_CONFIG_PATH=/docker/media/audiobookshelf/config
+AUDIOBOOKSHELF_METADATA_PATH=/docker/media/audiobookshelf/metadata
 """
 
 [[stack]]
@@ -163,11 +190,13 @@ name = "authentik"
 server = "FeelsStrongMan"
 run_directory = "stacks/authentik"
 file_paths = ["compose.yml"]
-git_account = "CONFIGURE_IN_KOMODO"
-repo = "st0o0/homelab-infra"
+linked_repo = "homelab-infra"
 environment = """
 AUTHENTIK_SECRET_KEY=[[AUTHENTIK_SECRET_KEY]]
 PG_PASS=[[AUTHENTIK_PG_PASS]]
+AUTHENTIK_MEDIA_PATH=/docker/authentik/media
+AUTHENTIK_TEMPLATES_PATH=/docker/authentik/custom-templates
+AUTHENTIK_CERTS_PATH=/docker/authentik/certs
 """
 
 [[stack]]
@@ -176,11 +205,11 @@ name = "immich"
 server = "FeelsStrongMan"
 run_directory = "stacks/immich"
 file_paths = ["compose.yml"]
-git_account = "CONFIGURE_IN_KOMODO"
-repo = "st0o0/homelab-infra"
+linked_repo = "homelab-infra"
 environment = """
 DB_PASSWORD=[[IMMICH_POSTGRES_PASSWORD]]
 TZ=[[TZ]]
+UPLOAD_PATH=/docker/immich/upload
 """
 
 [[stack]]
@@ -189,12 +218,12 @@ name = "mealie"
 server = "FeelsStrongMan"
 run_directory = "stacks/mealie"
 file_paths = ["compose.yml"]
-git_account = "CONFIGURE_IN_KOMODO"
-repo = "st0o0/homelab-infra"
+linked_repo = "homelab-infra"
 environment = """
 POSTGRES_PASSWORD=[[MEALIE_POSTGRES_PASSWORD]]
 POSTGRES_SERVER=[[MEALIE_POSTGRES_SERVER]]
 TZ=[[TZ]]
+MEALIE_DATA_PATH=/docker/mealie/data
 """
 
 [[stack]]
@@ -204,14 +233,14 @@ after = ["media"]
 server = "FeelsStrongMan"
 run_directory = "stacks/downloader"
 file_paths = ["compose.yml"]
-git_account = "CONFIGURE_IN_KOMODO"
-repo = "st0o0/homelab-infra"
+linked_repo = "homelab-infra"
 environment = """
 WIREGUARD_PRIVATE_KEY=[[DOWNLOADER_WIREGUARD_PRIVATE_KEY]]
 WIREGUARD_ADDRESSES=[[DOWNLOADER_WIREGUARD_ADDRESSES]]
 PUID=[[PUID]]
 PGID=[[PGID]]
 TZ=[[TZ]]
+SABNZBD_SSD_PATH=/docker/downloader/sabnzbd/ssd
 """
 
 # ── FeelsUPSMan ───────────────────────────────────────────────────────────
@@ -222,12 +251,13 @@ name = "nut-upsd"
 server = "FeelsUPSMan"
 run_directory = "stacks/nut-upsd"
 file_paths = ["compose.yml"]
-git_account = "CONFIGURE_IN_KOMODO"
-repo = "st0o0/homelab-infra"
+linked_repo = "homelab-infra"
 environment = """
 NUT_DRIVER=[[NUT_DRIVER]]
 NUT_API_PASSWORD=[[NUT_API_PASSWORD]]
 TZ=[[TZ]]
+NUT_CONFIG_PATH=/docker/nut-upsd/nut
+PEANUT_CONFIG_PATH=/docker/nut-upsd/peanut
 """
 
 [[stack]]
@@ -236,8 +266,7 @@ name = "ups-monitor"
 server = "FeelsUPSMan"
 run_directory = "stacks/ups-monitor"
 file_paths = ["compose.yml"]
-git_account = "CONFIGURE_IN_KOMODO"
-repo = "st0o0/homelab-infra"
+linked_repo = "homelab-infra"
 environment = """
 HOST_HOSTNAME=[[FeelsUPSMan_host_ip]]
 REMOTE_WRITE_URL=[[OBSERVABILITY_REMOTE_WRITE_URL]]
@@ -253,11 +282,13 @@ name = "observability"
 server = "FeelsWatchMan"
 run_directory = "stacks/observability"
 file_paths = ["compose.yml"]
-git_account = "CONFIGURE_IN_KOMODO"
-repo = "st0o0/homelab-infra"
+linked_repo = "homelab-infra"
 environment = """
 GRAFANA_ADMIN_PASSWORD=[[GRAFANA_ADMIN_PASSWORD]]
 TZ=[[TZ]]
+GRAFANA_DATA_PATH=/docker/observability/grafana
+VM_DATA_PATH=/docker/observability/victoriametrics
+VLOGS_DATA_PATH=/docker/observability/victorialogs
 """
 
 [[stack]]
@@ -266,8 +297,7 @@ name = "alloy"
 server = "FeelsWatchMan"
 run_directory = "stacks/alloy"
 file_paths = ["compose.yml"]
-git_account = "CONFIGURE_IN_KOMODO"
-repo = "st0o0/homelab-infra"
+linked_repo = "homelab-infra"
 environment = """
 HOST_HOSTNAME=[[FeelsWatchMan_host_ip]]
 REMOTE_WRITE_URL=[[OBSERVABILITY_REMOTE_WRITE_URL]]
@@ -283,8 +313,7 @@ TZ=[[TZ]]
 # server = "CHOOSE_A_HOST"
 # run_directory = "stacks/backrest"
 # file_paths = ["compose.yml"]
-# git_account = "CONFIGURE_IN_KOMODO"
-# repo = "st0o0/homelab-infra"
+# linked_repo = "homelab-infra"
 # environment = """
 # TZ=[[TZ]]
 # """

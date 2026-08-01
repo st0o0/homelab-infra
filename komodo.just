@@ -65,6 +65,25 @@ show-secrets TARGET="all":
         sops -d --config komodo/.sops.yaml "komodo/hosts/{{TARGET}}/secrets.sops.yaml"
     fi
 
+# --- Variables management ---
+
+# Edit non-secret variables ('all' for shared, or a hostname for host-specific)
+vars TARGET="all":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    if [ "{{TARGET}}" = "all" ]; then
+        VARS="komodo/resources/variables.toml"
+    else
+        VARS="komodo/resources/hosts/{{TARGET}}/variables.toml"
+        TEMPLATE="komodo/resources/hosts/variables.toml.tpl"
+        if [ ! -f "$VARS" ]; then
+            mkdir -p "$(dirname "$VARS")"
+            cp "$TEMPLATE" "$VARS"
+            echo "Created $VARS"
+        fi
+    fi
+    "${EDITOR:-vi}" "$VARS"
+
 # --- Linting & Validation ---
 
 # Lint all compose files, env files, and YAML

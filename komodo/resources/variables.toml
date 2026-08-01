@@ -2,6 +2,10 @@
 # these encode. Referenced from komodo/resources/stacks.toml as [[VARIABLE_NAME]].
 # Secrets (IPs, credentials, endpoints) live in komodo/secrets.sops.yaml and
 # komodo/hosts/<host>/secrets.sops.yaml instead — see komodo/README.md.
+#
+# For a non-secret value that differs per host, use
+# komodo/resources/hosts/<host>/variables.toml instead (edit via
+# `just k vars <host>`) — referenced as [[<host>_VARIABLE_NAME]].
 
 [[variable]]
 name = "TZ"

@@ -1,0 +1,20 @@
+# Komodo Repo resources — shared git clones that Stacks can attach to via
+# `linked_repo` instead of each Stack cloning st0o0/homelab-infra on its own.
+# See GUIDE.md §11 for the full rationale and mechanics.
+#
+# `server` is deliberately NOT set here: which server(s) actually get a
+# clone of this repo falls out implicitly from which stacks (with which
+# `server`) set `linked_repo = "homelab-infra"` — a repo used across
+# multiple hosts still ends up with one clone per host, just one per host
+# instead of one per stack.
+#
+# st0o0/homelab-infra is a public repo, so no `git_account` is needed —
+# Komodo clones it over anonymous HTTPS like any public GitHub repo. Add
+# `git_account = "..."` here (matching a Git Provider account configured in
+# Komodo's settings) only if this repo ever goes private.
+
+[[repo]]
+name = "homelab-infra"
+[repo.config]
+git_provider = "github.com"
+repo = "st0o0/homelab-infra"
