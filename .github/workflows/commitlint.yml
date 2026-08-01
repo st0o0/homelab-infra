@@ -10,7 +10,6 @@ on:
     paths:
       - "stacks/**"
       - "komodo/**"
-      - "GUIDE.md"
       - "ROADMAP.md"
       - "CONTRIBUTING.md"
       - "CHANGELOG.md"

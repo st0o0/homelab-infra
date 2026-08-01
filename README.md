@@ -37,9 +37,10 @@ komodo/resources/             WHERE and WITH WHAT VALUES — ResourceSync TOML:
 ├── stacks.toml                 which stack runs on which server, with which
 │                                 variables/secrets
 ├── repos.toml                  shared git clone(s) stacks can attach to via
-│                                 `linked_repo` (see GUIDE.md §11)
+│                                 `linked_repo`, one clone per server instead
+│                                 of one per stack
 ├── procedures.toml             deploy automation (pull once, redeploy only
-│                                 changed stacks — see GUIDE.md §11)
+│                                 changed stacks)
 ├── hosts/<hostname>/
 │   └── variables.toml          per-host, non-secret overrides ([[<host>_KEY]])
 └── variables.toml              shared non-secret values (TZ, PUID/PGID, ...)
@@ -97,9 +98,10 @@ stack's `.env.example`). Once running, decrypt secrets into its config:
 just k decrypt           # writes /etc/komodo/core.secrets.toml on the Core host
 ```
 
-Or run the `komodo` ansible role against that host, which handles this
-(including secret provisioning) automatically — see
-[GUIDE.md](GUIDE.md) for the full walkthrough of both options.
+Or run the `komodo` ansible role against that host, which renders
+`compose.yml` and `.env` from Ansible variables and handles secret
+provisioning (`core.secrets.toml`) automatically — no separate clone or
+manual `.env` edit needed for this path.
 
 ### 5. Point Komodo at this repo
 

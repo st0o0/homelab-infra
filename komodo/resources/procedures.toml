@@ -1,7 +1,6 @@
 # Komodo Procedure resources — deploy automation that pulls the shared
 # `homelab-infra` Repo (see repos.toml) once, then redeploys only the
-# stacks whose compose file actually changed. See GUIDE.md §11 for the
-# full rationale and mechanics.
+# stacks whose compose file actually changed.
 #
 # Attach a single Git webhook to `deploy-homelab-infra` (Settings → Git
 # Providers, or this Procedure's own webhook config) instead of one

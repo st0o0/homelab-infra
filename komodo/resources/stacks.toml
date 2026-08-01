@@ -8,9 +8,10 @@
 #
 # All stacks source their compose files via `linked_repo = "homelab-infra"`
 # — the shared Repo resource declared in komodo/resources/repos.toml —
-# rather than each stack cloning its own copy of this repo. See GUIDE.md
-# §11 for why. No `git_account` needed anywhere here: st0o0/homelab-infra
-# is public, so repos.toml clones it over anonymous HTTPS.
+# rather than each stack cloning its own copy of this repo, so every stack
+# on a server shares one clone instead of cloning independently. No
+# `git_account` needed anywhere here: st0o0/homelab-infra is public, so
+# repos.toml clones it over anonymous HTTPS.
 #
 # `environment` lists only each stack's *required* variables (see each
 # stacks/<service>/.env.example for the full optional list — those keep
@@ -27,7 +28,8 @@
 # one place where every stack's on-disk data location is visible, per the
 # `stack-data-layout` capability spec.
 #
-# `backrest` has no confirmed host yet — left commented out (see design.md).
+# `backrest` has no confirmed host yet — left commented out below until one
+# is chosen.
 #
 # New shared secret keys referenced below that don't exist in
 # komodo/secrets.sops.yaml yet — add via `just secrets` before syncing:
@@ -41,8 +43,7 @@
 #   OBSERVABILITY_REMOTE_WRITE_URL, OBSERVABILITY_LOGS_PUSH_URL,
 #   GRAFANA_ADMIN_PASSWORD
 # Per-host `host_ip` secrets (komodo/hosts/<host>/secrets.sops.yaml) are
-# also required for every host referenced as [[<host>_host_ip]] — see
-# tasks.md §1.0.
+# also required for every host referenced as [[<host>_host_ip]].
 
 # ── FeelsCozyMan ──────────────────────────────────────────────────────────
 

@@ -1,6 +1,5 @@
 # Komodo Repo resources — shared git clones that Stacks can attach to via
 # `linked_repo` instead of each Stack cloning st0o0/homelab-infra on its own.
-# See GUIDE.md §11 for the full rationale and mechanics.
 #
 # `server` is deliberately NOT set here: which server(s) actually get a
 # clone of this repo falls out implicitly from which stacks (with which
