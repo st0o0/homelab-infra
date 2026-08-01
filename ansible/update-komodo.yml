@@ -1,4 +1,4 @@
-# Updates the Komodo fleet: Core first, then Agent — never the reverse.
+# Updates the Komodo fleet: Core first, then Agent - never the reverse.
 # Bump komodo_version in group_vars/all/komodo.yml before running.
 ---
 - name: Update Komodo Core
