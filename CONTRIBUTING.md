@@ -75,10 +75,15 @@ CI runs the same check against every `stacks/*/compose.yml` on push/PR
 ### 4. Wire it into ResourceSync
 
 Add a `[[stack]]` entry to `komodo/resources/stacks.toml` assigning the
-new stack to a server declared in `komodo/resources/servers.toml`. Secret
-values go through `[[SECRET_NAME]]`, added via `just k secrets` (see
-[komodo/README.md](komodo/README.md)) — never commit a real secret value
-into `stacks.toml` directly.
+new stack to a server declared in `komodo/resources/servers.toml`. Set
+`linked_repo = "homelab-infra"` (the shared Repo resource in
+`komodo/resources/repos.toml`) rather than the stack's own
+`git_account`/`repo` fields — every existing stack follows this
+convention so they share one clone per server instead of cloning
+independently (see [GUIDE.md](GUIDE.md#11-avoiding-a-full-repo-clone-per-stack-monorepo-deploy-pattern)).
+Secret values go through `[[SECRET_NAME]]`, added via `just k secrets`
+(see [komodo/README.md](komodo/README.md)) — never commit a real secret
+value into `stacks.toml` directly.
 
 ### 5. Commit and push
 

@@ -36,6 +36,12 @@ komodo/resources/             WHERE and WITH WHAT VALUES — ResourceSync TOML:
 ├── servers.toml                every host Komodo manages
 ├── stacks.toml                 which stack runs on which server, with which
 │                                 variables/secrets
+├── repos.toml                  shared git clone(s) stacks can attach to via
+│                                 `linked_repo` (see GUIDE.md §11)
+├── procedures.toml             deploy automation (pull once, redeploy only
+│                                 changed stacks — see GUIDE.md §11)
+├── hosts/<hostname>/
+│   └── variables.toml          per-host, non-secret overrides ([[<host>_KEY]])
 └── variables.toml              shared non-secret values (TZ, PUID/PGID, ...)
 
 komodo/                       Secrets, SOPS-encrypted and committed (Key B):

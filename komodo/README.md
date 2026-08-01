@@ -101,3 +101,24 @@ just k secrets <hostname>
 `just k secrets <hostname>` copies `komodo/hosts/secrets.sops.yaml.tpl` into
 `komodo/hosts/<hostname>/secrets.sops.yaml`, encrypts it, and opens it for
 editing. Values end up available as `[[<hostname>_<key>]]`.
+
+## Non-secret variables, shared or per-host
+
+Non-secret values (`TZ`, `PUID`, hostnames that aren't credentials, ...)
+don't go through `sops` — they live as plain TOML under
+`komodo/resources/`, since that's the only path Komodo's ResourceSync
+watches.
+
+```bash
+just k vars              # edit shared komodo/resources/variables.toml
+just k vars nas-01        # edit/create komodo/resources/hosts/nas-01/variables.toml
+```
+
+Shared variables are available as `[[VARIABLE_NAME]]`. Per-host variables
+follow the same naming convention as per-host secrets: a variable named
+`nas-01_DBHOST` in `komodo/resources/hosts/nas-01/variables.toml` becomes
+available as `[[nas-01_DBHOST]]` — the host prefix is part of the `name`
+field itself, not applied automatically, so name entries accordingly (see
+`komodo/resources/hosts/variables.toml.tpl` for the convention and an
+example). Unlike secrets, no decrypt/restart step is needed — Resource
+Sync picks these up directly.
