@@ -21,3 +21,5 @@ komodo/secrets.yaml
 
 .devcontainer/linux/devcontainer-lock.json
 .devcontainer/windows/devcontainer-lock.json
+SECRETS.md
+VARIABLES.md
