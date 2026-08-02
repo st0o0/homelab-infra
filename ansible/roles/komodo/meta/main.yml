@@ -1,6 +1,7 @@
 galaxy_info:
   author: st0o0
   description: "Komodo Core: management server + bundled MongoDB and local periphery (SOPS/age key setup)"
+  license: MIT
 
 dependencies:
   - role: docker

@@ -1,6 +1,7 @@
 galaxy_info:
   author: st0o0
   description: "Docker Engine install, user setup"
+  license: MIT
 
 dependencies:
   - role: bootstrap

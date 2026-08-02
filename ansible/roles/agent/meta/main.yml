@@ -1,6 +1,7 @@
 galaxy_info:
   author: st0o0
   description: "Komodo Periphery: agent, optional Bifrost network"
+  license: MIT
 
 dependencies:
   - role: docker

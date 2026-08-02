@@ -1,3 +1,4 @@
 galaxy_info:
   author: st0o0
   description: "Rootkit scanning (daily cron)"
+  license: MIT

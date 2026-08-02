@@ -1,3 +1,4 @@
 galaxy_info:
   author: st0o0
   description: "First-run setup: hostname, timezone, base packages (+ ssh)"
+  license: MIT

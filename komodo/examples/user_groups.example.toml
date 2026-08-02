@@ -16,17 +16,11 @@ users = ["admin@example.com", "ops@example.com"]
 # - Execute — read + execute (Deploy, Build, etc.)
 # - Write   — read + execute + configure
 
-# All servers: full access
-[[user_group.all.Server]]
-level = "Write"
-
-# All stacks: full access
-[[user_group.all.Stack]]
-level = "Write"
-
-# All builds: full access
-[[user_group.all.Build]]
-level = "Write"
+# Set blanket permissions for all resources of a given type
+[user_group.all]
+Server = "Write"
+Stack = "Write"
+Build = "Write"
 
 # ── Restricted group ─────────────────────────────────────────────────
 
@@ -35,11 +29,9 @@ name = "developers"
 users = ["dev1@example.com", "dev2@example.com"]
 
 # Developers can only read servers and stacks
-[[user_group.all.Server]]
-level = "Read"
-
-[[user_group.all.Stack]]
-level = "Read"
+[user_group.all]
+Server = "Read"
+Stack = "Read"
 
 # Grant higher level on a specific resource
 # [[user_group.resource.Stack]]

@@ -1,3 +1,4 @@
 galaxy_info:
   author: st0o0
   description: "Audit logging for identity/sudoers/ssh/cron changes"
+  license: MIT

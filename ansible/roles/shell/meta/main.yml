@@ -1,3 +1,4 @@
 galaxy_info:
   author: st0o0
   description: "MOTD, chezmoi dotfiles, shell config"
+  license: MIT

@@ -1,3 +1,4 @@
 galaxy_info:
   author: st0o0
   description: "Kernel network hardening (sysctl)"
+  license: MIT

@@ -1,6 +1,7 @@
 galaxy_info:
   author: st0o0
   description: "WireGuard tunnel + eir service-discovery sidecar"
+  license: MIT
 
 dependencies:
   - role: docker

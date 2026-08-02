@@ -1,3 +1,4 @@
 galaxy_info:
   author: st0o0
   description: "SSH hardening, deploy user, backup keys (via Bitwarden)"
+  license: MIT

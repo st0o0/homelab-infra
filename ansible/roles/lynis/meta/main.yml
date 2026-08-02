@@ -1,3 +1,4 @@
 galaxy_info:
   author: st0o0
   description: "Security audit report (weekly cron)"
+  license: MIT
