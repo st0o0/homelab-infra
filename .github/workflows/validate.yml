@@ -1,9 +1,6 @@
-name: Validate Stacks
+name: Validate Stacks & Komodo
 
 on:
-  push:
-    branches: [main]
-    paths: ["stacks/**", "komodo/**"]
   pull_request:
     paths: ["stacks/**", "komodo/**"]
 
@@ -13,7 +10,51 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - uses: extractions/setup-just@v2
+      - name: Install yamllint
+        run: pip install yamllint
 
-      - name: Validate compose files
-        run: just k lint-compose
+      - name: Lint YAML files
+        run: yamllint stacks/ komodo/
+
+      - name: Install taplo
+        run: |
+          curl -fsSL https://github.com/tamasfe/taplo/releases/latest/download/taplo-full-linux-x86_64.gz \
+            | gunzip > /usr/local/bin/taplo
+          chmod +x /usr/local/bin/taplo
+
+      - name: Check TOML syntax
+        run: taplo check komodo/**/*.toml
+
+      - name: Validate Docker Compose files
+        run: |
+          errors=0
+          for file in $(find stacks -name 'compose*.yml' | sort); do
+            dir="$(dirname "$file")"
+            base="$dir/compose.yml"
+            if [ "$file" = "$base" ]; then
+              args=(-f "$file")
+            else
+              args=(-f "$base" -f "$file")
+            fi
+            if docker compose "${args[@]}" config --no-interpolate -q 2>/dev/null; then
+              echo "  ok  $file"
+            else
+              echo "  FAIL $file"
+              errors=$((errors + 1))
+            fi
+          done
+          if [ "$errors" -gt 0 ]; then
+            echo ""
+            echo "$errors compose file(s) failed validation"
+            exit 1
+          fi
+          echo ""
+          echo "All compose files valid"
+
+      - name: Install dotenv-linter
+        run: |
+          curl -fsSL https://github.com/dotenv-linter/dotenv-linter/releases/latest/download/dotenv-linter-linux-x86_64.tar.gz \
+            | tar xz -C /usr/local/bin
+
+      - name: Lint .env files
+        run: dotenv-linter --recursive --skip UnorderedKey --skip LowercaseKey stacks/

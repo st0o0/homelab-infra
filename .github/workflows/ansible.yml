@@ -1,9 +1,6 @@
 name: Ansible Lint & Syntax Check
 
 on:
-  push:
-    branches: [main]
-    paths: ["ansible/**"]
   pull_request:
     paths: ["ansible/**"]
 
