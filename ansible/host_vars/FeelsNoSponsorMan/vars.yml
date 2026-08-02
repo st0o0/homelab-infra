@@ -60,10 +60,6 @@ unattended_upgrades_enabled: true
 # UPS
 # ups_client_enabled: false
 
-# Hawser (Dockhand agent)
-hawser_enabled: false
-hawser_bifrost: false
-
 # Komodo (not yet migrated — wave 2)
 komodo_enabled: false
 agent_enabled: true

@@ -39,6 +39,7 @@ unattended_upgrades_auto_reboot: false
 
 # Docker
 docker_enabled: true
+docker_release: bookworm
 
 # Cron
 cron_enabled: true
@@ -60,12 +61,6 @@ cron_docker_prune: true
 # UPS
 ups_client_enabled: false
 
-# Hawser (Dockhand agent)
-hawser_enabled: false
-hawser_bifrost: false
-
 # Komodo (not yet migrated — wave 2)
 komodo_enabled: false
-# armv7 (Pi 2 B rev 1.2 on 32-bit Raspbian) — komodo-periphery has no
-# linux/arm/v7 image. Re-enable if/when this host is reinstalled 64-bit.
-agent_enabled: false
+agent_enabled: true
