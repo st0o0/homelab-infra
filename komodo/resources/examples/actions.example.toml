@@ -1,0 +1,53 @@
+# ╔══════════════════════════════════════════════════════════════════════╗
+# ║  Komodo Action — all available options                             ║
+# ║  Source: docs.rs/komodo_client — ActionConfig (13 fields)          ║
+# ╚══════════════════════════════════════════════════════════════════════╝
+#
+# Actions are TypeScript scripts that use a pre-instantiated `komodo`
+# client to make Komodo API calls.
+
+[[action]]
+name = "example-action"
+description = "Example action with all available options"
+tags = ["maintenance", "automation"]
+
+[action.config]
+# ── Execution ────────────────────────────────────────────────────────
+# Run when Komodo Core starts
+run_at_startup = false
+# Reload Deno dependencies (normally false except during development)
+reload_deno_deps = false
+
+# ── Schedule ─────────────────────────────────────────────────────────
+schedule_format = "Cron"
+schedule = "0 0 4 * * *"
+schedule_enabled = false
+schedule_timezone = "Europe/Berlin"
+
+# ── Alerts ───────────────────────────────────────────────────────────
+schedule_alert = true
+failure_alert = true
+
+# ── Webhooks ─────────────────────────────────────────────────────────
+webhook_enabled = false
+# webhook_secret = ""
+
+# ── Arguments ────────────────────────────────────────────────────────
+# Format: "key_value" (like environment), "json", "toml", "yaml"
+arguments_format = "key_value"
+arguments = """
+TARGET_SERVER=example-server
+DRY_RUN=true
+"""
+
+# ── TypeScript script (with pre-instantiated `komodo` client) ────────
+# Supports [[VARIABLE]] and [[SECRET]] interpolation
+file_contents = """
+// Available: `komodo` (API client), `ARGS` (arguments)
+const servers = await komodo.read("ListServers", {});
+console.log("Servers:", servers.length);
+
+for (const server of servers) {
+  console.log(`- ${server.name}: ${server.config.enabled ? "enabled" : "disabled"}`);
+}
+"""

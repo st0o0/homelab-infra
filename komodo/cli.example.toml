@@ -1,0 +1,12 @@
+# Komodo CLI config — fill in values, then encrypt with SOPS:
+#   km edit
+#
+# Decrypt into ~/.config/komodo/ via: km setup
+
+default_profile = "homelab"
+
+[[profile]]
+name = "homelab"
+host = "https://komodo.example.com"
+key = "K-changeme"
+secret = "S-changeme"

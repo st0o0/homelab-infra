@@ -1,0 +1,106 @@
+# ╔══════════════════════════════════════════════════════════════════════╗
+# ║  Komodo Deployment — all available options                         ║
+# ║  Source: docs.rs/komodo_client — DeploymentConfig (23 fields)      ║
+# ╚══════════════════════════════════════════════════════════════════════╝
+#
+# Deployments manage individual Docker containers (not Compose).
+# For multi-container setups → use Stacks instead.
+
+[[deployment]]
+name = "example-deployment"
+description = "Example deployment with all available options"
+tags = ["app", "web"]
+
+[deployment.config]
+# ── Target (set one, not both) ───────────────────────────────────────
+# Server for container mode
+server = "example-server"
+# Swarm for service mode
+# swarm = "example-swarm"
+
+# ── Container name ───────────────────────────────────────────────────
+# Custom container/service name (default: deployment name)
+# custom_name = "my-app-container"
+
+# ── Image ────────────────────────────────────────────────────────────
+# Manually specified image
+[deployment.config.image]
+type = "Image"
+params.image = "nginx:latest"
+
+# OR reference a Komodo Build:
+# [deployment.config.image]
+# type = "Build"
+# params.build = "example-build"
+# params.version = "latest"
+
+# ── Registry ─────────────────────────────────────────────────────────
+# Account for docker login before pull
+# image_registry_account = "my-registry-account"
+
+# ── Quick links ──────────────────────────────────────────────────────
+links = [
+  "https://app.example.com",
+]
+
+# ── Network ──────────────────────────────────────────────────────────
+# Container network (default: "host")
+network = "bridge"
+
+# ── Restart mode ─────────────────────────────────────────────────────
+# "NoRestart", "OnFailure", "Always", "UnlessStopped"
+restart = "UnlessStopped"
+
+# ── Process ──────────────────────────────────────────────────────────
+# Container command / arguments
+command = "nginx -g 'daemon off;'"
+# Termination signal: "SigTerm", "SigHup", "SigInt", "SigQuit", "SigKill"
+termination_signal = "SigTerm"
+# Timeout in seconds before SIGKILL is sent
+termination_timeout = 10
+# Labels for different shutdown signal behaviors
+# term_signal_labels = ""
+
+# ── Replicas (Swarm mode only) ───────────────────────────────────────
+# replicas = 3
+
+# ── Ports ────────────────────────────────────────────────────────────
+# Port mappings (irrelevant when network is "host")
+ports = """
+8080:80
+8443:443
+"""
+
+# ── Volumes ──────────────────────────────────────────────────────────
+volumes = """
+/docker/example-deployment/data:/usr/share/nginx/html:ro
+/docker/example-deployment/config:/etc/nginx/conf.d:ro
+"""
+
+# ── Environment ──────────────────────────────────────────────────────
+environment = """
+NGINX_HOST=example.com
+TZ=[[TZ]]
+"""
+# Skip secret interpolation
+skip_secret_interp = false
+
+# ── Labels ───────────────────────────────────────────────────────────
+labels = """
+traefik.enable=true
+traefik.http.routers.app.rule=Host(`app.example.com`)
+"""
+
+# ── Extra Docker arguments ───────────────────────────────────────────
+extra_args = ["--cpus=2", "--memory=512m"]
+
+# ── Auto-update ──────────────────────────────────────────────────────
+# Periodically poll for image updates
+poll_for_updates = false
+# Automatically redeploy when newer image is found
+auto_update = false
+# When attached to a Build: automatically redeploy after build completes
+redeploy_on_build = false
+
+# ── Alerts ───────────────────────────────────────────────────────────
+send_alerts = true

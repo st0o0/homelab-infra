@@ -1,0 +1,63 @@
+# ╔══════════════════════════════════════════════════════════════════════╗
+# ║  Komodo Repo — all available options                               ║
+# ║  Source: docs.rs/komodo_client — RepoConfig (17 fields)            ║
+# ╚══════════════════════════════════════════════════════════════════════╝
+
+[[repo]]
+name = "example-repo"
+description = "Example repo with all available options"
+tags = ["config", "infra"]
+
+[repo.config]
+# ── Target server ────────────────────────────────────────────────────
+# Server where the repo is cloned
+server = "example-server"
+
+# ── Builder (optional) ───────────────────────────────────────────────
+# Attach a builder for repo builds
+# builder = "local-builder"
+
+# ── Git source ───────────────────────────────────────────────────────
+git_provider = "github.com"
+git_https = true
+# Account for private repos (empty = public repos only)
+git_account = "my-github-account"
+repo = "myorg/my-config-repo"
+branch = "main"
+# Optional fixed commit
+# commit = ""
+
+# ── Path ─────────────────────────────────────────────────────────────
+# Absolute path or relative to Periphery `repo_dir`
+# path = "/opt/repos/my-config"
+
+# ── Quick links ──────────────────────────────────────────────────────
+links = [
+  "https://github.com/myorg/my-config-repo",
+]
+
+# ── Webhooks ─────────────────────────────────────────────────────────
+webhook_enabled = true
+# Alternate webhook secret
+# webhook_secret = ""
+
+# ── Hooks (commands after clone/pull) ────────────────────────────────
+# Command to run after initial clone
+# [repo.config.on_clone]
+# path = "."
+# command = "chmod +x scripts/setup.sh && ./scripts/setup.sh"
+
+# Command to run after every pull
+# [repo.config.on_pull]
+# path = "."
+# command = "./scripts/reload.sh"
+
+# ── Environment (written to .env file) ──────────────────────────────
+# Written to env_file_path (default: .env)
+# environment = """
+# APP_ENV=production
+# SECRET_KEY=[[MY_SECRET]]
+# """
+# env_file_path = ".env"
+# Skip secret interpolation
+skip_secret_interp = false

@@ -1,0 +1,72 @@
+# ╔══════════════════════════════════════════════════════════════════════╗
+# ║  Komodo ResourceSync — all available options                       ║
+# ║  Source: docs.rs/komodo_client — ResourceSyncConfig (19 fields)    ║
+# ╚══════════════════════════════════════════════════════════════════════╝
+#
+# ResourceSync synchronizes TOML resource files from a git repo into
+# Komodo. It can also work in reverse ("managed mode") to push UI
+# changes back to git.
+
+[[resource_sync]]
+name = "example-sync"
+description = "Example resource sync with all available options"
+tags = ["infra"]
+
+[resource_sync.config]
+# ── Git source ───────────────────────────────────────────────────────
+# Komodo Repo resource as source (instead of direct git config)
+# linked_repo = "my-repo"
+# OR direct git configuration:
+git_provider = "github.com"
+git_https = true
+git_account = "my-github-account"
+repo = "myorg/my-infra-repo"
+branch = "main"
+# Optional fixed commit
+# commit = ""
+
+# ── Files on host (instead of git) ──────────────────────────────────
+# Resource files are located directly on the Komodo Core host
+files_on_host = false
+# Manage file contents directly in the UI
+# file_contents = ""
+
+# ── Resource paths ───────────────────────────────────────────────────
+# Paths to TOML files or directories containing resource declarations
+# Supports multiple paths, nested folders, and glob-like organization
+resource_path = [
+  "komodo/resources/servers.toml",
+  "komodo/resources/stacks.toml",
+  "komodo/resources/repos.toml",
+  "komodo/resources/procedures.toml",
+  "komodo/resources/variables.toml",
+]
+
+# ── What to sync ─────────────────────────────────────────────────────
+# Include resources (servers, stacks, builds, etc.) in the sync
+include_resources = true
+# Include variables in the sync
+include_variables = true
+# Include user groups in the sync
+include_user_groups = false
+
+# ── Sync behavior ───────────────────────────────────────────────────
+# Delete resources not declared in the sync files
+# WARNING: this will remove resources from Komodo that are not in your TOML!
+delete = false
+
+# ── Managed mode (bidirectional sync) ────────────────────────────────
+# Enable pushing UI changes back to the git repo
+managed = false
+# In managed mode: only export resources matching ALL of these tags
+match_tags = []
+
+# ── Webhooks ─────────────────────────────────────────────────────────
+# Incoming webhooks trigger sync execution
+webhook_enabled = true
+# Alternate webhook secret (empty = default from config)
+# webhook_secret = ""
+
+# ── Alerts ───────────────────────────────────────────────────────────
+# Send alert when sync enters Pending state (changes detected but not applied)
+pending_alert = true

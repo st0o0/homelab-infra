@@ -1,0 +1,51 @@
+# ╔══════════════════════════════════════════════════════════════════════╗
+# ║  Komodo User Groups — all available options                        ║
+# ║  Source: docs.rs/komodo_client — UserGroupToml                     ║
+# ╚══════════════════════════════════════════════════════════════════════╝
+#
+# User Groups control permissions for Komodo users.
+# Users are assigned by their Komodo username.
+
+[[user_group]]
+name = "admins"
+users = ["admin@example.com", "ops@example.com"]
+
+# Permissions per resource type and level:
+# - None    — no access
+# - Read    — read only
+# - Execute — read + execute (Deploy, Build, etc.)
+# - Write   — read + execute + configure
+
+# All servers: full access
+[[user_group.all.Server]]
+level = "Write"
+
+# All stacks: full access
+[[user_group.all.Stack]]
+level = "Write"
+
+# All builds: full access
+[[user_group.all.Build]]
+level = "Write"
+
+# ── Restricted group ─────────────────────────────────────────────────
+
+[[user_group]]
+name = "developers"
+users = ["dev1@example.com", "dev2@example.com"]
+
+# Developers can only read servers and stacks
+[[user_group.all.Server]]
+level = "Read"
+
+[[user_group.all.Stack]]
+level = "Read"
+
+# Grant higher level on a specific resource
+# [[user_group.resource.Stack]]
+# name = "dev-stack"
+# level = "Execute"
+
+# Available resource types for permissions:
+# Server, Stack, Deployment, Build, Builder, Repo,
+# Procedure, Action, Alerter, ResourceSync, Swarm

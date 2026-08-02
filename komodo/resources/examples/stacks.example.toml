@@ -1,0 +1,141 @@
+# ╔══════════════════════════════════════════════════════════════════════╗
+# ║  Komodo Stack — all available options                              ║
+# ║  Source: docs.rs/komodo_client — StackConfig (42 fields)           ║
+# ╚══════════════════════════════════════════════════════════════════════╝
+
+[[stack]]
+name = "example-stack"
+description = "Example stack with all available options"
+tags = ["production", "web"]
+# Ordering dependency for Procedures (this stack deploys after these)
+after = ["database-stack", "cache-stack"]
+
+[stack.config]
+# ── Target (set one, not both) ───────────────────────────────────────
+# Server for Compose mode
+server = "example-server"
+# Swarm for Swarm mode
+# swarm = "example-swarm"
+
+# ── Quick links (shown in UI header) ─────────────────────────────────
+links = [
+  "https://app.example.com",
+  "https://grafana.example.com/d/app-dashboard",
+]
+
+# ── Compose project ─────────────────────────────────────────────────
+# Custom project name (defaults to stack name)
+project_name = "my-project"
+
+# ── Git source ───────────────────────────────────────────────────────
+# Komodo Repo resource as source (instead of direct git config)
+linked_repo = "homelab-infra"
+# OR direct git configuration:
+# git_provider = "github.com"
+# git_https = true
+# git_account = "my-github-account"
+# repo = "myorg/my-repo"
+# branch = "main"
+# commit = ""
+
+# Delete and re-clone the repo folder instead of git pull
+reclone = false
+# Custom clone path
+# clone_path = ""
+
+# ── Files on host (instead of git) ──────────────────────────────────
+# Compose files are located directly on the host
+files_on_host = false
+# Manage compose file contents directly in the UI (instead of git/host)
+# file_contents = ""
+
+# ── Compose files ────────────────────────────────────────────────────
+# Working directory for `docker compose up -d` (relative to repo root)
+run_directory = "stacks/example-stack"
+# Compose files relative to run_directory
+file_paths = ["compose.yml", "compose.override.yml"]
+
+# ── Environment ──────────────────────────────────────────────────────
+# Environment variables (one per line, KEY=VALUE)
+# [[SECRET]] and [[VARIABLE]] are interpolated
+environment = """
+DATABASE_URL=postgresql://user:[[DB_PASSWORD]]@db:5432/app
+TZ=[[TZ]]
+APP_DATA_PATH=/docker/example-stack/data
+"""
+# Name of the written .env file (default: .env)
+env_file_path = ".env"
+# Skip secret interpolation
+skip_secret_interp = false
+
+# ── Additional env files ─────────────────────────────────────────────
+# [[stack.config.additional_env_files]]
+# path = "extra.env"
+# contents = """
+# EXTRA_VAR=value
+# """
+
+# ── Config files (tracked for diff during deploy) ────────────────────
+# [[stack.config.config_files]]
+# path = "nginx.conf"
+# contents = "..."
+
+# ── Deploy behavior ──────────────────────────────────────────────────
+# Run `docker compose pull` before deploying
+auto_pull = true
+# Run `docker compose build` before deploying
+run_build = false
+# Run `docker compose down` before `compose up`
+destroy_before_deploy = false
+
+# ── Auto-update ──────────────────────────────────────────────────────
+# Periodically poll for image updates
+poll_for_updates = false
+# Automatically redeploy when newer images are found
+auto_update = false
+# On auto-update, redeploy the entire stack (not just changed services)
+auto_update_all_services = false
+# Services excluded from auto-update polling
+auto_update_skip_services = ["debug-sidecar"]
+
+# ── Webhooks ─────────────────────────────────────────────────────────
+# Incoming webhooks trigger actions
+webhook_enabled = true
+# Alternate webhook secret (empty = default from config)
+# webhook_secret = ""
+# Always run DeployStack instead of DeployStackIfChanged on webhook
+webhook_force_deploy = false
+
+# ── Alerts ───────────────────────────────────────────────────────────
+# Send StackStateChange alerts for this stack
+send_alerts = true
+
+# ── Registry login ───────────────────────────────────────────────────
+# Registry provider and account for docker login before pull
+# registry_provider = "ghcr.io"
+# registry_account = "my-account"
+
+# ── Ignored services (status check) ─────────────────────────────────
+# Services ignored during stack status checks
+ignore_services = ["init-container"]
+
+# ── Pre/post deploy commands ─────────────────────────────────────────
+# [stack.config.pre_deploy]
+# path = "."
+# command = "echo 'Before deploy'"
+
+# [stack.config.post_deploy]
+# path = "."
+# command = "echo 'After deploy'"
+
+# ── Extra Docker arguments ───────────────────────────────────────────
+# Additional arguments for `docker compose up`
+extra_args = ["--remove-orphans"]
+# Additional arguments for `docker compose build`
+# build_extra_args = []
+
+# ── Compose command wrapper (e.g. for secrets management) ────────────
+# Wrapper command executed before compose commands
+# compose_cmd_wrapper = "sops exec-env secrets.enc.env"
+# Which compose subcommands should use the wrapper
+# compose_cmd_wrapper_include = ["up", "down"]

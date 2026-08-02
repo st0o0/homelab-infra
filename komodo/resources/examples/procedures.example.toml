@@ -1,0 +1,68 @@
+# ╔══════════════════════════════════════════════════════════════════════╗
+# ║  Komodo Procedure — all available options                          ║
+# ║  Source: docs.rs/komodo_client — ProcedureConfig (9 fields)        ║
+# ╚══════════════════════════════════════════════════════════════════════╝
+
+[[procedure]]
+name = "example-procedure"
+description = "Example procedure with all available options"
+tags = ["deploy", "automation"]
+
+[procedure.config]
+# ── Schedule ─────────────────────────────────────────────────────────
+# Format: "Cron" or "EnglishToCron"
+schedule_format = "Cron"
+# Cron expression (second minute hour day month day-of-week)
+schedule = "0 0 3 * * *"
+# Whether the schedule is enabled
+schedule_enabled = true
+# Timezone (TZ identifier, default: Core timezone)
+schedule_timezone = "Europe/Berlin"
+
+# ── Alerts ───────────────────────────────────────────────────────────
+# Send alert when the schedule was run
+schedule_alert = true
+# Send alert when the procedure fails
+failure_alert = true
+
+# ── Webhooks ─────────────────────────────────────────────────────────
+webhook_enabled = true
+# webhook_secret = ""
+
+# ── Stages (sequential steps) ────────────────────────────────────────
+# Each stage runs after the previous one completes.
+# Executions within a stage run in parallel.
+
+[[procedure.config.stage]]
+name = "Pull Repos"
+executions = [
+  { execution.type = "PullRepo", execution.params.repo = "homelab-infra" },
+]
+
+[[procedure.config.stage]]
+name = "Deploy Stacks"
+executions = [
+  { execution.type = "DeployStack", execution.params.stack = "my-stack" },
+  { execution.type = "DeployStack", execution.params.stack = "another-stack" },
+]
+
+# Available execution types:
+# - PullRepo                    — Pull a git repo
+# - DeployStack                 — Deploy a stack
+# - DeployStackIfChanged        — Deploy stack only if compose files changed
+# - BatchDeployStackIfChanged   — Deploy all stacks matching a pattern
+# - StartContainer              — Start a container
+# - StopContainer               — Stop a container
+# - RestartContainer            — Restart a container
+# - RunBuild                    — Run a build
+# - RunAction                   — Run an action
+# - RunProcedure                — Nested procedure
+# - Sleep                       — Wait (in ms)
+
+# ── Example: Procedure with EnglishToCron ────────────────────────────
+# [[procedure]]
+# name = "weekly-cleanup"
+# [procedure.config]
+# schedule_format = "EnglishToCron"
+# schedule = "every sunday at 3am"
+# schedule_enabled = true

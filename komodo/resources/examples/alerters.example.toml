@@ -1,0 +1,71 @@
+# ╔══════════════════════════════════════════════════════════════════════╗
+# ║  Komodo Alerter — all available options                            ║
+# ║  Source: docs.rs/komodo_client — AlerterConfig (6 fields)          ║
+# ╚══════════════════════════════════════════════════════════════════════╝
+#
+# Alerters route Komodo alerts to external services.
+# Supported endpoints: Slack, Discord, Custom (HTTP POST)
+
+# ── Slack alerter ────────────────────────────────────────────────────
+
+[[alerter]]
+name = "slack-alerts"
+description = "Send alerts to a Slack channel"
+tags = ["notifications"]
+
+[alerter.config]
+enabled = true
+
+[alerter.config.endpoint]
+type = "Slack"
+params.url = "https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXX"
+
+# Only send specific alert types (empty = all)
+# Available types: ServerUnreachable, ServerCpu, ServerMem, ServerDisk,
+#   ContainerStateChange, StackStateChange, DeploymentStateChange,
+#   BuildComplete, ProcedureComplete, ResourceSyncPending, ...
+alert_types = []
+
+# Only send alerts for specific resources (empty = all)
+# [[alerter.config.resources]]
+# type = "Server"
+# id = "example-server"
+
+# Exclude alerts for specific resources
+# [[alerter.config.except_resources]]
+# type = "Stack"
+# id = "dev-stack"
+
+# ── Discord alerter ──────────────────────────────────────────────────
+
+[[alerter]]
+name = "discord-alerts"
+description = "Send alerts to a Discord webhook"
+tags = ["notifications"]
+
+[alerter.config]
+enabled = true
+
+[alerter.config.endpoint]
+type = "Discord"
+params.url = "https://discord.com/api/webhooks/000000000/XXXXXXXXXXXX"
+
+# ── Custom HTTP alerter ──────────────────────────────────────────────
+
+[[alerter]]
+name = "custom-webhook"
+description = "Send alerts to a custom HTTP endpoint"
+tags = ["notifications"]
+
+[alerter.config]
+enabled = true
+
+[alerter.config.endpoint]
+type = "Custom"
+params.url = "https://alerts.example.com/komodo"
+
+# ── Maintenance windows (alerts suppressed during these) ─────────────
+# [[alerter.config.maintenance_windows]]
+# name = "Nightly maintenance"
+# cron = "0 0 2 * * *"
+# duration_minutes = 120

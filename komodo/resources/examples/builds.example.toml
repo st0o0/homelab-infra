@@ -1,0 +1,107 @@
+# ╔══════════════════════════════════════════════════════════════════════╗
+# ║  Komodo Build — all available options                              ║
+# ║  Source: docs.rs/komodo_client — BuildConfig (30 fields)           ║
+# ╚══════════════════════════════════════════════════════════════════════╝
+
+[[build]]
+name = "example-build"
+description = "Example build with all available options"
+tags = ["app", "production"]
+
+[build.config]
+# ── Builder (required) ───────────────────────────────────────────────
+# Reference to a configured builder
+builder = "local-builder"
+
+# ── Versioning ───────────────────────────────────────────────────────
+# Current version (semver format)
+version = "1.0.0"
+# Automatically increment patch on every build
+auto_increment_version = true
+
+# ── Image name and tags ──────────────────────────────────────────────
+# Alternate image name (default: build name)
+image_name = "my-app"
+# Additional tag postfix (e.g. for multi-platform: "aarch64" → ":1.0.0-aarch64")
+image_tag = ""
+# Push :latest tag
+include_latest_tag = true
+# Push semver tags (:1.0.0, :1.0, :1)
+include_version_tags = true
+# Push commit hash tag (:a6v8h83)
+include_commit_tag = false
+
+# ── Quick links ──────────────────────────────────────────────────────
+links = [
+  "https://github.com/myorg/my-app",
+  "https://ghcr.io/myorg/my-app",
+]
+
+# ── Git source ───────────────────────────────────────────────────────
+# Komodo Repo resource as source
+# linked_repo = "my-repo"
+# OR direct git configuration:
+git_provider = "github.com"
+git_https = true
+git_account = "my-github-account"
+repo = "myorg/my-app"
+branch = "main"
+# Optional fixed commit
+# commit = ""
+
+# ── Files on host (instead of git) ──────────────────────────────────
+files_on_host = false
+
+# ── Docker build ─────────────────────────────────────────────────────
+# Build context path relative to repo root (default: ".")
+build_path = "."
+# Dockerfile path relative to build_path
+dockerfile_path = "Dockerfile"
+# Dockerfile contents managed directly in the UI (supports variable/secret interpolation)
+# dockerfile = ""
+
+# ── Buildx (multi-platform) ─────────────────────────────────────────
+# Use Docker Buildx for multi-platform builds
+use_buildx = false
+# Additional docker build arguments
+extra_args = ["--platform", "linux/amd64,linux/arm64"]
+
+# ── Build arguments ──────────────────────────────────────────────────
+# Visible build arguments (visible via `docker inspect`)
+build_args = """
+NODE_ENV=production
+APP_VERSION=1.0.0
+"""
+# Hidden arguments using Docker secret mounts (/run/secrets/KEY)
+secret_args = """
+NPM_TOKEN=[[NPM_TOKEN]]
+"""
+# Skip secret interpolation in build_args
+skip_secret_interp = false
+
+# ── Image registries ─────────────────────────────────────────────────
+# Target registries for push (first one is used for deployments)
+[[build.config.image_registry]]
+domain = "ghcr.io"
+account = "my-ghcr-account"
+organization = "myorg"
+
+# Additional registry (optional)
+# [[build.config.image_registry]]
+# domain = "docker.io"
+# account = "my-dockerhub-account"
+
+# ── Labels ───────────────────────────────────────────────────────────
+labels = """
+org.opencontainers.image.source=https://github.com/myorg/my-app
+org.opencontainers.image.description=My example application
+"""
+
+# ── Pre-build command ────────────────────────────────────────────────
+# [build.config.pre_build]
+# path = "."
+# command = "npm ci && npm run build"
+
+# ── Webhooks ─────────────────────────────────────────────────────────
+webhook_enabled = false
+# webhook_secret = ""

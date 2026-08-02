@@ -1,0 +1,35 @@
+# ╔══════════════════════════════════════════════════════════════════════╗
+# ║  Komodo Variables — all available options                          ║
+# ║  Source: docs.rs/komodo_client — Variable                          ║
+# ╚══════════════════════════════════════════════════════════════════════╝
+#
+# Variables are interpolated in Stacks, Builds, Repos and Actions as
+# [[VARIABLE_NAME]]. For sensitive values → use Secrets instead
+# (core.config.toml [secrets], Periphery config, or SOPS).
+
+[[variable]]
+name = "TZ"
+value = "Europe/Berlin"
+description = "Default timezone for all stacks"
+
+[[variable]]
+name = "PUID"
+value = "1000"
+description = "Default container user ID"
+
+[[variable]]
+name = "PGID"
+value = "1000"
+description = "Default container group ID"
+
+[[variable]]
+name = "DOMAIN"
+value = "example.com"
+description = "Primary domain for reverse proxy configuration"
+
+# Variables have only three fields: name, value, description
+# Secrets are NOT defined here — they go in:
+#   - core.config.toml → [secrets] section
+#   - Periphery configuration
+#   - External tools (SOPS, Bitwarden, etc.)
+# Both are referenced the same way: [[NAME]]
