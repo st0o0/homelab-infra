@@ -2,3 +2,4 @@ galaxy_info:
   author: st0o0
   description: "Read-only inventory of Docker Compose stacks and their env var names, per host"
   license: MIT
+  min_ansible_version: "2.17"

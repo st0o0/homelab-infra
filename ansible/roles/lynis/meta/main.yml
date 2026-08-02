@@ -2,3 +2,4 @@ galaxy_info:
   author: st0o0
   description: "Security audit report (weekly cron)"
   license: MIT
+  min_ansible_version: "2.17"

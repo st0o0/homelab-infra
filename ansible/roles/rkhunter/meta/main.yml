@@ -2,3 +2,4 @@ galaxy_info:
   author: st0o0
   description: "Rootkit scanning (daily cron)"
   license: MIT
+  min_ansible_version: "2.17"

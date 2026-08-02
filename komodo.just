@@ -110,7 +110,7 @@ lint-compose:
         else
             args=(-f "$base" -f "$file")
         fi
-        if docker compose "${args[@]}" config -q 2>/dev/null; then
+        if docker compose "${args[@]}" config --no-interpolate -q 2>/dev/null; then
             echo "  ok  $file"
         else
             echo "  FAIL $file"
