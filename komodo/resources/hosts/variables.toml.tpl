@@ -2,9 +2,7 @@
 # komodo/resources/hosts/<hostname>/variables.toml by `just k vars <hostname>`.
 #
 # Not secret, so this file is plain TOML — no sops involved, unlike
-# komodo/hosts/<hostname>/secrets.sops.yaml. It still lives under
-# komodo/resources/ (rather than komodo/hosts/) because that's the only
-# path Komodo's ResourceSync watches — see README.md.
+# komodo/resources/hosts/<hostname>/secrets.sops.yaml.
 #
 # Name every entry with a "<hostname>_" prefix so it can't collide with
 # komodo/resources/variables.toml or another host's file, and reference it

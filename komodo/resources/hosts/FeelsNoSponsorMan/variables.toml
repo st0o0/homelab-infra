@@ -1,0 +1,17 @@
+# Per-host, non-secret variables for FeelsNoSponsorMan.
+# Referenced from komodo/resources/stacks.toml as [[FeelsNoSponsorMan_VARIABLE_NAME]].
+
+[[variable]]
+name = "FeelsNoSponsorMan_nebula_full_sync"
+value = "true"
+description = "nebula-sync: whether to run a full sync (pihole)"
+
+[[variable]]
+name = "FeelsNoSponsorMan_nebula_run_gravity"
+value = "true"
+description = "nebula-sync: whether to run gravity update after sync (pihole)"
+
+[[variable]]
+name = "FeelsNoSponsorMan_nebula_cron"
+value = "0 23 * * *"
+description = "nebula-sync: cron schedule for sync (pihole)"

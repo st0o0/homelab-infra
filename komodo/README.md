@@ -13,18 +13,19 @@ Komodo restart picks up changes.
 ```
 komodo/
 ├── .sops.yaml                    # age recipient(s) used to encrypt
-├── secrets.example.yaml          # template for shared secrets
 ├── secrets.sops.yaml             # encrypted shared secrets (committed)
-├── decrypt.sh                    # merges shared + per-host secrets into a TOML file
-└── hosts/
-    ├── secrets.sops.yaml.tpl     # template for per-host secrets
-    └── <hostname>/
-        └── secrets.sops.yaml     # encrypted per-host secrets (committed)
+└── resources/
+    └── hosts/
+        ├── secrets.sops.yaml.tpl     # template for per-host secrets
+        ├── variables.toml.tpl        # template for per-host variables
+        └── <hostname>/
+            ├── secrets.sops.yaml     # encrypted per-host secrets (committed)
+            └── variables.toml        # per-host variables (plain TOML)
 ```
 
 Shared secrets are available as `[[SECRET_NAME]]`. Per-host secrets are
 merged in prefixed with the hostname: a `host_ip` key under
-`komodo/hosts/nas-01/secrets.sops.yaml` becomes `[[nas-01_host_ip]]`.
+`komodo/resources/hosts/nas-01/secrets.sops.yaml` becomes `[[nas-01_host_ip]]`.
 
 ## First-time setup
 
@@ -53,7 +54,7 @@ new one, since a new key can't decrypt secrets encrypted for the old one.
 
 ```bash
 just k secrets            # edit shared secrets (komodo/secrets.sops.yaml)
-just k secrets nas-01     # edit per-host secrets (komodo/hosts/nas-01/secrets.sops.yaml)
+just k secrets nas-01     # edit per-host secrets (komodo/resources/hosts/nas-01/secrets.sops.yaml)
 ```
 
 Opens the decrypted file in `$EDITOR` via `sops` and re-encrypts on save.
@@ -72,7 +73,7 @@ just k decrypt /custom/path/config.toml     # custom output path
 ```
 
 Equivalent to running `komodo/decrypt.sh` directly. Merges
-`komodo/secrets.sops.yaml` with every `komodo/hosts/*/secrets.sops.yaml`
+`komodo/secrets.sops.yaml` with every `komodo/resources/hosts/*/secrets.sops.yaml`
 into one `[secrets]` TOML block, chmod 600. The Komodo Core stack mounts
 this file read-only via `KOMODO_SECRETS_FILE` (see
 `stacks/komodo/.env.example`), so restart Komodo Core after decrypting to
@@ -83,7 +84,7 @@ pick up changes.
 1. `just k secrets [TARGET]` — edit the value, save, it's re-encrypted automatically
 2. Commit and push:
    ```bash
-   git add komodo/secrets.sops.yaml   # or komodo/hosts/<TARGET>/secrets.sops.yaml
+   git add komodo/secrets.sops.yaml   # or komodo/resources/hosts/<TARGET>/secrets.sops.yaml
    git commit -m "chore(komodo): rotate <secret-name>"
    git push
    ```
@@ -94,12 +95,12 @@ pick up changes.
 ## Adding a new host
 
 ```bash
-mkdir -p komodo/hosts/<hostname>
+mkdir -p komodo/resources/hosts/<hostname>
 just k secrets <hostname>
 ```
 
-`just k secrets <hostname>` copies `komodo/hosts/secrets.sops.yaml.tpl` into
-`komodo/hosts/<hostname>/secrets.sops.yaml`, encrypts it, and opens it for
+`just k secrets <hostname>` copies `komodo/resources/hosts/secrets.sops.yaml.tpl` into
+`komodo/resources/hosts/<hostname>/secrets.sops.yaml`, encrypts it, and opens it for
 editing. Values end up available as `[[<hostname>_<key>]]`.
 
 ## Non-secret variables, shared or per-host

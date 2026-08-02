@@ -40,7 +40,7 @@ echo "Decrypting secrets to $OUTPUT_FILE ..."
   sops -d --config "$SOPS_CONFIG" --output-type json "$GLOBAL_FILE" \
     | jq -r 'to_entries[] | "\(.key) = \"\(.value)\""'
 
-  for host_dir in "${SCRIPT_DIR}"/hosts/*/; do
+  for host_dir in "${SCRIPT_DIR}"/resources/hosts/*/; do
     [ -d "$host_dir" ] || continue
     HOST_SECRET="${host_dir}secrets.sops.yaml"
     [ -f "$HOST_SECRET" ] || continue

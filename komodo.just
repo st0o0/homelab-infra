@@ -1,3 +1,7 @@
+[private]
+default:
+    @just --list k
+
 # --- Secrets management ---
 
 # Komodo's AGE key (Key B) lives at a different path than the container-wide
@@ -12,10 +16,10 @@ secrets TARGET="all":
     export SOPS_AGE_KEY_FILE="{{komodo_age_key_file}}"
     if [ "{{TARGET}}" = "all" ]; then
         SECRET="komodo/secrets.sops.yaml"
-        TEMPLATE="komodo/secrets.example.yaml"
+        TEMPLATE="komodo/resources/hosts/secrets.sops.yaml.tpl"
     else
-        SECRET="komodo/hosts/{{TARGET}}/secrets.sops.yaml"
-        TEMPLATE="komodo/hosts/secrets.sops.yaml.tpl"
+        SECRET="komodo/resources/hosts/{{TARGET}}/secrets.sops.yaml"
+        TEMPLATE="komodo/resources/hosts/secrets.sops.yaml.tpl"
     fi
     if [ ! -f "$SECRET" ]; then
         mkdir -p "$(dirname "$SECRET")"
@@ -43,7 +47,7 @@ decrypt OUTPUT="/etc/komodo/core.secrets.toml":
         echo "[secrets]"
         sops -d --config "$SOPS_CONFIG" --output-type json "$GLOBAL" \
             | jq -r 'to_entries[] | "\(.key) = \"\(.value)\""'
-        for host_dir in komodo/hosts/*/; do
+        for host_dir in komodo/resources/hosts/*/; do
             HOST_SECRET="${host_dir}secrets.sops.yaml"
             if [ -f "$HOST_SECRET" ]; then
                 HOST=$(basename "$host_dir")
@@ -62,7 +66,7 @@ show-secrets TARGET="all":
     if [ "{{TARGET}}" = "all" ]; then
         sops -d --config komodo/.sops.yaml komodo/secrets.sops.yaml
     else
-        sops -d --config komodo/.sops.yaml "komodo/hosts/{{TARGET}}/secrets.sops.yaml"
+        sops -d --config komodo/.sops.yaml "komodo/resources/hosts/{{TARGET}}/secrets.sops.yaml"
     fi
 
 # --- Variables management ---
@@ -82,7 +86,7 @@ vars TARGET="all":
             echo "Created $VARS"
         fi
     fi
-    "${EDITOR:-vi}" "$VARS"
+    "${EDITOR:-nano}" "$VARS"
 
 # --- Linting & Validation ---
 

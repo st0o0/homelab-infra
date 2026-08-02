@@ -1,7 +1,7 @@
 # Shared, non-secret variables — see README.md Guidelines for the conventions
 # these encode. Referenced from komodo/resources/stacks.toml as [[VARIABLE_NAME]].
 # Secrets (IPs, credentials, endpoints) live in komodo/secrets.sops.yaml and
-# komodo/hosts/<host>/secrets.sops.yaml instead — see komodo/README.md.
+# komodo/resources/hosts/<host>/secrets.sops.yaml instead — see komodo/README.md.
 #
 # For a non-secret value that differs per host, use
 # komodo/resources/hosts/<host>/variables.toml instead (edit via
