@@ -16,7 +16,7 @@ services:
       - --storage.path=/var/lib/alloy/data
       - --server.http.listen-addr=0.0.0.0:12345
     environment:
-      - HOST_HOSTNAME=${HOST_HOSTNAME:?HOST_HOSTNAME is required}
+      - HOST_HOSTNAME=${HOST_HOSTNAME:-${HOSTNAME}}
       - SCRAPE_INTERVAL=${SCRAPE_INTERVAL:-30s}
       - REMOTE_WRITE_URL=${REMOTE_WRITE_URL:?REMOTE_WRITE_URL is required}
       - LOGS_PUSH_URL=${LOGS_PUSH_URL:?LOGS_PUSH_URL is required}
