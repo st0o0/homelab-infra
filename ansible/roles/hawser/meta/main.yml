@@ -1,4 +1,5 @@
 galaxy_info:
+  author: st0o0
   description: "Dockhand edge agent, optional Bifrost network"
 
 dependencies:
