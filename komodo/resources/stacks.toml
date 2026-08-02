@@ -44,7 +44,8 @@
 #   CIFS_MEDIA_USER, CIFS_MEDIA_PASSWORD, CIFS_DOWNLOADS_HOST,
 #   CIFS_DOWNLOADS_SHARE, CIFS_DOWNLOADS_USER, CIFS_DOWNLOADS_PASSWORD,
 #   CIFS_AUDIOS_HOST, CIFS_AUDIOS_SHARE, CIFS_AUDIOS_USER,
-#   CIFS_AUDIOS_PASSWORD
+#   CIFS_AUDIOS_PASSWORD, MONGO_ROOT_USERNAME, MONGO_ROOT_PASSWORD,
+#   DATABASEMENT_APP_KEY
 # Per-host `host_ip` secrets (komodo/hosts/<host>/secrets.sops.yaml) are
 # also required for every host referenced as [[<host>_host_ip]].
 
@@ -105,6 +106,34 @@ environment = """
 POSTGRES_PASSWORD=[[IMMICH_POSTGRES_PASSWORD]]
 TZ=[[TZ]]
 IMMICH_POSTGRES_DATA_PATH=/docker/immich-postgres/data
+"""
+
+[[stack]]
+name = "mongodb"
+[stack.config]
+server = "FeelsDataMan"
+run_directory = "stacks/mongodb"
+file_paths = ["compose.yml"]
+linked_repo = "homelab-infra"
+environment = """
+MONGO_INITDB_ROOT_USERNAME=[[MONGO_ROOT_USERNAME]]
+MONGO_INITDB_ROOT_PASSWORD=[[MONGO_ROOT_PASSWORD]]
+TZ=[[TZ]]
+MONGO_DATA_PATH=/docker/mongodb/data
+"""
+
+[[stack]]
+name = "databasement"
+[stack.config]
+server = "FeelsDataMan"
+run_directory = "stacks/databasement"
+file_paths = ["compose.yml"]
+linked_repo = "homelab-infra"
+environment = """
+APP_KEY=[[DATABASEMENT_APP_KEY]]
+DB_PASSWORD=[[POSTGRES_PASSWORD]]
+TZ=[[TZ]]
+DATABASEMENT_DATA_PATH=/docker/databasement/data
 """
 
 # ── FeelsNoSponsorMan ─────────────────────────────────────────────────────

@@ -28,9 +28,15 @@ services:
       - "listen_addresses=*"
       - "-c"
       - "password_encryption=scram-sha-256"
+    networks:
+      - db-net
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
       interval: 10s
       timeout: 5s
       retries: 5
+
+networks:
+  db-net:
+    external: true
 

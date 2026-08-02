@@ -1,0 +1,43 @@
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: 10m
+    max-file: "3"
+
+services:
+  databasement:
+    image: davidcrty/databasement:latest
+    container_name: databasement
+    restart: always
+    logging: *default-logging
+    environment:
+      - APP_KEY=${APP_KEY:?APP_KEY is required}
+      - APP_URL=${APP_URL:-http://localhost:2226}
+      - APP_ENV=${APP_ENV:-production}
+      - APP_DEBUG=${APP_DEBUG:-false}
+      - DB_CONNECTION=pgsql
+      - DB_HOST=${DB_HOST:-postgres}
+      - DB_PORT=${DB_PORT:-5432}
+      - DB_DATABASE=${DB_DATABASE:-databasement}
+      - DB_USERNAME=${DB_USERNAME:-postgres}
+      - DB_PASSWORD=${DB_PASSWORD:?DB_PASSWORD is required}
+      - QUEUE_CONNECTION=${QUEUE_CONNECTION:-database}
+      - CACHE_STORE=${CACHE_STORE:-database}
+      - SESSION_DRIVER=${SESSION_DRIVER:-database}
+      - TZ=${TZ:-Europe/Berlin}
+    ports:
+      - "${DATABASEMENT_BIND_IP:-127.0.0.1}:${DATABASEMENT_PORT:-2226}:2226"
+    volumes:
+      - ${DATABASEMENT_DATA_PATH:-./data}:/var/www/html/storage
+    networks:
+      - db-net
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:2226/login || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+networks:
+  db-net:
+    external: true
