@@ -23,5 +23,4 @@ export default {
     "footer-max-line-length": [0, "always"],
     "subject-case": [0, "always"],
   },
-  ignores: [(commit) => /^Signed-off-by: dependabot\[bot\]/m.test(commit)],
 };
