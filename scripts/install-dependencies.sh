@@ -79,6 +79,14 @@ curl -fsSL "https://dl.filippo.io/age/latest?for=linux/amd64" -o /tmp/age.tar.gz
 sudo tar -xzf /tmp/age.tar.gz -C /usr/local/bin/ --strip-components=1 age/age age/age-keygen
 rm /tmp/age.tar.gz
 
+echo "==> Installing glow (terminal markdown reader)..."
+GLOW_VERSION="2.0.0"
+curl -fsSL "https://github.com/charmbracelet/glow/releases/download/v${GLOW_VERSION}/glow_${GLOW_VERSION}_Linux_x86_64.tar.gz" \
+    | sudo tar -xz -C /usr/local/bin/ --strip-components=1 "glow_${GLOW_VERSION}_Linux_x86_64/glow"
+
+echo "==> Installing Komodo CLI..."
+curl -sSL https://raw.githubusercontent.com/moghtech/komodo/main/scripts/install-cli.py | sudo python3
+
 echo "==> Installing SOPS..."
 SOPS_VERSION="v3.9.4"
 curl -fsSL "https://github.com/getsops/sops/releases/download/${SOPS_VERSION}/sops-${SOPS_VERSION}.linux.amd64" -o /tmp/sops
@@ -170,18 +178,49 @@ echo "==> Setting up devcontainer-specific shell aliases..."
 ALIAS_DIR="$HOME/.bash_aliases.d"
 mkdir -p "$ALIAS_DIR"
 DEVCONTAINER_ALIASES="$ALIAS_DIR/00-devcontainer.sh"
-if ! grep -q 'unlock()' "$DEVCONTAINER_ALIASES" 2>/dev/null; then
-    cat > "$DEVCONTAINER_ALIASES" <<'ALIASES'
+cat > "$DEVCONTAINER_ALIASES" <<'ALIASES'
 # Bitwarden unlock — sets BW_SESSION for the current shell
 unlock() {
     export BW_SESSION=$(bw unlock --raw)
     echo "Bitwarden unlocked."
 }
+
+# Wrap km to add 'setup' and 'edit' subcommands
+km() {
+    local repo_root
+    repo_root="$(git rev-parse --show-toplevel 2>/dev/null || echo /workspaces/homelab-infra)"
+    local sops_config="$repo_root/komodo/.sops.yaml"
+    local src="$repo_root/komodo/cli.sops.toml"
+    local example="$repo_root/komodo/cli.example.toml"
+    export SOPS_AGE_KEY_FILE="${SOPS_AGE_KEY_FILE_KOMODO:-$HOME/.config/sops/komodo/age/keys.txt}"
+    case "${1:-}" in
+        setup)
+            if [ ! -f "$src" ]; then
+                echo "Error: $src not found. Run 'km edit' first to create it."
+                return 1
+            fi
+            local dest_dir="$HOME/.config/komodo"
+            mkdir -p "$dest_dir"
+            sops -d --config "$sops_config" "$src" > "$dest_dir/komodo.cli.toml"
+            chmod 600 "$dest_dir/komodo.cli.toml"
+            echo "Decrypted CLI config to $dest_dir/komodo.cli.toml"
+            echo "Test with: km version"
+            ;;
+        edit)
+            if [ ! -f "$src" ]; then
+                echo "Creating $src from example..."
+                cp "$example" "$src"
+                sops --config "$sops_config" -e -i "$src"
+            fi
+            sops --config "$sops_config" "$src" || true
+            ;;
+        *)
+            command km "$@"
+            ;;
+    esac
+}
 ALIASES
-    echo "    Added 'unlock' alias"
-else
-    echo "    Aliases already present"
-fi
+echo "    Added aliases: unlock, km setup, km edit"
 
 # --------------------------------------------------------------------------
 # Verify
@@ -196,6 +235,8 @@ pwsh --version | head -1
 bw --version
 age --version
 sops --version
+km --version
+glow --version
 tmux -V
 zsh --version
 fzf --version
