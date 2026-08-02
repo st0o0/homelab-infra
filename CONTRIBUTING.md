@@ -17,9 +17,15 @@ docs: clarify secrets rotation workflow
 ```
 
 Common types: `feat`, `fix`, `docs`, `refactor`, `perf`, `test`, `build`,
-`ci`, `chore`, `revert`. A CI check (`commitlint.yml`) lints every commit
-in a PR against this format and fails if any of them don't match. Clean
-these up (`git rebase -i`) before merging.
+`ci`, `chore`, `revert`. A CI check (`commitlint.yml`) lints every commit in a PR against this
+format and fails if any of them don't match — this applies to **all PRs**
+(ansible, komodo, stacks, docs, etc.). Clean these up (`git rebase -i`)
+before merging.
+
+> **Note:** Only commits touching `komodo/` or `stacks/` generate
+> CHANGELOG entries and version bumps via release-please. Ansible and
+> other changes still require Conventional Commits but don't trigger a
+> release.
 
 ## Project Structure
 
