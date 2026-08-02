@@ -27,7 +27,7 @@
       deb [arch={{ _docker_dpkg_arch | default('amd64') }}
       signed-by={{ docker_apt_key_dest }}]
       https://download.docker.com/linux/{{ ansible_distribution | lower }}
-      {{ ansible_distribution_release }} stable
+      {{ docker_release }} stable
     filename: docker
     state: absent
   when: not docker_enabled
@@ -72,7 +72,7 @@
     repo: >-
       deb [arch={{ _docker_dpkg_arch }} signed-by={{ docker_apt_key_dest }}]
       https://download.docker.com/linux/{{ ansible_distribution | lower }}
-      {{ ansible_distribution_release }} stable
+      {{ docker_release }} stable
     filename: docker
     state: present
   register: _docker_repo
