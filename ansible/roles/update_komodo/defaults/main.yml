@@ -8,3 +8,9 @@ update_komodo_health_delay: 5
 update_komodo_core_container: komodo-core
 update_komodo_core_periphery_container: komodo-periphery
 update_komodo_agent_container: agent
+
+# Re-declare paths from komodo/agent roles so this role works standalone
+komodo_deploy_path: /docker/komodo
+komodo_bind_ip: "127.0.0.1"
+komodo_port: 9120
+agent_deploy_path: /docker/agent

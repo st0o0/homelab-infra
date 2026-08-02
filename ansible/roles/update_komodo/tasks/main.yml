@@ -30,7 +30,7 @@
     - name: Wait for Core to accept connections
       ansible.builtin.uri:
         url: "http://{{ komodo_bind_ip }}:{{ komodo_port }}/"
-        status_code: 100-499
+        status_code: [200, 301, 302, 401, 403]
       register: _update_komodo_core_health
       until: _update_komodo_core_health is succeeded
       retries: "{{ update_komodo_health_retries }}"

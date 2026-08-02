@@ -55,6 +55,10 @@ deploy HOSTS *ARGS:
 update *ARGS:
     ansible-playbook run.yml --tags bootstrap -e bootstrap_upgrade=true --skip-tags ssh {{ARGS}}
 
+# Update Komodo fleet (Core first, then Agent)
+update-komodo *ARGS:
+    ansible-playbook update-komodo.yml {{ARGS}}
+
 # Sync dotfiles on all hosts
 sync-dotfiles *ARGS:
     ansible-playbook run.yml --tags dotfiles {{ARGS}}
