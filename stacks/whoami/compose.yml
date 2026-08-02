@@ -1,0 +1,22 @@
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: 10m
+    max-file: "3"
+
+services:
+  whoami:
+    image: traefik/whoami:latest
+    container_name: whoami
+    restart: always
+    logging: *default-logging
+    environment:
+      - TZ=${TZ:-Europe/Berlin}
+    ports:
+      - "${WHOAMI_BIND_IP:-0.0.0.0}:${WHOAMI_PORT:-8080}:80"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:80/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s

@@ -64,6 +64,6 @@ enabled = false
 
 [[server]]
 name = "FeelsTestingMan"
-description = "Staging/test host — no stacks assigned yet"
+description = "Staging/test host"
 [server.config]
-enabled = false
+enabled = true

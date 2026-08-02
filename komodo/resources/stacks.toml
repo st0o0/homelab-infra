@@ -362,6 +362,19 @@ LOGS_PUSH_URL=[[OBSERVABILITY_LOGS_PUSH_URL]]
 TZ=[[TZ]]
 """
 
+# ── FeelsTestingMan ───────────────────────────────────────────────────────
+
+[[stack]]
+name = "whoami"
+[stack.config]
+server = "FeelsTestingMan"
+run_directory = "stacks/whoami"
+file_paths = ["compose.yml"]
+linked_repo = "homelab-infra"
+environment = """
+TZ=[[TZ]]
+"""
+
 # ── Unassigned ────────────────────────────────────────────────────────────
 
 # [[stack]]
