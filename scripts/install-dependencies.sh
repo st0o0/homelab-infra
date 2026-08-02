@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+git config --global --add safe.directory "$(pwd)"
+
 # --------------------------------------------------------------------------
 # Layer 1: Shell toolchain (zsh, tmux, starship, chezmoi, fzf, zoxide)
 # --------------------------------------------------------------------------
