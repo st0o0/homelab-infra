@@ -20,7 +20,7 @@ branch = "main"
 
 resource_path = [
   "komodo/resources/servers.toml",
-  "komodo/resources/stacks.toml",
+  "komodo/resources/stacks/",
   "komodo/resources/repos.toml",
   "komodo/resources/procedures.toml",
   "komodo/resources/variables.toml",

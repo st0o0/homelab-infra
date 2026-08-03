@@ -1,0 +1,40 @@
+# ── FeelsUPSMan ───────────────────────────────────────────────────────────
+
+[[stack]]
+name = "nut-upsd"
+[stack.config]
+server = "FeelsUPSMan"
+run_directory = "stacks/nut-upsd"
+file_paths = ["compose.yml"]
+linked_repo = "homelab-infra"
+environment = """
+TZ=[[tz]]
+PUID=[[puid]]
+PGID=[[pgid]]
+NUT_DRIVER=[[FeelsUPSMan_nut_driver]]
+NUT_API_USER=[[FeelsUPSMan_nut_api_user]]
+NUT_API_PASS=[[FeelsUPSMan_nut_api_password]]
+NUT_NAME=ups
+NUT_DRIVER_PORT=auto
+NUT_POLL_INTERVAL=15
+NUT_PORT=3493
+NUT_PATH_CONFIG=/docker/nut-upsd/nut
+PEANUT_PORT=8080
+PEANUT_PATH_CONFIG=/docker/nut-upsd/peanut
+"""
+
+[[stack]]
+name = "ups-monitor"
+[stack.config]
+server = "FeelsUPSMan"
+run_directory = "stacks/ups-monitor"
+file_paths = ["compose.yml"]
+linked_repo = "homelab-infra"
+environment = """
+TZ=[[tz]]
+NUT_EXP_SERVER=[[FeelsUPSMan_ups_monitor_nut_server]]
+NUT_EXP_SERVER_PORT=3493
+NUT_EXP_USER=[[FeelsUPSMan_ups_monitor_nut_user]]
+NUT_EXP_PASS=[[FeelsUPSMan_ups_monitor_nut_password]]
+NUT_EXP_PORT=9199
+"""

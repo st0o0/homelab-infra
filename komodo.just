@@ -10,7 +10,7 @@ default:
 komodo_age_key_file := if os() == "windows" { env_var('USERPROFILE') / ".config/sops/komodo/age/keys.txt" } else { env_var('HOME') / ".config/sops/komodo/age/keys.txt" }
 
 # Edit encrypted secrets ('all' for shared, or a hostname for host-specific)
-# For host-specific targets, auto-scaffolds missing keys from stacks.toml.
+# For host-specific targets, auto-scaffolds missing keys from stacks/*.toml.
 secrets TARGET="all":
     #!/usr/bin/env bash
     set -euo pipefail
@@ -115,7 +115,7 @@ show-secrets TARGET="all":
 # --- Variables management ---
 
 # Edit non-secret variables ('all' for shared, or a hostname for host-specific)
-# For host-specific targets, auto-scaffolds missing entries from stacks.toml.
+# For host-specific targets, auto-scaffolds missing entries from stacks/*.toml.
 vars TARGET="all":
     #!/usr/bin/env bash
     set -euo pipefail
@@ -175,7 +175,7 @@ vars TARGET="all":
         if [ -n "$missing" ]; then
             {
                 echo ""
-                echo "# --- Missing entries (from stacks.toml) ---"
+                echo "# --- Missing entries (from stacks/*.toml) ---"
                 echo "# Uncomment and set values for entries that should be variables."
                 echo "# Entries that should be secrets: use 'just k secrets $HOST' instead."
                 for entry in $missing; do
@@ -195,7 +195,7 @@ vars TARGET="all":
 
 # --- Configuration audit ---
 
-# Check that all [[PLACEHOLDER]] refs in stacks.toml have matching secrets/variables
+# Check that all [[PLACEHOLDER]] refs in stacks/*.toml have matching secrets/variables
 check HOST="":
     #!/usr/bin/env bash
     set -euo pipefail

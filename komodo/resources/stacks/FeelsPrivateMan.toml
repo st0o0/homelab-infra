@@ -1,0 +1,32 @@
+# ── FeelsPrivateMan ───────────────────────────────────────────────────────
+
+[[stack]]
+name = "bifrost"
+[stack.config]
+server = "FeelsPrivateMan"
+run_directory = "stacks/bifrost"
+file_paths = ["compose.yml"]
+linked_repo = "homelab-infra"
+environment = """
+BIFROST_PRIVATE_KEY=[[FeelsPrivateMan_bifrost_private_key]]
+BIFROST_ADDRESS=[[FeelsPrivateMan_bifrost_address]]
+BIFROST_PEER_PUBLIC_KEY=[[FeelsPrivateMan_bifrost_peer_public_key]]
+BIFROST_PEER_ENDPOINT=[[FeelsPrivateMan_bifrost_peer_endpoint]]
+BIFROST_PEER_ALLOWED_IPS=[[FeelsPrivateMan_bifrost_peer_allowed_ips]]
+BIFROST_PEER_PRESHARED_KEY=[[FeelsPrivateMan_bifrost_peer_preshared_key]]
+BIFROST_LISTEN_PORT=0
+BIFROST_MTU=1420
+BIFROST_PEER_KEEPALIVE=25
+BIFROST_INTERFACE=wg0
+BIFROST_CHECK_INTERVAL=30
+BIFROST_STALE_AFTER=135
+BIFROST_RESOLVE=on
+BIFROST_RECONNECT=on
+BIFROST_HEALTHCHECK=on
+BIFROST_PROBE=off
+EIR_STABILIZE_WAIT=15s
+EIR_MAX_RETRIES=3
+EIR_RETRY_BACKOFF=5s
+EIR_LOG_LEVEL=info
+EIR_LOG_FORMAT=text
+"""
