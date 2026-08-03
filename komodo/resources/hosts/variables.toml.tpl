@@ -8,9 +8,3 @@
 # komodo/resources/variables.toml or another host's file, and reference it
 # from komodo/resources/stacks.toml as [[<hostname>_VARIABLE_NAME]] — same
 # convention as per-host secrets ([[<hostname>_host_ip]]).
-#
-# Example:
-# [[variable]]
-# name = "FeelsStrongMan_PAPERLESS_DBHOST"
-# value = "paperless-db"
-# description = "Postgres service name for paperless on FeelsStrongMan"
