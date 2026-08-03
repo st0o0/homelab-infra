@@ -173,16 +173,16 @@ if [ -z "$ANSIBLE_HOSTS" ]; then
 else
     echo "==> Checking secret files for hosts: $(echo $ANSIBLE_HOSTS | tr '\n' ' ')"
     for HOST in $ANSIBLE_HOSTS; do
-        SECRET_FILE="ansible/host_vars/$HOST/secrets.sops.yml"
+        SECRET_FILE="ansible/host_vars/$HOST/secrets.sops.yaml"
         if [ -f "$SECRET_FILE" ]; then
-            echo "    $HOST: secrets.sops.yml already exists"
+            echo "    $HOST: secrets.sops.yaml already exists"
         else
             echo "    $HOST: creating from template..."
             mkdir -p "ansible/host_vars/$HOST"
-            TEMPLATE="ansible/host_vars/secrets.sops.yml.tpl"
-            cp "$TEMPLATE" "/tmp/secrets.sops.yml"
-            sops --encrypt --age "$ANSIBLE_PUBLIC_KEY" --input-type yaml --output-type yaml "/tmp/secrets.sops.yml" > "$SECRET_FILE"
-            rm "/tmp/secrets.sops.yml"
+            TEMPLATE="ansible/host_vars/secrets.sops.yaml.tpl"
+            cp "$TEMPLATE" "/tmp/secrets.sops.yaml"
+            sops --encrypt --age "$ANSIBLE_PUBLIC_KEY" --input-type yaml --output-type yaml "/tmp/secrets.sops.yaml" > "$SECRET_FILE"
+            rm "/tmp/secrets.sops.yaml"
         fi
     done
 fi
@@ -202,7 +202,7 @@ echo "    Next steps:"
 
 NEEDS_EDIT=false
 for HOST in $ANSIBLE_HOSTS; do
-    SECRET_FILE="ansible/host_vars/$HOST/secrets.sops.yml"
+    SECRET_FILE="ansible/host_vars/$HOST/secrets.sops.yaml"
     if SOPS_AGE_KEY_FILE="$ANSIBLE_AGE_KEY_FILE" sops -d "$SECRET_FILE" 2>/dev/null | grep -q "CHANGEME"; then
         NEEDS_EDIT=true
         break

@@ -12,7 +12,7 @@ Provisioning and GitOps for this homelab, in one repo:
 
 Everything runs from one DevContainer, no local tool installation needed.
 The two halves keep separate trust boundaries by design: separate AGE keys
-for ansible secrets (`ansible/host_vars/**/*.sops.yml`) and Komodo secrets
+for ansible secrets (`ansible/host_vars/**/*.sops.yaml`) and Komodo secrets
 (`komodo/**/*.sops.yaml`). Komodo's GitOps sync only ever looks at
 `komodo/resources/` and each stack's `run_directory`, so an ansible-only
 commit can't trigger a stack redeploy.

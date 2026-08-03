@@ -26,7 +26,7 @@ This will:
 - Generate an age keypair for both trust boundaries (or restore them from Bitwarden if they exist)
 - Back up the private keys to Bitwarden as Secure Notes
 - Update `ansible/.sops.yaml` with the ansible public key
-- Create encrypted `secrets.sops.yml` files for every host in `hosts.yml`
+- Create encrypted `secrets.sops.yaml` files for every host in `hosts.yml`
 - Restore SSH backup keys from Bitwarden for hosts that have one
 
 On a new machine, `just setup` automatically restores your age keys from Bitwarden — no manual key copying needed.
@@ -77,7 +77,7 @@ git add ansible/.sops.yaml ansible/host_vars/
 git commit -m "feat(ansible): add SOPS-encrypted host secrets"
 ```
 
-The `secrets.sops.yml` files are safely encrypted — values are hidden, but the YAML structure is visible in diffs.
+The `secrets.sops.yaml` files are safely encrypted — values are hidden, but the YAML structure is visible in diffs.
 
 ---
 
@@ -184,7 +184,7 @@ ansible/                        # This directory — see ../.devcontainer/,
     node_agent.yml              #   Alloy/Hawser defaults
   host_vars/<hostname>/
     vars.yml                    # Feature toggles (plaintext, in git)
-    secrets.sops.yml             # Secrets: IPs, passwords, tokens (encrypted, in git)
+    secrets.sops.yaml             # Secrets: IPs, passwords, tokens (encrypted, in git)
 
   roles/
     hostname/                   # Sets server hostname to inventory name
@@ -325,7 +325,7 @@ node_agent_hawser_enabled: true   # Dockhand agent
 node_agent_bifrost_enabled: false  # WireGuard tunnel
 ```
 
-**Per-host secrets** (`host_vars/<hostname>/secrets.sops.yml`):
+**Per-host secrets** (`host_vars/<hostname>/secrets.sops.yaml`):
 ```yaml
 node_agent_obs_host: "10.0.20.102"           # central monitoring server IP
 node_agent_dockhand_url: "http://10.0.20.102:9000"
@@ -356,7 +356,7 @@ just a secrets myhost # opens in $EDITOR, auto-encrypts on save
 
 ### Template
 
-New hosts get secrets pre-populated from `host_vars/secrets.sops.yml.tpl`:
+New hosts get secrets pre-populated from `host_vars/secrets.sops.yaml.tpl`:
 
 ```yaml
 ansible_host: "CHANGEME"
@@ -452,7 +452,7 @@ just a bootstrap myhost      # re-runs SSH role, restores key from BW
 The secret file wasn't created with SOPS. Delete and recreate:
 
 ```bash
-rm ansible/host_vars/myhost/secrets.sops.yml
+rm ansible/host_vars/myhost/secrets.sops.yaml
 just a secrets myhost
 ```
 
