@@ -67,17 +67,18 @@ just k show-secrets nas-01    # print decrypted per-host secrets to stdout
 
 ## Decrypting on the Core host
 
+The `komodo` Ansible role handles secret provisioning automatically —
+it decrypts all global and per-host secrets, merges them into a
+`[secrets]` TOML block with per-host keys prefixed by hostname, and
+deploys the result as `core.secrets.toml` on the Core host. Run:
+
 ```bash
-just k decrypt                              # writes /etc/komodo/core.secrets.toml
-just k decrypt /custom/path/config.toml     # custom output path
+just a deploy <core-host> --tags komodo
 ```
 
-Equivalent to running `komodo/decrypt.sh` directly. Merges
-`komodo/secrets.sops.yaml` with every `komodo/resources/hosts/*/secrets.sops.yaml`
-into one `[secrets]` TOML block, chmod 600. The Komodo Core stack mounts
-this file read-only via `KOMODO_SECRETS_FILE` (see
-`stacks/komodo/.env.example`), so restart Komodo Core after decrypting to
-pick up changes.
+The Komodo Core stack mounts this file read-only via `KOMODO_SECRETS_FILE`
+(see `stacks/komodo/.env.example`). Ansible restarts Core automatically
+when secrets change.
 
 ## Rotating a secret
 
@@ -88,9 +89,7 @@ pick up changes.
    git commit -m "chore(komodo): rotate <secret-name>"
    git push
    ```
-3. On the Core host: `git pull`
-4. `just k decrypt` (or `komodo/decrypt.sh`)
-5. Restart Komodo Core to pick up the new value
+3. Re-run the Ansible `komodo` role against the Core host to deploy the updated secrets
 
 ## Adding a new host
 

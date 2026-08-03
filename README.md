@@ -92,16 +92,10 @@ walkthrough (SSH key deployment, tags, daily commands).
 ### 4. Deploy Komodo Core
 
 Deploy `stacks/komodo/` on the host that will run Komodo Core (see that
-stack's `.env.example`). Once running, decrypt secrets into its config:
-
-```bash
-just k decrypt           # writes /etc/komodo/core.secrets.toml on the Core host
-```
-
-Or run the `komodo` ansible role against that host. It renders
-`compose.yml` and `.env` from Ansible variables and handles secret
-provisioning (`core.secrets.toml`) automatically, so this path needs no
-separate clone or manual `.env` edit.
+stack's `.env.example`). Run the `komodo` ansible role against that host
+— it renders `compose.yml` and `.env` from Ansible variables and handles
+secret provisioning (`core.secrets.toml`) automatically, so this path
+needs no separate clone or manual `.env` edit.
 
 ### 5. Point Komodo at this repo
 
@@ -193,7 +187,8 @@ Run `just --list` from the repo root to see every recipe. Highlights:
 | `just setup` | First-time/re-run setup: both age keys, SSH backup keys, host secrets |
 | `just a secrets HOST` | Ansible secrets (Key A) |
 | `just k secrets [TARGET]` | Komodo secrets (Key B) |
-| `just k decrypt` / `just k show-secrets [TARGET]` | Komodo: assemble/inspect `core.secrets.toml` |
+| `just k show-secrets [TARGET]` | Komodo: inspect decrypted secrets |
+| `just k check [HOST]` | Komodo: audit placeholder coverage per host |
 
 Ansible's day-to-day recipes (`ping`, `check`, `run`, `deploy`, `bootstrap`,
 `update`, `new-host`, `trust`, `vars`, `sshsync`, `show-key`) work
