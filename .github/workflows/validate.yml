@@ -21,7 +21,7 @@ jobs:
 
       - name: Install taplo
         run: |
-          curl -fsSL https://github.com/tamasfe/taplo/releases/latest/download/taplo-full-linux-x86_64.gz \
+          curl -fsSL https://github.com/tamasfe/taplo/releases/download/0.10.0/taplo-linux-x86_64.gz \
             | gunzip > /usr/local/bin/taplo
           chmod +x /usr/local/bin/taplo
 
@@ -56,7 +56,7 @@ jobs:
 
       - name: Install dotenv-linter
         run: |
-          curl -fsSL https://github.com/dotenv-linter/dotenv-linter/releases/latest/download/dotenv-linter-linux-x86_64.tar.gz \
+          curl -fsSL https://github.com/dotenv-linter/dotenv-linter/releases/download/v4.0.0/dotenv-linter-linux-x86_64.tar.gz \
             | tar xz -C /usr/local/bin
 
       - name: Lint .env files
