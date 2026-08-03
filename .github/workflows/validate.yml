@@ -56,7 +56,7 @@ jobs:
 
       - name: Install dotenv-linter
         run: |
-          curl -fsSL https://github.com/dotenv-linter/dotenv-linter/releases/download/v4.0.0/dotenv-linter-linux-x86_64.tar.gz \
+          curl -fsSL https://github.com/dotenv-linter/dotenv-linter/releases/download/v3.3.0/dotenv-linter-linux-x86_64.tar.gz \
             | tar xz -C /usr/local/bin
 
       - name: Lint .env files
