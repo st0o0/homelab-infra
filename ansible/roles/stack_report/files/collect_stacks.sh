@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
-# Reports Docker Compose stacks and the env var *names* explicitly set by the
-# user (directly in the compose file's `environment:` or via `env_file`/.env).
-# Image-default env vars (baked into the Dockerfile) are excluded.
-# Never prints env var values.
+# Reports Docker Compose stacks and copies compose/env files for local fetch.
+# Outputs JSON to stdout; copies files to /tmp/stack_report_files/<stack>/.
 set -uo pipefail
+
+EXPORT_DIR="/tmp/stack_report_files"
+rm -rf "$EXPORT_DIR"
+mkdir -p "$EXPORT_DIR"
 
 if ! command -v docker >/dev/null 2>&1; then
   echo '{"projects": []}'
@@ -35,6 +37,16 @@ echo "$ls_json" | jq -c '.[]?' 2>/dev/null | while IFS= read -r project; do
   [ -z "$compose_config_json" ] && compose_config_json='{"services":{}}'
   service_env_map=$(jq -c '[.services // {} | to_entries[] | {key: .key, value: ((.value.environment // {}) | keys | sort)}] | from_entries' <<<"$compose_config_json" 2>/dev/null)
   [ -z "$service_env_map" ] && service_env_map='{}'
+
+  # Copy compose and env files for Ansible fetch
+  stack_export="$EXPORT_DIR/$name"
+  mkdir -p "$stack_export"
+  for f in "${_files[@]}"; do
+    [ -f "$f" ] && cp "$f" "$stack_export/"
+  done
+  if [ -f "$working_dir/.env" ]; then
+    cp "$working_dir/.env" "$stack_export/.env"
+  fi
 
   services_json="[]"
   while IFS='|' read -r cid service; do

@@ -18,7 +18,44 @@
   ansible.builtin.set_fact:
     stack_report_data: "{{ _stack_report_raw.stdout | from_json }}"
 
-# -- Aggregate (once, locally) --
+# -- Fetch compose/env files (per host) --
+- name: List exported stack directories
+  ansible.builtin.find:
+    paths: /tmp/stack_report_files
+    file_type: directory
+    recurse: false
+  register: _stack_dirs
+  changed_when: false
+  check_mode: false
+
+- name: List files in each stack directory
+  ansible.builtin.find:
+    paths: "{{ item.path }}"
+    file_type: file
+    hidden: true
+  loop: "{{ _stack_dirs.files }}"
+  loop_control:
+    label: "{{ item.path | basename }}"
+  register: _stack_files
+  changed_when: false
+  check_mode: false
+
+- name: Fetch stack files to local report directory
+  ansible.builtin.fetch:
+    src: "{{ item.1.path }}"
+    dest: "{{ stack_report_files_path }}/{{ inventory_hostname }}/{{ item.0.item.path | basename }}/"
+    flat: true
+  loop: "{{ _stack_files.results | subelements('files') }}"
+  loop_control:
+    label: "{{ inventory_hostname }}/{{ item.0.item.path | basename }}/{{ item.1.path | basename }}"
+
+- name: Clean up temporary export directory
+  ansible.builtin.file:
+    path: /tmp/stack_report_files
+    state: absent
+  changed_when: false
+
+# -- Aggregate JSON report (once, locally) --
 - name: Create reports directory
   ansible.builtin.file:
     path: "{{ stack_report_output_path | dirname }}"
