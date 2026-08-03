@@ -6,14 +6,21 @@ x-logging: &default-logging
 
 services:
   whoami:
-    image: traefik/whoami:latest
+    image: traefik/whoami:v1.12.0
     container_name: whoami
     restart: always
     logging: *default-logging
     environment:
-      - TZ=${TZ:-Europe/Berlin}
+      - TZ=${TZ:-}
     ports:
-      - "${WHOAMI_BIND_IP:-0.0.0.0}:${WHOAMI_PORT:-8080}:80"
+      - "${WHOAMI_PORT:-8080}:80"
+    deploy:
+      resources:
+        limits:
+          cpus: 0.05
+          memory: 32M
+        reservations:
+          memory: 16M
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://localhost:80/health || exit 1"]
       interval: 30s

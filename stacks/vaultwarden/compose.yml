@@ -11,14 +11,21 @@ services:
     restart: unless-stopped
     logging: *default-logging
     environment:
-      - TZ=${TZ:-Europe/Berlin}
-      - PUID=${PUID:-1000}
-      - PGID=${PGID:-1000}
-      - DOMAIN=${VAULTWARDEN_DOMAIN:-}
-      - DISABLE_ADMIN_TOKEN=${DISABLE_ADMIN_TOKEN:-true}
-      - SIGNUPS_ALLOWED=${SIGNUPS_ALLOWED:-false}
-      - DATABASE_URL=${DATABASE_URL:-}
+      - TZ=${TZ:-}
+      - PUID=${PUID:-}
+      - PGID=${PGID:-}
+      - DOMAIN=${VW_DOMAIN:-}
+      - DISABLE_ADMIN_TOKEN=${VW_DISABLE_ADMIN_TOKEN:-true}
+      - SIGNUPS_ALLOWED=${VW_SIGNUPS_ALLOWED:-false}
+      - DATABASE_URL=${VW_DATABASE_URL:-}
     volumes:
-      - ${VAULTWARDEN_DATA_PATH:-./data}:/data/
+      - ${VW_PATH_DATA:?VW_PATH_DATA is required}:/data/
     ports:
-      - "${VAULTWARDEN_PORT:-3002}:80"
+      - "${VW_PORT:-3002}:80"
+    deploy:
+      resources:
+        limits:
+          cpus: 0.25
+          memory: 256M
+        reservations:
+          memory: 128M

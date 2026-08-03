@@ -11,23 +11,30 @@ services:
     restart: always
     logging: *default-logging
     environment:
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
-      - POSTGRES_USER=${POSTGRES_USER:-immich}
-      - POSTGRES_DB=${POSTGRES_DB:-immich}
+      - POSTGRES_PASSWORD=${IMMICH_PG_PASS:?IMMICH_PG_PASS is required}
+      - POSTGRES_USER=${IMMICH_PG_USER:-}
+      - POSTGRES_DB=${IMMICH_PG_DB:-}
       - POSTGRES_INITDB_ARGS=--data-checksums
-      - TZ=${TZ:-Europe/Berlin}
+      - TZ=${TZ:-}
     ports:
-      - "${POSTGRES_BIND_IP:-127.0.0.1}:${POSTGRES_PORT:-5433}:5432"
+      - "${IMMICH_PG_PORT:-5433}:5432"
     volumes:
-      - ${IMMICH_POSTGRES_DATA_PATH:-./data}:/var/lib/postgresql/data
+      - ${IMMICH_PG_PATH_DATA:?IMMICH_PG_PATH_DATA is required}:/var/lib/postgresql/data
     shm_size: 128mb
     networks:
       - db-net
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-immich} -d ${POSTGRES_DB:-immich}"]
+      test: ["CMD-SHELL", "pg_isready -U ${IMMICH_PG_USER:-} -d ${IMMICH_PG_DB:-}"]
       interval: 10s
       timeout: 5s
       retries: 5
+    deploy:
+      resources:
+        limits:
+          cpus: 0.5
+          memory: 1GB
+        reservations:
+          memory: 512M
 
 networks:
   db-net:
