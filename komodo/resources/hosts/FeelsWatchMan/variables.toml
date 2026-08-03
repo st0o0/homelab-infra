@@ -1,0 +1,21 @@
+# Per-host, non-secret variables. Copied to
+# komodo/resources/hosts/<hostname>/variables.toml by `just k vars <hostname>`.
+#
+# Not secret, so this file is plain TOML — no sops involved, unlike
+# komodo/resources/hosts/<hostname>/secrets.sops.yaml.
+#
+# Name every entry with a "<hostname>_" prefix so it can't collide with
+# komodo/resources/variables.toml or another host's file, and reference it
+# from komodo/resources/stacks.toml as [[<hostname>_VARIABLE_NAME]] — same
+# convention as per-host secrets ([[<hostname>_host_ip]]).
+#
+# Example:
+# [[variable]]
+# name = "FeelsStrongMan_PAPERLESS_DBHOST"
+# value = "paperless-db"
+# description = "Postgres service name for paperless on FeelsStrongMan"
+
+[[variable]]
+name = "FeelsWatchMan_alloy_nut_exporter_target"
+value = "changeme"
+description = "NUT exporter target address for Alloy scraping (e.g. host.docker.internal:3493)"

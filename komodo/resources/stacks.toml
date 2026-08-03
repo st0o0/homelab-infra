@@ -13,19 +13,14 @@
 # `git_account` needed anywhere here: st0o0/homelab-infra is public, so
 # repos.toml clones it over anonymous HTTPS.
 #
-# `environment` lists only each stack's *required* variables (see each
-# stacks/<service>/.env.example for the full optional list — those keep
-# their compose-file defaults unless overridden here). Secret-backed values
+# `environment` lists *every* ${VAR} from the stack's compose file so that
+# Komodo is the single place to see all tunable knobs. Required vars
+# (compose `:?`) use [[SECRET]] / [[VARIABLE]] references or literal
+# values. Optional vars (compose `:-default`) carry their compose default
+# as a literal — override by changing the value here. Secret-backed values
 # use [[SECRET_NAME]], resolved from komodo/secrets.sops.yaml /
-# komodo/resources/hosts/<host>/secrets.sops.yaml (see komodo/README.md). Shared
-# non-secret values use [[VARIABLE_NAME]] from variables.toml.
-#
-# One deliberate exception to "only required": every `*_PATH` variable for a
-# stack's persistent bind-mounted data is always set here too, even though
-# it's optional at the compose layer (each has a relative `./...` fallback
-# default, for standalone `docker compose up` use outside Komodo). Declaring
-# them here — always as a literal `/docker/<stack-name>/...` value — keeps
-# one place where every stack's on-disk data location is visible.
+# komodo/resources/hosts/<host>/secrets.sops.yaml (see komodo/README.md).
+# Shared non-secret values use [[VARIABLE_NAME]] from variables.toml.
 #
 # `backrest` has no confirmed host yet — left commented out below until one
 # is chosen.
@@ -49,14 +44,30 @@ file_paths = ["compose.yml"]
 linked_repo = "homelab-infra"
 environment = """
 HA_VLAN_IP=[[FeelsCozyMan_ha_vlan_ip]]
-VLAN_SUBNET=[[FeelsCozyMan_ha_vlan_subnet]]
+HA_VLAN_SUBNET=[[FeelsCozyMan_ha_vlan_subnet]]
 TZ=[[TZ]]
-HA_CONFIG_PATH=/docker/homeassistant/data
-MQTT_CONFIG_PATH=/docker/homeassistant/mosquitto/config
-MQTT_DATA_PATH=/docker/homeassistant/mosquitto/data
-MQTT_LOG_PATH=/docker/homeassistant/mosquitto/log
-Z2M_DATA_PATH=/docker/homeassistant/zigbee2mqtt/data
-MATTER_DATA_PATH=/docker/homeassistant/matter/data
+HA_SERIAL_DEVICE=/dev/serial1
+HA_PORT=8123
+HA_MAC_DEFAULT=02:42:ac:11:00:02
+HA_MAC_VLAN=02:42:ac:12:00:02
+HA_VLAN_PARENT=vlan88
+HA_PATH_CONFIG=/docker/homeassistant/data
+MQTT_PORT=8124
+MQTT_PATH_CONFIG=/docker/homeassistant/mosquitto/config
+MQTT_PATH_DATA=/docker/homeassistant/mosquitto/data
+MQTT_PATH_LOG=/docker/homeassistant/mosquitto/log
+Z2M_PORT=8125
+Z2M_PATH_DATA=/docker/homeassistant/zigbee2mqtt/data
+MATTER_LOG_LEVEL=info
+MATTER_BLE_PROXY=true
+MATTER_PATH_DATA=/docker/homeassistant/matter/data
+NJORD_PORT=9090
+NJORD_HEALTH_PORT=9091
+NJORD_POLL_INTERVAL=01:00:00
+NJORD_FORECAST_DAYS=7
+NJORD_LOCATION_NAME=vreden
+NJORD_LOCATION_LAT=52.0379
+NJORD_LOCATION_LON=6.828
 """
 
 [[stack]]
@@ -67,10 +78,15 @@ run_directory = "stacks/vaultwarden"
 file_paths = ["compose.yml"]
 linked_repo = "homelab-infra"
 environment = """
-VAULTWARDEN_DOMAIN=[[FeelsCozyMan_vaultwarden_domain]]
-DATABASE_URL=[[FeelsCozyMan_vaultwarden_database_url]]
+VW_DOMAIN=[[FeelsCozyMan_vaultwarden_domain]]
+VW_DATABASE_URL=[[FeelsCozyMan_vaultwarden_database_url]]
+PUID=[[PUID]]
+PGID=[[PGID]]
 TZ=[[TZ]]
-VAULTWARDEN_DATA_PATH=/docker/vaultwarden/data
+VW_DISABLE_ADMIN_TOKEN=true
+VW_SIGNUPS_ALLOWED=false
+VW_PORT=3002
+VW_PATH_DATA=/docker/vaultwarden/data
 """
 
 # ── FeelsDataMan ──────────────────────────────────────────────────────────
@@ -83,10 +99,12 @@ run_directory = "stacks/postgres"
 file_paths = ["compose.yml"]
 linked_repo = "homelab-infra"
 environment = """
-POSTGRES_USER=[[FeelsDataMan_postgres_username]]
-POSTGRES_PASSWORD=[[FeelsDataMan_postgres_password]]
+PG_USER=[[FeelsDataMan_postgres_username]]
+PG_PASS=[[FeelsDataMan_postgres_password]]
 TZ=[[TZ]]
-POSTGRES_DATA_PATH=/docker/postgres/data
+PG_DB=
+PG_PORT=5432
+PG_PATH_DATA=/docker/postgres/data
 """
 
 [[stack]]
@@ -97,9 +115,12 @@ run_directory = "stacks/immich-postgres"
 file_paths = ["compose.yml"]
 linked_repo = "homelab-infra"
 environment = """
-POSTGRES_PASSWORD=[[IMMICH_POSTGRES_PASSWORD]]
+IMMICH_PG_PASS=[[IMMICH_POSTGRES_PASSWORD]]
 TZ=[[TZ]]
-IMMICH_POSTGRES_DATA_PATH=/docker/immich-postgres/data
+IMMICH_PG_USER=
+IMMICH_PG_DB=
+IMMICH_PG_PORT=5433
+IMMICH_PG_PATH_DATA=/docker/immich-postgres/data
 """
 
 [[stack]]
@@ -110,10 +131,11 @@ run_directory = "stacks/mongodb"
 file_paths = ["compose.yml"]
 linked_repo = "homelab-infra"
 environment = """
-MONGO_INITDB_ROOT_USERNAME=[[FeelsDataMan_mongo_root_username]]
-MONGO_INITDB_ROOT_PASSWORD=[[FeelsDataMan_mongo_root_password]]
+MONGO_ROOT_USER=[[FeelsDataMan_mongo_root_username]]
+MONGO_ROOT_PASS=[[FeelsDataMan_mongo_root_password]]
 TZ=[[TZ]]
-MONGO_DATA_PATH=/docker/mongodb/data
+MONGO_PORT=27017
+MONGO_PATH_DATA=/docker/mongodb/data
 """
 
 [[stack]]
@@ -124,10 +146,22 @@ run_directory = "stacks/databasement"
 file_paths = ["compose.yml"]
 linked_repo = "homelab-infra"
 environment = """
-APP_KEY=[[FeelsDataMan_databasement_app_key]]
-DB_PASSWORD=[[FeelsDataMan_postgres_password]]
+DATABASEMENT_APP_KEY=[[FeelsDataMan_databasement_app_key]]
+DATABASEMENT_DB_PASS=[[FeelsDataMan_postgres_password]]
 TZ=[[TZ]]
-DATABASEMENT_DATA_PATH=/docker/databasement/data
+DATABASEMENT_APP_URL=http://localhost:2226
+DATABASEMENT_APP_ENV=production
+DATABASEMENT_APP_DEBUG=false
+DATABASEMENT_DB_HOST=postgres
+DATABASEMENT_DB_PORT=5432
+DATABASEMENT_DB_NAME=databasement
+DATABASEMENT_DB_USER=postgres
+DATABASEMENT_QUEUE_CONNECTION=database
+DATABASEMENT_CACHE_STORE=database
+DATABASEMENT_SESSION_DRIVER=database
+DATABASEMENT_BIND_IP=127.0.0.1
+DATABASEMENT_PORT=2226
+DATABASEMENT_PATH_DATA=/docker/databasement/data
 """
 
 # ── FeelsNoSponsorMan ─────────────────────────────────────────────────────
@@ -140,15 +174,17 @@ run_directory = "stacks/pihole"
 file_paths = ["compose.yml"]
 linked_repo = "homelab-infra"
 environment = """
-PIHOLE_PASSWORD=[[FeelsNoSponsorMan_pihole_password]]
+PIHOLE_PASS=[[FeelsNoSponsorMan_pihole_password]]
 NEBULA_PRIMARY=[[FeelsNoSponsorMan_nebula_primary]]
 NEBULA_REPLICAS=[[FeelsNoSponsorMan_nebula_replicas]]
 NEBULA_FULL_SYNC=[[FeelsNoSponsorMan_nebula_full_sync]]
 NEBULA_RUN_GRAVITY=[[FeelsNoSponsorMan_nebula_run_gravity]]
 NEBULA_CRON=[[FeelsNoSponsorMan_nebula_cron]]
 TZ=[[TZ]]
-PIHOLE_DATA_PATH=/docker/pihole/data
-PIHOLE_DNSMASQ_PATH=/docker/pihole/dnsmasq.d
+PIHOLE_PORT_DNS=53
+PIHOLE_PORT_WEB=1000
+PIHOLE_PATH_DATA=/docker/pihole/data
+PIHOLE_PATH_DNSMASQ=/docker/pihole/dnsmasq.d
 """
 
 # ── FeelsPrivateMan ───────────────────────────────────────────────────────
@@ -167,6 +203,21 @@ BIFROST_PEER_PUBLIC_KEY=[[FeelsPrivateMan_bifrost_peer_public_key]]
 BIFROST_PEER_ENDPOINT=[[FeelsPrivateMan_bifrost_peer_endpoint]]
 BIFROST_PEER_ALLOWED_IPS=[[FeelsPrivateMan_bifrost_peer_allowed_ips]]
 BIFROST_PEER_PRESHARED_KEY=[[FeelsPrivateMan_bifrost_peer_preshared_key]]
+BIFROST_LISTEN_PORT=0
+BIFROST_MTU=1420
+BIFROST_PEER_KEEPALIVE=25
+BIFROST_INTERFACE=wg0
+BIFROST_CHECK_INTERVAL=30
+BIFROST_STALE_AFTER=135
+BIFROST_RESOLVE=on
+BIFROST_RECONNECT=on
+BIFROST_HEALTHCHECK=on
+BIFROST_PROBE=off
+EIR_STABILIZE_WAIT=15s
+EIR_MAX_RETRIES=3
+EIR_RETRY_BACKOFF=5s
+EIR_LOG_LEVEL=info
+EIR_LOG_FORMAT=text
 """
 
 # ── FeelsStrongMan ────────────────────────────────────────────────────────
@@ -184,27 +235,45 @@ SONARR_API_KEY=[[FeelsStrongMan_arr_sonarr_api_key]]
 RADARR_API_KEY=[[FeelsStrongMan_arr_radarr_api_key]]
 TRACEARR_JWT_SECRET=[[FeelsStrongMan_arr_tracearr_jwt_secret]]
 TRACEARR_COOKIE_SECRET=[[FeelsStrongMan_arr_tracearr_cookie_secret]]
-TRACEARR_DB_PASSWORD=[[FeelsStrongMan_tracearr_db_password]]
+TRACEARR_DB_PASS=[[FeelsStrongMan_tracearr_db_password]]
 CIFS_MEDIA_HOST=[[FeelsStrongMan_cifs_media_host]]
 CIFS_MEDIA_SHARE=[[FeelsStrongMan_cifs_media_share]]
 CIFS_MEDIA_USER=[[FeelsStrongMan_cifs_media_user]]
-CIFS_MEDIA_PASSWORD=[[FeelsStrongMan_cifs_media_password]]
+CIFS_MEDIA_PASS=[[FeelsStrongMan_cifs_media_password]]
 CIFS_DOWNLOADS_HOST=[[FeelsStrongMan_cifs_downloads_host]]
 CIFS_DOWNLOADS_SHARE=[[FeelsStrongMan_cifs_downloads_share]]
 CIFS_DOWNLOADS_USER=[[FeelsStrongMan_cifs_downloads_user]]
-CIFS_DOWNLOADS_PASSWORD=[[FeelsStrongMan_cifs_downloads_password]]
+CIFS_DOWNLOADS_PASS=[[FeelsStrongMan_cifs_downloads_password]]
 PUID=[[PUID]]
 PGID=[[PGID]]
 TZ=[[TZ]]
-SONARR_CONFIG_PATH=/docker/arr/sonarr/config
-RADARR_CONFIG_PATH=/docker/arr/radarr/config
-PROWLARR_CONFIG_PATH=/docker/arr/prowlarr/config
-SEERR_CONFIG_PATH=/docker/arr/seerr/config
-DASHBOARD_CONFIG_PATH=/docker/arr/arrdashboard/config
-RECYCLARR_CONFIG_PATH=/docker/arr/recyclarr/config
-RECYCLARR_BACKUP_PATH=/docker/arr/recyclarr/backups
-MEDIATHEKARR_CONFIG_PATH=/docker/arr/mediathekarr/config
-MEDIATHEKARR_TEMP_PATH=/docker/arr/mediathekarr/temp
+SONARR_PORT=1089
+ARR_MEDIA_PATH=/data/media
+RADARR_PORT=1078
+PROWLARR_PORT=1096
+SEERR_PORT=1055
+SEERR_LOG_LEVEL=debug
+ARR_DASHBOARD_PORT=1005
+RECYCLARR_PORT=7879
+SONARR_API_URL=http://sonarr:8989
+RADARR_API_URL=http://radarr:7878
+MEDIATHEKARR_CATEGORIES=series,movies,custom
+MEDIATHEKARR_API_BASE_URL=https://mediathekarr.pcjones.de/api/v1
+MEDIATHEKARR_PORT=1007
+FLARESOLVERR_PORT=8191
+FLARESOLVERR_LOG_LEVEL=info
+TRACEARR_PORT=3300
+TRACEARR_CORS_ORIGIN=*
+TRACEARR_LOG_LEVEL=info
+SONARR_PATH_CONFIG=/docker/arr/sonarr/config
+RADARR_PATH_CONFIG=/docker/arr/radarr/config
+PROWLARR_PATH_CONFIG=/docker/arr/prowlarr/config
+SEERR_PATH_CONFIG=/docker/arr/seerr/config
+ARR_DASHBOARD_PATH_CONFIG=/docker/arr/arrdashboard/config
+RECYCLARR_PATH_CONFIG=/docker/arr/recyclarr/config
+RECYCLARR_PATH_BACKUP=/docker/arr/recyclarr/backups
+MEDIATHEKARR_PATH_CONFIG=/docker/arr/mediathekarr/config
+MEDIATHEKARR_PATH_TEMP=/docker/arr/mediathekarr/temp
 """
 
 [[stack]]
@@ -218,20 +287,22 @@ environment = """
 CIFS_MEDIA_HOST=[[FeelsStrongMan_cifs_media_host]]
 CIFS_MEDIA_SHARE=[[FeelsStrongMan_cifs_media_share]]
 CIFS_MEDIA_USER=[[FeelsStrongMan_cifs_media_user]]
-CIFS_MEDIA_PASSWORD=[[FeelsStrongMan_cifs_media_password]]
+CIFS_MEDIA_PASS=[[FeelsStrongMan_cifs_media_password]]
 CIFS_AUDIOS_HOST=[[FeelsStrongMan_cifs_audios_host]]
 CIFS_AUDIOS_SHARE=[[FeelsStrongMan_cifs_audios_share]]
 CIFS_AUDIOS_USER=[[FeelsStrongMan_cifs_audios_user]]
-CIFS_AUDIOS_PASSWORD=[[FeelsStrongMan_cifs_audios_password]]
+CIFS_AUDIOS_PASS=[[FeelsStrongMan_cifs_audios_password]]
 PUID=[[PUID]]
 PGID=[[PGID]]
 TZ=[[TZ]]
-JELLYFIN_CONFIG_PATH=/docker/media/jellyfin/config
-JELLYFIN_CACHE_PATH=/docker/media/jellyfin/cache
-JELLYFIN_PREVIEW_PATH=/docker/media/jellyfin/preview
-JELLYFIN_VIDEO_PATH=/docker/media/jellyfin/video
-AUDIOBOOKSHELF_CONFIG_PATH=/docker/media/audiobookshelf/config
-AUDIOBOOKSHELF_METADATA_PATH=/docker/media/audiobookshelf/metadata
+JELLYFIN_PORT=8096
+AUDIOBOOKSHELF_PORT=13378
+JELLYFIN_PATH_CONFIG=/docker/media/jellyfin/config
+JELLYFIN_PATH_CACHE=/docker/media/jellyfin/cache
+JELLYFIN_PATH_PREVIEW=/docker/media/jellyfin/preview
+JELLYFIN_PATH_VIDEO=/docker/media/jellyfin/video
+AUDIOBOOKSHELF_PATH_CONFIG=/docker/media/audiobookshelf/config
+AUDIOBOOKSHELF_PATH_METADATA=/docker/media/audiobookshelf/metadata
 """
 
 [[stack]]
@@ -243,10 +314,15 @@ file_paths = ["compose.yml"]
 linked_repo = "homelab-infra"
 environment = """
 AUTHENTIK_SECRET_KEY=[[FeelsStrongMan_authentik_secret_key]]
-PG_PASS=[[FeelsStrongMan_authentik_pg_pass]]
-AUTHENTIK_MEDIA_PATH=/docker/authentik/media
-AUTHENTIK_TEMPLATES_PATH=/docker/authentik/custom-templates
-AUTHENTIK_CERTS_PATH=/docker/authentik/certs
+AUTHENTIK_DB_PASS=[[FeelsStrongMan_authentik_pg_pass]]
+AUTHENTIK_DB_HOST=authentik-db
+AUTHENTIK_DB_USER=authentik
+AUTHENTIK_DB_NAME=authentik
+AUTHENTIK_PORT_HTTP=9000
+AUTHENTIK_PORT_HTTPS=9443
+AUTHENTIK_PATH_MEDIA=/docker/authentik/media
+AUTHENTIK_PATH_TEMPLATES=/docker/authentik/custom-templates
+AUTHENTIK_PATH_CERTS=/docker/authentik/certs
 """
 
 [[stack]]
@@ -257,9 +333,20 @@ run_directory = "stacks/immich"
 file_paths = ["compose.yml"]
 linked_repo = "homelab-infra"
 environment = """
-DB_PASSWORD=[[IMMICH_POSTGRES_PASSWORD]]
+IMMICH_DB_HOST=[[FeelsStrongMan_immich_db_host]]
+IMMICH_DB_PASS=[[IMMICH_POSTGRES_PASSWORD]]
+CIFS_IMMICH_MEDIA_HOST=[[FeelsStrongMan_cifs_immich_media_host]]
+CIFS_IMMICH_MEDIA_SHARE=[[FeelsStrongMan_cifs_immich_media_share]]
+CIFS_IMMICH_MEDIA_USER=[[FeelsStrongMan_cifs_immich_media_user]]
+CIFS_IMMICH_MEDIA_PASS=[[FeelsStrongMan_cifs_immich_media_password]]
+PUID=[[PUID]]
+PGID=[[PGID]]
 TZ=[[TZ]]
-UPLOAD_PATH=/docker/immich/upload
+IMMICH_PORT=2283
+IMMICH_DB_USER=
+IMMICH_DB_NAME=
+IMMICH_PATH_UPLOAD=/docker/immich/upload
+IMMICH_PATH_CACHE=/docker/immich/cache
 """
 
 [[stack]]
@@ -270,14 +357,29 @@ run_directory = "stacks/mealie"
 file_paths = ["compose.yml"]
 linked_repo = "homelab-infra"
 environment = """
-POSTGRES_PASSWORD=[[FeelsStrongMan_mealie_postgres_password]]
-POSTGRES_SERVER=[[FeelsStrongMan_mealie_postgres_server]]
-BASE_URL=[[FeelsStrongMan_mealie_base_url]]
-OIDC_CONFIGURATION_URL=[[FeelsStrongMan_mealie_oidc_configuration_url]]
-OIDC_CLIENT_ID=[[FeelsStrongMan_mealie_oidc_client_id]]
-OIDC_CLIENT_SECRET=[[FeelsStrongMan_mealie_oidc_client_secret]]
+MEALIE_DB_PASS=[[FeelsStrongMan_mealie_postgres_password]]
+MEALIE_DB_HOST=[[FeelsStrongMan_mealie_postgres_server]]
+MEALIE_BASE_URL=[[FeelsStrongMan_mealie_base_url]]
+MEALIE_OIDC_CONFIG_URL=[[FeelsStrongMan_mealie_oidc_configuration_url]]
+MEALIE_OIDC_CLIENT_ID=[[FeelsStrongMan_mealie_oidc_client_id]]
+MEALIE_OIDC_CLIENT_SECRET=[[FeelsStrongMan_mealie_oidc_client_secret]]
+PUID=[[PUID]]
+PGID=[[PGID]]
 TZ=[[TZ]]
-MEALIE_DATA_PATH=/docker/mealie/data
+MEALIE_PORT=9925
+MEALIE_ALLOW_SIGNUP=false
+MEALIE_ALLOW_PASSWORD_LOGIN=false
+MEALIE_OIDC_ENABLED=
+MEALIE_OIDC_PROVIDER_NAME=
+MEALIE_OIDC_SIGNUP_ENABLED=
+MEALIE_OIDC_USER_GROUP=
+MEALIE_OIDC_ADMIN_GROUP=
+MEALIE_OIDC_AUTO_REDIRECT=
+MEALIE_OIDC_REMEMBER_ME=
+MEALIE_DB_USER=
+MEALIE_DB_PORT=
+MEALIE_DB_NAME=
+MEALIE_PATH_DATA=/docker/mealie/data
 """
 
 [[stack]]
@@ -289,17 +391,24 @@ run_directory = "stacks/downloader"
 file_paths = ["compose.yml"]
 linked_repo = "homelab-infra"
 environment = """
-WIREGUARD_PRIVATE_KEY=[[FeelsStrongMan_downloader_wireguard_private_key]]
-WIREGUARD_ADDRESSES=[[FeelsStrongMan_downloader_wireguard_addresses]]
-WIREGUARD_PRESHARED_KEY=[[FeelsStrongMan_downloader_wireguard_preshared_key]]
+GLUETUN_WG_PRIVATE_KEY=[[FeelsStrongMan_downloader_wireguard_private_key]]
+GLUETUN_WG_ADDRESSES=[[FeelsStrongMan_downloader_wireguard_addresses]]
+GLUETUN_WG_PRESHARED_KEY=[[FeelsStrongMan_downloader_wireguard_preshared_key]]
 CIFS_DOWNLOADS_HOST=[[FeelsStrongMan_cifs_downloads_host]]
 CIFS_DOWNLOADS_SHARE=[[FeelsStrongMan_cifs_downloads_share]]
 CIFS_DOWNLOADS_USER=[[FeelsStrongMan_cifs_downloads_user]]
-CIFS_DOWNLOADS_PASSWORD=[[FeelsStrongMan_cifs_downloads_password]]
+CIFS_DOWNLOADS_PASS=[[FeelsStrongMan_cifs_downloads_password]]
 PUID=[[PUID]]
 PGID=[[PGID]]
 TZ=[[TZ]]
-SABNZBD_SSD_PATH=/docker/downloader/sabnzbd/ssd
+GLUETUN_PORT=8079
+SABNZBD_PORT=8080
+GLUETUN_VPN_PROVIDER=airvpn
+GLUETUN_VPN_TYPE=wireguard
+GLUETUN_WG_MTU=1380
+GLUETUN_SERVER_CITIES=Alblasserdam
+GLUETUN_DOT_PROVIDERS=quad9
+SABNZBD_PATH_SSD=/docker/downloader/sabnzbd/ssd
 """
 
 # ── FeelsUPSMan ───────────────────────────────────────────────────────────
@@ -313,10 +422,18 @@ file_paths = ["compose.yml"]
 linked_repo = "homelab-infra"
 environment = """
 NUT_DRIVER=[[FeelsUPSMan_nut_driver]]
-NUT_API_PASSWORD=[[FeelsUPSMan_nut_api_password]]
+NUT_API_USER=[[FeelsUPSMan_nut_api_user]]
+NUT_API_PASS=[[FeelsUPSMan_nut_api_password]]
+PUID=[[PUID]]
+PGID=[[PGID]]
 TZ=[[TZ]]
-NUT_CONFIG_PATH=/docker/nut-upsd/nut
-PEANUT_CONFIG_PATH=/docker/nut-upsd/peanut
+NUT_NAME=ups
+NUT_DRIVER_PORT=auto
+NUT_POLL_INTERVAL=15
+NUT_PORT=3493
+NUT_PATH_CONFIG=/docker/nut-upsd/nut
+PEANUT_PORT=8080
+PEANUT_PATH_CONFIG=/docker/nut-upsd/peanut
 """
 
 [[stack]]
@@ -327,11 +444,12 @@ run_directory = "stacks/ups-monitor"
 file_paths = ["compose.yml"]
 linked_repo = "homelab-infra"
 environment = """
-NUT_SERVER=[[FeelsUPSMan_ups_monitor_nut_server]]
-NUT_PASSWORD=[[FeelsUPSMan_ups_monitor_nut_password]]
-REMOTE_WRITE_URL=[[OBSERVABILITY_REMOTE_WRITE_URL]]
-LOGS_PUSH_URL=[[OBSERVABILITY_LOGS_PUSH_URL]]
+NUT_EXP_SERVER=[[FeelsUPSMan_ups_monitor_nut_server]]
+NUT_EXP_SERVER_PORT=3493
+NUT_EXP_USER=[[FeelsUPSMan_ups_monitor_nut_user]]
+NUT_EXP_PASS=[[FeelsUPSMan_ups_monitor_nut_password]]
 TZ=[[TZ]]
+NUT_EXP_PORT=9199
 """
 
 # ── FeelsWatchMan ─────────────────────────────────────────────────────────
@@ -344,12 +462,31 @@ run_directory = "stacks/observability"
 file_paths = ["compose.yml"]
 linked_repo = "homelab-infra"
 environment = """
-GRAFANA_ADMIN_PASSWORD=[[FeelsWatchMan_grafana_admin_password]]
-GRAFANA_ROOT_URL=[[FeelsWatchMan_grafana_root_url]]
+GRAFANA_ADMIN_PASS=[[FeelsWatchMan_grafana_admin_password]]
 TZ=[[TZ]]
-GRAFANA_DATA_PATH=/docker/observability/grafana
-VM_DATA_PATH=/docker/observability/victoriametrics
-VLOGS_DATA_PATH=/docker/observability/victorialogs
+GRAFANA_PORT=3000
+GRAFANA_ADMIN_USER=admin
+GRAFANA_ALLOW_SIGN_UP=false
+GRAFANA_ANALYTICS_REPORTING=false
+GRAFANA_CHECK_FOR_UPDATES=false
+GRAFANA_NEWS_FEED=false
+GRAFANA_DB_WAL=true
+GRAFANA_DB_TYPE=sqlite3
+GRAFANA_DB_HOST=
+GRAFANA_DB_NAME=grafana
+GRAFANA_DB_USER=
+GRAFANA_DB_PASS=
+GRAFANA_DB_SSL_MODE=disable
+GRAFANA_PATH_DATA=/docker/observability/grafana
+VM_RETENTION=90d
+VM_SCRAPE_INTERVAL=30s
+VM_SELF_SCRAPE_INTERVAL=1m
+VM_PORT=8428
+VM_PATH_DATA=/docker/observability/victoriametrics
+VL_RETENTION=90d
+VL_MAX_DISK_GB=0
+VL_PORT=9428
+VL_PATH_DATA=/docker/observability/victorialogs
 """
 
 [[stack]]
@@ -364,9 +501,17 @@ run_directory = "stacks/alloy"
 file_paths = ["compose.yml"]
 linked_repo = "homelab-infra"
 environment = """
-REMOTE_WRITE_URL=[[OBSERVABILITY_REMOTE_WRITE_URL]]
-LOGS_PUSH_URL=[[OBSERVABILITY_LOGS_PUSH_URL]]
+ALLOY_REMOTE_WRITE_URL=[[OBSERVABILITY_REMOTE_WRITE_URL]]
+ALLOY_LOGS_PUSH_URL=[[OBSERVABILITY_LOGS_PUSH_URL]]
+ALLOY_NUT_EXPORTER_TARGET=[[FeelsWatchMan_alloy_nut_exporter_target]]
 TZ=[[TZ]]
+ALLOY_HOSTNAME=
+ALLOY_SCRAPE_INTERVAL=30s
+ALLOY_NUT_ENABLED=false
+ALLOY_SECURITY_LOGS_ENABLED=false
+CADVISOR_HOUSEKEEPING_INTERVAL=30s
+CADVISOR_DOCKER_ONLY=true
+CADVISOR_DISABLE_METRICS=advtcp,cpu_topology,cpuset,hugetlb,memory_numa,process,referenced_memory,resctrl,sched,tcp,udp
 """
 
 # ── FeelsTestingMan ───────────────────────────────────────────────────────
@@ -380,6 +525,7 @@ file_paths = ["compose.yml"]
 linked_repo = "homelab-infra"
 environment = """
 TZ=[[TZ]]
+WHOAMI_PORT=8080
 """
 
 # ── Unassigned ────────────────────────────────────────────────────────────
@@ -393,4 +539,5 @@ TZ=[[TZ]]
 # linked_repo = "homelab-infra"
 # environment = """
 # TZ=[[TZ]]
+# BACKREST_PORT=9898
 # """
