@@ -62,6 +62,7 @@ services:
 networks:
   media:
     name: media-net
+    external: true
 
 volumes:
   media_smb:

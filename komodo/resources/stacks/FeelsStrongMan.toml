@@ -84,6 +84,10 @@ FLARESOLVERR_PORT=8191
 FLARESOLVERR_LOG_LEVEL=info
 """
 
+[stack.config.pre_deploy]
+path = "."
+command = "docker network create media-net 2>/dev/null || true"
+
 [[stack]]
 name = "media"
 [stack.config]
@@ -127,6 +131,10 @@ AUDIOBOOKSHELF_PORT=13378
 AUDIOBOOKSHELF_PATH_CONFIG=/docker/media/audiobookshelf/config
 AUDIOBOOKSHELF_PATH_METADATA=/docker/media/audiobookshelf/metadata
 """
+
+[stack.config.pre_deploy]
+path = "."
+command = "docker network create media-net 2>/dev/null || true"
 
 [[stack]]
 name = "authentik"
@@ -248,3 +256,7 @@ contents = """
 SABNZBD_PORT=8080
 SABNZBD_PATH_SSD=/docker/downloader/sabnzbd/ssd
 """
+
+[stack.config.pre_deploy]
+path = "."
+command = "docker network create media-net 2>/dev/null || true"

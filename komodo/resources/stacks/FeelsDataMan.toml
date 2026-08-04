@@ -16,6 +16,10 @@ PG_PORT=5432
 PG_PATH_DATA=/docker/postgres/data
 """
 
+[stack.config.pre_deploy]
+path = "."
+command = "docker network create db-net 2>/dev/null || true"
+
 [[stack]]
 name = "immich-postgres"
 [stack.config]
@@ -32,6 +36,10 @@ IMMICH_PG_PORT=5433
 IMMICH_PG_PATH_DATA=/docker/immich-postgres/data
 """
 
+[stack.config.pre_deploy]
+path = "."
+command = "docker network create db-net 2>/dev/null || true"
+
 [[stack]]
 name = "mongodb"
 [stack.config]
@@ -46,6 +54,10 @@ TZ=[[tz]]
 MONGO_PORT=27017
 MONGO_PATH_DATA=/docker/mongodb/data
 """
+
+[stack.config.pre_deploy]
+path = "."
+command = "docker network create db-net 2>/dev/null || true"
 
 [[stack]]
 name = "databasement"
@@ -72,3 +84,7 @@ DATABASEMENT_BIND_IP=127.0.0.1
 DATABASEMENT_PORT=2226
 DATABASEMENT_PATH_DATA=/docker/databasement/data
 """
+
+[stack.config.pre_deploy]
+path = "."
+command = "docker network create db-net 2>/dev/null || true"
