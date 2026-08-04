@@ -9,7 +9,6 @@ services:
   grafana:
     image: grafana/grafana:13.1.1
     container_name: grafana
-    user: "0"
     restart: unless-stopped
     logging: *default-logging
     ports:
@@ -35,7 +34,7 @@ services:
       - DISCORD_WEBHOOK_URL=${GRAFANA_DISCORD_WEBHOOK_URL:-}
       - TZ=${TZ:-}
     volumes:
-      - ${GRAFANA_PATH_DATA:?GRAFANA_PATH_DATA is required}:/var/lib/grafana
+      - grafana-data:/var/lib/grafana
       - ./grafana/provisioning:/etc/grafana/provisioning:ro
     depends_on:
       victoriametrics:
@@ -108,3 +107,6 @@ services:
           memory: 512M
         reservations:
           memory: 256M
+
+volumes:
+  grafana-data:
