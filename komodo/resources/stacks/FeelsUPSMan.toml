@@ -2,11 +2,13 @@
 
 # [[stack]]
 # name = "nut-upsd"
+# tags = ["infra"]
 # [stack.config]
 # server = "FeelsUPSMan"
 # run_directory = "stacks/nut-upsd"
 # file_paths = ["compose.yml"]
 # linked_repo = "homelab-infra"
+# extra_args = ["--remove-orphans"]
 # environment = """
 # TZ=[[tz]]
 # PUID=[[puid]]
@@ -25,11 +27,14 @@
 #
 # [[stack]]
 # name = "ups-monitor"
+# tags = ["monitoring"]
+# after = ["nut-upsd"]
 # [stack.config]
 # server = "FeelsUPSMan"
 # run_directory = "stacks/ups-monitor"
 # file_paths = ["compose.yml"]
 # linked_repo = "homelab-infra"
+# extra_args = ["--remove-orphans"]
 # environment = """
 # TZ=[[tz]]
 # NUT_EXP_SERVER=[[FeelsUPSMan_ups_monitor_nut_server]]

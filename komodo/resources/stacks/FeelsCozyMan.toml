@@ -2,11 +2,13 @@
 
 # [[stack]]
 # name = "homeassistant"
+# tags = ["iot"]
 # [stack.config]
 # server = "FeelsCozyMan"
 # run_directory = "stacks/homeassistant"
 # file_paths = ["compose.yml"]
 # linked_repo = "homelab-infra"
+# extra_args = ["--remove-orphans"]
 # environment = """
 # TZ=[[tz]]
 # """
@@ -57,11 +59,13 @@
 #
 # [[stack]]
 # name = "vaultwarden"
+# tags = ["infra"]
 # [stack.config]
 # server = "FeelsCozyMan"
 # run_directory = "stacks/vaultwarden"
 # file_paths = ["compose.yml"]
 # linked_repo = "homelab-infra"
+# extra_args = ["--remove-orphans"]
 # environment = """
 # VW_DOMAIN=[[FeelsCozyMan_vaultwarden_domain]]
 # VW_DATABASE_URL=[[FeelsCozyMan_vaultwarden_database_url]]

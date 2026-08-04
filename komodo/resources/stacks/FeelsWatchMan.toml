@@ -2,11 +2,13 @@
 
 [[stack]]
 name = "metrics"
+tags = ["monitoring"]
 [stack.config]
 server = "FeelsWatchMan"
 run_directory = "stacks/metrics"
 file_paths = ["compose.yml"]
 linked_repo = "homelab-infra"
+extra_args = ["--remove-orphans"]
 environment = """
 TZ=[[tz]]
 DISCORD_WEBHOOK_URL=[[FeelsWatchMan_discord_webhook_url]]
@@ -53,11 +55,14 @@ VM_PATH_DATA=[[FeelsWatchMan_vm_path_data]]
 
 [[stack]]
 name = "alloy"
+tags = ["monitoring"]
+after = ["metrics"]
 [stack.config]
 server = "FeelsWatchMan"
 run_directory = "stacks/alloy"
 file_paths = ["compose.yml"]
 linked_repo = "homelab-infra"
+extra_args = ["--remove-orphans"]
 environment = """
 TZ=[[tz]]
 ALLOY_REMOTE_WRITE_URL=[[metrics_remote_write_url]]

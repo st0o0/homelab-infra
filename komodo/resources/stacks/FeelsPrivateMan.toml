@@ -2,11 +2,13 @@
 
 # [[stack]]
 # name = "bifrost"
+# tags = ["infra"]
 # [stack.config]
 # server = "FeelsPrivateMan"
 # run_directory = "stacks/bifrost"
 # file_paths = ["compose.yml"]
 # linked_repo = "homelab-infra"
+# extra_args = ["--remove-orphans"]
 # environment = """
 # BIFROST_PRIVATE_KEY=[[FeelsPrivateMan_bifrost_private_key]]
 # BIFROST_ADDRESS=[[FeelsPrivateMan_bifrost_address]]

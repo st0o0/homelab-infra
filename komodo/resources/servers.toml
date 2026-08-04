@@ -14,36 +14,43 @@
 
 [[server]]
 name = "FeelsCozyMan"
+tags = ["iot", "infra"]
 [server.config]
 enabled = true
 
 [[server]]
 name = "FeelsDataMan"
+tags = ["database"]
 [server.config]
 enabled = true
 
 [[server]]
 name = "FeelsNoSponsorMan"
+tags = ["infra"]
 [server.config]
 enabled = true
 
 [[server]]
 name = "FeelsPrivateMan"
+tags = ["infra"]
 [server.config]
 enabled = true
 
 [[server]]
 name = "FeelsStrongMan"
+tags = ["media", "apps"]
 [server.config]
 enabled = true
 
 [[server]]
 name = "FeelsUPSMan"
+tags = ["infra"]
 [server.config]
 enabled = true
 
 [[server]]
 name = "FeelsWatchMan"
+tags = ["monitoring"]
 [server.config]
 enabled = true
 
@@ -60,5 +67,6 @@ enabled = false
 [[server]]
 name = "FeelsTestingMan"
 description = "Staging/test host"
+tags = ["testing"]
 [server.config]
 enabled = true

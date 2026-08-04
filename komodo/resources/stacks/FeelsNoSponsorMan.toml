@@ -2,11 +2,13 @@
 
 # [[stack]]
 # name = "pihole"
+# tags = ["infra"]
 # [stack.config]
 # server = "FeelsNoSponsorMan"
 # run_directory = "stacks/pihole"
 # file_paths = ["compose.yml"]
 # linked_repo = "homelab-infra"
+# extra_args = ["--remove-orphans"]
 # environment = """
 # PIHOLE_PASS=[[FeelsNoSponsorMan_pihole_password]]
 # NEBULA_PRIMARY=[[FeelsNoSponsorMan_nebula_primary]]

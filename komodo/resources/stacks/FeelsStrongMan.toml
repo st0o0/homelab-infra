@@ -2,12 +2,14 @@
 
 # [[stack]]
 # name = "arr"
+# tags = ["media"]
 # after = ["media"]
 # [stack.config]
 # server = "FeelsStrongMan"
 # run_directory = "stacks/arr"
 # file_paths = ["compose.yml"]
 # linked_repo = "homelab-infra"
+# extra_args = ["--remove-orphans"]
 # environment = """
 # PUID=[[puid]]
 # PGID=[[pgid]]
@@ -90,11 +92,13 @@
 #
 # [[stack]]
 # name = "media"
+# tags = ["media"]
 # [stack.config]
 # server = "FeelsStrongMan"
 # run_directory = "stacks/media"
 # file_paths = ["compose.yml"]
 # linked_repo = "homelab-infra"
+# extra_args = ["--remove-orphans"]
 # environment = """
 # PUID=[[puid]]
 # PGID=[[pgid]]
@@ -138,11 +142,13 @@
 #
 # [[stack]]
 # name = "authentik"
+# tags = ["infra"]
 # [stack.config]
 # server = "FeelsStrongMan"
 # run_directory = "stacks/authentik"
 # file_paths = ["compose.yml"]
 # linked_repo = "homelab-infra"
+# extra_args = ["--remove-orphans"]
 # environment = """
 # AUTHENTIK_SECRET_KEY=[[FeelsStrongMan_authentik_secret_key]]
 # AUTHENTIK_DB_PASS=[[FeelsStrongMan_authentik_pg_pass]]
@@ -158,11 +164,14 @@
 #
 # [[stack]]
 # name = "immich"
+# tags = ["media", "apps"]
+# after = ["immich-postgres"]
 # [stack.config]
 # server = "FeelsStrongMan"
 # run_directory = "stacks/immich"
 # file_paths = ["compose.yml"]
 # linked_repo = "homelab-infra"
+# extra_args = ["--remove-orphans"]
 # environment = """
 # IMMICH_DB_HOST=[[FeelsStrongMan_immich_db_host]]
 # IMMICH_DB_PASS=[[immich_postgres_password]]
@@ -182,11 +191,13 @@
 #
 # [[stack]]
 # name = "mealie"
+# tags = ["apps"]
 # [stack.config]
 # server = "FeelsStrongMan"
 # run_directory = "stacks/mealie"
 # file_paths = ["compose.yml"]
 # linked_repo = "homelab-infra"
+# extra_args = ["--remove-orphans"]
 # environment = """
 # TZ=[[tz]]
 # PUID=[[puid]]
@@ -215,12 +226,14 @@
 #
 # [[stack]]
 # name = "downloader"
+# tags = ["media"]
 # after = ["media"]
 # [stack.config]
 # server = "FeelsStrongMan"
 # run_directory = "stacks/downloader"
 # file_paths = ["compose.yml"]
 # linked_repo = "homelab-infra"
+# extra_args = ["--remove-orphans"]
 # environment = """
 # TZ=[[tz]]
 # PUID=[[puid]]

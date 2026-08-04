@@ -2,11 +2,13 @@
 
 # [[stack]]
 # name = "postgres"
+# tags = ["database"]
 # [stack.config]
 # server = "FeelsDataMan"
 # run_directory = "stacks/postgres"
 # file_paths = ["compose.yml"]
 # linked_repo = "homelab-infra"
+# extra_args = ["--remove-orphans"]
 # environment = """
 # PG_USER=[[FeelsDataMan_postgres_username]]
 # PG_PASS=[[FeelsDataMan_postgres_password]]
@@ -22,11 +24,13 @@
 #
 # [[stack]]
 # name = "immich-postgres"
+# tags = ["database"]
 # [stack.config]
 # server = "FeelsDataMan"
 # run_directory = "stacks/immich-postgres"
 # file_paths = ["compose.yml"]
 # linked_repo = "homelab-infra"
+# extra_args = ["--remove-orphans"]
 # environment = """
 # IMMICH_PG_PASS=[[immich_postgres_password]]
 # TZ=[[tz]]
@@ -42,11 +46,13 @@
 #
 # [[stack]]
 # name = "mongodb"
+# tags = ["database"]
 # [stack.config]
 # server = "FeelsDataMan"
 # run_directory = "stacks/mongodb"
 # file_paths = ["compose.yml"]
 # linked_repo = "homelab-infra"
+# extra_args = ["--remove-orphans"]
 # environment = """
 # MONGO_ROOT_USER=[[FeelsDataMan_mongo_root_username]]
 # MONGO_ROOT_PASS=[[FeelsDataMan_mongo_root_password]]
@@ -61,11 +67,14 @@
 #
 # [[stack]]
 # name = "databasement"
+# tags = ["database"]
+# after = ["postgres"]
 # [stack.config]
 # server = "FeelsDataMan"
 # run_directory = "stacks/databasement"
 # file_paths = ["compose.yml"]
 # linked_repo = "homelab-infra"
+# extra_args = ["--remove-orphans"]
 # environment = """
 # DATABASEMENT_APP_KEY=[[FeelsDataMan_databasement_app_key]]
 # DATABASEMENT_DB_PASS=[[FeelsDataMan_postgres_password]]
