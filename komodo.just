@@ -58,7 +58,7 @@ secrets TARGET="all":
             | sed 's/:.*//' || true)
 
         var_keys=""
-        VARS_FILE="komodo/resources/variables/$HOST.toml"
+        VARS_FILE="komodo/resources/hosts/$HOST/variables.toml"
         if [ -f "$VARS_FILE" ]; then
             var_keys=$(grep -oP '(?<=^name = ")[^"]+' "$VARS_FILE" \
                 | sed "s/^${HOST}_//" || true)
@@ -172,7 +172,7 @@ vars TARGET="all":
     fi
 
     HOST="{{TARGET}}"
-    TOML="komodo/resources/variables/$HOST.toml"
+    TOML="komodo/resources/hosts/$HOST/variables.toml"
     SECRET="komodo/resources/hosts/$HOST/secrets.sops.yaml"
 
     if [ ! -f "$TOML" ]; then
@@ -264,7 +264,7 @@ check HOST="":
         fi
 
         # Collect per-host variable keys (strip host prefix)
-        local host_vars_file="komodo/resources/variables/$host.toml"
+        local host_vars_file="komodo/resources/hosts/$host/variables.toml"
         if [ -f "$host_vars_file" ]; then
             host_vars=$(grep -oP '(?<=^name = ")[^"]+' "$host_vars_file" \
                 | sed "s/^${host}_//" || true)
