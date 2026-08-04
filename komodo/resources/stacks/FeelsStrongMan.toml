@@ -1,262 +1,262 @@
 # ── FeelsStrongMan ────────────────────────────────────────────────────────
 
-[[stack]]
-name = "arr"
-after = ["media"]
-[stack.config]
-server = "FeelsStrongMan"
-run_directory = "stacks/arr"
-file_paths = ["compose.yml"]
-linked_repo = "homelab-infra"
-environment = """
-PUID=[[puid]]
-PGID=[[pgid]]
-TZ=[[tz]]
-ARR_MEDIA_PATH=/data/media
-"""
-
-[[stack.config.additional_env_files]]
-path = "cifs.env"
-contents = """
-CIFS_MEDIA_HOST=[[FeelsStrongMan_cifs_media_host]]
-CIFS_MEDIA_SHARE=[[FeelsStrongMan_cifs_media_share]]
-CIFS_MEDIA_USER=[[FeelsStrongMan_cifs_media_user]]
-CIFS_MEDIA_PASS=[[FeelsStrongMan_cifs_media_password]]
-CIFS_DOWNLOADS_HOST=[[FeelsStrongMan_cifs_downloads_host]]
-CIFS_DOWNLOADS_SHARE=[[FeelsStrongMan_cifs_downloads_share]]
-CIFS_DOWNLOADS_USER=[[FeelsStrongMan_cifs_downloads_user]]
-CIFS_DOWNLOADS_PASS=[[FeelsStrongMan_cifs_downloads_password]]
-"""
-
-[[stack.config.additional_env_files]]
-path = "sonarr.env"
-contents = """
-SONARR_API_KEY=[[FeelsStrongMan_arr_sonarr_api_key]]
-SONARR_PORT=1089
-SONARR_API_URL=http://sonarr:8989
-SONARR_PATH_CONFIG=/docker/arr/sonarr/config
-"""
-
-[[stack.config.additional_env_files]]
-path = "radarr.env"
-contents = """
-RADARR_API_KEY=[[FeelsStrongMan_arr_radarr_api_key]]
-RADARR_PORT=1078
-RADARR_API_URL=http://radarr:7878
-RADARR_PATH_CONFIG=/docker/arr/radarr/config
-"""
-
-[[stack.config.additional_env_files]]
-path = "tracearr.env"
-contents = """
-TRACEARR_JWT_SECRET=[[FeelsStrongMan_arr_tracearr_jwt_secret]]
-TRACEARR_COOKIE_SECRET=[[FeelsStrongMan_arr_tracearr_cookie_secret]]
-TRACEARR_DB_PASS=[[FeelsStrongMan_tracearr_db_password]]
-TRACEARR_PORT=3300
-TRACEARR_CORS_ORIGIN=*
-TRACEARR_LOG_LEVEL=info
-"""
-
-[[stack.config.additional_env_files]]
-path = "mediathekarr.env"
-contents = """
-MEDIATHEKARR_CATEGORIES=series,movies,custom
-MEDIATHEKARR_API_BASE_URL=https://mediathekarr.pcjones.de/api/v1
-MEDIATHEKARR_PORT=1007
-MEDIATHEKARR_PATH_CONFIG=/docker/arr/mediathekarr/config
-MEDIATHEKARR_PATH_TEMP=/docker/arr/mediathekarr/temp
-"""
-
-[[stack.config.additional_env_files]]
-path = "services.env"
-contents = """
-PROWLARR_PORT=1096
-PROWLARR_PATH_CONFIG=/docker/arr/prowlarr/config
-SEERR_PORT=1055
-SEERR_LOG_LEVEL=debug
-SEERR_PATH_CONFIG=/docker/arr/seerr/config
-ARR_DASHBOARD_PORT=1005
-ARR_DASHBOARD_PATH_CONFIG=/docker/arr/arrdashboard/config
-RECYCLARR_PORT=7879
-RECYCLARR_PATH_CONFIG=/docker/arr/recyclarr/config
-RECYCLARR_PATH_BACKUP=/docker/arr/recyclarr/backups
-FLARESOLVERR_PORT=8191
-FLARESOLVERR_LOG_LEVEL=info
-"""
-
-[stack.config.pre_deploy]
-path = "."
-command = "docker network create media-net 2>/dev/null || true"
-
-[[stack]]
-name = "media"
-[stack.config]
-server = "FeelsStrongMan"
-run_directory = "stacks/media"
-file_paths = ["compose.yml"]
-linked_repo = "homelab-infra"
-environment = """
-PUID=[[puid]]
-PGID=[[pgid]]
-TZ=[[tz]]
-"""
-
-[[stack.config.additional_env_files]]
-path = "cifs.env"
-contents = """
-CIFS_MEDIA_HOST=[[FeelsStrongMan_cifs_media_host]]
-CIFS_MEDIA_SHARE=[[FeelsStrongMan_cifs_media_share]]
-CIFS_MEDIA_USER=[[FeelsStrongMan_cifs_media_user]]
-CIFS_MEDIA_PASS=[[FeelsStrongMan_cifs_media_password]]
-CIFS_AUDIOS_HOST=[[FeelsStrongMan_cifs_audios_host]]
-CIFS_AUDIOS_SHARE=[[FeelsStrongMan_cifs_audios_share]]
-CIFS_AUDIOS_USER=[[FeelsStrongMan_cifs_audios_user]]
-CIFS_AUDIOS_PASS=[[FeelsStrongMan_cifs_audios_password]]
-"""
-
-[[stack.config.additional_env_files]]
-path = "jellyfin.env"
-contents = """
-JELLYFIN_PORT=8096
-JELLYFIN_PATH_CONFIG=/docker/media/jellyfin/config
-JELLYFIN_PATH_CACHE=/docker/media/jellyfin/cache
-JELLYFIN_PATH_PREVIEW=/docker/media/jellyfin/preview
-JELLYFIN_PATH_VIDEO=/docker/media/jellyfin/video
-"""
-
-[[stack.config.additional_env_files]]
-path = "audiobookshelf.env"
-contents = """
-AUDIOBOOKSHELF_PORT=13378
-AUDIOBOOKSHELF_PATH_CONFIG=/docker/media/audiobookshelf/config
-AUDIOBOOKSHELF_PATH_METADATA=/docker/media/audiobookshelf/metadata
-"""
-
-[stack.config.pre_deploy]
-path = "."
-command = "docker network create media-net 2>/dev/null || true"
-
-[[stack]]
-name = "authentik"
-[stack.config]
-server = "FeelsStrongMan"
-run_directory = "stacks/authentik"
-file_paths = ["compose.yml"]
-linked_repo = "homelab-infra"
-environment = """
-AUTHENTIK_SECRET_KEY=[[FeelsStrongMan_authentik_secret_key]]
-AUTHENTIK_DB_PASS=[[FeelsStrongMan_authentik_pg_pass]]
-AUTHENTIK_DB_HOST=authentik-db
-AUTHENTIK_DB_USER=authentik
-AUTHENTIK_DB_NAME=authentik
-AUTHENTIK_PORT_HTTP=9000
-AUTHENTIK_PORT_HTTPS=9443
-AUTHENTIK_PATH_MEDIA=/docker/authentik/media
-AUTHENTIK_PATH_TEMPLATES=/docker/authentik/custom-templates
-AUTHENTIK_PATH_CERTS=/docker/authentik/certs
-"""
-
-[[stack]]
-name = "immich"
-[stack.config]
-server = "FeelsStrongMan"
-run_directory = "stacks/immich"
-file_paths = ["compose.yml"]
-linked_repo = "homelab-infra"
-environment = """
-IMMICH_DB_HOST=[[FeelsStrongMan_immich_db_host]]
-IMMICH_DB_PASS=[[immich_postgres_password]]
-CIFS_IMMICH_MEDIA_HOST=[[FeelsStrongMan_cifs_immich_media_host]]
-CIFS_IMMICH_MEDIA_SHARE=[[FeelsStrongMan_cifs_immich_media_share]]
-CIFS_IMMICH_MEDIA_USER=[[FeelsStrongMan_cifs_immich_media_user]]
-CIFS_IMMICH_MEDIA_PASS=[[FeelsStrongMan_cifs_immich_media_password]]
-PUID=[[puid]]
-PGID=[[pgid]]
-TZ=[[tz]]
-IMMICH_PORT=2283
-IMMICH_DB_USER=
-IMMICH_DB_NAME=
-IMMICH_PATH_UPLOAD=/docker/immich/upload
-IMMICH_PATH_CACHE=/docker/immich/cache
-"""
-
-[[stack]]
-name = "mealie"
-[stack.config]
-server = "FeelsStrongMan"
-run_directory = "stacks/mealie"
-file_paths = ["compose.yml"]
-linked_repo = "homelab-infra"
-environment = """
-TZ=[[tz]]
-PUID=[[puid]]
-PGID=[[pgid]]
-MEALIE_DB_PASS=[[FeelsStrongMan_mealie_postgres_password]]
-MEALIE_DB_HOST=[[FeelsStrongMan_mealie_postgres_server]]
-MEALIE_BASE_URL=[[FeelsStrongMan_mealie_base_url]]
-MEALIE_OIDC_CONFIG_URL=[[FeelsStrongMan_mealie_oidc_configuration_url]]
-MEALIE_OIDC_CLIENT_ID=[[FeelsStrongMan_mealie_oidc_client_id]]
-MEALIE_OIDC_CLIENT_SECRET=[[FeelsStrongMan_mealie_oidc_client_secret]]
-MEALIE_PORT=9925
-MEALIE_ALLOW_SIGNUP=false
-MEALIE_ALLOW_PASSWORD_LOGIN=false
-MEALIE_OIDC_ENABLED=
-MEALIE_OIDC_PROVIDER_NAME=
-MEALIE_OIDC_SIGNUP_ENABLED=
-MEALIE_OIDC_USER_GROUP=
-MEALIE_OIDC_ADMIN_GROUP=
-MEALIE_OIDC_AUTO_REDIRECT=
-MEALIE_OIDC_REMEMBER_ME=
-MEALIE_DB_USER=
-MEALIE_DB_PORT=
-MEALIE_DB_NAME=
-MEALIE_PATH_DATA=/docker/mealie/data
-"""
-
-[[stack]]
-name = "downloader"
-after = ["media"]
-[stack.config]
-server = "FeelsStrongMan"
-run_directory = "stacks/downloader"
-file_paths = ["compose.yml"]
-linked_repo = "homelab-infra"
-environment = """
-TZ=[[tz]]
-PUID=[[puid]]
-PGID=[[pgid]]
-"""
-
-[[stack.config.additional_env_files]]
-path = "gluetun.env"
-contents = """
-GLUETUN_WG_PRIVATE_KEY=[[FeelsStrongMan_downloader_wireguard_private_key]]
-GLUETUN_WG_ADDRESSES=[[FeelsStrongMan_downloader_wireguard_addresses]]
-GLUETUN_WG_PRESHARED_KEY=[[FeelsStrongMan_downloader_wireguard_preshared_key]]
-GLUETUN_PORT=8079
-GLUETUN_VPN_PROVIDER=airvpn
-GLUETUN_VPN_TYPE=wireguard
-GLUETUN_WG_MTU=1380
-GLUETUN_SERVER_CITIES=Alblasserdam
-GLUETUN_DOT_PROVIDERS=quad9
-"""
-
-[[stack.config.additional_env_files]]
-path = "cifs.env"
-contents = """
-CIFS_DOWNLOADS_HOST=[[FeelsStrongMan_cifs_downloads_host]]
-CIFS_DOWNLOADS_SHARE=[[FeelsStrongMan_cifs_downloads_share]]
-CIFS_DOWNLOADS_USER=[[FeelsStrongMan_cifs_downloads_user]]
-CIFS_DOWNLOADS_PASS=[[FeelsStrongMan_cifs_downloads_password]]
-"""
-
-[[stack.config.additional_env_files]]
-path = "sabnzbd.env"
-contents = """
-SABNZBD_PORT=8080
-SABNZBD_PATH_SSD=/docker/downloader/sabnzbd/ssd
-"""
-
-[stack.config.pre_deploy]
-path = "."
-command = "docker network create media-net 2>/dev/null || true"
+# [[stack]]
+# name = "arr"
+# after = ["media"]
+# [stack.config]
+# server = "FeelsStrongMan"
+# run_directory = "stacks/arr"
+# file_paths = ["compose.yml"]
+# linked_repo = "homelab-infra"
+# environment = """
+# PUID=[[puid]]
+# PGID=[[pgid]]
+# TZ=[[tz]]
+# ARR_MEDIA_PATH=/data/media
+# """
+#
+# [[stack.config.additional_env_files]]
+# path = "cifs.env"
+# contents = """
+# CIFS_MEDIA_HOST=[[FeelsStrongMan_cifs_media_host]]
+# CIFS_MEDIA_SHARE=[[FeelsStrongMan_cifs_media_share]]
+# CIFS_MEDIA_USER=[[FeelsStrongMan_cifs_media_user]]
+# CIFS_MEDIA_PASS=[[FeelsStrongMan_cifs_media_password]]
+# CIFS_DOWNLOADS_HOST=[[FeelsStrongMan_cifs_downloads_host]]
+# CIFS_DOWNLOADS_SHARE=[[FeelsStrongMan_cifs_downloads_share]]
+# CIFS_DOWNLOADS_USER=[[FeelsStrongMan_cifs_downloads_user]]
+# CIFS_DOWNLOADS_PASS=[[FeelsStrongMan_cifs_downloads_password]]
+# """
+#
+# [[stack.config.additional_env_files]]
+# path = "sonarr.env"
+# contents = """
+# SONARR_API_KEY=[[FeelsStrongMan_arr_sonarr_api_key]]
+# SONARR_PORT=1089
+# SONARR_API_URL=http://sonarr:8989
+# SONARR_PATH_CONFIG=/docker/arr/sonarr/config
+# """
+#
+# [[stack.config.additional_env_files]]
+# path = "radarr.env"
+# contents = """
+# RADARR_API_KEY=[[FeelsStrongMan_arr_radarr_api_key]]
+# RADARR_PORT=1078
+# RADARR_API_URL=http://radarr:7878
+# RADARR_PATH_CONFIG=/docker/arr/radarr/config
+# """
+#
+# [[stack.config.additional_env_files]]
+# path = "tracearr.env"
+# contents = """
+# TRACEARR_JWT_SECRET=[[FeelsStrongMan_arr_tracearr_jwt_secret]]
+# TRACEARR_COOKIE_SECRET=[[FeelsStrongMan_arr_tracearr_cookie_secret]]
+# TRACEARR_DB_PASS=[[FeelsStrongMan_tracearr_db_password]]
+# TRACEARR_PORT=3300
+# TRACEARR_CORS_ORIGIN=*
+# TRACEARR_LOG_LEVEL=info
+# """
+#
+# [[stack.config.additional_env_files]]
+# path = "mediathekarr.env"
+# contents = """
+# MEDIATHEKARR_CATEGORIES=series,movies,custom
+# MEDIATHEKARR_API_BASE_URL=https://mediathekarr.pcjones.de/api/v1
+# MEDIATHEKARR_PORT=1007
+# MEDIATHEKARR_PATH_CONFIG=/docker/arr/mediathekarr/config
+# MEDIATHEKARR_PATH_TEMP=/docker/arr/mediathekarr/temp
+# """
+#
+# [[stack.config.additional_env_files]]
+# path = "services.env"
+# contents = """
+# PROWLARR_PORT=1096
+# PROWLARR_PATH_CONFIG=/docker/arr/prowlarr/config
+# SEERR_PORT=1055
+# SEERR_LOG_LEVEL=debug
+# SEERR_PATH_CONFIG=/docker/arr/seerr/config
+# ARR_DASHBOARD_PORT=1005
+# ARR_DASHBOARD_PATH_CONFIG=/docker/arr/arrdashboard/config
+# RECYCLARR_PORT=7879
+# RECYCLARR_PATH_CONFIG=/docker/arr/recyclarr/config
+# RECYCLARR_PATH_BACKUP=/docker/arr/recyclarr/backups
+# FLARESOLVERR_PORT=8191
+# FLARESOLVERR_LOG_LEVEL=info
+# """
+#
+# [stack.config.pre_deploy]
+# path = "."
+# command = "docker network create media-net 2>/dev/null || true"
+#
+# [[stack]]
+# name = "media"
+# [stack.config]
+# server = "FeelsStrongMan"
+# run_directory = "stacks/media"
+# file_paths = ["compose.yml"]
+# linked_repo = "homelab-infra"
+# environment = """
+# PUID=[[puid]]
+# PGID=[[pgid]]
+# TZ=[[tz]]
+# """
+#
+# [[stack.config.additional_env_files]]
+# path = "cifs.env"
+# contents = """
+# CIFS_MEDIA_HOST=[[FeelsStrongMan_cifs_media_host]]
+# CIFS_MEDIA_SHARE=[[FeelsStrongMan_cifs_media_share]]
+# CIFS_MEDIA_USER=[[FeelsStrongMan_cifs_media_user]]
+# CIFS_MEDIA_PASS=[[FeelsStrongMan_cifs_media_password]]
+# CIFS_AUDIOS_HOST=[[FeelsStrongMan_cifs_audios_host]]
+# CIFS_AUDIOS_SHARE=[[FeelsStrongMan_cifs_audios_share]]
+# CIFS_AUDIOS_USER=[[FeelsStrongMan_cifs_audios_user]]
+# CIFS_AUDIOS_PASS=[[FeelsStrongMan_cifs_audios_password]]
+# """
+#
+# [[stack.config.additional_env_files]]
+# path = "jellyfin.env"
+# contents = """
+# JELLYFIN_PORT=8096
+# JELLYFIN_PATH_CONFIG=/docker/media/jellyfin/config
+# JELLYFIN_PATH_CACHE=/docker/media/jellyfin/cache
+# JELLYFIN_PATH_PREVIEW=/docker/media/jellyfin/preview
+# JELLYFIN_PATH_VIDEO=/docker/media/jellyfin/video
+# """
+#
+# [[stack.config.additional_env_files]]
+# path = "audiobookshelf.env"
+# contents = """
+# AUDIOBOOKSHELF_PORT=13378
+# AUDIOBOOKSHELF_PATH_CONFIG=/docker/media/audiobookshelf/config
+# AUDIOBOOKSHELF_PATH_METADATA=/docker/media/audiobookshelf/metadata
+# """
+#
+# [stack.config.pre_deploy]
+# path = "."
+# command = "docker network create media-net 2>/dev/null || true"
+#
+# [[stack]]
+# name = "authentik"
+# [stack.config]
+# server = "FeelsStrongMan"
+# run_directory = "stacks/authentik"
+# file_paths = ["compose.yml"]
+# linked_repo = "homelab-infra"
+# environment = """
+# AUTHENTIK_SECRET_KEY=[[FeelsStrongMan_authentik_secret_key]]
+# AUTHENTIK_DB_PASS=[[FeelsStrongMan_authentik_pg_pass]]
+# AUTHENTIK_DB_HOST=authentik-db
+# AUTHENTIK_DB_USER=authentik
+# AUTHENTIK_DB_NAME=authentik
+# AUTHENTIK_PORT_HTTP=9000
+# AUTHENTIK_PORT_HTTPS=9443
+# AUTHENTIK_PATH_MEDIA=/docker/authentik/media
+# AUTHENTIK_PATH_TEMPLATES=/docker/authentik/custom-templates
+# AUTHENTIK_PATH_CERTS=/docker/authentik/certs
+# """
+#
+# [[stack]]
+# name = "immich"
+# [stack.config]
+# server = "FeelsStrongMan"
+# run_directory = "stacks/immich"
+# file_paths = ["compose.yml"]
+# linked_repo = "homelab-infra"
+# environment = """
+# IMMICH_DB_HOST=[[FeelsStrongMan_immich_db_host]]
+# IMMICH_DB_PASS=[[immich_postgres_password]]
+# CIFS_IMMICH_MEDIA_HOST=[[FeelsStrongMan_cifs_immich_media_host]]
+# CIFS_IMMICH_MEDIA_SHARE=[[FeelsStrongMan_cifs_immich_media_share]]
+# CIFS_IMMICH_MEDIA_USER=[[FeelsStrongMan_cifs_immich_media_user]]
+# CIFS_IMMICH_MEDIA_PASS=[[FeelsStrongMan_cifs_immich_media_password]]
+# PUID=[[puid]]
+# PGID=[[pgid]]
+# TZ=[[tz]]
+# IMMICH_PORT=2283
+# IMMICH_DB_USER=
+# IMMICH_DB_NAME=
+# IMMICH_PATH_UPLOAD=/docker/immich/upload
+# IMMICH_PATH_CACHE=/docker/immich/cache
+# """
+#
+# [[stack]]
+# name = "mealie"
+# [stack.config]
+# server = "FeelsStrongMan"
+# run_directory = "stacks/mealie"
+# file_paths = ["compose.yml"]
+# linked_repo = "homelab-infra"
+# environment = """
+# TZ=[[tz]]
+# PUID=[[puid]]
+# PGID=[[pgid]]
+# MEALIE_DB_PASS=[[FeelsStrongMan_mealie_postgres_password]]
+# MEALIE_DB_HOST=[[FeelsStrongMan_mealie_postgres_server]]
+# MEALIE_BASE_URL=[[FeelsStrongMan_mealie_base_url]]
+# MEALIE_OIDC_CONFIG_URL=[[FeelsStrongMan_mealie_oidc_configuration_url]]
+# MEALIE_OIDC_CLIENT_ID=[[FeelsStrongMan_mealie_oidc_client_id]]
+# MEALIE_OIDC_CLIENT_SECRET=[[FeelsStrongMan_mealie_oidc_client_secret]]
+# MEALIE_PORT=9925
+# MEALIE_ALLOW_SIGNUP=false
+# MEALIE_ALLOW_PASSWORD_LOGIN=false
+# MEALIE_OIDC_ENABLED=
+# MEALIE_OIDC_PROVIDER_NAME=
+# MEALIE_OIDC_SIGNUP_ENABLED=
+# MEALIE_OIDC_USER_GROUP=
+# MEALIE_OIDC_ADMIN_GROUP=
+# MEALIE_OIDC_AUTO_REDIRECT=
+# MEALIE_OIDC_REMEMBER_ME=
+# MEALIE_DB_USER=
+# MEALIE_DB_PORT=
+# MEALIE_DB_NAME=
+# MEALIE_PATH_DATA=/docker/mealie/data
+# """
+#
+# [[stack]]
+# name = "downloader"
+# after = ["media"]
+# [stack.config]
+# server = "FeelsStrongMan"
+# run_directory = "stacks/downloader"
+# file_paths = ["compose.yml"]
+# linked_repo = "homelab-infra"
+# environment = """
+# TZ=[[tz]]
+# PUID=[[puid]]
+# PGID=[[pgid]]
+# """
+#
+# [[stack.config.additional_env_files]]
+# path = "gluetun.env"
+# contents = """
+# GLUETUN_WG_PRIVATE_KEY=[[FeelsStrongMan_downloader_wireguard_private_key]]
+# GLUETUN_WG_ADDRESSES=[[FeelsStrongMan_downloader_wireguard_addresses]]
+# GLUETUN_WG_PRESHARED_KEY=[[FeelsStrongMan_downloader_wireguard_preshared_key]]
+# GLUETUN_PORT=8079
+# GLUETUN_VPN_PROVIDER=airvpn
+# GLUETUN_VPN_TYPE=wireguard
+# GLUETUN_WG_MTU=1380
+# GLUETUN_SERVER_CITIES=Alblasserdam
+# GLUETUN_DOT_PROVIDERS=quad9
+# """
+#
+# [[stack.config.additional_env_files]]
+# path = "cifs.env"
+# contents = """
+# CIFS_DOWNLOADS_HOST=[[FeelsStrongMan_cifs_downloads_host]]
+# CIFS_DOWNLOADS_SHARE=[[FeelsStrongMan_cifs_downloads_share]]
+# CIFS_DOWNLOADS_USER=[[FeelsStrongMan_cifs_downloads_user]]
+# CIFS_DOWNLOADS_PASS=[[FeelsStrongMan_cifs_downloads_password]]
+# """
+#
+# [[stack.config.additional_env_files]]
+# path = "sabnzbd.env"
+# contents = """
+# SABNZBD_PORT=8080
+# SABNZBD_PATH_SSD=/docker/downloader/sabnzbd/ssd
+# """
+#
+# [stack.config.pre_deploy]
+# path = "."
+# command = "docker network create media-net 2>/dev/null || true"

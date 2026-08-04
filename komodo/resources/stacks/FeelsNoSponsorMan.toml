@@ -1,22 +1,22 @@
 # ── FeelsNoSponsorMan ─────────────────────────────────────────────────────
 
-[[stack]]
-name = "pihole"
-[stack.config]
-server = "FeelsNoSponsorMan"
-run_directory = "stacks/pihole"
-file_paths = ["compose.yml"]
-linked_repo = "homelab-infra"
-environment = """
-PIHOLE_PASS=[[FeelsNoSponsorMan_pihole_password]]
-NEBULA_PRIMARY=[[FeelsNoSponsorMan_nebula_primary]]
-NEBULA_REPLICAS=[[FeelsNoSponsorMan_nebula_replicas]]
-NEBULA_FULL_SYNC=[[FeelsNoSponsorMan_nebula_full_sync]]
-NEBULA_RUN_GRAVITY=[[FeelsNoSponsorMan_nebula_run_gravity]]
-NEBULA_CRON=[[FeelsNoSponsorMan_nebula_cron]]
-TZ=[[tz]]
-PIHOLE_PORT_DNS=53
-PIHOLE_PORT_WEB=1000
-PIHOLE_PATH_DATA=/docker/pihole/data
-PIHOLE_PATH_DNSMASQ=/docker/pihole/dnsmasq.d
-"""
+# [[stack]]
+# name = "pihole"
+# [stack.config]
+# server = "FeelsNoSponsorMan"
+# run_directory = "stacks/pihole"
+# file_paths = ["compose.yml"]
+# linked_repo = "homelab-infra"
+# environment = """
+# PIHOLE_PASS=[[FeelsNoSponsorMan_pihole_password]]
+# NEBULA_PRIMARY=[[FeelsNoSponsorMan_nebula_primary]]
+# NEBULA_REPLICAS=[[FeelsNoSponsorMan_nebula_replicas]]
+# NEBULA_FULL_SYNC=[[FeelsNoSponsorMan_nebula_full_sync]]
+# NEBULA_RUN_GRAVITY=[[FeelsNoSponsorMan_nebula_run_gravity]]
+# NEBULA_CRON=[[FeelsNoSponsorMan_nebula_cron]]
+# TZ=[[tz]]
+# PIHOLE_PORT_DNS=53
+# PIHOLE_PORT_WEB=1000
+# PIHOLE_PATH_DATA=/docker/pihole/data
+# PIHOLE_PATH_DNSMASQ=/docker/pihole/dnsmasq.d
+# """
