@@ -24,19 +24,13 @@ services:
       - GF_ANALYTICS_REPORTING_ENABLED=${GRAFANA_ANALYTICS_REPORTING:-false}
       - GF_ANALYTICS_CHECK_FOR_UPDATES=${GRAFANA_CHECK_FOR_UPDATES:-false}
       - GF_NEWS_NEWS_FEED_ENABLED=${GRAFANA_NEWS_FEED:-false}
-      # SQLite WAL mode: fewer fsyncs, better behavior on small disks/SD cards
-      # (ignored when an external database is configured below)
-      - GF_DATABASE_WAL=${GRAFANA_DB_WAL:-true}
-      # Optional external PostgreSQL for Grafana's config DB
-      # (users, dashboards, settings). Defaults to embedded SQLite;
-      # set GRAFANA_DB_TYPE=postgres + the connection vars to switch.
-      - GF_DATABASE_TYPE=${GRAFANA_DB_TYPE:-sqlite3}
+      - GF_DATABASE_TYPE=${GRAFANA_DB_TYPE:-}
       - GF_DATABASE_HOST=${GRAFANA_DB_HOST:-}
-      - GF_DATABASE_NAME=${GRAFANA_DB_NAME:-grafana}
+      - GF_DATABASE_NAME=${GRAFANA_DB_NAME:-}
       - GF_DATABASE_USER=${GRAFANA_DB_USER:-}
       - GF_DATABASE_PASSWORD=${GRAFANA_DB_PASS:-}
       - GF_DATABASE_SSL_MODE=${GRAFANA_DB_SSL_MODE:-disable}
-      - GF_UNIFIED_ALERTING_ENABLED=true
+      - GF_UNIFIED_ALERTING_ENABLED=${GRAFANA_UNIFIED_ALERTING_ENABLED:-}
       - DISCORD_WEBHOOK_URL=${GRAFANA_DISCORD_WEBHOOK_URL:-}
       - TZ=${TZ:-}
     volumes:

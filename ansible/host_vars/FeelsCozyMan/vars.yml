@@ -2,8 +2,8 @@
 # bootstrap_hostname_enabled: true
 
 # Shell
-# shell_motd_enabled: true
-# shell_dotfiles_enabled: true
+shell_motd_enabled: true
+shell_dotfiles_enabled: true
 
 # Unattended upgrades
 unattended_upgrades_enabled: true
@@ -68,10 +68,6 @@ cron_docker_prune: true
 
 # UPS
 # ups_client_enabled: false
-
-# Hawser (Dockhand agent)
-hawser_enabled: false
-hawser_bifrost: false
 
 # Komodo (Core host — Core + bundled local Periphery; Mongo runs on FeelsDataMan)
 komodo_enabled: true

@@ -1,0 +1,40 @@
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: 10m
+    max-file: "3"
+
+services:
+  dbgate:
+    image: dbgate/dbgate:7.2.4
+    container_name: dbgate
+    restart: unless-stopped
+    logging: *default-logging
+    environment:
+      - TZ=${TZ:-}
+      - LOGINS=${DBGATE_LOGINS:?DBGATE_LOGINS is required}
+      - LOGIN_PERMISSIONS=${DBGATE_LOGIN_PERMISSIONS:-}
+      - CONNECTIONS=${DBGATE_CONNECTIONS:-}
+    ports:
+      - "${DBGATE_PORT:-3100}:3000"
+    volumes:
+      - ${DBGATE_PATH_DATA:?DBGATE_PATH_DATA is required}:/root/.dbgate
+    networks:
+      - db-net
+    deploy:
+      resources:
+        limits:
+          cpus: 0.5
+          memory: 512M
+        reservations:
+          memory: 128M
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:3000/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+
+networks:
+  db-net:
+    external: true
