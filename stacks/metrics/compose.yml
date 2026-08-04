@@ -7,8 +7,9 @@ x-logging: &default-logging
 
 services:
   grafana:
-    image: grafana/grafana:13.1.0
+    image: grafana/grafana:13.1.1
     container_name: grafana
+    user: "${PUID:-472}:${PGID:-472}"
     restart: unless-stopped
     logging: *default-logging
     ports:
@@ -50,7 +51,7 @@ services:
           memory: 256M
 
   victoriametrics:
-    image: victoriametrics/victoria-metrics:v1.147.0
+    image: victoriametrics/victoria-metrics:v1.148.0
     container_name: victoriametrics
     restart: unless-stopped
     logging: *default-logging
