@@ -1,12 +1,8 @@
-otelcol.receiver.docker_stats "default" {
-  endpoint            = "unix:///var/run/docker.sock"
-  collection_interval = coalesce(env("SCRAPE_INTERVAL"), "30s")
-
-  output {
-    metrics = [otelcol.exporter.prometheus.docker.input]
-  }
-}
-
-otelcol.exporter.prometheus "docker" {
-  forward_to = [prometheus.remote_write.central.receiver]
+prometheus.scrape "cadvisor" {
+  targets = [{
+    __address__ = "localhost:8080",
+  }]
+  forward_to      = [prometheus.remote_write.central.receiver]
+  scrape_interval = coalesce(env("SCRAPE_INTERVAL"), "30s")
+  metrics_path    = "/metrics"
 }

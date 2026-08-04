@@ -39,5 +39,23 @@ services:
         reservations:
           memory: 128M
 
+  docker-exporter:
+    image: ghcr.io/dlepaux/docker-exporter:latest
+    container_name: docker-exporter
+    restart: unless-stopped
+    logging: *default-logging
+    network_mode: service:alloy
+    environment:
+      - LISTEN_ADDR=0.0.0.0:8080
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    deploy:
+      resources:
+        limits:
+          cpus: 0.10
+          memory: 32M
+        reservations:
+          memory: 8M
+
 volumes:
   alloy-data:
