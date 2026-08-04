@@ -40,7 +40,7 @@ services:
       victoriametrics:
         condition: service_healthy
       victorialogs:
-        condition: service_healthy
+        condition: service_started
     deploy:
       resources:
         limits:
@@ -96,12 +96,10 @@ services:
       - "${VL_PORT:-9428}:9428"
     volumes:
       - ${VL_PATH_DATA:-./data/victorialogs}:/storage
+    # Image is scratch-based (no shell, no wget/curl), so a
+    # CMD-SHELL healthcheck cannot work. Grafana uses service_started.
     healthcheck:
-      test: wget -qO- http://127.0.0.1:9428/metrics || exit 1
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 10s
+      disable: true
     deploy:
       resources:
         limits:
