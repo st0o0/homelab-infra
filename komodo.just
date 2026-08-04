@@ -30,77 +30,65 @@ secrets TARGET="all":
 
     HOST="{{TARGET}}"
     SECRET="komodo/resources/hosts/$HOST/secrets.sops.yaml"
-    VARS_FILE="komodo/resources/hosts/$HOST/variables.toml"
     TMP_YAML=""
     TMP_OUT=""
     cleanup() { rm -f "$TMP_YAML" "$TMP_OUT"; }
     trap cleanup EXIT
 
-    # Collect required per-host keys from stacks.toml
+    TMP_YAML=$(mktemp --suffix=.sops.yaml)
+    chmod 600 "$TMP_YAML"
+
+    if [ -f "$SECRET" ]; then
+        sops -d --config "$SOPS_CONFIG" "$SECRET" > "$TMP_YAML"
+    else
+        mkdir -p "$(dirname "$SECRET")"
+        echo "# Host-specific secrets for $HOST" > "$TMP_YAML"
+        echo "host_ip: \"changeme\"" >> "$TMP_YAML"
+    fi
+
+    # Auto-scaffold missing keys from stacks
     required_keys=""
     if [ -f "$PARSER" ]; then
         required_keys=$(bash "$PARSER" "$HOST" \
             | awk -F'\t' '$4 == "per-host" {print $3}' | sort -u)
     fi
 
-    # Collect keys already in variables.toml (strip host prefix)
-    var_keys=""
-    if [ -f "$VARS_FILE" ]; then
-        var_keys=$(grep -oP '(?<=^name = ")[^"]+' "$VARS_FILE" \
-            | sed "s/^${HOST}_//" || true)
-    fi
+    if [ -n "$required_keys" ]; then
+        existing_keys=$(grep -E '^[a-zA-Z_][a-zA-Z0-9_]*:' "$TMP_YAML" \
+            | sed 's/:.*//' || true)
 
-    if [ -f "$SECRET" ]; then
-        # Existing file — check for missing keys and inject them
-        if [ -n "$required_keys" ]; then
-            existing_keys=$(sops -d --config "$SOPS_CONFIG" "$SECRET" 2>/dev/null \
-                | grep -E '^[a-zA-Z_][a-zA-Z0-9_]*:' | sed 's/:.*//' || true)
+        var_keys=""
+        VARS_FILE="komodo/resources/hosts/$HOST/variables.toml"
+        if [ -f "$VARS_FILE" ]; then
+            var_keys=$(grep -oP '(?<=^name = ")[^"]+' "$VARS_FILE" \
+                | sed "s/^${HOST}_//" || true)
+        fi
 
-            missing=""
-            for key in $required_keys; do
-                if ! echo "$existing_keys" | grep -qx "$key" && \
-                   ! echo "$var_keys" | grep -qx "$key"; then
-                    missing="$missing $key"
-                fi
-            done
-
-            if [ -n "$missing" ]; then
-                TMP_YAML=$(mktemp --suffix=.sops.yaml)
-                chmod 600 "$TMP_YAML"
-                sops -d --config "$SOPS_CONFIG" "$SECRET" > "$TMP_YAML"
-                echo "" >> "$TMP_YAML"
-                for key in $missing; do
-                    echo "$key: \"changeme\"" >> "$TMP_YAML"
-                    echo "  + $key (added as \"changeme\")"
-                done
-                TMP_OUT=$(mktemp --suffix=.sops.yaml)
-                chmod 600 "$TMP_OUT"
-                sops --config "$SOPS_CONFIG" --encrypt "$TMP_YAML" > "$TMP_OUT"
-                mv "$TMP_OUT" "$SECRET"
+        missing=""
+        for key in $required_keys; do
+            if ! echo "$existing_keys" | grep -qx "$key" && \
+               ! echo "$var_keys" | grep -qx "$key"; then
+                stack=$(bash "$PARSER" "$HOST" \
+                    | awk -F'\t' -v k="$key" '$3 == k && $4 == "per-host" {print $2; exit}')
+                missing="$missing $key:$stack"
             fi
-        fi
-    else
-        # New file — generate from required keys
-        mkdir -p "$(dirname "$SECRET")"
-        TMP_YAML=$(mktemp --suffix=.sops.yaml)
-        chmod 600 "$TMP_YAML"
-        echo "# Host-specific secrets for $HOST" > "$TMP_YAML"
-        echo "host_ip: \"changeme\"" >> "$TMP_YAML"
-        if [ -n "$required_keys" ]; then
-            for key in $required_keys; do
-                if ! echo "$var_keys" | grep -qx "$key"; then
-                    echo "$key: \"changeme\"" >> "$TMP_YAML"
-                fi
+        done
+
+        if [ -n "$missing" ]; then
+            for entry in $missing; do
+                key="${entry%%:*}"
+                echo "${key}: \"changeme\"" >> "$TMP_YAML"
             done
         fi
-        TMP_OUT=$(mktemp --suffix=.sops.yaml)
-        chmod 600 "$TMP_OUT"
-        sops --config "$SOPS_CONFIG" --encrypt "$TMP_YAML" > "$TMP_OUT"
-        mv "$TMP_OUT" "$SECRET"
-        echo "Created $SECRET"
     fi
 
-    sops --config "$SOPS_CONFIG" "$SECRET" || true
+    "${EDITOR:-nano}" "$TMP_YAML"
+
+    TMP_OUT=$(mktemp --suffix=.sops.yaml)
+    chmod 600 "$TMP_OUT"
+    sops --config "$SOPS_CONFIG" --encrypt "$TMP_YAML" > "$TMP_OUT"
+    mv "$TMP_OUT" "$SECRET"
+    echo "Updated $SECRET"
 
 # Show decrypted secrets (stdout only, does not write files)
 show-secrets TARGET="all":
@@ -115,7 +103,7 @@ show-secrets TARGET="all":
 # --- Variables management ---
 
 # Edit non-secret variables ('all' for shared, or a hostname for host-specific)
-# For host-specific targets, auto-scaffolds missing entries from stacks/*.toml.
+# Opens a temporary flat YAML view for editing; on save, writes back to variables.toml.
 vars TARGET="all":
     #!/usr/bin/env bash
     set -euo pipefail
@@ -123,23 +111,79 @@ vars TARGET="all":
     SOPS_CONFIG="komodo/.sops.yaml"
     PARSER="scripts/parse-stack-placeholders.sh"
 
+    # --- helper: variables.toml → flat YAML (temp file) ---
+    toml_to_yaml() {
+        local toml="$1" prefix="$2"
+        local tmp
+        tmp=$(mktemp --suffix=.vars.yaml)
+        chmod 600 "$tmp"
+        if [ -f "$toml" ]; then
+            local key="" value=""
+            while IFS= read -r line; do
+                if [[ "$line" =~ ^#\ DO\ NOT\ EDIT ]]; then
+                    continue
+                elif [[ "$line" =~ ^[[:space:]]*# ]]; then
+                    echo "$line" >> "$tmp"
+                elif [[ "$line" =~ ^name\ =\ \"(.*)\"$ ]]; then
+                    key="${BASH_REMATCH[1]}"
+                    [ -n "$prefix" ] && key="${key#"${prefix}"}"
+                elif [[ "$line" =~ ^value\ =\ \"(.*)\"$ ]]; then
+                    value="${BASH_REMATCH[1]}"
+                    echo "${key}: \"${value}\"" >> "$tmp"
+                    key=""
+                fi
+            done < "$toml"
+        fi
+        echo "$tmp"
+    }
+
+    # --- helper: flat YAML → variables.toml ---
+    yaml_to_toml() {
+        local yaml="$1" toml="$2" prefix="$3"
+        {
+            echo "# DO NOT EDIT — use 'just k vars' to edit as flat YAML"
+            echo ""
+            first=true
+            while IFS= read -r line; do
+                [[ -z "$line" ]] && continue
+                if [[ "$line" =~ ^[[:space:]]*# ]]; then
+                    echo "$line"
+                    continue
+                fi
+                key=$(echo "$line" | sed 's/:.*//')
+                value=$(echo "$line" | sed 's/^[^:]*:[[:space:]]*//' | sed 's/^"//; s/"$//')
+                if [ "$first" = true ]; then first=false; else echo ""; fi
+                echo "[[variable]]"
+                echo "name = \"${prefix}${key}\""
+                echo "value = \"${value}\""
+            done < "$yaml"
+        } > "$toml"
+    }
+
     if [ "{{TARGET}}" = "all" ]; then
-        "${EDITOR:-nano}" "komodo/resources/variables.toml"
+        TOML="komodo/resources/variables.toml"
+        TMP=$(toml_to_yaml "$TOML" "")
+        trap 'rm -f "$TMP"' EXIT
+
+        "${EDITOR:-nano}" "$TMP"
+        yaml_to_toml "$TMP" "$TOML" ""
+        echo "Updated $TOML"
         exit 0
     fi
 
     HOST="{{TARGET}}"
-    VARS="komodo/resources/hosts/$HOST/variables.toml"
-    TEMPLATE="komodo/resources/hosts/variables.toml.tpl"
+    TOML="komodo/resources/hosts/$HOST/variables.toml"
     SECRET="komodo/resources/hosts/$HOST/secrets.sops.yaml"
 
-    if [ ! -f "$VARS" ]; then
-        mkdir -p "$(dirname "$VARS")"
-        cp "$TEMPLATE" "$VARS"
-        echo "Created $VARS"
+    if [ ! -f "$TOML" ]; then
+        mkdir -p "$(dirname "$TOML")"
+        touch "$TOML"
     fi
 
-    # Collect required per-host keys from stacks.toml
+    TMP=$(toml_to_yaml "$TOML" "${HOST}_")
+    trap 'rm -f "$TMP"' EXIT
+
+    # Auto-scaffold missing keys from stacks
     required_keys=""
     if [ -f "$PARSER" ]; then
         required_keys=$(bash "$PARSER" "$HOST" \
@@ -147,21 +191,15 @@ vars TARGET="all":
     fi
 
     if [ -n "$required_keys" ]; then
-        # Collect keys already in variables.toml (strip host prefix)
-        var_keys=""
-        if [ -f "$VARS" ]; then
-            var_keys=$(grep -oP '(?<=^name = ")[^"]+' "$VARS" \
-                | sed "s/^${HOST}_//" || true)
-        fi
+        var_keys=$(grep -E '^[a-zA-Z_][a-zA-Z0-9_]*:' "$TMP" \
+            | sed 's/:.*//' || true)
 
-        # Collect keys already in secrets.sops.yaml
         secret_keys=""
         if [ -f "$SOPS_AGE_KEY_FILE" ] && [ -f "$SECRET" ]; then
             secret_keys=$(sops -d --config "$SOPS_CONFIG" "$SECRET" 2>/dev/null \
                 | grep -E '^[a-zA-Z_][a-zA-Z0-9_]*:' | sed 's/:.*//' || true)
         fi
 
-        # Find which stack each key belongs to
         missing=""
         for key in $required_keys; do
             if ! echo "$var_keys" | grep -qx "$key" && \
@@ -173,25 +211,16 @@ vars TARGET="all":
         done
 
         if [ -n "$missing" ]; then
-            {
-                echo ""
-                echo "# --- Missing entries (from stacks/*.toml) ---"
-                echo "# Uncomment and set values for entries that should be variables."
-                echo "# Entries that should be secrets: use 'just k secrets $HOST' instead."
-                for entry in $missing; do
-                    key="${entry%%:*}"
-                    stack="${entry#*:}"
-                    echo ""
-                    echo "# [[variable]]"
-                    echo "# name = \"${HOST}_${key}\""
-                    echo "# value = \"changeme\""
-                    echo "# description = \"from stack: $stack\""
-                done
-            } >> "$VARS"
+            for entry in $missing; do
+                key="${entry%%:*}"
+                echo "${key}: \"changeme\"" >> "$TMP"
+            done
         fi
     fi
 
-    "${EDITOR:-nano}" "$VARS"
+    "${EDITOR:-nano}" "$TMP"
+    yaml_to_toml "$TMP" "$TOML" "${HOST}_"
+    echo "Updated $TOML"
 
 # --- Configuration audit ---
 
@@ -221,6 +250,8 @@ check HOST="":
             | grep -E '^[a-zA-Z_][a-zA-Z0-9_]*:' | sed 's/:.*//' || true)
     fi
 
+    errors=0
+
     check_host() {
         local host="$1"
         local host_secrets=""
@@ -233,24 +264,51 @@ check HOST="":
                 | grep -E '^[a-zA-Z_][a-zA-Z0-9_]*:' | sed 's/:.*//' || true)
         fi
 
-        # Collect per-host variable keys (strip HostName_ prefix for comparison)
+        # Collect per-host variable keys (strip host prefix)
         local host_vars_file="komodo/resources/hosts/$host/variables.toml"
         if [ -f "$host_vars_file" ]; then
             host_vars=$(grep -oP '(?<=^name = ")[^"]+' "$host_vars_file" \
                 | sed "s/^${host}_//" || true)
         fi
 
+        # Collect duplicates
+        local dupes=""
+        if [ -n "$host_vars" ] && [ -n "$host_secrets" ]; then
+            for key in $host_vars; do
+                if echo "$host_secrets" | grep -qx "$key" 2>/dev/null; then
+                    dupes="${dupes}${host}_${key}\tin both variables.toml and secrets.sops.yaml\n"
+                fi
+            done
+        fi
+        for key in $host_vars; do
+            local prefixed="${host}_${key}"
+            if echo "$global_vars" | grep -qx "$prefixed" 2>/dev/null; then
+                dupes="${dupes}${prefixed}\tin both per-host variables.toml and global variables.toml\n"
+            fi
+            if echo "$global_secrets" | grep -qx "$prefixed" 2>/dev/null; then
+                dupes="${dupes}${prefixed}\tin both per-host variables.toml and global secrets.sops.yaml\n"
+            fi
+        done
+        for key in $host_secrets; do
+            local prefixed="${host}_${key}"
+            if echo "$global_vars" | grep -qx "$prefixed" 2>/dev/null; then
+                dupes="${dupes}${prefixed}\tin both per-host secrets.sops.yaml and global variables.toml\n"
+            fi
+            if echo "$global_secrets" | grep -qx "$prefixed" 2>/dev/null; then
+                dupes="${dupes}${prefixed}\tin both per-host secrets.sops.yaml and global secrets.sops.yaml\n"
+            fi
+        done
+
         # Get stacks for this host
         local stacks
         stacks=$(bash "$PARSER" "$host" | awk -F'\t' '{print $2}' | sort -u | tr '\n' ', ' | sed 's/,$//')
 
-        local total=0 ok=0 missing=0
-
         echo "── $host ($stacks) ──"
         echo ""
 
-        bash "$PARSER" "$host" | while IFS=$'\t' read -r h stack key scope; do
-            total=$((total + 1))
+        # Check each placeholder — print ok inline, collect problems
+        local missing_lines=""
+        while IFS=$'\t' read -r h stack key scope; do
             local found=""
 
             if [ "$scope" = "per-host" ]; then
@@ -269,14 +327,34 @@ check HOST="":
 
             if [ -n "$found" ]; then
                 printf "  ✓ %-40s (%s)\n" "$key" "$found"
+            elif [ "$scope" = "per-host" ] && [ "$can_decrypt" = false ]; then
+                printf "  ? %-40s (cannot check — no AGE key)\n" "$key"
             else
-                if [ "$scope" = "per-host" ] && [ "$can_decrypt" = false ]; then
-                    printf "  ? %-40s (cannot check — no AGE key, stack: %s)\n" "$key" "$stack"
-                else
-                    printf "  ✗ %-40s MISSING (stack: %s)\n" "$key" "$stack"
-                fi
+                missing_lines="${missing_lines}${key}\t${stack}\n"
             fi
-        done
+        done < <(bash "$PARSER" "$host")
+
+        # Print missing entries
+        if [ -n "$missing_lines" ]; then
+            echo ""
+            echo "  Missing:"
+            while IFS=$'\t' read -r key stack; do
+                [ -z "$key" ] && continue
+                printf "    ✗ %-40s (stack: %s)\n" "$key" "$stack"
+                errors=$((errors + 1))
+            done < <(echo -e "$missing_lines")
+        fi
+
+        # Print duplicates
+        if [ -n "$dupes" ]; then
+            echo ""
+            echo "  Duplicates:"
+            while IFS=$'\t' read -r key reason; do
+                [ -z "$key" ] && continue
+                printf "    ✗ %-40s (%s)\n" "$key" "$reason"
+                errors=$((errors + 1))
+            done < <(echo -e "$dupes")
+        fi
 
         echo ""
     }
@@ -288,6 +366,11 @@ check HOST="":
         for host in $hosts; do
             check_host "$host"
         done
+    fi
+
+    if [ "$errors" -gt 0 ]; then
+        echo "$errors error(s) found" >&2
+        exit 1
     fi
 
 # --- Linting & Validation ---

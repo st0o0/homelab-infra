@@ -17,10 +17,9 @@ komodo/
 └── resources/
     └── hosts/
         ├── secrets.sops.yaml.tpl     # template for per-host secrets
-        ├── variables.toml.tpl        # template for per-host variables
         └── <hostname>/
             ├── secrets.sops.yaml     # encrypted per-host secrets (committed)
-            └── variables.toml        # per-host variables (plain TOML)
+            └── variables.toml        # per-host variables (edited via flat YAML view)
 ```
 
 Shared secrets are available as `[[SECRET_NAME]]`. Per-host secrets are
@@ -110,15 +109,12 @@ don't go through `sops` — they live as plain TOML under
 watches.
 
 ```bash
-just k vars              # edit shared komodo/resources/variables.toml
-just k vars nas-01        # edit/create komodo/resources/hosts/nas-01/variables.toml
+just k vars              # edit shared komodo/resources/variables.yaml
+just k vars nas-01        # edit/create komodo/resources/hosts/nas-01/vars.yaml
 ```
 
-Shared variables are available as `[[VARIABLE_NAME]]`. Per-host variables
-follow the same naming convention as per-host secrets: a variable named
-`nas-01_DBHOST` in `komodo/resources/hosts/nas-01/variables.toml` becomes
-available as `[[nas-01_DBHOST]]` — the host prefix is part of the `name`
-field itself, not applied automatically, so name entries accordingly (see
-`komodo/resources/hosts/variables.toml.tpl` for the convention and an
-example). Unlike secrets, no decrypt/restart step is needed — Resource
-Sync picks these up directly.
+Variables are edited as flat YAML (`key: value`), the same syntax as
+secrets. `just k vars` opens a temporary YAML view of `variables.toml`;
+on save, the host prefix is applied automatically and the TOML is updated.
+A variable `db_host: "postgres"` edited via `just k vars nas-01` becomes
+`[[nas-01_db_host]]` in stacks. Edit via `just k vars`, not directly.
