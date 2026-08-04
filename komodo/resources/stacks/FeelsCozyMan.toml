@@ -11,11 +11,6 @@
 # extra_args = ["--remove-orphans"]
 # environment = """
 # TZ=[[tz]]
-# """
-#
-# [[stack.config.additional_env_files]]
-# path = "homeassistant.env"
-# contents = """
 # HA_VLAN_IP=[[FeelsCozyMan_ha_vlan_ip]]
 # HA_VLAN_SUBNET=[[FeelsCozyMan_ha_vlan_subnet]]
 # HA_SERIAL_DEVICE=/dev/serial1
@@ -24,30 +19,15 @@
 # HA_MAC_VLAN=02:42:ac:12:00:02
 # HA_VLAN_PARENT=vlan88
 # HA_PATH_CONFIG=/docker/homeassistant/data
-# """
-#
-# [[stack.config.additional_env_files]]
-# path = "mqtt.env"
-# contents = """
 # MQTT_PORT=8124
 # MQTT_PATH_CONFIG=/docker/homeassistant/mosquitto/config
 # MQTT_PATH_DATA=/docker/homeassistant/mosquitto/data
 # MQTT_PATH_LOG=/docker/homeassistant/mosquitto/log
-# """
-#
-# [[stack.config.additional_env_files]]
-# path = "zigbee-matter.env"
-# contents = """
 # Z2M_PORT=8125
 # Z2M_PATH_DATA=/docker/homeassistant/zigbee2mqtt/data
 # MATTER_LOG_LEVEL=info
 # MATTER_BLE_PROXY=true
 # MATTER_PATH_DATA=/docker/homeassistant/matter/data
-# """
-#
-# [[stack.config.additional_env_files]]
-# path = "njord.env"
-# contents = """
 # NJORD_PORT=9090
 # NJORD_HEALTH_PORT=9091
 # NJORD_POLL_INTERVAL=01:00:00

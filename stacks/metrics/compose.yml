@@ -6,10 +6,18 @@ x-logging: &default-logging
     max-file: "3"
 
 services:
+  grafana-init:
+    image: grafana/grafana:13.1.1
+    container_name: grafana-init
+    user: "0"
+    entrypoint: ["sh", "-c", "chown -R 472:472 /var/lib/grafana"]
+    volumes:
+      - ${GRAFANA_PATH_DATA:?GRAFANA_PATH_DATA is required}:/var/lib/grafana
+    restart: "no"
+
   grafana:
     image: grafana/grafana:13.1.1
     container_name: grafana
-    user: "${PUID:-472}:${PGID:-472}"
     restart: unless-stopped
     logging: *default-logging
     ports:
@@ -38,6 +46,8 @@ services:
       - ${GRAFANA_PATH_DATA:?GRAFANA_PATH_DATA is required}:/var/lib/grafana
       - ./grafana/provisioning:/etc/grafana/provisioning:ro
     depends_on:
+      grafana-init:
+        condition: service_completed_successfully
       victoriametrics:
         condition: service_healthy
       victorialogs:

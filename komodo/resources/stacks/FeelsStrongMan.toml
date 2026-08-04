@@ -15,11 +15,6 @@
 # PGID=[[pgid]]
 # TZ=[[tz]]
 # ARR_MEDIA_PATH=/data/media
-# """
-#
-# [[stack.config.additional_env_files]]
-# path = "cifs.env"
-# contents = """
 # CIFS_MEDIA_HOST=[[FeelsStrongMan_cifs_media_host]]
 # CIFS_MEDIA_SHARE=[[FeelsStrongMan_cifs_media_share]]
 # CIFS_MEDIA_USER=[[FeelsStrongMan_cifs_media_user]]
@@ -28,46 +23,21 @@
 # CIFS_DOWNLOADS_SHARE=[[FeelsStrongMan_cifs_downloads_share]]
 # CIFS_DOWNLOADS_USER=[[FeelsStrongMan_cifs_downloads_user]]
 # CIFS_DOWNLOADS_PASS=[[FeelsStrongMan_cifs_downloads_password]]
-# """
-#
-# [[stack.config.additional_env_files]]
-# path = "sonarr.env"
-# contents = """
 # SONARR_API_KEY=[[FeelsStrongMan_arr_sonarr_api_key]]
 # SONARR_PORT=1089
 # SONARR_API_URL=http://sonarr:8989
 # SONARR_PATH_CONFIG=/docker/arr/sonarr/config
-# """
-#
-# [[stack.config.additional_env_files]]
-# path = "radarr.env"
-# contents = """
 # RADARR_API_KEY=[[FeelsStrongMan_arr_radarr_api_key]]
 # RADARR_PORT=1078
 # RADARR_API_URL=http://radarr:7878
 # RADARR_PATH_CONFIG=/docker/arr/radarr/config
-# """
-#
-# [[stack.config.additional_env_files]]
-# path = "pinchflat.env"
-# contents = """
 # PINCHFLAT_PORT=8945
 # PINCHFLAT_PATH_CONFIG=/docker/arr/pinchflat/config
-# """
-#
-# [[stack.config.additional_env_files]]
-# path = "mediathekarr.env"
-# contents = """
 # MEDIATHEKARR_CATEGORIES=series,movies,custom
 # MEDIATHEKARR_API_BASE_URL=https://mediathekarr.pcjones.de/api/v1
 # MEDIATHEKARR_PORT=1007
 # MEDIATHEKARR_PATH_CONFIG=/docker/arr/mediathekarr/config
 # MEDIATHEKARR_PATH_TEMP=/docker/arr/mediathekarr/temp
-# """
-#
-# [[stack.config.additional_env_files]]
-# path = "services.env"
-# contents = """
 # PROWLARR_PORT=1096
 # PROWLARR_PATH_CONFIG=/docker/arr/prowlarr/config
 # SEERR_PORT=1055
@@ -99,11 +69,6 @@
 # PUID=[[puid]]
 # PGID=[[pgid]]
 # TZ=[[tz]]
-# """
-#
-# [[stack.config.additional_env_files]]
-# path = "cifs.env"
-# contents = """
 # CIFS_MEDIA_HOST=[[FeelsStrongMan_cifs_media_host]]
 # CIFS_MEDIA_SHARE=[[FeelsStrongMan_cifs_media_share]]
 # CIFS_MEDIA_USER=[[FeelsStrongMan_cifs_media_user]]
@@ -112,21 +77,11 @@
 # CIFS_AUDIOS_SHARE=[[FeelsStrongMan_cifs_audios_share]]
 # CIFS_AUDIOS_USER=[[FeelsStrongMan_cifs_audios_user]]
 # CIFS_AUDIOS_PASS=[[FeelsStrongMan_cifs_audios_password]]
-# """
-#
-# [[stack.config.additional_env_files]]
-# path = "jellyfin.env"
-# contents = """
 # JELLYFIN_PORT=8096
 # JELLYFIN_PATH_CONFIG=/docker/media/jellyfin/config
 # JELLYFIN_PATH_CACHE=/docker/media/jellyfin/cache
 # JELLYFIN_PATH_PREVIEW=/docker/media/jellyfin/preview
 # JELLYFIN_PATH_VIDEO=/docker/media/jellyfin/video
-# """
-#
-# [[stack.config.additional_env_files]]
-# path = "audiobookshelf.env"
-# contents = """
 # AUDIOBOOKSHELF_PORT=13378
 # AUDIOBOOKSHELF_PATH_CONFIG=/docker/media/audiobookshelf/config
 # AUDIOBOOKSHELF_PATH_METADATA=/docker/media/audiobookshelf/metadata
@@ -234,11 +189,6 @@
 # TZ=[[tz]]
 # PUID=[[puid]]
 # PGID=[[pgid]]
-# """
-#
-# [[stack.config.additional_env_files]]
-# path = "gluetun.env"
-# contents = """
 # GLUETUN_WG_PRIVATE_KEY=[[FeelsStrongMan_downloader_wireguard_private_key]]
 # GLUETUN_WG_ADDRESSES=[[FeelsStrongMan_downloader_wireguard_addresses]]
 # GLUETUN_WG_PRESHARED_KEY=[[FeelsStrongMan_downloader_wireguard_preshared_key]]
@@ -248,20 +198,10 @@
 # GLUETUN_WG_MTU=1380
 # GLUETUN_SERVER_CITIES=Alblasserdam
 # GLUETUN_DOT_PROVIDERS=quad9
-# """
-#
-# [[stack.config.additional_env_files]]
-# path = "cifs.env"
-# contents = """
 # CIFS_DOWNLOADS_HOST=[[FeelsStrongMan_cifs_downloads_host]]
 # CIFS_DOWNLOADS_SHARE=[[FeelsStrongMan_cifs_downloads_share]]
 # CIFS_DOWNLOADS_USER=[[FeelsStrongMan_cifs_downloads_user]]
 # CIFS_DOWNLOADS_PASS=[[FeelsStrongMan_cifs_downloads_password]]
-# """
-#
-# [[stack.config.additional_env_files]]
-# path = "sabnzbd.env"
-# contents = """
 # SABNZBD_PORT=8080
 # SABNZBD_PATH_SSD=/docker/downloader/sabnzbd/ssd
 # """
