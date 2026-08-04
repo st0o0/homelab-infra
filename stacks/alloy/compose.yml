@@ -43,6 +43,7 @@ services:
     image: gcr.io/cadvisor/cadvisor:v0.51.0
     container_name: cadvisor
     restart: unless-stopped
+    privileged: true
     logging: *default-logging
     network_mode: service:alloy
     command:

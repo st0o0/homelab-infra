@@ -350,16 +350,35 @@
           "options": {}
         },
         {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "host": { "aggregations": [], "operation": "groupby" },
+              "mountpoint": { "aggregations": [], "operation": "groupby" },
+              "Value #used": { "aggregations": ["lastNotNull"], "operation": "aggregate" },
+              "Value #size": { "aggregations": ["lastNotNull"], "operation": "aggregate" },
+              "Value #avail": { "aggregations": ["lastNotNull"], "operation": "aggregate" }
+            }
+          }
+        },
+        {
           "id": "organize",
           "options": {
-            "excludeByName": { "Time": true, "__name__": true, "device": true, "fstype": true, "job": true },
+            "excludeByName": {},
             "renameByName": {
               "host": "Host",
               "mountpoint": "Mount",
-              "Value #used": "Used %",
-              "Value #size": "Size",
-              "Value #avail": "Available"
+              "Value #used (lastNotNull)": "Used %",
+              "Value #size (lastNotNull)": "Size",
+              "Value #avail (lastNotNull)": "Available"
             }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [{ "field": "Host" }]
           }
         }
       ]
