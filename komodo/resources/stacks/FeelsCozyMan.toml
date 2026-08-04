@@ -1,7 +1,7 @@
 # ── FeelsCozyMan ──────────────────────────────────────────────────────────
 
 # [[stack]]
-# name = "homeassistant"
+# name = "FeelsCozyMan-homeassistant"
 # tags = ["iot"]
 # [stack.config]
 # server = "FeelsCozyMan"
@@ -58,7 +58,7 @@
 # """
 #
 # [[stack]]
-# name = "vaultwarden"
+# name = "FeelsCozyMan-vaultwarden"
 # tags = ["infra"]
 # [stack.config]
 # server = "FeelsCozyMan"

@@ -1,7 +1,7 @@
 # ── FeelsDataMan ──────────────────────────────────────────────────────────
 
 # [[stack]]
-# name = "postgres"
+# name = "FeelsDataMan-postgres"
 # tags = ["database"]
 # [stack.config]
 # server = "FeelsDataMan"
@@ -10,12 +10,12 @@
 # linked_repo = "homelab-infra"
 # extra_args = ["--remove-orphans"]
 # environment = """
+# TZ=[[tz]]
 # PG_USER=[[FeelsDataMan_postgres_username]]
 # PG_PASS=[[FeelsDataMan_postgres_password]]
-# TZ=[[tz]]
-# PG_DB=
-# PG_PORT=5432
-# PG_PATH_DATA=/docker/postgres/data
+# PG_DB=[[FeelsDataMan_postgres_db]]
+# PG_PORT=[[FeelsDataMan_postgres_port]]
+# PG_PATH_DATA=[[FeelsDataMan_postgres_path_data]]
 # """
 #
 # [stack.config.pre_deploy]
@@ -23,7 +23,7 @@
 # command = "docker network create db-net 2>/dev/null || true"
 #
 # [[stack]]
-# name = "immich-postgres"
+# name = "FeelsDataMan-immich-postgres"
 # tags = ["database"]
 # [stack.config]
 # server = "FeelsDataMan"
@@ -32,12 +32,12 @@
 # linked_repo = "homelab-infra"
 # extra_args = ["--remove-orphans"]
 # environment = """
-# IMMICH_PG_PASS=[[immich_postgres_password]]
 # TZ=[[tz]]
-# IMMICH_PG_USER=
-# IMMICH_PG_DB=
-# IMMICH_PG_PORT=5433
-# IMMICH_PG_PATH_DATA=/docker/immich-postgres/data
+# IMMICH_PG_USER=[[FeelsDataMan_immich_postgres_username]]
+# IMMICH_PG_PASS=[[FeelsDataMan_immich_postgres_password]]
+# IMMICH_PG_DB=[[FeelsDataMan_immich_postgres_db]]
+# IMMICH_PG_PORT=[[FeelsDataMan_immich_postgres_port]]
+# IMMICH_PG_PATH_DATA=[[FeelsDataMan_immich_postgres_path_data]]
 # """
 #
 # [stack.config.pre_deploy]
@@ -45,7 +45,7 @@
 # command = "docker network create db-net 2>/dev/null || true"
 #
 # [[stack]]
-# name = "mongodb"
+# name = "FeelsDataMan-mongodb"
 # tags = ["database"]
 # [stack.config]
 # server = "FeelsDataMan"
@@ -54,11 +54,11 @@
 # linked_repo = "homelab-infra"
 # extra_args = ["--remove-orphans"]
 # environment = """
+# TZ=[[tz]]
 # MONGO_ROOT_USER=[[FeelsDataMan_mongo_root_username]]
 # MONGO_ROOT_PASS=[[FeelsDataMan_mongo_root_password]]
-# TZ=[[tz]]
-# MONGO_PORT=27017
-# MONGO_PATH_DATA=/docker/mongodb/data
+# MONGO_PORT=[[FeelsDataMan_mongo_port]]
+# MONGO_PATH_DATA=[[FeelsDataMan_mongo_path_data]]
 # """
 #
 # [stack.config.pre_deploy]
@@ -66,32 +66,22 @@
 # command = "docker network create db-net 2>/dev/null || true"
 #
 # [[stack]]
-# name = "databasement"
+# name = "FeelsDataMan-dbgate"
 # tags = ["database"]
-# after = ["postgres"]
+# after = ["FeelsDataMan-postgres", "FeelsDataMan-mongodb"]
 # [stack.config]
 # server = "FeelsDataMan"
-# run_directory = "stacks/databasement"
+# run_directory = "stacks/dbgate"
 # file_paths = ["compose.yml"]
 # linked_repo = "homelab-infra"
 # extra_args = ["--remove-orphans"]
 # environment = """
-# DATABASEMENT_APP_KEY=[[FeelsDataMan_databasement_app_key]]
-# DATABASEMENT_DB_PASS=[[FeelsDataMan_postgres_password]]
+# DBGATE_LOGINS=[[FeelsDataMan_dbgate_logins]]
+# DBGATE_LOGIN_PERMISSIONS=[[FeelsDataMan_dbgate_login_permissions]]
+# DBGATE_CONNECTIONS=[[FeelsDataMan_dbgate_connections]]
 # TZ=[[tz]]
-# DATABASEMENT_APP_URL=http://localhost:2226
-# DATABASEMENT_APP_ENV=production
-# DATABASEMENT_APP_DEBUG=false
-# DATABASEMENT_DB_HOST=postgres
-# DATABASEMENT_DB_PORT=5432
-# DATABASEMENT_DB_NAME=databasement
-# DATABASEMENT_DB_USER=postgres
-# DATABASEMENT_QUEUE_CONNECTION=database
-# DATABASEMENT_CACHE_STORE=database
-# DATABASEMENT_SESSION_DRIVER=database
-# DATABASEMENT_BIND_IP=127.0.0.1
-# DATABASEMENT_PORT=2226
-# DATABASEMENT_PATH_DATA=/docker/databasement/data
+# DBGATE_PORT=3100
+# DBGATE_PATH_DATA=/docker/dbgate/data
 # """
 #
 # [stack.config.pre_deploy]

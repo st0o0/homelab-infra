@@ -1,9 +1,9 @@
 # ── FeelsStrongMan ────────────────────────────────────────────────────────
 
 # [[stack]]
-# name = "arr"
+# name = "FeelsStrongMan-arr"
 # tags = ["media"]
-# after = ["media"]
+# after = ["FeelsStrongMan-media"]
 # [stack.config]
 # server = "FeelsStrongMan"
 # run_directory = "stacks/arr"
@@ -91,7 +91,7 @@
 # command = "docker network create media-net 2>/dev/null || true"
 #
 # [[stack]]
-# name = "media"
+# name = "FeelsStrongMan-media"
 # tags = ["media"]
 # [stack.config]
 # server = "FeelsStrongMan"
@@ -141,7 +141,7 @@
 # command = "docker network create media-net 2>/dev/null || true"
 #
 # [[stack]]
-# name = "authentik"
+# name = "FeelsStrongMan-authentik"
 # tags = ["infra"]
 # [stack.config]
 # server = "FeelsStrongMan"
@@ -163,9 +163,9 @@
 # """
 #
 # [[stack]]
-# name = "immich"
+# name = "FeelsStrongMan-immich"
 # tags = ["media", "apps"]
-# after = ["immich-postgres"]
+# after = ["FeelsDataMan-immich-postgres"]
 # [stack.config]
 # server = "FeelsStrongMan"
 # run_directory = "stacks/immich"
@@ -190,7 +190,7 @@
 # """
 #
 # [[stack]]
-# name = "mealie"
+# name = "FeelsStrongMan-mealie"
 # tags = ["apps"]
 # [stack.config]
 # server = "FeelsStrongMan"
@@ -225,9 +225,9 @@
 # """
 #
 # [[stack]]
-# name = "downloader"
+# name = "FeelsStrongMan-downloader"
 # tags = ["media"]
-# after = ["media"]
+# after = ["FeelsStrongMan-media"]
 # [stack.config]
 # server = "FeelsStrongMan"
 # run_directory = "stacks/downloader"

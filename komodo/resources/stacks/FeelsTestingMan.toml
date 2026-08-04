@@ -1,10 +1,11 @@
 # ── FeelsTestingMan ───────────────────────────────────────────────────────
 
 [[stack]]
-name = "whoami"
+name = "FeelsTestingMan-whoami"
 tags = ["testing"]
 [stack.config]
 server = "FeelsTestingMan"
+project_name = "komodo-whoami"
 run_directory = "stacks/whoami"
 file_paths = ["compose.yml"]
 linked_repo = "homelab-infra"
@@ -15,10 +16,11 @@ WHOAMI_PORT=8080
 """
 
 [[stack]]
-name = "alloy"
+name = "FeelsTestingMan-alloy"
 tags = ["monitoring"]
 [stack.config]
 server = "FeelsTestingMan"
+project_name = "komodo-alloy"
 run_directory = "stacks/alloy"
 file_paths = ["compose.yml"]
 linked_repo = "homelab-infra"

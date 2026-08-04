@@ -1,7 +1,7 @@
 # ── FeelsUPSMan ───────────────────────────────────────────────────────────
 
 # [[stack]]
-# name = "nut-upsd"
+# name = "FeelsUPSMan-nut-upsd"
 # tags = ["infra"]
 # [stack.config]
 # server = "FeelsUPSMan"
@@ -26,9 +26,9 @@
 # """
 #
 # [[stack]]
-# name = "ups-monitor"
+# name = "FeelsUPSMan-ups-monitor"
 # tags = ["monitoring"]
-# after = ["nut-upsd"]
+# after = ["FeelsUPSMan-nut-upsd"]
 # [stack.config]
 # server = "FeelsUPSMan"
 # run_directory = "stacks/ups-monitor"
