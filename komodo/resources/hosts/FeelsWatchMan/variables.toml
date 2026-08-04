@@ -1,10 +1,7 @@
 # DO NOT EDIT — use 'just k vars' to edit as flat YAML
 
 #Grafana
-[[variable]]
-name = "FeelsWatchMan_grafana_ssl_mode"
-value = "false"
-
+#grafana_ssl_mode: "false"
 [[variable]]
 name = "FeelsWatchMan_grafana_analytics_reporting"
 value = "false"
