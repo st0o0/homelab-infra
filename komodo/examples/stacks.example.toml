@@ -69,11 +69,10 @@ env_file_path = ".env"
 skip_secret_interp = false
 
 # ── Additional env files ─────────────────────────────────────────────
+# Points to env files that already exist on disk (Komodo does NOT create
+# them — use the main `environment` block or pre_deploy to write them).
 # [[stack.config.additional_env_files]]
 # path = "extra.env"
-# contents = """
-# EXTRA_VAR=value
-# """
 
 # ── Config files (tracked for diff during deploy) ────────────────────
 # [[stack.config.config_files]]
