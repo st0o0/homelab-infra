@@ -1,21 +1,41 @@
-# Per-host, non-secret variables. Copied to
-# komodo/resources/hosts/<hostname>/variables.toml by `just k vars <hostname>`.
-#
-# Not secret, so this file is plain TOML — no sops involved, unlike
-# komodo/resources/hosts/<hostname>/secrets.sops.yaml.
-#
-# Name every entry with a "<hostname>_" prefix so it can't collide with
-# komodo/resources/variables.toml or another host's file, and reference it
-# from komodo/resources/stacks.toml as [[<hostname>_VARIABLE_NAME]] — same
-# convention as per-host secrets ([[<hostname>_host_ip]]).
-#
-# Example:
-# [[variable]]
-# name = "FeelsStrongMan_PAPERLESS_DBHOST"
-# value = "paperless-db"
-# description = "Postgres service name for paperless on FeelsStrongMan"
+# DO NOT EDIT — use 'just k vars' to edit as flat YAML
+
+#Grafana
+[[variable]]
+name = "FeelsWatchMan_grafana_ssl_mode"
+value = "false"
 
 [[variable]]
-name = "FeelsWatchMan_alloy_nut_exporter_target"
-value = "changeme"
-description = "NUT exporter target address for Alloy scraping (e.g. host.docker.internal:3493)"
+name = "FeelsWatchMan_grafana_analytics_reporting"
+value = "false"
+
+[[variable]]
+name = "FeelsWatchMan_grafana_check_for_updates"
+value = "false"
+#VLogs
+
+[[variable]]
+name = "FeelsWatchMan_vl_max_disk_gb"
+value = "3"
+
+[[variable]]
+name = "FeelsWatchMan_vl_retention"
+value = "90d"
+#VM
+
+[[variable]]
+name = "FeelsWatchMan_vm_scrape_interval"
+value = "30s"
+
+[[variable]]
+name = "FeelsWatchMan_vm_self_scrape_interval"
+value = "1m"
+
+[[variable]]
+name = "FeelsWatchMan_vm_retention"
+value = "90d"
+# --- Missing entries (from stacks/*.toml) ---
+# Set values for entries that should be variables.
+# Entries that should be secrets: use 'just k secrets FeelsWatchMan' instead.
+# discord_webhook_url: "changeme"  # from stack: metrics
+# grafana_news_feed: "changeme"  # from stack: metrics

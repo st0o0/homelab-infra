@@ -36,6 +36,8 @@ services:
       - GF_DATABASE_USER=${GRAFANA_DB_USER:-}
       - GF_DATABASE_PASSWORD=${GRAFANA_DB_PASS:-}
       - GF_DATABASE_SSL_MODE=${GRAFANA_DB_SSL_MODE:-disable}
+      - GF_UNIFIED_ALERTING_ENABLED=true
+      - DISCORD_WEBHOOK_URL=${DISCORD_WEBHOOK_URL:-}
       - TZ=${TZ:-}
     volumes:
       - ${GRAFANA_PATH_DATA:?GRAFANA_PATH_DATA is required}:/var/lib/grafana
