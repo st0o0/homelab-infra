@@ -45,6 +45,7 @@ services:
     restart: unless-stopped
     logging: *default-logging
     network_mode: service:alloy
+    user: "0"
     environment:
       - LISTEN_ADDR=0.0.0.0:8080
     volumes:
