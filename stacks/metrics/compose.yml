@@ -103,10 +103,11 @@ services:
     volumes:
       - ${VL_PATH_DATA:-./data/victorialogs}:/storage
     healthcheck:
-      test: wget -qO- http://127.0.0.1:9428/health || exit 1
+      test: wget -qO- http://127.0.0.1:9428/metrics || exit 1
       interval: 10s
       timeout: 5s
       retries: 5
+      start_period: 10s
     deploy:
       resources:
         limits:
