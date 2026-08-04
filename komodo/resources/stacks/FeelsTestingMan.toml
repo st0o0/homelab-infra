@@ -11,3 +11,24 @@ environment = """
 TZ=[[tz]]
 WHOAMI_PORT=8080
 """
+
+[[stack]]
+name = "alloy"
+[stack.config]
+server = "FeelsTestingMan"
+run_directory = "stacks/alloy"
+file_paths = ["compose.yml"]
+linked_repo = "homelab-infra"
+environment = """
+TZ=[[tz]]
+ALLOY_REMOTE_WRITE_URL=[[metrics_remote_write_url]]
+ALLOY_LOGS_PUSH_URL=[[metrics_logs_push_url]]
+ALLOY_NUT_EXPORTER_TARGET=
+ALLOY_HOSTNAME=FeelsTestingMan
+ALLOY_SCRAPE_INTERVAL=30s
+ALLOY_NUT_ENABLED=false
+ALLOY_SECURITY_LOGS_ENABLED=false
+CADVISOR_HOUSEKEEPING_INTERVAL=30s
+CADVISOR_DOCKER_ONLY=true
+CADVISOR_DISABLE_METRICS=advtcp,cpu_topology,cpuset,hugetlb,memory_numa,process,referenced_memory,resctrl,sched,tcp,udp
+"""
