@@ -1,7 +1,7 @@
 # ── FeelsPrivateMan ───────────────────────────────────────────────────────
 
 # [[stack]]
-# name = "FeelsPrivateMan-bifrost"
+# name = "bifrost-1"
 # tags = ["infra"]
 # [stack.config]
 # server = "FeelsPrivateMan"

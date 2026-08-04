@@ -1,11 +1,11 @@
 # ── FeelsWatchMan ─────────────────────────────────────────────────────────
 
 [[stack]]
-name = "FeelsWatchMan-metrics"
+name = "metrics-1"
 tags = ["monitoring"]
 [stack.config]
 server = "FeelsWatchMan"
-project_name = "komodo-metrics"
+project_name = "metrics-1"
 run_directory = "stacks/metrics"
 file_paths = ["compose.yml"]
 linked_repo = "homelab-infra"
@@ -39,12 +39,12 @@ VM_PATH_DATA=[[FeelsWatchMan_vm_path_data]]
 """
 
 [[stack]]
-name = "FeelsWatchMan-alloy"
+name = "alloy-1"
 tags = ["monitoring"]
-after = ["FeelsWatchMan-metrics"]
+after = ["metrics-1"]
 [stack.config]
 server = "FeelsWatchMan"
-project_name = "komodo-alloy"
+project_name = "alloy-1"
 run_directory = "stacks/alloy"
 file_paths = ["compose.yml"]
 linked_repo = "homelab-infra"

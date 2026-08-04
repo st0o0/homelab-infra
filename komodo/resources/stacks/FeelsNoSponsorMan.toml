@@ -1,7 +1,7 @@
 # ── FeelsNoSponsorMan ─────────────────────────────────────────────────────
 
 # [[stack]]
-# name = "FeelsNoSponsorMan-pihole"
+# name = "pihole-1"
 # tags = ["infra"]
 # [stack.config]
 # server = "FeelsNoSponsorMan"
