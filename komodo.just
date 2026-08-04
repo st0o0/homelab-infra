@@ -58,7 +58,7 @@ secrets TARGET="all":
             | sed 's/:.*//' || true)
 
         var_keys=""
-        VARS_FILE="komodo/resources/hosts/$HOST/variables.toml"
+        VARS_FILE="komodo/resources/variables/$HOST.toml"
         if [ -f "$VARS_FILE" ]; then
             var_keys=$(grep -oP '(?<=^name = ")[^"]+' "$VARS_FILE" \
                 | sed "s/^${HOST}_//" || true)
@@ -161,7 +161,7 @@ vars TARGET="all":
     }
 
     if [ "{{TARGET}}" = "all" ]; then
-        TOML="komodo/resources/variables.toml"
+        TOML="komodo/resources/variables/_global.toml"
         TMP=$(toml_to_yaml "$TOML" "")
         trap 'rm -f "$TMP"' EXIT
 
@@ -172,11 +172,10 @@ vars TARGET="all":
     fi
 
     HOST="{{TARGET}}"
-    TOML="komodo/resources/hosts/$HOST/variables.toml"
+    TOML="komodo/resources/variables/$HOST.toml"
     SECRET="komodo/resources/hosts/$HOST/secrets.sops.yaml"
 
     if [ ! -f "$TOML" ]; then
-        mkdir -p "$(dirname "$TOML")"
         touch "$TOML"
     fi
 
@@ -240,8 +239,8 @@ check HOST="":
 
     # Collect defined keys from global sources
     global_vars=""
-    if [ -f "komodo/resources/variables.toml" ]; then
-        global_vars=$(grep -oP '(?<=^name = ")[^"]+' komodo/resources/variables.toml || true)
+    if [ -f "komodo/resources/variables/_global.toml" ]; then
+        global_vars=$(grep -oP '(?<=^name = ")[^"]+' komodo/resources/variables/_global.toml || true)
     fi
 
     global_secrets=""
@@ -265,7 +264,7 @@ check HOST="":
         fi
 
         # Collect per-host variable keys (strip host prefix)
-        local host_vars_file="komodo/resources/hosts/$host/variables.toml"
+        local host_vars_file="komodo/resources/variables/$host.toml"
         if [ -f "$host_vars_file" ]; then
             host_vars=$(grep -oP '(?<=^name = ")[^"]+' "$host_vars_file" \
                 | sed "s/^${host}_//" || true)
