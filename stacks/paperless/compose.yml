@@ -1,0 +1,58 @@
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: 10m
+    max-file: "3"
+
+services:
+  paperless:
+    image: ghcr.io/paperless-ngx/paperless-ngx:2.16.3
+    container_name: paperless
+    restart: unless-stopped
+    logging: *default-logging
+    ports:
+      - "${PAPERLESS_PORT:-8000}:8000"
+    volumes:
+      - ${PAPERLESS_PATH_DATA:?PAPERLESS_PATH_DATA is required}:/usr/src/paperless/data
+      - ${PAPERLESS_PATH_MEDIA:?PAPERLESS_PATH_MEDIA is required}:/usr/src/paperless/media
+      - ${PAPERLESS_PATH_CONSUME:-/docker/paperless/consume}:/usr/src/paperless/consume
+      - ${PAPERLESS_PATH_EXPORT:-/docker/paperless/export}:/usr/src/paperless/export
+    environment:
+      - PAPERLESS_REDIS=redis://paperless-redis:6379
+      - PAPERLESS_TIME_ZONE=${TZ:-}
+      - PAPERLESS_SECRET_KEY=${PAPERLESS_SECRET_KEY:?PAPERLESS_SECRET_KEY is required}
+      - PAPERLESS_URL=${PAPERLESS_URL:-}
+      - PAPERLESS_ADMIN_USER=${PAPERLESS_ADMIN_USER:-}
+      - PAPERLESS_ADMIN_PASSWORD=${PAPERLESS_ADMIN_PASS:-}
+      - PAPERLESS_OCR_LANGUAGE=${PAPERLESS_OCR_LANGUAGE:-deu+eng}
+      - USERMAP_UID=${PUID:-}
+      - USERMAP_GID=${PGID:-}
+    depends_on:
+      paperless-redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - paperless
+
+  paperless-redis:
+    image: redis:8-alpine
+    container_name: paperless-redis
+    restart: unless-stopped
+    logging: *default-logging
+    volumes:
+      - ${PAPERLESS_PATH_REDIS:-/docker/paperless/redis}:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - paperless
+
+networks:
+  paperless:
+    name: paperless-net

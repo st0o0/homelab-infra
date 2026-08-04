@@ -49,14 +49,10 @@
 # """
 #
 # [[stack.config.additional_env_files]]
-# path = "tracearr.env"
+# path = "pinchflat.env"
 # contents = """
-# TRACEARR_JWT_SECRET=[[FeelsStrongMan_arr_tracearr_jwt_secret]]
-# TRACEARR_COOKIE_SECRET=[[FeelsStrongMan_arr_tracearr_cookie_secret]]
-# TRACEARR_DB_PASS=[[FeelsStrongMan_tracearr_db_password]]
-# TRACEARR_PORT=3300
-# TRACEARR_CORS_ORIGIN=*
-# TRACEARR_LOG_LEVEL=info
+# PINCHFLAT_PORT=8945
+# PINCHFLAT_PATH_CONFIG=/docker/arr/pinchflat/config
 # """
 #
 # [[stack.config.additional_env_files]]
@@ -273,3 +269,29 @@
 # [stack.config.pre_deploy]
 # path = "."
 # command = "docker network create media-net 2>/dev/null || true"
+#
+# [[stack]]
+# name = "paperless-1"
+# tags = ["apps"]
+# [stack.config]
+# server = "FeelsStrongMan"
+# run_directory = "stacks/paperless"
+# file_paths = ["compose.yml"]
+# linked_repo = "homelab-infra"
+# extra_args = ["--remove-orphans"]
+# environment = """
+# PAPERLESS_SECRET_KEY=[[FeelsStrongMan_paperless_secret_key]]
+# PAPERLESS_URL=[[FeelsStrongMan_paperless_url]]
+# PAPERLESS_ADMIN_USER=[[FeelsStrongMan_paperless_admin_user]]
+# PAPERLESS_ADMIN_PASS=[[FeelsStrongMan_paperless_admin_password]]
+# PUID=[[puid]]
+# PGID=[[pgid]]
+# TZ=[[tz]]
+# PAPERLESS_OCR_LANGUAGE=deu+eng
+# PAPERLESS_PORT=8000
+# PAPERLESS_PATH_DATA=/docker/paperless/data
+# PAPERLESS_PATH_MEDIA=/docker/paperless/media
+# PAPERLESS_PATH_CONSUME=/docker/paperless/consume
+# PAPERLESS_PATH_EXPORT=/docker/paperless/export
+# PAPERLESS_PATH_REDIS=/docker/paperless/redis
+# """

@@ -132,76 +132,18 @@ services:
     networks:
       - arr
 
-  tracearr:
-    image: ghcr.io/connorgallopo/tracearr:v1.5.0
-    container_name: arr-tracearr
-    restart: unless-stopped
-    logging: *default-logging
+  pinchflat:
+    <<: *common
+    image: ghcr.io/kieraneglin/pinchflat:v2025.6.25
+    container_name: arr-pinchflat
     ports:
-      - "${TRACEARR_PORT:-3300}:3000"
-    environment:
-      - NODE_ENV=production
-      - PORT=3000
-      - HOST=0.0.0.0
-      - TZ=${TZ:-}
-      - DATABASE_URL=postgres://tracearr:${TRACEARR_DB_PASS:-tracearr}@tracearr-db:5432/tracearr
-      - REDIS_URL=redis://tracearr-redis:6379
-      - JWT_SECRET=${TRACEARR_JWT_SECRET:?TRACEARR_JWT_SECRET is required}
-      - COOKIE_SECRET=${TRACEARR_COOKIE_SECRET:?TRACEARR_COOKIE_SECRET is required}
-      - CORS_ORIGIN=${TRACEARR_CORS_ORIGIN:-*}
-      - LOG_LEVEL=${TRACEARR_LOG_LEVEL:-info}
-    depends_on:
-      tracearr-db:
-        condition: service_healthy
-      tracearr-redis:
-        condition: service_healthy
-    networks:
-      - arr
-
-  tracearr-db:
-    image: timescale/timescaledb:2.25.0-pg16
-    container_name: arr-tracearr-db
-    restart: unless-stopped
-    logging: *default-logging
-    shm_size: 512mb
-    ulimits:
-      nofile:
-        soft: 65536
-        hard: 65536
-    command: >-
-      postgres
-      -c timescaledb.max_tuples_decompressed_per_dml_transaction=0
-      -c max_locks_per_transaction=4096
-      -c timescaledb.telemetry_level=off
-    environment:
-      - POSTGRES_USER=tracearr
-      - POSTGRES_PASSWORD=${TRACEARR_DB_PASS:-tracearr}
-      - POSTGRES_DB=tracearr
+      - "${PINCHFLAT_PORT:-8945}:8945"
     volumes:
-      - tracearr-data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U tracearr"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      - ${PINCHFLAT_PATH_CONFIG:-./data/pinchflat/config}:/config
+      - media_smb:${ARR_MEDIA_PATH:-/data/media}
     networks:
       - arr
-
-  tracearr-redis:
-    image: redis:8.8.1-alpine
-    container_name: arr-tracearr-redis
-    restart: unless-stopped
-    logging: *default-logging
-    command: redis-server --appendonly yes
-    volumes:
-      - tracearr-redis:/data
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    networks:
-      - arr
+      - media
 
 networks:
   arr:
@@ -223,5 +165,3 @@ volumes:
       type: cifs
       device: "//${CIFS_DOWNLOADS_HOST:?CIFS_DOWNLOADS_HOST is required}/${CIFS_DOWNLOADS_SHARE:?CIFS_DOWNLOADS_SHARE is required}"
       o: "username=${CIFS_DOWNLOADS_USER:?CIFS_DOWNLOADS_USER is required},password=${CIFS_DOWNLOADS_PASS:?CIFS_DOWNLOADS_PASS is required},vers=3.0,uid=${PUID:-1000},gid=${PGID:-1000}"
-  tracearr-data:
-  tracearr-redis:
