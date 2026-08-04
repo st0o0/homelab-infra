@@ -15,17 +15,24 @@ services:
     ports:
       - "${JELLYFIN_PORT:-8096}:8096"
     environment:
-      - PUID=${PUID:-1000}
-      - PGID=${PGID:-1000}
-      - TZ=${TZ:-Europe/Berlin}
+      - PUID=${PUID:-}
+      - PGID=${PGID:-}
+      - TZ=${TZ:-}
     volumes:
-      - ${JELLYFIN_CONFIG_PATH:-./data/jellyfin/config}:/config
-      - ${JELLYFIN_CACHE_PATH:-./data/jellyfin/cache}:/cache
-      - ${JELLYFIN_PREVIEW_PATH:-./data/jellyfin/preview}:/preview
+      - ${JELLYFIN_PATH_CONFIG:?JELLYFIN_PATH_CONFIG is required}:/config
+      - ${JELLYFIN_PATH_CACHE:?JELLYFIN_PATH_CACHE is required}:/cache
+      - ${JELLYFIN_PATH_PREVIEW:?JELLYFIN_PATH_PREVIEW is required}:/preview
+      - ${JELLYFIN_PATH_VIDEO:?JELLYFIN_PATH_VIDEO is required}:/video
       - media_smb:/data/media
-      - ${JELLYFIN_VIDEO_PATH:-./data/jellyfin/video}:/video
     networks:
       - media
+    deploy:
+      resources:
+        limits:
+          cpus: 4
+          memory: 4GB
+        reservations:
+          memory: 1GB
 
   audiobookshelf:
     image: ghcr.io/advplyr/audiobookshelf:v2.36.0
@@ -37,17 +44,25 @@ services:
       - PGID=${PGID:-1000}
       - TZ=${TZ:-Europe/Berlin}
     ports:
-      - "${AUDIOBOOKSHELF_PORT:-13378}:80"
+      - "${AUDIOBOOKSHELF_PORT:?AUDIOBOOKSHELF_PORT is required}:80"
     volumes:
-      - ${AUDIOBOOKSHELF_CONFIG_PATH:-./data/audiobookshelf/config}:/config
-      - ${AUDIOBOOKSHELF_METADATA_PATH:-./data/audiobookshelf/metadata}:/metadata
+      - ${AUDIOBOOKSHELF_PATH_CONFIG:?AUDIOBOOKSHELF_PATH_CONFIG is required}:/config
+      - ${AUDIOBOOKSHELF_PATH_METADATA:?AUDIOBOOKSHELF_PATH_METADATA is required}:/metadata
       - audios_smb:/data/audios
     networks:
       - media
+    deploy:
+      resources:
+        limits:
+          cpus: 0.5
+          memory: 512M
+        reservations:
+          memory: 256M
 
 networks:
   media:
     name: media-net
+    external: true
 
 volumes:
   media_smb:
@@ -55,10 +70,10 @@ volumes:
     driver_opts:
       type: cifs
       device: "//${CIFS_MEDIA_HOST:?CIFS_MEDIA_HOST is required}/${CIFS_MEDIA_SHARE:?CIFS_MEDIA_SHARE is required}"
-      o: "username=${CIFS_MEDIA_USER:?CIFS_MEDIA_USER is required},password=${CIFS_MEDIA_PASSWORD:?CIFS_MEDIA_PASSWORD is required},vers=3.0,uid=${PUID:-1000},gid=${PGID:-1000}"
+      o: "username=${CIFS_MEDIA_USER:?CIFS_MEDIA_USER is required},password=${CIFS_MEDIA_PASS:?CIFS_MEDIA_PASS is required},vers=3.0,uid=${PUID:-1000},gid=${PGID:-1000}"
   audios_smb:
     driver: local
     driver_opts:
       type: cifs
       device: "//${CIFS_AUDIOS_HOST:?CIFS_AUDIOS_HOST is required}/${CIFS_AUDIOS_SHARE:?CIFS_AUDIOS_SHARE is required}"
-      o: "username=${CIFS_AUDIOS_USER:?CIFS_AUDIOS_USER is required},password=${CIFS_AUDIOS_PASSWORD:?CIFS_AUDIOS_PASSWORD is required},vers=3.0,uid=${PUID:-1000},gid=${PGID:-1000}"
+      o: "username=${CIFS_AUDIOS_USER:?CIFS_AUDIOS_USER is required},password=${CIFS_AUDIOS_PASS:?CIFS_AUDIOS_PASS is required},vers=3.0,uid=${PUID:-1000},gid=${PGID:-1000}"

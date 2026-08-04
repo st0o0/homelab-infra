@@ -13,13 +13,19 @@ services:
     logging: *default-logging
     environment:
       - TZ=${TZ:-Europe/Berlin}
-      - HTTP_PORT=9199
       # NUT server (upsd) running on the host
-      - NUT_EXPORTER_SERVER=${NUT_SERVER:-host.docker.internal}
-      - NUT_EXPORTER_SERVER_PORT=${NUT_PORT:-3493}
-      - NUT_EXPORTER_USERNAME=${NUT_USER:-}
-      - NUT_EXPORTER_PASSWORD=${NUT_PASSWORD:-}
+      - NUT_EXPORTER_SERVER=${NUT_EXP_SERVER:?NUT_EXP_SERVER is required}
+      - NUT_EXPORTER_SERVER_PORT=${NUT_EXP_SERVER_PORT:?NUT_EXP_SERVER_PORT is required}
+      - NUT_EXPORTER_USERNAME=${NUT_EXP_USER:?NUT_EXP_USER is required}
+      - NUT_EXPORTER_PASSWORD=${NUT_EXP_PASS:?NUT_EXP_PASS is required}
     ports:
-      - "127.0.0.1:9199:9199"
+      - "${NUT_EXP_PORT:-9199}:9995"
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    deploy:
+      resources:
+        limits:
+          cpus: 0.10
+          memory: 64M
+        reservations:
+          memory: 32M

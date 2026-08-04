@@ -13,13 +13,13 @@ services:
     command: server
     environment:
       - AUTHENTIK_SECRET_KEY=${AUTHENTIK_SECRET_KEY:?AUTHENTIK_SECRET_KEY is required}
-      - AUTHENTIK_POSTGRESQL__HOST=${PG_HOST:-authentik-db}
-      - AUTHENTIK_POSTGRESQL__USER=${PG_USER:-authentik}
-      - AUTHENTIK_POSTGRESQL__NAME=${PG_DB:-authentik}
-      - AUTHENTIK_POSTGRESQL__PASSWORD=${PG_PASS:?PG_PASS is required}
+      - AUTHENTIK_POSTGRESQL__HOST=${AUTHENTIK_DB_HOST:-authentik-db}
+      - AUTHENTIK_POSTGRESQL__USER=${AUTHENTIK_DB_USER:-authentik}
+      - AUTHENTIK_POSTGRESQL__NAME=${AUTHENTIK_DB_NAME:-authentik}
+      - AUTHENTIK_POSTGRESQL__PASSWORD=${AUTHENTIK_DB_PASS:?AUTHENTIK_DB_PASS is required}
     volumes:
-      - ${AUTHENTIK_MEDIA_PATH:-./media}:/media
-      - ${AUTHENTIK_TEMPLATES_PATH:-./custom-templates}:/templates
+      - ${AUTHENTIK_PATH_MEDIA:-./media}:/media
+      - ${AUTHENTIK_PATH_TEMPLATES:-./custom-templates}:/templates
     ports:
       - "${AUTHENTIK_PORT_HTTP:-9000}:9000"
       - "${AUTHENTIK_PORT_HTTPS:-9443}:9443"
@@ -32,11 +32,11 @@ services:
     command: worker
     environment:
       - AUTHENTIK_SECRET_KEY=${AUTHENTIK_SECRET_KEY:?AUTHENTIK_SECRET_KEY is required}
-      - AUTHENTIK_POSTGRESQL__HOST=${PG_HOST:-authentik-db}
-      - AUTHENTIK_POSTGRESQL__USER=${PG_USER:-authentik}
-      - AUTHENTIK_POSTGRESQL__NAME=${PG_DB:-authentik}
-      - AUTHENTIK_POSTGRESQL__PASSWORD=${PG_PASS:?PG_PASS is required}
+      - AUTHENTIK_POSTGRESQL__HOST=${AUTHENTIK_DB_HOST:-authentik-db}
+      - AUTHENTIK_POSTGRESQL__USER=${AUTHENTIK_DB_USER:-authentik}
+      - AUTHENTIK_POSTGRESQL__NAME=${AUTHENTIK_DB_NAME:-authentik}
+      - AUTHENTIK_POSTGRESQL__PASSWORD=${AUTHENTIK_DB_PASS:?AUTHENTIK_DB_PASS is required}
     volumes:
-      - ${AUTHENTIK_MEDIA_PATH:-./media}:/media
-      - ${AUTHENTIK_CERTS_PATH:-./certs}:/certs
-      - ${AUTHENTIK_TEMPLATES_PATH:-./custom-templates}:/templates
+      - ${AUTHENTIK_PATH_MEDIA:-./media}:/media
+      - ${AUTHENTIK_PATH_CERTS:-./certs}:/certs
+      - ${AUTHENTIK_PATH_TEMPLATES:-./custom-templates}:/templates

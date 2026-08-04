@@ -1,4 +1,4 @@
 creation_rules:
-  - path_regex: .*\.sops\.yml$
+  - path_regex: .*\.sops\.yaml$
     age: >-
       age1zlm8qzcj0wmn063uq00s7vzfne0wkd66ft4szphr4l6mz7k2ssaqpxpf8k

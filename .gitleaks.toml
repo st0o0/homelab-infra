@@ -1,0 +1,5 @@
+[allowlist]
+  paths = [
+    '''.*\.sops\.ya?ml$''',
+    '''.*\.sops\.toml$''',
+  ]

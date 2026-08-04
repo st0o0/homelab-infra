@@ -17,10 +17,9 @@ komodo/
 └── resources/
     └── hosts/
         ├── secrets.sops.yaml.tpl     # template for per-host secrets
-        ├── variables.toml.tpl        # template for per-host variables
         └── <hostname>/
             ├── secrets.sops.yaml     # encrypted per-host secrets (committed)
-            └── variables.toml        # per-host variables (plain TOML)
+            └── variables.toml        # per-host variables (edited via flat YAML view)
 ```
 
 Shared secrets are available as `[[SECRET_NAME]]`. Per-host secrets are
@@ -67,17 +66,18 @@ just k show-secrets nas-01    # print decrypted per-host secrets to stdout
 
 ## Decrypting on the Core host
 
+The `komodo` Ansible role handles secret provisioning automatically —
+it decrypts all global and per-host secrets, merges them into a
+`[secrets]` TOML block with per-host keys prefixed by hostname, and
+deploys the result as `core.secrets.toml` on the Core host. Run:
+
 ```bash
-just k decrypt                              # writes /etc/komodo/core.secrets.toml
-just k decrypt /custom/path/config.toml     # custom output path
+just a deploy <core-host> --tags komodo
 ```
 
-Equivalent to running `komodo/decrypt.sh` directly. Merges
-`komodo/secrets.sops.yaml` with every `komodo/resources/hosts/*/secrets.sops.yaml`
-into one `[secrets]` TOML block, chmod 600. The Komodo Core stack mounts
-this file read-only via `KOMODO_SECRETS_FILE` (see
-`stacks/komodo/.env.example`), so restart Komodo Core after decrypting to
-pick up changes.
+The Komodo Core stack mounts this file read-only via `KOMODO_SECRETS_FILE`
+(see `stacks/komodo/.env.example`). Ansible restarts Core automatically
+when secrets change.
 
 ## Rotating a secret
 
@@ -88,9 +88,7 @@ pick up changes.
    git commit -m "chore(komodo): rotate <secret-name>"
    git push
    ```
-3. On the Core host: `git pull`
-4. `just k decrypt` (or `komodo/decrypt.sh`)
-5. Restart Komodo Core to pick up the new value
+3. Re-run the Ansible `komodo` role against the Core host to deploy the updated secrets
 
 ## Adding a new host
 
@@ -111,15 +109,12 @@ don't go through `sops` — they live as plain TOML under
 watches.
 
 ```bash
-just k vars              # edit shared komodo/resources/variables.toml
-just k vars nas-01        # edit/create komodo/resources/hosts/nas-01/variables.toml
+just k vars              # edit shared komodo/resources/variables.yaml
+just k vars nas-01        # edit/create komodo/resources/hosts/nas-01/vars.yaml
 ```
 
-Shared variables are available as `[[VARIABLE_NAME]]`. Per-host variables
-follow the same naming convention as per-host secrets: a variable named
-`nas-01_DBHOST` in `komodo/resources/hosts/nas-01/variables.toml` becomes
-available as `[[nas-01_DBHOST]]` — the host prefix is part of the `name`
-field itself, not applied automatically, so name entries accordingly (see
-`komodo/resources/hosts/variables.toml.tpl` for the convention and an
-example). Unlike secrets, no decrypt/restart step is needed — Resource
-Sync picks these up directly.
+Variables are edited as flat YAML (`key: value`), the same syntax as
+secrets. `just k vars` opens a temporary YAML view of `variables.toml`;
+on save, the host prefix is applied automatically and the TOML is updated.
+A variable `db_host: "postgres"` edited via `just k vars nas-01` becomes
+`[[nas-01_db_host]]` in stacks. Edit via `just k vars`, not directly.

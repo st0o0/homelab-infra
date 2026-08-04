@@ -1,9 +1,9 @@
 # Komodo ResourceSync — keeps Komodo in sync with the TOML resource
 # files in this repository.
 #
-# This sync pulls servers, stacks, repos, procedures, and variables
-# from the komodo/resources/ directory. User groups are not synced
-# (managed manually in the UI).
+# This sync pulls servers, stacks, repos, procedures, variables,
+# and per-host variables from the komodo/resources/ directory.
+# User groups are not synced (managed manually in the UI).
 #
 # Webhook: configure a GitHub webhook for push events to
 #   https://<KOMODO_HOST>/listener/github/sync/homelab-infra-sync/sync
@@ -14,16 +14,16 @@ name = "homelab-infra-sync"
 description = "Sync all Komodo resources from the homelab-infra repo"
 
 [resource_sync.config]
-git_provider = "github.com"
-repo = "st0o0/homelab-infra"
-branch = "main"
+linked_repo = "homelab-infra"
 
 resource_path = [
   "komodo/resources/servers.toml",
-  "komodo/resources/stacks.toml",
+  "komodo/resources/stacks/",
   "komodo/resources/repos.toml",
   "komodo/resources/procedures.toml",
-  "komodo/resources/variables.toml",
+  "komodo/resources/alerters.toml",
+  "komodo/resources/variables/",
+  "komodo/resources/hosts/",
 ]
 
 include_resources = true

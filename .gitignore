@@ -11,8 +11,9 @@ Thumbs.db
 openspec/
 node_modules/
 reports/
+ansible/report/
 
-# Secrets — only encrypted .sops.yaml/.sops.yml files are committed
+# Secrets — only encrypted .sops.yaml/.sops.toml files are committed
 komodo/secrets.yaml
 *.secrets.toml
 *.agekey

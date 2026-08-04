@@ -8,9 +8,9 @@ x-common: &common
   restart: unless-stopped
   logging: *default-logging
   environment: &common-env
-    PUID: ${PUID:-1000}
-    PGID: ${PGID:-1000}
-    TZ: ${TZ:-Europe/Berlin}
+    PUID: ${PUID:-}
+    PGID: ${PGID:-}
+    TZ: ${TZ:-}
 
 services:
   sonarr:
@@ -20,8 +20,8 @@ services:
     ports:
       - "${SONARR_PORT:-1089}:8989"
     volumes:
-      - media_smb:${MEDIA_PATH:-/data/media}
-      - ${SONARR_CONFIG_PATH:-./data/sonarr/config}:/config
+      - media_smb:${ARR_MEDIA_PATH:-/data/media}
+      - ${SONARR_PATH_CONFIG:-./data/sonarr/config}:/config
     networks:
       - arr
       - media
@@ -33,8 +33,8 @@ services:
     ports:
       - "${RADARR_PORT:-1078}:7878"
     volumes:
-      - media_smb:${MEDIA_PATH:-/data/media}
-      - ${RADARR_CONFIG_PATH:-./data/radarr/config}:/config
+      - media_smb:${ARR_MEDIA_PATH:-/data/media}
+      - ${RADARR_PATH_CONFIG:-./data/radarr/config}:/config
     networks:
       - arr
       - media
@@ -46,7 +46,7 @@ services:
     ports:
       - "${PROWLARR_PORT:-1096}:9696"
     volumes:
-      - ${PROWLARR_CONFIG_PATH:-./data/prowlarr/config}:/config
+      - ${PROWLARR_PATH_CONFIG:-./data/prowlarr/config}:/config
     networks:
       - arr
       - media
@@ -59,12 +59,12 @@ services:
     init: true
     environment:
       - LOG_LEVEL=${SEERR_LOG_LEVEL:-debug}
-      - TZ=${TZ:-Europe/Berlin}
+      - TZ=${TZ:-}
       - PORT=5055
     ports:
       - "${SEERR_PORT:-1055}:5055"
     volumes:
-      - ${SEERR_CONFIG_PATH:-./data/seerr/config}:/app/config
+      - ${SEERR_PATH_CONFIG:-./data/seerr/config}:/app/config
     networks:
       - arr
 
@@ -73,9 +73,9 @@ services:
     image: khak1s/arr-dashboard:2.23.0
     container_name: arr-dashboard
     ports:
-      - "${DASHBOARD_PORT:-1005}:3000"
+      - "${ARR_DASHBOARD_PORT:-1005}:3000"
     volumes:
-      - ${DASHBOARD_CONFIG_PATH:-./data/arrdashboard/config}:/config
+      - ${ARR_DASHBOARD_PATH_CONFIG:-./data/arrdashboard/config}:/config
     networks:
       - arr
 
@@ -93,8 +93,8 @@ services:
       RADARR_API_KEY: ${RADARR_API_KEY:?RADARR_API_KEY is required}
       BACKUP_PATH: /data/backups
     volumes:
-      - ${RECYCLARR_CONFIG_PATH:-./data/recyclarr/config}:/config
-      - ${RECYCLARR_BACKUP_PATH:-./data/recyclarr/backups}:/data/backups
+      - ${RECYCLARR_PATH_CONFIG:-./data/recyclarr/config}:/config
+      - ${RECYCLARR_PATH_BACKUP:-./data/recyclarr/backups}:/data/backups
     networks:
       - arr
 
@@ -109,8 +109,8 @@ services:
       CATEGORIES: ${MEDIATHEKARR_CATEGORIES:-series,movies,custom}
       MEDIATHEKARR_API_BASE_URL: ${MEDIATHEKARR_API_BASE_URL:-https://mediathekarr.pcjones.de/api/v1}
     volumes:
-      - ${MEDIATHEKARR_CONFIG_PATH:-./data/mediathekarr/config}:/app/config
-      - ${MEDIATHEKARR_TEMP_PATH:-./data/mediathekarr/temp}:/data/temp
+      - ${MEDIATHEKARR_PATH_CONFIG:-./data/mediathekarr/config}:/app/config
+      - ${MEDIATHEKARR_PATH_TEMP:-./data/mediathekarr/temp}:/data/temp
       - mediathek_smb:/data/complete
     ports:
       - "${MEDIATHEKARR_PORT:-1007}:5007"
@@ -128,7 +128,7 @@ services:
       - LOG_LEVEL=${FLARESOLVERR_LOG_LEVEL:-info}
       - LOG_HTML=false
       - CAPTCHA_SOLVER=none
-      - TZ=${TZ:-Europe/Berlin}
+      - TZ=${TZ:-}
     networks:
       - arr
 
@@ -143,8 +143,8 @@ services:
       - NODE_ENV=production
       - PORT=3000
       - HOST=0.0.0.0
-      - TZ=${TZ:-Europe/Berlin}
-      - DATABASE_URL=postgres://tracearr:${TRACEARR_DB_PASSWORD:-tracearr}@tracearr-db:5432/tracearr
+      - TZ=${TZ:-}
+      - DATABASE_URL=postgres://tracearr:${TRACEARR_DB_PASS:-tracearr}@tracearr-db:5432/tracearr
       - REDIS_URL=redis://tracearr-redis:6379
       - JWT_SECRET=${TRACEARR_JWT_SECRET:?TRACEARR_JWT_SECRET is required}
       - COOKIE_SECRET=${TRACEARR_COOKIE_SECRET:?TRACEARR_COOKIE_SECRET is required}
@@ -175,7 +175,7 @@ services:
       -c timescaledb.telemetry_level=off
     environment:
       - POSTGRES_USER=tracearr
-      - POSTGRES_PASSWORD=${TRACEARR_DB_PASSWORD:-tracearr}
+      - POSTGRES_PASSWORD=${TRACEARR_DB_PASS:-tracearr}
       - POSTGRES_DB=tracearr
     volumes:
       - tracearr-data:/var/lib/postgresql/data
@@ -216,12 +216,12 @@ volumes:
     driver_opts:
       type: cifs
       device: "//${CIFS_MEDIA_HOST:?CIFS_MEDIA_HOST is required}/${CIFS_MEDIA_SHARE:?CIFS_MEDIA_SHARE is required}"
-      o: "username=${CIFS_MEDIA_USER:?CIFS_MEDIA_USER is required},password=${CIFS_MEDIA_PASSWORD:?CIFS_MEDIA_PASSWORD is required},vers=3.0,uid=${PUID:-1000},gid=${PGID:-1000}"
+      o: "username=${CIFS_MEDIA_USER:?CIFS_MEDIA_USER is required},password=${CIFS_MEDIA_PASS:?CIFS_MEDIA_PASS is required},vers=3.0,uid=${PUID:-1000},gid=${PGID:-1000}"
   mediathek_smb:
     driver: local
     driver_opts:
       type: cifs
       device: "//${CIFS_DOWNLOADS_HOST:?CIFS_DOWNLOADS_HOST is required}/${CIFS_DOWNLOADS_SHARE:?CIFS_DOWNLOADS_SHARE is required}"
-      o: "username=${CIFS_DOWNLOADS_USER:?CIFS_DOWNLOADS_USER is required},password=${CIFS_DOWNLOADS_PASSWORD:?CIFS_DOWNLOADS_PASSWORD is required},vers=3.0,uid=${PUID:-1000},gid=${PGID:-1000}"
+      o: "username=${CIFS_DOWNLOADS_USER:?CIFS_DOWNLOADS_USER is required},password=${CIFS_DOWNLOADS_PASS:?CIFS_DOWNLOADS_PASS is required},vers=3.0,uid=${PUID:-1000},gid=${PGID:-1000}"
   tracearr-data:
   tracearr-redis:

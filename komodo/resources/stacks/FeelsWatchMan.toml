@@ -1,0 +1,78 @@
+# ── FeelsWatchMan ─────────────────────────────────────────────────────────
+
+[[stack]]
+name = "metrics"
+tags = ["monitoring"]
+[stack.config]
+server = "FeelsWatchMan"
+run_directory = "stacks/metrics"
+file_paths = ["compose.yml"]
+linked_repo = "homelab-infra"
+extra_args = ["--remove-orphans"]
+environment = """
+TZ=[[tz]]
+DISCORD_WEBHOOK_URL=[[FeelsWatchMan_discord_webhook_url]]
+"""
+
+[[stack.config.additional_env_files]]
+path = "grafana.env"
+contents = """
+GRAFANA_PORT=[[FeelsWatchMan_grafana_port]]
+GRAFANA_ADMIN_USER=[[FeelsWatchMan_grafana_admin_user]]
+GRAFANA_ADMIN_PASS=[[FeelsWatchMan_grafana_admin_password]]
+GRAFANA_ALLOW_SIGN_UP=[[FeelsWatchMan_grafana_admin_sign_up]]
+GRAFANA_ANALYTICS_REPORTING=[[FeelsWatchMan_grafana_analytics_reporting]]
+GRAFANA_CHECK_FOR_UPDATES=[[FeelsWatchMan_grafana_check_for_updates]]
+GRAFANA_NEWS_FEED=[[FeelsWatchMan_grafana_news_feed]]
+GRAFANA_DB_WAL=[[FeelsWatchMan_grafana_db_wal]]
+GRAFANA_DB_TYPE=[[FeelsWatchMan_grafana_db_type]]
+GRAFANA_DB_HOST=[[FeelsWatchMan_grafana_db_host]]
+GRAFANA_DB_NAME=[[FeelsWatchMan_grafana_db_name]]
+GRAFANA_DB_USER=[[FeelsWatchMan_grafana_db_user]]
+GRAFANA_DB_PASS=[[FeelsWatchMan_grafana_db_pass]]
+GRAFANA_DB_SSL_MODE=[[FeelsWatchMan_grafana_ssl_mode]]
+GRAFANA_PATH_DATA=[[FeelsWatchMan_grafana_path_data]]
+"""
+
+[[stack.config.additional_env_files]]
+path = "victorialogs.env"
+contents = """
+VL_PORT=[[FeelsWatchMan_vl_port]]
+VL_PATH_DATA=[[FeelsWatchMan_vl_path_data]]
+VL_RETENTION=[[FeelsWatchMan_vl_retention]]
+VL_MAX_DISK_GB=[[FeelsWatchMan_vl_max_disk_gb]]
+"""
+
+[[stack.config.additional_env_files]]
+path = "victoriametrics.env"
+contents = """
+VM_RETENTION=[[FeelsWatchMan_vm_retention]]
+VM_SCRAPE_INTERVAL=[[FeelsWatchMan_vm_scrape_interval]]
+VM_SELF_SCRAPE_INTERVAL=[[FeelsWatchMan_vm_self_scrape_interval]]
+VM_PORT=[[FeelsWatchMan_vm_port]]
+VM_PATH_DATA=[[FeelsWatchMan_vm_path_data]]
+"""
+
+[[stack]]
+name = "alloy"
+tags = ["monitoring"]
+after = ["metrics"]
+[stack.config]
+server = "FeelsWatchMan"
+run_directory = "stacks/alloy"
+file_paths = ["compose.yml"]
+linked_repo = "homelab-infra"
+extra_args = ["--remove-orphans"]
+environment = """
+TZ=[[tz]]
+ALLOY_REMOTE_WRITE_URL=[[metrics_remote_write_url]]
+ALLOY_LOGS_PUSH_URL=[[metrics_logs_push_url]]
+ALLOY_NUT_EXPORTER_TARGET=
+ALLOY_HOSTNAME=FeelsWatchMan
+ALLOY_SCRAPE_INTERVAL=30s
+ALLOY_NUT_ENABLED=false
+ALLOY_SECURITY_LOGS_ENABLED=false
+CADVISOR_HOUSEKEEPING_INTERVAL=30s
+CADVISOR_DOCKER_ONLY=true
+CADVISOR_DISABLE_METRICS=advtcp,cpu_topology,cpuset,hugetlb,memory_numa,process,referenced_memory,resctrl,sched,tcp,udp
+"""

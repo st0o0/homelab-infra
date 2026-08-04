@@ -24,3 +24,7 @@ komodo_secrets_local_path: "{{ playbook_dir }}/../komodo"
 # HOMELAB_KOMODO_AGE_KEY_BW_ITEM in scripts/lib/bw-item-names.sh (Ansible
 # can't source that shell file directly, so this is a manually-synced copy).
 komodo_secrets_bw_item_name: "homelab_komodo_age_key"
+
+# Local AGE key file — same path used by `just k secrets`. When this file
+# exists, the role reads from it directly and skips the Bitwarden lookup.
+komodo_secrets_age_key_file: "{{ lookup('ansible.builtin.env', 'HOME') }}/.config/sops/komodo/age/keys.txt"

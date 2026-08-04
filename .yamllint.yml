@@ -11,3 +11,5 @@ rules:
 
 ignore:
   - node_modules/
+  - "**/*.sops.yaml"
+  - "**/*.sops.yml"

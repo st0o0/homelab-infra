@@ -4,28 +4,41 @@ on:
   pull_request:
     paths: ["stacks/**", "komodo/**"]
 
+permissions:
+  contents: read
+
 jobs:
-  validate:
+  yaml-lint:
+    name: YAML Lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
 
-      - name: Install yamllint
-        run: pip install yamllint
+      - uses: ibiqlik/action-yamllint@v3
+        with:
+          config_file: .yamllint.yml
+          file_or_dir: stacks/ komodo/
 
-      - name: Lint YAML files
-        run: yamllint stacks/ komodo/
+  toml-check:
+    name: TOML Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
 
-      - name: Install taplo
-        run: |
-          curl -fsSL https://github.com/tamasfe/taplo/releases/latest/download/taplo-full-linux-x86_64.gz \
-            | gunzip > /usr/local/bin/taplo
-          chmod +x /usr/local/bin/taplo
+      - uses: uncenter/setup-taplo@v2
+        with:
+          version: "0.10.0"
 
       - name: Check TOML syntax
         run: taplo check komodo/**/*.toml
 
-      - name: Validate Docker Compose files
+  compose-check:
+    name: Docker Compose
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Validate compose files
         run: |
           errors=0
           for file in $(find stacks -name 'compose*.yml' | sort); do
@@ -51,9 +64,15 @@ jobs:
           echo ""
           echo "All compose files valid"
 
+  dotenv-lint:
+    name: Dotenv Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
       - name: Install dotenv-linter
         run: |
-          curl -fsSL https://github.com/dotenv-linter/dotenv-linter/releases/latest/download/dotenv-linter-linux-x86_64.tar.gz \
+          curl -fsSL https://github.com/dotenv-linter/dotenv-linter/releases/download/v3.3.0/dotenv-linter-linux-x86_64.tar.gz \
             | tar xz -C /usr/local/bin
 
       - name: Lint .env files

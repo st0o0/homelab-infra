@@ -1,0 +1,369 @@
+{
+  "uid": "host-overview",
+  "title": "Host Overview",
+  "tags": ["homelab", "host"],
+  "timezone": "browser",
+  "editable": false,
+  "graphTooltip": 1,
+  "refresh": "30s",
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "templating": {
+    "list": [
+      {
+        "name": "host",
+        "type": "query",
+        "datasource": { "uid": "victoriametrics", "type": "prometheus" },
+        "query": "label_values(node_uname_info, host)",
+        "includeAll": true,
+        "allValue": ".*",
+        "current": { "text": "All", "value": "$__all" },
+        "refresh": 2,
+        "sort": 1,
+        "multi": false
+      },
+      {
+        "name": "interval",
+        "type": "interval",
+        "current": { "text": "1m", "value": "1m" },
+        "options": [
+          { "text": "30s", "value": "30s", "selected": false },
+          { "text": "1m", "value": "1m", "selected": true },
+          { "text": "5m", "value": "5m", "selected": false },
+          { "text": "15m", "value": "15m", "selected": false }
+        ],
+        "query": "30s,1m,5m,15m"
+      }
+    ]
+  },
+  "panels": [
+    {
+      "id": 1,
+      "title": "CPU Usage %",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+      "datasource": { "uid": "victoriametrics", "type": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "min": 0,
+          "max": 100,
+          "custom": {
+            "fillOpacity": 20,
+            "lineWidth": 2,
+            "spanNulls": false
+          }
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "expr": "100 - (avg by(host) (rate(node_cpu_seconds_total{mode=\"idle\", host=~\"$host\"}[$interval])) * 100)",
+          "legendFormat": "{{ host }}",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Memory Usage %",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 },
+      "datasource": { "uid": "victoriametrics", "type": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "min": 0,
+          "max": 100,
+          "custom": {
+            "fillOpacity": 20,
+            "lineWidth": 2,
+            "spanNulls": false
+          }
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "expr": "(1 - node_memory_MemAvailable_bytes{host=~\"$host\"} / node_memory_MemTotal_bytes{host=~\"$host\"}) * 100",
+          "legendFormat": "{{ host }}",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "CPU Cores",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 4, "x": 0, "y": 8 },
+      "datasource": { "uid": "victoriametrics", "type": "prometheus" },
+      "fieldConfig": {
+        "defaults": { "unit": "short" },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "expr": "count by(host) (node_cpu_seconds_total{mode=\"idle\", host=~\"$host\"})",
+          "legendFormat": "{{ host }}",
+          "refId": "A"
+        }
+      ],
+      "options": { "colorMode": "none", "graphMode": "none" }
+    },
+    {
+      "id": 4,
+      "title": "Total Memory",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 4, "x": 4, "y": 8 },
+      "datasource": { "uid": "victoriametrics", "type": "prometheus" },
+      "fieldConfig": {
+        "defaults": { "unit": "bytes" },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "expr": "node_memory_MemTotal_bytes{host=~\"$host\"}",
+          "legendFormat": "{{ host }}",
+          "refId": "A"
+        }
+      ],
+      "options": { "colorMode": "none", "graphMode": "none" }
+    },
+    {
+      "id": 5,
+      "title": "Uptime",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 4, "x": 8, "y": 8 },
+      "datasource": { "uid": "victoriametrics", "type": "prometheus" },
+      "fieldConfig": {
+        "defaults": { "unit": "s" },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "expr": "node_time_seconds{host=~\"$host\"} - node_boot_time_seconds{host=~\"$host\"}",
+          "legendFormat": "{{ host }}",
+          "refId": "A"
+        }
+      ],
+      "options": { "colorMode": "none", "graphMode": "none" }
+    },
+    {
+      "id": 6,
+      "title": "Load Average",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 4, "x": 12, "y": 8 },
+      "datasource": { "uid": "victoriametrics", "type": "prometheus" },
+      "fieldConfig": {
+        "defaults": { "unit": "short", "decimals": 2 },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "expr": "node_load1{host=~\"$host\"}",
+          "legendFormat": "1m {{ host }}",
+          "refId": "A"
+        }
+      ],
+      "options": { "colorMode": "none", "graphMode": "area" }
+    },
+    {
+      "id": 7,
+      "title": "Root Filesystem Usage %",
+      "type": "gauge",
+      "gridPos": { "h": 4, "w": 8, "x": 16, "y": 8 },
+      "datasource": { "uid": "victoriametrics", "type": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "min": 0,
+          "max": 100,
+          "thresholds": {
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 70 },
+              { "color": "orange", "value": 85 },
+              { "color": "red", "value": 95 }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "expr": "(1 - node_filesystem_avail_bytes{mountpoint=\"/\", host=~\"$host\"} / node_filesystem_size_bytes{mountpoint=\"/\", host=~\"$host\"}) * 100",
+          "legendFormat": "{{ host }}",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "title": "Disk I/O — Reads",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 12 },
+      "datasource": { "uid": "victoriametrics", "type": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "Bps",
+          "custom": { "fillOpacity": 20, "lineWidth": 2, "spanNulls": false }
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "expr": "rate(node_disk_read_bytes_total{host=~\"$host\"}[$interval])",
+          "legendFormat": "{{ host }} {{ device }}",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "title": "Disk I/O — Writes",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 12 },
+      "datasource": { "uid": "victoriametrics", "type": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "Bps",
+          "custom": { "fillOpacity": 20, "lineWidth": 2, "spanNulls": false }
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "expr": "rate(node_disk_written_bytes_total{host=~\"$host\"}[$interval])",
+          "legendFormat": "{{ host }} {{ device }}",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "title": "Network — Received",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 20 },
+      "datasource": { "uid": "victoriametrics", "type": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bps",
+          "custom": { "fillOpacity": 20, "lineWidth": 2, "spanNulls": false }
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "expr": "rate(node_network_receive_bytes_total{device!~\"lo|veth.*|br-.*|docker.*\", host=~\"$host\"}[$interval]) * 8",
+          "legendFormat": "{{ host }} {{ device }}",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "title": "Network — Transmitted",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 20 },
+      "datasource": { "uid": "victoriametrics", "type": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bps",
+          "custom": { "fillOpacity": 20, "lineWidth": 2, "spanNulls": false }
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "expr": "rate(node_network_transmit_bytes_total{device!~\"lo|veth.*|br-.*|docker.*\", host=~\"$host\"}[$interval]) * 8",
+          "legendFormat": "{{ host }} {{ device }}",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "title": "Filesystem Usage",
+      "type": "table",
+      "gridPos": { "h": 6, "w": 24, "x": 0, "y": 28 },
+      "datasource": { "uid": "victoriametrics", "type": "prometheus" },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": [
+          {
+            "matcher": { "id": "byName", "options": "Used %" },
+            "properties": [
+              { "id": "unit", "value": "percent" },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    { "color": "green", "value": null },
+                    { "color": "yellow", "value": 70 },
+                    { "color": "orange", "value": 85 },
+                    { "color": "red", "value": 95 }
+                  ]
+                }
+              },
+              { "id": "custom.displayMode", "value": "color-background" }
+            ]
+          },
+          {
+            "matcher": { "id": "byName", "options": "Size" },
+            "properties": [{ "id": "unit", "value": "bytes" }]
+          },
+          {
+            "matcher": { "id": "byName", "options": "Available" },
+            "properties": [{ "id": "unit", "value": "bytes" }]
+          }
+        ]
+      },
+      "targets": [
+        {
+          "expr": "(1 - node_filesystem_avail_bytes{fstype!~\"tmpfs|overlay\", host=~\"$host\"} / node_filesystem_size_bytes{fstype!~\"tmpfs|overlay\", host=~\"$host\"}) * 100",
+          "legendFormat": "",
+          "refId": "used",
+          "format": "table",
+          "instant": true
+        },
+        {
+          "expr": "node_filesystem_size_bytes{fstype!~\"tmpfs|overlay\", host=~\"$host\"}",
+          "legendFormat": "",
+          "refId": "size",
+          "format": "table",
+          "instant": true
+        },
+        {
+          "expr": "node_filesystem_avail_bytes{fstype!~\"tmpfs|overlay\", host=~\"$host\"}",
+          "legendFormat": "",
+          "refId": "avail",
+          "format": "table",
+          "instant": true
+        }
+      ],
+      "transformations": [
+        {
+          "id": "merge",
+          "options": {}
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": { "Time": true, "__name__": true, "device": true, "fstype": true, "job": true },
+            "renameByName": {
+              "host": "Host",
+              "mountpoint": "Mount",
+              "Value #used": "Used %",
+              "Value #size": "Size",
+              "Value #avail": "Available"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "schemaVersion": 39
+}

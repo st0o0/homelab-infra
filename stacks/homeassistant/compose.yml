@@ -25,9 +25,9 @@ services:
         mac_address: ${HA_MAC_VLAN:-02:42:ac:12:00:02}
         ipv4_address: ${HA_VLAN_IP:-10.44.88.254}
     environment:
-      - TZ=${TZ:-Europe/Berlin}
+      - TZ=${TZ:-}
     volumes:
-      - ${HA_CONFIG_PATH:-./data}:/config
+      - ${HA_PATH_CONFIG:-./data}:/config
       - /run/dbus:/run/dbus:ro
     deploy:
       resources:
@@ -41,9 +41,9 @@ services:
     restart: always
     logging: *default-logging
     volumes:
-      - ${MQTT_CONFIG_PATH:-./mosquitto/config}:/mosquitto/config
-      - ${MQTT_DATA_PATH:-./mosquitto/data}:/mosquitto/data
-      - ${MQTT_LOG_PATH:-./mosquitto/log}:/mosquitto/log
+      - ${MQTT_PATH_CONFIG:-./mosquitto/config}:/mosquitto/config
+      - ${MQTT_PATH_DATA:-./mosquitto/data}:/mosquitto/data
+      - ${MQTT_PATH_LOG:-./mosquitto/log}:/mosquitto/log
     ports:
       - "${MQTT_PORT:-8124}:1883"
 
@@ -55,9 +55,9 @@ services:
     depends_on:
       - mqtt
     volumes:
-      - ${Z2M_DATA_PATH:-./zigbee2mqtt/data}:/app/data
+      - ${Z2M_PATH_DATA:-./zigbee2mqtt/data}:/app/data
     environment:
-      - TZ=${TZ:-Europe/Berlin}
+      - TZ=${TZ:-}
     ports:
       - "${Z2M_PORT:-8125}:8080"
 
@@ -71,7 +71,7 @@ services:
       - LOG_LEVEL=${MATTER_LOG_LEVEL:-info}
       - BLE_PROXY=${MATTER_BLE_PROXY:-true}
     volumes:
-      - ${MATTER_DATA_PATH:-./matter/data}:/data
+      - ${MATTER_PATH_DATA:-./matter/data}:/data
 
   njord:
     image: ghcr.io/st0o0/njord:pr-34
@@ -137,7 +137,7 @@ networks:
   vlan88:
     driver: macvlan
     driver_opts:
-      parent: ${VLAN_PARENT:-vlan88}
+      parent: ${HA_VLAN_PARENT:-vlan88}
     ipam:
       config:
-        - subnet: ${VLAN_SUBNET:-10.44.88.0/24}
+        - subnet: ${HA_VLAN_SUBNET:-10.44.88.0/24}
