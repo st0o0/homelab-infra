@@ -1,0 +1,228 @@
+declare "app_metrics" {
+  argument "scrape_interval" {
+    optional = true
+    default  = "30s"
+  }
+
+  argument "forward_to" {
+    optional = false
+  }
+
+  argument "authentik_enabled" {
+    optional = true
+    default  = "false"
+  }
+
+  argument "authentik_target" {
+    optional = true
+    default  = "authentik-server:9300"
+  }
+
+  argument "backrest_enabled" {
+    optional = true
+    default  = "false"
+  }
+
+  argument "backrest_target" {
+    optional = true
+    default  = "backrest:9898"
+  }
+
+  argument "vaultwarden_enabled" {
+    optional = true
+    default  = "false"
+  }
+
+  argument "vaultwarden_target" {
+    optional = true
+    default  = "vaultwarden:80"
+  }
+
+  argument "vaultwarden_token" {
+    optional = true
+    default  = ""
+  }
+
+  argument "immich_enabled" {
+    optional = true
+    default  = "false"
+  }
+
+  argument "immich_server_target" {
+    optional = true
+    default  = "immich-server:8081"
+  }
+
+  argument "immich_microservices_target" {
+    optional = true
+    default  = "immich-server:8082"
+  }
+
+  argument "jellyfin_enabled" {
+    optional = true
+    default  = "false"
+  }
+
+  argument "jellyfin_target" {
+    optional = true
+    default  = "jellyfin:8096"
+  }
+
+  argument "homeassistant_enabled" {
+    optional = true
+    default  = "false"
+  }
+
+  argument "homeassistant_target" {
+    optional = true
+    default  = "homeassistant:8123"
+  }
+
+  argument "homeassistant_token" {
+    optional = true
+    default  = ""
+  }
+
+  // Authentik
+  discovery.relabel "authentik" {
+    targets = [{
+      __address__   = argument.authentik_target.value,
+      __tmp_enabled = argument.authentik_enabled.value,
+    }]
+    rule {
+      source_labels = ["__tmp_enabled"]
+      regex         = "true"
+      action        = "keep"
+    }
+  }
+
+  prometheus.scrape "authentik" {
+    targets         = discovery.relabel.authentik.output
+    forward_to      = argument.forward_to.value
+    scrape_interval = argument.scrape_interval.value
+    job_name        = "authentik"
+  }
+
+  // Backrest
+  discovery.relabel "backrest" {
+    targets = [{
+      __address__   = argument.backrest_target.value,
+      __tmp_enabled = argument.backrest_enabled.value,
+    }]
+    rule {
+      source_labels = ["__tmp_enabled"]
+      regex         = "true"
+      action        = "keep"
+    }
+  }
+
+  prometheus.scrape "backrest" {
+    targets         = discovery.relabel.backrest.output
+    forward_to      = argument.forward_to.value
+    scrape_interval = argument.scrape_interval.value
+    job_name        = "backrest"
+  }
+
+  // Vaultwarden
+  discovery.relabel "vaultwarden" {
+    targets = [{
+      __address__   = argument.vaultwarden_target.value,
+      __tmp_enabled = argument.vaultwarden_enabled.value,
+    }]
+    rule {
+      source_labels = ["__tmp_enabled"]
+      regex         = "true"
+      action        = "keep"
+    }
+  }
+
+  prometheus.scrape "vaultwarden" {
+    targets         = discovery.relabel.vaultwarden.output
+    forward_to      = argument.forward_to.value
+    scrape_interval = argument.scrape_interval.value
+    job_name        = "vaultwarden"
+    params          = { "token" = [argument.vaultwarden_token.value] }
+  }
+
+  // Immich server
+  discovery.relabel "immich_server" {
+    targets = [{
+      __address__   = argument.immich_server_target.value,
+      __tmp_enabled = argument.immich_enabled.value,
+    }]
+    rule {
+      source_labels = ["__tmp_enabled"]
+      regex         = "true"
+      action        = "keep"
+    }
+  }
+
+  prometheus.scrape "immich_server" {
+    targets         = discovery.relabel.immich_server.output
+    forward_to      = argument.forward_to.value
+    scrape_interval = argument.scrape_interval.value
+    job_name        = "immich-server"
+  }
+
+  // Immich microservices
+  discovery.relabel "immich_microservices" {
+    targets = [{
+      __address__   = argument.immich_microservices_target.value,
+      __tmp_enabled = argument.immich_enabled.value,
+    }]
+    rule {
+      source_labels = ["__tmp_enabled"]
+      regex         = "true"
+      action        = "keep"
+    }
+  }
+
+  prometheus.scrape "immich_microservices" {
+    targets         = discovery.relabel.immich_microservices.output
+    forward_to      = argument.forward_to.value
+    scrape_interval = argument.scrape_interval.value
+    job_name        = "immich-microservices"
+  }
+
+  // Jellyfin
+  discovery.relabel "jellyfin" {
+    targets = [{
+      __address__   = argument.jellyfin_target.value,
+      __tmp_enabled = argument.jellyfin_enabled.value,
+    }]
+    rule {
+      source_labels = ["__tmp_enabled"]
+      regex         = "true"
+      action        = "keep"
+    }
+  }
+
+  prometheus.scrape "jellyfin" {
+    targets         = discovery.relabel.jellyfin.output
+    forward_to      = argument.forward_to.value
+    scrape_interval = argument.scrape_interval.value
+    job_name        = "jellyfin"
+  }
+
+  // Home Assistant
+  discovery.relabel "homeassistant" {
+    targets = [{
+      __address__   = argument.homeassistant_target.value,
+      __tmp_enabled = argument.homeassistant_enabled.value,
+    }]
+    rule {
+      source_labels = ["__tmp_enabled"]
+      regex         = "true"
+      action        = "keep"
+    }
+  }
+
+  prometheus.scrape "homeassistant" {
+    targets         = discovery.relabel.homeassistant.output
+    forward_to      = argument.forward_to.value
+    scrape_interval = argument.scrape_interval.value
+    metrics_path    = "/api/prometheus"
+    job_name        = "homeassistant"
+    bearer_token    = argument.homeassistant_token.value
+  }
+}

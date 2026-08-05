@@ -13,3 +13,46 @@ modules.security_logs "default" {
   enabled    = coalesce(env("SECURITY_LOGS_ENABLED"), "false")
   forward_to = [loki.process.system.receiver]
 }
+
+modules.pve_metrics "default" {
+  enabled         = coalesce(env("PVE_METRICS_ENABLED"), "false")
+  target          = coalesce(env("PVE_EXPORTER_TARGET"), "localhost:9221")
+  pve_host        = coalesce(env("PVE_HOST"), "")
+  scrape_interval = coalesce(env("SCRAPE_INTERVAL"), "30s")
+  forward_to      = [prometheus.remote_write.central.receiver]
+}
+
+modules.db_metrics "default" {
+  scrape_interval    = coalesce(env("SCRAPE_INTERVAL"), "30s")
+  forward_to         = [prometheus.remote_write.central.receiver]
+  postgres_enabled   = coalesce(env("POSTGRES_METRICS_ENABLED"), "false")
+  postgres_dsn       = coalesce(env("POSTGRES_DSN"), "")
+  immich_postgres_dsn = coalesce(env("IMMICH_POSTGRES_DSN"), "")
+  redis_enabled      = coalesce(env("REDIS_METRICS_ENABLED"), "false")
+  redis_addr         = coalesce(env("REDIS_ADDR"), "redis:6379")
+  redis_password     = coalesce(env("REDIS_PASSWORD"), "")
+  mongodb_enabled    = coalesce(env("MONGODB_METRICS_ENABLED"), "false")
+  mongodb_uri        = coalesce(env("MONGODB_URI"), "")
+  pihole_enabled     = coalesce(env("PIHOLE_METRICS_ENABLED"), "false")
+  pihole_target      = coalesce(env("PIHOLE_METRICS_TARGET"), "localhost:9617")
+}
+
+modules.app_metrics "default" {
+  scrape_interval          = coalesce(env("SCRAPE_INTERVAL"), "30s")
+  forward_to               = [prometheus.remote_write.central.receiver]
+  authentik_enabled         = coalesce(env("AUTHENTIK_METRICS_ENABLED"), "false")
+  authentik_target          = coalesce(env("AUTHENTIK_METRICS_TARGET"), "authentik-server:9300")
+  backrest_enabled          = coalesce(env("BACKREST_METRICS_ENABLED"), "false")
+  backrest_target           = coalesce(env("BACKREST_METRICS_TARGET"), "backrest:9898")
+  vaultwarden_enabled       = coalesce(env("VAULTWARDEN_METRICS_ENABLED"), "false")
+  vaultwarden_target        = coalesce(env("VAULTWARDEN_METRICS_TARGET"), "vaultwarden:80")
+  vaultwarden_token         = coalesce(env("VAULTWARDEN_METRICS_TOKEN"), "")
+  immich_enabled            = coalesce(env("IMMICH_METRICS_ENABLED"), "false")
+  immich_server_target      = coalesce(env("IMMICH_METRICS_SERVER_TARGET"), "immich-server:8081")
+  immich_microservices_target = coalesce(env("IMMICH_METRICS_MICROSERVICES_TARGET"), "immich-server:8082")
+  jellyfin_enabled          = coalesce(env("JELLYFIN_METRICS_ENABLED"), "false")
+  jellyfin_target           = coalesce(env("JELLYFIN_METRICS_TARGET"), "jellyfin:8096")
+  homeassistant_enabled     = coalesce(env("HOMEASSISTANT_METRICS_ENABLED"), "false")
+  homeassistant_target      = coalesce(env("HOMEASSISTANT_METRICS_TARGET"), "homeassistant:8123")
+  homeassistant_token       = coalesce(env("HOMEASSISTANT_METRICS_TOKEN"), "")
+}

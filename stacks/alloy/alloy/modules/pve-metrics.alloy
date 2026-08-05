@@ -1,0 +1,51 @@
+declare "pve_metrics" {
+  argument "enabled" {
+    optional = true
+    default  = "false"
+  }
+
+  argument "target" {
+    optional = true
+    default  = "localhost:9221"
+  }
+
+  argument "pve_host" {
+    optional = true
+    default  = ""
+  }
+
+  argument "scrape_interval" {
+    optional = true
+    default  = "30s"
+  }
+
+  argument "forward_to" {
+    optional = false
+  }
+
+  discovery.relabel "pve" {
+    targets = [{
+      __address__   = argument.target.value,
+      __tmp_enabled = argument.enabled.value,
+    }]
+
+    rule {
+      source_labels = ["__tmp_enabled"]
+      regex         = "true"
+      action        = "keep"
+    }
+  }
+
+  prometheus.scrape "pve" {
+    targets         = discovery.relabel.pve.output
+    forward_to      = argument.forward_to.value
+    scrape_interval = argument.scrape_interval.value
+    metrics_path    = "/pve"
+    params          = {
+      "target"  = [argument.pve_host.value],
+      "cluster" = ["1"],
+      "node"    = ["1"],
+    }
+    job_name = "pve"
+  }
+}

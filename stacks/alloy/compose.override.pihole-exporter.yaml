@@ -1,0 +1,22 @@
+services:
+  pihole-exporter:
+    image: ekofr/pihole-exporter:v0.4.0
+    container_name: pihole-exporter
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+    network_mode: service:alloy
+    environment:
+      - PIHOLE_HOSTNAME=${ALLOY_PIHOLE_EXPORTER_HOSTNAME:?ALLOY_PIHOLE_EXPORTER_HOSTNAME is required}
+      - PIHOLE_API_TOKEN=${ALLOY_PIHOLE_EXPORTER_API_TOKEN:?ALLOY_PIHOLE_EXPORTER_API_TOKEN is required}
+      - PORT=9617
+    deploy:
+      resources:
+        limits:
+          cpus: 0.10
+          memory: 64M
+        reservations:
+          memory: 32M

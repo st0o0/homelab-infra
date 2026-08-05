@@ -23,6 +23,34 @@ services:
       - NUT_ENABLED=${ALLOY_NUT_ENABLED:-false}
       - NUT_EXPORTER_TARGET=${ALLOY_NUT_EXPORTER_TARGET:-}
       - SECURITY_LOGS_ENABLED=${ALLOY_SECURITY_LOGS_ENABLED:-false}
+      - PVE_METRICS_ENABLED=${ALLOY_PVE_METRICS_ENABLED:-false}
+      - PVE_EXPORTER_TARGET=${ALLOY_PVE_EXPORTER_TARGET:-localhost:9221}
+      - PVE_HOST=${ALLOY_PVE_HOST:-}
+      - POSTGRES_METRICS_ENABLED=${ALLOY_POSTGRES_METRICS_ENABLED:-false}
+      - POSTGRES_DSN=${ALLOY_POSTGRES_DSN:-}
+      - IMMICH_POSTGRES_DSN=${ALLOY_IMMICH_POSTGRES_DSN:-}
+      - REDIS_METRICS_ENABLED=${ALLOY_REDIS_METRICS_ENABLED:-false}
+      - REDIS_ADDR=${ALLOY_REDIS_ADDR:-redis:6379}
+      - REDIS_PASSWORD=${ALLOY_REDIS_PASSWORD:-}
+      - MONGODB_METRICS_ENABLED=${ALLOY_MONGODB_METRICS_ENABLED:-false}
+      - MONGODB_URI=${ALLOY_MONGODB_URI:-}
+      - PIHOLE_METRICS_ENABLED=${ALLOY_PIHOLE_METRICS_ENABLED:-false}
+      - PIHOLE_METRICS_TARGET=${ALLOY_PIHOLE_METRICS_TARGET:-localhost:9617}
+      - AUTHENTIK_METRICS_ENABLED=${ALLOY_AUTHENTIK_METRICS_ENABLED:-false}
+      - AUTHENTIK_METRICS_TARGET=${ALLOY_AUTHENTIK_METRICS_TARGET:-authentik-server:9300}
+      - BACKREST_METRICS_ENABLED=${ALLOY_BACKREST_METRICS_ENABLED:-false}
+      - BACKREST_METRICS_TARGET=${ALLOY_BACKREST_METRICS_TARGET:-backrest:9898}
+      - VAULTWARDEN_METRICS_ENABLED=${ALLOY_VAULTWARDEN_METRICS_ENABLED:-false}
+      - VAULTWARDEN_METRICS_TARGET=${ALLOY_VAULTWARDEN_METRICS_TARGET:-vaultwarden:80}
+      - VAULTWARDEN_METRICS_TOKEN=${ALLOY_VAULTWARDEN_METRICS_TOKEN:-}
+      - IMMICH_METRICS_ENABLED=${ALLOY_IMMICH_METRICS_ENABLED:-false}
+      - IMMICH_METRICS_SERVER_TARGET=${ALLOY_IMMICH_METRICS_SERVER_TARGET:-immich-server:8081}
+      - IMMICH_METRICS_MICROSERVICES_TARGET=${ALLOY_IMMICH_METRICS_MICROSERVICES_TARGET:-immich-server:8082}
+      - JELLYFIN_METRICS_ENABLED=${ALLOY_JELLYFIN_METRICS_ENABLED:-false}
+      - JELLYFIN_METRICS_TARGET=${ALLOY_JELLYFIN_METRICS_TARGET:-jellyfin:8096}
+      - HOMEASSISTANT_METRICS_ENABLED=${ALLOY_HOMEASSISTANT_METRICS_ENABLED:-false}
+      - HOMEASSISTANT_METRICS_TARGET=${ALLOY_HOMEASSISTANT_METRICS_TARGET:-homeassistant:8123}
+      - HOMEASSISTANT_METRICS_TOKEN=${ALLOY_HOMEASSISTANT_METRICS_TOKEN:-}
     volumes:
       - ./alloy:/etc/alloy:ro
       - alloy-data:/var/lib/alloy/data
@@ -38,25 +66,6 @@ services:
           memory: 256M
         reservations:
           memory: 128M
-
-  docker-exporter:
-    image: ghcr.io/dlepaux/docker-exporter:latest
-    container_name: docker-exporter
-    restart: unless-stopped
-    logging: *default-logging
-    network_mode: service:alloy
-    user: "0"
-    environment:
-      - LISTEN_ADDR=0.0.0.0:8080
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    deploy:
-      resources:
-        limits:
-          cpus: 0.10
-          memory: 32M
-        reservations:
-          memory: 8M
 
 volumes:
   alloy-data:

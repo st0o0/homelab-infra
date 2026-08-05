@@ -1,0 +1,9 @@
+services:
+  alloy:
+    networks:
+      - default
+      - db-net
+
+networks:
+  db-net:
+    external: true
