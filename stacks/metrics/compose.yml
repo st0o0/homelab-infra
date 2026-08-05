@@ -77,9 +77,9 @@ services:
       resources:
         limits:
           cpus: 1
-          memory: 1G
+          memory: 2G
         reservations:
-          memory: 512M
+          memory: 1G
 
   victorialogs:
     image: victoriametrics/victoria-logs:v1.52.0
