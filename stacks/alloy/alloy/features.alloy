@@ -26,8 +26,8 @@ modules.db_metrics "default" {
   scrape_interval    = coalesce(env("SCRAPE_INTERVAL"), "30s")
   forward_to         = [prometheus.remote_write.central.receiver]
   postgres_enabled   = coalesce(env("POSTGRES_METRICS_ENABLED"), "false")
-  postgres_dsn       = coalesce(env("POSTGRES_DSN"), "")
-  immich_postgres_dsn = coalesce(env("IMMICH_POSTGRES_DSN"), "")
+  postgres_dsn       = coalesce(env("POSTGRES_DSN"), "postgresql://invalid:5432/none?sslmode=disable")
+  immich_postgres_dsn = coalesce(env("IMMICH_POSTGRES_DSN"), "postgresql://invalid:5432/none?sslmode=disable")
   redis_enabled      = coalesce(env("REDIS_METRICS_ENABLED"), "false")
   redis_addr         = coalesce(env("REDIS_ADDR"), "redis:6379")
   redis_password     = coalesce(env("REDIS_PASSWORD"), "")

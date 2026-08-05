@@ -372,6 +372,13 @@ check HOST="":
         exit 1
     fi
 
+# --- Deployment ---
+
+# Push secrets to FeelsCozyMan (decrypt + deploy core.secrets.toml, restart if changed)
+[working-directory: 'ansible']
+update-secrets:
+    ansible-playbook run.yml --limit FeelsCozyMan --tags komodo_secrets
+
 # --- Linting & Validation ---
 
 # Lint all compose files, env files, and YAML

@@ -8,28 +8,28 @@
 # Webhook: configure a GitHub webhook for push events to
 #   https://<KOMODO_HOST>/listener/github/sync/homelab-infra-sync/sync
 # to trigger automatic syncs on every push to main.
-
-[[resource_sync]]
-name = "homelab-infra-sync"
-description = "Sync all Komodo resources from the homelab-infra repo"
-
-[resource_sync.config]
-linked_repo = "homelab-infra"
-
-resource_path = [
-  "komodo/resources/servers.toml",
-  "komodo/resources/stacks/",
-  "komodo/resources/repos.toml",
-  "komodo/resources/procedures.toml",
-  "komodo/resources/alerters.toml",
-  "komodo/resources/variables/",
-  "komodo/resources/hosts/",
-]
-
-include_resources = true
-include_variables = true
-include_user_groups = false
-
-delete = false
-webhook_enabled = true
-pending_alert = true
+#
+# [[resource_sync]]
+# name = "homelab-infra-sync"
+# description = "Sync all Komodo resources from the homelab-infra repo"
+# 
+# [resource_sync.config]
+# linked_repo = "homelab-infra"
+# 
+# resource_path = [
+#   "komodo/resources/servers.toml",
+#   "komodo/resources/stacks/",
+#   "komodo/resources/repos.toml",
+#   "komodo/resources/procedures.toml",
+#   "komodo/resources/alerters.toml",
+#   "komodo/resources/variables/",
+#   "komodo/resources/hosts/",
+# ]
+# 
+# include_resources = true
+# include_variables = true
+# include_user_groups = false
+# 
+# delete = false
+# webhook_enabled = true
+# pending_alert = true
