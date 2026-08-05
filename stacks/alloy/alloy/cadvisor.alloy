@@ -7,7 +7,7 @@ discovery.relabel "cadvisor" {
   targets = prometheus.exporter.cadvisor.containers.targets
 
   rule {
-    replacement  = env("HOST_HOSTNAME")
+    replacement  = sys.env("HOST_HOSTNAME")
     target_label = "instance"
   }
 }
@@ -15,5 +15,5 @@ discovery.relabel "cadvisor" {
 prometheus.scrape "cadvisor" {
   targets         = discovery.relabel.cadvisor.output
   forward_to      = [prometheus.remote_write.central.receiver]
-  scrape_interval = coalesce(env("SCRAPE_INTERVAL"), "30s")
+  scrape_interval = coalesce(sys.env("SCRAPE_INTERVAL"), "30s")
 }

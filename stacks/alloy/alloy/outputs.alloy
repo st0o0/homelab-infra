@@ -1,17 +1,17 @@
 prometheus.remote_write "central" {
   endpoint {
-    url = env("REMOTE_WRITE_URL")
+    url = sys.env("REMOTE_WRITE_URL")
   }
   external_labels = {
-    host = env("HOST_HOSTNAME"),
+    host = sys.env("HOST_HOSTNAME"),
   }
 }
 
 loki.write "central" {
   endpoint {
-    url = env("LOGS_PUSH_URL")
+    url = sys.env("LOGS_PUSH_URL")
   }
   external_labels = {
-    host = env("HOST_HOSTNAME"),
+    host = sys.env("HOST_HOSTNAME"),
   }
 }

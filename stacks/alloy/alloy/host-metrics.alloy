@@ -12,7 +12,7 @@ discovery.relabel "host" {
   targets = prometheus.exporter.unix.host.targets
 
   rule {
-    replacement  = env("HOST_HOSTNAME")
+    replacement  = sys.env("HOST_HOSTNAME")
     target_label = "instance"
   }
 
@@ -25,5 +25,5 @@ discovery.relabel "host" {
 prometheus.scrape "host" {
   targets         = discovery.relabel.host.output
   forward_to      = [prometheus.remote_write.central.receiver]
-  scrape_interval = coalesce(env("SCRAPE_INTERVAL"), "30s")
+  scrape_interval = coalesce(sys.env("SCRAPE_INTERVAL"), "30s")
 }
