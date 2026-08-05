@@ -269,3 +269,457 @@ groups:
                   reducer:
                     type: last
               refId: C
+
+      - uid: container-memory-limit
+        title: ContainerMemoryLimit
+        condition: C
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Container {{ $labels.name }} on {{ $labels.host }} is using {{ $value }}% of its memory limit"
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: victoriametrics
+            model:
+              expr: container_memory_usage_bytes{name!=""} / container_spec_memory_limit_bytes{name!=""} * 100 > 0
+              instant: true
+              refId: A
+          - refId: C
+            relativeTimeRange:
+              from: 0
+              to: 0
+            datasourceUid: "-100"
+            model:
+              type: threshold
+              conditions:
+                - evaluator:
+                    type: gt
+                    params: [85]
+                  operator:
+                    type: and
+                  query:
+                    params: [A]
+                  reducer:
+                    type: last
+              refId: C
+
+      - uid: container-unhealthy
+        title: ContainerUnhealthy
+        condition: C
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Container {{ $labels.name }} on {{ $labels.host }} is unhealthy"
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: victoriametrics
+            model:
+              expr: container_tasks_state{name!="", state="stopped"} > 0
+              instant: true
+              refId: A
+          - refId: C
+            relativeTimeRange:
+              from: 0
+              to: 0
+            datasourceUid: "-100"
+            model:
+              type: threshold
+              conditions:
+                - evaluator:
+                    type: gt
+                    params: [0]
+                  operator:
+                    type: and
+                  query:
+                    params: [A]
+                  reducer:
+                    type: last
+              refId: C
+
+  - orgId: 1
+    name: databases
+    folder: Homelab Alerts
+    interval: 1m
+    rules:
+      - uid: postgres-connections-high
+        title: PostgresConnectionsHigh
+        condition: C
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Postgres {{ $labels.server }} active connections at {{ $value }}% of max"
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: victoriametrics
+            model:
+              expr: pg_stat_activity_count{state="active"} / pg_settings_max_connections * 100
+              instant: true
+              refId: A
+          - refId: C
+            relativeTimeRange:
+              from: 0
+              to: 0
+            datasourceUid: "-100"
+            model:
+              type: threshold
+              conditions:
+                - evaluator:
+                    type: gt
+                    params: [80]
+                  operator:
+                    type: and
+                  query:
+                    params: [A]
+                  reducer:
+                    type: last
+              refId: C
+
+      - uid: redis-memory-high
+        title: RedisMemoryHigh
+        condition: C
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Redis memory usage at {{ $value }}% of maxmemory"
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: victoriametrics
+            model:
+              expr: redis_memory_used_bytes / redis_memory_max_bytes * 100 > 0
+              instant: true
+              refId: A
+          - refId: C
+            relativeTimeRange:
+              from: 0
+              to: 0
+            datasourceUid: "-100"
+            model:
+              type: threshold
+              conditions:
+                - evaluator:
+                    type: gt
+                    params: [80]
+                  operator:
+                    type: and
+                  query:
+                    params: [A]
+                  reducer:
+                    type: last
+              refId: C
+
+      - uid: redis-evictions
+        title: RedisEvictions
+        condition: C
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Redis is evicting keys — memory pressure detected"
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: victoriametrics
+            model:
+              expr: rate(redis_evicted_keys_total[5m])
+              instant: true
+              refId: A
+          - refId: C
+            relativeTimeRange:
+              from: 0
+              to: 0
+            datasourceUid: "-100"
+            model:
+              type: threshold
+              conditions:
+                - evaluator:
+                    type: gt
+                    params: [0]
+                  operator:
+                    type: and
+                  query:
+                    params: [A]
+                  reducer:
+                    type: last
+              refId: C
+
+      - uid: mongo-connections-high
+        title: MongoConnectionsHigh
+        condition: C
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "MongoDB connections at {{ $value }}% of limit"
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: victoriametrics
+            model:
+              expr: mongodb_connections_current / mongodb_connections_available * 100
+              instant: true
+              refId: A
+          - refId: C
+            relativeTimeRange:
+              from: 0
+              to: 0
+            datasourceUid: "-100"
+            model:
+              type: threshold
+              conditions:
+                - evaluator:
+                    type: gt
+                    params: [80]
+                  operator:
+                    type: and
+                  query:
+                    params: [A]
+                  reducer:
+                    type: last
+              refId: C
+
+      - uid: pihole-down
+        title: PiholeDown
+        condition: C
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Pi-hole exporter scrape failed — DNS may be down"
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: victoriametrics
+            model:
+              expr: up{job="pihole"}
+              instant: true
+              refId: A
+          - refId: C
+            relativeTimeRange:
+              from: 0
+              to: 0
+            datasourceUid: "-100"
+            model:
+              type: threshold
+              conditions:
+                - evaluator:
+                    type: lt
+                    params: [1]
+                  operator:
+                    type: and
+                  query:
+                    params: [A]
+                  reducer:
+                    type: last
+              refId: C
+
+  - orgId: 1
+    name: proxmox
+    folder: Homelab Alerts
+    interval: 1m
+    rules:
+      - uid: pve-node-down
+        title: PveNodeDown
+        condition: C
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Proxmox node {{ $labels.id }} is down"
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: victoriametrics
+            model:
+              expr: pve_up{id=~"node/.*"}
+              instant: true
+              refId: A
+          - refId: C
+            relativeTimeRange:
+              from: 0
+              to: 0
+            datasourceUid: "-100"
+            model:
+              type: threshold
+              conditions:
+                - evaluator:
+                    type: lt
+                    params: [1]
+                  operator:
+                    type: and
+                  query:
+                    params: [A]
+                  reducer:
+                    type: last
+              refId: C
+
+      - uid: guest-unexpectedly-stopped
+        title: GuestUnexpectedlyStopped
+        condition: C
+        for: 3m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Guest {{ $labels.id }} is stopped but configured to auto-start"
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: victoriametrics
+            model:
+              expr: pve_up{id=~"(qemu|lxc)/.*"} == 0 and on(id) pve_onboot_status == 1
+              instant: true
+              refId: A
+          - refId: C
+            relativeTimeRange:
+              from: 0
+              to: 0
+            datasourceUid: "-100"
+            model:
+              type: threshold
+              conditions:
+                - evaluator:
+                    type: gt
+                    params: [0]
+                  operator:
+                    type: and
+                  query:
+                    params: [A]
+                  reducer:
+                    type: last
+              refId: C
+
+      - uid: pve-storage-almost-full
+        title: PveStorageAlmostFull
+        condition: C
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "PVE storage {{ $labels.id }} is {{ $value }}% full"
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: victoriametrics
+            model:
+              expr: pve_disk_usage_bytes{id=~"storage/.*"} / pve_disk_size_bytes{id=~"storage/.*"} * 100
+              instant: true
+              refId: A
+          - refId: C
+            relativeTimeRange:
+              from: 0
+              to: 0
+            datasourceUid: "-100"
+            model:
+              type: threshold
+              conditions:
+                - evaluator:
+                    type: gt
+                    params: [85]
+                  operator:
+                    type: and
+                  query:
+                    params: [A]
+                  reducer:
+                    type: last
+              refId: C
+
+      - uid: pve-storage-critical
+        title: PveStorageCritical
+        condition: C
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "CRITICAL: PVE storage {{ $labels.id }} is {{ $value }}% full"
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: victoriametrics
+            model:
+              expr: pve_disk_usage_bytes{id=~"storage/.*"} / pve_disk_size_bytes{id=~"storage/.*"} * 100
+              instant: true
+              refId: A
+          - refId: C
+            relativeTimeRange:
+              from: 0
+              to: 0
+            datasourceUid: "-100"
+            model:
+              type: threshold
+              conditions:
+                - evaluator:
+                    type: gt
+                    params: [95]
+                  operator:
+                    type: and
+                  query:
+                    params: [A]
+                  reducer:
+                    type: last
+              refId: C
+
+      - uid: guest-not-backed-up
+        title: GuestNotBackedUp
+        condition: C
+        for: 1h
+        labels:
+          severity: warning
+        annotations:
+          summary: "Guest {{ $labels.id }} is not covered by any backup job"
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 3600
+              to: 0
+            datasourceUid: victoriametrics
+            model:
+              expr: pve_not_backed_up_info
+              instant: true
+              refId: A
+          - refId: C
+            relativeTimeRange:
+              from: 0
+              to: 0
+            datasourceUid: "-100"
+            model:
+              type: threshold
+              conditions:
+                - evaluator:
+                    type: gt
+                    params: [0]
+                  operator:
+                    type: and
+                  query:
+                    params: [A]
+                  reducer:
+                    type: last
+              refId: C
