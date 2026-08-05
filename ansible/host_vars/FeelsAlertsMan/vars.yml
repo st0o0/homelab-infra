@@ -1,5 +1,5 @@
 # Bootstrap
-# bootstrap_hostname_enabled: true
+bootstrap_hostname_enabled: false
 
 # Shell
 shell_motd_enabled: true
@@ -7,7 +7,10 @@ shell_dotfiles_enabled: true
 
 # Unattended upgrades
 unattended_upgrades_enabled: true
-# unattended_upgrades_blacklist: []
+# unattended_upgrades_blacklist:
+#   - "docker-ce"
+#   - "docker-ce-cli"
+#   - "containerd.io"
 unattended_upgrades_skip_reboot_required: true
 unattended_upgrades_auto_reboot: false
 # unattended_upgrades_auto_reboot_time: "04:00"
@@ -16,8 +19,7 @@ unattended_upgrades_auto_reboot: false
 swap_enabled: false
 # swap_size: "2G"
 
-# Firewall
-# ufw_enabled: false
+# Firewall (extra rules beyond SSH)
 # ufw_extra_rules:
 #   - { rule: allow, port: 8080, proto: tcp, comment: "Web" }
 
@@ -40,10 +42,13 @@ swap_enabled: false
 # Docker
 docker_enabled: true
 
+# UPS
+# ups_client_enabled: false
+
 # Cron
-cron_enabled: true
 cron_docker_prune: true
-# cron_extra_jobs: []
+# cron_extra_jobs:
+#   - { name: "cleanup-logs", job: "find /var/log -name '*.gz' -mtime +30 -delete", schedule: "0 4 * * 0" }
 
 # rkhunter
 # rkhunter_enabled: true
@@ -57,10 +62,7 @@ cron_docker_prune: true
 # lynis_enabled: true
 # lynis_schedule: "0 5 * * 0"
 
-# Hawser (Dockhand agent)
-hawser_enabled: false
-hawser_bifrost: false
-
-# Komodo (not yet migrated — wave 2)
+# Komodo
 komodo_enabled: false
 agent_enabled: true
+agent_bifrost: false

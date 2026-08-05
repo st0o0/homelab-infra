@@ -1,0 +1,63 @@
+# ── FeelsAlertsMan ─────────────────────────────────────────────────────────
+
+[[stack]]
+name = "metrics-1"
+tags = ["monitoring"]
+[stack.config]
+server = "FeelsAlertsMan"
+project_name = "metrics-1"
+run_directory = "stacks/metrics"
+file_paths = ["compose.yml"]
+linked_repo = "homelab-infra"
+extra_args = ["--remove-orphans"]
+environment = """
+TZ=[[tz]]
+GRAFANA_DISCORD_WEBHOOK_URL=[[FeelsAlertsMan_grafana_discord_webhook_url]]
+GRAFANA_UNIFIED_ALERTING_ENABLED=[[FeelsAlertsMan_grafana_unified_alerting_enabled]]
+GRAFANA_PORT=[[FeelsAlertsMan_grafana_port]]
+GRAFANA_ADMIN_USER=[[FeelsAlertsMan_grafana_admin_user]]
+GRAFANA_ADMIN_PASS=[[FeelsAlertsMan_grafana_admin_password]]
+GRAFANA_ALLOW_SIGN_UP=[[FeelsAlertsMan_grafana_admin_sign_up]]
+GRAFANA_ANALYTICS_REPORTING=[[FeelsAlertsMan_grafana_analytics_reporting]]
+GRAFANA_CHECK_FOR_UPDATES=[[FeelsAlertsMan_grafana_check_for_updates]]
+GRAFANA_NEWS_FEED=[[FeelsAlertsMan_grafana_news_feed]]
+GRAFANA_DB_TYPE=[[FeelsAlertsMan_grafana_db_type]]
+GRAFANA_DB_HOST=[[FeelsAlertsMan_grafana_db_host]]
+GRAFANA_DB_NAME=[[FeelsAlertsMan_grafana_db_name]]
+GRAFANA_DB_USER=[[FeelsAlertsMan_grafana_db_user]]
+GRAFANA_DB_PASS=[[FeelsAlertsMan_grafana_db_pass]]
+GRAFANA_DB_SSL_MODE=[[FeelsAlertsMan_grafana_ssl_mode]]
+VL_PORT=[[FeelsAlertsMan_vl_port]]
+VL_PATH_DATA=[[FeelsAlertsMan_vl_path_data]]
+VL_RETENTION=[[FeelsAlertsMan_vl_retention]]
+VM_RETENTION=[[FeelsAlertsMan_vm_retention]]
+VM_SCRAPE_INTERVAL=[[FeelsAlertsMan_vm_scrape_interval]]
+VM_SELF_SCRAPE_INTERVAL=[[FeelsAlertsMan_vm_self_scrape_interval]]
+VM_PORT=[[FeelsAlertsMan_vm_port]]
+VM_PATH_DATA=[[FeelsAlertsMan_vm_path_data]]
+"""
+
+[[stack]]
+name = "alloy-1"
+tags = ["monitoring"]
+after = ["metrics-1"]
+[stack.config]
+server = "FeelsAlertsMan"
+project_name = "alloy-1"
+run_directory = "stacks/alloy"
+file_paths = ["compose.yml"]
+linked_repo = "homelab-infra"
+extra_args = ["--remove-orphans"]
+environment = """
+TZ=[[tz]]
+ALLOY_REMOTE_WRITE_URL=[[metrics_remote_write_url]]
+ALLOY_LOGS_PUSH_URL=[[metrics_logs_push_url]]
+ALLOY_NUT_EXPORTER_TARGET=
+ALLOY_HOSTNAME=FeelsAlertsMan
+ALLOY_SCRAPE_INTERVAL=30s
+ALLOY_NUT_ENABLED=false
+ALLOY_SECURITY_LOGS_ENABLED=false
+CADVISOR_HOUSEKEEPING_INTERVAL=30s
+CADVISOR_DOCKER_ONLY=true
+CADVISOR_DISABLE_METRICS=advtcp,cpu_topology,cpuset,hugetlb,memory_numa,process,referenced_memory,resctrl,sched,tcp,udp
+"""

@@ -1,0 +1,37 @@
+# DO NOT EDIT — use 'just k vars' to edit as flat YAML
+
+#Grafana
+#grafana_ssl_mode: "false"
+[[variable]]
+name = "FeelsAlertsMan_grafana_analytics_reporting"
+value = "false"
+
+[[variable]]
+name = "FeelsAlertsMan_grafana_check_for_updates"
+value = "false"
+
+[[variable]]
+name = "FeelsAlertsMan_grafana_news_feed"
+value = "false"
+#VLogs
+
+[[variable]]
+name = "FeelsAlertsMan_vl_max_disk_gb"
+value = "3"
+
+[[variable]]
+name = "FeelsAlertsMan_vl_retention"
+value = "90d"
+#VM
+
+[[variable]]
+name = "FeelsAlertsMan_vm_scrape_interval"
+value = "30s"
+
+[[variable]]
+name = "FeelsAlertsMan_vm_self_scrape_interval"
+value = "1m"
+
+[[variable]]
+name = "FeelsAlertsMan_vm_retention"
+value = "90d"

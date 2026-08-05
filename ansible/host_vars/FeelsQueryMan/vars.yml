@@ -62,7 +62,11 @@ unattended_upgrades_enabled: true
 # lynis_enabled: true
 # lynis_schedule: "0 5 * * 0"
 
+# Hawser (Dockhand agent)
+hawser_enabled: false
+hawser_bifrost: false
+
 # Komodo
 komodo_enabled: false
-agent_enabled: true
+agent_enabled: false
 agent_bifrost: false

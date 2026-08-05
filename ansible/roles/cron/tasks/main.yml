@@ -1,3 +1,9 @@
+- name: Ensure cron is installed
+  ansible.builtin.apt:
+    name: cron
+    state: present
+  when: cron_enabled
+
 - name: Remove docker prune cron job when disabled
   ansible.builtin.cron:
     name: "docker-system-prune"

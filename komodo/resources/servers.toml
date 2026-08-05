@@ -49,7 +49,7 @@ tags = ["infra"]
 enabled = true
 
 [[server]]
-name = "FeelsWatchMan"
+name = "FeelsAlertsMan"
 tags = ["monitoring"]
 [server.config]
 enabled = true
@@ -65,7 +65,7 @@ description = "Reserve host — no stacks assigned yet"
 enabled = false
 
 [[server]]
-name = "FeelsTestingMan"
+name = "FeelsDevMan"
 description = "Staging/test host"
 tags = ["testing"]
 [server.config]

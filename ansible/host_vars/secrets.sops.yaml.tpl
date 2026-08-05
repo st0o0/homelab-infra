@@ -1,12 +1,5 @@
 ansible_host: "CHANGEME"
 ansible_user: "CHANGEME"
-hawser_dockhand_url: "http://CHANGEME:9000"
-hawser_dockhand_token: "CHANGEME"
-
-# Komodo Periphery — agent_core_address/agent_onboarding_key now live in
-# group_vars/all/secrets.sops.yaml (shared). Only override here for a host
-# reached via Bifrost (needs the tunnel address instead), e.g.:
-# agent_core_address: "ws://10.13.13.X:9120"
 
 # Komodo Core (Core host only)
 komodo_bind_ip: "CHANGEME"
