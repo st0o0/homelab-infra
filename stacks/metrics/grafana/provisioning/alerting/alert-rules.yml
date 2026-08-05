@@ -31,6 +31,7 @@ groups:
             datasourceUid: "-100"
             model:
               type: threshold
+              expression: "A"
               conditions:
                 - evaluator:
                     type: lt
@@ -68,6 +69,7 @@ groups:
             datasourceUid: "-100"
             model:
               type: threshold
+              expression: "A"
               conditions:
                 - evaluator:
                     type: gt
@@ -105,6 +107,7 @@ groups:
             datasourceUid: "-100"
             model:
               type: threshold
+              expression: "A"
               conditions:
                 - evaluator:
                     type: gt
@@ -142,6 +145,7 @@ groups:
             datasourceUid: "-100"
             model:
               type: threshold
+              expression: "A"
               conditions:
                 - evaluator:
                     type: gt
@@ -179,6 +183,7 @@ groups:
             datasourceUid: "-100"
             model:
               type: threshold
+              expression: "A"
               conditions:
                 - evaluator:
                     type: gt
@@ -211,7 +216,7 @@ groups:
               to: 0
             datasourceUid: victoriametrics
             model:
-              expr: increase(container_start_time_seconds{name!=""}[10m]) > 3
+              expr: increase(container_start_time_seconds{name!=""}[10m])
               instant: true
               refId: A
           - refId: C
@@ -221,10 +226,11 @@ groups:
             datasourceUid: "-100"
             model:
               type: threshold
+              expression: "A"
               conditions:
                 - evaluator:
                     type: gt
-                    params: [0]
+                    params: [3]
                   operator:
                     type: and
                   query:
@@ -244,11 +250,11 @@ groups:
         data:
           - refId: A
             relativeTimeRange:
-              from: 300
+              from: 600
               to: 0
             datasourceUid: victoriametrics
             model:
-              expr: absent_over_time(container_cpu_usage_seconds_total{name!=""}[3m])
+              expr: count by (name, host) (changes(container_cpu_usage_seconds_total{name!=""}[5m]) == 0 and container_cpu_usage_seconds_total{name!=""} == 0)
               instant: true
               refId: A
           - refId: C
@@ -258,6 +264,7 @@ groups:
             datasourceUid: "-100"
             model:
               type: threshold
+              expression: "A"
               conditions:
                 - evaluator:
                     type: gt
@@ -285,7 +292,7 @@ groups:
               to: 0
             datasourceUid: victoriametrics
             model:
-              expr: container_memory_usage_bytes{name!=""} / container_spec_memory_limit_bytes{name!=""} * 100 > 0
+              expr: container_memory_usage_bytes{name!=""} / container_spec_memory_limit_bytes{name!=""} * 100
               instant: true
               refId: A
           - refId: C
@@ -295,6 +302,7 @@ groups:
             datasourceUid: "-100"
             model:
               type: threshold
+              expression: "A"
               conditions:
                 - evaluator:
                     type: gt
@@ -322,7 +330,7 @@ groups:
               to: 0
             datasourceUid: victoriametrics
             model:
-              expr: container_tasks_state{name!="", state="stopped"} > 0
+              expr: container_tasks_state{name!="", state="stopped"}
               instant: true
               refId: A
           - refId: C
@@ -332,6 +340,7 @@ groups:
             datasourceUid: "-100"
             model:
               type: threshold
+              expression: "A"
               conditions:
                 - evaluator:
                     type: gt
@@ -374,6 +383,7 @@ groups:
             datasourceUid: "-100"
             model:
               type: threshold
+              expression: "A"
               conditions:
                 - evaluator:
                     type: gt
@@ -401,7 +411,7 @@ groups:
               to: 0
             datasourceUid: victoriametrics
             model:
-              expr: redis_memory_used_bytes / redis_memory_max_bytes * 100 > 0
+              expr: redis_memory_used_bytes / redis_memory_max_bytes * 100
               instant: true
               refId: A
           - refId: C
@@ -411,6 +421,7 @@ groups:
             datasourceUid: "-100"
             model:
               type: threshold
+              expression: "A"
               conditions:
                 - evaluator:
                     type: gt
@@ -448,6 +459,7 @@ groups:
             datasourceUid: "-100"
             model:
               type: threshold
+              expression: "A"
               conditions:
                 - evaluator:
                     type: gt
@@ -485,6 +497,7 @@ groups:
             datasourceUid: "-100"
             model:
               type: threshold
+              expression: "A"
               conditions:
                 - evaluator:
                     type: gt
@@ -522,6 +535,7 @@ groups:
             datasourceUid: "-100"
             model:
               type: threshold
+              expression: "A"
               conditions:
                 - evaluator:
                     type: lt
@@ -564,6 +578,7 @@ groups:
             datasourceUid: "-100"
             model:
               type: threshold
+              expression: "A"
               conditions:
                 - evaluator:
                     type: lt
@@ -591,7 +606,7 @@ groups:
               to: 0
             datasourceUid: victoriametrics
             model:
-              expr: pve_vm_status == 0
+              expr: pve_vm_status
               instant: true
               refId: A
           - refId: C
@@ -601,10 +616,11 @@ groups:
             datasourceUid: "-100"
             model:
               type: threshold
+              expression: "A"
               conditions:
                 - evaluator:
-                    type: gt
-                    params: [0]
+                    type: lt
+                    params: [1]
                   operator:
                     type: and
                   query:
@@ -628,7 +644,7 @@ groups:
               to: 0
             datasourceUid: victoriametrics
             model:
-              expr: pve_lxc_status == 0
+              expr: pve_lxc_status
               instant: true
               refId: A
           - refId: C
@@ -638,10 +654,11 @@ groups:
             datasourceUid: "-100"
             model:
               type: threshold
+              expression: "A"
               conditions:
                 - evaluator:
-                    type: gt
-                    params: [0]
+                    type: lt
+                    params: [1]
                   operator:
                     type: and
                   query:
@@ -675,6 +692,7 @@ groups:
             datasourceUid: "-100"
             model:
               type: threshold
+              expression: "A"
               conditions:
                 - evaluator:
                     type: gt
@@ -694,7 +712,7 @@ groups:
         labels:
           severity: critical
         annotations:
-          summary: "CRITICAL: PVE storage {{ $labels.id }} is {{ $value }}% full"
+          summary: "CRITICAL: PVE storage {{ $labels.storage }} on {{ $labels.node }} is {{ $value }}% full"
         data:
           - refId: A
             relativeTimeRange:
@@ -712,6 +730,7 @@ groups:
             datasourceUid: "-100"
             model:
               type: threshold
+              expression: "A"
               conditions:
                 - evaluator:
                     type: gt
@@ -739,7 +758,7 @@ groups:
               to: 0
             datasourceUid: victoriametrics
             model:
-              expr: (time() - pve_vm_last_backup_timestamp) > 604800
+              expr: time() - pve_vm_last_backup_timestamp
               instant: true
               refId: A
           - refId: C
@@ -749,10 +768,11 @@ groups:
             datasourceUid: "-100"
             model:
               type: threshold
+              expression: "A"
               conditions:
                 - evaluator:
                     type: gt
-                    params: [0]
+                    params: [604800]
                   operator:
                     type: and
                   query:
