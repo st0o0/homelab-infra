@@ -8,10 +8,11 @@ services:
       options:
         max-size: 10m
         max-file: "3"
-    network_mode: service:alloy
     environment:
       - PIHOLE_HOSTNAME=${ALLOY_PIHOLE_EXPORTER_HOSTNAME:?ALLOY_PIHOLE_EXPORTER_HOSTNAME is required}
       - PIHOLE_API_TOKEN=${ALLOY_PIHOLE_EXPORTER_API_TOKEN:?ALLOY_PIHOLE_EXPORTER_API_TOKEN is required}
+      - PIHOLE_PORT=${ALLOY_PIHOLE_EXPORTER_PORT:-80}
+      - PIHOLE_PROTOCOL=${ALLOY_PIHOLE_EXPORTER_PROTOCOL:-http}
       - PORT=9617
     deploy:
       resources:

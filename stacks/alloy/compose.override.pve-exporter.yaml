@@ -11,7 +11,6 @@ services:
     command:
       - --config.file=/etc/pve-exporter/pve.yml
       - --no-collector.config
-    network_mode: service:alloy
     environment:
       - PVE_USER=${ALLOY_PVE_USER:-monitoring@pve}
       - PVE_TOKEN_NAME=${ALLOY_PVE_TOKEN_NAME:-monitoring}

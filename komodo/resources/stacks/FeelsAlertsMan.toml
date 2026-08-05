@@ -45,19 +45,35 @@ after = ["metrics-1"]
 server = "FeelsAlertsMan"
 project_name = "alloy-1"
 run_directory = "stacks/alloy"
-file_paths = ["compose.yml"]
+file_paths = [
+  "compose.yml",
+  "compose.override.pihole-exporter.yaml",
+  "compose.override.pve-exporter.yaml",
+]
 linked_repo = "homelab-infra"
 extra_args = ["--remove-orphans"]
 environment = """
 TZ=[[tz]]
 ALLOY_REMOTE_WRITE_URL=[[metrics_remote_write_url]]
 ALLOY_LOGS_PUSH_URL=[[metrics_logs_push_url]]
-ALLOY_NUT_EXPORTER_TARGET=
 ALLOY_HOSTNAME=FeelsAlertsMan
 ALLOY_SCRAPE_INTERVAL=30s
 ALLOY_NUT_ENABLED=false
 ALLOY_SECURITY_LOGS_ENABLED=false
-CADVISOR_HOUSEKEEPING_INTERVAL=30s
-CADVISOR_DOCKER_ONLY=true
-CADVISOR_DISABLE_METRICS=advtcp,cpu_topology,cpuset,hugetlb,memory_numa,process,referenced_memory,resctrl,sched,tcp,udp
+
+# ── Pi-hole exporter ──────────────────────────────────────
+# Comma-separated for multiple instances
+ALLOY_PIHOLE_METRICS_ENABLED=true
+ALLOY_PIHOLE_EXPORTER_HOSTNAME=[[FeelsAlertsMan_pihole_exporter_hostname]]
+ALLOY_PIHOLE_EXPORTER_API_TOKEN=[[FeelsAlertsMan_pihole_exporter_api_token]]
+ALLOY_PIHOLE_EXPORTER_PORT=[[FeelsAlertsMan_pihole_exporter_port]]
+ALLOY_PIHOLE_EXPORTER_PROTOCOL=http
+
+# ── PVE exporter ──────────────────────────────────────────
+ALLOY_PVE_METRICS_ENABLED=true
+ALLOY_PVE_HOST=[[FeelsAlertsMan_pve_host]]
+ALLOY_PVE_TOKEN_VALUE=[[FeelsAlertsMan_pve_token_value]]
+ALLOY_PVE_USER=monitoring@pve
+ALLOY_PVE_TOKEN_NAME=monitoring
+ALLOY_PVE_VERIFY_SSL=false
 """

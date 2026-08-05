@@ -8,7 +8,6 @@ services:
       options:
         max-size: 10m
         max-file: "3"
-    network_mode: service:alloy
     environment:
       - TZ=${TZ:-Europe/Berlin}
       - NUT_EXPORTER_SERVER=${ALLOY_NUT_EXP_SERVER:?ALLOY_NUT_EXP_SERVER is required}

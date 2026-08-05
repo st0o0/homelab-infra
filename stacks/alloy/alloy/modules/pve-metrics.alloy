@@ -6,7 +6,7 @@ declare "pve_metrics" {
 
   argument "target" {
     optional = true
-    default  = "localhost:9221"
+    default  = "pve-exporter:9221"
   }
 
   argument "pve_host" {

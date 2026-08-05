@@ -59,7 +59,7 @@ declare "db_metrics" {
 
   argument "pihole_target" {
     optional = true
-    default  = "localhost:9617"
+    default  = "pihole-exporter:9617"
   }
 
   // --- Postgres ---

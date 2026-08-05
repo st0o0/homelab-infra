@@ -4,7 +4,7 @@ import.file "modules" {
 
 modules.nut "default" {
   enabled         = coalesce(env("NUT_ENABLED"), "false")
-  target          = coalesce(env("NUT_EXPORTER_TARGET"), "localhost:9995")
+  target          = coalesce(env("NUT_EXPORTER_TARGET"), "nut-exporter:9995")
   scrape_interval = coalesce(env("SCRAPE_INTERVAL"), "30s")
   forward_to      = [prometheus.remote_write.central.receiver]
 }
@@ -16,7 +16,7 @@ modules.security_logs "default" {
 
 modules.pve_metrics "default" {
   enabled         = coalesce(env("PVE_METRICS_ENABLED"), "false")
-  target          = coalesce(env("PVE_EXPORTER_TARGET"), "localhost:9221")
+  target          = coalesce(env("PVE_EXPORTER_TARGET"), "pve-exporter:9221")
   pve_host        = coalesce(env("PVE_HOST"), "")
   scrape_interval = coalesce(env("SCRAPE_INTERVAL"), "30s")
   forward_to      = [prometheus.remote_write.central.receiver]
@@ -34,7 +34,7 @@ modules.db_metrics "default" {
   mongodb_enabled    = coalesce(env("MONGODB_METRICS_ENABLED"), "false")
   mongodb_uri        = coalesce(env("MONGODB_URI"), "")
   pihole_enabled     = coalesce(env("PIHOLE_METRICS_ENABLED"), "false")
-  pihole_target      = coalesce(env("PIHOLE_METRICS_TARGET"), "localhost:9617")
+  pihole_target      = coalesce(env("PIHOLE_METRICS_TARGET"), "pihole-exporter:9617")
 }
 
 modules.app_metrics "default" {
