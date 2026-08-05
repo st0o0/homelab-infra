@@ -133,7 +133,7 @@
             "uid": "victorialogs"
           },
           "editorMode": "code",
-          "expr": "source_type:=\"docker_logs\" host:=$host | stats count() logs, count() if (i(error)) errors, count() if (i(warn)) warnings | math round(errors / logs, 0.01) as error_ratio | math round(warnings / logs, 0.01) as warn_ratio",
+          "expr": "job:=\"docker\" host:=$host | stats count() logs, count() if (i(error)) errors, count() if (i(warn)) warnings | math round(errors / logs, 0.01) as error_ratio | math round(warnings / logs, 0.01) as warn_ratio",
           "queryType": "instant",
           "refId": "A"
         }
@@ -241,7 +241,7 @@
             "uid": "victorialogs"
           },
           "editorMode": "code",
-          "expr": "i(error) source_type:=\"docker_logs\" host:=$host | top 10 by (container)",
+          "expr": "i(error) job:=\"docker\" host:=$host | top 10 by (container)",
           "key": "Q-7745a61c-4d1f-48a7-8569-c5eb0840e560-0",
           "queryType": "instant",
           "refId": "A"
@@ -352,7 +352,7 @@
             "uid": "victorialogs"
           },
           "editorMode": "code",
-          "expr": "i(error) source_type:=\"docker_logs\" host:=$host | top 10 by (host)",
+          "expr": "i(error) job:=\"docker\" host:=$host | top 10 by (host)",
           "key": "Q-7745a61c-4d1f-48a7-8569-c5eb0840e560-0",
           "queryType": "instant",
           "refId": "A"
@@ -475,7 +475,7 @@
             "uid": "victorialogs"
           },
           "editorMode": "code",
-          "expr": "i(warn) source_type:=\"docker_logs\" host:=$host | top 10 by (container) ",
+          "expr": "i(warn) job:=\"docker\" host:=$host | top 10 by (container) ",
           "key": "Q-7745a61c-4d1f-48a7-8569-c5eb0840e560-0",
           "queryType": "instant",
           "refId": "A"
@@ -586,7 +586,7 @@
             "uid": "victorialogs"
           },
           "editorMode": "code",
-          "expr": "i(warn) source_type:=\"docker_logs\" host:=$host | top 10 by (host)",
+          "expr": "i(warn) job:=\"docker\" host:=$host | top 10 by (host)",
           "key": "Q-7745a61c-4d1f-48a7-8569-c5eb0840e560-0",
           "queryType": "instant",
           "refId": "A"
@@ -756,7 +756,7 @@
             "uid": "victorialogs"
           },
           "editorMode": "code",
-          "expr": "source_type:=\"docker_logs\" host:=$host | extract_regexp \"(?P<type>error|ERROR|Error|warn|WARN|Warn|info|INFO|Info|debug|DEBUG|Debug)\" | sort by (Time desc)",
+          "expr": "job:=\"docker\" host:=$host | extract_regexp \"(?P<type>error|ERROR|Error|warn|WARN|Warn|info|INFO|Info|debug|DEBUG|Debug)\" | sort by (Time desc)",
           "queryType": "instant",
           "refId": "A"
         }
