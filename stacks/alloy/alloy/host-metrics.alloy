@@ -8,9 +8,22 @@ prometheus.exporter.unix "host" {
   }
 }
 
+discovery.relabel "host" {
+  targets = prometheus.exporter.unix.host.targets
+
+  rule {
+    replacement  = env("HOST_HOSTNAME")
+    target_label = "instance"
+  }
+
+  rule {
+    replacement  = "node"
+    target_label = "job"
+  }
+}
+
 prometheus.scrape "host" {
-  targets         = prometheus.exporter.unix.host.targets
+  targets         = discovery.relabel.host.output
   forward_to      = [prometheus.remote_write.central.receiver]
   scrape_interval = coalesce(env("SCRAPE_INTERVAL"), "30s")
-  job_name        = "node"
 }
