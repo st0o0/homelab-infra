@@ -1,0 +1,74 @@
+- name: Stop pve-exporter when disabled
+  ansible.builtin.service:
+    name: pve-exporter
+    enabled: false
+    state: stopped
+  failed_when: false
+  when: not pve_exporter_enabled
+
+- name: Remove pve-exporter binary when disabled
+  ansible.builtin.file:
+    path: /usr/local/bin/pve-exporter
+    state: absent
+  when: not pve_exporter_enabled
+
+- name: Remove pve-exporter config when disabled
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /etc/pve-exporter
+    - /etc/systemd/system/pve-exporter.service
+  when: not pve_exporter_enabled
+
+- name: Skip if pve-exporter disabled
+  ansible.builtin.meta: end_role
+  when: not pve_exporter_enabled
+
+- name: Check current pve-exporter version
+  ansible.builtin.command:
+    cmd: /usr/local/bin/pve-exporter --version
+  register: pve_exporter_current_version
+  changed_when: false
+  failed_when: false
+
+- name: Download pve-exporter binary
+  ansible.builtin.get_url:
+    url: "https://github.com/bigtcze/pve-exporter/releases/download/v{{ pve_exporter_version }}/pve-exporter-linux-amd64"
+    dest: /usr/local/bin/pve-exporter
+    mode: "0755"
+    owner: root
+    group: root
+  when: pve_exporter_current_version.rc != 0 or pve_exporter_version not in (pve_exporter_current_version.stdout | default(''))
+  notify: Restart pve-exporter
+
+- name: Create pve-exporter config directory
+  ansible.builtin.file:
+    path: /etc/pve-exporter
+    state: directory
+    mode: "0700"
+    owner: root
+    group: root
+
+- name: Deploy pve-exporter environment file
+  ansible.builtin.template:
+    src: pve-exporter.env.j2
+    dest: /etc/pve-exporter/pve-exporter.env
+    mode: "0600"
+    owner: root
+    group: root
+  notify: Restart pve-exporter
+
+- name: Deploy pve-exporter systemd unit
+  ansible.builtin.template:
+    src: pve-exporter.service.j2
+    dest: /etc/systemd/system/pve-exporter.service
+    mode: "0644"
+  notify: Restart pve-exporter
+
+- name: Enable and start pve-exporter
+  ansible.builtin.service:
+    name: pve-exporter
+    enabled: true
+    state: started
+    daemon_reload: true

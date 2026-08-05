@@ -48,7 +48,6 @@ run_directory = "stacks/alloy"
 file_paths = [
   "compose.yml",
   "compose.override.pihole-exporter.yaml",
-  "compose.override.pve-exporter.yaml",
 ]
 linked_repo = "homelab-infra"
 extra_args = ["--remove-orphans"]
@@ -69,10 +68,7 @@ ALLOY_PIHOLE_EXPORTER_PASSWORD=[[FeelsAlertsMan_pihole_exporter_password]]
 ALLOY_PIHOLE_EXPORTER_PORT=[[FeelsAlertsMan_pihole_exporter_port]]
 ALLOY_PIHOLE_EXPORTER_PROTOCOL=http
 
-# ── PVE exporter ──────────────────────────────────────────
+# ── PVE exporter (runs on Proxmox host, not as Docker sidecar) ──
 ALLOY_PVE_METRICS_ENABLED=true
-ALLOY_PVE_HOST=[[FeelsAlertsMan_pve_host]]
-ALLOY_PVE_TOKEN_ID=[[FeelsAlertsMan_pve_token_id]]
-ALLOY_PVE_TOKEN_SECRET=[[FeelsAlertsMan_pve_token_secret]]
-ALLOY_PVE_INSECURE_SKIP_VERIFY=true
+ALLOY_PVE_EXPORTER_TARGET=[[FeelsAlertsMan_pve_exporter_target]]
 """

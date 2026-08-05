@@ -22,6 +22,8 @@
       tags: [pam_pwquality]
     - role: docker
       tags: [docker]
+    - role: pve_exporter
+      tags: [pve_exporter]
     - role: ups
       tags: [ups]
     - role: cron

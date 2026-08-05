@@ -1,0 +1,5 @@
+galaxy_info:
+  author: st0o0
+  description: "Proxmox VE metrics exporter (bigtcze/pve-exporter)"
+  license: MIT
+  min_ansible_version: "2.17"

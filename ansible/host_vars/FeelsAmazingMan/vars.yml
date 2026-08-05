@@ -40,6 +40,9 @@ unattended_upgrades_skip_reboot_required: true
 # PAM password quality
 # pam_pwquality_enabled: true
 
+# PVE Exporter
+pve_exporter_enabled: true
+
 # Docker
 docker_enabled: false
 

@@ -1,0 +1,7 @@
+pve_exporter_enabled: false
+pve_exporter_version: "1.14.2"
+pve_exporter_listen_address: "0.0.0.0:9221"
+pve_exporter_pve_host: "localhost:8006"
+pve_exporter_pve_token_id: ""
+pve_exporter_pve_token_secret: ""
+pve_exporter_pve_insecure_skip_verify: true

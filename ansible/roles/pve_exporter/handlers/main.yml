@@ -1,0 +1,4 @@
+- name: Restart pve-exporter
+  ansible.builtin.service:
+    name: pve-exporter
+    state: restarted
