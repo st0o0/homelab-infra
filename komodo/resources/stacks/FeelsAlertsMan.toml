@@ -65,15 +65,14 @@ ALLOY_SECURITY_LOGS_ENABLED=false
 # Comma-separated for multiple instances
 ALLOY_PIHOLE_METRICS_ENABLED=true
 ALLOY_PIHOLE_EXPORTER_HOSTNAME=[[FeelsAlertsMan_pihole_exporter_hostname]]
-ALLOY_PIHOLE_EXPORTER_API_TOKEN=[[FeelsAlertsMan_pihole_exporter_api_token]]
+ALLOY_PIHOLE_EXPORTER_PASSWORD=[[FeelsAlertsMan_pihole_exporter_password]]
 ALLOY_PIHOLE_EXPORTER_PORT=[[FeelsAlertsMan_pihole_exporter_port]]
 ALLOY_PIHOLE_EXPORTER_PROTOCOL=http
 
 # ── PVE exporter ──────────────────────────────────────────
 ALLOY_PVE_METRICS_ENABLED=true
 ALLOY_PVE_HOST=[[FeelsAlertsMan_pve_host]]
-ALLOY_PVE_TOKEN_VALUE=[[FeelsAlertsMan_pve_token_value]]
-ALLOY_PVE_USER=monitoring@pve
-ALLOY_PVE_TOKEN_NAME=monitoring
-ALLOY_PVE_VERIFY_SSL=false
+ALLOY_PVE_TOKEN_ID=[[FeelsAlertsMan_pve_token_id]]
+ALLOY_PVE_TOKEN_SECRET=[[FeelsAlertsMan_pve_token_secret]]
+ALLOY_PVE_INSECURE_SKIP_VERIFY=true
 """

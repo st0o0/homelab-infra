@@ -546,7 +546,7 @@ groups:
         labels:
           severity: critical
         annotations:
-          summary: "Proxmox node {{ $labels.id }} is down"
+          summary: "Proxmox node {{ $labels.node }} is down"
         data:
           - refId: A
             relativeTimeRange:
@@ -554,7 +554,7 @@ groups:
               to: 0
             datasourceUid: victoriametrics
             model:
-              expr: pve_up{id=~"node/.*"}
+              expr: pve_node_up
               instant: true
               refId: A
           - refId: C
@@ -576,14 +576,14 @@ groups:
                     type: last
               refId: C
 
-      - uid: guest-unexpectedly-stopped
-        title: GuestUnexpectedlyStopped
+      - uid: vm-unexpectedly-stopped
+        title: VmUnexpectedlyStopped
         condition: C
         for: 3m
         labels:
           severity: critical
         annotations:
-          summary: "Guest {{ $labels.id }} is stopped but configured to auto-start"
+          summary: "VM {{ $labels.name }} on {{ $labels.node }} is stopped"
         data:
           - refId: A
             relativeTimeRange:
@@ -591,7 +591,44 @@ groups:
               to: 0
             datasourceUid: victoriametrics
             model:
-              expr: pve_up{id=~"(qemu|lxc)/.*"} == 0 and on(id) pve_onboot_status == 1
+              expr: pve_vm_status == 0
+              instant: true
+              refId: A
+          - refId: C
+            relativeTimeRange:
+              from: 0
+              to: 0
+            datasourceUid: "-100"
+            model:
+              type: threshold
+              conditions:
+                - evaluator:
+                    type: gt
+                    params: [0]
+                  operator:
+                    type: and
+                  query:
+                    params: [A]
+                  reducer:
+                    type: last
+              refId: C
+
+      - uid: lxc-unexpectedly-stopped
+        title: LxcUnexpectedlyStopped
+        condition: C
+        for: 3m
+        labels:
+          severity: critical
+        annotations:
+          summary: "LXC {{ $labels.name }} on {{ $labels.node }} is stopped"
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: victoriametrics
+            model:
+              expr: pve_lxc_status == 0
               instant: true
               refId: A
           - refId: C
@@ -620,7 +657,7 @@ groups:
         labels:
           severity: warning
         annotations:
-          summary: "PVE storage {{ $labels.id }} is {{ $value }}% full"
+          summary: "PVE storage {{ $labels.storage }} on {{ $labels.node }} is {{ $value }}% full"
         data:
           - refId: A
             relativeTimeRange:
@@ -628,7 +665,7 @@ groups:
               to: 0
             datasourceUid: victoriametrics
             model:
-              expr: pve_disk_usage_bytes{id=~"storage/.*"} / pve_disk_size_bytes{id=~"storage/.*"} * 100
+              expr: pve_storage_used_fraction * 100
               instant: true
               refId: A
           - refId: C
@@ -665,7 +702,7 @@ groups:
               to: 0
             datasourceUid: victoriametrics
             model:
-              expr: pve_disk_usage_bytes{id=~"storage/.*"} / pve_disk_size_bytes{id=~"storage/.*"} * 100
+              expr: pve_storage_used_fraction * 100
               instant: true
               refId: A
           - refId: C
@@ -687,14 +724,14 @@ groups:
                     type: last
               refId: C
 
-      - uid: guest-not-backed-up
-        title: GuestNotBackedUp
+      - uid: vm-not-backed-up
+        title: VmNotBackedUp
         condition: C
         for: 1h
         labels:
           severity: warning
         annotations:
-          summary: "Guest {{ $labels.id }} is not covered by any backup job"
+          summary: "VM {{ $labels.name }} on {{ $labels.node }} has not been backed up in over 7 days"
         data:
           - refId: A
             relativeTimeRange:
@@ -702,7 +739,7 @@ groups:
               to: 0
             datasourceUid: victoriametrics
             model:
-              expr: pve_not_backed_up_info
+              expr: (time() - pve_vm_last_backup_timestamp) > 604800
               instant: true
               refId: A
           - refId: C

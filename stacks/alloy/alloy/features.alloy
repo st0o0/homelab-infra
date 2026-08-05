@@ -17,7 +17,6 @@ modules.security_logs "default" {
 modules.pve_metrics "default" {
   enabled         = coalesce(sys.env("PVE_METRICS_ENABLED"), "false")
   target          = coalesce(sys.env("PVE_EXPORTER_TARGET"), "pve-exporter:9221")
-  pve_host        = coalesce(sys.env("PVE_HOST"), "")
   scrape_interval = coalesce(sys.env("SCRAPE_INTERVAL"), "30s")
   forward_to      = [prometheus.remote_write.central.receiver]
 }

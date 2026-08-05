@@ -376,8 +376,8 @@ check HOST="":
 
 # Push secrets to FeelsCozyMan (decrypt + deploy core.secrets.toml, restart if changed)
 [working-directory: 'ansible']
-update-secrets:
-    ansible-playbook run.yml --limit FeelsCozyMan --tags komodo_secrets
+update-secrets *ARGS:
+    ansible-playbook run.yml --limit FeelsCozyMan --tags komodo_secrets {{ ARGS }}
 
 # --- Linting & Validation ---
 

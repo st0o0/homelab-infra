@@ -9,11 +9,6 @@ declare "pve_metrics" {
     default  = "pve-exporter:9221"
   }
 
-  argument "pve_host" {
-    optional = true
-    default  = ""
-  }
-
   argument "scrape_interval" {
     optional = true
     default  = "30s"
@@ -40,12 +35,7 @@ declare "pve_metrics" {
     targets         = discovery.relabel.pve.output
     forward_to      = argument.forward_to.value
     scrape_interval = argument.scrape_interval.value
-    metrics_path    = "/pve"
-    params          = {
-      "target"  = [argument.pve_host.value],
-      "cluster" = ["1"],
-      "node"    = ["1"],
-    }
+    metrics_path    = "/metrics"
     job_name = "pve"
   }
 }

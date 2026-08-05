@@ -1,6 +1,6 @@
 services:
   pihole-exporter:
-    image: ekofr/pihole-exporter:v0.4.0
+    image: ekofr/pihole-exporter:v1.2.0
     container_name: pihole-exporter
     restart: unless-stopped
     logging:
@@ -10,7 +10,7 @@ services:
         max-file: "3"
     environment:
       - PIHOLE_HOSTNAME=${ALLOY_PIHOLE_EXPORTER_HOSTNAME:?ALLOY_PIHOLE_EXPORTER_HOSTNAME is required}
-      - PIHOLE_API_TOKEN=${ALLOY_PIHOLE_EXPORTER_API_TOKEN:?ALLOY_PIHOLE_EXPORTER_API_TOKEN is required}
+      - PIHOLE_PASSWORD=${ALLOY_PIHOLE_EXPORTER_PASSWORD:?ALLOY_PIHOLE_EXPORTER_PASSWORD is required}
       - PIHOLE_PORT=${ALLOY_PIHOLE_EXPORTER_PORT:-80}
       - PIHOLE_PROTOCOL=${ALLOY_PIHOLE_EXPORTER_PROTOCOL:-http}
       - PORT=9617

@@ -70,7 +70,10 @@
   notify: Restart komodo
 
 - name: Provision core.secrets.toml from komodo/ secrets
-  ansible.builtin.include_tasks: secrets.yml
+  ansible.builtin.include_tasks:
+    file: secrets.yml
+    apply:
+      tags: [komodo_secrets]
   tags: [komodo_secrets]
 
 # -- Ensure running --

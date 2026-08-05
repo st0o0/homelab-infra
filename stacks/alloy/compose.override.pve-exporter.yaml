@@ -1,6 +1,6 @@
 services:
   pve-exporter:
-    image: prompve/prometheus-pve-exporter:3.9.0
+    image: ghcr.io/bigtcze/pve-exporter:1.0.8
     container_name: pve-exporter
     restart: unless-stopped
     logging:
@@ -8,16 +8,11 @@ services:
       options:
         max-size: 10m
         max-file: "3"
-    command:
-      - --config.file=/etc/pve-exporter/pve.yml
-      - --no-collector.config
     environment:
-      - PVE_USER=${ALLOY_PVE_USER:-monitoring@pve}
-      - PVE_TOKEN_NAME=${ALLOY_PVE_TOKEN_NAME:-monitoring}
-      - PVE_TOKEN_VALUE=${ALLOY_PVE_TOKEN_VALUE:?ALLOY_PVE_TOKEN_VALUE is required}
-      - PVE_VERIFY_SSL=${ALLOY_PVE_VERIFY_SSL:-false}
-    volumes:
-      - ./pve.yml:/etc/pve-exporter/pve.yml:ro
+      - PVE_HOST=${ALLOY_PVE_HOST:?ALLOY_PVE_HOST is required}
+      - PVE_TOKEN_ID=${ALLOY_PVE_TOKEN_ID:?ALLOY_PVE_TOKEN_ID is required}
+      - PVE_TOKEN_SECRET=${ALLOY_PVE_TOKEN_SECRET:?ALLOY_PVE_TOKEN_SECRET is required}
+      - PVE_INSECURE_SKIP_VERIFY=${ALLOY_PVE_INSECURE_SKIP_VERIFY:-true}
     deploy:
       resources:
         limits:
