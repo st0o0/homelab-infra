@@ -303,7 +303,7 @@
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "${datasource}" },
-          "expr": "pihole_dns_queries_all_types{hostname=~\"$instance\"}",
+          "expr": "max by (hostname) (pihole_dns_queries_all_types{hostname=~\"$instance\"})",
           "legendFormat": "{{hostname}}",
           "refId": "A"
         }
@@ -352,7 +352,7 @@
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "${datasource}" },
-          "expr": "pihole_ads_blocked_today{hostname=~\"$instance\"}",
+          "expr": "max by (hostname) (pihole_ads_blocked_today{hostname=~\"$instance\"})",
           "legendFormat": "{{hostname}}",
           "refId": "A"
         }
@@ -401,7 +401,7 @@
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "${datasource}" },
-          "expr": "pihole_ads_percentage_today{hostname=~\"$instance\"}",
+          "expr": "max by (hostname) (pihole_ads_percentage_today{hostname=~\"$instance\"})",
           "legendFormat": "{{hostname}}",
           "refId": "A"
         }
@@ -450,13 +450,13 @@
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "${datasource}" },
-          "expr": "pihole_queries_cached{hostname=~\"$instance\"}",
+          "expr": "max by (hostname) (pihole_queries_cached{hostname=~\"$instance\"})",
           "legendFormat": "Cached {{hostname}}",
           "refId": "A"
         },
         {
           "datasource": { "type": "prometheus", "uid": "${datasource}" },
-          "expr": "pihole_queries_forwarded{hostname=~\"$instance\"}",
+          "expr": "max by (hostname) (pihole_queries_forwarded{hostname=~\"$instance\"})",
           "legendFormat": "Forwarded {{hostname}}",
           "refId": "B"
         }
@@ -497,7 +497,7 @@
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "${datasource}" },
-          "expr": "sum by (__name__) (pihole_querytypes{hostname=~\"$instance\"})",
+          "expr": "sum by (__name__) (max by (__name__, hostname) (pihole_querytypes{hostname=~\"$instance\"}))",
           "legendFormat": "{{__name__}}",
           "refId": "A"
         }
@@ -530,7 +530,7 @@
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "${datasource}" },
-          "expr": "sum by (__name__) (pihole_reply{hostname=~\"$instance\"})",
+          "expr": "sum by (__name__) (max by (__name__, hostname) (pihole_reply{hostname=~\"$instance\"}))",
           "legendFormat": "{{__name__}}",
           "refId": "A"
         }
@@ -563,7 +563,7 @@
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "${datasource}" },
-          "expr": "sum by (__name__) (pihole_forward_destinations{hostname=~\"$instance\"})",
+          "expr": "sum by (__name__) (max by (__name__, hostname) (pihole_forward_destinations{hostname=~\"$instance\"}))",
           "legendFormat": "{{__name__}}",
           "refId": "A"
         }
@@ -614,7 +614,7 @@
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "${datasource}" },
-          "expr": "topk(10, pihole_top_queries{hostname=~\"$instance\"})",
+          "expr": "topk(10, max by (domain, hostname) (pihole_top_queries{hostname=~\"$instance\"}))",
           "format": "table",
           "instant": true,
           "legendFormat": "",
@@ -626,7 +626,7 @@
         {
           "id": "organize",
           "options": {
-            "excludeByName": { "Time": true, "__name__": true, "instance": true, "job": true },
+            "excludeByName": { "Time": true, "__name__": true, "instance": true, "job": true, "host": true },
             "renameByName": { "Value": "Count", "domain": "Domain", "hostname": "Pi-hole" }
           }
         }
@@ -671,7 +671,7 @@
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "${datasource}" },
-          "expr": "topk(10, pihole_top_ads{hostname=~\"$instance\"})",
+          "expr": "topk(10, max by (domain, hostname) (pihole_top_ads{hostname=~\"$instance\"}))",
           "format": "table",
           "instant": true,
           "legendFormat": "",
@@ -683,7 +683,7 @@
         {
           "id": "organize",
           "options": {
-            "excludeByName": { "Time": true, "__name__": true, "instance": true, "job": true },
+            "excludeByName": { "Time": true, "__name__": true, "instance": true, "job": true, "host": true },
             "renameByName": { "Value": "Count", "domain": "Domain", "hostname": "Pi-hole" }
           }
         }
