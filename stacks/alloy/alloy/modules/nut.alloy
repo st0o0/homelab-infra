@@ -6,7 +6,7 @@ declare "nut" {
 
   argument "target" {
     optional = true
-    default  = "nut-exporter:9199"
+    default  = "localhost:9995"
   }
 
   argument "scrape_interval" {

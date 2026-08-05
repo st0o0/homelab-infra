@@ -1,0 +1,26 @@
+services:
+  nut-exporter:
+    image: hon95/prometheus-nut-exporter:1.3.1
+    container_name: nut-exporter
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+    network_mode: service:alloy
+    environment:
+      - TZ=${TZ:-Europe/Berlin}
+      - NUT_EXPORTER_SERVER=${ALLOY_NUT_EXP_SERVER:?ALLOY_NUT_EXP_SERVER is required}
+      - NUT_EXPORTER_SERVER_PORT=${ALLOY_NUT_EXP_SERVER_PORT:?ALLOY_NUT_EXP_SERVER_PORT is required}
+      - NUT_EXPORTER_USERNAME=${ALLOY_NUT_EXP_USER:?ALLOY_NUT_EXP_USER is required}
+      - NUT_EXPORTER_PASSWORD=${ALLOY_NUT_EXP_PASS:?ALLOY_NUT_EXP_PASS is required}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    deploy:
+      resources:
+        limits:
+          cpus: 0.10
+          memory: 64M
+        reservations:
+          memory: 32M
