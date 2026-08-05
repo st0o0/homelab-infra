@@ -241,7 +241,7 @@
             "uid": "victorialogs"
           },
           "editorMode": "code",
-          "expr": "i(error) source_type:=\"docker_logs\" host:=$host | top 10 by (container_name)",
+          "expr": "i(error) source_type:=\"docker_logs\" host:=$host | top 10 by (container)",
           "key": "Q-7745a61c-4d1f-48a7-8569-c5eb0840e560-0",
           "queryType": "instant",
           "refId": "A"
@@ -260,12 +260,12 @@
           "options": {
             "excludeByName": {},
             "includeByName": {
-              "container_name": true,
+              "container": true,
               "hits": true,
               "logs": true
             },
             "indexByName": {
-              "container_name": 0,
+              "container": 0,
               "logs": 1
             },
             "renameByName": {}
@@ -373,7 +373,7 @@
           "options": {
             "excludeByName": {},
             "includeByName": {
-              "container_name": true,
+              "container": true,
               "hits": true,
               "host": true,
               "logs": true
@@ -475,7 +475,7 @@
             "uid": "victorialogs"
           },
           "editorMode": "code",
-          "expr": "i(warn) source_type:=\"docker_logs\" host:=$host | top 10 by (container_name) ",
+          "expr": "i(warn) source_type:=\"docker_logs\" host:=$host | top 10 by (container) ",
           "key": "Q-7745a61c-4d1f-48a7-8569-c5eb0840e560-0",
           "queryType": "instant",
           "refId": "A"
@@ -494,12 +494,12 @@
           "options": {
             "excludeByName": {},
             "includeByName": {
-              "container_name": true,
+              "container": true,
               "hits": true,
               "logs": true
             },
             "indexByName": {
-              "container_name": 0,
+              "container": 0,
               "logs": 1
             },
             "renameByName": {}
@@ -605,7 +605,7 @@
           "options": {
             "excludeByName": {},
             "includeByName": {
-              "container_name": true,
+              "container": true,
               "hits": true,
               "host": true,
               "logs": true
@@ -675,7 +675,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "container_name"
+              "options": "container"
             },
             "properties": [
               {
@@ -776,7 +776,7 @@
             "includeByName": {
               "Line": true,
               "Time": true,
-              "container_name": true,
+              "container": true,
               "host": true,
               "type": true
             },
@@ -786,7 +786,7 @@
               "_stream_id": 6,
               "container_created_at": 7,
               "container_id": 8,
-              "container_name": 3,
+              "container": 3,
               "host": 1,
               "image": 9,
               "label.build_version": 32,

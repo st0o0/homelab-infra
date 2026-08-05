@@ -35,7 +35,7 @@
       "collapsed": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "Uo9_nt54k"
+        "uid": "victoriametrics"
       },
       "gridPos": {
         "h": 1,
@@ -49,7 +49,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "Uo9_nt54k"
+            "uid": "victoriametrics"
           },
           "refId": "A"
         }
@@ -961,7 +961,7 @@
       "collapsed": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "Uo9_nt54k"
+        "uid": "victoriametrics"
       },
       "gridPos": {
         "h": 1,
@@ -975,7 +975,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "Uo9_nt54k"
+            "uid": "victoriametrics"
           },
           "refId": "A"
         }
@@ -2529,7 +2529,7 @@
       "collapsed": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "Uo9_nt54k"
+        "uid": "victoriametrics"
       },
       "gridPos": {
         "h": 1,
@@ -2543,7 +2543,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "Uo9_nt54k"
+            "uid": "victoriametrics"
           },
           "refId": "A"
         }
@@ -4543,7 +4543,7 @@
       "collapsed": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "Uo9_nt54k"
+        "uid": "victoriametrics"
       },
       "gridPos": {
         "h": 1,
@@ -4557,7 +4557,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "Uo9_nt54k"
+            "uid": "victoriametrics"
           },
           "refId": "A"
         }
@@ -10457,7 +10457,7 @@
       "collapsed": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "Uo9_nt54k"
+        "uid": "victoriametrics"
       },
       "gridPos": {
         "h": 1,
@@ -10471,7 +10471,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "Uo9_nt54k"
+            "uid": "victoriametrics"
           },
           "refId": "A"
         }
@@ -11534,7 +11534,7 @@
       "collapsed": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "Uo9_nt54k"
+        "uid": "victoriametrics"
       },
       "gridPos": {
         "h": 1,
@@ -11548,7 +11548,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "Uo9_nt54k"
+            "uid": "victoriametrics"
           },
           "refId": "A"
         }
@@ -12067,7 +12067,7 @@
       "collapsed": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "Uo9_nt54k"
+        "uid": "victoriametrics"
       },
       "gridPos": {
         "h": 1,
@@ -12081,7 +12081,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "Uo9_nt54k"
+            "uid": "victoriametrics"
           },
           "refId": "A"
         }
@@ -12982,7 +12982,7 @@
       "collapsed": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "Uo9_nt54k"
+        "uid": "victoriametrics"
       },
       "gridPos": {
         "h": 1,
@@ -12996,7 +12996,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "Uo9_nt54k"
+            "uid": "victoriametrics"
           },
           "refId": "A"
         }
@@ -13845,7 +13845,7 @@
       "collapsed": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "Uo9_nt54k"
+        "uid": "victoriametrics"
       },
       "gridPos": {
         "h": 1,
@@ -13859,7 +13859,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "Uo9_nt54k"
+            "uid": "victoriametrics"
           },
           "refId": "A"
         }
@@ -14313,7 +14313,7 @@
       "collapsed": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "Uo9_nt54k"
+        "uid": "victoriametrics"
       },
       "gridPos": {
         "h": 1,
@@ -14327,7 +14327,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "Uo9_nt54k"
+            "uid": "victoriametrics"
           },
           "refId": "A"
         }
@@ -14676,7 +14676,7 @@
       "collapsed": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "Uo9_nt54k"
+        "uid": "victoriametrics"
       },
       "gridPos": {
         "h": 1,
@@ -14690,7 +14690,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "Uo9_nt54k"
+            "uid": "victoriametrics"
           },
           "refId": "A"
         }
@@ -18219,7 +18219,7 @@
       "collapsed": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "Uo9_nt54k"
+        "uid": "victoriametrics"
       },
       "gridPos": {
         "h": 1,
@@ -18233,7 +18233,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "Uo9_nt54k"
+            "uid": "victoriametrics"
           },
           "refId": "A"
         }
@@ -18924,7 +18924,7 @@
       "collapsed": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "Uo9_nt54k"
+        "uid": "victoriametrics"
       },
       "gridPos": {
         "h": 1,
@@ -18938,7 +18938,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "Uo9_nt54k"
+            "uid": "victoriametrics"
           },
           "refId": "A"
         }
@@ -21019,7 +21019,7 @@
       "collapsed": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "Uo9_nt54k"
+        "uid": "victoriametrics"
       },
       "gridPos": {
         "h": 1,
@@ -21033,7 +21033,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "Uo9_nt54k"
+            "uid": "victoriametrics"
           },
           "refId": "A"
         }
@@ -21693,7 +21693,7 @@
       "collapsed": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "Uo9_nt54k"
+        "uid": "victoriametrics"
       },
       "gridPos": {
         "h": 1,
@@ -21707,7 +21707,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "Uo9_nt54k"
+            "uid": "victoriametrics"
           },
           "refId": "A"
         }
@@ -23199,7 +23199,7 @@
       "collapsed": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "Uo9_nt54k"
+        "uid": "victoriametrics"
       },
       "gridPos": {
         "h": 1,
@@ -23213,7 +23213,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "Uo9_nt54k"
+            "uid": "victoriametrics"
           },
           "refId": "A"
         }
@@ -23495,7 +23495,7 @@
           "refId": "Prometheus-job-Variable-Query"
         },
         "refresh": 1,
-        "regex": "/linux_node/",
+        "regex": "",
         "skipUrlSync": false,
         "sort": 1,
         "tagValuesQuery": "",
@@ -23547,7 +23547,7 @@
           "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
         "refresh": 1,
-        "regex": "/([^:]+):.*/",
+        "regex": "",
         "skipUrlSync": false,
         "sort": 1,
         "tagValuesQuery": "",

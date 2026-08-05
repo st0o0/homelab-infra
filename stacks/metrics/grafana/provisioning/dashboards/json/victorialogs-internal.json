@@ -39,7 +39,7 @@
     {
       "datasource": {
         "type": "victoriametrics-logs-datasource",
-        "uid": "$DS_VICTORIALOGS"
+        "uid": "victorialogs"
       },
       "description": "Total log entries matching $filter in the selected time range. Use to sanity-check ingestion volume, baseline changes after deploys, or quickly count specific events by refining the filter (e.g., level:=error).",
       "fieldConfig": {
@@ -104,7 +104,7 @@
         {
           "datasource": {
             "type": "victoriametrics-logs-datasource",
-            "uid": "$DS_VICTORIALOGS"
+            "uid": "victorialogs"
           },
           "editorMode": "code",
           "expr": "${filter:raw} | count()",
@@ -118,7 +118,7 @@
     {
       "datasource": {
         "type": "victoriametrics-logs-datasource",
-        "uid": "$DS_VICTORIALOGS"
+        "uid": "victorialogs"
       },
       "description": "Time since the newest matching log. Use to detect pipeline delay or backpressure; alert if it exceeds your acceptable threshold.",
       "fieldConfig": {
@@ -182,7 +182,7 @@
         {
           "datasource": {
             "type": "victoriametrics-logs-datasource",
-            "uid": "$DS_VICTORIALOGS"
+            "uid": "victorialogs"
           },
           "editorMode": "code",
           "expr": "${filter:raw} | first 1 by (_time desc) | math (now() - _time) default 0 as lag_ns | max(lag_ns) as lag_ns",
@@ -196,7 +196,7 @@
     {
       "datasource": {
         "type": "victoriametrics-logs-datasource",
-        "uid": "$DS_VICTORIALOGS"
+        "uid": "victorialogs"
       },
       "description": "Records-per-second over time for the current filter. Use to spot bursts/drops, correlate with incidents, and validate throttling or autoscaling effects.",
       "fieldConfig": {
@@ -290,7 +290,7 @@
         {
           "datasource": {
             "type": "victoriametrics-logs-datasource",
-            "uid": "$DS_VICTORIALOGS"
+            "uid": "victorialogs"
           },
           "editorMode": "code",
           "expr": "${filter:raw} | stats () rate()",
@@ -397,7 +397,7 @@
         {
           "datasource": {
             "type": "victoriametrics-logs-datasource",
-            "uid": "$DS_VICTORIALOGS"
+            "uid": "victorialogs"
           },
           "editorMode": "code",
           "expr": "${filter:raw}\n  | block_stats\n  | stats by (field)\n      sum(values_bytes) as values_bytes,\n      sum(bloom_bytes) as bloom_bytes,\n      sum(rows) as rows\n  | math\n      (values_bytes+bloom_bytes) as total_bytes,\n      round(total_bytes / rows, 0.01) as bytes_per_row\n  | sort by (total_bytes desc) limit $limit\n  | total_stats min(total_bytes) as min_total_bytes, max(total_bytes) as max_total_bytes",
@@ -523,7 +523,7 @@
         {
           "datasource": {
             "type": "victoriametrics-logs-datasource",
-            "uid": "$DS_VICTORIALOGS"
+            "uid": "victorialogs"
           },
           "editorMode": "code",
           "expr": "${filter:raw} | field_names | count()",
@@ -606,7 +606,7 @@
         {
           "datasource": {
             "type": "victoriametrics-logs-datasource",
-            "uid": "$DS_VICTORIALOGS"
+            "uid": "victorialogs"
           },
           "editorMode": "code",
           "expr": "${filter:raw}\n  | field_names\n  | sort by (hits desc) limit $limit\n  | total_stats max(hits) as max_count, min(hits) as min_count",
@@ -740,7 +740,7 @@
         {
           "datasource": {
             "type": "victoriametrics-logs-datasource",
-            "uid": "$DS_VICTORIALOGS"
+            "uid": "victorialogs"
           },
           "editorMode": "code",
           "expr": "${filter:raw}\n  | field_names\n  | sort by (hits asc) limit $limit\n  | total_stats max(hits) as max_count, min(hits) as min_count",
@@ -882,7 +882,7 @@
         {
           "datasource": {
             "type": "victoriametrics-logs-datasource",
-            "uid": "$DS_VICTORIALOGS"
+            "uid": "victorialogs"
           },
           "editorMode": "code",
           "expr": "${filter:raw}\n  | collapse_nums prettify\n  | top $limit by (_msg) \n  | total_stats max(hits) as max_count, min(hits) as min_count\n  | rename _msg msg",
@@ -1020,7 +1020,7 @@
         {
           "datasource": {
             "type": "victoriametrics-logs-datasource",
-            "uid": "$DS_VICTORIALOGS"
+            "uid": "victorialogs"
           },
           "editorMode": "code",
           "expr": "${filter:raw}\n  | facets\n  | filter -field_name:in(_stream_id,_stream)\n  | sort by (hits desc) limit $limit\n  | total_stats max(hits) as max_count, min(hits) as min_count",
@@ -1163,7 +1163,7 @@
         {
           "datasource": {
             "type": "victoriametrics-logs-datasource",
-            "uid": "$DS_VICTORIALOGS"
+            "uid": "victorialogs"
           },
           "editorMode": "code",
           "expr": "${filter:raw} | stats count_uniq(_stream) as active_streams",
@@ -1268,7 +1268,7 @@
         {
           "datasource": {
             "type": "victoriametrics-logs-datasource",
-            "uid": "$DS_VICTORIALOGS"
+            "uid": "victorialogs"
           },
           "editorMode": "code",
           "expr": "${filter:raw} | stats count_uniq(_stream) as active_streams",
@@ -1282,7 +1282,7 @@
     {
       "datasource": {
         "type": "victoriametrics-logs-datasource",
-        "uid": "$DS_VICTORIALOGS"
+        "uid": "victorialogs"
       },
       "description": "Streams with the lowest log volume in the selected time range.\n\nUse this to identify potentially dangling or short-lived streams that may indicate misconfigured labels, excessive cardinality, or abandoned producers.",
       "fieldConfig": {
@@ -1352,7 +1352,7 @@
         {
           "datasource": {
             "type": "victoriametrics-logs-datasource",
-            "uid": "$DS_VICTORIALOGS"
+            "uid": "victorialogs"
           },
           "editorMode": "code",
           "expr": "${filter:raw}\n  | stats by (_stream) count() as hits\n  | first $limit (hits asc)\n  | copy _stream as stream\n  | fields stream, hits\n  | total_stats max(hits) as max_count, min(hits) as min_count",
@@ -1486,7 +1486,7 @@
         {
           "datasource": {
             "type": "victoriametrics-logs-datasource",
-            "uid": "$DS_VICTORIALOGS"
+            "uid": "victorialogs"
           },
           "editorMode": "code",
           "expr": "${filter:raw} | \n    top $limit by (_stream) | \n    rename _stream stream | \n    total_stats max(hits) as max_count, min(hits) as min_count",
@@ -1621,7 +1621,7 @@
         {
           "datasource": {
             "type": "victoriametrics-logs-datasource",
-            "uid": "$DS_VICTORIALOGS"
+            "uid": "victorialogs"
           },
           "editorMode": "code",
           "expr": "${filter:raw}\n    | block_stats\n    | rename _stream stream\n    | stats by (stream)\n        sum(values_bytes) as values_bytes,\n        sum(bloom_bytes) as bloom_bytes\n    | math (values_bytes + bloom_bytes) as total_bytes\n    | sort by (total_bytes desc) limit $limit\n    | total_stats max(total_bytes) as max_count, min(total_bytes) as min_count",
@@ -1745,7 +1745,7 @@
         {
           "datasource": {
             "type": "victoriametrics-logs-datasource",
-            "uid": "$DS_VICTORIALOGS"
+            "uid": "victorialogs"
           },
           "editorMode": "code",
           "expr": "${filter:raw} | sort by (_time) desc limit 500",
