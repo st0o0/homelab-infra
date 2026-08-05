@@ -51,14 +51,17 @@ services:
       - HOMEASSISTANT_METRICS_ENABLED=${ALLOY_HOMEASSISTANT_METRICS_ENABLED:-false}
       - HOMEASSISTANT_METRICS_TARGET=${ALLOY_HOMEASSISTANT_METRICS_TARGET:-homeassistant:8123}
       - HOMEASSISTANT_METRICS_TOKEN=${ALLOY_HOMEASSISTANT_METRICS_TOKEN:-}
+    privileged: true
     volumes:
       - ./alloy:/etc/alloy:ro
       - alloy-data:/var/lib/alloy/data
       - /var/log:/var/log/host:ro
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
+      - /sys:/sys:ro
       - /:/rootfs:ro
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /var/run:/var/run
+      - /var/lib/docker/:/var/lib/docker:ro
     deploy:
       resources:
         limits:
