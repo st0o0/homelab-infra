@@ -12,4 +12,5 @@ prometheus.scrape "host" {
   targets         = prometheus.exporter.unix.host.targets
   forward_to      = [prometheus.remote_write.central.receiver]
   scrape_interval = coalesce(env("SCRAPE_INTERVAL"), "30s")
+  job_name        = "node"
 }
