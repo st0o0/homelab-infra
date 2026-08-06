@@ -78,6 +78,13 @@
               "mode": "off"
             }
           },
+          "links": [
+            {
+              "title": "View Logs",
+              "url": "/d/fe8htprzrixa8a/docker-logs?var-container=${__field.labels.name}&${__url_time_range}",
+              "targetBlank": true
+            }
+          ],
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -278,6 +285,13 @@
               "mode": "off"
             }
           },
+          "links": [
+            {
+              "title": "View Logs",
+              "url": "/d/fe8htprzrixa8a/docker-logs?var-container=${__field.labels.name}&${__url_time_range}",
+              "targetBlank": true
+            }
+          ],
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -864,7 +878,14 @@
               "type": "linear"
             }
           },
-          "fieldMinMax": true
+          "fieldMinMax": true,
+          "links": [
+            {
+              "title": "View Logs",
+              "url": "/d/fe8htprzrixa8a/docker-logs?var-container=${__field.labels.name}&${__url_time_range}",
+              "targetBlank": true
+            }
+          ]
         },
         "overrides": []
       },
