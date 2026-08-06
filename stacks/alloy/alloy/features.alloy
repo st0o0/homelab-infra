@@ -4,7 +4,7 @@ import.file "modules" {
 
 modules.nut "default" {
   enabled         = coalesce(sys.env("NUT_ENABLED"), "false")
-  target          = coalesce(sys.env("NUT_EXPORTER_TARGET"), "nut-exporter:9995")
+  target          = coalesce(sys.env("NUT_EXPORTER_TARGET"), "nut-exporter:9199")
   scrape_interval = coalesce(sys.env("SCRAPE_INTERVAL"), "30s")
   forward_to      = [prometheus.remote_write.central.receiver]
 }

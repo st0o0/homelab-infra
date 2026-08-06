@@ -6,7 +6,7 @@ declare "nut" {
 
   argument "target" {
     optional = true
-    default  = "nut-exporter:9995"
+    default  = "nut-exporter:9199"
   }
 
   argument "scrape_interval" {
@@ -35,6 +35,6 @@ declare "nut" {
     targets         = discovery.relabel.nut.output
     forward_to      = argument.forward_to.value
     scrape_interval = argument.scrape_interval.value
-    metrics_path    = "/ups_metrics"
+    metrics_path    = "/nut_metrics"
   }
 }
