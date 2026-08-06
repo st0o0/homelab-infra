@@ -139,7 +139,7 @@
       },
       "targets": [
         {
-          "expr": "vm_rows",
+          "expr": "sum(vm_rows{type=~\"storage/.*\"})",
           "legendFormat": "",
           "refId": "A"
         }
@@ -194,7 +194,7 @@
       },
       "targets": [
         {
-          "expr": "vm_data_size_bytes",
+          "expr": "sum(vm_data_size_bytes)",
           "legendFormat": "",
           "refId": "A"
         }
@@ -320,7 +320,7 @@
       },
       "targets": [
         {
-          "expr": "vm_concurrent_insert_current / vm_concurrent_insert_capacity * 100",
+          "expr": "sum(vm_concurrent_insert_current) / sum(vm_concurrent_insert_capacity) * 100",
           "legendFormat": "",
           "refId": "A"
         }
@@ -383,7 +383,7 @@
       },
       "targets": [
         {
-          "expr": "vm_concurrent_select_current / vm_concurrent_select_capacity * 100",
+          "expr": "sum(vm_concurrent_select_current) / sum(vm_concurrent_select_capacity) * 100",
           "legendFormat": "",
           "refId": "A"
         }
@@ -501,7 +501,7 @@
       },
       "targets": [
         {
-          "expr": "increase(vm_slow_queries_total[1h])",
+          "expr": "sum(increase(vm_slow_queries_total[1h]))",
           "legendFormat": "",
           "refId": "A"
         }
@@ -600,7 +600,7 @@
       },
       "targets": [
         {
-          "expr": "rate(vm_rows_inserted_total[$__rate_interval])",
+          "expr": "sum(rate(vm_rows_inserted_total[$__rate_interval]))",
           "legendFormat": "rows/s",
           "refId": "A"
         }
@@ -772,7 +772,7 @@
       },
       "targets": [
         {
-          "expr": "vm_pending_rows",
+          "expr": "sum by (type) (vm_pending_rows)",
           "legendFormat": "",
           "refId": "A"
         }
@@ -1043,7 +1043,7 @@
       },
       "targets": [
         {
-          "expr": "vm_request_duration_seconds_sum / vm_request_duration_seconds_count",
+          "expr": "sum by (path) (vm_request_duration_seconds_sum) / sum by (path) (vm_request_duration_seconds_count)",
           "legendFormat": "",
           "refId": "A"
         }
@@ -1129,7 +1129,7 @@
       },
       "targets": [
         {
-          "expr": "rate(vm_rollup_result_cache_full_hits_total[$__rate_interval]) / rate(vm_rollup_result_cache_requests_total[$__rate_interval]) * 100",
+          "expr": "sum(rate(vm_rollup_result_cache_full_hits_total[$__rate_interval])) / sum(rate(vm_rollup_result_cache_requests_total[$__rate_interval])) * 100",
           "legendFormat": "",
           "refId": "A"
         }
@@ -1215,7 +1215,7 @@
       },
       "targets": [
         {
-          "expr": "vm_cache_size_bytes",
+          "expr": "topk(10, vm_cache_size_bytes)",
           "legendFormat": "{{type}}",
           "refId": "A"
         }
@@ -1397,13 +1397,13 @@
           },
           "targets": [
             {
-              "expr": "vm_parts",
-              "legendFormat": "parts",
+              "expr": "sum by (type) (vm_parts)",
+              "legendFormat": "parts {{type}}",
               "refId": "A"
             },
             {
-              "expr": "vm_blocks",
-              "legendFormat": "blocks",
+              "expr": "sum by (type) (vm_blocks)",
+              "legendFormat": "blocks {{type}}",
               "refId": "B"
             }
           ],
