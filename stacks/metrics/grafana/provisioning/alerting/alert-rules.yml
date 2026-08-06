@@ -300,6 +300,8 @@ groups:
         title: PostgresConnectionsHigh
         condition: C
         for: 5m
+        noDataState: OK
+        is_paused: true
         labels:
           severity: warning
         annotations:
@@ -338,6 +340,8 @@ groups:
         title: RedisMemoryHigh
         condition: C
         for: 5m
+        noDataState: OK
+        is_paused: true
         labels:
           severity: warning
         annotations:
@@ -376,6 +380,8 @@ groups:
         title: RedisEvictions
         condition: C
         for: 5m
+        noDataState: OK
+        is_paused: true
         labels:
           severity: warning
         annotations:
@@ -414,6 +420,8 @@ groups:
         title: MongoConnectionsHigh
         condition: C
         for: 5m
+        noDataState: OK
+        is_paused: true
         labels:
           severity: warning
         annotations:
@@ -533,6 +541,7 @@ groups:
         title: VmUnexpectedlyStopped
         condition: C
         for: 0s
+        noDataState: OK
         labels:
           severity: critical
         annotations:
@@ -571,6 +580,7 @@ groups:
         title: LxcUnexpectedlyStopped
         condition: C
         for: 0s
+        noDataState: OK
         labels:
           severity: critical
         annotations:
