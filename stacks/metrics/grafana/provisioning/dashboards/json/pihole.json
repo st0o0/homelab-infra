@@ -16,7 +16,7 @@
       }
     ]
   },
-  "description": "Multi-instance Pi-hole monitoring dashboard with DNS query analytics, ad blocking stats, and top domain tables.",
+  "description": "Pi-hole DNS query analytics and ad blocking stats.",
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
@@ -33,7 +33,7 @@
       "type": "row"
     },
     {
-      "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
       "fieldConfig": {
         "defaults": {
           "color": { "mode": "thresholds" },
@@ -63,7 +63,7 @@
       },
       "targets": [
         {
-          "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
           "expr": "min(pihole_status{hostname=~\"$instance\"})",
           "legendFormat": "",
           "refId": "A"
@@ -73,7 +73,7 @@
       "type": "stat"
     },
     {
-      "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
       "fieldConfig": {
         "defaults": {
           "color": { "mode": "thresholds" },
@@ -98,7 +98,7 @@
       },
       "targets": [
         {
-          "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
           "expr": "max(pihole_domains_being_blocked{hostname=~\"$instance\"})",
           "legendFormat": "",
           "refId": "A"
@@ -108,7 +108,7 @@
       "type": "stat"
     },
     {
-      "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
       "fieldConfig": {
         "defaults": {
           "color": { "mode": "thresholds" },
@@ -133,7 +133,7 @@
       },
       "targets": [
         {
-          "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
           "expr": "sum(pihole_dns_queries_all_types{hostname=~\"$instance\"})",
           "legendFormat": "",
           "refId": "A"
@@ -143,7 +143,7 @@
       "type": "stat"
     },
     {
-      "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
       "fieldConfig": {
         "defaults": {
           "color": { "mode": "thresholds" },
@@ -168,7 +168,7 @@
       },
       "targets": [
         {
-          "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
           "expr": "sum(pihole_ads_blocked_today{hostname=~\"$instance\"})",
           "legendFormat": "",
           "refId": "A"
@@ -178,7 +178,7 @@
       "type": "stat"
     },
     {
-      "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
       "fieldConfig": {
         "defaults": {
           "color": { "mode": "thresholds" },
@@ -210,7 +210,7 @@
       },
       "targets": [
         {
-          "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
           "expr": "avg(pihole_ads_percentage_today{hostname=~\"$instance\"})",
           "legendFormat": "",
           "refId": "A"
@@ -220,7 +220,7 @@
       "type": "stat"
     },
     {
-      "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
       "fieldConfig": {
         "defaults": {
           "color": { "mode": "thresholds" },
@@ -245,7 +245,7 @@
       },
       "targets": [
         {
-          "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
           "expr": "sum(pihole_unique_domains{hostname=~\"$instance\"})",
           "legendFormat": "",
           "refId": "A"
@@ -263,7 +263,7 @@
       "type": "row"
     },
     {
-      "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
       "fieldConfig": {
         "defaults": {
           "color": { "mode": "palette-classic" },
@@ -302,7 +302,7 @@
       },
       "targets": [
         {
-          "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
           "expr": "max by (hostname) (pihole_request_rate{hostname=~\"$instance\"})",
           "legendFormat": "{{hostname}}",
           "refId": "A"
@@ -312,7 +312,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
       "fieldConfig": {
         "defaults": {
           "color": { "mode": "palette-classic" },
@@ -351,7 +351,7 @@
       },
       "targets": [
         {
-          "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
           "expr": "rate(pihole_ads_blocked_today{hostname=~\"$instance\"}[$__rate_interval])",
           "legendFormat": "{{hostname}}",
           "refId": "A"
@@ -361,7 +361,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
       "fieldConfig": {
         "defaults": {
           "color": { "mode": "palette-classic" },
@@ -400,7 +400,7 @@
       },
       "targets": [
         {
-          "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
           "expr": "max by (hostname) (pihole_ads_percentage_today{hostname=~\"$instance\"})",
           "legendFormat": "{{hostname}}",
           "refId": "A"
@@ -410,7 +410,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
       "fieldConfig": {
         "defaults": {
           "color": { "mode": "palette-classic" },
@@ -449,13 +449,13 @@
       },
       "targets": [
         {
-          "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
           "expr": "rate(pihole_queries_cached{hostname=~\"$instance\"}[$__rate_interval])",
           "legendFormat": "Cached {{hostname}}",
           "refId": "A"
         },
         {
-          "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
           "expr": "rate(pihole_queries_forwarded{hostname=~\"$instance\"}[$__rate_interval])",
           "legendFormat": "Forwarded {{hostname}}",
           "refId": "B"
@@ -473,7 +473,7 @@
       "type": "row"
     },
     {
-      "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
       "fieldConfig": {
         "defaults": {
           "color": { "mode": "palette-classic" },
@@ -496,7 +496,7 @@
       },
       "targets": [
         {
-          "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
           "expr": "sum by (__name__) (max by (__name__, hostname) (pihole_querytypes{hostname=~\"$instance\"}))",
           "legendFormat": "{{__name__}}",
           "refId": "A"
@@ -506,7 +506,7 @@
       "type": "piechart"
     },
     {
-      "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
       "fieldConfig": {
         "defaults": {
           "color": { "mode": "palette-classic" },
@@ -529,7 +529,7 @@
       },
       "targets": [
         {
-          "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
           "expr": "sum by (__name__) (max by (__name__, hostname) (pihole_reply{hostname=~\"$instance\"}))",
           "legendFormat": "{{__name__}}",
           "refId": "A"
@@ -539,7 +539,7 @@
       "type": "piechart"
     },
     {
-      "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
       "fieldConfig": {
         "defaults": {
           "color": { "mode": "palette-classic" },
@@ -562,7 +562,7 @@
       },
       "targets": [
         {
-          "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
           "expr": "sum by (__name__) (max by (__name__, hostname) (pihole_forward_destinations{hostname=~\"$instance\"}))",
           "legendFormat": "{{__name__}}",
           "refId": "A"
@@ -580,7 +580,7 @@
       "type": "row"
     },
     {
-      "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
       "fieldConfig": {
         "defaults": {
           "color": { "mode": "thresholds" },
@@ -613,7 +613,7 @@
       },
       "targets": [
         {
-          "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
           "expr": "topk(10, max by (domain, hostname) (pihole_top_queries{hostname=~\"$instance\"}))",
           "format": "table",
           "instant": true,
@@ -634,7 +634,7 @@
       "type": "table"
     },
     {
-      "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
       "fieldConfig": {
         "defaults": {
           "color": { "mode": "thresholds" },
@@ -670,7 +670,7 @@
       },
       "targets": [
         {
-          "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
           "expr": "topk(10, max by (domain, hostname) (pihole_top_ads{hostname=~\"$instance\"}))",
           "format": "table",
           "instant": true,
@@ -698,7 +698,7 @@
       {
         "allValue": ".*",
         "current": {},
-        "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+        "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
         "definition": "label_values(pihole_status, hostname)",
         "hide": 0,
         "includeAll": true,

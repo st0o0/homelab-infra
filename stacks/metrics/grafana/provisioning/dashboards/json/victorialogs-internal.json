@@ -1802,11 +1802,11 @@
   },
   "timepicker": {},
   "timezone": "browser",
-  "title": "VictoriaLogs - Internal State",
+  "title": "VictoriaLogs",
   "uid": "be5zidev_vlogs",
   "version": 1,
   "weekStart": "",
   "id": null,
   "gnetId": 24585,
-  "description": "Quick health overview of VictoriaLogs (+v1.41.0) ingestion and dataset shape: total logs, newest log age, ingestion rate, and the top fields/streams driving volume and storage."
+  "description": "VictoriaLogs ingestion health and dataset shape."
 }

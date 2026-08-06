@@ -12,7 +12,7 @@
       }
     ]
   },
-  "description": "A quickstart to setup the Prometheus PostgreSQL Exporter with preconfigured dashboards, alerting rules, and recording rules.",
+  "description": "PostgreSQL server activity, connections, and table statistics.",
   "editable": true,
   "gnetId": 14114,
   "graphTooltip": 1,
@@ -32,7 +32,7 @@
       "type": "row"
     },
     {
-      "datasource": {"type": "prometheus", "uid": "victoriametrics"},
+      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
       "fieldConfig": {
         "defaults": {
           "color": {"mode": "palette-classic"},
@@ -74,8 +74,7 @@
       "targets": [
         {
           "alias": "fetched",
-          "datasource": {"type": "prometheus", "uid": "victoriametrics"},
-          "dsType": "prometheus",
+          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
           "expr": "sum by (instance) (irate(pg_stat_database_tup_fetched{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}[5m]))",
           "format": "time_series",
           "groupBy": [
@@ -129,8 +128,7 @@
         },
         {
           "alias": "fetched",
-          "datasource": {"type": "prometheus", "uid": "victoriametrics"},
-          "dsType": "prometheus",
+          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
           "expr": "sum by (instance) (irate(pg_stat_database_tup_returned{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}[5m]))",
           "format": "time_series",
           "groupBy": [
@@ -184,8 +182,7 @@
         },
         {
           "alias": "fetched",
-          "datasource": {"type": "prometheus", "uid": "victoriametrics"},
-          "dsType": "prometheus",
+          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
           "expr": "sum by (instance) (irate(pg_stat_database_tup_inserted{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}[5m]))",
           "format": "time_series",
           "groupBy": [
@@ -239,8 +236,7 @@
         },
         {
           "alias": "fetched",
-          "datasource": {"type": "prometheus", "uid": "victoriametrics"},
-          "dsType": "prometheus",
+          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
           "expr": "sum by (instance) (irate(pg_stat_database_tup_updated{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}[5m]))",
           "format": "time_series",
           "groupBy": [
@@ -294,8 +290,7 @@
         },
         {
           "alias": "fetched",
-          "datasource": {"type": "prometheus", "uid": "victoriametrics"},
-          "dsType": "prometheus",
+          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
           "expr": "sum by (instance) (irate(pg_stat_database_tup_deleted{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}[5m]))",
           "format": "time_series",
           "groupBy": [
@@ -352,7 +347,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": {"type": "prometheus", "uid": "victoriametrics"},
+      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
       "fieldConfig": {
         "defaults": {
           "color": {"mode": "thresholds"},
@@ -379,8 +374,7 @@
       },
       "targets": [
         {
-          "datasource": {"type": "prometheus", "uid": "victoriametrics"},
-          "dsType": "prometheus",
+          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
           "expr": "sum(irate(pg_stat_database_xact_commit{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}[5m])) + sum(irate(pg_stat_database_xact_rollback{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}[5m]))",
           "format": "time_series",
           "groupBy": [
@@ -436,7 +430,7 @@
       "type": "stat"
     },
     {
-      "datasource": {"type": "prometheus", "uid": "victoriametrics"},
+      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
       "fieldConfig": {
         "defaults": {
           "color": {"mode": "palette-classic"},
@@ -479,8 +473,7 @@
       "targets": [
         {
           "alias": "Buffers Allocated",
-          "datasource": {"type": "prometheus", "uid": "victoriametrics"},
-          "dsType": "prometheus",
+          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
           "expr": "irate(pg_stat_bgwriter_buffers_alloc{instance=~'$instance',job=~'$job'}[5m])",
           "format": "time_series",
           "groupBy": [
@@ -532,8 +525,7 @@
         },
         {
           "alias": "Buffers Allocated",
-          "datasource": {"type": "prometheus", "uid": "victoriametrics"},
-          "dsType": "prometheus",
+          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
           "expr": "irate(pg_stat_bgwriter_buffers_backend_fsync{instance=~'$instance',job=~'$job'}[5m])",
           "format": "time_series",
           "groupBy": [
@@ -585,8 +577,7 @@
         },
         {
           "alias": "Buffers Allocated",
-          "datasource": {"type": "prometheus", "uid": "victoriametrics"},
-          "dsType": "prometheus",
+          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
           "expr": "irate(pg_stat_bgwriter_buffers_backend{instance=~'$instance',job=~'$job'}[5m])",
           "format": "time_series",
           "groupBy": [
@@ -638,8 +629,7 @@
         },
         {
           "alias": "Buffers Allocated",
-          "datasource": {"type": "prometheus", "uid": "victoriametrics"},
-          "dsType": "prometheus",
+          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
           "expr": "irate(pg_stat_bgwriter_buffers_clean{instance=~'$instance',job=~'$job'}[5m])",
           "format": "time_series",
           "groupBy": [
@@ -691,8 +681,7 @@
         },
         {
           "alias": "Buffers Allocated",
-          "datasource": {"type": "prometheus", "uid": "victoriametrics"},
-          "dsType": "prometheus",
+          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
           "expr": "irate(pg_stat_bgwriter_buffers_checkpoint{instance=~'$instance',job=~'$job'}[5m])",
           "format": "time_series",
           "groupBy": [
@@ -747,7 +736,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": {"type": "prometheus", "uid": "victoriametrics"},
+      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
       "fieldConfig": {
         "defaults": {
           "color": {"mode": "palette-classic"},
@@ -790,8 +779,7 @@
       "targets": [
         {
           "alias": "conflicts",
-          "datasource": {"type": "prometheus", "uid": "victoriametrics"},
-          "dsType": "prometheus",
+          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
           "expr": "sum by (instance) (rate(pg_stat_database_deadlocks{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}[5m]))",
           "format": "time_series",
           "groupBy": [
@@ -843,8 +831,7 @@
         },
         {
           "alias": "deadlocks",
-          "datasource": {"type": "prometheus", "uid": "victoriametrics"},
-          "dsType": "prometheus",
+          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
           "expr": "sum by (instance) (rate(pg_stat_database_conflicts{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}[5m]))",
           "format": "time_series",
           "groupBy": [
@@ -899,7 +886,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": {"type": "prometheus", "uid": "victoriametrics"},
+      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
       "fieldConfig": {
         "defaults": {
           "color": {"mode": "palette-classic"},
@@ -940,7 +927,7 @@
       },
       "targets": [
         {
-          "datasource": {"type": "prometheus", "uid": "victoriametrics"},
+          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
           "expr": "sum by (instance) (pg_stat_database_blks_hit{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}) / (sum by (instance) (pg_stat_database_blks_hit{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}) + sum by (instance) (pg_stat_database_blks_read{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}))",
           "format": "time_series",
           "intervalFactor": 2,
@@ -953,7 +940,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": {"type": "prometheus", "uid": "victoriametrics"},
+      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
       "fieldConfig": {
         "defaults": {
           "color": {"mode": "palette-classic"},
@@ -994,7 +981,7 @@
       },
       "targets": [
         {
-          "datasource": {"type": "prometheus", "uid": "victoriametrics"},
+          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
           "expr": "pg_stat_database_numbackends{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}",
           "format": "time_series",
           "intervalFactor": 2,
@@ -1021,7 +1008,7 @@
           "text": "All",
           "value": "$__all"
         },
-        "datasource": {"type": "prometheus", "uid": "victoriametrics"},
+        "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
         "definition": "",
         "hide": 0,
         "includeAll": true,
@@ -1047,7 +1034,7 @@
           "text": "All",
           "value": "$__all"
         },
-        "datasource": {"type": "prometheus", "uid": "victoriametrics"},
+        "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
         "definition": "label_values(pg_stat_database_tup_fetched{instance=~\"$instance\",datname!~\"template.*|postgres\"},datname)",
         "hide": 0,
         "includeAll": true,
@@ -1073,7 +1060,7 @@
           "text": "postgres",
           "value": "postgres"
         },
-        "datasource": {"type": "prometheus", "uid": "victoriametrics"},
+        "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
         "definition": "label_values(pg_up, job)",
         "hide": 0,
         "includeAll": false,
@@ -1106,7 +1093,7 @@
   },
   "timepicker": {},
   "timezone": "browser",
-  "title": "PostgreSQL Exporter Quickstart and Dashboard",
+  "title": "PostgreSQL",
   "uid": "postgres",
   "version": 1
 }

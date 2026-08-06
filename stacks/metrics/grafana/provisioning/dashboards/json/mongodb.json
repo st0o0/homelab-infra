@@ -16,7 +16,7 @@
       }
     ]
   },
-  "description": "Production-grade MongoDB observability — ops, latency, connections, WiredTiger, replication, DB stats, profiler.",
+  "description": "MongoDB server operations, connections, and storage.",
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
@@ -24,7 +24,7 @@
   "panels": [
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -89,7 +89,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "mongodb_up{instance=~\"$instance\"}",
@@ -102,7 +102,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -147,7 +147,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "mongodb_uptime_seconds{instance=~\"$instance\"}",
@@ -160,7 +160,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -213,7 +213,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "sum(rate(mongodb_opcounters_total{instance=~\"$instance\"}[$__rate_interval]))",
@@ -226,7 +226,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -279,7 +279,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "mongodb_connections_current{instance=~\"$instance\"}",
@@ -292,7 +292,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -345,7 +345,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "mongodb_connections_active{instance=~\"$instance\"}",
@@ -358,7 +358,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -411,7 +411,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "mongodb_mem_resident_bytes{instance=~\"$instance\"}",
@@ -424,7 +424,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -477,7 +477,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "mongodb_wiredtiger_cache_bytes{instance=~\"$instance\",type=\"current\"} / mongodb_wiredtiger_cache_max_bytes{instance=~\"$instance\"} * 100",
@@ -490,7 +490,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -543,7 +543,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "max(mongodb_repl_lag_seconds{instance=~\"$instance\"})",
@@ -568,7 +568,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -675,7 +675,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_opcounters_total{instance=~\"$instance\",type=\"insert\"}[$__rate_interval])",
@@ -684,7 +684,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_opcounters_total{instance=~\"$instance\",type=\"query\"}[$__rate_interval])",
@@ -693,7 +693,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_opcounters_total{instance=~\"$instance\",type=\"update\"}[$__rate_interval])",
@@ -702,7 +702,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_opcounters_total{instance=~\"$instance\",type=\"delete\"}[$__rate_interval])",
@@ -711,7 +711,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_opcounters_total{instance=~\"$instance\",type=\"command\"}[$__rate_interval])",
@@ -720,7 +720,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_opcounters_total{instance=~\"$instance\",type=\"getmore\"}[$__rate_interval])",
@@ -733,7 +733,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -809,7 +809,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_metrics_document_total{instance=~\"$instance\",state=\"inserted\"}[$__rate_interval])",
@@ -818,7 +818,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_metrics_document_total{instance=~\"$instance\",state=\"returned\"}[$__rate_interval])",
@@ -827,7 +827,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_metrics_document_total{instance=~\"$instance\",state=\"updated\"}[$__rate_interval])",
@@ -836,7 +836,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_metrics_document_total{instance=~\"$instance\",state=\"deleted\"}[$__rate_interval])",
@@ -861,7 +861,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -953,7 +953,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_op_latency_micros_total{instance=~\"$instance\",type=\"reads\"}[$__rate_interval]) / clamp_min(rate(mongodb_op_latency_ops_total{instance=~\"$instance\",type=\"reads\"}[$__rate_interval]),0.001)",
@@ -966,7 +966,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -1058,7 +1058,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_op_latency_micros_total{instance=~\"$instance\",type=\"writes\"}[$__rate_interval]) / clamp_min(rate(mongodb_op_latency_ops_total{instance=~\"$instance\",type=\"writes\"}[$__rate_interval]),0.001)",
@@ -1071,7 +1071,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -1163,7 +1163,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_op_latency_micros_total{instance=~\"$instance\",type=\"commands\"}[$__rate_interval]) / clamp_min(rate(mongodb_op_latency_ops_total{instance=~\"$instance\",type=\"commands\"}[$__rate_interval]),0.001)",
@@ -1188,7 +1188,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -1264,7 +1264,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "mongodb_connections_current{instance=~\"$instance\"}",
@@ -1273,7 +1273,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "mongodb_connections_available{instance=~\"$instance\"}",
@@ -1282,7 +1282,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "mongodb_connections_active{instance=~\"$instance\"}",
@@ -1291,7 +1291,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_connections_created_total{instance=~\"$instance\"}[$__rate_interval])",
@@ -1304,7 +1304,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -1380,7 +1380,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "mongodb_global_lock_current_queue{instance=~\"$instance\",type=\"readers\"}",
@@ -1389,7 +1389,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "mongodb_global_lock_current_queue{instance=~\"$instance\",type=\"writers\"}",
@@ -1402,7 +1402,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -1478,7 +1478,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "mongodb_metrics_cursor_open{instance=~\"$instance\",state=\"total\"}",
@@ -1487,7 +1487,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "mongodb_metrics_cursor_open{instance=~\"$instance\",state=\"no_timeout\"}",
@@ -1496,7 +1496,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_metrics_cursor_timed_out_total{instance=~\"$instance\"}[$__rate_interval])",
@@ -1521,7 +1521,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -1597,7 +1597,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "mongodb_mem_resident_bytes{instance=~\"$instance\"}",
@@ -1606,7 +1606,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "mongodb_mem_virtual_bytes{instance=~\"$instance\"}",
@@ -1619,7 +1619,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -1674,7 +1674,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "mongodb_wiredtiger_cache_bytes{instance=~\"$instance\",type=\"current\"} / mongodb_wiredtiger_cache_max_bytes{instance=~\"$instance\"} * 100",
@@ -1687,7 +1687,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -1763,7 +1763,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "mongodb_wiredtiger_cache_max_bytes{instance=~\"$instance\"}",
@@ -1772,7 +1772,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "mongodb_wiredtiger_cache_bytes{instance=~\"$instance\",type=\"current\"}",
@@ -1781,7 +1781,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "mongodb_wiredtiger_cache_bytes{instance=~\"$instance\",type=\"dirty\"}",
@@ -1806,7 +1806,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -1882,7 +1882,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "mongodb_wiredtiger_concurrent_transactions_out{instance=~\"$instance\",type=\"read\"}",
@@ -1891,7 +1891,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "mongodb_wiredtiger_concurrent_transactions_out{instance=~\"$instance\",type=\"write\"}",
@@ -1900,7 +1900,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "mongodb_wiredtiger_concurrent_transactions_available{instance=~\"$instance\",type=\"read\"}",
@@ -1909,7 +1909,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "mongodb_wiredtiger_concurrent_transactions_available{instance=~\"$instance\",type=\"write\"}",
@@ -1922,7 +1922,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -1998,7 +1998,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_wiredtiger_cache_evicted_pages_total{instance=~\"$instance\",type=\"modified\"}[$__rate_interval])",
@@ -2007,7 +2007,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_wiredtiger_cache_evicted_pages_total{instance=~\"$instance\",type=\"unmodified\"}[$__rate_interval])",
@@ -2016,7 +2016,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_wiredtiger_cache_io_pages_total{instance=~\"$instance\",direction=\"read\"}[$__rate_interval])",
@@ -2029,7 +2029,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -2105,7 +2105,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_wiredtiger_transactions_committed_total{instance=~\"$instance\"}[$__rate_interval])",
@@ -2114,7 +2114,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_wiredtiger_transactions_rolled_back_total{instance=~\"$instance\"}[$__rate_interval])",
@@ -2123,7 +2123,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_wiredtiger_transactions_checkpoints_total{instance=~\"$instance\"}[$__rate_interval])",
@@ -2148,7 +2148,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -2224,7 +2224,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_network_bytes_in_total{instance=~\"$instance\"}[$__rate_interval])",
@@ -2233,7 +2233,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_network_bytes_out_total{instance=~\"$instance\"}[$__rate_interval])",
@@ -2246,7 +2246,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -2322,7 +2322,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_network_requests_total{instance=~\"$instance\"}[$__rate_interval])",
@@ -2347,7 +2347,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -2400,7 +2400,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "mongodb_oplog_time_diff_seconds{instance=~\"$instance\"}",
@@ -2413,7 +2413,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -2468,7 +2468,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "mongodb_oplog_used_bytes{instance=~\"$instance\"} / mongodb_oplog_max_size_bytes{instance=~\"$instance\"} * 100",
@@ -2481,7 +2481,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -2526,7 +2526,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "mongodb_oplog_used_bytes{instance=~\"$instance\"}",
@@ -2539,7 +2539,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -2584,7 +2584,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_metrics_repl_apply_ops_total{instance=~\"$instance\"}[$__rate_interval])",
@@ -2597,7 +2597,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -2672,7 +2672,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "mongodb_repl_lag_seconds{instance=~\"$instance\"}",
@@ -2685,7 +2685,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -2759,7 +2759,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "mongodb_metrics_repl_buffer_size_bytes{instance=~\"$instance\"}",
@@ -2768,7 +2768,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "mongodb_metrics_repl_buffer_max_size_bytes{instance=~\"$instance\"}",
@@ -2781,7 +2781,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -2941,7 +2941,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "mongodb_repl_member_health{instance=~\"$instance\"}",
@@ -2951,7 +2951,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "mongodb_repl_lag_seconds{instance=~\"$instance\"}",
@@ -2961,7 +2961,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "mongodb_repl_member_uptime_seconds{instance=~\"$instance\"}",
@@ -3010,7 +3010,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -3066,7 +3066,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "mongodb_db_total_size_bytes{instance=~\"$instance\"}",
@@ -3080,7 +3080,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -3136,7 +3136,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "mongodb_db_objects_total{instance=~\"$instance\"}",
@@ -3150,7 +3150,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -3373,7 +3373,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "mongodb_db_data_size_bytes{instance=~\"$instance\"}",
@@ -3383,7 +3383,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "mongodb_db_storage_size_bytes{instance=~\"$instance\"}",
@@ -3393,7 +3393,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "mongodb_db_index_size_bytes{instance=~\"$instance\"}",
@@ -3403,7 +3403,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "mongodb_db_total_size_bytes{instance=~\"$instance\"}",
@@ -3413,7 +3413,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "mongodb_db_objects_total{instance=~\"$instance\"}",
@@ -3423,7 +3423,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "mongodb_db_collections_total{instance=~\"$instance\"}",
@@ -3433,7 +3433,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "mongodb_db_indexes_total{instance=~\"$instance\"}",
@@ -3443,7 +3443,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "mongodb_db_avg_obj_size_bytes{instance=~\"$instance\"}",
@@ -3508,7 +3508,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -3584,7 +3584,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_metrics_query_executor_scanned_objects_total{instance=~\"$instance\"}[$__rate_interval])",
@@ -3593,7 +3593,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_metrics_query_executor_scanned_total{instance=~\"$instance\"}[$__rate_interval])",
@@ -3602,7 +3602,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_metrics_document_total{instance=~\"$instance\",state=\"returned\"}[$__rate_interval])",
@@ -3615,7 +3615,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -3691,7 +3691,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_metrics_collection_scans_total{instance=~\"$instance\",type=\"total\"}[$__rate_interval])",
@@ -3700,7 +3700,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_metrics_operation_scan_and_order_total{instance=~\"$instance\"}[$__rate_interval])",
@@ -3709,7 +3709,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_metrics_operation_write_conflicts_total{instance=~\"$instance\"}[$__rate_interval])",
@@ -3718,7 +3718,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_metrics_ttl_deleted_documents_total{instance=~\"$instance\"}[$__rate_interval])",
@@ -3743,7 +3743,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -3818,7 +3818,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "mongodb_profiling_level{instance=~\"$instance\"}",
@@ -3831,7 +3831,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -3917,7 +3917,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "mongodb_profiling_level{instance=~\"$instance\"}",
@@ -3930,7 +3930,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -4005,7 +4005,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "sum by (database, collection, op) (rate(mongodb_slow_queries_total{instance=~\"$instance\"}[$__rate_interval]))",
@@ -4018,7 +4018,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -4093,7 +4093,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "sum by (database, collection, op) (rate(mongodb_slow_query_millis_total{instance=~\"$instance\"}[$__rate_interval])) / clamp_min(sum by (database, collection, op) (rate(mongodb_slow_queries_total{instance=~\"$instance\"}[$__rate_interval])),0.001)",
@@ -4118,7 +4118,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -4194,7 +4194,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_asserts_total{instance=~\"$instance\",type=\"regular\"}[$__rate_interval])",
@@ -4203,7 +4203,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_asserts_total{instance=~\"$instance\",type=\"warning\"}[$__rate_interval])",
@@ -4212,7 +4212,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_asserts_total{instance=~\"$instance\",type=\"msg\"}[$__rate_interval])",
@@ -4221,7 +4221,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_asserts_total{instance=~\"$instance\",type=\"user\"}[$__rate_interval])",
@@ -4234,7 +4234,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -4310,7 +4310,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "mongodb_transactions_current{instance=~\"$instance\",state=\"open\"}",
@@ -4319,7 +4319,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "mongodb_transactions_current{instance=~\"$instance\",state=\"active\"}",
@@ -4328,7 +4328,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_transactions_total{instance=~\"$instance\",state=\"committed\"}[$__rate_interval])",
@@ -4337,7 +4337,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_transactions_total{instance=~\"$instance\",state=\"aborted\"}[$__rate_interval])",
@@ -4362,7 +4362,7 @@
         "allowCustomValue": true,
         "current": {},
         "datasource": {
-          "type": "prometheus",
+          "type": "victoriametrics-metrics-datasource",
           "uid": "victoriametrics"
         },
         "definition": "label_values(mongodb_up, instance)",
@@ -4387,7 +4387,7 @@
   },
   "timepicker": {},
   "timezone": "browser",
-  "title": "MongoDB — Prod Overview",
+  "title": "MongoDB",
   "uid": "mongodb",
   "version": 1,
   "weekStart": "",

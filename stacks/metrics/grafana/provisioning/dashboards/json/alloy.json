@@ -16,7 +16,7 @@
       }
     ]
   },
-  "description": "Health monitoring for Grafana Alloy — metrics remote-write pipeline, log collection, scrape targets, and internals.",
+  "description": "Grafana Alloy pipeline health and internals.",
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
@@ -39,7 +39,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -95,7 +95,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -168,7 +168,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -224,7 +224,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -280,7 +280,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -343,7 +343,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -399,7 +399,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -462,7 +462,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -538,7 +538,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -665,7 +665,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -751,7 +751,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -847,7 +847,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -946,7 +946,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -1053,7 +1053,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -1160,7 +1160,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -1246,7 +1246,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -1342,7 +1342,7 @@
       "panels": [
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "fieldConfig": {
@@ -1425,7 +1425,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "fieldConfig": {
@@ -1512,7 +1512,7 @@
       "panels": [
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "fieldConfig": {
@@ -1598,7 +1598,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "fieldConfig": {
@@ -1684,7 +1684,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "fieldConfig": {
@@ -1770,7 +1770,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "fieldConfig": {
@@ -1875,7 +1875,7 @@
   },
   "timepicker": {},
   "timezone": "browser",
-  "title": "Grafana Alloy",
+  "title": "Alloy",
   "uid": "alloy-pipeline",
   "version": 1
 }

@@ -16,7 +16,7 @@
       }
     ]
   },
-  "description": "Self-monitoring dashboard for VictoriaMetrics TSDB — ingestion, queries, storage, and cache performance.",
+  "description": "VictoriaMetrics TSDB ingestion, queries, and storage.",
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
@@ -39,7 +39,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -94,7 +94,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -149,7 +149,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -204,7 +204,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -267,7 +267,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -330,7 +330,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -393,7 +393,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -448,7 +448,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -524,7 +524,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -610,7 +610,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -696,7 +696,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -782,7 +782,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -881,7 +881,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -967,7 +967,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -1053,7 +1053,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -1139,7 +1139,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
+        "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
       },
       "fieldConfig": {
@@ -1235,7 +1235,7 @@
       "panels": [
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "fieldConfig": {
@@ -1321,7 +1321,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "fieldConfig": {
@@ -1412,7 +1412,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "fieldConfig": {
@@ -1498,7 +1498,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "fieldConfig": {
@@ -1598,7 +1598,7 @@
       "panels": [
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "fieldConfig": {
@@ -1684,7 +1684,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "fieldConfig": {
@@ -1770,7 +1770,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
+            "type": "victoriametrics-metrics-datasource",
             "uid": "victoriametrics"
           },
           "fieldConfig": {

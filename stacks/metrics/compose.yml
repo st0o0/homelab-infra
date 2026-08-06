@@ -17,7 +17,7 @@ services:
       - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN_USER:-admin}
       - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASS:?GRAFANA_ADMIN_PASS is required}
       - GF_USERS_ALLOW_SIGN_UP=${GRAFANA_ALLOW_SIGN_UP:-false}
-      - GF_INSTALL_PLUGINS=victoriametrics-logs-datasource
+      - GF_INSTALL_PLUGINS=victoriametrics-logs-datasource,victoriametrics-metrics-datasource
       # Set when running behind a reverse proxy, e.g. https://grafana.example.com/
       - GF_SERVER_ROOT_URL=%(protocol)s://%(domain)s:%(http_port)s/
       # No phone-home, no update banner, no news feed

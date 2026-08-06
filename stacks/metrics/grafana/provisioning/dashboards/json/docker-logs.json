@@ -22,7 +22,7 @@
       }
     ]
   },
-  "description": "Operational overview and detailed analysis of Docker container logs with VictoriaLogs, including error/warning trends and a full log explorer.",
+  "description": "Docker container log analysis via VictoriaLogs.",
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
@@ -803,7 +803,7 @@
   "time": { "from": "now-1h", "to": "now" },
   "timepicker": {},
   "timezone": "browser",
-  "title": "Docker Logs",
+  "title": "Container Logs",
   "uid": "fe8htprzrixa8a",
   "version": 1,
   "weekStart": "",
