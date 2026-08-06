@@ -14,8 +14,8 @@ services:
       - NUT_EXPORTER_SERVER_PORT=${ALLOY_NUT_EXP_SERVER_PORT:?ALLOY_NUT_EXP_SERVER_PORT is required}
       - NUT_EXPORTER_USERNAME=${ALLOY_NUT_EXP_USER:?ALLOY_NUT_EXP_USER is required}
       - NUT_EXPORTER_PASSWORD=${ALLOY_NUT_EXP_PASS:?ALLOY_NUT_EXP_PASS is required}
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+    networks:
+      - nut-net
     deploy:
       resources:
         limits:
@@ -23,3 +23,7 @@ services:
           memory: 64M
         reservations:
           memory: 32M
+
+networks:
+  nut-net:
+    external: true

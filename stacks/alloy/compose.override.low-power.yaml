@@ -1,0 +1,9 @@
+services:
+  alloy:
+    deploy:
+      resources:
+        limits:
+          cpus: 0.25
+          memory: 256M
+        reservations:
+          memory: 128M
