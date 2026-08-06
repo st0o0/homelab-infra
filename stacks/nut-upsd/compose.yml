@@ -6,7 +6,7 @@ x-logging: &default-logging
 
 services:
   nut-upsd:
-    image: instantlinux/nut-upsd:latest
+    image: instantlinux/nut-upsd:2.8.2
     container_name: nut-upsd
     restart: unless-stopped
     logging: *default-logging

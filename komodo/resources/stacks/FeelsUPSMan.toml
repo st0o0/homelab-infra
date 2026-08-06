@@ -7,6 +7,7 @@ tags = ["infra"]
 server = "FeelsUPSMan"
 run_directory = "stacks/nut-upsd"
 file_paths = ["compose.yml"]
+project_name = "nut-upsd-1"
 linked_repo = "homelab-infra"
 extra_args = ["--remove-orphans"]
 environment = """
