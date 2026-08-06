@@ -78,7 +78,7 @@
         "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
         "textMode": "auto"
       },
-      "targets": [{ "expr": "sum(vm_active_force_merges{job=\"victoria-logs\"}) + sum(vm_active_merges{job=\"victoria-logs\"})", "legendFormat": "", "refId": "A" }],
+      "targets": [{ "expr": "sum(vl_active_force_merges{job=\"victoria-logs\"}) + sum(vl_active_merges{job=\"victoria-logs\"})", "legendFormat": "", "refId": "A" }],
       "title": "Active Merges",
       "type": "stat"
     },
@@ -103,7 +103,7 @@
         "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
         "textMode": "auto"
       },
-      "targets": [{ "expr": "sum(vm_data_size_bytes{job=\"victoria-logs\"})", "legendFormat": "", "refId": "A" }],
+      "targets": [{ "expr": "sum(vl_data_size_bytes{job=\"victoria-logs\"})", "legendFormat": "", "refId": "A" }],
       "title": "Data Size",
       "type": "stat"
     },
@@ -135,7 +135,7 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "targets": [{ "expr": "(1 - vm_free_disk_space_bytes{job=\"victoria-logs\"} / vm_total_disk_space_bytes{job=\"victoria-logs\"}) * 100", "legendFormat": "", "refId": "A" }],
+      "targets": [{ "expr": "(1 - vl_free_disk_space_bytes{job=\"victoria-logs\"} / vl_total_disk_space_bytes{job=\"victoria-logs\"}) * 100", "legendFormat": "", "refId": "A" }],
       "title": "Disk Used %",
       "type": "gauge"
     },
@@ -196,7 +196,7 @@
           "color": { "mode": "thresholds" },
           "mappings": [],
           "thresholds": { "mode": "absolute", "steps": [{ "color": "blue", "value": null }] },
-          "unit": "s"
+          "unit": "sishort"
         },
         "overrides": []
       },
@@ -210,8 +210,8 @@
         "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
         "textMode": "auto"
       },
-      "targets": [{ "expr": "vm_next_retention_seconds{job=\"victoria-logs\"}", "legendFormat": "", "refId": "A" }],
-      "title": "Retention",
+      "targets": [{ "expr": "sum(vl_storage_rows{job=\"victoria-logs\"})", "legendFormat": "", "refId": "A" }],
+      "title": "Rows Stored",
       "type": "stat"
     },
     {
@@ -242,7 +242,7 @@
         "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
         "textMode": "auto"
       },
-      "targets": [{ "expr": "sum(increase(vm_slow_queries_total{job=\"victoria-logs\"}[1h]))", "legendFormat": "", "refId": "A" }],
+      "targets": [{ "expr": "sum(increase(vl_slow_queries_total{job=\"victoria-logs\"}[1h]))", "legendFormat": "", "refId": "A" }],
       "title": "Slow Queries (1h)",
       "type": "stat"
     },
@@ -290,7 +290,7 @@
         "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom", "showLegend": true },
         "tooltip": { "mode": "multi", "sort": "desc" }
       },
-      "targets": [{ "expr": "sum(rate(vm_rows_inserted_total{job=\"victoria-logs\"}[$__rate_interval]))", "legendFormat": "rows/s", "refId": "A" }],
+      "targets": [{ "expr": "sum(rate(vl_rows_ingested_total{job=\"victoria-logs\"}[$__rate_interval]))", "legendFormat": "rows/s", "refId": "A" }],
       "title": "Ingestion Rate",
       "type": "timeseries"
     },
@@ -331,7 +331,7 @@
         "tooltip": { "mode": "multi", "sort": "desc" }
       },
       "targets": [
-        { "expr": "vm_data_size_bytes{job=\"victoria-logs\"}", "legendFormat": "{{type}}", "refId": "A" }
+        { "expr": "vl_data_size_bytes{job=\"victoria-logs\"}", "legendFormat": "{{type}}", "refId": "A" }
       ],
       "title": "Data Size Over Time",
       "type": "timeseries"
@@ -380,7 +380,7 @@
         "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom", "showLegend": true },
         "tooltip": { "mode": "multi", "sort": "desc" }
       },
-      "targets": [{ "expr": "topk(10, rate(vm_http_requests_total{job=\"victoria-logs\"}[$__rate_interval]))", "legendFormat": "{{path}}", "refId": "A" }],
+      "targets": [{ "expr": "topk(10, rate(vl_http_requests_total{job=\"victoria-logs\"}[$__rate_interval]))", "legendFormat": "{{path}}", "refId": "A" }],
       "title": "HTTP Requests Rate",
       "type": "timeseries"
     },
@@ -420,7 +420,7 @@
         "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom", "showLegend": true },
         "tooltip": { "mode": "multi", "sort": "desc" }
       },
-      "targets": [{ "expr": "sum by (path) (vm_request_duration_seconds_sum{job=\"victoria-logs\"}) / sum by (path) (vm_request_duration_seconds_count{job=\"victoria-logs\"})", "legendFormat": "", "refId": "A" }],
+      "targets": [{ "expr": "sum by (path) (vl_http_request_duration_seconds_sum{job=\"victoria-logs\"}) / sum by (path) (vl_http_request_duration_seconds_count{job=\"victoria-logs\"})", "legendFormat": "", "refId": "A" }],
       "title": "Avg Request Duration",
       "type": "timeseries"
     },
@@ -460,8 +460,11 @@
         "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom", "showLegend": true },
         "tooltip": { "mode": "multi", "sort": "desc" }
       },
-      "targets": [{ "expr": "topk(10, vm_cache_size_bytes{job=\"victoria-logs\"})", "legendFormat": "{{type}}", "refId": "A" }],
-      "title": "Cache Size",
+      "targets": [
+        { "expr": "vl_compressed_data_size_bytes{job=\"victoria-logs\"}", "legendFormat": "compressed", "refId": "A" },
+        { "expr": "vl_uncompressed_data_size_bytes{job=\"victoria-logs\"}", "legendFormat": "uncompressed", "refId": "B" }
+      ],
+      "title": "Compressed vs Uncompressed",
       "type": "timeseries"
     },
     {
@@ -501,8 +504,9 @@
         "tooltip": { "mode": "multi", "sort": "desc" }
       },
       "targets": [
-        { "expr": "sum by (type) (vm_parts{job=\"victoria-logs\"})", "legendFormat": "parts {{type}}", "refId": "A" },
-        { "expr": "sum by (type) (vm_blocks{job=\"victoria-logs\"})", "legendFormat": "blocks {{type}}", "refId": "B" }
+        { "expr": "vl_indexdb_parts{job=\"victoria-logs\"}", "legendFormat": "indexdb parts", "refId": "A" },
+        { "expr": "vl_indexdb_blocks{job=\"victoria-logs\"}", "legendFormat": "indexdb blocks", "refId": "B" },
+        { "expr": "sum by (type) (vl_storage_rows{job=\"victoria-logs\"})", "legendFormat": "rows {{type}}", "refId": "C" }
       ],
       "title": "Parts & Blocks",
       "type": "timeseries"
