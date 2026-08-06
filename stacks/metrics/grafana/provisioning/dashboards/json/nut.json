@@ -38,22 +38,34 @@
             { "options": { "1": { "color": "green", "text": "Online" } }, "type": "value" },
             { "options": { "0": { "color": "red", "text": "Offline" } }, "type": "value" }
           ],
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "red", "value": null }, { "color": "green", "value": 1 }] },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "red", "value": null },
+              { "color": "green", "value": 1 }
+            ]
+          },
           "unit": "none"
         },
         "overrides": []
       },
-      "gridPos": { "h": 4, "w": 3, "x": 0, "y": 1 },
+      "gridPos": { "h": 4, "w": 4, "x": 0, "y": 1 },
       "id": 1,
       "options": {
-        "colorMode": "value",
+        "colorMode": "background",
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
         "textMode": "auto"
       },
-      "targets": [{ "expr": "network_ups_tools_ups_status{job=~\".*nut.*\", flag=\"OL\"}", "legendFormat": "", "refId": "A" }],
+      "targets": [
+        {
+          "expr": "network_ups_tools_ups_status{job=~\".*nut.*\", flag=\"OL\"}",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
       "title": "Status",
       "type": "stat"
     },
@@ -77,17 +89,25 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 4, "w": 3, "x": 3, "y": 1 },
+      "gridPos": { "h": 4, "w": 4, "x": 4, "y": 1 },
       "id": 2,
       "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true
+        "textMode": "auto"
       },
-      "targets": [{ "expr": "network_ups_tools_battery_charge{job=~\".*nut.*\"}", "legendFormat": "", "refId": "A" }],
+      "targets": [
+        {
+          "expr": "network_ups_tools_battery_charge{job=~\".*nut.*\"}",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
       "title": "Battery Charge",
-      "type": "gauge"
+      "type": "stat"
     },
     {
       "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
@@ -109,17 +129,25 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 4, "w": 3, "x": 6, "y": 1 },
+      "gridPos": { "h": 4, "w": 4, "x": 8, "y": 1 },
       "id": 3,
       "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true
+        "textMode": "auto"
       },
-      "targets": [{ "expr": "network_ups_tools_ups_load{job=~\".*nut.*\"}", "legendFormat": "", "refId": "A" }],
+      "targets": [
+        {
+          "expr": "network_ups_tools_ups_load{job=~\".*nut.*\"}",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
       "title": "UPS Load",
-      "type": "gauge"
+      "type": "stat"
     },
     {
       "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
@@ -127,12 +155,15 @@
         "defaults": {
           "color": { "mode": "thresholds" },
           "mappings": [],
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "blue", "value": null }] },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [{ "color": "blue", "value": null }]
+          },
           "unit": "volt"
         },
         "overrides": []
       },
-      "gridPos": { "h": 4, "w": 3, "x": 9, "y": 1 },
+      "gridPos": { "h": 4, "w": 4, "x": 12, "y": 1 },
       "id": 4,
       "options": {
         "colorMode": "value",
@@ -142,7 +173,13 @@
         "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
         "textMode": "auto"
       },
-      "targets": [{ "expr": "network_ups_tools_input_voltage{job=~\".*nut.*\"}", "legendFormat": "", "refId": "A" }],
+      "targets": [
+        {
+          "expr": "network_ups_tools_input_voltage{job=~\".*nut.*\"}",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
       "title": "Input Voltage",
       "type": "stat"
     },
@@ -152,12 +189,15 @@
         "defaults": {
           "color": { "mode": "thresholds" },
           "mappings": [],
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "blue", "value": null }] },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [{ "color": "blue", "value": null }]
+          },
           "unit": "volt"
         },
         "overrides": []
       },
-      "gridPos": { "h": 4, "w": 3, "x": 12, "y": 1 },
+      "gridPos": { "h": 4, "w": 4, "x": 16, "y": 1 },
       "id": 5,
       "options": {
         "colorMode": "value",
@@ -167,7 +207,13 @@
         "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
         "textMode": "auto"
       },
-      "targets": [{ "expr": "network_ups_tools_battery_voltage{job=~\".*nut.*\"}", "legendFormat": "", "refId": "A" }],
+      "targets": [
+        {
+          "expr": "network_ups_tools_battery_voltage{job=~\".*nut.*\"}",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
       "title": "Battery Voltage",
       "type": "stat"
     },
@@ -177,26 +223,31 @@
         "defaults": {
           "color": { "mode": "thresholds" },
           "mappings": [],
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "blue", "value": null }] },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [{ "color": "text", "value": null }]
+          },
           "unit": "none"
         },
         "overrides": []
       },
-      "gridPos": { "h": 4, "w": 9, "x": 15, "y": 1 },
+      "gridPos": { "h": 4, "w": 4, "x": 20, "y": 1 },
       "id": 6,
       "options": {
         "colorMode": "value",
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "/^model$/", "values": false },
-        "textMode": "value"
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "name"
       },
-      "targets": [{
-        "expr": "network_ups_tools_device_info{job=~\".*nut.*\"}",
-        "legendFormat": "{{mfr}} {{model}}",
-        "refId": "A"
-      }],
+      "targets": [
+        {
+          "expr": "network_ups_tools_device_info{job=~\".*nut.*\"}",
+          "legendFormat": "{{model}}",
+          "refId": "A"
+        }
+      ],
       "title": "Device",
       "type": "stat"
     },
@@ -246,7 +297,13 @@
         "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom", "showLegend": true },
         "tooltip": { "mode": "multi", "sort": "desc" }
       },
-      "targets": [{ "expr": "network_ups_tools_battery_charge{job=~\".*nut.*\"}", "legendFormat": "charge", "refId": "A" }],
+      "targets": [
+        {
+          "expr": "network_ups_tools_battery_charge{job=~\".*nut.*\"}",
+          "legendFormat": "charge",
+          "refId": "A"
+        }
+      ],
       "title": "Battery Charge",
       "type": "timeseries"
     },
@@ -288,7 +345,13 @@
         "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom", "showLegend": true },
         "tooltip": { "mode": "multi", "sort": "desc" }
       },
-      "targets": [{ "expr": "network_ups_tools_ups_load{job=~\".*nut.*\"}", "legendFormat": "load", "refId": "A" }],
+      "targets": [
+        {
+          "expr": "network_ups_tools_ups_load{job=~\".*nut.*\"}",
+          "legendFormat": "load",
+          "refId": "A"
+        }
+      ],
       "title": "UPS Load",
       "type": "timeseries"
     },
@@ -390,43 +453,167 @@
       "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
       "fieldConfig": {
         "defaults": {
-          "color": { "mode": "palette-classic" },
+          "color": { "mode": "thresholds" },
           "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 20,
-            "gradientMode": "none",
-            "hideFrom": { "legend": false, "tooltip": false, "viz": false },
-            "lineInterpolation": "stepAfter",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": { "type": "linear" },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": { "group": "A", "mode": "none" },
-            "thresholdsStyle": { "mode": "off" }
+            "fillOpacity": 80,
+            "lineWidth": 0,
+            "spanNulls": false
           },
-          "mappings": [],
-          "max": 1,
-          "min": 0,
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] },
-          "unit": "bool"
+          "mappings": [
+            {
+              "options": {
+                "0": { "color": "transparent", "text": "—" },
+                "1": { "color": "orange", "text": "Active" }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [{ "color": "green", "value": null }]
+          },
+          "unit": "none"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": { "id": "byName", "options": "OL" },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "0": { "color": "red", "text": "Offline" },
+                      "1": { "color": "green", "text": "Online" }
+                    },
+                    "type": "value"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": { "id": "byName", "options": "OB" },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "0": { "color": "transparent", "text": "—" },
+                      "1": { "color": "red", "text": "On Battery" }
+                    },
+                    "type": "value"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": { "id": "byName", "options": "LB" },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "0": { "color": "transparent", "text": "—" },
+                      "1": { "color": "red", "text": "Low Battery" }
+                    },
+                    "type": "value"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": { "id": "byName", "options": "CHRG" },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "0": { "color": "transparent", "text": "—" },
+                      "1": { "color": "blue", "text": "Charging" }
+                    },
+                    "type": "value"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": { "id": "byName", "options": "DISCHRG" },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "0": { "color": "transparent", "text": "—" },
+                      "1": { "color": "orange", "text": "Discharging" }
+                    },
+                    "type": "value"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": { "id": "byName", "options": "RB" },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "0": { "color": "transparent", "text": "—" },
+                      "1": { "color": "red", "text": "Replace Battery" }
+                    },
+                    "type": "value"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": { "id": "byName", "options": "FSD" },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "0": { "color": "transparent", "text": "—" },
+                      "1": { "color": "red", "text": "Forced Shutdown" }
+                    },
+                    "type": "value"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       },
       "gridPos": { "h": 8, "w": 24, "x": 0, "y": 23 },
       "id": 20,
       "options": {
-        "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom", "showLegend": true },
+        "showValue": "auto",
+        "mergeValues": true,
+        "alignValue": "center",
+        "legend": { "displayMode": "list", "placement": "bottom", "showLegend": true },
         "tooltip": { "mode": "multi", "sort": "desc" }
       },
-      "targets": [{ "expr": "network_ups_tools_ups_status{job=~\".*nut.*\"}", "legendFormat": "{{flag}}", "refId": "A" }],
+      "targets": [
+        {
+          "expr": "network_ups_tools_ups_status{job=~\".*nut.*\"}",
+          "legendFormat": "{{flag}}",
+          "refId": "A"
+        }
+      ],
       "title": "UPS Status Flags",
-      "type": "timeseries"
+      "type": "state-timeline"
     }
   ],
   "refresh": "30s",
@@ -436,7 +623,7 @@
   "time": { "from": "now-6h", "to": "now" },
   "timepicker": {},
   "timezone": "browser",
-  "title": "NUT UPS",
+  "title": "UPS",
   "uid": "nut-ups",
   "version": 1,
   "weekStyle": "monday"

@@ -258,6 +258,128 @@
     {
       "collapsed": false,
       "gridPos": { "h": 1, "w": 24, "x": 0, "y": 5 },
+      "id": 700,
+      "panels": [],
+      "title": "📊 Distribution",
+      "type": "row"
+    },
+    {
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "fixed" },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [{ "color": "green", "value": null }]
+          },
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": { "id": "byName", "options": "Allowed" },
+            "properties": [{ "id": "color", "value": { "fixedColor": "green", "mode": "fixed" } }]
+          },
+          {
+            "matcher": { "id": "byName", "options": "Blocked" },
+            "properties": [{ "id": "color", "value": { "fixedColor": "red", "mode": "fixed" } }]
+          }
+        ]
+      },
+      "gridPos": { "h": 8, "w": 8, "x": 0, "y": 6 },
+      "id": 30,
+      "options": {
+        "legend": { "displayMode": "table", "placement": "right", "values": ["value", "percent"] },
+        "pieType": "donut",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "tooltip": { "mode": "single", "sort": "none" }
+      },
+      "targets": [
+        {
+          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+          "expr": "sum(pihole_dns_queries_all_types{hostname=~\"$instance\"}) - sum(pihole_ads_blocked_today{hostname=~\"$instance\"})",
+          "legendFormat": "Allowed",
+          "refId": "A"
+        },
+        {
+          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+          "expr": "sum(pihole_ads_blocked_today{hostname=~\"$instance\"})",
+          "legendFormat": "Blocked",
+          "refId": "B"
+        }
+      ],
+      "title": "Allowed vs Blocked",
+      "type": "piechart"
+    },
+    {
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [{ "color": "green", "value": null }]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 8, "x": 8, "y": 6 },
+      "id": 31,
+      "options": {
+        "legend": { "displayMode": "table", "placement": "right", "values": ["value", "percent"] },
+        "pieType": "donut",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "tooltip": { "mode": "single", "sort": "none" }
+      },
+      "targets": [
+        {
+          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+          "expr": "pihole_dns_queries_all_types{hostname=~\"$instance\"}",
+          "legendFormat": "{{hostname}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Queries by Instance",
+      "type": "piechart"
+    },
+    {
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [{ "color": "green", "value": null }]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 8, "x": 16, "y": 6 },
+      "id": 32,
+      "options": {
+        "legend": { "displayMode": "table", "placement": "right", "values": ["value", "percent"] },
+        "pieType": "donut",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "tooltip": { "mode": "single", "sort": "none" }
+      },
+      "targets": [
+        {
+          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+          "expr": "pihole_ads_blocked_today{hostname=~\"$instance\"}",
+          "legendFormat": "{{hostname}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Blocks by Instance",
+      "type": "piechart"
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 14 },
       "id": 200,
       "panels": [],
       "title": "📈 Query Trends",
@@ -295,7 +417,7 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 6 },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 15 },
       "id": 7,
       "options": {
         "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" },
@@ -344,7 +466,7 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 6 },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 15 },
       "id": 8,
       "options": {
         "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" },
@@ -393,7 +515,7 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 14 },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 23 },
       "id": 9,
       "options": {
         "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" },
@@ -442,7 +564,7 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 14 },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 23 },
       "id": 10,
       "options": {
         "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" },
@@ -467,7 +589,7 @@
     },
     {
       "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 22 },
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 31 },
       "id": 500,
       "panels": [],
       "title": "💻 Clients",
@@ -505,7 +627,7 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 23 },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 32 },
       "id": 20,
       "options": {
         "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" },
@@ -546,7 +668,7 @@
           }
         ]
       },
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 23 },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 32 },
       "id": 21,
       "options": {
         "cellHeight": "sm",
@@ -578,7 +700,7 @@
     },
     {
       "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 31 },
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 40 },
       "id": 300,
       "panels": [],
       "title": "🔍 DNS Breakdown",
@@ -598,7 +720,7 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 8, "w": 8, "x": 0, "y": 32 },
+      "gridPos": { "h": 8, "w": 8, "x": 0, "y": 41 },
       "id": 11,
       "options": {
         "legend": { "displayMode": "table", "placement": "right", "values": ["value", "percent"] },
@@ -631,7 +753,7 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 8, "w": 8, "x": 8, "y": 32 },
+      "gridPos": { "h": 8, "w": 8, "x": 8, "y": 41 },
       "id": 12,
       "options": {
         "legend": { "displayMode": "table", "placement": "right", "values": ["value", "percent"] },
@@ -664,7 +786,7 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 8, "w": 8, "x": 16, "y": 32 },
+      "gridPos": { "h": 8, "w": 8, "x": 16, "y": 41 },
       "id": 13,
       "options": {
         "legend": { "displayMode": "table", "placement": "right", "values": ["value", "percent"] },
@@ -685,7 +807,7 @@
     },
     {
       "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 40 },
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 49 },
       "id": 600,
       "panels": [],
       "title": "🌐 Upstream",
@@ -723,7 +845,7 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 41 },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 50 },
       "id": 22,
       "options": {
         "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" },
@@ -772,7 +894,7 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 41 },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 50 },
       "id": 23,
       "options": {
         "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" },
@@ -791,7 +913,7 @@
     },
     {
       "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 49 },
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 58 },
       "id": 400,
       "panels": [],
       "title": "🏆 Top Domains",
@@ -821,7 +943,7 @@
           }
         ]
       },
-      "gridPos": { "h": 10, "w": 12, "x": 0, "y": 50 },
+      "gridPos": { "h": 10, "w": 12, "x": 0, "y": 59 },
       "id": 14,
       "options": {
         "cellHeight": "sm",
@@ -878,7 +1000,7 @@
           }
         ]
       },
-      "gridPos": { "h": 10, "w": 12, "x": 12, "y": 50 },
+      "gridPos": { "h": 10, "w": 12, "x": 12, "y": 59 },
       "id": 15,
       "options": {
         "cellHeight": "sm",
