@@ -66,8 +66,8 @@
         {
           "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
           "editorMode": "code",
-          "expr": "job:=\"docker\" host:~$host container:~$container | stats count() logs",
-          "queryType": "instant",
+          "expr": "job:=\"docker\" host:~$host container:~$container | count()",
+          "queryType": "stats",
           "refId": "A"
         }
       ],
@@ -106,8 +106,8 @@
         {
           "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
           "editorMode": "code",
-          "expr": "job:=\"docker\" host:~$host container:~$container i(error) | stats count() errors",
-          "queryType": "instant",
+          "expr": "job:=\"docker\" host:~$host container:~$container i(error) | count()",
+          "queryType": "stats",
           "refId": "A"
         }
       ],
@@ -146,8 +146,8 @@
         {
           "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
           "editorMode": "code",
-          "expr": "job:=\"docker\" host:~$host container:~$container i(warn) | stats count() warnings",
-          "queryType": "instant",
+          "expr": "job:=\"docker\" host:~$host container:~$container i(warn) | count()",
+          "queryType": "stats",
           "refId": "A"
         }
       ],
@@ -190,7 +190,7 @@
           "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
           "editorMode": "code",
           "expr": "job:=\"docker\" host:~$host container:~$container | stats count() logs, count() if (i(error)) errors | math round(errors / logs * 100, 0.01) as error_pct",
-          "queryType": "instant",
+          "queryType": "stats",
           "refId": "A"
         }
       ],
@@ -233,7 +233,7 @@
           "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
           "editorMode": "code",
           "expr": "job:=\"docker\" host:~$host container:~$container | stats count() logs, count() if (i(warn)) warnings | math round(warnings / logs * 100, 0.01) as warn_pct",
-          "queryType": "instant",
+          "queryType": "stats",
           "refId": "A"
         }
       ],
@@ -269,7 +269,7 @@
           "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
           "editorMode": "code",
           "expr": "job:=\"docker\" host:~$host container:~$container | stats count_uniq(container) containers",
-          "queryType": "instant",
+          "queryType": "stats",
           "refId": "A"
         }
       ],
@@ -320,7 +320,7 @@
           "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
           "editorMode": "code",
           "expr": "job:=\"docker\" host:~$host container:~$container | stats () count() as logs",
-          "queryType": "range",
+          "queryType": "statsRange",
           "refId": "A"
         }
       ],
@@ -518,7 +518,7 @@
           "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
           "editorMode": "code",
           "expr": "i(error) job:=\"docker\" host:~$host container:~$container | stats () count() as errors",
-          "queryType": "range",
+          "queryType": "statsRange",
           "refId": "A"
         }
       ],
