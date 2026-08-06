@@ -86,7 +86,7 @@
       "options": {
         "showHeader": true,
         "cellHeight": "sm",
-        "footer": { "countRows": true, "enablePagination": false, "reducer": ["count"], "show": true },
+        "footer": { "countRows": true, "enablePagination": false, "reducer": [], "show": true },
         "sortBy": [{ "desc": false, "displayName": "Host" }]
       },
       "targets": [
@@ -97,7 +97,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "time() - container_start_time_seconds{instance=~\"$docker_host\",name=~\"$container_name\",name=~\".+\"}",
+          "expr": "label_replace(time() - container_start_time_seconds{instance=~\"$docker_host\",name=~\"$container_name\",name=~\".+\"}, \"version\", \"$1\", \"image\", \".*:(.*)\")",
           "format": "table",
           "instant": true,
           "legendFormat": "__auto",
@@ -136,6 +136,7 @@
               "container_label_org_opencontainers_image_title": true,
               "container_label_org_opencontainers_image_url": true,
               "container_label_org_opencontainers_image_vendor": true,
+              "container_label_org_opencontainers_image_version": true,
               "container_label_restartcount": true,
               "host": true,
               "id": true,
@@ -145,14 +146,14 @@
               "name": 0,
               "instance": 1,
               "image": 2,
-              "container_label_org_opencontainers_image_version": 3,
+              "version": 3,
               "Value": 4
             },
             "renameByName": {
               "name": "Container",
               "instance": "Host",
               "image": "Image",
-              "container_label_org_opencontainers_image_version": "Version",
+              "version": "Version",
               "Value": "Uptime"
             }
           }
