@@ -25,7 +25,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "$datasource",
+      "datasource": {"type": "prometheus", "uid": "victoriametrics"},
       "editable": true,
       "error": false,
       "fieldConfig": {
@@ -77,7 +77,7 @@
         {
           "alias": "fetched",
           "dsType": "prometheus",
-          "expr": "sum(irate(pg_stat_database_tup_fetched{datname=~\"$db\",instance=~\"$instance\"}[5m]))",
+          "expr": "sum by (instance) (irate(pg_stat_database_tup_fetched{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}[5m]))",
           "format": "time_series",
           "groupBy": [
             {
@@ -94,7 +94,7 @@
             }
           ],
           "intervalFactor": 2,
-          "legendFormat": "fetched",
+          "legendFormat": "{{instance}} fetched",
           "measurement": "postgresql",
           "policy": "default",
           "refId": "A",
@@ -131,7 +131,7 @@
         {
           "alias": "fetched",
           "dsType": "prometheus",
-          "expr": "sum(irate(pg_stat_database_tup_returned{datname=~\"$db\",instance=~\"$instance\"}[5m]))",
+          "expr": "sum by (instance) (irate(pg_stat_database_tup_returned{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}[5m]))",
           "format": "time_series",
           "groupBy": [
             {
@@ -148,7 +148,7 @@
             }
           ],
           "intervalFactor": 2,
-          "legendFormat": "returned",
+          "legendFormat": "{{instance}} returned",
           "measurement": "postgresql",
           "policy": "default",
           "refId": "B",
@@ -185,7 +185,7 @@
         {
           "alias": "fetched",
           "dsType": "prometheus",
-          "expr": "sum(irate(pg_stat_database_tup_inserted{datname=~\"$db\",instance=~\"$instance\"}[5m]))",
+          "expr": "sum by (instance) (irate(pg_stat_database_tup_inserted{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}[5m]))",
           "format": "time_series",
           "groupBy": [
             {
@@ -202,7 +202,7 @@
             }
           ],
           "intervalFactor": 2,
-          "legendFormat": "inserted",
+          "legendFormat": "{{instance}} inserted",
           "measurement": "postgresql",
           "policy": "default",
           "refId": "C",
@@ -239,7 +239,7 @@
         {
           "alias": "fetched",
           "dsType": "prometheus",
-          "expr": "sum(irate(pg_stat_database_tup_updated{datname=~\"$db\",instance=~\"$instance\"}[5m]))",
+          "expr": "sum by (instance) (irate(pg_stat_database_tup_updated{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}[5m]))",
           "format": "time_series",
           "groupBy": [
             {
@@ -256,7 +256,7 @@
             }
           ],
           "intervalFactor": 2,
-          "legendFormat": "updated",
+          "legendFormat": "{{instance}} updated",
           "measurement": "postgresql",
           "policy": "default",
           "refId": "D",
@@ -293,7 +293,7 @@
         {
           "alias": "fetched",
           "dsType": "prometheus",
-          "expr": "sum(irate(pg_stat_database_tup_deleted{datname=~\"$db\",instance=~\"$instance\"}[5m]))",
+          "expr": "sum by (instance) (irate(pg_stat_database_tup_deleted{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}[5m]))",
           "format": "time_series",
           "groupBy": [
             {
@@ -310,7 +310,7 @@
             }
           ],
           "intervalFactor": 2,
-          "legendFormat": "deleted",
+          "legendFormat": "{{instance}} deleted",
           "measurement": "postgresql",
           "policy": "default",
           "refId": "E",
@@ -396,7 +396,7 @@
         "rgba(237, 129, 40, 0.89)",
         "rgba(50, 172, 45, 0.97)"
       ],
-      "datasource": "$datasource",
+      "datasource": {"type": "prometheus", "uid": "victoriametrics"},
       "decimals": 0,
       "editable": true,
       "error": false,
@@ -460,7 +460,7 @@
       "targets": [
         {
           "dsType": "prometheus",
-          "expr": "sum(irate(pg_stat_database_xact_commit{datname=~\"$db\",instance=~\"$instance\"}[5m])) + sum(irate(pg_stat_database_xact_rollback{datname=~\"$db\",instance=~\"$instance\"}[5m]))",
+          "expr": "sum(irate(pg_stat_database_xact_commit{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}[5m])) + sum(irate(pg_stat_database_xact_rollback{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}[5m]))",
           "format": "time_series",
           "groupBy": [
             {
@@ -530,7 +530,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "$datasource",
+      "datasource": {"type": "prometheus", "uid": "victoriametrics"},
       "decimals": 1,
       "editable": true,
       "error": false,
@@ -584,7 +584,7 @@
         {
           "alias": "Buffers Allocated",
           "dsType": "prometheus",
-          "expr": "irate(pg_stat_bgwriter_buffers_alloc{instance=~'$instance'}[5m])",
+          "expr": "irate(pg_stat_bgwriter_buffers_alloc{instance=~'$instance',job=~'$job'}[5m])",
           "format": "time_series",
           "groupBy": [
             {
@@ -636,7 +636,7 @@
         {
           "alias": "Buffers Allocated",
           "dsType": "prometheus",
-          "expr": "irate(pg_stat_bgwriter_buffers_backend_fsync{instance=~'$instance'}[5m])",
+          "expr": "irate(pg_stat_bgwriter_buffers_backend_fsync{instance=~'$instance',job=~'$job'}[5m])",
           "format": "time_series",
           "groupBy": [
             {
@@ -688,7 +688,7 @@
         {
           "alias": "Buffers Allocated",
           "dsType": "prometheus",
-          "expr": "irate(pg_stat_bgwriter_buffers_backend{instance=~'$instance'}[5m])",
+          "expr": "irate(pg_stat_bgwriter_buffers_backend{instance=~'$instance',job=~'$job'}[5m])",
           "format": "time_series",
           "groupBy": [
             {
@@ -740,7 +740,7 @@
         {
           "alias": "Buffers Allocated",
           "dsType": "prometheus",
-          "expr": "irate(pg_stat_bgwriter_buffers_clean{instance=~'$instance'}[5m])",
+          "expr": "irate(pg_stat_bgwriter_buffers_clean{instance=~'$instance',job=~'$job'}[5m])",
           "format": "time_series",
           "groupBy": [
             {
@@ -792,7 +792,7 @@
         {
           "alias": "Buffers Allocated",
           "dsType": "prometheus",
-          "expr": "irate(pg_stat_bgwriter_buffers_checkpoint{instance=~'$instance'}[5m])",
+          "expr": "irate(pg_stat_bgwriter_buffers_checkpoint{instance=~'$instance',job=~'$job'}[5m])",
           "format": "time_series",
           "groupBy": [
             {
@@ -889,7 +889,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "$datasource",
+      "datasource": {"type": "prometheus", "uid": "victoriametrics"},
       "editable": true,
       "error": false,
       "fieldConfig": {
@@ -939,7 +939,7 @@
         {
           "alias": "conflicts",
           "dsType": "prometheus",
-          "expr": "sum(rate(pg_stat_database_deadlocks{datname=~\"$db\",instance=~\"$instance\"}[5m]))",
+          "expr": "sum by (instance) (rate(pg_stat_database_deadlocks{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}[5m]))",
           "format": "time_series",
           "groupBy": [
             {
@@ -956,7 +956,7 @@
             }
           ],
           "intervalFactor": 2,
-          "legendFormat": "deadlocks",
+          "legendFormat": "{{instance}} deadlocks",
           "measurement": "postgresql",
           "policy": "default",
           "refId": "A",
@@ -991,7 +991,7 @@
         {
           "alias": "deadlocks",
           "dsType": "prometheus",
-          "expr": "sum(rate(pg_stat_database_conflicts{datname=~\"$db\",instance=~\"$instance\"}[5m]))",
+          "expr": "sum by (instance) (rate(pg_stat_database_conflicts{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}[5m]))",
           "format": "time_series",
           "groupBy": [
             {
@@ -1008,7 +1008,7 @@
             }
           ],
           "intervalFactor": 2,
-          "legendFormat": "conflicts",
+          "legendFormat": "{{instance}} conflicts",
           "measurement": "postgresql",
           "policy": "default",
           "refId": "B",
@@ -1088,7 +1088,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "$datasource",
+      "datasource": {"type": "prometheus", "uid": "victoriametrics"},
       "editable": true,
       "error": false,
       "fieldConfig": {
@@ -1136,10 +1136,10 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(pg_stat_database_blks_hit{datname=~\"$db\",instance=~\"$instance\"}) / (sum(pg_stat_database_blks_hit{datname=~\"$db\",instance=~\"$instance\"}) + sum(pg_stat_database_blks_read{datname=~\"$db\",instance=~\"$instance\"}))",
+          "expr": "sum by (instance) (pg_stat_database_blks_hit{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}) / (sum by (instance) (pg_stat_database_blks_hit{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}) + sum by (instance) (pg_stat_database_blks_read{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}))",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "cache hit rate",
+          "legendFormat": "{{instance}} cache hit rate",
           "refId": "A",
           "step": 240
         }
@@ -1191,7 +1191,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "$datasource",
+      "datasource": {"type": "prometheus", "uid": "victoriametrics"},
       "editable": true,
       "error": false,
       "fieldConfig": {
@@ -1239,10 +1239,10 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "pg_stat_database_numbackends{datname=~\"$db\",instance=~\"$instance\"}",
+          "expr": "pg_stat_database_numbackends{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "{{__name__}}",
+          "legendFormat": "{{instance}} / {{datname}}",
           "refId": "A",
           "step": 240
         }
@@ -1305,7 +1305,7 @@
           "text": "All",
           "value": "$__all"
         },
-        "datasource": "$datasource",
+        "datasource": {"type": "prometheus", "uid": "victoriametrics"},
         "definition": "",
         "hide": 0,
         "includeAll": true,
@@ -1331,7 +1331,7 @@
           "text": "All",
           "value": "$__all"
         },
-        "datasource": "$datasource",
+        "datasource": {"type": "prometheus", "uid": "victoriametrics"},
         "definition": "label_values(pg_stat_database_tup_fetched{instance=~\"$instance\",datname!~\"template.*|postgres\"},datname)",
         "hide": 0,
         "includeAll": true,
@@ -1351,31 +1351,13 @@
         "useTags": false
       },
       {
-        "current": {
-          "selected": false,
-          "text": "Postgres Overview",
-          "value": "Postgres Overview"
-        },
-        "hide": 0,
-        "includeAll": false,
-        "label": "datasource",
-        "multi": false,
-        "name": "datasource",
-        "options": [],
-        "query": "prometheus",
-        "refresh": 1,
-        "regex": "",
-        "skipUrlSync": false,
-        "type": "datasource"
-      },
-      {
         "allValue": null,
         "current": {
           "selected": true,
           "text": "postgres",
           "value": "postgres"
         },
-        "datasource": "$datasource",
+        "datasource": {"type": "prometheus", "uid": "victoriametrics"},
         "definition": "label_values(pg_up, job)",
         "hide": 0,
         "includeAll": false,

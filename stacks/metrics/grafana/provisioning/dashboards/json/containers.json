@@ -128,8 +128,8 @@
             "uid": "victoriametrics"
           },
           "editorMode": "code",
-          "expr": "sum(rate(container_cpu_usage_seconds_total{instance=~\"$docker_host\",name=~\"$container_name\",name=~\".+\"}[10m])) by (name) * 100",
-          "legendFormat": "__auto",
+          "expr": "sum(rate(container_cpu_usage_seconds_total{instance=~\"$docker_host\",name=~\"$container_name\",name=~\".+\"}[10m])) by (instance, name) * 100",
+          "legendFormat": "{{instance}} / {{name}}",
           "range": true,
           "refId": "A"
         }
@@ -223,9 +223,9 @@
             "uid": "victoriametrics"
           },
           "editorMode": "code",
-          "expr": "sum(container_memory_usage_bytes{instance=~\"$docker_host\",name=~\".+\"}) by (instance)",
+          "expr": "sum(container_memory_usage_bytes{instance=~\"$docker_host\",name=~\"$container_name\",name=~\".+\"}) by (instance)",
           "instant": false,
-          "legendFormat": "__auto",
+          "legendFormat": "{{instance}}",
           "range": true,
           "refId": "A"
         }
@@ -333,9 +333,9 @@
             "uid": "victoriametrics"
           },
           "editorMode": "code",
-          "expr": "sum(container_memory_usage_bytes{instance=~\"$docker_host\",name=~\"$container_name\",name=~\".+\"}) by (name)",
+          "expr": "sum(container_memory_usage_bytes{instance=~\"$docker_host\",name=~\"$container_name\",name=~\".+\"}) by (instance, name)",
           "instant": false,
-          "legendFormat": "__auto",
+          "legendFormat": "{{instance}} / {{name}}",
           "range": true,
           "refId": "A"
         }
@@ -430,9 +430,9 @@
             "uid": "victoriametrics"
           },
           "editorMode": "code",
-          "expr": "sum(container_memory_cache{instance=~\"$docker_host\",name=~\"$container_name\",name=~\".+\"}) by (name)",
+          "expr": "sum(container_memory_cache{instance=~\"$docker_host\",name=~\"$container_name\",name=~\".+\"}) by (instance, name)",
           "instant": false,
-          "legendFormat": "__auto",
+          "legendFormat": "{{instance}} / {{name}}",
           "range": true,
           "refId": "A"
         }
@@ -543,9 +543,9 @@
             "uid": "victoriametrics"
           },
           "editorMode": "code",
-          "expr": "sum(rate(container_fs_reads_bytes_total{instance=~\"$docker_host\",name=~\"$container_name\",name=~\".+\"}[10m])) by (name)",
+          "expr": "sum(rate(container_fs_reads_bytes_total{instance=~\"$docker_host\",name=~\"$container_name\",name=~\".+\"}[10m])) by (instance, name)",
           "instant": false,
-          "legendFormat": "__auto",
+          "legendFormat": "{{instance}} / {{name}}",
           "range": true,
           "refId": "A"
         }
@@ -643,9 +643,9 @@
             "uid": "victoriametrics"
           },
           "editorMode": "code",
-          "expr": "sum(rate(container_fs_writes_bytes_total{instance=~\"$docker_host\",name=~\"$container_name\",name=~\".+\"}[10m])) by (name)",
+          "expr": "sum(rate(container_fs_writes_bytes_total{instance=~\"$docker_host\",name=~\"$container_name\",name=~\".+\"}[10m])) by (instance, name)",
           "instant": false,
-          "legendFormat": "__auto",
+          "legendFormat": "{{instance}} / {{name}}",
           "range": true,
           "refId": "A"
         }
@@ -756,9 +756,9 @@
             "uid": "victoriametrics"
           },
           "editorMode": "code",
-          "expr": "sum(rate(container_network_receive_bytes_total{instance=~\"$docker_host\",name=~\"$container_name\",name=~\".+\"}[10m])) by (name)",
+          "expr": "sum(rate(container_network_receive_bytes_total{instance=~\"$docker_host\",name=~\"$container_name\",name=~\".+\"}[10m])) by (instance, name)",
           "instant": false,
-          "legendFormat": "__auto",
+          "legendFormat": "{{instance}} / {{name}}",
           "range": true,
           "refId": "A"
         }
@@ -856,9 +856,9 @@
             "uid": "victoriametrics"
           },
           "editorMode": "code",
-          "expr": "sum(rate(container_network_transmit_bytes_total{instance=~\"$docker_host\",name=~\"$container_name\",name=~\".+\"}[10m])) by (name)",
+          "expr": "sum(rate(container_network_transmit_bytes_total{instance=~\"$docker_host\",name=~\"$container_name\",name=~\".+\"}[10m])) by (instance, name)",
           "instant": false,
-          "legendFormat": "__auto",
+          "legendFormat": "{{instance}} / {{name}}",
           "range": true,
           "refId": "A"
         }
@@ -950,9 +950,9 @@
             "uid": "victoriametrics"
           },
           "editorMode": "code",
-          "expr": "count by(name) (count_over_time(container_last_seen{instance=~\"$docker_host\",name=~\"$container_name\",name=~\".+\"}[$__range]))",
+          "expr": "changes(container_start_time_seconds{instance=~\"$docker_host\",name=~\"$container_name\",name=~\".+\"}[10m])",
           "instant": false,
-          "legendFormat": "__auto",
+          "legendFormat": "{{instance}} / {{name}}",
           "range": true,
           "refId": "A"
         }
