@@ -1276,7 +1276,7 @@
   "templating": {
     "list": [
       {
-        "allValue": null,
+        "allValue": ".*",
         "current": {},
         "datasource": {
           "type": "prometheus",
@@ -1360,7 +1360,7 @@
     "to": "now"
   },
   "timepicker": {},
-  "timezone": "",
+  "timezone": "browser",
   "title": "authentik",
   "uid": "authentik",
   "version": 32

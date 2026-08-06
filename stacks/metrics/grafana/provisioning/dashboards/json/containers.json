@@ -975,6 +975,7 @@
           "type": "prometheus",
           "uid": "victoriametrics"
         },
+        "allValue": ".*",
         "definition": "label_values({__name__=~\"container.*\"},instance)",
         "hide": 0,
         "includeAll": true,
@@ -999,6 +1000,7 @@
           "type": "prometheus",
           "uid": "victoriametrics"
         },
+        "allValue": ".*",
         "definition": "label_values({__name__=~\"container.*\", instance=~\"$docker_host\"},name)",
         "hide": 0,
         "includeAll": true,
@@ -1024,7 +1026,7 @@
     "to": "now"
   },
   "timepicker": {},
-  "timezone": "",
+  "timezone": "browser",
   "title": "cAdvisor exporter - Docker container Overview",
   "uid": "containers",
   "version": 1,
