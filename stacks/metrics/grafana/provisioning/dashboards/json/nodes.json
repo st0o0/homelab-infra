@@ -23589,7 +23589,7 @@
   "timezone": "browser",
   "title": "Node Exporter Full Panel Migrated to Timeseries",
   "uid": "3az8Y2-LB",
-  "version": 15,
+  "version": 1,
   "weekStart": "",
   "description": "Node exporter full with migrated panel from Graph (old) to Time Series"
 }
