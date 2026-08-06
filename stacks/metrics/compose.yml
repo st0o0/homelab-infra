@@ -90,6 +90,10 @@ services:
       - --storageDataPath=/storage
       - --retentionPeriod=${VL_RETENTION:-90d}
       - --httpListenAddr=:9428
+      # Push internal metrics to VictoriaMetrics (like VM's selfScrapeInterval)
+      - --pushmetrics.url=http://victoriametrics:8428/api/v1/import/prometheus
+      - --pushmetrics.interval=${VL_PUSH_METRICS_INTERVAL:-1m}
+      - --pushmetrics.extraLabel=job=victoria-logs
     ports:
       # Loopback by default; set VLOGS_BIND_IP to the WireGuard IP
       # (e.g. 10.77.32.1) to accept remote observability agents.

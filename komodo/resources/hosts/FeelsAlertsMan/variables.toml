@@ -22,6 +22,10 @@ value = "3"
 [[variable]]
 name = "FeelsAlertsMan_vl_retention"
 value = "90d"
+
+[[variable]]
+name = "FeelsAlertsMan_vl_push_metrics_interval"
+value = "1m"
 #VM
 
 [[variable]]
