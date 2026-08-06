@@ -23,12 +23,14 @@
   "gnetId": 23043,
   "graphTooltip": 1,
   "id": null,
-  "iteration": 1631795206449,
   "links": [],
   "panels": [
     {
       "collapsed": false,
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "victoriametrics"
+      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -37,7 +39,7 @@
       },
       "id": 23,
       "panels": [],
-      "title": "authentik Core",
+      "title": "🔐 authentik Core",
       "type": "row"
     },
     {
@@ -55,15 +57,15 @@
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
-            "fillOpacity": 10,
-            "gradientMode": "hue",
+            "fillOpacity": 20,
+            "gradientMode": "none",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
               "viz": false
             },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
             "pointSize": 5,
             "scaleDistribution": {
               "type": "linear"
@@ -105,15 +107,16 @@
       "id": 8,
       "options": {
         "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom"
+          "calcs": ["mean", "max"],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
-          "mode": "single"
+          "mode": "multi",
+          "sort": "desc"
         }
       },
-      "pluginVersion": "8.1.2",
       "targets": [
         {
           "exemplar": true,
@@ -123,10 +126,7 @@
           "refId": "A"
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "FlowPlanner time by flow",
-      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -193,6 +193,7 @@
         "legend": {
           "displayMode": "list",
           "placement": "bottom",
+          "showLegend": true,
           "values": []
         },
         "pieType": "donut",
@@ -205,10 +206,10 @@
         },
         "text": {},
         "tooltip": {
-          "mode": "single"
+          "mode": "multi",
+          "sort": "desc"
         }
       },
-      "pluginVersion": "7.5.6",
       "targets": [
         {
           "exemplar": true,
@@ -230,11 +231,13 @@
         }
       ],
       "title": "Task status",
-      "transparent": true,
       "type": "piechart"
     },
     {
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "victoriametrics"
+      },
       "gridPos": {
         "h": 5,
         "w": 4,
@@ -246,10 +249,6 @@
         "content": "\n\n<img src=\"https://goauthentik.io/img/icon_top_brand.svg\">",
         "mode": "html"
       },
-      "pluginVersion": "8.1.4",
-      "timeFrom": null,
-      "timeShift": null,
-      "transparent": true,
       "type": "text"
     },
     {
@@ -293,7 +292,7 @@
       "id": 4,
       "options": {
         "colorMode": "value",
-        "graphMode": "area",
+        "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
@@ -306,7 +305,6 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.1.4",
       "targets": [
         {
           "exemplar": true,
@@ -317,7 +315,6 @@
         }
       ],
       "title": "Connected Workers",
-      "transparent": true,
       "type": "stat"
     },
     {
@@ -354,6 +351,7 @@
         "legend": {
           "displayMode": "list",
           "placement": "bottom",
+          "showLegend": true,
           "values": []
         },
         "pieType": "donut",
@@ -366,10 +364,10 @@
         },
         "text": {},
         "tooltip": {
-          "mode": "single"
+          "mode": "multi",
+          "sort": "desc"
         }
       },
-      "pluginVersion": "7.5.6",
       "targets": [
         {
           "exemplar": true,
@@ -390,7 +388,6 @@
         }
       ],
       "title": "Cached policies",
-      "transparent": true,
       "type": "piechart"
     },
     {
@@ -434,7 +431,7 @@
       "id": 16,
       "options": {
         "colorMode": "value",
-        "graphMode": "area",
+        "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
@@ -447,7 +444,6 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.1.4",
       "targets": [
         {
           "exemplar": true,
@@ -458,7 +454,6 @@
         }
       ],
       "title": "Connected Outposts",
-      "transparent": true,
       "type": "stat"
     },
     {
@@ -510,7 +505,6 @@
         "showUnfilled": true,
         "text": {}
       },
-      "pluginVersion": "8.1.4",
       "targets": [
         {
           "exemplar": true,
@@ -521,10 +515,7 @@
           "refId": "A"
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "System task duration",
-      "transparent": true,
       "type": "bargauge"
     },
     {
@@ -542,15 +533,15 @@
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
-            "fillOpacity": 10,
+            "fillOpacity": 20,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
               "viz": false
             },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
             "pointSize": 5,
             "scaleDistribution": {
               "type": "linear"
@@ -592,15 +583,16 @@
       "id": 2,
       "options": {
         "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom"
+          "calcs": ["mean", "max"],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
-          "mode": "single"
+          "mode": "multi",
+          "sort": "desc"
         }
       },
-      "pluginVersion": "8.1.2",
       "targets": [
         {
           "exemplar": true,
@@ -610,10 +602,7 @@
           "refId": "A"
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "PolicyEngine Execution time by binding type (Top 5)",
-      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -631,15 +620,15 @@
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
-            "fillOpacity": 10,
-            "gradientMode": "hue",
+            "fillOpacity": 20,
+            "gradientMode": "none",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
               "viz": false
             },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
             "pointSize": 5,
             "scaleDistribution": {
               "type": "linear"
@@ -681,15 +670,16 @@
       "id": 11,
       "options": {
         "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom"
+          "calcs": ["mean", "max"],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
-          "mode": "single"
+          "mode": "multi",
+          "sort": "desc"
         }
       },
-      "pluginVersion": "8.1.2",
       "targets": [
         {
           "exemplar": true,
@@ -699,15 +689,15 @@
           "refId": "A"
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "PolicyEngine Execution time by binding target (Top 5)",
-      "transparent": true,
       "type": "timeseries"
     },
     {
       "collapsed": false,
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "victoriametrics"
+      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -717,11 +707,14 @@
       "id": 18,
       "panels": [],
       "repeat": "outpost_proxy",
-      "title": "authentik Proxy Outpost $outpost_proxy",
+      "title": "🌐 Proxy Outpost: $outpost_proxy",
       "type": "row"
     },
     {
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "victoriametrics"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -732,20 +725,20 @@
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
-            "fillOpacity": 0,
+            "fillOpacity": 20,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
               "viz": false
             },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
             "pointSize": 5,
             "scaleDistribution": {
               "type": "linear"
             },
-            "showPoints": "auto",
+            "showPoints": "never",
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -781,12 +774,14 @@
       "id": 20,
       "options": {
         "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom"
+          "calcs": ["mean", "max"],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
-          "mode": "single"
+          "mode": "multi",
+          "sort": "desc"
         }
       },
       "targets": [
@@ -799,11 +794,13 @@
         }
       ],
       "title": "Outpost requests (per 5 minutes)",
-      "transparent": true,
       "type": "timeseries"
     },
     {
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "victoriametrics"
+      },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -815,20 +812,20 @@
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
-            "fillOpacity": 0,
+            "fillOpacity": 20,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
               "viz": false
             },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
             "pointSize": 5,
             "scaleDistribution": {
               "type": "linear"
             },
-            "showPoints": "auto",
+            "showPoints": "never",
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -864,12 +861,14 @@
       "id": 21,
       "options": {
         "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom"
+          "calcs": ["mean", "max"],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
-          "mode": "single"
+          "mode": "multi",
+          "sort": "desc"
         }
       },
       "targets": [
@@ -882,12 +881,14 @@
         }
       ],
       "title": "Outpost requests (per 5 minutes) (unauthenticated, but allow-listed)",
-      "transparent": true,
       "type": "timeseries"
     },
     {
       "collapsed": false,
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "victoriametrics"
+      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -897,11 +898,14 @@
       "id": 25,
       "panels": [],
       "repeat": "outpost_ldap",
-      "title": "authentik LDAP Outpost $outpost_ldap",
+      "title": "📂 LDAP Outpost: $outpost_ldap",
       "type": "row"
     },
     {
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "victoriametrics"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -912,20 +916,20 @@
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
-            "fillOpacity": 0,
+            "fillOpacity": 20,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
               "viz": false
             },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
             "pointSize": 5,
             "scaleDistribution": {
               "type": "linear"
             },
-            "showPoints": "auto",
+            "showPoints": "never",
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -961,12 +965,14 @@
       "id": 27,
       "options": {
         "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom"
+          "calcs": ["mean", "max"],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
-          "mode": "single"
+          "mode": "multi",
+          "sort": "desc"
         }
       },
       "targets": [
@@ -979,11 +985,13 @@
         }
       ],
       "title": "LDAP Requests (per 5 minutes)",
-      "transparent": true,
       "type": "timeseries"
     },
     {
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "victoriametrics"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -994,20 +1002,20 @@
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
-            "fillOpacity": 0,
+            "fillOpacity": 20,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
               "viz": false
             },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
             "pointSize": 5,
             "scaleDistribution": {
               "type": "linear"
             },
-            "showPoints": "auto",
+            "showPoints": "never",
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -1043,12 +1051,14 @@
       "id": 28,
       "options": {
         "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom"
+          "calcs": ["mean", "max"],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
-          "mode": "single"
+          "mode": "multi",
+          "sort": "desc"
         }
       },
       "targets": [
@@ -1061,11 +1071,13 @@
         }
       ],
       "title": "LDAP Rejected Requests (per 5 minutes)",
-      "transparent": true,
       "type": "timeseries"
     },
     {
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "victoriametrics"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1076,20 +1088,20 @@
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
-            "fillOpacity": 0,
+            "fillOpacity": 20,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
               "viz": false
             },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
             "pointSize": 5,
             "scaleDistribution": {
               "type": "linear"
             },
-            "showPoints": "auto",
+            "showPoints": "never",
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -1125,12 +1137,14 @@
       "id": 26,
       "options": {
         "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom"
+          "calcs": ["mean", "max"],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
-          "mode": "single"
+          "mode": "multi",
+          "sort": "desc"
         }
       },
       "targets": [
@@ -1152,11 +1166,13 @@
         }
       ],
       "title": "FlowExecutor Timings",
-      "transparent": true,
       "type": "timeseries"
     },
     {
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "victoriametrics"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1183,7 +1199,8 @@
       "options": {
         "legend": {
           "displayMode": "list",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "pieType": "pie",
         "reduceOptions": {
@@ -1194,7 +1211,8 @@
           "values": false
         },
         "tooltip": {
-          "mode": "single"
+          "mode": "multi",
+          "sort": "desc"
         }
       },
       "targets": [
@@ -1208,11 +1226,13 @@
         }
       ],
       "title": "LDAP Requests by type",
-      "transparent": true,
       "type": "piechart"
     },
     {
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "victoriametrics"
+      },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -1240,7 +1260,8 @@
       "options": {
         "legend": {
           "displayMode": "list",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "pieType": "pie",
         "reduceOptions": {
@@ -1251,7 +1272,8 @@
           "values": false
         },
         "tooltip": {
-          "mode": "single"
+          "mode": "multi",
+          "sort": "desc"
         }
       },
       "targets": [
@@ -1265,14 +1287,12 @@
         }
       ],
       "title": "LDAP Rejected Requests by reason",
-      "transparent": true,
       "type": "piechart"
     }
   ],
-  "refresh": false,
-  "schemaVersion": 30,
-  "style": "dark",
-  "tags": [],
+  "refresh": "30s",
+  "schemaVersion": 38,
+  "tags": ["authentik"],
   "templating": {
     "list": [
       {
@@ -1283,8 +1303,6 @@
           "uid": "victoriametrics"
         },
         "definition": "authentik_outpost_connection",
-        "description": null,
-        "error": null,
         "hide": 0,
         "includeAll": true,
         "label": "Namespace",
@@ -1309,8 +1327,6 @@
           "uid": "victoriametrics"
         },
         "definition": "authentik_outpost_info{outpost_type=\"proxy\"}",
-        "description": null,
-        "error": null,
         "hide": 2,
         "includeAll": false,
         "label": null,
@@ -1335,8 +1351,6 @@
           "uid": "victoriametrics"
         },
         "definition": "authentik_outpost_info{outpost_type=\"ldap\"}",
-        "description": null,
-        "error": null,
         "hide": 2,
         "includeAll": false,
         "label": null,

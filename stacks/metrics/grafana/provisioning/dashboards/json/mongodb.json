@@ -25,7 +25,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -90,7 +90,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "mongodb_up{instance=~\"$instance\"}",
           "legendFormat": "",
@@ -103,7 +103,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -148,7 +148,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "mongodb_uptime_seconds{instance=~\"$instance\"}",
           "legendFormat": "",
@@ -161,7 +161,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -214,7 +214,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "sum(rate(mongodb_opcounters_total{instance=~\"$instance\"}[$__rate_interval]))",
           "legendFormat": "",
@@ -227,7 +227,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -280,7 +280,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "mongodb_connections_current{instance=~\"$instance\"}",
           "legendFormat": "",
@@ -293,7 +293,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -346,7 +346,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "mongodb_connections_active{instance=~\"$instance\"}",
           "legendFormat": "",
@@ -359,7 +359,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -412,7 +412,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "mongodb_mem_resident_bytes{instance=~\"$instance\"}",
           "legendFormat": "",
@@ -425,7 +425,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -478,7 +478,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "mongodb_wiredtiger_cache_bytes{instance=~\"$instance\",type=\"current\"} / mongodb_wiredtiger_cache_max_bytes{instance=~\"$instance\"} * 100",
           "legendFormat": "",
@@ -491,7 +491,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -544,7 +544,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "max(mongodb_repl_lag_seconds{instance=~\"$instance\"})",
           "legendFormat": "",
@@ -569,7 +569,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -676,7 +676,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_opcounters_total{instance=~\"$instance\",type=\"insert\"}[$__rate_interval])",
           "legendFormat": "insert",
@@ -685,7 +685,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_opcounters_total{instance=~\"$instance\",type=\"query\"}[$__rate_interval])",
           "legendFormat": "query",
@@ -694,7 +694,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_opcounters_total{instance=~\"$instance\",type=\"update\"}[$__rate_interval])",
           "legendFormat": "update",
@@ -703,7 +703,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_opcounters_total{instance=~\"$instance\",type=\"delete\"}[$__rate_interval])",
           "legendFormat": "delete",
@@ -712,7 +712,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_opcounters_total{instance=~\"$instance\",type=\"command\"}[$__rate_interval])",
           "legendFormat": "command",
@@ -721,7 +721,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_opcounters_total{instance=~\"$instance\",type=\"getmore\"}[$__rate_interval])",
           "legendFormat": "getmore",
@@ -734,7 +734,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -810,7 +810,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_metrics_document_total{instance=~\"$instance\",state=\"inserted\"}[$__rate_interval])",
           "legendFormat": "inserted",
@@ -819,7 +819,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_metrics_document_total{instance=~\"$instance\",state=\"returned\"}[$__rate_interval])",
           "legendFormat": "returned",
@@ -828,7 +828,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_metrics_document_total{instance=~\"$instance\",state=\"updated\"}[$__rate_interval])",
           "legendFormat": "updated",
@@ -837,7 +837,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_metrics_document_total{instance=~\"$instance\",state=\"deleted\"}[$__rate_interval])",
           "legendFormat": "deleted",
@@ -862,7 +862,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -954,7 +954,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_op_latency_micros_total{instance=~\"$instance\",type=\"reads\"}[$__rate_interval]) / clamp_min(rate(mongodb_op_latency_ops_total{instance=~\"$instance\",type=\"reads\"}[$__rate_interval]),0.001)",
           "legendFormat": "read µs/op",
@@ -967,7 +967,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -1059,7 +1059,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_op_latency_micros_total{instance=~\"$instance\",type=\"writes\"}[$__rate_interval]) / clamp_min(rate(mongodb_op_latency_ops_total{instance=~\"$instance\",type=\"writes\"}[$__rate_interval]),0.001)",
           "legendFormat": "write µs/op",
@@ -1072,7 +1072,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -1164,7 +1164,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_op_latency_micros_total{instance=~\"$instance\",type=\"commands\"}[$__rate_interval]) / clamp_min(rate(mongodb_op_latency_ops_total{instance=~\"$instance\",type=\"commands\"}[$__rate_interval]),0.001)",
           "legendFormat": "command µs/op",
@@ -1189,7 +1189,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -1265,7 +1265,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "mongodb_connections_current{instance=~\"$instance\"}",
           "legendFormat": "current",
@@ -1274,7 +1274,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "mongodb_connections_available{instance=~\"$instance\"}",
           "legendFormat": "available",
@@ -1283,7 +1283,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "mongodb_connections_active{instance=~\"$instance\"}",
           "legendFormat": "active",
@@ -1292,7 +1292,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_connections_created_total{instance=~\"$instance\"}[$__rate_interval])",
           "legendFormat": "new/s",
@@ -1305,7 +1305,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -1381,7 +1381,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "mongodb_global_lock_current_queue{instance=~\"$instance\",type=\"readers\"}",
           "legendFormat": "reader queue",
@@ -1390,7 +1390,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "mongodb_global_lock_current_queue{instance=~\"$instance\",type=\"writers\"}",
           "legendFormat": "writer queue",
@@ -1403,7 +1403,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -1479,7 +1479,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "mongodb_metrics_cursor_open{instance=~\"$instance\",state=\"total\"}",
           "legendFormat": "total",
@@ -1488,7 +1488,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "mongodb_metrics_cursor_open{instance=~\"$instance\",state=\"no_timeout\"}",
           "legendFormat": "no-timeout",
@@ -1497,7 +1497,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_metrics_cursor_timed_out_total{instance=~\"$instance\"}[$__rate_interval])",
           "legendFormat": "timed out/s",
@@ -1522,7 +1522,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -1598,7 +1598,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "mongodb_mem_resident_bytes{instance=~\"$instance\"}",
           "legendFormat": "resident",
@@ -1607,7 +1607,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "mongodb_mem_virtual_bytes{instance=~\"$instance\"}",
           "legendFormat": "virtual",
@@ -1620,7 +1620,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -1675,7 +1675,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "mongodb_wiredtiger_cache_bytes{instance=~\"$instance\",type=\"current\"} / mongodb_wiredtiger_cache_max_bytes{instance=~\"$instance\"} * 100",
           "legendFormat": "",
@@ -1688,7 +1688,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -1764,7 +1764,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "mongodb_wiredtiger_cache_max_bytes{instance=~\"$instance\"}",
           "legendFormat": "cache max",
@@ -1773,7 +1773,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "mongodb_wiredtiger_cache_bytes{instance=~\"$instance\",type=\"current\"}",
           "legendFormat": "cache used",
@@ -1782,7 +1782,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "mongodb_wiredtiger_cache_bytes{instance=~\"$instance\",type=\"dirty\"}",
           "legendFormat": "dirty bytes",
@@ -1807,7 +1807,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -1883,7 +1883,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "mongodb_wiredtiger_concurrent_transactions_out{instance=~\"$instance\",type=\"read\"}",
           "legendFormat": "read in-use",
@@ -1892,7 +1892,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "mongodb_wiredtiger_concurrent_transactions_out{instance=~\"$instance\",type=\"write\"}",
           "legendFormat": "write in-use",
@@ -1901,7 +1901,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "mongodb_wiredtiger_concurrent_transactions_available{instance=~\"$instance\",type=\"read\"}",
           "legendFormat": "read available",
@@ -1910,7 +1910,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "mongodb_wiredtiger_concurrent_transactions_available{instance=~\"$instance\",type=\"write\"}",
           "legendFormat": "write available",
@@ -1923,7 +1923,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -1999,7 +1999,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_wiredtiger_cache_evicted_pages_total{instance=~\"$instance\",type=\"modified\"}[$__rate_interval])",
           "legendFormat": "evict modified/s",
@@ -2008,7 +2008,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_wiredtiger_cache_evicted_pages_total{instance=~\"$instance\",type=\"unmodified\"}[$__rate_interval])",
           "legendFormat": "evict clean/s",
@@ -2017,7 +2017,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_wiredtiger_cache_io_pages_total{instance=~\"$instance\",direction=\"read\"}[$__rate_interval])",
           "legendFormat": "pages from disk/s",
@@ -2030,7 +2030,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -2106,7 +2106,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_wiredtiger_transactions_committed_total{instance=~\"$instance\"}[$__rate_interval])",
           "legendFormat": "committed/s",
@@ -2115,7 +2115,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_wiredtiger_transactions_rolled_back_total{instance=~\"$instance\"}[$__rate_interval])",
           "legendFormat": "rolled back/s",
@@ -2124,7 +2124,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_wiredtiger_transactions_checkpoints_total{instance=~\"$instance\"}[$__rate_interval])",
           "legendFormat": "checkpoints/s",
@@ -2149,7 +2149,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -2225,7 +2225,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_network_bytes_in_total{instance=~\"$instance\"}[$__rate_interval])",
           "legendFormat": "bytes in/s",
@@ -2234,7 +2234,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_network_bytes_out_total{instance=~\"$instance\"}[$__rate_interval])",
           "legendFormat": "bytes out/s",
@@ -2247,7 +2247,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -2323,7 +2323,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_network_requests_total{instance=~\"$instance\"}[$__rate_interval])",
           "legendFormat": "requests/s",
@@ -2348,7 +2348,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -2401,7 +2401,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "mongodb_oplog_time_diff_seconds{instance=~\"$instance\"}",
           "legendFormat": "",
@@ -2414,7 +2414,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -2469,7 +2469,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "mongodb_oplog_used_bytes{instance=~\"$instance\"} / mongodb_oplog_max_size_bytes{instance=~\"$instance\"} * 100",
           "legendFormat": "",
@@ -2482,7 +2482,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -2527,7 +2527,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "mongodb_oplog_used_bytes{instance=~\"$instance\"}",
           "legendFormat": "",
@@ -2540,7 +2540,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -2585,7 +2585,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_metrics_repl_apply_ops_total{instance=~\"$instance\"}[$__rate_interval])",
           "legendFormat": "",
@@ -2598,7 +2598,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -2673,7 +2673,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "mongodb_repl_lag_seconds{instance=~\"$instance\"}",
           "legendFormat": "{{member}}",
@@ -2686,7 +2686,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -2760,7 +2760,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "mongodb_metrics_repl_buffer_size_bytes{instance=~\"$instance\"}",
           "legendFormat": "used",
@@ -2769,7 +2769,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "mongodb_metrics_repl_buffer_max_size_bytes{instance=~\"$instance\"}",
           "legendFormat": "maximum",
@@ -2782,7 +2782,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -2942,7 +2942,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "mongodb_repl_member_health{instance=~\"$instance\"}",
           "instant": true,
@@ -2952,7 +2952,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "mongodb_repl_lag_seconds{instance=~\"$instance\"}",
           "instant": true,
@@ -2962,7 +2962,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "mongodb_repl_member_uptime_seconds{instance=~\"$instance\"}",
           "instant": true,
@@ -3011,7 +3011,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -3067,7 +3067,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "mongodb_db_total_size_bytes{instance=~\"$instance\"}",
           "instant": true,
@@ -3081,7 +3081,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -3137,7 +3137,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "mongodb_db_objects_total{instance=~\"$instance\"}",
           "instant": true,
@@ -3151,7 +3151,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -3374,7 +3374,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "mongodb_db_data_size_bytes{instance=~\"$instance\"}",
           "instant": true,
@@ -3384,7 +3384,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "mongodb_db_storage_size_bytes{instance=~\"$instance\"}",
           "instant": true,
@@ -3394,7 +3394,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "mongodb_db_index_size_bytes{instance=~\"$instance\"}",
           "instant": true,
@@ -3404,7 +3404,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "mongodb_db_total_size_bytes{instance=~\"$instance\"}",
           "instant": true,
@@ -3414,7 +3414,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "mongodb_db_objects_total{instance=~\"$instance\"}",
           "instant": true,
@@ -3424,7 +3424,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "mongodb_db_collections_total{instance=~\"$instance\"}",
           "instant": true,
@@ -3434,7 +3434,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "mongodb_db_indexes_total{instance=~\"$instance\"}",
           "instant": true,
@@ -3444,7 +3444,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "mongodb_db_avg_obj_size_bytes{instance=~\"$instance\"}",
           "instant": true,
@@ -3509,7 +3509,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -3585,7 +3585,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_metrics_query_executor_scanned_objects_total{instance=~\"$instance\"}[$__rate_interval])",
           "legendFormat": "objects scanned/s",
@@ -3594,7 +3594,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_metrics_query_executor_scanned_total{instance=~\"$instance\"}[$__rate_interval])",
           "legendFormat": "index keys/s",
@@ -3603,7 +3603,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_metrics_document_total{instance=~\"$instance\",state=\"returned\"}[$__rate_interval])",
           "legendFormat": "docs returned/s",
@@ -3616,7 +3616,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -3692,7 +3692,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_metrics_collection_scans_total{instance=~\"$instance\",type=\"total\"}[$__rate_interval])",
           "legendFormat": "collection scans/s",
@@ -3701,7 +3701,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_metrics_operation_scan_and_order_total{instance=~\"$instance\"}[$__rate_interval])",
           "legendFormat": "sort-without-index/s",
@@ -3710,7 +3710,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_metrics_operation_write_conflicts_total{instance=~\"$instance\"}[$__rate_interval])",
           "legendFormat": "write conflicts/s",
@@ -3719,7 +3719,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_metrics_ttl_deleted_documents_total{instance=~\"$instance\"}[$__rate_interval])",
           "legendFormat": "TTL deletes/s",
@@ -3744,7 +3744,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -3819,7 +3819,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "mongodb_profiling_level{instance=~\"$instance\"}",
           "legendFormat": "{{database}}",
@@ -3832,7 +3832,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -3918,7 +3918,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "mongodb_profiling_level{instance=~\"$instance\"}",
           "legendFormat": "{{database}}",
@@ -3931,7 +3931,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -4006,7 +4006,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "sum by (database, collection, op) (rate(mongodb_slow_queries_total{instance=~\"$instance\"}[$__rate_interval]))",
           "legendFormat": "{{database}} · {{collection}} / {{op}}",
@@ -4019,7 +4019,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -4094,7 +4094,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "sum by (database, collection, op) (rate(mongodb_slow_query_millis_total{instance=~\"$instance\"}[$__rate_interval])) / clamp_min(sum by (database, collection, op) (rate(mongodb_slow_queries_total{instance=~\"$instance\"}[$__rate_interval])),0.001)",
           "legendFormat": "{{database}} · {{collection}} / {{op}}",
@@ -4119,7 +4119,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -4195,7 +4195,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_asserts_total{instance=~\"$instance\",type=\"regular\"}[$__rate_interval])",
           "legendFormat": "regular",
@@ -4204,7 +4204,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_asserts_total{instance=~\"$instance\",type=\"warning\"}[$__rate_interval])",
           "legendFormat": "warning",
@@ -4213,7 +4213,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_asserts_total{instance=~\"$instance\",type=\"msg\"}[$__rate_interval])",
           "legendFormat": "msg",
@@ -4222,7 +4222,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_asserts_total{instance=~\"$instance\",type=\"user\"}[$__rate_interval])",
           "legendFormat": "user",
@@ -4235,7 +4235,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -4311,7 +4311,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "mongodb_transactions_current{instance=~\"$instance\",state=\"open\"}",
           "legendFormat": "open",
@@ -4320,7 +4320,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "mongodb_transactions_current{instance=~\"$instance\",state=\"active\"}",
           "legendFormat": "active",
@@ -4329,7 +4329,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_transactions_total{instance=~\"$instance\",state=\"committed\"}[$__rate_interval])",
           "legendFormat": "committed/s",
@@ -4338,7 +4338,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+            "uid": "victoriametrics"
           },
           "expr": "rate(mongodb_transactions_total{instance=~\"$instance\",state=\"aborted\"}[$__rate_interval])",
           "legendFormat": "aborted/s",
@@ -4363,7 +4363,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_GRAFANACLOUD-GURJARCHETAN-PROM}"
+          "uid": "victoriametrics"
         },
         "definition": "label_values(mongodb_up, instance)",
         "includeAll": false,

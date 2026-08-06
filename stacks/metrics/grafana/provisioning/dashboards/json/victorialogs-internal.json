@@ -33,7 +33,7 @@
       },
       "id": 59,
       "panels": [],
-      "title": "General",
+      "title": "📊 General",
       "type": "row"
     },
     {
@@ -99,7 +99,6 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "12.3.0",
       "targets": [
         {
           "datasource": {
@@ -177,7 +176,6 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "12.3.0",
       "targets": [
         {
           "datasource": {
@@ -285,7 +283,6 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "12.3.0",
       "targets": [
         {
           "datasource": {
@@ -312,7 +309,7 @@
       },
       "id": 43,
       "panels": [],
-      "title": "Fields",
+      "title": "📋 Fields",
       "type": "row"
     },
     {
@@ -392,7 +389,6 @@
           }
         ]
       },
-      "pluginVersion": "12.3.0",
       "targets": [
         {
           "datasource": {
@@ -518,7 +514,6 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "12.3.0",
       "targets": [
         {
           "datasource": {
@@ -601,7 +596,6 @@
           }
         ]
       },
-      "pluginVersion": "12.3.0",
       "targets": [
         {
           "datasource": {
@@ -735,7 +729,6 @@
           }
         ]
       },
-      "pluginVersion": "12.3.0",
       "targets": [
         {
           "datasource": {
@@ -877,7 +870,6 @@
           }
         ]
       },
-      "pluginVersion": "12.3.0",
       "targets": [
         {
           "datasource": {
@@ -1015,7 +1007,6 @@
           }
         ]
       },
-      "pluginVersion": "12.3.0",
       "targets": [
         {
           "datasource": {
@@ -1097,7 +1088,7 @@
       },
       "id": 58,
       "panels": [],
-      "title": "Streams",
+      "title": "🔄 Streams",
       "type": "row"
     },
     {
@@ -1158,7 +1149,6 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "12.3.0",
       "targets": [
         {
           "datasource": {
@@ -1263,7 +1253,6 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "12.3.0",
       "targets": [
         {
           "datasource": {
@@ -1347,7 +1336,6 @@
           }
         ]
       },
-      "pluginVersion": "12.3.0",
       "targets": [
         {
           "datasource": {
@@ -1481,7 +1469,6 @@
           }
         ]
       },
-      "pluginVersion": "12.3.0",
       "targets": [
         {
           "datasource": {
@@ -1616,7 +1603,6 @@
           }
         ]
       },
-      "pluginVersion": "12.3.0",
       "targets": [
         {
           "datasource": {
@@ -1702,7 +1688,7 @@
       },
       "id": 61,
       "panels": [],
-      "title": "Raw",
+      "title": "📜 Raw",
       "type": "row"
     },
     {
@@ -1740,7 +1726,6 @@
         "syntaxHighlighting": false,
         "wrapLogMessage": false
       },
-      "pluginVersion": "12.3.0",
       "targets": [
         {
           "datasource": {
@@ -1758,28 +1743,13 @@
     }
   ],
   "preload": false,
-  "refresh": "",
+  "refresh": "30s",
   "schemaVersion": 42,
   "tags": [
     "victorialogs"
   ],
   "templating": {
     "list": [
-      {
-        "current": {
-          "text": "",
-          "value": "victorialogs",
-          "selected": true
-        },
-        "includeAll": false,
-        "label": "Datasource",
-        "name": "DS_VICTORIALOGS",
-        "options": [],
-        "query": "victoriametrics-logs-datasource",
-        "refresh": 1,
-        "regex": "",
-        "type": "datasource"
-      },
       {
         "current": {
           "text": "*",
