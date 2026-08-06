@@ -4,7 +4,7 @@ services:
       - nut-net
 
   nut-exporter:
-    image: hon95/prometheus-nut-exporter:1.2.1
+    image: druggeri/nut_exporter:3.3.0
     container_name: nut-exporter
     restart: unless-stopped
     logging:
@@ -14,10 +14,11 @@ services:
         max-file: "3"
     environment:
       - TZ=${TZ:-Europe/Berlin}
-      - NUT_EXPORTER_SERVER=${ALLOY_NUT_EXP_SERVER:?ALLOY_NUT_EXP_SERVER is required}
-      - NUT_EXPORTER_SERVER_PORT=${ALLOY_NUT_EXP_SERVER_PORT:?ALLOY_NUT_EXP_SERVER_PORT is required}
-      - NUT_EXPORTER_USERNAME=${ALLOY_NUT_EXP_USER:?ALLOY_NUT_EXP_USER is required}
       - NUT_EXPORTER_PASSWORD=${ALLOY_NUT_EXP_PASS:?ALLOY_NUT_EXP_PASS is required}
+    command:
+      - --nut.server=${ALLOY_NUT_EXP_SERVER:?ALLOY_NUT_EXP_SERVER is required}
+      - --nut.serverport=${ALLOY_NUT_EXP_SERVER_PORT:-3493}
+      - --nut.username=${ALLOY_NUT_EXP_USER:?ALLOY_NUT_EXP_USER is required}
     networks:
       - nut-net
     deploy:
