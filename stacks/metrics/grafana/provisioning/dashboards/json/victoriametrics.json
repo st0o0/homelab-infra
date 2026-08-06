@@ -84,7 +84,7 @@
       },
       "targets": [
         {
-          "expr": "vm_app_uptime_seconds",
+          "expr": "vm_app_uptime_seconds{job=\"victoria-metrics\"}",
           "legendFormat": "",
           "refId": "A"
         }
@@ -320,7 +320,7 @@
       },
       "targets": [
         {
-          "expr": "sum(vm_concurrent_insert_current) / sum(vm_concurrent_insert_capacity) * 100",
+          "expr": "sum(vm_concurrent_insert_current{job=\"victoria-metrics\"}) / sum(vm_concurrent_insert_capacity{job=\"victoria-metrics\"}) * 100",
           "legendFormat": "",
           "refId": "A"
         }
@@ -957,7 +957,7 @@
       },
       "targets": [
         {
-          "expr": "topk(10, rate(vm_http_requests_total[$__rate_interval]))",
+          "expr": "topk(10, rate(vm_http_requests_total{job=\"victoria-metrics\"}[$__rate_interval]))",
           "legendFormat": "{{path}}",
           "refId": "A"
         }
@@ -1129,8 +1129,8 @@
       },
       "targets": [
         {
-          "expr": "sum(rate(vm_rollup_result_cache_full_hits_total[$__rate_interval])) / sum(rate(vm_rollup_result_cache_requests_total[$__rate_interval])) * 100",
-          "legendFormat": "",
+          "expr": "sum(rate(vm_rollup_result_cache_full_hits_total{job=\"victoria-metrics\"}[$__rate_interval])) / sum(rate(vm_rollup_result_cache_requests_total{job=\"victoria-metrics\"}[$__rate_interval])) * 100",
+          "legendFormat": "hit rate",
           "refId": "A"
         }
       ],
@@ -1674,7 +1674,7 @@
           },
           "targets": [
             {
-              "expr": "vm_tcplistener_conns",
+              "expr": "vm_tcplistener_conns{job=\"victoria-metrics\"}",
               "legendFormat": "{{name}}",
               "refId": "A"
             }
@@ -1760,7 +1760,7 @@
           },
           "targets": [
             {
-              "expr": "rate(vm_tcplistener_accepts_total[$__rate_interval])",
+              "expr": "rate(vm_tcplistener_accepts_total{job=\"victoria-metrics\"}[$__rate_interval])",
               "legendFormat": "{{name}}",
               "refId": "A"
             }
@@ -1846,12 +1846,12 @@
           },
           "targets": [
             {
-              "expr": "rate(vm_tcplistener_read_bytes_total[$__rate_interval])",
+              "expr": "rate(vm_tcplistener_read_bytes_total{job=\"victoria-metrics\"}[$__rate_interval])",
               "legendFormat": "read {{name}}",
               "refId": "A"
             },
             {
-              "expr": "rate(vm_tcplistener_written_bytes_total[$__rate_interval])",
+              "expr": "rate(vm_tcplistener_written_bytes_total{job=\"victoria-metrics\"}[$__rate_interval])",
               "legendFormat": "write {{name}}",
               "refId": "B"
             }
