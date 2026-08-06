@@ -5,6 +5,12 @@ deleteRules:
     uid: guest-unexpectedly-stopped
   - orgId: 1
     uid: guest-not-backed-up
+  - orgId: 1
+    uid: container-down
+  - orgId: 1
+    uid: container-unhealthy
+  - orgId: 1
+    uid: vm-not-backed-up
 
 groups:
   - orgId: 1
@@ -103,7 +109,7 @@ groups:
               to: 0
             datasourceUid: victoriametrics
             model:
-              expr: (1 - node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes) * 100
+              expr: (1 - avg by(host) (node_memory_MemAvailable_bytes) / avg by(host) (node_memory_MemTotal_bytes)) * 100
               instant: true
               refId: A
           - refId: C
@@ -222,7 +228,7 @@ groups:
               to: 0
             datasourceUid: victoriametrics
             model:
-              expr: increase(container_start_time_seconds{name!=""}[10m])
+              expr: changes(container_start_time_seconds{name!=""}[10m])
               instant: true
               refId: A
           - refId: C
@@ -245,43 +251,6 @@ groups:
                     type: last
               refId: C
 
-      - uid: container-down
-        title: ContainerDown
-        condition: C
-        for: 3m
-        labels:
-          severity: critical
-        annotations:
-          summary: "Container {{ $labels.name }} on {{ $labels.host }} is not running"
-        data:
-          - refId: A
-            relativeTimeRange:
-              from: 600
-              to: 0
-            datasourceUid: victoriametrics
-            model:
-              expr: count by (name, host) (changes(container_cpu_usage_seconds_total{name!=""}[5m]) == 0 and container_cpu_usage_seconds_total{name!=""} == 0)
-              instant: true
-              refId: A
-          - refId: C
-            relativeTimeRange:
-              from: 0
-              to: 0
-            datasourceUid: "-100"
-            model:
-              type: threshold
-              expression: "A"
-              conditions:
-                - evaluator:
-                    type: gt
-                    params: [0]
-                  operator:
-                    type: and
-                  query:
-                    params: [A]
-                  reducer:
-                    type: last
-              refId: C
 
       - uid: container-memory-limit
         title: ContainerMemoryLimit
@@ -298,7 +267,7 @@ groups:
               to: 0
             datasourceUid: victoriametrics
             model:
-              expr: container_memory_usage_bytes{name!=""} / container_spec_memory_limit_bytes{name!=""} * 100
+              expr: (container_memory_usage_bytes{name!=""} / container_spec_memory_limit_bytes{name!=""}) * 100 and container_spec_memory_limit_bytes{name!=""} > 0
               instant: true
               refId: A
           - refId: C
@@ -321,43 +290,6 @@ groups:
                     type: last
               refId: C
 
-      - uid: container-unhealthy
-        title: ContainerUnhealthy
-        condition: C
-        for: 2m
-        labels:
-          severity: warning
-        annotations:
-          summary: "Container {{ $labels.name }} on {{ $labels.host }} is unhealthy"
-        data:
-          - refId: A
-            relativeTimeRange:
-              from: 300
-              to: 0
-            datasourceUid: victoriametrics
-            model:
-              expr: container_tasks_state{name!="", state="stopped"}
-              instant: true
-              refId: A
-          - refId: C
-            relativeTimeRange:
-              from: 0
-              to: 0
-            datasourceUid: "-100"
-            model:
-              type: threshold
-              expression: "A"
-              conditions:
-                - evaluator:
-                    type: gt
-                    params: [0]
-                  operator:
-                    type: and
-                  query:
-                    params: [A]
-                  reducer:
-                    type: last
-              refId: C
 
   - orgId: 1
     name: databases
@@ -600,19 +532,19 @@ groups:
       - uid: vm-unexpectedly-stopped
         title: VmUnexpectedlyStopped
         condition: C
-        for: 3m
+        for: 0s
         labels:
           severity: critical
         annotations:
-          summary: "VM {{ $labels.name }} on {{ $labels.node }} is stopped"
+          summary: "VM {{ $labels.name }} on {{ $labels.node }} just stopped unexpectedly"
         data:
           - refId: A
             relativeTimeRange:
-              from: 300
+              from: 600
               to: 0
             datasourceUid: victoriametrics
             model:
-              expr: pve_vm_status
+              expr: changes(pve_vm_status[5m]) > 0 and pve_vm_status == 0
               instant: true
               refId: A
           - refId: C
@@ -625,8 +557,8 @@ groups:
               expression: "A"
               conditions:
                 - evaluator:
-                    type: lt
-                    params: [1]
+                    type: gt
+                    params: [0]
                   operator:
                     type: and
                   query:
@@ -638,19 +570,19 @@ groups:
       - uid: lxc-unexpectedly-stopped
         title: LxcUnexpectedlyStopped
         condition: C
-        for: 3m
+        for: 0s
         labels:
           severity: critical
         annotations:
-          summary: "LXC {{ $labels.name }} on {{ $labels.node }} is stopped"
+          summary: "LXC {{ $labels.name }} on {{ $labels.node }} just stopped unexpectedly"
         data:
           - refId: A
             relativeTimeRange:
-              from: 300
+              from: 600
               to: 0
             datasourceUid: victoriametrics
             model:
-              expr: pve_lxc_status
+              expr: changes(pve_lxc_status[5m]) > 0 and pve_lxc_status == 0
               instant: true
               refId: A
           - refId: C
@@ -663,8 +595,8 @@ groups:
               expression: "A"
               conditions:
                 - evaluator:
-                    type: lt
-                    params: [1]
+                    type: gt
+                    params: [0]
                   operator:
                     type: and
                   query:
@@ -749,40 +681,3 @@ groups:
                     type: last
               refId: C
 
-      - uid: vm-not-backed-up
-        title: VmNotBackedUp
-        condition: C
-        for: 1h
-        labels:
-          severity: warning
-        annotations:
-          summary: "VM {{ $labels.name }} on {{ $labels.node }} has not been backed up in over 7 days"
-        data:
-          - refId: A
-            relativeTimeRange:
-              from: 3600
-              to: 0
-            datasourceUid: victoriametrics
-            model:
-              expr: time() - pve_vm_last_backup_timestamp
-              instant: true
-              refId: A
-          - refId: C
-            relativeTimeRange:
-              from: 0
-              to: 0
-            datasourceUid: "-100"
-            model:
-              type: threshold
-              expression: "A"
-              conditions:
-                - evaluator:
-                    type: gt
-                    params: [604800]
-                  operator:
-                    type: and
-                  query:
-                    params: [A]
-                  reducer:
-                    type: last
-              refId: C
