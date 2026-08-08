@@ -6,7 +6,7 @@ x-logging: &default-logging
 
 services:
   bifrost:
-    image: ghcr.io/st0o0/bifrost:0.2.0
+    image: ghcr.io/st0o0/bifrost:pr-23
     container_name: proxy-bifrost
     restart: unless-stopped
     logging: *default-logging
@@ -23,7 +23,6 @@ services:
       - "2019:2019"
       - "6060:6060"
       - "8888:8888"
-      - "9586:9586"
     environment:
       - BIFROST_PRIVATE_KEY=${BIFROST_PRIVATE_KEY:?BIFROST_PRIVATE_KEY is required}
       - BIFROST_ADDRESS=${BIFROST_ADDRESS:?BIFROST_ADDRESS is required}
@@ -60,7 +59,7 @@ services:
       bifrost:
         condition: service_started
     environment:
-      - EIR_MASTERS=${EIR_MASTERS:-proxy-bifrost,caddy,crowdsec,proxy-alloy}
+      - EIR_MASTERS=${EIR_MASTERS:-proxy-bifrost}
       - EIR_DISCOVERY_MODE=${EIR_DISCOVERY_MODE:-inspect}
       - EIR_STABILIZE_WAIT=${EIR_STABILIZE_WAIT:-15s}
       - EIR_MAX_RETRIES=${EIR_MAX_RETRIES:-3}
@@ -81,7 +80,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.caddy
-    container_name: caddy
+    container_name: proxy-caddy
     restart: unless-stopped
     logging: *default-logging
     network_mode: service:bifrost
@@ -109,7 +108,7 @@ services:
 
   crowdsec:
     image: crowdsecurity/crowdsec:v1.7.8
-    container_name: crowdsec
+    container_name: proxy-crowdsec
     restart: unless-stopped
     logging: *default-logging
     network_mode: service:bifrost

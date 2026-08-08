@@ -21,14 +21,14 @@ BIFROST_PEER_PUBLIC_KEY=[[FeelsPrivateMan_caddy_bifrost_peer_public_key]]
 BIFROST_PEER_ENDPOINT=[[FeelsPrivateMan_caddy_bifrost_peer_endpoint]]
 BIFROST_PEER_ALLOWED_IPS=[[FeelsPrivateMan_caddy_bifrost_peer_allowed_ips]]
 BIFROST_PEER_PRESHARED_KEY=[[FeelsPrivateMan_caddy_bifrost_peer_preshared_key]]
-BIFROST_LISTEN_PORT=51821
-BIFROST_INTERFACE=wg1
+BIFROST_LISTEN_PORT=0
+BIFROST_INTERFACE=wg0
 
 # ── CrowdSec ────────────────────────────────────────────────
 CROWDSEC_BOUNCER_API_KEY=[[FeelsPrivateMan_crowdsec_bouncer_api_key]]
 
 # ── Eir ──────────────────────────────────────────────────────
-EIR_MASTERS=proxy-bifrost,caddy,crowdsec,proxy-alloy
+EIR_MASTERS=proxy-bifrost
 EIR_DISCOVERY_MODE=inspect
 EIR_STABILIZE_WAIT=15s
 EIR_MAX_RETRIES=3
