@@ -144,6 +144,12 @@ services:
       - GEOIPUPDATE_FREQUENCY=${GEOIPUPDATE_FREQUENCY:-24}
     volumes:
       - geoip-data:/usr/share/GeoIP
+    healthcheck:
+      test: ["CMD", "test", "-f", "/usr/share/GeoIP/GeoLite2-City.mmdb"]
+      interval: 5s
+      timeout: 2s
+      retries: 30
+      start_period: 60s
     deploy:
       resources:
         limits:
@@ -161,6 +167,8 @@ services:
     depends_on:
       bifrost:
         condition: service_started
+      geoipupdate:
+        condition: service_healthy
     command:
       - run
       - /etc/alloy/
