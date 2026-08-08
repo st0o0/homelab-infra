@@ -50,9 +50,13 @@ CROWDSEC_BOUNCER_API_KEY=[[FeelsDevMan_crowdsec_bouncer_api_key]]
 CF_API_TOKEN=unused
 
 # ── Eir ──────────────────────────────────────────────────────
+EIR_MASTERS=caddy-bifrost,caddy,crowdsec
+EIR_DISCOVERY_MODE=inspect
 EIR_STABILIZE_WAIT=15s
 EIR_MAX_RETRIES=3
 EIR_RETRY_BACKOFF=5s
+EIR_LOG_LEVEL=info
+EIR_LOG_FORMAT=text
 """
 
 [[stack]]
