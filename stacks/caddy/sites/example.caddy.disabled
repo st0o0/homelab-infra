@@ -1,0 +1,14 @@
+# Rename to <service>.caddy to enable
+# Both domain and target IP come from env vars (Komodo secrets)
+
+# HTTP only (for testing):
+# :8080 {
+# 	import defaults
+# 	reverse_proxy {$CADDY_TARGET_APP}
+# }
+
+# HTTPS with Cloudflare DNS challenge (production):
+# {$CADDY_DOMAIN_APP} {
+# 	import defaults-tls
+# 	reverse_proxy {$CADDY_TARGET_APP}
+# }

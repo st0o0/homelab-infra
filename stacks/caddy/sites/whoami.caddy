@@ -1,0 +1,4 @@
+:8080 {
+	import defaults
+	reverse_proxy {$CADDY_TARGET_WHOAMI}
+}
