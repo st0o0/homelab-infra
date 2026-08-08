@@ -15,11 +15,14 @@ services:
     devices:
       - /dev/net/tun:/dev/net/tun
     ports:
-      - "80:80"
-      - "443:443"
-      - "443:443/udp"
+      # 80/443 disabled — Pangolin owns these ports
+      # To switch to Caddy: uncomment, stop Pangolin, redeploy
+      # - "80:80"
+      # - "443:443"
+      # - "443:443/udp"
       - "2019:2019"
       - "6060:6060"
+      - "8888:8888"
     environment:
       - BIFROST_PRIVATE_KEY=${BIFROST_PRIVATE_KEY:?BIFROST_PRIVATE_KEY is required}
       - BIFROST_ADDRESS=${BIFROST_ADDRESS:?BIFROST_ADDRESS is required}
@@ -54,7 +57,8 @@ services:
       bifrost:
         condition: service_started
     environment:
-      - EIR_MASTERS=caddy-bifrost,caddy,crowdsec
+      - EIR_MASTERS=${EIR_MASTERS:-caddy-bifrost,caddy,crowdsec}
+      - EIR_DISCOVERY_MODE=${EIR_DISCOVERY_MODE:-inspect}
       - EIR_STABILIZE_WAIT=${EIR_STABILIZE_WAIT:-15s}
       - EIR_MAX_RETRIES=${EIR_MAX_RETRIES:-3}
       - EIR_RETRY_BACKOFF=${EIR_RETRY_BACKOFF:-5s}
@@ -85,7 +89,6 @@ services:
         condition: service_started
     environment:
       - CROWDSEC_BOUNCER_API_KEY=${CROWDSEC_BOUNCER_API_KEY:?CROWDSEC_BOUNCER_API_KEY is required}
-      - CF_API_TOKEN=${CF_API_TOKEN:?CF_API_TOKEN is required}
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - ./sites:/etc/caddy/sites:ro

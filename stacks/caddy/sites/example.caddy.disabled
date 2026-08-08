@@ -1,14 +1,21 @@
 # Rename to <service>.caddy to enable
-# Both domain and target IP come from env vars (Komodo secrets)
+# Both domain and target come from env vars (Komodo secrets)
+#
+# Naming convention:
+#   CADDY_DOMAIN_<SERVICE>  → the public domain (e.g. jellyfin.example.com)
+#   CADDY_TARGET_<SERVICE>  → the backend address (e.g. 10.0.0.5:8096)
 
-# HTTP only (for testing):
-# :8080 {
+# Standard HTTPS with Cloudflare DNS challenge:
+# {$CADDY_DOMAIN_MYAPP} {
 # 	import defaults
-# 	reverse_proxy {$CADDY_TARGET_APP}
+# 	reverse_proxy {$CADDY_TARGET_MYAPP}
 # }
 
-# HTTPS with Cloudflare DNS challenge (production):
-# {$CADDY_DOMAIN_APP} {
-# 	import defaults-tls
-# 	reverse_proxy {$CADDY_TARGET_APP}
+# With large upload support (photos/videos):
+# {$CADDY_DOMAIN_MYAPP} {
+# 	import defaults
+# 	request_body {
+# 		max_size 10GB
+# 	}
+# 	reverse_proxy {$CADDY_TARGET_MYAPP}
 # }

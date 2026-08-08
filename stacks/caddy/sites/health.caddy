@@ -1,0 +1,4 @@
+:8888 {
+	respond /health "OK" 200
+	respond "caddy is running" 200
+}

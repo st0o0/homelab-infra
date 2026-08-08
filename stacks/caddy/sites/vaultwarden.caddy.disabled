@@ -1,0 +1,12 @@
+{$CADDY_DOMAIN_VAULTWARDEN} {
+	import defaults
+
+	header {
+		Permissions-Policy "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()"
+		X-Robots-Tag "noindex, nofollow"
+	}
+
+	reverse_proxy {$CADDY_TARGET_VAULTWARDEN} {
+		header_up X-Real-IP {remote_host}
+	}
+}

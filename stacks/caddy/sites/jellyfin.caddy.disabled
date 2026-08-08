@@ -1,0 +1,7 @@
+{$CADDY_DOMAIN_JELLYFIN} {
+	import defaults
+
+	reverse_proxy {$CADDY_TARGET_JELLYFIN} {
+		header_up X-Real-IP {remote_host}
+	}
+}
