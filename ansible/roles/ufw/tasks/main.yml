@@ -15,24 +15,10 @@
     update_cache: true
     cache_valid_time: 3600
 
-- name: Set default incoming policy
-  community.general.ufw:
-    direction: incoming
-    default: "{{ ufw_default_incoming }}"
+- name: Include LXC tasks
+  ansible.builtin.include_tasks: lxc.yml
+  when: ufw_disable_sysctl
 
-- name: Set default outgoing policy
-  community.general.ufw:
-    direction: outgoing
-    default: "{{ ufw_default_outgoing }}"
-
-- name: Apply default rules
-  community.general.ufw:
-    rule: "{{ item.rule }}"
-    port: "{{ item.port | string }}"
-    proto: "{{ item.proto | default('tcp') }}"
-    comment: "{{ item.comment | default(omit) }}"
-  loop: "{{ ufw_rules + ufw_extra_rules }}"
-
-- name: Enable ufw
-  community.general.ufw:
-    state: enabled
+- name: Include standard tasks
+  ansible.builtin.include_tasks: standard.yml
+  when: not ufw_disable_sysctl

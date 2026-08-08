@@ -4,3 +4,4 @@ ufw_default_outgoing: allow
 ufw_rules:
   - { rule: allow, port: 22, proto: tcp, comment: "SSH" }
 ufw_extra_rules: []
+ufw_disable_sysctl: false

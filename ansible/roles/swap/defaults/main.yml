@@ -2,3 +2,4 @@ swap_enabled: false
 swap_size: "2G"
 swap_path: /swapfile
 swap_swappiness: 10
+swap_set_swappiness: true

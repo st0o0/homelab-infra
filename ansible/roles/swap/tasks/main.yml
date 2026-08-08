@@ -25,7 +25,9 @@
     value: "60"
     state: present
     sysctl_set: true
-  when: not swap_enabled
+  when:
+    - not swap_enabled
+    - swap_set_swappiness
 
 - name: Skip if swap disabled
   ansible.builtin.meta: end_role
@@ -76,3 +78,4 @@
     value: "{{ swap_swappiness }}"
     state: present
     sysctl_set: true
+  when: swap_set_swappiness

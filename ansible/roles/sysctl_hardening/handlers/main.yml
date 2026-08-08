@@ -1,4 +1,4 @@
 - name: Reload sysctl settings
   ansible.builtin.command:
-    cmd: sysctl --system --quiet
+    cmd: /usr/sbin/sysctl --system --quiet
   changed_when: true

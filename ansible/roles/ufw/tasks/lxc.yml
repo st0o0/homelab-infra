@@ -1,0 +1,51 @@
+- name: Disable UFW sysctl
+  ansible.builtin.lineinfile:
+    path: /etc/default/ufw
+    regexp: '^IPT_SYSCTL='
+    line: 'IPT_SYSCTL=""'
+
+- name: Disable UFW module loading
+  ansible.builtin.lineinfile:
+    path: /etc/default/ufw
+    regexp: '^IPT_MODULES='
+    line: 'IPT_MODULES=""'
+
+- name: Empty UFW sysctl.conf
+  ansible.builtin.copy:
+    dest: /etc/ufw/sysctl.conf
+    content: ""
+    mode: "0644"
+
+- name: Set default incoming policy
+  ansible.builtin.command:
+    cmd: /usr/sbin/ufw default {{ ufw_default_incoming }} incoming
+  register: _ufw_default_in
+  changed_when: "'updated' in _ufw_default_in.stdout"
+
+- name: Set default outgoing policy
+  ansible.builtin.command:
+    cmd: /usr/sbin/ufw default {{ ufw_default_outgoing }} outgoing
+  register: _ufw_default_out
+  changed_when: "'updated' in _ufw_default_out.stdout"
+
+- name: Apply firewall rules
+  ansible.builtin.command:
+    cmd: >-
+      /usr/sbin/ufw allow proto {{ item.proto | default('tcp') }}
+      from any to any port {{ item.port }}
+      comment '{{ item.comment | default("") }}'
+  loop: "{{ ufw_rules + ufw_extra_rules }}"
+  register: _ufw_rules
+  changed_when: "'added' in _ufw_rules.stdout"
+  failed_when:
+    - _ufw_rules.rc != 0
+    - "'Skipping' not in _ufw_rules.stdout"
+
+- name: Enable ufw
+  ansible.builtin.command:
+    cmd: /usr/sbin/ufw --force enable
+  register: _ufw_enable
+  changed_when: "'active' in _ufw_enable.stdout"
+  failed_when:
+    - _ufw_enable.rc != 0
+    - "'problem running sysctl' not in _ufw_enable.stderr"

@@ -1,0 +1,5 @@
+- name: Reload ufw
+  ansible.builtin.command:
+    cmd: /usr/sbin/ufw --force disable
+  changed_when: true
+  failed_when: false

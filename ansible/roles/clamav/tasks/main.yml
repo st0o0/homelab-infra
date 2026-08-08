@@ -4,6 +4,12 @@
     state: absent
   when: not clamav_enabled
 
+- name: Remove freshclam cron job when disabled
+  ansible.builtin.cron:
+    name: "freshclam-update"
+    state: absent
+  when: not clamav_enabled
+
 - name: Stop and disable clamav-freshclam when disabled
   ansible.builtin.service:
     name: clamav-freshclam
@@ -39,6 +45,23 @@
     name: clamav-freshclam
     enabled: true
     state: started
+  when: clamav_freshclam_daemon
+
+- name: Schedule freshclam via cron when daemon is unavailable
+  ansible.builtin.cron:
+    name: "freshclam-update"
+    job: "freshclam --quiet >> /var/log/clamav/freshclam-cron.log 2>&1"
+    minute: "0"
+    hour: "2"
+    user: root
+    state: present
+  when: not clamav_freshclam_daemon
+
+- name: Remove freshclam cron when daemon handles updates
+  ansible.builtin.cron:
+    name: "freshclam-update"
+    state: absent
+  when: clamav_freshclam_daemon
 
 - name: Ensure clamav log directory exists
   ansible.builtin.file:
@@ -49,7 +72,7 @@
 - name: Build exclude-dir arguments
   ansible.builtin.set_fact:
     _clamav_excludes: >-
-      {{ clamav_exclude_dirs | map('regex_replace', '^(.*)$', '--exclude-dir=\"^\\1\"') | join(' ') }}
+      {{ clamav_exclude_dirs | map('regex_replace', '^(.*)$', '--exclude-dir="^\\1"') | join(' ') }}
 
 - name: Schedule clamav scan
   ansible.builtin.cron:
