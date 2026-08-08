@@ -216,15 +216,19 @@ loki.process "auth" {
     template = "{{ or .ssh_accepted_ip .ssh_invalid_ip .ssh_failed_ip }}"
   }
 
-  stage.geoip {
-    source  = "ip"
-    db      = "/geoip/GeoLite2-City.mmdb"
-    db_type = "city"
-  }
+  stage.match {
+    selector = "{job=\"auth\"} |~ \"sshd\\\\[\\\\d+\\\\]: (Accepted|Failed)\""
 
-  stage.labels {
-    values = {
-      geoip_country_code = "",
+    stage.geoip {
+      source  = "ip"
+      db      = "/geoip/GeoLite2-City.mmdb"
+      db_type = "city"
+    }
+
+    stage.labels {
+      values = {
+        geoip_country_code = "",
+      }
     }
   }
 
@@ -309,15 +313,19 @@ loki.process "fail2ban" {
     template = "{{ or .ban_ip .unban_ip .found_ip }}"
   }
 
-  stage.geoip {
-    source  = "ip"
-    db      = "/geoip/GeoLite2-City.mmdb"
-    db_type = "city"
-  }
+  stage.match {
+    selector = "{job=\"fail2ban\"} |~ \"(Ban|Unban|Found) \\\\d+\\\\.\\\\d+\""
 
-  stage.labels {
-    values = {
-      geoip_country_code = "",
+    stage.geoip {
+      source  = "ip"
+      db      = "/geoip/GeoLite2-City.mmdb"
+      db_type = "city"
+    }
+
+    stage.labels {
+      values = {
+        geoip_country_code = "",
+      }
     }
   }
 
@@ -382,13 +390,55 @@ loki.source.file "caddy_access" {
 loki.process "caddy_access" {
   stage.json {
     expressions = {
-      ts = "ts",
+      ts            = "ts",
+      client_ip     = "request.client_ip",
+      host          = "request.host",
+      uri           = "request.uri",
+      method        = "request.method",
+      user_agent    = "request.headers.User-Agent",
+      status        = "status",
+      duration      = "duration",
+      response_size = "size",
     }
   }
 
   stage.timestamp {
     source = "ts"
     format = "RFC3339Nano"
+  }
+
+  stage.template {
+    source   = "status_class"
+    template = "{{ if ge .status 500 }}5xx{{ else if ge .status 400 }}4xx{{ else if ge .status 300 }}3xx{{ else }}2xx{{ end }}"
+  }
+
+  stage.match {
+    selector = "{job=\"caddy-access\"}"
+    pipeline_name = "geoip"
+
+    stage.geoip {
+      source  = "client_ip"
+      db      = "/geoip/GeoLite2-City.mmdb"
+      db_type = "city"
+    }
+  }
+
+  stage.labels {
+    values = {
+      client_ip          = "",
+      host               = "",
+      uri                = "",
+      method             = "",
+      user_agent         = "",
+      status             = "",
+      status_class       = "",
+      duration           = "",
+      response_size      = "",
+      geoip_country_code = "",
+      geoip_city         = "",
+      geoip_latitude     = "",
+      geoip_longitude    = "",
+    }
   }
 
   forward_to = [loki.write.central.receiver]
