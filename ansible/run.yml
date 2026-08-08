@@ -49,9 +49,7 @@
       tags: [infra, ups]
 
     # ── Management ────────────────────────────────────────────
-    - role: bifrost
-      tags: [management, bifrost]
     - role: komodo
       tags: [management, komodo]
     - role: agent
-      tags: [management, agent]
+      tags: [management, agent, bifrost]
