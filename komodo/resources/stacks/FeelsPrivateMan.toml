@@ -5,11 +5,13 @@
 # tags = ["infra"]
 # [stack.config]
 # server = "FeelsPrivateMan"
+# project_name = "bifrost-1"
 # run_directory = "stacks/bifrost"
 # file_paths = ["compose.yml"]
 # linked_repo = "homelab-infra"
 # extra_args = ["--remove-orphans"]
 # environment = """
+# TZ=[[tz]]
 # BIFROST_PRIVATE_KEY=[[FeelsPrivateMan_bifrost_private_key]]
 # BIFROST_ADDRESS=[[FeelsPrivateMan_bifrost_address]]
 # BIFROST_PEER_PUBLIC_KEY=[[FeelsPrivateMan_bifrost_peer_public_key]]
@@ -31,4 +33,103 @@
 # EIR_RETRY_BACKOFF=5s
 # EIR_LOG_LEVEL=info
 # EIR_LOG_FORMAT=text
+# """
+
+# [[stack]]
+# name = "caddy-1"
+# tags = ["infra", "security"]
+# [stack.config]
+# server = "FeelsPrivateMan"
+# project_name = "caddy-1"
+# run_directory = "stacks/caddy"
+# file_paths = ["compose.yml"]
+# linked_repo = "homelab-infra"
+# extra_args = ["--remove-orphans"]
+# run_build = true
+# environment = """
+# TZ=[[tz]]
+#
+# # ── Bifrost (WG tunnel to homelab) ───────────────────────────
+# BIFROST_PRIVATE_KEY=[[FeelsPrivateMan_caddy_bifrost_private_key]]
+# BIFROST_ADDRESS=[[FeelsPrivateMan_caddy_bifrost_address]]
+# BIFROST_PEER_PUBLIC_KEY=[[FeelsPrivateMan_caddy_bifrost_peer_public_key]]
+# BIFROST_PEER_ENDPOINT=[[FeelsPrivateMan_caddy_bifrost_peer_endpoint]]
+# BIFROST_PEER_ALLOWED_IPS=[[FeelsPrivateMan_caddy_bifrost_peer_allowed_ips]]
+# BIFROST_PEER_PRESHARED_KEY=[[FeelsPrivateMan_caddy_bifrost_peer_preshared_key]]
+# BIFROST_LISTEN_PORT=51821
+# BIFROST_INTERFACE=wg1
+#
+# # ── Caddy reverse proxy (domain + target per service) ────────
+# CADDY_DOMAIN_SERVICE1=[[FeelsPrivateMan_caddy_domain_service1]]
+# CADDY_TARGET_SERVICE1=[[FeelsPrivateMan_caddy_target_service1]]
+# CADDY_DOMAIN_SERVICE2=[[FeelsPrivateMan_caddy_domain_service2]]
+# CADDY_TARGET_SERVICE2=[[FeelsPrivateMan_caddy_target_service2]]
+# CADDY_DOMAIN_SERVICE3=[[FeelsPrivateMan_caddy_domain_service3]]
+# CADDY_TARGET_SERVICE3=[[FeelsPrivateMan_caddy_target_service3]]
+# CADDY_DOMAIN_SERVICE4=[[FeelsPrivateMan_caddy_domain_service4]]
+# CADDY_TARGET_SERVICE4=[[FeelsPrivateMan_caddy_target_service4]]
+# CADDY_DOMAIN_SERVICE5=[[FeelsPrivateMan_caddy_domain_service5]]
+# CADDY_TARGET_SERVICE5=[[FeelsPrivateMan_caddy_target_service5]]
+# CADDY_DOMAIN_SERVICE6=[[FeelsPrivateMan_caddy_domain_service6]]
+# CADDY_TARGET_SERVICE6=[[FeelsPrivateMan_caddy_target_service6]]
+# CADDY_DOMAIN_SERVICE7=[[FeelsPrivateMan_caddy_domain_service7]]
+# CADDY_TARGET_SERVICE7=[[FeelsPrivateMan_caddy_target_service7]]
+# CADDY_DOMAIN_SERVICE8=[[FeelsPrivateMan_caddy_domain_service8]]
+# CADDY_TARGET_SERVICE8=[[FeelsPrivateMan_caddy_target_service8]]
+# CADDY_DOMAIN_SERVICE9=[[FeelsPrivateMan_caddy_domain_service9]]
+# CADDY_TARGET_SERVICE9=[[FeelsPrivateMan_caddy_target_service9]]
+# CADDY_DOMAIN_SERVICE10=[[FeelsPrivateMan_caddy_domain_service10]]
+# CADDY_TARGET_SERVICE10=[[FeelsPrivateMan_caddy_target_service10]]
+#
+# # ── Cloudflare DNS (TLS cert DNS challenge) ─────────────────
+# CF_API_TOKEN=[[FeelsPrivateMan_cf_api_token]]
+#
+# # ── CrowdSec ────────────────────────────────────────────────
+# CROWDSEC_BOUNCER_API_KEY=[[FeelsPrivateMan_crowdsec_bouncer_api_key]]
+#
+# # ── Eir ──────────────────────────────────────────────────────
+# EIR_STABILIZE_WAIT=15s
+# EIR_MAX_RETRIES=3
+# EIR_RETRY_BACKOFF=5s
+# EIR_LOG_LEVEL=info
+# EIR_LOG_FORMAT=text
+# """
+
+# [[stack]]
+# name = "alloy-4"
+# tags = ["observability"]
+# after = ["caddy-1"]
+# [stack.config]
+# server = "FeelsPrivateMan"
+# project_name = "alloy-4"
+# run_directory = "stacks/alloy"
+# file_paths = [
+#   "compose.yml",
+#   "compose.override.bifrost.yaml",
+# ]
+# linked_repo = "homelab-infra"
+# extra_args = ["--remove-orphans"]
+# environment = """
+# TZ=[[tz]]
+#
+# # ── Alloy uses caddy-bifrost (shared WG tunnel) ─────────────
+# BIFROST_CONTAINER_NAME=caddy-bifrost
+#
+# # ── Alloy ────────────────────────────────────────────────────
+# ALLOY_HOSTNAME=FeelsPrivateMan
+# ALLOY_REMOTE_WRITE_URL=[[metrics_remote_write_url]]
+# ALLOY_LOGS_PUSH_URL=[[metrics_logs_push_url]]
+# ALLOY_SCRAPE_INTERVAL=30s
+#
+# # ── Feature flags (max observability for VPS) ────────────────
+# ALLOY_SECURITY_LOGS_ENABLED=true
+# ALLOY_CADDY_METRICS_ENABLED=true
+# ALLOY_CADDY_METRICS_TARGET=localhost:2019
+# ALLOY_CROWDSEC_METRICS_ENABLED=true
+# ALLOY_CROWDSEC_METRICS_TARGET=localhost:6060
+# ALLOY_NUT_ENABLED=false
+#
+# # ── cAdvisor tuning ──────────────────────────────────────────
+# CADVISOR_DOCKER_ONLY=true
+# CADVISOR_STORE_LABELS=true
 # """

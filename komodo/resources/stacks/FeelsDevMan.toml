@@ -16,6 +16,45 @@ WHOAMI_PORT=8080
 """
 
 [[stack]]
+name = "caddy-dev"
+tags = ["testing"]
+[stack.config]
+server = "FeelsDevMan"
+project_name = "caddy-dev"
+run_directory = "stacks/caddy"
+file_paths = ["compose.yml", "compose.override.http-only.yaml"]
+linked_repo = "homelab-infra"
+extra_args = ["--remove-orphans"]
+run_build = true
+environment = """
+TZ=[[tz]]
+
+# ── Bifrost (WG tunnel to homelab) ───────────────────────────
+BIFROST_PRIVATE_KEY=[[FeelsDevMan_caddy_bifrost_private_key]]
+BIFROST_ADDRESS=[[FeelsDevMan_caddy_bifrost_address]]
+BIFROST_PEER_PUBLIC_KEY=[[FeelsDevMan_caddy_bifrost_peer_public_key]]
+BIFROST_PEER_ENDPOINT=[[FeelsDevMan_caddy_bifrost_peer_endpoint]]
+BIFROST_PEER_ALLOWED_IPS=[[FeelsDevMan_caddy_bifrost_peer_allowed_ips]]
+BIFROST_PEER_PRESHARED_KEY=[[FeelsDevMan_caddy_bifrost_peer_preshared_key]]
+BIFROST_LISTEN_PORT=51821
+BIFROST_INTERFACE=wg1
+
+# ── Caddy test routes (HTTP only) ───────────────────────────
+CADDY_TARGET_WHOAMI=[[FeelsDevMan_caddy_target_whoami]]
+
+# ── CrowdSec ────────────────────────────────────────────────
+CROWDSEC_BOUNCER_API_KEY=[[FeelsDevMan_crowdsec_bouncer_api_key]]
+
+# ── Cloudflare (not used in HTTP mode, but env must exist) ──
+CF_API_TOKEN=unused
+
+# ── Eir ──────────────────────────────────────────────────────
+EIR_STABILIZE_WAIT=15s
+EIR_MAX_RETRIES=3
+EIR_RETRY_BACKOFF=5s
+"""
+
+[[stack]]
 name = "alloy-2"
 tags = ["monitoring"]
 [stack.config]
