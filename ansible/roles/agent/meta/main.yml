@@ -1,10 +1,8 @@
 galaxy_info:
   author: st0o0
-  description: "Komodo Periphery: agent, optional Bifrost network"
+  description: "Komodo Periphery: agent with optional Bifrost WireGuard tunnel"
   license: MIT
   min_ansible_version: "2.17"
 
 dependencies:
   - role: docker
-  - role: bifrost
-    when: agent_bifrost

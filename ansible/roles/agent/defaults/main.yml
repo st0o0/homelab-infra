@@ -8,3 +8,11 @@ agent_root_directory: /docker/agent/data
 agent_include_disk_mounts: /etc/hostname
 agent_disable_terminals: false
 agent_disable_container_terminals: false
+
+# Bifrost
+agent_bifrost_image_tag: "0.2.0"
+bifrost_peer_allowed_ips: 10.13.13.0/24
+bifrost_peer_keepalive: 25
+bifrost_peer_preshared_key: ""
+bifrost_listen_port: 0
+bifrost_mtu: 1420

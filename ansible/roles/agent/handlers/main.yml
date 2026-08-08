@@ -1,6 +1,15 @@
 - name: Restart agent
+  listen: Restart agent
   community.docker.docker_compose_v2:
     project_src: "{{ agent_deploy_path }}"
-    state: restarted
+    state: absent
+    remove_orphans: true
+  ignore_errors: "{{ ansible_check_mode }}"
+
+- name: Start agent
+  listen: Restart agent
+  community.docker.docker_compose_v2:
+    project_src: "{{ agent_deploy_path }}"
+    state: present
     remove_orphans: true
   ignore_errors: "{{ ansible_check_mode }}"
