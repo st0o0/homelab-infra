@@ -57,7 +57,7 @@ services:
       bifrost:
         condition: service_started
     environment:
-      - EIR_MASTERS=${EIR_MASTERS:-proxy-bifrost,caddy,crowdsec,alloy}
+      - EIR_MASTERS=${EIR_MASTERS:-proxy-bifrost,caddy,crowdsec,proxy-alloy,proxy-fail2ban-exporter,proxy-authlog-exporter}
       - EIR_DISCOVERY_MODE=${EIR_DISCOVERY_MODE:-inspect}
       - EIR_STABILIZE_WAIT=${EIR_STABILIZE_WAIT:-15s}
       - EIR_MAX_RETRIES=${EIR_MAX_RETRIES:-3}
@@ -151,7 +151,7 @@ services:
           memory: 32M
 
   fail2ban-exporter:
-    image: registry.gitlab.com/hectorjsmith/fail2ban-prometheus-exporter:latest
+    image: registry.gitlab.com/hctrdev/fail2ban-prometheus-exporter:v0.10.3
     container_name: proxy-fail2ban-exporter
     restart: unless-stopped
     logging: *default-logging
@@ -164,6 +164,31 @@ services:
     command:
       - --web.listen-address=:9191
       - --collector.f2b.socket=/var/run/fail2ban/fail2ban.sock
+    deploy:
+      resources:
+        limits:
+          cpus: "0.10"
+          memory: 64M
+        reservations:
+          memory: 32M
+
+  authlog-exporter:
+    image: woblerr/authlog_exporter:v0.9.0
+    container_name: proxy-authlog-exporter
+    restart: unless-stopped
+    logging: *default-logging
+    network_mode: service:bifrost
+    depends_on:
+      bifrost:
+        condition: service_started
+    volumes:
+      - /var/log/auth.log:/log/auth.log:ro
+      - geoip-data:/geoip:ro
+    command:
+      - --auth.log=/log/auth.log
+      - --web.listen-address=:9991
+      - --geo.type=db
+      - --geo.db=/geoip/GeoLite2-City.mmdb
     deploy:
       resources:
         limits:

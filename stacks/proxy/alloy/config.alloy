@@ -103,6 +103,14 @@ prometheus.scrape "fail2ban" {
   metrics_path    = "/metrics"
 }
 
+prometheus.scrape "authlog" {
+  targets         = [{ __address__ = "localhost:9991" }]
+  forward_to      = [prometheus.remote_write.central.receiver]
+  scrape_interval = "30s"
+  job_name        = "authlog"
+  metrics_path    = "/metrics"
+}
+
 // ── Self Monitoring ─────────────────────────────────────────
 
 prometheus.scrape "alloy" {
