@@ -1,35 +1,17 @@
-# Komodo ResourceSync — keeps Komodo in sync with the TOML resource
-# files in this repository.
-#
-# This sync pulls servers, stacks, repos, procedures, variables,
-# and per-host variables from the komodo/resources/ directory.
-# User groups are not synced (managed manually in the UI).
-#
-# Webhook: configure a GitHub webhook for push events to
-#   https://<KOMODO_HOST>/listener/github/sync/homelab-infra-sync/sync
-# to trigger automatic syncs on every push to main.
-#
-# [[resource_sync]]
-# name = "homelab-infra-sync"
-# description = "Sync all Komodo resources from the homelab-infra repo"
-# 
-# [resource_sync.config]
-# linked_repo = "homelab-infra"
-# 
-# resource_path = [
-#   "komodo/resources/servers.toml",
-#   "komodo/resources/stacks/",
-#   "komodo/resources/repos.toml",
-#   "komodo/resources/procedures.toml",
-#   "komodo/resources/alerters.toml",
-#   "komodo/resources/variables/",
-#   "komodo/resources/hosts/",
-# ]
-# 
-# include_resources = true
-# include_variables = true
-# include_user_groups = false
-# 
-# delete = false
-# webhook_enabled = true
-# pending_alert = true
+# The "bootstrap" sync is created once manually in the Komodo UI
+# pointing at komodo/bootstrap/resource_syncs.toml.  Its definition
+# lives here so the main sync (with delete = true) does not remove it.
+
+[[resource_sync]]
+name = "bootstrap"
+description = "Bootstrap sync — loads the main resource sync definition"
+
+[resource_sync.config]
+linked_repo = "homelab-infra"
+resource_path = ["komodo/bootstrap/resource_syncs.toml"]
+include_resources = true
+include_variables = false
+include_user_groups = false
+delete = false
+webhook_enabled = true
+pending_alert = true
