@@ -7,7 +7,7 @@ x-logging: &default-logging
 services:
   bifrost:
     image: ghcr.io/st0o0/bifrost:pr-23
-    container_name: proxy-bifrost
+    container_name: bifrost
     restart: unless-stopped
     logging: *default-logging
     cap_add:
@@ -52,14 +52,14 @@ services:
 
   eir:
     image: ghcr.io/st0o0/eir:0.1.0
-    container_name: proxy-eir
+    container_name: eir
     restart: unless-stopped
     logging: *default-logging
     depends_on:
       bifrost:
         condition: service_started
     environment:
-      - EIR_MASTERS=${EIR_MASTERS:-proxy-bifrost}
+      - EIR_MASTERS=${EIR_MASTERS:-bifrost}
       - EIR_DISCOVERY_MODE=${EIR_DISCOVERY_MODE:-inspect}
       - EIR_STABILIZE_WAIT=${EIR_STABILIZE_WAIT:-15s}
       - EIR_MAX_RETRIES=${EIR_MAX_RETRIES:-3}
@@ -80,7 +80,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.caddy
-    container_name: proxy-caddy
+    container_name: caddy
     restart: unless-stopped
     logging: *default-logging
     network_mode: service:bifrost
@@ -108,7 +108,7 @@ services:
 
   crowdsec:
     image: crowdsecurity/crowdsec:v1.7.8
-    container_name: proxy-crowdsec
+    container_name: crowdsec
     restart: unless-stopped
     logging: *default-logging
     network_mode: service:bifrost
@@ -134,7 +134,7 @@ services:
 
   geoipupdate:
     image: maxmindinc/geoipupdate:v7
-    container_name: proxy-geoipupdate
+    container_name: geoipupdate
     restart: unless-stopped
     logging: *default-logging
     environment:
@@ -154,7 +154,7 @@ services:
 
   alloy:
     image: grafana/alloy:v1.17.1
-    container_name: proxy-alloy
+    container_name: alloy
     restart: unless-stopped
     logging: *default-logging
     network_mode: service:bifrost

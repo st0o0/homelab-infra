@@ -28,7 +28,7 @@ BIFROST_INTERFACE=wg0
 CROWDSEC_BOUNCER_API_KEY=[[FeelsPrivateMan_crowdsec_bouncer_api_key]]
 
 # ── Eir ──────────────────────────────────────────────────────
-EIR_MASTERS=proxy-bifrost
+EIR_MASTERS=bifrost
 EIR_DISCOVERY_MODE=inspect
 EIR_STABILIZE_WAIT=15s
 EIR_MAX_RETRIES=3
