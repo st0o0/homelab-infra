@@ -2,7 +2,7 @@
   "uid": "proxy",
   "title": "Proxy & Security",
   "description": "Caddy reverse proxy, CrowdSec WAF, fail2ban SSH protection, UFW firewall, and access logs.",
-  "tags": ["caddy", "crowdsec", "fail2ban", "proxy", "security"],
+  "tags": ["caddy", "crowdsec", "fail2ban", "proxy", "security", "ssh"],
   "editable": false,
   "graphTooltip": 1,
   "refresh": "30s",
@@ -65,8 +65,8 @@
       "fieldConfig": { "defaults": { "color": { "mode": "thresholds" }, "mappings": [{ "options": { "1": { "color": "green", "text": "UP" }, "0": { "color": "red", "text": "DOWN" } }, "type": "value" }], "thresholds": { "mode": "absolute", "steps": [{ "color": "red" }, { "color": "green", "value": 1 }] } }, "overrides": [] },
       "gridPos": { "h": 4, "w": 3, "x": 6, "y": 1 }, "id": 50,
       "options": { "colorMode": "background", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "textMode": "auto" },
-      "targets": [{ "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "f2b_up{instance=~\"$instance\"}", "legendFormat": "{{instance}}", "refId": "A" }],
-      "title": "Fail2ban", "type": "stat"
+      "targets": [{ "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "rate(auth_ssh_failed_total{instance=~\"$instance\"}[$__rate_interval]) + rate(auth_ssh_invalid_user_total{instance=~\"$instance\"}[$__rate_interval])", "legendFormat": "{{instance}}", "refId": "A" }],
+      "title": "SSH Fail Rate", "type": "stat"
     },
     {
       "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
@@ -86,19 +86,19 @@
     },
     {
       "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": { "defaults": { "color": { "mode": "thresholds" }, "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }, { "color": "yellow", "value": 1 }, { "color": "orange", "value": 3 }, { "color": "red", "value": 10 }] }, "unit": "short" }, "overrides": [] },
+      "fieldConfig": { "defaults": { "color": { "mode": "thresholds" }, "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }, { "color": "yellow", "value": 5 }, { "color": "orange", "value": 20 }, { "color": "red", "value": 50 }] }, "unit": "short" }, "overrides": [] },
       "gridPos": { "h": 4, "w": 3, "x": 15, "y": 1 }, "id": 51,
       "options": { "colorMode": "value", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "textMode": "auto" },
-      "targets": [{ "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(f2b_jail_banned_current{instance=~\"$instance\"})", "refId": "A" }],
-      "title": "Current Bans", "type": "stat"
+      "targets": [{ "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(increase(fail2ban_ban_total{instance=~\"$instance\"}[24h]))", "refId": "A" }],
+      "title": "Bans (24h)", "type": "stat"
     },
     {
       "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
       "fieldConfig": { "defaults": { "color": { "mode": "thresholds" }, "thresholds": { "mode": "absolute", "steps": [{ "color": "orange" }] }, "unit": "short" }, "overrides": [] },
       "gridPos": { "h": 4, "w": 3, "x": 18, "y": 1 }, "id": 52,
       "options": { "colorMode": "value", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "textMode": "auto" },
-      "targets": [{ "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(f2b_jail_failed_current{instance=~\"$instance\"})", "refId": "A" }],
-      "title": "Failed Attempts", "type": "stat"
+      "targets": [{ "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(increase(auth_ssh_invalid_user_total{instance=~\"$instance\"}[24h])) + sum(increase(auth_ssh_failed_total{instance=~\"$instance\"}[24h]))", "refId": "A" }],
+      "title": "SSH Attacks (24h)", "type": "stat"
     },
     {
       "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
@@ -195,17 +195,18 @@
       "title": "PAPI Errors", "type": "timeseries"
     },
 
-    { "collapsed": false, "gridPos": { "h": 1, "w": 24, "x": 0, "y": 39 }, "id": 400, "panels": [], "title": "🚫 Fail2ban", "type": "row" },
+    { "collapsed": false, "gridPos": { "h": 1, "w": 24, "x": 0, "y": 39 }, "id": 400, "panels": [], "title": "🔑 SSH & Auth", "type": "row" },
     {
       "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
       "fieldConfig": { "defaults": { "color": { "mode": "palette-classic" }, "custom": { "axisBorderShow": false, "axisCenteredZero": false, "axisPlacement": "auto", "drawStyle": "line", "fillOpacity": 20, "gradientMode": "none", "lineInterpolation": "smooth", "lineWidth": 2, "showPoints": "never", "spanNulls": false, "stacking": { "mode": "none" }, "thresholdsStyle": { "mode": "off" } }, "unit": "short" }, "overrides": [] },
       "gridPos": { "h": 8, "w": 12, "x": 0, "y": 40 }, "id": 53,
       "options": { "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" }, "tooltip": { "mode": "multi", "sort": "desc" } },
       "targets": [
-        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "f2b_jail_banned_current{instance=~\"$instance\"}", "legendFormat": "Banned {{jail}}", "refId": "A" },
-        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "f2b_jail_failed_current{instance=~\"$instance\"}", "legendFormat": "Failed {{jail}}", "refId": "B" }
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "rate(auth_ssh_accepted_total{instance=~\"$instance\"}[$__rate_interval])", "legendFormat": "Accepted", "refId": "A" },
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "rate(auth_ssh_failed_total{instance=~\"$instance\"}[$__rate_interval])", "legendFormat": "Failed", "refId": "B" },
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "rate(auth_ssh_invalid_user_total{instance=~\"$instance\"}[$__rate_interval])", "legendFormat": "Invalid User", "refId": "C" }
       ],
-      "title": "Banned & Failed by Jail", "type": "timeseries"
+      "title": "SSH Auth Rate", "type": "timeseries"
     },
     {
       "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
@@ -213,46 +214,69 @@
       "gridPos": { "h": 8, "w": 12, "x": 12, "y": 40 }, "id": 54,
       "options": { "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" }, "tooltip": { "mode": "multi", "sort": "desc" } },
       "targets": [
-        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "rate(f2b_jail_banned_total{instance=~\"$instance\"}[$__rate_interval])", "legendFormat": "Ban Rate {{jail}}", "refId": "A" },
-        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "rate(f2b_jail_failed_total{instance=~\"$instance\"}[$__rate_interval])", "legendFormat": "Fail Rate {{jail}}", "refId": "B" }
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "rate(auth_sudo_success_total{instance=~\"$instance\"}[$__rate_interval])", "legendFormat": "Sudo Success", "refId": "A" },
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "rate(auth_sudo_failed_total{instance=~\"$instance\"}[$__rate_interval])", "legendFormat": "Sudo Failed", "refId": "B" }
       ],
-      "title": "Ban & Fail Rate", "type": "timeseries"
+      "title": "Sudo Events", "type": "timeseries"
     },
 
-    { "collapsed": false, "gridPos": { "h": 1, "w": 24, "x": 0, "y": 48 }, "id": 500, "panels": [], "title": "🔒 Security Logs", "type": "row" },
+    { "collapsed": false, "gridPos": { "h": 1, "w": 24, "x": 0, "y": 48 }, "id": 700, "panels": [], "title": "🚫 Fail2ban", "type": "row" },
+    {
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+      "fieldConfig": { "defaults": { "color": { "mode": "palette-classic" }, "custom": { "axisBorderShow": false, "axisCenteredZero": false, "axisPlacement": "auto", "drawStyle": "line", "fillOpacity": 20, "gradientMode": "none", "lineInterpolation": "smooth", "lineWidth": 2, "showPoints": "never", "spanNulls": false, "stacking": { "mode": "none" }, "thresholdsStyle": { "mode": "off" } }, "unit": "short" }, "overrides": [] },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 49 }, "id": 55,
+      "options": { "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" }, "tooltip": { "mode": "multi", "sort": "desc" } },
+      "targets": [
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "rate(fail2ban_ban_total{instance=~\"$instance\"}[$__rate_interval])", "legendFormat": "Ban", "refId": "A" },
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "rate(fail2ban_unban_total{instance=~\"$instance\"}[$__rate_interval])", "legendFormat": "Unban", "refId": "B" }
+      ],
+      "title": "Ban / Unban Rate", "type": "timeseries"
+    },
+    {
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+      "fieldConfig": { "defaults": { "color": { "mode": "palette-classic" }, "custom": { "axisBorderShow": false, "axisCenteredZero": false, "axisPlacement": "auto", "drawStyle": "line", "fillOpacity": 20, "gradientMode": "none", "lineInterpolation": "smooth", "lineWidth": 2, "showPoints": "never", "spanNulls": false, "stacking": { "mode": "none" }, "thresholdsStyle": { "mode": "off" } }, "unit": "short" }, "overrides": [] },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 49 }, "id": 56,
+      "options": { "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" }, "tooltip": { "mode": "multi", "sort": "desc" } },
+      "targets": [
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "rate(fail2ban_found_total{instance=~\"$instance\"}[$__rate_interval])", "legendFormat": "Found", "refId": "A" }
+      ],
+      "title": "Filter Match Rate", "type": "timeseries"
+    },
+
+    { "collapsed": false, "gridPos": { "h": 1, "w": 24, "x": 0, "y": 57 }, "id": 500, "panels": [], "title": "🔒 Security Logs", "type": "row" },
     {
       "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
-      "gridPos": { "h": 8, "w": 8, "x": 0, "y": 49 }, "id": 40,
+      "gridPos": { "h": 8, "w": 8, "x": 0, "y": 58 }, "id": 40,
       "options": { "showTime": true, "showLabels": false, "showCommonLabels": false, "wrapLogMessage": false, "prettifyLogMessage": false, "enableLogDetails": true, "sortOrder": "Descending", "dedupStrategy": "none" },
       "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"fail2ban\", host=~\"${instance:regex}\"}", "refId": "A" }],
       "title": "Fail2ban Activity", "type": "logs"
     },
     {
       "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
-      "gridPos": { "h": 8, "w": 8, "x": 8, "y": 49 }, "id": 41,
+      "gridPos": { "h": 8, "w": 8, "x": 8, "y": 58 }, "id": 41,
       "options": { "showTime": true, "showLabels": false, "showCommonLabels": false, "wrapLogMessage": false, "prettifyLogMessage": false, "enableLogDetails": true, "sortOrder": "Descending", "dedupStrategy": "none" },
       "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"auth\", host=~\"${instance:regex}\"} NOT Accepted NOT session NOT pam_unix", "refId": "A" }],
       "title": "SSH Auth Failures", "type": "logs"
     },
     {
       "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
-      "gridPos": { "h": 8, "w": 8, "x": 16, "y": 49 }, "id": 42,
+      "gridPos": { "h": 8, "w": 8, "x": 16, "y": 58 }, "id": 42,
       "options": { "showTime": true, "showLabels": false, "showCommonLabels": false, "wrapLogMessage": false, "prettifyLogMessage": false, "enableLogDetails": true, "sortOrder": "Descending", "dedupStrategy": "none" },
       "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"ufw\", host=~\"${instance:regex}\"}", "refId": "A" }],
       "title": "UFW Firewall", "type": "logs"
     },
     {
       "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
-      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 57 }, "id": 24,
+      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 66 }, "id": 24,
       "options": { "showTime": true, "showLabels": false, "showCommonLabels": false, "wrapLogMessage": false, "prettifyLogMessage": false, "enableLogDetails": true, "sortOrder": "Descending", "dedupStrategy": "none" },
       "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{container=\"crowdsec\", host=~\"${instance:regex}\"} NOT heartbeat NOT decisions/stream", "refId": "A" }],
       "title": "CrowdSec Events", "description": "CrowdSec logs excluding routine heartbeats and bouncer polling.", "type": "logs"
     },
 
-    { "collapsed": false, "gridPos": { "h": 1, "w": 24, "x": 0, "y": 65 }, "id": 600, "panels": [], "title": "📋 Access Logs", "type": "row" },
+    { "collapsed": false, "gridPos": { "h": 1, "w": 24, "x": 0, "y": 74 }, "id": 600, "panels": [], "title": "📋 Access Logs", "type": "row" },
     {
       "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
-      "gridPos": { "h": 12, "w": 24, "x": 0, "y": 66 }, "id": 30,
+      "gridPos": { "h": 12, "w": 24, "x": 0, "y": 75 }, "id": 30,
       "options": { "showTime": true, "showLabels": false, "showCommonLabels": false, "wrapLogMessage": false, "prettifyLogMessage": true, "enableLogDetails": true, "sortOrder": "Descending", "dedupStrategy": "none" },
       "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"caddy-access\", host=~\"${instance:regex}\"}", "refId": "A" }],
       "title": "Caddy Access Logs", "description": "JSON access logs with client IPs, methods, URIs, status codes, response times, and GeoIP data.", "type": "logs"
