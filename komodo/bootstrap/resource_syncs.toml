@@ -2,8 +2,9 @@
 #
 # This file is loaded by the "bootstrap" ResourceSync (created once
 # via the Komodo UI) and defines the main sync that manages all other
-# resources.  Keeping this file outside komodo/resources/ avoids the
-# circular dependency where a sync would manage its own definition.
+# resources.  The same definition also exists in
+# komodo/resources/resource_syncs.toml so the main sync (delete = true)
+# sees itself and does not try to self-delete.
 #
 # Webhook: configure a GitHub webhook for push events to
 #   https://<KOMODO_HOST>/listener/github/sync/bootstrap/sync

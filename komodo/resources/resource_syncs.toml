@@ -1,6 +1,5 @@
-# The "bootstrap" sync is created once manually in the Komodo UI
-# pointing at komodo/bootstrap/resource_syncs.toml.  Its definition
-# lives here so the main sync (with delete = true) does not remove it.
+# Both syncs are declared here so homelab-infra-sync (delete = true)
+# sees them in its resource_path and does not try to delete either.
 
 [[resource_sync]]
 name = "bootstrap"
@@ -13,5 +12,30 @@ include_resources = true
 include_variables = false
 include_user_groups = false
 delete = false
+webhook_enabled = true
+pending_alert = true
+
+[[resource_sync]]
+name = "homelab-infra-sync"
+description = "Sync all Komodo resources from the homelab-infra repo"
+
+[resource_sync.config]
+linked_repo = "homelab-infra"
+
+resource_path = [
+  "komodo/resources/servers.toml",
+  "komodo/resources/stacks/",
+  "komodo/resources/repos.toml",
+  "komodo/resources/procedures.toml",
+  "komodo/resources/alerters.toml",
+  "komodo/resources/variables/",
+  "komodo/resources/hosts/",
+]
+
+include_resources = true
+include_variables = true
+include_user_groups = false
+
+delete = true
 webhook_enabled = true
 pending_alert = true
