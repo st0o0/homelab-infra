@@ -36,8 +36,9 @@ BIFROST_PEER_PUBLIC_KEY=[[FeelsDevMan_caddy_bifrost_peer_public_key]]
 BIFROST_PEER_ENDPOINT=[[FeelsDevMan_caddy_bifrost_peer_endpoint]]
 BIFROST_PEER_ALLOWED_IPS=[[FeelsDevMan_caddy_bifrost_peer_allowed_ips]]
 BIFROST_PEER_PRESHARED_KEY=[[FeelsDevMan_caddy_bifrost_peer_preshared_key]]
-BIFROST_LISTEN_PORT=51821
-BIFROST_INTERFACE=wg1
+BIFROST_MTU=1420
+BIFROST_PEER_KEEPALIVE=10
+BIFROST_LISTEN_PORT=0
 
 # ── Caddy test routes (HTTP only) ───────────────────────────
 CADDY_TARGET_WHOAMI=[[FeelsDevMan_caddy_target_whoami]]
