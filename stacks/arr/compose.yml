@@ -52,7 +52,7 @@ services:
       - media
 
   seerr:
-    image: ghcr.io/seerr-team/seerr:v3.4.0
+    image: ghcr.io/seerr-team/seerr:v3.4.1
     container_name: arr-seerr
     restart: unless-stopped
     logging: *default-logging
