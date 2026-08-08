@@ -2,8 +2,7 @@ FROM caddy:builder AS builder
 
 RUN xcaddy build \
     --with github.com/hslatman/caddy-crowdsec-bouncer/http@latest \
-    --with github.com/porech/caddy-maxmind-geolocation@latest \
-    --with github.com/caddy-dns/cloudflare@latest
+    --with github.com/porech/caddy-maxmind-geolocation@latest
 
 FROM caddy:latest
 COPY --from=builder /usr/bin/caddy /usr/bin/caddy

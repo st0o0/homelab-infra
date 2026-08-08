@@ -21,12 +21,6 @@
 	crowdsec
 }
 
-(tls-cloudflare) {
-	tls {
-		dns cloudflare {$CF_API_TOKEN}
-	}
-}
-
 (defaults) {
 	import crowdsec
 	encode zstd gzip
@@ -45,11 +39,6 @@
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
 	}
-}
-
-(defaults-tls) {
-	import defaults
-	import tls-cloudflare
 }
 
 import /etc/caddy/sites/*
