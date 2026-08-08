@@ -1,0 +1,44 @@
+declare "caddy_metrics" {
+  argument "enabled" {
+    optional = true
+    default  = "false"
+  }
+
+  argument "target" {
+    optional = true
+    default  = "caddy:2019"
+  }
+
+  argument "scrape_interval" {
+    optional = true
+    default  = "30s"
+  }
+
+  argument "forward_to" {
+    optional = false
+  }
+
+  discovery.relabel "caddy" {
+    targets = [{
+      __address__   = argument.target.value,
+      __tmp_enabled = argument.enabled.value,
+    }]
+    rule {
+      source_labels = ["__tmp_enabled"]
+      regex         = "true"
+      action        = "keep"
+    }
+    rule {
+      target_label = "instance"
+      replacement  = env("HOST_HOSTNAME")
+    }
+  }
+
+  prometheus.scrape "caddy" {
+    targets         = discovery.relabel.caddy.output
+    forward_to      = argument.forward_to.value
+    scrape_interval = argument.scrape_interval.value
+    job_name        = "caddy"
+    metrics_path    = "/metrics"
+  }
+}

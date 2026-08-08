@@ -36,6 +36,20 @@ modules.db_metrics "default" {
   pihole_target      = coalesce(sys.env("PIHOLE_METRICS_TARGET"), "pihole-exporter:9617")
 }
 
+modules.crowdsec_metrics "default" {
+  enabled         = coalesce(sys.env("CROWDSEC_METRICS_ENABLED"), "false")
+  target          = coalesce(sys.env("CROWDSEC_METRICS_TARGET"), "crowdsec:6060")
+  scrape_interval = coalesce(sys.env("SCRAPE_INTERVAL"), "30s")
+  forward_to      = [prometheus.remote_write.central.receiver]
+}
+
+modules.caddy_metrics "default" {
+  enabled         = coalesce(sys.env("CADDY_METRICS_ENABLED"), "false")
+  target          = coalesce(sys.env("CADDY_METRICS_TARGET"), "caddy:2019")
+  scrape_interval = coalesce(sys.env("SCRAPE_INTERVAL"), "30s")
+  forward_to      = [prometheus.remote_write.central.receiver]
+}
+
 modules.app_metrics "default" {
   scrape_interval          = coalesce(sys.env("SCRAPE_INTERVAL"), "30s")
   forward_to               = [prometheus.remote_write.central.receiver]
