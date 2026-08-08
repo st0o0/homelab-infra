@@ -1,0 +1,77 @@
+declare "fail2ban_log" {
+  argument "enabled" {
+    optional = true
+    default  = "false"
+  }
+
+  argument "forward_to" {
+    optional = false
+  }
+
+  local.file_match "fail2ban" {
+    path_targets = [
+      {__path__ = "/var/log/host/fail2ban.log", job = "fail2ban", __tmp_enabled = argument.enabled.value},
+    ]
+  }
+
+  discovery.relabel "fail2ban" {
+    targets = local.file_match.fail2ban.targets
+
+    rule {
+      source_labels = ["__tmp_enabled"]
+      regex         = "true"
+      action        = "keep"
+    }
+  }
+
+  loki.source.file "fail2ban" {
+    targets    = discovery.relabel.fail2ban.output
+    forward_to = [loki.process.fail2ban.receiver]
+  }
+
+  loki.process "fail2ban" {
+    // Ban: "NOTICE  [<jail>] Ban <ip>"
+    stage.regex {
+      expression = "fail2ban\\.actions\\s+\\[\\d+\\]: NOTICE\\s+\\[(?P<ban_jail>\\S+)\\] Ban (?P<ban_ip>\\d+\\.\\d+\\.\\d+\\.\\d+)"
+    }
+
+    // Unban: "NOTICE  [<jail>] Unban <ip>"
+    stage.regex {
+      expression = "fail2ban\\.actions\\s+\\[\\d+\\]: NOTICE\\s+\\[(?P<unban_jail>\\S+)\\] Unban (?P<unban_ip>\\d+\\.\\d+\\.\\d+\\.\\d+)"
+    }
+
+    // Found: "INFO    [<jail>] Found <ip>"
+    stage.regex {
+      expression = "fail2ban\\.filter\\s+\\[\\d+\\]: INFO\\s+\\[(?P<found_jail>\\S+)\\] Found (?P<found_ip>\\d+\\.\\d+\\.\\d+\\.\\d+)"
+    }
+
+    stage.metrics {
+      metric.counter {
+        name              = "fail2ban_ban_total"
+        description       = "IPs banned by fail2ban"
+        source            = "ban_ip"
+        action            = "inc"
+        prefix            = ""
+        max_idle_duration = "24h"
+      }
+      metric.counter {
+        name              = "fail2ban_unban_total"
+        description       = "IPs unbanned by fail2ban"
+        source            = "unban_ip"
+        action            = "inc"
+        prefix            = ""
+        max_idle_duration = "24h"
+      }
+      metric.counter {
+        name              = "fail2ban_found_total"
+        description       = "Filter matches found by fail2ban"
+        source            = "found_ip"
+        action            = "inc"
+        prefix            = ""
+        max_idle_duration = "24h"
+      }
+    }
+
+    forward_to = argument.forward_to.value
+  }
+}

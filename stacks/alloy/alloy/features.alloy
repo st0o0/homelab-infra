@@ -14,6 +14,16 @@ modules.security_logs "default" {
   forward_to = [loki.process.system.receiver]
 }
 
+modules.auth_log "default" {
+  enabled    = coalesce(sys.env("AUTH_LOG_ENABLED"), "false")
+  forward_to = [loki.process.system.receiver]
+}
+
+modules.fail2ban_log "default" {
+  enabled    = coalesce(sys.env("FAIL2BAN_LOG_ENABLED"), "false")
+  forward_to = [loki.process.system.receiver]
+}
+
 modules.pve_metrics "default" {
   enabled         = coalesce(sys.env("PVE_METRICS_ENABLED"), "false")
   target          = coalesce(sys.env("PVE_EXPORTER_TARGET"), "pve-exporter:9221")

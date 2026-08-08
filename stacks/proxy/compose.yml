@@ -23,6 +23,7 @@ services:
       - "2019:2019"
       - "6060:6060"
       - "8888:8888"
+      - "9586:9586"
     environment:
       - BIFROST_PRIVATE_KEY=${BIFROST_PRIVATE_KEY:?BIFROST_PRIVATE_KEY is required}
       - BIFROST_ADDRESS=${BIFROST_ADDRESS:?BIFROST_ADDRESS is required}
@@ -40,6 +41,8 @@ services:
       - BIFROST_RECONNECT=${BIFROST_RECONNECT:-on}
       - BIFROST_HEALTHCHECK=${BIFROST_HEALTHCHECK:-on}
       - BIFROST_PROBE=${BIFROST_PROBE:-off}
+      - BIFROST_METRICS=${BIFROST_METRICS:-on}
+      - BIFROST_METRICS_ADDR=${BIFROST_METRICS_ADDR:-:9586}
     deploy:
       resources:
         limits:
@@ -57,7 +60,7 @@ services:
       bifrost:
         condition: service_started
     environment:
-      - EIR_MASTERS=${EIR_MASTERS:-proxy-bifrost,caddy,crowdsec,proxy-alloy,proxy-fail2ban-exporter,proxy-authlog-exporter}
+      - EIR_MASTERS=${EIR_MASTERS:-proxy-bifrost,caddy,crowdsec,proxy-alloy}
       - EIR_DISCOVERY_MODE=${EIR_DISCOVERY_MODE:-inspect}
       - EIR_STABILIZE_WAIT=${EIR_STABILIZE_WAIT:-15s}
       - EIR_MAX_RETRIES=${EIR_MAX_RETRIES:-3}
@@ -150,53 +153,6 @@ services:
         reservations:
           memory: 32M
 
-  fail2ban-exporter:
-    image: registry.gitlab.com/hctrdev/fail2ban-prometheus-exporter:v0.10.3
-    container_name: proxy-fail2ban-exporter
-    restart: unless-stopped
-    logging: *default-logging
-    network_mode: service:bifrost
-    depends_on:
-      bifrost:
-        condition: service_started
-    volumes:
-      - /var/run/fail2ban:/var/run/fail2ban:ro
-    command:
-      - --web.listen-address=:9191
-      - --collector.f2b.socket=/var/run/fail2ban/fail2ban.sock
-    deploy:
-      resources:
-        limits:
-          cpus: "0.10"
-          memory: 64M
-        reservations:
-          memory: 32M
-
-  authlog-exporter:
-    image: woblerr/authlog_exporter:v0.9.0
-    container_name: proxy-authlog-exporter
-    restart: unless-stopped
-    logging: *default-logging
-    network_mode: service:bifrost
-    depends_on:
-      bifrost:
-        condition: service_started
-    volumes:
-      - /var/log/auth.log:/log/auth.log:ro
-      - geoip-data:/geoip:ro
-    command:
-      - --auth.log=/log/auth.log
-      - --web.listen-address=:9991
-      - --geo.type=db
-      - --geo.db=/geoip/GeoLite2-City.mmdb
-    deploy:
-      resources:
-        limits:
-          cpus: "0.10"
-          memory: 64M
-        reservations:
-          memory: 32M
-
   alloy:
     image: grafana/alloy:v1.17.1
     container_name: proxy-alloy
@@ -219,6 +175,7 @@ services:
     volumes:
       - ./alloy:/etc/alloy:ro
       - alloy-data:/var/lib/alloy/data
+      - geoip-data:/geoip:ro
       - /var/log:/var/log/host:ro
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro

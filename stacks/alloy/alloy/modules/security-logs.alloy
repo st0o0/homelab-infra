@@ -10,7 +10,6 @@ declare "security_logs" {
 
   local.file_match "security" {
     path_targets = [
-      {__path__ = "/var/log/host/fail2ban.log", job = "fail2ban", __tmp_enabled = argument.enabled.value},
       {__path__ = "/var/log/host/audit/audit.log", job = "auditd", __tmp_enabled = argument.enabled.value},
       {__path__ = "/var/log/host/rkhunter-cron.log", job = "rkhunter", __tmp_enabled = argument.enabled.value},
       {__path__ = "/var/log/host/clamav/scan.log", job = "clamav", __tmp_enabled = argument.enabled.value},

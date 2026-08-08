@@ -95,19 +95,11 @@ prometheus.scrape "crowdsec" {
   metrics_path    = "/metrics"
 }
 
-prometheus.scrape "fail2ban" {
-  targets         = [{ __address__ = "localhost:9191" }]
+prometheus.scrape "bifrost" {
+  targets         = [{ __address__ = "localhost:9586" }]
   forward_to      = [prometheus.remote_write.central.receiver]
   scrape_interval = "30s"
-  job_name        = "fail2ban"
-  metrics_path    = "/metrics"
-}
-
-prometheus.scrape "authlog" {
-  targets         = [{ __address__ = "localhost:9991" }]
-  forward_to      = [prometheus.remote_write.central.receiver]
-  scrape_interval = "30s"
-  job_name        = "authlog"
+  job_name        = "bifrost"
   metrics_path    = "/metrics"
 }
 
@@ -148,7 +140,6 @@ loki.source.docker "containers" {
 local.file_match "system" {
   path_targets = [
     {__path__ = "/var/log/host/syslog", job = "syslog"},
-    {__path__ = "/var/log/host/auth.log", job = "auth"},
     {__path__ = "/var/log/host/kern.log", job = "kernel"},
   ]
 }
@@ -171,11 +162,199 @@ loki.process "system" {
   forward_to = [loki.write.central.receiver]
 }
 
+// ── Auth Log (SSH + sudo metrics with GeoIP) ───────────────
+
+local.file_match "auth" {
+  path_targets = [
+    {__path__ = "/var/log/host/auth.log", job = "auth"},
+  ]
+}
+
+loki.source.file "auth" {
+  targets    = local.file_match.auth.targets
+  forward_to = [loki.process.auth.receiver]
+}
+
+loki.process "auth" {
+  stage.regex {
+    expression = "^(?P<timestamp>\\w{3}\\s+\\d{1,2}\\s+\\d{2}:\\d{2}:\\d{2})"
+  }
+
+  stage.timestamp {
+    source = "timestamp"
+    format = "Jan  2 15:04:05"
+  }
+
+  // SSH accepted: "Accepted publickey for <user> from <ip>"
+  stage.regex {
+    expression = "sshd\\[\\d+\\]: Accepted \\S+ for (?P<ssh_accepted_user>\\S+) from (?P<ssh_accepted_ip>\\d+\\.\\d+\\.\\d+\\.\\d+)"
+  }
+
+  // SSH invalid user: "Failed password for invalid user <user> from <ip>"
+  stage.regex {
+    expression = "sshd\\[\\d+\\]: Failed password for invalid user (?P<ssh_invalid_user>\\S+) from (?P<ssh_invalid_ip>\\d+\\.\\d+\\.\\d+\\.\\d+)"
+  }
+
+  // SSH failed: "Failed password for <user> from <ip>"
+  stage.regex {
+    expression = "sshd\\[\\d+\\]: Failed password for (?P<ssh_failed_user>\\S+) from (?P<ssh_failed_ip>\\d+\\.\\d+\\.\\d+\\.\\d+)"
+  }
+
+  // Sudo success: "<user> : TTY=..."
+  stage.regex {
+    expression = "sudo:\\s+(?P<sudo_success_user>\\S+)\\s+: TTY="
+  }
+
+  // Sudo failed: "<user> : N incorrect password attempts"
+  stage.regex {
+    expression = "sudo:\\s+(?P<sudo_failed_user>\\S+)\\s+: \\d+ incorrect password attempt"
+  }
+
+  // Coalesce IP for GeoIP lookup
+  stage.template {
+    source   = "ip"
+    template = "{{ or .ssh_accepted_ip .ssh_invalid_ip .ssh_failed_ip }}"
+  }
+
+  stage.geoip {
+    source  = "ip"
+    db      = "/geoip/GeoLite2-City.mmdb"
+    db_type = "city"
+  }
+
+  stage.labels {
+    values = {
+      geoip_country_code = "",
+    }
+  }
+
+  stage.metrics {
+    metric.counter {
+      name              = "auth_ssh_accepted_total"
+      description       = "SSH logins accepted"
+      source            = "ssh_accepted_user"
+      action            = "inc"
+      prefix            = ""
+      max_idle_duration = "24h"
+    }
+    metric.counter {
+      name              = "auth_ssh_failed_total"
+      description       = "SSH logins failed"
+      source            = "ssh_failed_user"
+      action            = "inc"
+      prefix            = ""
+      max_idle_duration = "24h"
+    }
+    metric.counter {
+      name              = "auth_ssh_invalid_user_total"
+      description       = "SSH logins for non-existent users"
+      source            = "ssh_invalid_user"
+      action            = "inc"
+      prefix            = ""
+      max_idle_duration = "24h"
+    }
+    metric.counter {
+      name              = "auth_sudo_success_total"
+      description       = "Successful sudo invocations"
+      source            = "sudo_success_user"
+      action            = "inc"
+      prefix            = ""
+      max_idle_duration = "24h"
+    }
+    metric.counter {
+      name              = "auth_sudo_failed_total"
+      description       = "Failed sudo attempts"
+      source            = "sudo_failed_user"
+      action            = "inc"
+      prefix            = ""
+      max_idle_duration = "24h"
+    }
+  }
+
+  forward_to = [loki.write.central.receiver]
+}
+
+// ── Fail2ban Log (ban/unban metrics with GeoIP) ────────────
+
+local.file_match "fail2ban" {
+  path_targets = [
+    {__path__ = "/var/log/host/fail2ban.log", job = "fail2ban"},
+  ]
+}
+
+loki.source.file "fail2ban" {
+  targets    = local.file_match.fail2ban.targets
+  forward_to = [loki.process.fail2ban.receiver]
+}
+
+loki.process "fail2ban" {
+  // Ban: "NOTICE  [<jail>] Ban <ip>"
+  stage.regex {
+    expression = "fail2ban\\.actions\\s+\\[\\d+\\]: NOTICE\\s+\\[(?P<ban_jail>\\S+)\\] Ban (?P<ban_ip>\\d+\\.\\d+\\.\\d+\\.\\d+)"
+  }
+
+  // Unban: "NOTICE  [<jail>] Unban <ip>"
+  stage.regex {
+    expression = "fail2ban\\.actions\\s+\\[\\d+\\]: NOTICE\\s+\\[(?P<unban_jail>\\S+)\\] Unban (?P<unban_ip>\\d+\\.\\d+\\.\\d+\\.\\d+)"
+  }
+
+  // Found: "INFO    [<jail>] Found <ip>"
+  stage.regex {
+    expression = "fail2ban\\.filter\\s+\\[\\d+\\]: INFO\\s+\\[(?P<found_jail>\\S+)\\] Found (?P<found_ip>\\d+\\.\\d+\\.\\d+\\.\\d+)"
+  }
+
+  // Coalesce IP for GeoIP lookup
+  stage.template {
+    source   = "ip"
+    template = "{{ or .ban_ip .unban_ip .found_ip }}"
+  }
+
+  stage.geoip {
+    source  = "ip"
+    db      = "/geoip/GeoLite2-City.mmdb"
+    db_type = "city"
+  }
+
+  stage.labels {
+    values = {
+      geoip_country_code = "",
+    }
+  }
+
+  stage.metrics {
+    metric.counter {
+      name              = "fail2ban_ban_total"
+      description       = "IPs banned by fail2ban"
+      source            = "ban_ip"
+      action            = "inc"
+      prefix            = ""
+      max_idle_duration = "24h"
+    }
+    metric.counter {
+      name              = "fail2ban_unban_total"
+      description       = "IPs unbanned by fail2ban"
+      source            = "unban_ip"
+      action            = "inc"
+      prefix            = ""
+      max_idle_duration = "24h"
+    }
+    metric.counter {
+      name              = "fail2ban_found_total"
+      description       = "Filter matches found by fail2ban"
+      source            = "found_ip"
+      action            = "inc"
+      prefix            = ""
+      max_idle_duration = "24h"
+    }
+  }
+
+  forward_to = [loki.write.central.receiver]
+}
+
 // ── Security Logs ───────────────────────────────────────────
 
 local.file_match "security" {
   path_targets = [
-    {__path__ = "/var/log/host/fail2ban.log",       job = "fail2ban"},
     {__path__ = "/var/log/host/clamav/scan.log",    job = "clamav"},
     {__path__ = "/var/log/host/lynis.log",          job = "lynis"},
     {__path__ = "/var/log/host/ufw.log",            job = "ufw"},

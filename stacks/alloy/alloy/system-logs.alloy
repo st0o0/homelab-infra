@@ -1,7 +1,6 @@
 local.file_match "system" {
   path_targets = [
     {__path__ = "/var/log/host/syslog", job = "syslog"},
-    {__path__ = "/var/log/host/auth.log", job = "auth"},
     {__path__ = "/var/log/host/kern.log", job = "kernel"},
   ]
 }
