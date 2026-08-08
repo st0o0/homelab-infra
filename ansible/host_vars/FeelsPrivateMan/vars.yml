@@ -5,65 +5,68 @@ bootstrap_hostname_enabled: false
 shell_motd_enabled: true
 shell_dotfiles_enabled: true
 
-# Unattended upgrades
+# Unattended upgrades: public server gets auto-reboot at 04:00
 unattended_upgrades_enabled: true
-# unattended_upgrades_blacklist:
-#   - "docker-ce"
-#   - "docker-ce-cli"
-#   - "containerd.io"
-unattended_upgrades_skip_reboot_required: true
-unattended_upgrades_auto_reboot: false
-# unattended_upgrades_auto_reboot_time: "04:00"
+unattended_upgrades_skip_reboot_required: false
+unattended_upgrades_auto_reboot: true
+unattended_upgrades_auto_reboot_time: "04:00"
 
-# Swap
-# swap_enabled: false
-# swap_size: "2G"
+# Firewall
+ufw_enabled: true
+ufw_disable_sysctl: true
+ufw_extra_rules:
+  - { rule: allow, port: 80, proto: tcp, comment: "Pangolin HTTP" }
+  - { rule: allow, port: 443, proto: tcp, comment: "Pangolin HTTPS" }
+  - { rule: allow, port: 443, proto: udp, comment: "Pangolin QUIC" }
+  - { rule: allow, port: 8888, proto: tcp, comment: "Caddy health" }
+  - { rule: allow, port: 51820, proto: udp, comment: "Pangolin WireGuard" }
 
-# Firewall (extra rules beyond SSH)
-# ufw_extra_rules:
-#   - { rule: allow, port: 8080, proto: tcp, comment: "Web" }
+# LXC: auditd requires kernel-level audit subsystem, not available in containers
+auditd_enabled: false
 
-# Fail2Ban
-# fail2ban_enabled: true
-# fail2ban_extra_jails:
-#   - { name: nginx-http-auth, enabled: true, port: "http,https", filter: nginx-http-auth, logpath: /var/log/nginx/error.log }
+# LXC: vm.swappiness sysctl is not writable in containers
+swap_enabled: false
+swap_set_swappiness: false
 
-# Auditd
-# auditd_enabled: true
-# auditd_extra_rules:
-#   - "-w /etc/hosts -p wa -k network"
+# LXC: rkhunter kernel module checks fail without /sbin/modprobe
+rkhunter_enabled: false
 
-# Sysctl hardening
-# sysctl_hardening_enabled: true
+# LXC: freshclam daemon not available, use cron-based updates instead
+clamav_freshclam_daemon: false
 
-# PAM password quality
-# pam_pwquality_enabled: true
+# LXC: tcp_syncookies is not network-namespaced, remove from sysctl
+sysctl_hardening_settings:
+  net.ipv4.conf.all.accept_redirects: 0
+  net.ipv4.conf.default.accept_redirects: 0
+  net.ipv6.conf.all.accept_redirects: 0
+  net.ipv6.conf.default.accept_redirects: 0
+  net.ipv4.conf.all.send_redirects: 0
+  net.ipv4.conf.default.send_redirects: 0
+  net.ipv4.conf.all.accept_source_route: 0
+  net.ipv4.conf.default.accept_source_route: 0
+  net.ipv6.conf.all.accept_source_route: 0
+  net.ipv6.conf.default.accept_source_route: 0
+  net.ipv4.conf.all.log_martians: 1
+  net.ipv4.conf.default.log_martians: 1
+  net.ipv4.icmp_echo_ignore_broadcasts: 1
+  net.ipv4.conf.all.rp_filter: 1
+  net.ipv4.conf.default.rp_filter: 1
 
-# Docker
-# docker_enabled: true
+# Fail2ban: stricter SSH settings for public-facing host
+fail2ban_jails:
+  - name: sshd
+    enabled: true
+    port: ssh
+    filter: sshd
+    logpath: /var/log/auth.log
+    maxretry: 3
+    findtime: 10m
+    bantime: 24h
 
-# Cron
-# cron_docker_prune: true
-# cron_extra_jobs:
-#   - { name: "cleanup-logs", job: "find /var/log -name '*.gz' -mtime +30 -delete", schedule: "0 4 * * 0" }
+# Proxy (host directories + log symlink)
+proxy_enabled: true
 
-# rkhunter
-# rkhunter_enabled: true
-# rkhunter_schedule: "0 4 * * *"
-
-# ClamAV
-# clamav_enabled: true
-# clamav_schedule: "0 3 * * *"
-
-# Lynis
-# lynis_enabled: true
-# lynis_schedule: "0 5 * * 0"
-
-# Hawser (Dockhand agent)
-hawser_enabled: false
-hawser_bifrost: false
-
-# Komodo (Welle 2 — Periphery only, over Bifrost tunnel)
+# Komodo (Periphery only, over Bifrost tunnel)
 komodo_enabled: false
 agent_enabled: true
 agent_bifrost: true
