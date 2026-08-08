@@ -18,7 +18,6 @@ services:
       - "80:80"
       - "443:443"
       - "443:443/udp"
-      - "${BIFROST_LISTEN_PORT:-51821}:${BIFROST_LISTEN_PORT:-51821}/udp"
       - "2019:2019"
       - "6060:6060"
     environment:
