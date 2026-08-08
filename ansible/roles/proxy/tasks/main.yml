@@ -1,0 +1,19 @@
+- name: Skip if proxy disabled
+  ansible.builtin.meta: end_role
+  when: not proxy_enabled
+
+- name: Create proxy data directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0755"
+    owner: root
+    group: root
+  loop: "{{ proxy_dirs }}"
+
+- name: Create caddy log symlink
+  ansible.builtin.file:
+    src: "{{ proxy_base_path }}/caddy/logs"
+    dest: /var/log/caddy
+    state: link
+    force: true

@@ -23,6 +23,9 @@
 
 (defaults) {
 	import crowdsec
+	maxmind_geolocation {
+		db_path /geoip/GeoLite2-City.mmdb
+	}
 	encode zstd gzip
 	log {
 		output file /var/log/caddy/access.log {

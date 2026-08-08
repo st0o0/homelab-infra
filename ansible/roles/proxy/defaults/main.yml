@@ -1,0 +1,8 @@
+proxy_enabled: false
+proxy_base_path: /docker/proxy
+proxy_dirs:
+  - "{{ proxy_base_path }}/caddy/data"
+  - "{{ proxy_base_path }}/caddy/config"
+  - "{{ proxy_base_path }}/caddy/logs"
+  - "{{ proxy_base_path }}/crowdsec/data"
+  - "{{ proxy_base_path }}/crowdsec/config"

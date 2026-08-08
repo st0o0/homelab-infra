@@ -1,0 +1,261 @@
+{
+  "uid": "proxy",
+  "title": "Proxy & Security",
+  "description": "Caddy reverse proxy, CrowdSec WAF, fail2ban SSH protection, UFW firewall, and access logs.",
+  "tags": ["caddy", "crowdsec", "fail2ban", "proxy", "security"],
+  "editable": false,
+  "graphTooltip": 1,
+  "refresh": "30s",
+  "schemaVersion": 42,
+  "time": { "from": "now-6h", "to": "now" },
+  "timezone": "browser",
+  "templating": {
+    "list": [
+      {
+        "allValue": ".*",
+        "current": {},
+        "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+        "definition": "label_values(caddy_http_requests_total, instance)",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Instance",
+        "multi": true,
+        "name": "instance",
+        "options": [],
+        "query": { "qryType": 1, "query": "label_values(caddy_http_requests_total, instance)" },
+        "refresh": 2,
+        "sort": 1,
+        "type": "query"
+      }
+    ]
+  },
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": { "type": "grafana", "uid": "-- Grafana --" },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "panels": [
+    { "collapsed": false, "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 }, "id": 100, "panels": [], "title": "📊 Overview", "type": "row" },
+    {
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+      "fieldConfig": { "defaults": { "color": { "mode": "thresholds" }, "mappings": [{ "options": { "0": { "color": "red", "text": "Failed" }, "1": { "color": "green", "text": "OK" } }, "type": "value" }], "thresholds": { "mode": "absolute", "steps": [{ "color": "red" }, { "color": "green", "value": 1 }] } }, "overrides": [] },
+      "gridPos": { "h": 4, "w": 3, "x": 0, "y": 1 }, "id": 1,
+      "options": { "colorMode": "background", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "textMode": "auto" },
+      "targets": [{ "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "caddy_config_last_reload_successful{instance=~\"$instance\"}", "legendFormat": "{{instance}}", "refId": "A" }],
+      "title": "Caddy Config", "type": "stat"
+    },
+    {
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+      "fieldConfig": { "defaults": { "color": { "mode": "thresholds" }, "mappings": [{ "options": { "0": { "color": "green", "text": "Running" } }, "type": "value" }], "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }] } }, "overrides": [] },
+      "gridPos": { "h": 4, "w": 3, "x": 3, "y": 1 }, "id": 2,
+      "options": { "colorMode": "background", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "textMode": "auto" },
+      "targets": [{ "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "cs_info{instance=~\"$instance\"}", "legendFormat": "{{instance}}", "refId": "A" }],
+      "title": "CrowdSec", "type": "stat"
+    },
+    {
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+      "fieldConfig": { "defaults": { "color": { "mode": "thresholds" }, "mappings": [{ "options": { "1": { "color": "green", "text": "UP" }, "0": { "color": "red", "text": "DOWN" } }, "type": "value" }], "thresholds": { "mode": "absolute", "steps": [{ "color": "red" }, { "color": "green", "value": 1 }] } }, "overrides": [] },
+      "gridPos": { "h": 4, "w": 3, "x": 6, "y": 1 }, "id": 50,
+      "options": { "colorMode": "background", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "textMode": "auto" },
+      "targets": [{ "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "f2b_up{instance=~\"$instance\"}", "legendFormat": "{{instance}}", "refId": "A" }],
+      "title": "Fail2ban", "type": "stat"
+    },
+    {
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+      "fieldConfig": { "defaults": { "color": { "mode": "thresholds" }, "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }] }, "unit": "reqps" }, "overrides": [] },
+      "gridPos": { "h": 4, "w": 3, "x": 9, "y": 1 }, "id": 3,
+      "options": { "colorMode": "value", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "textMode": "auto" },
+      "targets": [{ "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(rate(caddy_http_requests_total{instance=~\"$instance\"}[$__rate_interval]))", "refId": "A" }],
+      "title": "Request Rate", "type": "stat"
+    },
+    {
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+      "fieldConfig": { "defaults": { "color": { "mode": "thresholds" }, "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }, { "color": "yellow", "value": 0.5 }, { "color": "red", "value": 2 }] }, "unit": "s" }, "overrides": [] },
+      "gridPos": { "h": 4, "w": 3, "x": 12, "y": 1 }, "id": 5,
+      "options": { "colorMode": "value", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "textMode": "auto" },
+      "targets": [{ "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(rate(caddy_http_request_duration_seconds_sum{instance=~\"$instance\"}[$__rate_interval])) / sum(rate(caddy_http_request_duration_seconds_count{instance=~\"$instance\"}[$__rate_interval]))", "refId": "A" }],
+      "title": "Avg Duration", "type": "stat"
+    },
+    {
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+      "fieldConfig": { "defaults": { "color": { "mode": "thresholds" }, "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }, { "color": "yellow", "value": 1 }, { "color": "orange", "value": 3 }, { "color": "red", "value": 10 }] }, "unit": "short" }, "overrides": [] },
+      "gridPos": { "h": 4, "w": 3, "x": 15, "y": 1 }, "id": 51,
+      "options": { "colorMode": "value", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "textMode": "auto" },
+      "targets": [{ "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(f2b_jail_banned_current{instance=~\"$instance\"})", "refId": "A" }],
+      "title": "Current Bans", "type": "stat"
+    },
+    {
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+      "fieldConfig": { "defaults": { "color": { "mode": "thresholds" }, "thresholds": { "mode": "absolute", "steps": [{ "color": "orange" }] }, "unit": "short" }, "overrides": [] },
+      "gridPos": { "h": 4, "w": 3, "x": 18, "y": 1 }, "id": 52,
+      "options": { "colorMode": "value", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "textMode": "auto" },
+      "targets": [{ "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(f2b_jail_failed_current{instance=~\"$instance\"})", "refId": "A" }],
+      "title": "Failed Attempts", "type": "stat"
+    },
+    {
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+      "fieldConfig": { "defaults": { "color": { "mode": "thresholds" }, "thresholds": { "mode": "absolute", "steps": [{ "color": "blue" }] } }, "overrides": [] },
+      "gridPos": { "h": 4, "w": 3, "x": 21, "y": 1 }, "id": 6,
+      "options": { "colorMode": "value", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "/^version$/", "values": false }, "textMode": "value" },
+      "targets": [{ "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "cs_info{instance=~\"$instance\"}", "format": "table", "instant": true, "refId": "A" }],
+      "title": "CrowdSec Version",
+      "transformations": [{ "id": "organize", "options": { "excludeByName": { "Time": true, "__name__": true, "host": true, "instance": true, "job": true, "Value": true } } }],
+      "type": "stat"
+    },
+
+    { "collapsed": false, "gridPos": { "h": 1, "w": 24, "x": 0, "y": 5 }, "id": 200, "panels": [], "title": "🌐 HTTP Traffic", "type": "row" },
+    {
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+      "fieldConfig": { "defaults": { "color": { "mode": "palette-classic" }, "custom": { "axisBorderShow": false, "axisCenteredZero": false, "axisPlacement": "auto", "drawStyle": "line", "fillOpacity": 20, "gradientMode": "none", "lineInterpolation": "smooth", "lineWidth": 2, "showPoints": "never", "spanNulls": false, "stacking": { "mode": "none" }, "thresholdsStyle": { "mode": "off" } }, "unit": "reqps" }, "overrides": [] },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 6 }, "id": 10,
+      "options": { "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" }, "tooltip": { "mode": "multi", "sort": "desc" } },
+      "targets": [{ "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum by (server) (rate(caddy_http_requests_total{instance=~\"$instance\"}[$__rate_interval]))", "legendFormat": "{{server}}", "refId": "A" }],
+      "title": "Request Rate by Server", "type": "timeseries"
+    },
+    {
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+      "fieldConfig": { "defaults": { "color": { "mode": "palette-classic" }, "custom": { "axisBorderShow": false, "axisCenteredZero": false, "axisPlacement": "auto", "drawStyle": "line", "fillOpacity": 20, "gradientMode": "none", "lineInterpolation": "smooth", "lineWidth": 2, "showPoints": "never", "spanNulls": false, "stacking": { "mode": "none" }, "thresholdsStyle": { "mode": "off" } }, "unit": "s" }, "overrides": [] },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 6 }, "id": 11,
+      "options": { "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" }, "tooltip": { "mode": "multi", "sort": "desc" } },
+      "targets": [
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "histogram_quantile(0.50, sum by (le) (rate(caddy_http_request_duration_seconds_bucket{instance=~\"$instance\"}[$__rate_interval])))", "legendFormat": "p50", "refId": "A" },
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "histogram_quantile(0.95, sum by (le) (rate(caddy_http_request_duration_seconds_bucket{instance=~\"$instance\"}[$__rate_interval])))", "legendFormat": "p95", "refId": "B" },
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "histogram_quantile(0.99, sum by (le) (rate(caddy_http_request_duration_seconds_bucket{instance=~\"$instance\"}[$__rate_interval])))", "legendFormat": "p99", "refId": "C" }
+      ],
+      "title": "Request Duration", "type": "timeseries"
+    },
+    {
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+      "fieldConfig": { "defaults": { "color": { "mode": "palette-classic" }, "custom": { "axisBorderShow": false, "axisCenteredZero": false, "axisPlacement": "auto", "drawStyle": "line", "fillOpacity": 20, "gradientMode": "none", "lineInterpolation": "smooth", "lineWidth": 2, "showPoints": "never", "spanNulls": false, "stacking": { "mode": "none" }, "thresholdsStyle": { "mode": "off" } }, "unit": "short" }, "overrides": [] },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 14 }, "id": 12,
+      "options": { "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" }, "tooltip": { "mode": "multi", "sort": "desc" } },
+      "targets": [{ "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(caddy_http_requests_in_flight{instance=~\"$instance\"})", "legendFormat": "In-Flight", "refId": "A" }],
+      "title": "Requests In-Flight", "type": "timeseries"
+    },
+    {
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+      "fieldConfig": { "defaults": { "color": { "mode": "palette-classic" }, "custom": { "axisBorderShow": false, "axisCenteredZero": false, "axisPlacement": "auto", "drawStyle": "line", "fillOpacity": 20, "gradientMode": "none", "lineInterpolation": "smooth", "lineWidth": 2, "showPoints": "never", "spanNulls": false, "stacking": { "mode": "none" }, "thresholdsStyle": { "mode": "off" } }, "unit": "Bps" }, "overrides": [] },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 14 }, "id": 13,
+      "options": { "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" }, "tooltip": { "mode": "multi", "sort": "desc" } },
+      "targets": [
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(rate(caddy_http_response_size_bytes_sum{instance=~\"$instance\"}[$__rate_interval]))", "legendFormat": "Response", "refId": "A" },
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(rate(caddy_http_request_size_bytes_sum{instance=~\"$instance\"}[$__rate_interval]))", "legendFormat": "Request", "refId": "B" }
+      ],
+      "title": "Bandwidth", "type": "timeseries"
+    },
+
+    { "collapsed": false, "gridPos": { "h": 1, "w": 24, "x": 0, "y": 22 }, "id": 300, "panels": [], "title": "🛡️ CrowdSec", "type": "row" },
+    {
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+      "fieldConfig": { "defaults": { "color": { "mode": "palette-classic" }, "custom": { "axisBorderShow": false, "axisCenteredZero": false, "axisPlacement": "auto", "drawStyle": "line", "fillOpacity": 20, "gradientMode": "none", "lineInterpolation": "smooth", "lineWidth": 2, "showPoints": "never", "spanNulls": false, "stacking": { "mode": "none" }, "thresholdsStyle": { "mode": "off" } }, "unit": "reqps" }, "overrides": [] },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 23 }, "id": 20,
+      "options": { "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" }, "tooltip": { "mode": "multi", "sort": "desc" } },
+      "targets": [{ "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum by (route, method) (rate(cs_lapi_route_requests_total{instance=~\"$instance\"}[$__rate_interval]))", "legendFormat": "{{method}} {{route}}", "refId": "A" }],
+      "title": "LAPI Request Rate by Route", "type": "timeseries"
+    },
+    {
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+      "fieldConfig": { "defaults": { "color": { "mode": "palette-classic" }, "custom": { "axisBorderShow": false, "axisCenteredZero": false, "axisPlacement": "auto", "drawStyle": "line", "fillOpacity": 20, "gradientMode": "none", "lineInterpolation": "smooth", "lineWidth": 2, "showPoints": "never", "spanNulls": false, "stacking": { "mode": "none" }, "thresholdsStyle": { "mode": "off" } }, "unit": "s" }, "overrides": [] },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 23 }, "id": 21,
+      "options": { "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" }, "tooltip": { "mode": "multi", "sort": "desc" } },
+      "targets": [
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "histogram_quantile(0.50, sum by (le) (rate(cs_lapi_request_duration_seconds_bucket{instance=~\"$instance\"}[$__rate_interval])))", "legendFormat": "p50", "refId": "A" },
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "histogram_quantile(0.95, sum by (le) (rate(cs_lapi_request_duration_seconds_bucket{instance=~\"$instance\"}[$__rate_interval])))", "legendFormat": "p95", "refId": "B" }
+      ],
+      "title": "LAPI Request Duration", "type": "timeseries"
+    },
+    {
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+      "fieldConfig": { "defaults": { "color": { "mode": "palette-classic" }, "custom": { "axisBorderShow": false, "axisCenteredZero": false, "axisPlacement": "auto", "drawStyle": "line", "fillOpacity": 20, "gradientMode": "none", "lineInterpolation": "smooth", "lineWidth": 2, "showPoints": "never", "spanNulls": false, "stacking": { "mode": "none" }, "thresholdsStyle": { "mode": "off" } }, "unit": "reqps" }, "overrides": [] },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 31 }, "id": 22,
+      "options": { "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" }, "tooltip": { "mode": "multi", "sort": "desc" } },
+      "targets": [
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum by (bouncer) (rate(cs_lapi_bouncer_requests_total{instance=~\"$instance\"}[$__rate_interval]))", "legendFormat": "{{bouncer}}", "refId": "A" },
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(rate(cs_lapi_machine_requests_total{instance=~\"$instance\"}[$__rate_interval]))", "legendFormat": "machine", "refId": "B" }
+      ],
+      "title": "Bouncer vs Machine Requests", "type": "timeseries"
+    },
+    {
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+      "fieldConfig": { "defaults": { "color": { "mode": "palette-classic" }, "custom": { "axisBorderShow": false, "axisCenteredZero": false, "axisPlacement": "auto", "drawStyle": "line", "fillOpacity": 20, "gradientMode": "none", "lineInterpolation": "smooth", "lineWidth": 2, "showPoints": "never", "spanNulls": false, "stacking": { "mode": "none" }, "thresholdsStyle": { "mode": "off" } }, "unit": "short" }, "overrides": [] },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 31 }, "id": 23,
+      "options": { "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" }, "tooltip": { "mode": "multi", "sort": "desc" } },
+      "targets": [
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "rate(cs_papi_poll_errors_total{instance=~\"$instance\"}[$__rate_interval])", "legendFormat": "Poll Errors", "refId": "A" },
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "rate(cs_papi_invalid_orders_received_total{instance=~\"$instance\"}[$__rate_interval])", "legendFormat": "Invalid Orders", "refId": "B" }
+      ],
+      "title": "PAPI Errors", "type": "timeseries"
+    },
+
+    { "collapsed": false, "gridPos": { "h": 1, "w": 24, "x": 0, "y": 39 }, "id": 400, "panels": [], "title": "🚫 Fail2ban", "type": "row" },
+    {
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+      "fieldConfig": { "defaults": { "color": { "mode": "palette-classic" }, "custom": { "axisBorderShow": false, "axisCenteredZero": false, "axisPlacement": "auto", "drawStyle": "line", "fillOpacity": 20, "gradientMode": "none", "lineInterpolation": "smooth", "lineWidth": 2, "showPoints": "never", "spanNulls": false, "stacking": { "mode": "none" }, "thresholdsStyle": { "mode": "off" } }, "unit": "short" }, "overrides": [] },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 40 }, "id": 53,
+      "options": { "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" }, "tooltip": { "mode": "multi", "sort": "desc" } },
+      "targets": [
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "f2b_jail_banned_current{instance=~\"$instance\"}", "legendFormat": "Banned {{jail}}", "refId": "A" },
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "f2b_jail_failed_current{instance=~\"$instance\"}", "legendFormat": "Failed {{jail}}", "refId": "B" }
+      ],
+      "title": "Banned & Failed by Jail", "type": "timeseries"
+    },
+    {
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+      "fieldConfig": { "defaults": { "color": { "mode": "palette-classic" }, "custom": { "axisBorderShow": false, "axisCenteredZero": false, "axisPlacement": "auto", "drawStyle": "line", "fillOpacity": 20, "gradientMode": "none", "lineInterpolation": "smooth", "lineWidth": 2, "showPoints": "never", "spanNulls": false, "stacking": { "mode": "none" }, "thresholdsStyle": { "mode": "off" } }, "unit": "short" }, "overrides": [] },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 40 }, "id": 54,
+      "options": { "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" }, "tooltip": { "mode": "multi", "sort": "desc" } },
+      "targets": [
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "rate(f2b_jail_banned_total{instance=~\"$instance\"}[$__rate_interval])", "legendFormat": "Ban Rate {{jail}}", "refId": "A" },
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "rate(f2b_jail_failed_total{instance=~\"$instance\"}[$__rate_interval])", "legendFormat": "Fail Rate {{jail}}", "refId": "B" }
+      ],
+      "title": "Ban & Fail Rate", "type": "timeseries"
+    },
+
+    { "collapsed": false, "gridPos": { "h": 1, "w": 24, "x": 0, "y": 48 }, "id": 500, "panels": [], "title": "🔒 Security Logs", "type": "row" },
+    {
+      "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
+      "gridPos": { "h": 8, "w": 8, "x": 0, "y": 49 }, "id": 40,
+      "options": { "showTime": true, "showLabels": false, "showCommonLabels": false, "wrapLogMessage": false, "prettifyLogMessage": false, "enableLogDetails": true, "sortOrder": "Descending", "dedupStrategy": "none" },
+      "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"fail2ban\", host=~\"${instance:regex}\"}", "refId": "A" }],
+      "title": "Fail2ban Activity", "type": "logs"
+    },
+    {
+      "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
+      "gridPos": { "h": 8, "w": 8, "x": 8, "y": 49 }, "id": 41,
+      "options": { "showTime": true, "showLabels": false, "showCommonLabels": false, "wrapLogMessage": false, "prettifyLogMessage": false, "enableLogDetails": true, "sortOrder": "Descending", "dedupStrategy": "none" },
+      "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"auth\", host=~\"${instance:regex}\"} NOT Accepted NOT session NOT pam_unix", "refId": "A" }],
+      "title": "SSH Auth Failures", "type": "logs"
+    },
+    {
+      "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
+      "gridPos": { "h": 8, "w": 8, "x": 16, "y": 49 }, "id": 42,
+      "options": { "showTime": true, "showLabels": false, "showCommonLabels": false, "wrapLogMessage": false, "prettifyLogMessage": false, "enableLogDetails": true, "sortOrder": "Descending", "dedupStrategy": "none" },
+      "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"ufw\", host=~\"${instance:regex}\"}", "refId": "A" }],
+      "title": "UFW Firewall", "type": "logs"
+    },
+    {
+      "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
+      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 57 }, "id": 24,
+      "options": { "showTime": true, "showLabels": false, "showCommonLabels": false, "wrapLogMessage": false, "prettifyLogMessage": false, "enableLogDetails": true, "sortOrder": "Descending", "dedupStrategy": "none" },
+      "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{container=\"crowdsec\", host=~\"${instance:regex}\"} NOT heartbeat NOT decisions/stream", "refId": "A" }],
+      "title": "CrowdSec Events", "description": "CrowdSec logs excluding routine heartbeats and bouncer polling.", "type": "logs"
+    },
+
+    { "collapsed": false, "gridPos": { "h": 1, "w": 24, "x": 0, "y": 65 }, "id": 600, "panels": [], "title": "📋 Access Logs", "type": "row" },
+    {
+      "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
+      "gridPos": { "h": 12, "w": 24, "x": 0, "y": 66 }, "id": 30,
+      "options": { "showTime": true, "showLabels": false, "showCommonLabels": false, "wrapLogMessage": false, "prettifyLogMessage": true, "enableLogDetails": true, "sortOrder": "Descending", "dedupStrategy": "none" },
+      "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"caddy-access\", host=~\"${instance:regex}\"}", "refId": "A" }],
+      "title": "Caddy Access Logs", "description": "JSON access logs with client IPs, methods, URIs, status codes, response times, and GeoIP data.", "type": "logs"
+    }
+  ]
+}

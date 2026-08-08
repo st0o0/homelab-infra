@@ -1,12 +1,12 @@
 # ── FeelsPrivateMan ───────────────────────────────────────────────────
 
 [[stack]]
-name = "caddy-1"
-tags = ["infra", "security"]
+name = "proxy"
+tags = ["infra", "security", "observability"]
 [stack.config]
 server = "FeelsPrivateMan"
-project_name = "caddy-1"
-run_directory = "stacks/caddy"
+project_name = "proxy"
+run_directory = "stacks/proxy"
 file_paths = ["compose.yml"]
 linked_repo = "homelab-infra"
 extra_args = ["--remove-orphans"]
@@ -28,13 +28,22 @@ BIFROST_INTERFACE=wg1
 CROWDSEC_BOUNCER_API_KEY=[[FeelsPrivateMan_crowdsec_bouncer_api_key]]
 
 # ── Eir ──────────────────────────────────────────────────────
-EIR_MASTERS=caddy-bifrost,caddy,crowdsec
+EIR_MASTERS=proxy-bifrost,caddy,crowdsec,proxy-alloy
 EIR_DISCOVERY_MODE=inspect
 EIR_STABILIZE_WAIT=15s
 EIR_MAX_RETRIES=3
 EIR_RETRY_BACKOFF=5s
 EIR_LOG_LEVEL=info
 EIR_LOG_FORMAT=text
+
+# ── Alloy (observability) ───────────────────────────────────
+ALLOY_HOSTNAME=FeelsPrivateMan
+ALLOY_REMOTE_WRITE_URL=[[FeelsPrivateMan_metrics_remote_write_url]]
+ALLOY_LOGS_PUSH_URL=[[FeelsPrivateMan_metrics_logs_push_url]]
+
+# ── GeoIP (MaxMind) ─────────────────────────────────────────
+GEOIPUPDATE_ACCOUNT_ID=[[FeelsPrivateMan_geoipupdate_account_id]]
+GEOIPUPDATE_LICENSE_KEY=[[FeelsPrivateMan_geoipupdate_license_key]]
 
 # ── Caddy reverse proxy ─────────────────────────────────────
 # Enable services by renaming sites/*.caddy.disabled to *.caddy
@@ -51,43 +60,4 @@ EIR_LOG_FORMAT=text
 # CADDY_TARGET_VAULTWARDEN=[[FeelsPrivateMan_caddy_target_vaultwarden]]
 # CADDY_DOMAIN_AUTHENTIK=[[FeelsPrivateMan_caddy_domain_authentik]]
 # CADDY_TARGET_AUTHENTIK=[[FeelsPrivateMan_caddy_target_authentik]]
-"""
-
-[[stack]]
-name = "alloy-4"
-tags = ["observability"]
-after = ["caddy-1"]
-[stack.config]
-server = "FeelsPrivateMan"
-project_name = "alloy-4"
-run_directory = "stacks/alloy"
-file_paths = [
-  "compose.yml",
-  "compose.override.bifrost.yaml",
-]
-linked_repo = "homelab-infra"
-extra_args = ["--remove-orphans"]
-environment = """
-TZ=[[tz]]
-
-# ── Alloy uses caddy-bifrost (shared WG tunnel) ─────────────
-BIFROST_CONTAINER_NAME=caddy-bifrost
-
-# ── Alloy ────────────────────────────────────────────────────
-ALLOY_HOSTNAME=FeelsPrivateMan
-ALLOY_REMOTE_WRITE_URL=[[FeelsPrivateMan_metrics_remote_write_url]]
-ALLOY_LOGS_PUSH_URL=[[FeelsPrivateMan_metrics_logs_push_url]]
-ALLOY_SCRAPE_INTERVAL=30s
-
-# ── Feature flags (max observability for VPS) ────────────────
-ALLOY_SECURITY_LOGS_ENABLED=true
-ALLOY_CADDY_METRICS_ENABLED=true
-ALLOY_CADDY_METRICS_TARGET=localhost:2019
-ALLOY_CROWDSEC_METRICS_ENABLED=true
-ALLOY_CROWDSEC_METRICS_TARGET=localhost:6060
-ALLOY_NUT_ENABLED=false
-
-# ── cAdvisor tuning ──────────────────────────────────────────
-CADVISOR_DOCKER_ONLY=true
-CADVISOR_STORE_LABELS=true
 """

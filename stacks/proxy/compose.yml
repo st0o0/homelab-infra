@@ -7,7 +7,7 @@ x-logging: &default-logging
 services:
   bifrost:
     image: ghcr.io/st0o0/bifrost:0.2.0
-    container_name: caddy-bifrost
+    container_name: proxy-bifrost
     restart: unless-stopped
     logging: *default-logging
     cap_add:
@@ -50,14 +50,14 @@ services:
 
   eir:
     image: ghcr.io/st0o0/eir:0.1.0
-    container_name: caddy-eir
+    container_name: proxy-eir
     restart: unless-stopped
     logging: *default-logging
     depends_on:
       bifrost:
         condition: service_started
     environment:
-      - EIR_MASTERS=${EIR_MASTERS:-caddy-bifrost,caddy,crowdsec}
+      - EIR_MASTERS=${EIR_MASTERS:-proxy-bifrost,caddy,crowdsec,alloy}
       - EIR_DISCOVERY_MODE=${EIR_DISCOVERY_MODE:-inspect}
       - EIR_STABILIZE_WAIT=${EIR_STABILIZE_WAIT:-15s}
       - EIR_MAX_RETRIES=${EIR_MAX_RETRIES:-3}
@@ -90,12 +90,12 @@ services:
     environment:
       - CROWDSEC_BOUNCER_API_KEY=${CROWDSEC_BOUNCER_API_KEY:?CROWDSEC_BOUNCER_API_KEY is required}
     volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile:ro
-      - ./sites:/etc/caddy/sites:ro
-      - caddy-data:/data
-      - caddy-config:/config
-      - caddy-logs:/var/log/caddy
-      - ${GEOIP_DB_PATH:-/opt/caddy/GeoLite2-City.mmdb}:/data/GeoLite2-City.mmdb:ro
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./caddy/sites:/etc/caddy/sites:ro
+      - /docker/proxy/caddy/data:/data
+      - /docker/proxy/caddy/config:/config
+      - /docker/proxy/caddy/logs:/var/log/caddy
+      - geoip-data:/geoip:ro
     deploy:
       resources:
         limits:
@@ -119,9 +119,9 @@ services:
     volumes:
       - ./crowdsec/acquis.yaml:/etc/crowdsec/acquis.yaml:ro
       - ./crowdsec/config.yaml.local:/etc/crowdsec/config.yaml.local:ro
-      - crowdsec-data:/var/lib/crowdsec/data
-      - crowdsec-config:/etc/crowdsec
-      - caddy-logs:/var/log/caddy:ro
+      - /docker/proxy/crowdsec/data:/var/lib/crowdsec/data
+      - /docker/proxy/crowdsec/config:/etc/crowdsec
+      - /docker/proxy/caddy/logs:/var/log/caddy:ro
     deploy:
       resources:
         limits:
@@ -130,9 +130,85 @@ services:
         reservations:
           memory: 128M
 
+  geoipupdate:
+    image: maxmindinc/geoipupdate:v7
+    container_name: proxy-geoipupdate
+    restart: unless-stopped
+    logging: *default-logging
+    environment:
+      - GEOIPUPDATE_ACCOUNT_ID=${GEOIPUPDATE_ACCOUNT_ID:?GEOIPUPDATE_ACCOUNT_ID is required}
+      - GEOIPUPDATE_LICENSE_KEY=${GEOIPUPDATE_LICENSE_KEY:?GEOIPUPDATE_LICENSE_KEY is required}
+      - GEOIPUPDATE_EDITION_IDS=GeoLite2-City
+      - GEOIPUPDATE_FREQUENCY=${GEOIPUPDATE_FREQUENCY:-24}
+    volumes:
+      - geoip-data:/usr/share/GeoIP
+    deploy:
+      resources:
+        limits:
+          cpus: "0.10"
+          memory: 64M
+        reservations:
+          memory: 32M
+
+  fail2ban-exporter:
+    image: registry.gitlab.com/hectorjsmith/fail2ban-prometheus-exporter:latest
+    container_name: proxy-fail2ban-exporter
+    restart: unless-stopped
+    logging: *default-logging
+    network_mode: service:bifrost
+    depends_on:
+      bifrost:
+        condition: service_started
+    volumes:
+      - /var/run/fail2ban:/var/run/fail2ban:ro
+    command:
+      - --web.listen-address=:9191
+      - --collector.f2b.socket=/var/run/fail2ban/fail2ban.sock
+    deploy:
+      resources:
+        limits:
+          cpus: "0.10"
+          memory: 64M
+        reservations:
+          memory: 32M
+
+  alloy:
+    image: grafana/alloy:v1.17.1
+    container_name: proxy-alloy
+    restart: unless-stopped
+    logging: *default-logging
+    network_mode: service:bifrost
+    depends_on:
+      bifrost:
+        condition: service_started
+    command:
+      - run
+      - /etc/alloy/
+      - --storage.path=/var/lib/alloy/data
+      - --server.http.listen-addr=0.0.0.0:12345
+    environment:
+      - HOST_HOSTNAME=${ALLOY_HOSTNAME:-}
+      - REMOTE_WRITE_URL=${ALLOY_REMOTE_WRITE_URL:?ALLOY_REMOTE_WRITE_URL is required}
+      - LOGS_PUSH_URL=${ALLOY_LOGS_PUSH_URL:?ALLOY_LOGS_PUSH_URL is required}
+    privileged: true
+    volumes:
+      - ./alloy:/etc/alloy:ro
+      - alloy-data:/var/lib/alloy/data
+      - /var/log:/var/log/host:ro
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /sys:/sys:ro
+      - /:/rootfs:ro
+      - /var/run:/var/run
+      - /var/lib/docker/:/var/lib/docker:ro
+    deploy:
+      resources:
+        limits:
+          cpus: 0.50
+          memory: 512M
+        reservations:
+          memory: 256M
+
 volumes:
-  caddy-data:
-  caddy-config:
-  caddy-logs:
-  crowdsec-data:
-  crowdsec-config:
+  geoip-data:
+  alloy-data:
