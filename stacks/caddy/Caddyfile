@@ -1,12 +1,12 @@
 {
+	order crowdsec first
+
 	crowdsec {
 		api_url http://localhost:8080
 		api_key {$CROWDSEC_BOUNCER_API_KEY}
 	}
 
-	servers {
-		metrics
-	}
+	metrics
 
 	log {
 		level INFO
