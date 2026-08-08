@@ -2,47 +2,56 @@
   hosts: all
   become: true
   roles:
+    # ── Manual (never runs without explicit tag) ──────────────
     - role: bootstrap
       tags: [bootstrap, never]
     - role: ssh
       tags: [ssh, bootstrap, never]
-    - role: swap
-      tags: [swap]
-    - role: unattended_upgrades
-      tags: [unattended_upgrades]
-    - role: ufw
-      tags: [ufw]
-    - role: fail2ban
-      tags: [fail2ban]
-    - role: auditd
-      tags: [auditd]
-    - role: sysctl_hardening
-      tags: [sysctl_hardening]
-    - role: pam_pwquality
-      tags: [pam_pwquality]
-    - role: docker
-      tags: [docker]
-    - role: pve_exporter
-      tags: [pve_exporter]
-    - role: ups
-      tags: [ups]
-    - role: cron
-      tags: [cron]
-    - role: rkhunter
-      tags: [rkhunter]
-    - role: clamav
-      tags: [clamav]
-    - role: lynis
-      tags: [lynis]
-    - role: shell
-      tags: [shell]
-    - role: bifrost
-      tags: [bifrost]
-    - role: hawser
-      tags: [hawser]
-    - role: komodo
-      tags: [komodo]
-    - role: agent
-      tags: [agent]
     - role: stack_report
       tags: [stack_report, never]
+
+    # ── System ────────────────────────────────────────────────
+    - role: swap
+      tags: [system, swap]
+    - role: unattended_upgrades
+      tags: [system, unattended_upgrades]
+    - role: docker
+      tags: [system, docker]
+    - role: shell
+      tags: [system, shell]
+    - role: cron
+      tags: [system, cron]
+
+    # ── Security ──────────────────────────────────────────────
+    - role: ufw
+      tags: [security, ufw]
+    - role: fail2ban
+      tags: [security, fail2ban]
+    - role: auditd
+      tags: [security, auditd]
+    - role: sysctl_hardening
+      tags: [security, sysctl_hardening]
+    - role: pam_pwquality
+      tags: [security, pam_pwquality]
+    - role: rkhunter
+      tags: [security, rkhunter]
+    - role: clamav
+      tags: [security, clamav]
+    - role: lynis
+      tags: [security, lynis]
+
+    # ── Infra ─────────────────────────────────────────────────
+    - role: proxy
+      tags: [infra, proxy]
+    - role: pve_exporter
+      tags: [infra, pve_exporter]
+    - role: ups
+      tags: [infra, ups]
+
+    # ── Management ────────────────────────────────────────────
+    - role: bifrost
+      tags: [management, bifrost]
+    - role: komodo
+      tags: [management, komodo]
+    - role: agent
+      tags: [management, agent]
