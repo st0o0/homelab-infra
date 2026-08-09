@@ -18,5 +18,10 @@ modules.security "default" {
   forward_to = [loki.process.system.receiver]
 }
 
+modules.ufw "default" {
+  enabled    = coalesce(sys.env("UFW_LOG_ENABLED"), "false")
+  forward_to = [loki.process.system.receiver]
+}
+
 // Metrics scrape modules moved to standalone feature files
 // loaded via compose overrides — see alloy/features/

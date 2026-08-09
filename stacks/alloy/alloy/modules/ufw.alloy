@@ -1,0 +1,48 @@
+declare "ufw" {
+  argument "enabled" {
+    optional = true
+    default  = "false"
+  }
+
+  argument "forward_to" {
+    optional = false
+  }
+
+  local.file_match "ufw" {
+    path_targets = [
+      {__path__ = "/var/log/host/ufw.log", job = "ufw", __tmp_enabled = argument.enabled.value},
+    ]
+  }
+
+  discovery.relabel "ufw" {
+    targets = local.file_match.ufw.targets
+
+    rule {
+      source_labels = ["__tmp_enabled"]
+      regex         = "true"
+      action        = "keep"
+    }
+  }
+
+  loki.source.file "ufw" {
+    targets    = discovery.relabel.ufw.output
+    forward_to = [loki.process.ufw.receiver]
+  }
+
+  loki.process "ufw" {
+    // RFC 5424: strip timestamp, hostname, kernel prefix + uptime counter
+    stage.regex {
+      expression = "^(?P<timestamp_rfc>\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d+[+-]\\d{2}:\\d{2}) \\S+ \\S+:\\s*(?:\\[\\s*\\d+\\.\\d+\\]\\s*)?(?P<content>.+)"
+    }
+    stage.timestamp {
+      source = "timestamp_rfc"
+      format = "2006-01-02T15:04:05.000000-07:00"
+    }
+
+    stage.output {
+      source = "content"
+    }
+
+    forward_to = argument.forward_to.value
+  }
+}
