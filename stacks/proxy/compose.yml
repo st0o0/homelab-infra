@@ -96,7 +96,7 @@ services:
       - ./caddy/sites:/etc/caddy/sites:ro
       - /docker/proxy/caddy/data:/data
       - /docker/proxy/caddy/config:/config
-      - /docker/proxy/caddy/logs:/var/log/caddy
+      - /var/log/caddy:/var/log/caddy
       - geoip-data:/geoip:ro
     deploy:
       resources:
@@ -123,7 +123,7 @@ services:
       - ./crowdsec/config.yaml.local:/etc/crowdsec/config.yaml.local:ro
       - /docker/proxy/crowdsec/data:/var/lib/crowdsec/data
       - /docker/proxy/crowdsec/config:/etc/crowdsec
-      - /docker/proxy/caddy/logs:/var/log/caddy:ro
+      - /var/log/caddy:/var/log/caddy:ro
     healthcheck:
       test: ["CMD", "cscli", "version"]
       interval: 10s
@@ -191,7 +191,6 @@ services:
       - alloy-data:/var/lib/alloy/data
       - geoip-data:/geoip:ro
       - /var/log:/var/log/host:ro
-      - /docker/proxy/caddy/logs:/var/log/host/caddy:ro
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
       - /sys:/sys:ro
