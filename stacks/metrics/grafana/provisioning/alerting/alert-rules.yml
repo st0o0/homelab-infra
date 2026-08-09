@@ -259,7 +259,7 @@ groups:
         labels:
           severity: warning
         annotations:
-          summary: "Container {{ $labels.name }} on {{ $labels.host }} is using {{ $value }}% of its memory limit"
+          summary: "{{ $labels.name }} ({{ $labels.host }}) at {{ $value }}% mem limit"
         data:
           - refId: A
             relativeTimeRange:
