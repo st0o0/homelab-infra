@@ -159,7 +159,21 @@ loki.source.docker "containers" {
   targets       = discovery.docker.containers.targets
   relabel_rules = discovery.relabel.containers.rules
   labels        = { job = "docker" }
-  forward_to    = [loki.write.central.receiver]
+  forward_to    = [loki.process.docker.receiver]
+}
+
+loki.process "docker" {
+  stage.json {
+    expressions = {
+      msg = "msg",
+    }
+  }
+
+  stage.output {
+    source = "msg"
+  }
+
+  forward_to = [loki.write.central.receiver]
 }
 
 // ── System Logs ─────────────────────────────────────────────
@@ -515,6 +529,16 @@ loki.process "caddy_access" {
       geoip_latitude     = "",
       geoip_longitude    = "",
     }
+  }
+
+  stage.json {
+    expressions = {
+      msg = "msg",
+    }
+  }
+
+  stage.output {
+    source = "msg"
   }
 
   forward_to = [loki.write.central.receiver]
