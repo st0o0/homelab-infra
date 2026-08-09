@@ -1,4 +1,4 @@
-declare "auth_log" {
+declare "auth" {
   argument "enabled" {
     optional = true
     default  = "false"
@@ -30,28 +30,28 @@ declare "auth_log" {
   }
 
   loki.process "auth" {
+    // RFC 5424 ISO timestamp + strip syslog prefix
     stage.regex {
-      expression = "^(?P<timestamp>\\w{3}\\s+\\d{1,2}\\s+\\d{2}:\\d{2}:\\d{2})"
+      expression = "^(?P<timestamp_rfc>\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d+[+-]\\d{2}:\\d{2}) \\S+ \\S+\\[\\d+\\]:\\s*(?P<content>.+)"
     }
-
     stage.timestamp {
-      source = "timestamp"
-      format = "Jan  2 15:04:05"
+      source = "timestamp_rfc"
+      format = "2006-01-02T15:04:05.000000-07:00"
     }
 
     // SSH accepted: "Accepted publickey for <user> from <ip>"
     stage.regex {
-      expression = "sshd\\[\\d+\\]: Accepted \\S+ for (?P<ssh_accepted_user>\\S+) from (?P<ssh_accepted_ip>\\d+\\.\\d+\\.\\d+\\.\\d+)"
+      expression = "sshd(-session)?\\[\\d+\\]: Accepted \\S+ for (?P<ssh_accepted_user>\\S+) from (?P<ssh_accepted_ip>\\d+\\.\\d+\\.\\d+\\.\\d+)"
     }
 
-    // SSH invalid user: "Failed password for invalid user <user> from <ip>"
+    // SSH invalid user: "Invalid user <user> from <ip>"
     stage.regex {
-      expression = "sshd\\[\\d+\\]: Failed password for invalid user (?P<ssh_invalid_user>\\S+) from (?P<ssh_invalid_ip>\\d+\\.\\d+\\.\\d+\\.\\d+)"
+      expression = "sshd(-session)?\\[\\d+\\]: Invalid user (?P<ssh_invalid_user>\\S+) from (?P<ssh_invalid_ip>\\d+\\.\\d+\\.\\d+\\.\\d+)"
     }
 
     // SSH failed: "Failed password for <user> from <ip>"
     stage.regex {
-      expression = "sshd\\[\\d+\\]: Failed password for (?P<ssh_failed_user>\\S+) from (?P<ssh_failed_ip>\\d+\\.\\d+\\.\\d+\\.\\d+)"
+      expression = "sshd(-session)?\\[\\d+\\]: Failed password for (?P<ssh_failed_user>\\S+) from (?P<ssh_failed_ip>\\d+\\.\\d+\\.\\d+\\.\\d+)"
     }
 
     // Sudo success: "<user> : TTY=..."
@@ -70,7 +70,7 @@ declare "auth_log" {
         description       = "SSH logins accepted"
         source            = "ssh_accepted_user"
         action            = "inc"
-        prefix            = ""
+
         max_idle_duration = "24h"
       }
       metric.counter {
@@ -78,7 +78,7 @@ declare "auth_log" {
         description       = "SSH logins failed"
         source            = "ssh_failed_user"
         action            = "inc"
-        prefix            = ""
+
         max_idle_duration = "24h"
       }
       metric.counter {
@@ -86,7 +86,7 @@ declare "auth_log" {
         description       = "SSH logins for non-existent users"
         source            = "ssh_invalid_user"
         action            = "inc"
-        prefix            = ""
+
         max_idle_duration = "24h"
       }
       metric.counter {
@@ -94,7 +94,7 @@ declare "auth_log" {
         description       = "Successful sudo invocations"
         source            = "sudo_success_user"
         action            = "inc"
-        prefix            = ""
+
         max_idle_duration = "24h"
       }
       metric.counter {
@@ -102,9 +102,13 @@ declare "auth_log" {
         description       = "Failed sudo attempts"
         source            = "sudo_failed_user"
         action            = "inc"
-        prefix            = ""
+
         max_idle_duration = "24h"
       }
+    }
+
+    stage.output {
+      source = "content"
     }
 
     forward_to = argument.forward_to.value

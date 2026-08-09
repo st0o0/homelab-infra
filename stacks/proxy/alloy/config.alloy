@@ -151,12 +151,12 @@ loki.source.file "system" {
 
 loki.process "system" {
   stage.regex {
-    expression = "^(?P<timestamp>\\w{3}\\s+\\d{1,2}\\s+\\d{2}:\\d{2}:\\d{2})"
+    expression = "^(?P<timestamp>\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d+[+-]\\d{2}:\\d{2})"
   }
 
   stage.timestamp {
     source = "timestamp"
-    format = "Jan  2 15:04:05"
+    format = "RFC3339Nano"
   }
 
   forward_to = [loki.write.central.receiver]
@@ -176,28 +176,28 @@ loki.source.file "auth" {
 }
 
 loki.process "auth" {
+  // RFC 5424 ISO timestamp + strip syslog prefix
   stage.regex {
-    expression = "^(?P<timestamp>\\w{3}\\s+\\d{1,2}\\s+\\d{2}:\\d{2}:\\d{2})"
+    expression = "^(?P<timestamp_rfc>\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d+[+-]\\d{2}:\\d{2}) \\S+ \\S+\\[\\d+\\]:\\s*(?P<content>.+)"
   }
-
   stage.timestamp {
-    source = "timestamp"
-    format = "Jan  2 15:04:05"
+    source = "timestamp_rfc"
+    format = "2006-01-02T15:04:05.000000-07:00"
   }
 
   // SSH accepted: "Accepted publickey for <user> from <ip>"
   stage.regex {
-    expression = "sshd\\[\\d+\\]: Accepted \\S+ for (?P<ssh_accepted_user>\\S+) from (?P<ssh_accepted_ip>\\d+\\.\\d+\\.\\d+\\.\\d+)"
+    expression = "sshd(-session)?\\[\\d+\\]: Accepted \\S+ for (?P<ssh_accepted_user>\\S+) from (?P<ssh_accepted_ip>\\d+\\.\\d+\\.\\d+\\.\\d+)"
   }
 
-  // SSH invalid user: "Failed password for invalid user <user> from <ip>"
+  // SSH invalid user: "Invalid user <user> from <ip>"
   stage.regex {
-    expression = "sshd\\[\\d+\\]: Failed password for invalid user (?P<ssh_invalid_user>\\S+) from (?P<ssh_invalid_ip>\\d+\\.\\d+\\.\\d+\\.\\d+)"
+    expression = "sshd(-session)?\\[\\d+\\]: Invalid user (?P<ssh_invalid_user>\\S+) from (?P<ssh_invalid_ip>\\d+\\.\\d+\\.\\d+\\.\\d+)"
   }
 
   // SSH failed: "Failed password for <user> from <ip>"
   stage.regex {
-    expression = "sshd\\[\\d+\\]: Failed password for (?P<ssh_failed_user>\\S+) from (?P<ssh_failed_ip>\\d+\\.\\d+\\.\\d+\\.\\d+)"
+    expression = "sshd(-session)?\\[\\d+\\]: Failed password for (?P<ssh_failed_user>\\S+) from (?P<ssh_failed_ip>\\d+\\.\\d+\\.\\d+\\.\\d+)"
   }
 
   // Sudo success: "<user> : TTY=..."
@@ -217,7 +217,7 @@ loki.process "auth" {
   }
 
   stage.match {
-    selector = "{job=\"auth\"} |~ \"sshd\\\\[\\\\d+\\\\]: (Accepted|Failed)\""
+    selector = "{job=\"auth\"} |~ \"from \\\\d+\\\\.\\\\d+\\\\.\\\\d+\\\\.\\\\d+\""
 
     stage.geoip {
       source  = "ip"
@@ -238,7 +238,7 @@ loki.process "auth" {
       description       = "SSH logins accepted"
       source            = "ssh_accepted_user"
       action            = "inc"
-      prefix            = ""
+
       max_idle_duration = "24h"
     }
     metric.counter {
@@ -246,7 +246,7 @@ loki.process "auth" {
       description       = "SSH logins failed"
       source            = "ssh_failed_user"
       action            = "inc"
-      prefix            = ""
+
       max_idle_duration = "24h"
     }
     metric.counter {
@@ -254,7 +254,7 @@ loki.process "auth" {
       description       = "SSH logins for non-existent users"
       source            = "ssh_invalid_user"
       action            = "inc"
-      prefix            = ""
+
       max_idle_duration = "24h"
     }
     metric.counter {
@@ -262,7 +262,7 @@ loki.process "auth" {
       description       = "Successful sudo invocations"
       source            = "sudo_success_user"
       action            = "inc"
-      prefix            = ""
+
       max_idle_duration = "24h"
     }
     metric.counter {
@@ -270,9 +270,13 @@ loki.process "auth" {
       description       = "Failed sudo attempts"
       source            = "sudo_failed_user"
       action            = "inc"
-      prefix            = ""
+
       max_idle_duration = "24h"
     }
+  }
+
+  stage.output {
+    source = "content"
   }
 
   forward_to = [loki.write.central.receiver]
@@ -292,6 +296,15 @@ loki.source.file "fail2ban" {
 }
 
 loki.process "fail2ban" {
+  // Parse timestamp and strip prefix (keeps level + message)
+  stage.regex {
+    expression = "^(?P<timestamp>\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}),\\d+ \\S+\\s+\\[\\d+\\]:\\s+(?P<content>.+)"
+  }
+  stage.timestamp {
+    source = "timestamp"
+    format = "2006-01-02 15:04:05"
+  }
+
   // Ban: "NOTICE  [<jail>] Ban <ip>"
   stage.regex {
     expression = "fail2ban\\.actions\\s+\\[\\d+\\]: NOTICE\\s+\\[(?P<ban_jail>\\S+)\\] Ban (?P<ban_ip>\\d+\\.\\d+\\.\\d+\\.\\d+)"
@@ -335,7 +348,7 @@ loki.process "fail2ban" {
       description       = "IPs banned by fail2ban"
       source            = "ban_ip"
       action            = "inc"
-      prefix            = ""
+
       max_idle_duration = "24h"
     }
     metric.counter {
@@ -343,7 +356,7 @@ loki.process "fail2ban" {
       description       = "IPs unbanned by fail2ban"
       source            = "unban_ip"
       action            = "inc"
-      prefix            = ""
+
       max_idle_duration = "24h"
     }
     metric.counter {
@@ -351,9 +364,13 @@ loki.process "fail2ban" {
       description       = "Filter matches found by fail2ban"
       source            = "found_ip"
       action            = "inc"
-      prefix            = ""
+
       max_idle_duration = "24h"
     }
+  }
+
+  stage.output {
+    source = "content"
   }
 
   forward_to = [loki.write.central.receiver]
@@ -365,12 +382,41 @@ local.file_match "security" {
   path_targets = [
     {__path__ = "/var/log/host/clamav/scan.log",    job = "clamav"},
     {__path__ = "/var/log/host/lynis.log",          job = "lynis"},
-    {__path__ = "/var/log/host/ufw.log",            job = "ufw"},
   ]
 }
 
 loki.source.file "security" {
   targets    = local.file_match.security.targets
+  forward_to = [loki.write.central.receiver]
+}
+
+// ── UFW Firewall Log ───────────────────────────────────────
+
+local.file_match "ufw" {
+  path_targets = [
+    {__path__ = "/var/log/host/ufw.log", job = "ufw"},
+  ]
+}
+
+loki.source.file "ufw" {
+  targets    = local.file_match.ufw.targets
+  forward_to = [loki.process.ufw.receiver]
+}
+
+loki.process "ufw" {
+  // RFC 5424: strip timestamp, hostname, kernel prefix + uptime counter
+  stage.regex {
+    expression = "^(?P<timestamp_rfc>\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d+[+-]\\d{2}:\\d{2}) \\S+ \\S+:\\s*(?:\\[\\s*\\d+\\.\\d+\\]\\s*)?(?P<content>.+)"
+  }
+  stage.timestamp {
+    source = "timestamp_rfc"
+    format = "2006-01-02T15:04:05.000000-07:00"
+  }
+
+  stage.output {
+    source = "content"
+  }
+
   forward_to = [loki.write.central.receiver]
 }
 
@@ -432,8 +478,6 @@ loki.process "caddy_access" {
       user_agent         = "",
       status             = "",
       status_class       = "",
-      duration           = "",
-      response_size      = "",
       geoip_country_code = "",
       geoip_city         = "",
       geoip_latitude     = "",
