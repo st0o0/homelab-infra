@@ -1,0 +1,7 @@
+services:
+  alloy:
+    volumes:
+      - ./alloy/features/redis.alloy:/etc/alloy/redis.alloy:ro
+    environment:
+      - REDIS_ADDR=${ALLOY_REDIS_ADDR:-redis:6379}
+      - REDIS_PASSWORD=${ALLOY_REDIS_PASSWORD:-}

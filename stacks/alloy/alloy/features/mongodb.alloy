@@ -1,0 +1,19 @@
+prometheus.exporter.mongodb "main" {
+  mongodb_uri = sys.env("MONGODB_URI")
+}
+
+discovery.relabel "mongodb" {
+  targets = prometheus.exporter.mongodb.main.targets
+
+  rule {
+    replacement  = sys.env("HOST_HOSTNAME")
+    target_label = "instance"
+  }
+}
+
+prometheus.scrape "mongodb" {
+  targets         = discovery.relabel.mongodb.output
+  forward_to      = [prometheus.remote_write.central.receiver]
+  scrape_interval = coalesce(sys.env("SCRAPE_INTERVAL"), "30s")
+  job_name        = "mongodb"
+}

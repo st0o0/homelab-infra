@@ -1,4 +1,10 @@
 services:
+  alloy:
+    volumes:
+      - ./alloy/features/pihole.alloy:/etc/alloy/pihole.alloy:ro
+    environment:
+      - PIHOLE_METRICS_TARGET=${ALLOY_PIHOLE_METRICS_TARGET:-pihole-exporter:9617}
+
   pihole-exporter:
     image: ekofr/pihole-exporter:v1.2.0
     container_name: pihole-exporter

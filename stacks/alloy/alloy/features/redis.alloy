@@ -1,0 +1,20 @@
+prometheus.exporter.redis "main" {
+  redis_addr     = coalesce(sys.env("REDIS_ADDR"), "redis:6379")
+  redis_password = coalesce(sys.env("REDIS_PASSWORD"), "")
+}
+
+discovery.relabel "redis" {
+  targets = prometheus.exporter.redis.main.targets
+
+  rule {
+    replacement  = sys.env("HOST_HOSTNAME")
+    target_label = "instance"
+  }
+}
+
+prometheus.scrape "redis" {
+  targets         = discovery.relabel.redis.output
+  forward_to      = [prometheus.remote_write.central.receiver]
+  scrape_interval = coalesce(sys.env("SCRAPE_INTERVAL"), "30s")
+  job_name        = "redis"
+}

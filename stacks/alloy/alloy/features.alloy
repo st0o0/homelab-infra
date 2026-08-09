@@ -9,58 +9,46 @@ modules.nut "default" {
   forward_to      = [prometheus.remote_write.central.receiver]
 }
 
-modules.security_logs "default" {
+modules.security "default" {
   enabled    = coalesce(sys.env("SECURITY_LOGS_ENABLED"), "false")
   forward_to = [loki.process.system.receiver]
 }
 
-modules.auth_log "default" {
+modules.auth "default" {
   enabled    = coalesce(sys.env("AUTH_LOG_ENABLED"), "false")
   forward_to = [loki.process.system.receiver]
 }
 
-modules.fail2ban_log "default" {
+modules.fail2ban "default" {
   enabled    = coalesce(sys.env("FAIL2BAN_LOG_ENABLED"), "false")
   forward_to = [loki.process.system.receiver]
 }
 
-modules.pve_metrics "default" {
+modules.pve "default" {
   enabled         = coalesce(sys.env("PVE_METRICS_ENABLED"), "false")
   target          = coalesce(sys.env("PVE_EXPORTER_TARGET"), "pve-exporter:9221")
   scrape_interval = coalesce(sys.env("SCRAPE_INTERVAL"), "30s")
   forward_to      = [prometheus.remote_write.central.receiver]
 }
 
-modules.db_metrics "default" {
-  scrape_interval    = coalesce(sys.env("SCRAPE_INTERVAL"), "30s")
-  forward_to         = [prometheus.remote_write.central.receiver]
-  postgres_enabled   = coalesce(sys.env("POSTGRES_METRICS_ENABLED"), "false")
-  postgres_dsn       = coalesce(sys.env("POSTGRES_DSN"), "postgresql://invalid:5432/none?sslmode=disable")
-  immich_postgres_dsn = coalesce(sys.env("IMMICH_POSTGRES_DSN"), "postgresql://invalid:5432/none?sslmode=disable")
-  redis_enabled      = coalesce(sys.env("REDIS_METRICS_ENABLED"), "false")
-  redis_addr         = coalesce(sys.env("REDIS_ADDR"), "redis:6379")
-  redis_password     = coalesce(sys.env("REDIS_PASSWORD"), "")
-  mongodb_enabled    = coalesce(sys.env("MONGODB_METRICS_ENABLED"), "false")
-  mongodb_uri        = coalesce(sys.env("MONGODB_URI"), "")
-  pihole_enabled     = coalesce(sys.env("PIHOLE_METRICS_ENABLED"), "false")
-  pihole_target      = coalesce(sys.env("PIHOLE_METRICS_TARGET"), "pihole-exporter:9617")
-}
+// db_metrics (postgres, redis, mongodb, pihole) moved to standalone
+// feature files loaded via compose overrides — see alloy/features/
 
-modules.crowdsec_metrics "default" {
+modules.crowdsec "default" {
   enabled         = coalesce(sys.env("CROWDSEC_METRICS_ENABLED"), "false")
   target          = coalesce(sys.env("CROWDSEC_METRICS_TARGET"), "crowdsec:6060")
   scrape_interval = coalesce(sys.env("SCRAPE_INTERVAL"), "30s")
   forward_to      = [prometheus.remote_write.central.receiver]
 }
 
-modules.caddy_metrics "default" {
+modules.caddy "default" {
   enabled         = coalesce(sys.env("CADDY_METRICS_ENABLED"), "false")
   target          = coalesce(sys.env("CADDY_METRICS_TARGET"), "caddy:2019")
   scrape_interval = coalesce(sys.env("SCRAPE_INTERVAL"), "30s")
   forward_to      = [prometheus.remote_write.central.receiver]
 }
 
-modules.app_metrics "default" {
+modules.apps "default" {
   scrape_interval          = coalesce(sys.env("SCRAPE_INTERVAL"), "30s")
   forward_to               = [prometheus.remote_write.central.receiver]
   authentik_enabled         = coalesce(sys.env("AUTHENTIK_METRICS_ENABLED"), "false")

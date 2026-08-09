@@ -1,0 +1,8 @@
+services:
+  alloy:
+    volumes:
+      - ./alloy/features/postgres.alloy:/etc/alloy/postgres.alloy:ro
+    environment:
+      - POSTGRES_DSN=${ALLOY_POSTGRES_DSN:?ALLOY_POSTGRES_DSN is required}
+      - IMMICH_POSTGRES_DSN=${ALLOY_IMMICH_POSTGRES_DSN:-}
+      - IMMICH_POSTGRES_ENABLED=${ALLOY_IMMICH_POSTGRES_ENABLED:-false}

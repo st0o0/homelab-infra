@@ -1,0 +1,54 @@
+prometheus.exporter.postgres "main" {
+  data_source_names = [sys.env("POSTGRES_DSN")]
+  autodiscovery {
+    enabled = true
+  }
+}
+
+discovery.relabel "postgres_main" {
+  targets = prometheus.exporter.postgres.main.targets
+
+  rule {
+    replacement  = sys.env("HOST_HOSTNAME")
+    target_label = "instance"
+  }
+}
+
+prometheus.scrape "postgres_main" {
+  targets         = discovery.relabel.postgres_main.output
+  forward_to      = [prometheus.remote_write.central.receiver]
+  scrape_interval = coalesce(sys.env("SCRAPE_INTERVAL"), "30s")
+  job_name        = "postgres"
+}
+
+prometheus.exporter.postgres "immich" {
+  data_source_names = [coalesce(sys.env("IMMICH_POSTGRES_DSN"), "postgresql://invalid:5432/none?sslmode=disable")]
+  autodiscovery {
+    enabled = true
+  }
+}
+
+discovery.relabel "postgres_immich" {
+  targets = prometheus.exporter.postgres.immich.targets
+
+  rule {
+    source_labels = ["__tmp_enabled"]
+    regex         = "true"
+    action        = "keep"
+  }
+  rule {
+    replacement  = coalesce(sys.env("IMMICH_POSTGRES_ENABLED"), "false")
+    target_label = "__tmp_enabled"
+  }
+  rule {
+    replacement  = sys.env("HOST_HOSTNAME")
+    target_label = "instance"
+  }
+}
+
+prometheus.scrape "postgres_immich" {
+  targets         = discovery.relabel.postgres_immich.output
+  forward_to      = [prometheus.remote_write.central.receiver]
+  scrape_interval = coalesce(sys.env("SCRAPE_INTERVAL"), "30s")
+  job_name        = "immich-postgres"
+}
