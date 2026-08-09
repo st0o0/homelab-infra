@@ -365,25 +365,9 @@
           "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
           "editorMode": "code",
           "expr": "node_load1{instance=~\"$instance\"}",
-          "legendFormat": "{{instance}} - load1",
+          "legendFormat": "{{instance}}",
           "range": true,
           "refId": "A"
-        },
-        {
-          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-          "editorMode": "code",
-          "expr": "node_load5{instance=~\"$instance\"}",
-          "legendFormat": "{{instance}} - load5",
-          "range": true,
-          "refId": "B"
-        },
-        {
-          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-          "editorMode": "code",
-          "expr": "node_load15{instance=~\"$instance\"}",
-          "legendFormat": "{{instance}} - load15",
-          "range": true,
-          "refId": "C"
         }
       ],
       "title": "Load Average",
@@ -522,7 +506,7 @@
             "scaleDistribution": { "type": "linear" },
             "showPoints": "never",
             "spanNulls": false,
-            "stacking": { "group": "A", "mode": "normal" },
+            "stacking": { "group": "A", "mode": "none" },
             "thresholdsStyle": { "mode": "off" }
           },
           "mappings": [],
@@ -544,50 +528,10 @@
         {
           "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
           "editorMode": "code",
-          "expr": "avg(node_memory_Cached_bytes{instance=~\"$instance\"}) by (instance)",
-          "legendFormat": "{{instance}} - cached",
+          "expr": "node_memory_MemTotal_bytes{instance=~\"$instance\"} - node_memory_MemAvailable_bytes{instance=~\"$instance\"}",
+          "legendFormat": "{{instance}}",
           "range": true,
           "refId": "A"
-        },
-        {
-          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-          "editorMode": "code",
-          "expr": "avg(node_memory_Buffers_bytes{instance=~\"$instance\"}) by (instance)",
-          "legendFormat": "{{instance}} - buffers",
-          "range": true,
-          "refId": "B"
-        },
-        {
-          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-          "editorMode": "code",
-          "expr": "avg(node_memory_MemFree_bytes{instance=~\"$instance\"}) by (instance)",
-          "legendFormat": "{{instance}} - free",
-          "range": true,
-          "refId": "C"
-        },
-        {
-          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-          "editorMode": "code",
-          "expr": "avg(node_memory_Shmem_bytes{instance=~\"$instance\"}) by (instance)",
-          "legendFormat": "{{instance}} - shmem",
-          "range": true,
-          "refId": "D"
-        },
-        {
-          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-          "editorMode": "code",
-          "expr": "avg(node_memory_SReclaimable_bytes{instance=~\"$instance\"}) by (instance)",
-          "legendFormat": "{{instance}} - sreclaimable",
-          "range": true,
-          "refId": "E"
-        },
-        {
-          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-          "editorMode": "code",
-          "expr": "avg(node_memory_MemTotal_bytes{instance=~\"$instance\"} - node_memory_MemFree_bytes{instance=~\"$instance\"} - node_memory_Cached_bytes{instance=~\"$instance\"} - node_memory_Buffers_bytes{instance=~\"$instance\"} - node_memory_SReclaimable_bytes{instance=~\"$instance\"}) by (instance)",
-          "legendFormat": "{{instance}} - used",
-          "range": true,
-          "refId": "F"
         }
       ],
       "title": "Memory Breakdown",
@@ -696,43 +640,53 @@
           "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
           "fieldConfig": {
             "defaults": {
-              "color": { "mode": "thresholds" },
+              "color": { "mode": "palette-classic" },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 20,
+                "gradientMode": "none",
+                "hideFrom": { "legend": false, "tooltip": false, "viz": false },
+                "lineInterpolation": "smooth",
+                "lineWidth": 2,
+                "pointSize": 5,
+                "scaleDistribution": { "type": "linear" },
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": { "group": "A", "mode": "none" },
+                "thresholdsStyle": { "mode": "off" }
+              },
               "mappings": [],
-              "max": 100,
-              "min": 0,
               "thresholds": {
                 "mode": "absolute",
-                "steps": [
-                  { "color": "green", "value": null },
-                  { "color": "yellow", "value": 70 },
-                  { "color": "red", "value": 90 }
-                ]
+                "steps": [ { "color": "green", "value": null } ]
               },
-              "unit": "percent"
+              "unit": "bytes"
             },
             "overrides": []
           },
           "gridPos": { "h": 8, "w": 24, "x": 0, "y": 40 },
           "id": 14,
           "options": {
-            "displayMode": "lcd",
-            "orientation": "horizontal",
-            "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-            "showUnfilled": true,
-            "valueMode": "color"
+            "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom", "showLegend": true },
+            "tooltip": { "mode": "multi", "sort": "desc" }
           },
           "targets": [
             {
               "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
               "editorMode": "code",
-              "expr": "(1 - node_filesystem_avail_bytes{instance=~\"$instance\",fstype!~\"tmpfs|overlay\",mountpoint!~\"/boot.*\"} / node_filesystem_size_bytes{instance=~\"$instance\",fstype!~\"tmpfs|overlay\",mountpoint!~\"/boot.*\"}) * 100",
+              "expr": "node_filesystem_size_bytes{instance=~\"$instance\",fstype!~\"tmpfs|overlay\",mountpoint!~\"/boot.*\"} - node_filesystem_avail_bytes{instance=~\"$instance\",fstype!~\"tmpfs|overlay\",mountpoint!~\"/boot.*\"}",
               "legendFormat": "{{instance}} - {{mountpoint}}",
               "range": true,
               "refId": "A"
             }
           ],
           "title": "Filesystem Usage",
-          "type": "bargauge"
+          "type": "timeseries"
         },
         {
           "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
