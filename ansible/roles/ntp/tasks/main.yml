@@ -1,0 +1,92 @@
+- name: Stop and remove chrony when disabled
+  ansible.builtin.systemd:
+    name: chrony
+    enabled: false
+    state: stopped
+  failed_when: false
+  when: not ntp_enabled
+
+- name: Remove chrony package when disabled
+  ansible.builtin.apt:
+    name: chrony
+    state: absent
+    purge: true
+  when: not ntp_enabled
+
+- name: Restore systemd-timesyncd when chrony disabled
+  ansible.builtin.apt:
+    name: systemd-timesyncd
+    state: present
+  when: not ntp_enabled
+
+- name: Configure timesyncd with NTP servers
+  ansible.builtin.template:
+    src: timesyncd.conf.j2
+    dest: /etc/systemd/timesyncd.conf
+    mode: "0644"
+  when: not ntp_enabled
+
+- name: Enable and start systemd-timesyncd
+  ansible.builtin.systemd:
+    name: systemd-timesyncd
+    enabled: true
+    state: started
+  failed_when: false
+  when: not ntp_enabled
+
+- name: Remove systemd-timesyncd
+  ansible.builtin.apt:
+    name: systemd-timesyncd
+    state: absent
+    purge: true
+  when: ntp_enabled
+
+- name: Install chrony
+  ansible.builtin.apt:
+    name: chrony
+    state: present
+    update_cache: true
+    cache_valid_time: 3600
+  when: ntp_enabled
+
+- name: Configure chrony
+  ansible.builtin.template:
+    src: chrony.conf.j2
+    dest: /etc/chrony/chrony.conf
+    mode: "0644"
+  notify: Restart chrony
+  when: ntp_enabled
+
+- name: Enable and start chrony
+  ansible.builtin.systemd:
+    name: chrony
+    enabled: true
+    state: started
+  when: ntp_enabled
+
+- name: Get chrony offset
+  ansible.builtin.shell:
+    cmd: chronyc tracking | awk '/Last offset/ {print $4}'
+    executable: /bin/bash
+  changed_when: false
+  check_mode: false
+  register: _ntp_offset
+  when: ntp_enabled
+
+- name: Get timesyncd offset
+  ansible.builtin.shell:
+    cmd: timedatectl timesync-status 2>/dev/null | awk '/Offset/ {print $2}' || echo "0ms"
+    executable: /bin/bash
+  changed_when: false
+  check_mode: false
+  register: _ntp_offset_timesyncd
+  when: not ntp_enabled
+
+- name: Assert chrony offset is within 50ms
+  ansible.builtin.assert:
+    that:
+      - (_ntp_offset.stdout | float | abs) <= 0.050
+    fail_msg: >-
+      NTP offset on {{ inventory_hostname }} is {{ _ntp_offset.stdout }}s
+      (threshold 50ms). Check chrony status.
+  when: ntp_enabled

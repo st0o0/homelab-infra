@@ -1,0 +1,10 @@
+ntp_enabled: true
+ntp_servers:
+  - server: ptbtime1.ptb.de
+    prefer: true
+  - server: ptbtime2.ptb.de
+    prefer: true
+  - server: ptbtime3.ptb.de
+  - server: ptbtime4.ptb.de
+  - server: 0.de.pool.ntp.org
+  - server: 1.de.pool.ntp.org

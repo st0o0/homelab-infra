@@ -1,0 +1,10 @@
+# {{ ansible_managed }}
+
+{% for entry in ntp_servers %}
+server {{ entry.server }} iburst{{ ' prefer' if entry.prefer | default(false) else '' }}
+{% endfor %}
+
+driftfile /var/lib/chrony/chrony.drift
+makestep 1.0 3
+rtcsync
+logdir /var/log/chrony

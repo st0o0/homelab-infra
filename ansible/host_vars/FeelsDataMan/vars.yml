@@ -37,6 +37,9 @@ swap_enabled: false
 # PAM password quality
 # pam_pwquality_enabled: true
 
+# NTP
+ntp_enabled: false
+
 # Docker
 docker_enabled: true
 

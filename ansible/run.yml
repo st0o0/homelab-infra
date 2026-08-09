@@ -7,6 +7,8 @@
       tags: [bootstrap, never]
     - role: ssh
       tags: [ssh, bootstrap, never]
+    - role: ntp
+      tags: [ntp, bootstrap, never]
     - role: stack_report
       tags: [stack_report, never]
 
