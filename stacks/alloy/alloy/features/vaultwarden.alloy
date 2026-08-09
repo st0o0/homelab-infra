@@ -1,0 +1,17 @@
+discovery.relabel "vaultwarden" {
+  targets = [{
+    __address__ = coalesce(sys.env("VAULTWARDEN_METRICS_TARGET"), "vaultwarden:80"),
+  }]
+  rule {
+    replacement  = sys.env("HOST_HOSTNAME")
+    target_label = "instance"
+  }
+}
+
+prometheus.scrape "vaultwarden" {
+  targets         = discovery.relabel.vaultwarden.output
+  forward_to      = [prometheus.remote_write.central.receiver]
+  scrape_interval = coalesce(sys.env("SCRAPE_INTERVAL"), "30s")
+  job_name        = "vaultwarden"
+  params          = { "token" = [coalesce(sys.env("VAULTWARDEN_METRICS_TOKEN"), "")] }
+}

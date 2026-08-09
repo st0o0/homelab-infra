@@ -45,12 +45,10 @@ ALLOY_REMOTE_WRITE_URL=[[metrics_remote_write_url]]
 ALLOY_LOGS_PUSH_URL=[[metrics_logs_push_url]]
 ALLOY_HOSTNAME=FeelsUPSMan
 ALLOY_SCRAPE_INTERVAL=60s
-ALLOY_NUT_ENABLED=true
 ALLOY_NUT_EXP_SERVER=nut-upsd
 ALLOY_NUT_EXP_SERVER_PORT=3493
 ALLOY_NUT_EXP_USER=[[FeelsUPSMan_ups_monitor_nut_user]]
 ALLOY_NUT_EXP_PASS=[[FeelsUPSMan_ups_monitor_nut_password]]
-ALLOY_SECURITY_LOGS_ENABLED=false
 
 # ── Low-power tuning (Pi 2) ──────────────────────────────
 ALLOY_GOGC=50

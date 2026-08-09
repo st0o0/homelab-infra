@@ -1,0 +1,17 @@
+discovery.relabel "nut" {
+  targets = [{
+    __address__ = coalesce(sys.env("NUT_EXPORTER_TARGET"), "nut-exporter:9199"),
+  }]
+
+  rule {
+    replacement  = sys.env("HOST_HOSTNAME")
+    target_label = "instance"
+  }
+}
+
+prometheus.scrape "nut" {
+  targets         = discovery.relabel.nut.output
+  forward_to      = [prometheus.remote_write.central.receiver]
+  scrape_interval = coalesce(sys.env("SCRAPE_INTERVAL"), "30s")
+  metrics_path    = "/ups_metrics"
+}

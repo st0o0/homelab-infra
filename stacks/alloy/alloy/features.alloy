@@ -2,18 +2,7 @@ import.file "modules" {
   filename = "/etc/alloy/modules"
 }
 
-modules.nut "default" {
-  enabled         = coalesce(sys.env("NUT_ENABLED"), "false")
-  target          = coalesce(sys.env("NUT_EXPORTER_TARGET"), "nut-exporter:9199")
-  scrape_interval = coalesce(sys.env("SCRAPE_INTERVAL"), "30s")
-  forward_to      = [prometheus.remote_write.central.receiver]
-}
-
-modules.security "default" {
-  enabled    = coalesce(sys.env("SECURITY_LOGS_ENABLED"), "false")
-  forward_to = [loki.process.system.receiver]
-}
-
+// Log processing modules — lightweight, stay as modules
 modules.auth "default" {
   enabled    = coalesce(sys.env("AUTH_LOG_ENABLED"), "false")
   forward_to = [loki.process.system.receiver]
@@ -24,46 +13,10 @@ modules.fail2ban "default" {
   forward_to = [loki.process.system.receiver]
 }
 
-modules.pve "default" {
-  enabled         = coalesce(sys.env("PVE_METRICS_ENABLED"), "false")
-  target          = coalesce(sys.env("PVE_EXPORTER_TARGET"), "pve-exporter:9221")
-  scrape_interval = coalesce(sys.env("SCRAPE_INTERVAL"), "30s")
-  forward_to      = [prometheus.remote_write.central.receiver]
+modules.security "default" {
+  enabled    = coalesce(sys.env("SECURITY_LOGS_ENABLED"), "false")
+  forward_to = [loki.process.system.receiver]
 }
 
-// db_metrics (postgres, redis, mongodb, pihole) moved to standalone
-// feature files loaded via compose overrides — see alloy/features/
-
-modules.crowdsec "default" {
-  enabled         = coalesce(sys.env("CROWDSEC_METRICS_ENABLED"), "false")
-  target          = coalesce(sys.env("CROWDSEC_METRICS_TARGET"), "crowdsec:6060")
-  scrape_interval = coalesce(sys.env("SCRAPE_INTERVAL"), "30s")
-  forward_to      = [prometheus.remote_write.central.receiver]
-}
-
-modules.caddy "default" {
-  enabled         = coalesce(sys.env("CADDY_METRICS_ENABLED"), "false")
-  target          = coalesce(sys.env("CADDY_METRICS_TARGET"), "caddy:2019")
-  scrape_interval = coalesce(sys.env("SCRAPE_INTERVAL"), "30s")
-  forward_to      = [prometheus.remote_write.central.receiver]
-}
-
-modules.apps "default" {
-  scrape_interval          = coalesce(sys.env("SCRAPE_INTERVAL"), "30s")
-  forward_to               = [prometheus.remote_write.central.receiver]
-  authentik_enabled         = coalesce(sys.env("AUTHENTIK_METRICS_ENABLED"), "false")
-  authentik_target          = coalesce(sys.env("AUTHENTIK_METRICS_TARGET"), "authentik-server:9300")
-  backrest_enabled          = coalesce(sys.env("BACKREST_METRICS_ENABLED"), "false")
-  backrest_target           = coalesce(sys.env("BACKREST_METRICS_TARGET"), "backrest:9898")
-  vaultwarden_enabled       = coalesce(sys.env("VAULTWARDEN_METRICS_ENABLED"), "false")
-  vaultwarden_target        = coalesce(sys.env("VAULTWARDEN_METRICS_TARGET"), "vaultwarden:80")
-  vaultwarden_token         = coalesce(sys.env("VAULTWARDEN_METRICS_TOKEN"), "")
-  immich_enabled            = coalesce(sys.env("IMMICH_METRICS_ENABLED"), "false")
-  immich_server_target      = coalesce(sys.env("IMMICH_METRICS_SERVER_TARGET"), "immich-server:8081")
-  immich_microservices_target = coalesce(sys.env("IMMICH_METRICS_MICROSERVICES_TARGET"), "immich-server:8082")
-  jellyfin_enabled          = coalesce(sys.env("JELLYFIN_METRICS_ENABLED"), "false")
-  jellyfin_target           = coalesce(sys.env("JELLYFIN_METRICS_TARGET"), "jellyfin:8096")
-  homeassistant_enabled     = coalesce(sys.env("HOMEASSISTANT_METRICS_ENABLED"), "false")
-  homeassistant_target      = coalesce(sys.env("HOMEASSISTANT_METRICS_TARGET"), "homeassistant:8123")
-  homeassistant_token       = coalesce(sys.env("HOMEASSISTANT_METRICS_TOKEN"), "")
-}
+// Metrics scrape modules moved to standalone feature files
+// loaded via compose overrides — see alloy/features/

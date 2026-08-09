@@ -1,0 +1,17 @@
+discovery.relabel "crowdsec" {
+  targets = [{
+    __address__ = coalesce(sys.env("CROWDSEC_METRICS_TARGET"), "crowdsec:6060"),
+  }]
+
+  rule {
+    replacement  = sys.env("HOST_HOSTNAME")
+    target_label = "instance"
+  }
+}
+
+prometheus.scrape "crowdsec" {
+  targets         = discovery.relabel.crowdsec.output
+  forward_to      = [prometheus.remote_write.central.receiver]
+  scrape_interval = coalesce(sys.env("SCRAPE_INTERVAL"), "30s")
+  job_name        = "crowdsec"
+}

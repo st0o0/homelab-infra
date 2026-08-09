@@ -1,0 +1,16 @@
+discovery.relabel "authentik" {
+  targets = [{
+    __address__ = coalesce(sys.env("AUTHENTIK_METRICS_TARGET"), "authentik-server:9300"),
+  }]
+  rule {
+    replacement  = sys.env("HOST_HOSTNAME")
+    target_label = "instance"
+  }
+}
+
+prometheus.scrape "authentik" {
+  targets         = discovery.relabel.authentik.output
+  forward_to      = [prometheus.remote_write.central.receiver]
+  scrape_interval = coalesce(sys.env("SCRAPE_INTERVAL"), "30s")
+  job_name        = "authentik"
+}

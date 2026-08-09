@@ -3,6 +3,10 @@ services:
     depends_on:
       pve-exporter:
         condition: service_started
+    volumes:
+      - ./alloy/features/pve.alloy:/etc/alloy/pve.alloy
+    environment:
+      - PVE_EXPORTER_TARGET=${ALLOY_PVE_EXPORTER_TARGET:-pve-exporter:9221}
 
   pve-exporter:
     image: ghcr.io/bigtcze/pve-exporter:1.0.8

@@ -1,0 +1,7 @@
+services:
+  alloy:
+    volumes:
+      - ./alloy/features/vaultwarden.alloy:/etc/alloy/vaultwarden.alloy
+    environment:
+      - VAULTWARDEN_METRICS_TARGET=${ALLOY_VAULTWARDEN_METRICS_TARGET:-vaultwarden:80}
+      - VAULTWARDEN_METRICS_TOKEN=${ALLOY_VAULTWARDEN_METRICS_TOKEN:-}

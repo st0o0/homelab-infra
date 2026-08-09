@@ -1,0 +1,7 @@
+services:
+  alloy:
+    volumes:
+      - ./alloy/features/homeassistant.alloy:/etc/alloy/homeassistant.alloy
+    environment:
+      - HOMEASSISTANT_METRICS_TARGET=${ALLOY_HOMEASSISTANT_METRICS_TARGET:-homeassistant:8123}
+      - HOMEASSISTANT_METRICS_TOKEN=${ALLOY_HOMEASSISTANT_METRICS_TOKEN:-}

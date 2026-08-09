@@ -1,0 +1,6 @@
+services:
+  alloy:
+    volumes:
+      - ./alloy/features/authentik.alloy:/etc/alloy/authentik.alloy
+    environment:
+      - AUTHENTIK_METRICS_TARGET=${ALLOY_AUTHENTIK_METRICS_TARGET:-authentik-server:9300}

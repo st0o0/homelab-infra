@@ -1,0 +1,18 @@
+services:
+  alloy:
+    volumes:
+      - ./alloy/features/databases.alloy:/etc/alloy/databases.alloy
+    environment:
+      - POSTGRES_DSN=${ALLOY_POSTGRES_DSN:?ALLOY_POSTGRES_DSN is required}
+      - IMMICH_POSTGRES_DSN=${ALLOY_IMMICH_POSTGRES_DSN:-}
+      - IMMICH_POSTGRES_ENABLED=${ALLOY_IMMICH_POSTGRES_ENABLED:-false}
+      - REDIS_ADDR=${ALLOY_REDIS_ADDR:-redis:6379}
+      - REDIS_PASSWORD=${ALLOY_REDIS_PASSWORD:-}
+      - MONGODB_URI=${ALLOY_MONGODB_URI:?ALLOY_MONGODB_URI is required}
+    networks:
+      - default
+      - db-net
+
+networks:
+  db-net:
+    external: true

@@ -1,0 +1,33 @@
+discovery.relabel "immich_server" {
+  targets = [{
+    __address__ = coalesce(sys.env("IMMICH_METRICS_SERVER_TARGET"), "immich-server:8081"),
+  }]
+  rule {
+    replacement  = sys.env("HOST_HOSTNAME")
+    target_label = "instance"
+  }
+}
+
+prometheus.scrape "immich_server" {
+  targets         = discovery.relabel.immich_server.output
+  forward_to      = [prometheus.remote_write.central.receiver]
+  scrape_interval = coalesce(sys.env("SCRAPE_INTERVAL"), "30s")
+  job_name        = "immich-server"
+}
+
+discovery.relabel "immich_microservices" {
+  targets = [{
+    __address__ = coalesce(sys.env("IMMICH_METRICS_MICROSERVICES_TARGET"), "immich-server:8082"),
+  }]
+  rule {
+    replacement  = sys.env("HOST_HOSTNAME")
+    target_label = "instance"
+  }
+}
+
+prometheus.scrape "immich_microservices" {
+  targets         = discovery.relabel.immich_microservices.output
+  forward_to      = [prometheus.remote_write.central.receiver]
+  scrape_interval = coalesce(sys.env("SCRAPE_INTERVAL"), "30s")
+  job_name        = "immich-microservices"
+}

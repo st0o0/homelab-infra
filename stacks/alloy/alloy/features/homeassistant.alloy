@@ -1,0 +1,18 @@
+discovery.relabel "homeassistant" {
+  targets = [{
+    __address__ = coalesce(sys.env("HOMEASSISTANT_METRICS_TARGET"), "homeassistant:8123"),
+  }]
+  rule {
+    replacement  = sys.env("HOST_HOSTNAME")
+    target_label = "instance"
+  }
+}
+
+prometheus.scrape "homeassistant" {
+  targets         = discovery.relabel.homeassistant.output
+  forward_to      = [prometheus.remote_write.central.receiver]
+  scrape_interval = coalesce(sys.env("SCRAPE_INTERVAL"), "30s")
+  metrics_path    = "/api/prometheus"
+  job_name        = "homeassistant"
+  bearer_token    = coalesce(sys.env("HOMEASSISTANT_METRICS_TOKEN"), "")
+}

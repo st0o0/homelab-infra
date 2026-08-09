@@ -1,0 +1,17 @@
+discovery.relabel "caddy" {
+  targets = [{
+    __address__ = coalesce(sys.env("CADDY_METRICS_TARGET"), "caddy:2019"),
+  }]
+
+  rule {
+    replacement  = sys.env("HOST_HOSTNAME")
+    target_label = "instance"
+  }
+}
+
+prometheus.scrape "caddy" {
+  targets         = discovery.relabel.caddy.output
+  forward_to      = [prometheus.remote_write.central.receiver]
+  scrape_interval = coalesce(sys.env("SCRAPE_INTERVAL"), "30s")
+  job_name        = "caddy"
+}

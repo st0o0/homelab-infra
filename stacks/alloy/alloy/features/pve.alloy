@@ -1,0 +1,17 @@
+discovery.relabel "pve" {
+  targets = [{
+    __address__ = coalesce(sys.env("PVE_EXPORTER_TARGET"), "pve-exporter:9221"),
+  }]
+
+  rule {
+    replacement  = sys.env("HOST_HOSTNAME")
+    target_label = "instance"
+  }
+}
+
+prometheus.scrape "pve" {
+  targets         = discovery.relabel.pve.output
+  forward_to      = [prometheus.remote_write.central.receiver]
+  scrape_interval = coalesce(sys.env("SCRAPE_INTERVAL"), "30s")
+  job_name        = "pve"
+}

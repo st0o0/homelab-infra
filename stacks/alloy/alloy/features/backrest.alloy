@@ -1,0 +1,16 @@
+discovery.relabel "backrest" {
+  targets = [{
+    __address__ = coalesce(sys.env("BACKREST_METRICS_TARGET"), "backrest:9898"),
+  }]
+  rule {
+    replacement  = sys.env("HOST_HOSTNAME")
+    target_label = "instance"
+  }
+}
+
+prometheus.scrape "backrest" {
+  targets         = discovery.relabel.backrest.output
+  forward_to      = [prometheus.remote_write.central.receiver]
+  scrape_interval = coalesce(sys.env("SCRAPE_INTERVAL"), "30s")
+  job_name        = "backrest"
+}

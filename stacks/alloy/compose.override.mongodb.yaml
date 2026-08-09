@@ -1,6 +1,0 @@
-services:
-  alloy:
-    volumes:
-      - ./alloy/features/mongodb.alloy:/etc/alloy/mongodb.alloy:ro
-    environment:
-      - MONGODB_URI=${ALLOY_MONGODB_URI:?ALLOY_MONGODB_URI is required}

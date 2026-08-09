@@ -3,6 +3,10 @@ services:
     depends_on:
       nut-exporter:
         condition: service_started
+    volumes:
+      - ./alloy/features/nut.alloy:/etc/alloy/nut.alloy
+    environment:
+      - NUT_EXPORTER_TARGET=${ALLOY_NUT_EXPORTER_TARGET:-nut-exporter:9199}
     networks:
       - nut-net
 
