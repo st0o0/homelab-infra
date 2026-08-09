@@ -107,41 +107,14 @@
       ],
       "transformations": [
         {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": { "pattern": "^(name|instance|image|version|Value)$" }
+          }
+        },
+        {
           "id": "organize",
           "options": {
-            "excludeByName": {
-              "Time": true,
-              "__name__": true,
-              "container_label_com_docker_compose_config_hash": true,
-              "container_label_com_docker_compose_container_number": true,
-              "container_label_com_docker_compose_depends_on": true,
-              "container_label_com_docker_compose_image": true,
-              "container_label_com_docker_compose_oneoff": true,
-              "container_label_com_docker_compose_project": true,
-              "container_label_com_docker_compose_project_config_files": true,
-              "container_label_com_docker_compose_project_environment_file": true,
-              "container_label_com_docker_compose_project_working_dir": true,
-              "container_label_com_docker_compose_replace": true,
-              "container_label_com_docker_compose_service": true,
-              "container_label_com_docker_compose_version": true,
-              "container_label_komodo_skip": true,
-              "container_label_maintainer": true,
-              "container_label_name": true,
-              "container_label_org_opencontainers_image_created": true,
-              "container_label_org_opencontainers_image_description": true,
-              "container_label_org_opencontainers_image_documentation": true,
-              "container_label_org_opencontainers_image_licenses": true,
-              "container_label_org_opencontainers_image_revision": true,
-              "container_label_org_opencontainers_image_source": true,
-              "container_label_org_opencontainers_image_title": true,
-              "container_label_org_opencontainers_image_url": true,
-              "container_label_org_opencontainers_image_vendor": true,
-              "container_label_org_opencontainers_image_version": true,
-              "container_label_restartcount": true,
-              "host": true,
-              "id": true,
-              "job": true
-            },
             "indexByName": {
               "name": 0,
               "instance": 1,
@@ -240,7 +213,7 @@
       "id": 20,
       "options": {
         "colorMode": "background_solid",
-        "graphMode": "area",
+        "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
@@ -290,7 +263,7 @@
       "id": 21,
       "options": {
         "colorMode": "background_solid",
-        "graphMode": "area",
+        "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
@@ -340,7 +313,7 @@
       "id": 22,
       "options": {
         "colorMode": "background_solid",
-        "graphMode": "area",
+        "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
