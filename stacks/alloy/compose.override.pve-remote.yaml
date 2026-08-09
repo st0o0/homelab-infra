@@ -1,0 +1,6 @@
+services:
+  alloy:
+    volumes:
+      - ./alloy/features/pve.alloy:/etc/alloy/pve.alloy
+    environment:
+      - PVE_EXPORTER_TARGET=${ALLOY_PVE_EXPORTER_TARGET:?ALLOY_PVE_EXPORTER_TARGET is required}
