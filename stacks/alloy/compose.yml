@@ -6,7 +6,7 @@ x-logging: &default-logging
 
 services:
   alloy:
-    image: grafana/alloy:v1.17.1
+    image: grafana/alloy:v1.18.0
     container_name: alloy
     restart: unless-stopped
     logging: *default-logging
