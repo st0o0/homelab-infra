@@ -53,7 +53,7 @@ services:
       - CADVISOR_STORE_LABELS=${ALLOY_CADVISOR_STORE_LABELS:-true}
     privileged: true
     volumes:
-      - ./alloy:/etc/alloy:ro
+      - ./alloy:/etc/alloy
       - alloy-data:/var/lib/alloy/data
       - /var/log:/var/log/host:ro
       - /proc:/host/proc:ro
