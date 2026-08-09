@@ -1,4 +1,4 @@
-declare "crowdsec_metrics" {
+declare "caddy" {
   argument "enabled" {
     optional = true
     default  = "false"
@@ -6,7 +6,7 @@ declare "crowdsec_metrics" {
 
   argument "target" {
     optional = true
-    default  = "crowdsec:6060"
+    default  = "caddy:2019"
   }
 
   argument "scrape_interval" {
@@ -18,7 +18,7 @@ declare "crowdsec_metrics" {
     optional = false
   }
 
-  discovery.relabel "crowdsec" {
+  discovery.relabel "caddy" {
     targets = [{
       __address__   = argument.target.value,
       __tmp_enabled = argument.enabled.value,
@@ -30,15 +30,15 @@ declare "crowdsec_metrics" {
     }
     rule {
       target_label = "instance"
-      replacement  = env("HOST_HOSTNAME")
+      replacement  = sys.env("HOST_HOSTNAME")
     }
   }
 
-  prometheus.scrape "crowdsec" {
-    targets         = discovery.relabel.crowdsec.output
+  prometheus.scrape "caddy" {
+    targets         = discovery.relabel.caddy.output
     forward_to      = argument.forward_to.value
     scrape_interval = argument.scrape_interval.value
-    job_name        = "crowdsec"
+    job_name        = "caddy"
     metrics_path    = "/metrics"
   }
 }
