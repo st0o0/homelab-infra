@@ -6,7 +6,7 @@ x-logging: &default-logging
 
 services:
   backrest:
-    image: garethgeorge/backrest:v1.7.2
+    image: garethgeorge/backrest:v1.14.1
     container_name: backrest
     restart: unless-stopped
     logging: *default-logging
