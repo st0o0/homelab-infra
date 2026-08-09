@@ -7,8 +7,6 @@ services:
       - ./alloy/features/nut.alloy:/etc/alloy/nut.alloy
     environment:
       - NUT_EXPORTER_TARGET=${ALLOY_NUT_EXPORTER_TARGET:-nut-exporter:9199}
-    networks:
-      - nut-net
 
   nut-exporter:
     image: druggeri/nut_exporter:3.3.0
@@ -26,8 +24,6 @@ services:
       - --nut.server=${ALLOY_NUT_EXP_SERVER:?ALLOY_NUT_EXP_SERVER is required}
       - --nut.serverport=${ALLOY_NUT_EXP_SERVER_PORT:-3493}
       - --nut.username=${ALLOY_NUT_EXP_USER:?ALLOY_NUT_EXP_USER is required}
-    networks:
-      - nut-net
     deploy:
       resources:
         limits:
@@ -35,7 +31,3 @@ services:
           memory: 64M
         reservations:
           memory: 32M
-
-networks:
-  nut-net:
-    external: true

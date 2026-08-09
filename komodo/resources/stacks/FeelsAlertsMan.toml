@@ -50,6 +50,7 @@ file_paths = [
   "compose.yml",
   "compose.override.pihole.yaml",
   "compose.override.pve.yaml",
+  "compose.override.nut.yaml",
 ]
 linked_repo = "homelab-infra"
 extra_args = ["--remove-orphans"]
@@ -68,4 +69,10 @@ ALLOY_PIHOLE_EXPORTER_PROTOCOL=http
 
 # ── PVE exporter (runs on Proxmox host, not as Docker sidecar) ──
 ALLOY_PVE_EXPORTER_TARGET=[[FeelsAlertsMan_pve_exporter_target]]
+
+# ── NUT exporter (UPS on FeelsUPSMan) ────────────────────
+ALLOY_NUT_EXP_SERVER=[[FeelsAlertsMan_nut_exp_server]]
+ALLOY_NUT_EXP_SERVER_PORT=3493
+ALLOY_NUT_EXP_USER=[[FeelsAlertsMan_nut_exp_user]]
+ALLOY_NUT_EXP_PASS=[[FeelsAlertsMan_nut_exp_password]]
 """
