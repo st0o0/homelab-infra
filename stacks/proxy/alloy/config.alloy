@@ -251,10 +251,15 @@ loki.process "auth" {
     expression = "sudo:\\s+(?P<sudo_failed_user>\\S+)\\s+: \\d+ incorrect password attempt"
   }
 
+  // Generic IP extraction for lines not caught by specific patterns
+  stage.regex {
+    expression = "from (?P<ssh_generic_ip>\\d+\\.\\d+\\.\\d+\\.\\d+)"
+  }
+
   // Coalesce IP for GeoIP lookup
   stage.template {
     source   = "ip"
-    template = "{{ or .ssh_accepted_ip .ssh_invalid_ip .ssh_failed_ip }}"
+    template = "{{ or .ssh_accepted_ip .ssh_invalid_ip .ssh_failed_ip .ssh_generic_ip }}"
   }
 
   stage.match {
