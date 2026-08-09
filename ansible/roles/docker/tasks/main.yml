@@ -131,7 +131,6 @@
 - name: Verify Docker is responding
   ansible.builtin.command:
     cmd: docker ps
-  become: true
-  become_user: "{{ docker_user }}"
+  become: false
   changed_when: false
   check_mode: false
