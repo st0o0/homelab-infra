@@ -88,7 +88,7 @@ services:
       bifrost:
         condition: service_started
       crowdsec:
-        condition: service_started
+        condition: service_healthy
     environment:
       - CROWDSEC_BOUNCER_API_KEY=${CROWDSEC_BOUNCER_API_KEY:?CROWDSEC_BOUNCER_API_KEY is required}
     volumes:
@@ -124,6 +124,12 @@ services:
       - /docker/proxy/crowdsec/data:/var/lib/crowdsec/data
       - /docker/proxy/crowdsec/config:/etc/crowdsec
       - /docker/proxy/caddy/logs:/var/log/caddy:ro
+    healthcheck:
+      test: ["CMD", "cscli", "version"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
     deploy:
       resources:
         limits:
@@ -185,6 +191,7 @@ services:
       - alloy-data:/var/lib/alloy/data
       - geoip-data:/geoip:ro
       - /var/log:/var/log/host:ro
+      - /docker/proxy/caddy/logs:/var/log/host/caddy:ro
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
       - /sys:/sys:ro
