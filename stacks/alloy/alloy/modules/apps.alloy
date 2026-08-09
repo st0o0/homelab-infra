@@ -1,4 +1,4 @@
-declare "app_metrics" {
+declare "apps" {
   argument "scrape_interval" {
     optional = true
     default  = "30s"

@@ -1,4 +1,4 @@
-declare "security_logs" {
+declare "security" {
   argument "enabled" {
     optional = true
     default  = "false"

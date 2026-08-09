@@ -1,4 +1,4 @@
-declare "pve_metrics" {
+declare "pve" {
   argument "enabled" {
     optional = true
     default  = "false"
