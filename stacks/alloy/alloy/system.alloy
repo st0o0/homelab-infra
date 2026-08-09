@@ -12,12 +12,12 @@ loki.source.file "system" {
 
 loki.process "system" {
   stage.regex {
-    expression = "^(?P<timestamp>\\w{3}\\s+\\d{1,2}\\s+\\d{2}:\\d{2}:\\d{2})"
+    expression = "^(?P<timestamp>\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d+[+-]\\d{2}:\\d{2})"
   }
 
   stage.timestamp {
     source = "timestamp"
-    format = "Jan  2 15:04:05"
+    format = "RFC3339Nano"
   }
 
   forward_to = [loki.write.central.receiver]
