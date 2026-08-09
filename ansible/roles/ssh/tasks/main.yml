@@ -57,11 +57,14 @@
 - name: Determine whether any host still needs Bitwarden bootstrap
   ansible.builtin.set_fact:
     _ssh_needs_bitwarden: >-
-      {{ ansible_play_hosts_all
-         | map('extract', hostvars, ['_ssh_local_backup', 'stat', 'exists'])
-         | select('sameas', false)
-         | list
-         | length > 0 }}
+      {% set ns = namespace(needed=false) %}
+      {% for h in ansible_play_hosts_all %}
+      {%   set backup = hostvars[h]['_ssh_local_backup'] | default({'stat': {'exists': false}}) %}
+      {%   if not backup.stat.exists %}
+      {%     set ns.needed = true %}
+      {%   endif %}
+      {% endfor %}
+      {{ ns.needed }}
 
 - name: Assert BW_SESSION is set
   ansible.builtin.assert:
