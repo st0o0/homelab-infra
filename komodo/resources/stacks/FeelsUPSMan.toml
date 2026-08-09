@@ -35,7 +35,7 @@ run_directory = "stacks/alloy"
 file_paths = [
   "compose.yml",
   "compose.override.low-power.yaml",
-  "compose.override.nut-exporter.yaml",
+  "compose.override.nut.yaml",
 ]
 linked_repo = "homelab-infra"
 extra_args = ["--remove-orphans"]

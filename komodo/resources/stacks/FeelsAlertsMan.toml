@@ -48,7 +48,7 @@ project_name = "alloy-1"
 run_directory = "stacks/alloy"
 file_paths = [
   "compose.yml",
-  "compose.override.pihole-exporter.yaml",
+  "compose.override.pihole.yaml",
 ]
 linked_repo = "homelab-infra"
 extra_args = ["--remove-orphans"]
@@ -63,7 +63,6 @@ ALLOY_SECURITY_LOGS_ENABLED=false
 
 # ── Pi-hole exporter ──────────────────────────────────────
 # Comma-separated for multiple instances
-ALLOY_PIHOLE_METRICS_ENABLED=true
 ALLOY_PIHOLE_EXPORTER_HOSTNAME=[[FeelsAlertsMan_pihole_exporter_hostname]]
 ALLOY_PIHOLE_EXPORTER_PASSWORD=[[FeelsAlertsMan_pihole_exporter_password]]
 ALLOY_PIHOLE_EXPORTER_PORT=[[FeelsAlertsMan_pihole_exporter_port]]
