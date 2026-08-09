@@ -1044,7 +1044,7 @@
       "targets": [
         {
           "expr": "sum by (path) (vm_request_duration_seconds_sum) / sum by (path) (vm_request_duration_seconds_count)",
-          "legendFormat": "",
+          "legendFormat": "{{path}}",
           "refId": "A"
         }
       ],
@@ -1489,7 +1489,7 @@
           "targets": [
             {
               "expr": "rate(vm_rows_merged_total[$__rate_interval])",
-              "legendFormat": "",
+              "legendFormat": "{{type}}",
               "refId": "A"
             }
           ],
@@ -1575,7 +1575,7 @@
           "targets": [
             {
               "expr": "rate(vm_indexdb_items_added_total[$__rate_interval])",
-              "legendFormat": "",
+              "legendFormat": "items/s",
               "refId": "A"
             }
           ],
