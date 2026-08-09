@@ -78,8 +78,8 @@
         "view": { "allLayers": true, "id": "coords", "lat": 30, "lon": 0, "zoom": 2 }
       },
       "targets": [
-        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum by (geoip_country_code) (increase(fail2ban_ban_total{instance=~\"$instance\"}[$__range]))", "legendFormat": "Bans {{geoip_country_code}}", "refId": "A" },
-        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum by (geoip_country_code) (increase(auth_ssh_failed_total{instance=~\"$instance\"}[$__range]) + increase(auth_ssh_invalid_user_total{instance=~\"$instance\"}[$__range]))", "legendFormat": "SSH {{geoip_country_code}}", "refId": "B" }
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum by (geoip_country_code) (increase(loki_process_custom_fail2ban_ban_total{instance=~\"$instance\"}[$__range]))", "legendFormat": "Bans {{geoip_country_code}}", "refId": "A" },
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum by (geoip_country_code) (increase(loki_process_custom_auth_ssh_failed_total{instance=~\"$instance\"}[$__range]) + increase(loki_process_custom_auth_ssh_invalid_user_total{instance=~\"$instance\"}[$__range]))", "legendFormat": "SSH {{geoip_country_code}}", "refId": "B" }
       ],
       "title": "Attack Origins", "type": "geomap"
     },
@@ -98,7 +98,7 @@
       },
       "gridPos": { "h": 10, "w": 8, "x": 16, "y": 1 }, "id": 61,
       "options": { "cellHeight": "sm", "footer": { "countRows": false, "fields": "", "reducer": ["sum"], "show": false }, "showHeader": true, "sortBy": [{ "desc": true, "displayName": "Events" }] },
-      "targets": [{ "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sort_desc(sum by (geoip_country_code) (increase(fail2ban_ban_total{instance=~\"$instance\"}[$__range]) + increase(auth_ssh_failed_total{instance=~\"$instance\"}[$__range]) + increase(auth_ssh_invalid_user_total{instance=~\"$instance\"}[$__range])))", "format": "table", "instant": true, "refId": "A" }],
+      "targets": [{ "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sort_desc(sum by (geoip_country_code) (increase(loki_process_custom_fail2ban_ban_total{instance=~\"$instance\"}[$__range]) + increase(loki_process_custom_auth_ssh_failed_total{instance=~\"$instance\"}[$__range]) + increase(loki_process_custom_auth_ssh_invalid_user_total{instance=~\"$instance\"}[$__range])))", "format": "table", "instant": true, "refId": "A" }],
       "title": "Top Attack Countries",
       "transformations": [{ "id": "organize", "options": { "excludeByName": { "Time": true, "__name__": true }, "renameByName": { "geoip_country_code": "Country", "Value": "Events" } } }],
       "type": "table"
@@ -123,10 +123,10 @@
     },
     {
       "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": { "defaults": { "color": { "mode": "thresholds" }, "mappings": [{ "options": { "1": { "color": "green", "text": "UP" }, "0": { "color": "red", "text": "DOWN" } }, "type": "value" }], "thresholds": { "mode": "absolute", "steps": [{ "color": "red" }, { "color": "green", "value": 1 }] } }, "overrides": [] },
+      "fieldConfig": { "defaults": { "color": { "mode": "thresholds" }, "mappings": [], "noValue": "0", "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }, { "color": "yellow", "value": 0.01 }, { "color": "red", "value": 0.1 }] }, "unit": "short" }, "overrides": [] },
       "gridPos": { "h": 4, "w": 3, "x": 6, "y": 12 }, "id": 50,
-      "options": { "colorMode": "background", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "textMode": "auto" },
-      "targets": [{ "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "rate(auth_ssh_failed_total{instance=~\"$instance\"}[$__rate_interval]) + rate(auth_ssh_invalid_user_total{instance=~\"$instance\"}[$__rate_interval])", "legendFormat": "{{instance}}", "refId": "A" }],
+      "options": { "colorMode": "value", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "textMode": "auto" },
+      "targets": [{ "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(rate(loki_process_custom_auth_ssh_failed_total{instance=~\"$instance\"}[$__rate_interval]) + rate(loki_process_custom_auth_ssh_invalid_user_total{instance=~\"$instance\"}[$__rate_interval]))", "legendFormat": "{{instance}}", "refId": "A" }],
       "title": "SSH Fail Rate", "type": "stat"
     },
     {
@@ -150,15 +150,15 @@
       "fieldConfig": { "defaults": { "color": { "mode": "thresholds" }, "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }, { "color": "yellow", "value": 5 }, { "color": "orange", "value": 20 }, { "color": "red", "value": 50 }] }, "unit": "short" }, "overrides": [] },
       "gridPos": { "h": 4, "w": 3, "x": 15, "y": 12 }, "id": 51,
       "options": { "colorMode": "value", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "textMode": "auto" },
-      "targets": [{ "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(increase(fail2ban_ban_total{instance=~\"$instance\"}[24h]))", "refId": "A" }],
+      "targets": [{ "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(increase(loki_process_custom_fail2ban_ban_total{instance=~\"$instance\"}[24h]))", "refId": "A" }],
       "title": "Bans (24h)", "type": "stat"
     },
     {
       "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": { "defaults": { "color": { "mode": "thresholds" }, "thresholds": { "mode": "absolute", "steps": [{ "color": "orange" }] }, "unit": "short" }, "overrides": [] },
+      "fieldConfig": { "defaults": { "color": { "mode": "thresholds" }, "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }, { "color": "yellow", "value": 10 }, { "color": "orange", "value": 50 }, { "color": "red", "value": 100 }] }, "unit": "short" }, "overrides": [] },
       "gridPos": { "h": 4, "w": 3, "x": 18, "y": 12 }, "id": 52,
       "options": { "colorMode": "value", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "textMode": "auto" },
-      "targets": [{ "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(increase(auth_ssh_invalid_user_total{instance=~\"$instance\"}[24h])) + sum(increase(auth_ssh_failed_total{instance=~\"$instance\"}[24h]))", "refId": "A" }],
+      "targets": [{ "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(increase(loki_process_custom_auth_ssh_invalid_user_total{instance=~\"$instance\"}[24h])) + sum(increase(loki_process_custom_auth_ssh_failed_total{instance=~\"$instance\"}[24h]))", "refId": "A" }],
       "title": "SSH Attacks (24h)", "type": "stat"
     },
     {
@@ -263,9 +263,9 @@
       "gridPos": { "h": 8, "w": 12, "x": 0, "y": 51 }, "id": 53,
       "options": { "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" }, "tooltip": { "mode": "multi", "sort": "desc" } },
       "targets": [
-        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "rate(auth_ssh_accepted_total{instance=~\"$instance\"}[$__rate_interval])", "legendFormat": "Accepted", "refId": "A" },
-        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "rate(auth_ssh_failed_total{instance=~\"$instance\"}[$__rate_interval])", "legendFormat": "Failed", "refId": "B" },
-        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "rate(auth_ssh_invalid_user_total{instance=~\"$instance\"}[$__rate_interval])", "legendFormat": "Invalid User", "refId": "C" }
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "rate(loki_process_custom_auth_ssh_accepted_total{instance=~\"$instance\"}[$__rate_interval])", "legendFormat": "Accepted", "refId": "A" },
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "rate(loki_process_custom_auth_ssh_failed_total{instance=~\"$instance\"}[$__rate_interval])", "legendFormat": "Failed", "refId": "B" },
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "rate(loki_process_custom_auth_ssh_invalid_user_total{instance=~\"$instance\"}[$__rate_interval])", "legendFormat": "Invalid User", "refId": "C" }
       ],
       "title": "SSH Auth Rate", "type": "timeseries"
     },
@@ -275,8 +275,8 @@
       "gridPos": { "h": 8, "w": 12, "x": 12, "y": 51 }, "id": 54,
       "options": { "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" }, "tooltip": { "mode": "multi", "sort": "desc" } },
       "targets": [
-        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "rate(auth_sudo_success_total{instance=~\"$instance\"}[$__rate_interval])", "legendFormat": "Sudo Success", "refId": "A" },
-        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "rate(auth_sudo_failed_total{instance=~\"$instance\"}[$__rate_interval])", "legendFormat": "Sudo Failed", "refId": "B" }
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "rate(loki_process_custom_auth_sudo_success_total{instance=~\"$instance\"}[$__rate_interval])", "legendFormat": "Sudo Success", "refId": "A" },
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "rate(loki_process_custom_auth_sudo_failed_total{instance=~\"$instance\"}[$__rate_interval])", "legendFormat": "Sudo Failed", "refId": "B" }
       ],
       "title": "Sudo Events", "type": "timeseries"
     },
@@ -288,8 +288,8 @@
       "gridPos": { "h": 8, "w": 12, "x": 0, "y": 60 }, "id": 55,
       "options": { "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" }, "tooltip": { "mode": "multi", "sort": "desc" } },
       "targets": [
-        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "rate(fail2ban_ban_total{instance=~\"$instance\"}[$__rate_interval])", "legendFormat": "Ban", "refId": "A" },
-        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "rate(fail2ban_unban_total{instance=~\"$instance\"}[$__rate_interval])", "legendFormat": "Unban", "refId": "B" }
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "rate(loki_process_custom_fail2ban_ban_total{instance=~\"$instance\"}[$__rate_interval])", "legendFormat": "Ban", "refId": "A" },
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "rate(loki_process_custom_fail2ban_unban_total{instance=~\"$instance\"}[$__rate_interval])", "legendFormat": "Unban", "refId": "B" }
       ],
       "title": "Ban / Unban Rate", "type": "timeseries"
     },
@@ -299,7 +299,7 @@
       "gridPos": { "h": 8, "w": 12, "x": 12, "y": 60 }, "id": 56,
       "options": { "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" }, "tooltip": { "mode": "multi", "sort": "desc" } },
       "targets": [
-        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "rate(fail2ban_found_total{instance=~\"$instance\"}[$__rate_interval])", "legendFormat": "Found", "refId": "A" }
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "rate(loki_process_custom_fail2ban_found_total{instance=~\"$instance\"}[$__rate_interval])", "legendFormat": "Found", "refId": "A" }
       ],
       "title": "Filter Match Rate", "type": "timeseries"
     },
@@ -307,29 +307,29 @@
     { "collapsed": false, "gridPos": { "h": 1, "w": 24, "x": 0, "y": 68 }, "id": 500, "panels": [], "title": "🔒 Security Logs", "type": "row" },
     {
       "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
-      "gridPos": { "h": 8, "w": 8, "x": 0, "y": 69 }, "id": 40,
-      "options": { "showTime": true, "showLabels": false, "showCommonLabels": false, "wrapLogMessage": false, "prettifyLogMessage": false, "enableLogDetails": true, "sortOrder": "Descending", "dedupStrategy": "none" },
+      "gridPos": { "h": 10, "w": 24, "x": 0, "y": 69 }, "id": 40,
+      "options": { "showTime": true, "showLabels": false, "showCommonLabels": false, "wrapLogMessage": true, "prettifyLogMessage": false, "enableLogDetails": true, "sortOrder": "Descending", "dedupStrategy": "none" },
       "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"fail2ban\", host=~\"${instance:regex}\"}", "refId": "A" }],
       "title": "Fail2ban Activity", "type": "logs"
     },
     {
       "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
-      "gridPos": { "h": 8, "w": 8, "x": 8, "y": 69 }, "id": 41,
-      "options": { "showTime": true, "showLabels": false, "showCommonLabels": false, "wrapLogMessage": false, "prettifyLogMessage": false, "enableLogDetails": true, "sortOrder": "Descending", "dedupStrategy": "none" },
+      "gridPos": { "h": 10, "w": 24, "x": 0, "y": 79 }, "id": 41,
+      "options": { "showTime": true, "showLabels": false, "showCommonLabels": false, "wrapLogMessage": true, "prettifyLogMessage": false, "enableLogDetails": true, "sortOrder": "Descending", "dedupStrategy": "none" },
       "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"auth\", host=~\"${instance:regex}\"} NOT Accepted NOT session NOT pam_unix", "refId": "A" }],
       "title": "SSH Auth Failures", "type": "logs"
     },
     {
       "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
-      "gridPos": { "h": 8, "w": 8, "x": 16, "y": 69 }, "id": 42,
-      "options": { "showTime": true, "showLabels": false, "showCommonLabels": false, "wrapLogMessage": false, "prettifyLogMessage": false, "enableLogDetails": true, "sortOrder": "Descending", "dedupStrategy": "none" },
+      "gridPos": { "h": 10, "w": 24, "x": 0, "y": 89 }, "id": 42,
+      "options": { "showTime": true, "showLabels": false, "showCommonLabels": false, "wrapLogMessage": true, "prettifyLogMessage": false, "enableLogDetails": true, "sortOrder": "Descending", "dedupStrategy": "none" },
       "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"ufw\", host=~\"${instance:regex}\"}", "refId": "A" }],
       "title": "UFW Firewall", "type": "logs"
     },
     {
       "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
-      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 77 }, "id": 24,
-      "options": { "showTime": true, "showLabels": false, "showCommonLabels": false, "wrapLogMessage": false, "prettifyLogMessage": false, "enableLogDetails": true, "sortOrder": "Descending", "dedupStrategy": "none" },
+      "gridPos": { "h": 10, "w": 24, "x": 0, "y": 99 }, "id": 24,
+      "options": { "showTime": true, "showLabels": false, "showCommonLabels": false, "wrapLogMessage": true, "prettifyLogMessage": false, "enableLogDetails": true, "sortOrder": "Descending", "dedupStrategy": "none" },
       "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{container=\"crowdsec\", host=~\"${instance:regex}\"} NOT heartbeat NOT decisions/stream", "refId": "A" }],
       "title": "CrowdSec Events", "description": "CrowdSec logs excluding routine heartbeats and bouncer polling.", "type": "logs"
     }
