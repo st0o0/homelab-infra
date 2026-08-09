@@ -11,6 +11,16 @@
 	log {
 		level INFO
 	}
+
+	servers :2019 {
+		name metrics
+	}
+	servers :8888 {
+		name health
+	}
+	servers :443 {
+		name proxy
+	}
 }
 
 :2019 {
