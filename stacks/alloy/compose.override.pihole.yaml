@@ -1,7 +1,10 @@
 services:
   alloy:
+    depends_on:
+      pihole-exporter:
+        condition: service_started
     volumes:
-      - ./alloy/features/pihole.alloy:/etc/alloy/pihole.alloy:ro
+      - ./alloy/features/pihole.alloy:/etc/alloy/pihole.alloy
     environment:
       - PIHOLE_METRICS_TARGET=${ALLOY_PIHOLE_METRICS_TARGET:-pihole-exporter:9617}
 

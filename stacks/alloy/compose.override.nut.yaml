@@ -1,5 +1,8 @@
 services:
   alloy:
+    depends_on:
+      nut-exporter:
+        condition: service_started
     networks:
       - nut-net
 

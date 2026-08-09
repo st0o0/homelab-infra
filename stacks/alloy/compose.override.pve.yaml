@@ -1,4 +1,9 @@
 services:
+  alloy:
+    depends_on:
+      pve-exporter:
+        condition: service_started
+
   pve-exporter:
     image: ghcr.io/bigtcze/pve-exporter:1.0.8
     container_name: pve-exporter
