@@ -1,31 +1,6 @@
 services:
   alloy:
-    depends_on:
-      pve-exporter:
-        condition: service_started
     volumes:
       - ./alloy/features/pve.alloy:/etc/alloy/pve.alloy
     environment:
-      - PVE_EXPORTER_TARGET=${ALLOY_PVE_EXPORTER_TARGET:-pve-exporter:9221}
-
-  pve-exporter:
-    image: ghcr.io/bigtcze/pve-exporter:1.0.8
-    container_name: pve-exporter
-    restart: unless-stopped
-    logging:
-      driver: json-file
-      options:
-        max-size: 10m
-        max-file: "3"
-    environment:
-      - PVE_HOST=${ALLOY_PVE_HOST:?ALLOY_PVE_HOST is required}
-      - PVE_TOKEN_ID=${ALLOY_PVE_TOKEN_ID:?ALLOY_PVE_TOKEN_ID is required}
-      - PVE_TOKEN_SECRET=${ALLOY_PVE_TOKEN_SECRET:?ALLOY_PVE_TOKEN_SECRET is required}
-      - PVE_INSECURE_SKIP_VERIFY=${ALLOY_PVE_INSECURE_SKIP_VERIFY:-true}
-    deploy:
-      resources:
-        limits:
-          cpus: 0.10
-          memory: 64M
-        reservations:
-          memory: 32M
+      - PVE_EXPORTER_TARGET=${ALLOY_PVE_EXPORTER_TARGET:?ALLOY_PVE_EXPORTER_TARGET is required}

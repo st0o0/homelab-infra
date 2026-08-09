@@ -67,7 +67,7 @@ ALLOY_PIHOLE_EXPORTER_PASSWORD=[[FeelsAlertsMan_pihole_exporter_password]]
 ALLOY_PIHOLE_EXPORTER_PORT=[[FeelsAlertsMan_pihole_exporter_port]]
 ALLOY_PIHOLE_EXPORTER_PROTOCOL=http
 
-# ── PVE exporter (runs on Proxmox host, not as Docker sidecar) ──
+# ── PVE exporter (runs natively on Proxmox, scraped remotely) ──
 ALLOY_PVE_EXPORTER_TARGET=[[FeelsAlertsMan_pve_exporter_target]]
 
 # ── NUT exporter (UPS on FeelsUPSMan) ────────────────────
