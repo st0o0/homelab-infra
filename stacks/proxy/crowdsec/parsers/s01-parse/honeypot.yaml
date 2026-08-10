@@ -2,23 +2,16 @@ name: custom/honeypot-parser
 description: Parse Caddy honeypot JSON logs
 filter: "evt.Line.Labels.type == 'honeypot'"
 onsuccess: next_stage
-nodes:
-  - grok:
-      apply_on: message
-      pattern: "%{GREEDYDATA:json_raw}"
-  - statics:
-      - parsed: json_raw
-        expression: UnmarshalJSON(evt.Line.Raw)
-  - statics:
-      - meta: log_type
-        value: honeypot
-      - meta: source_ip
-        expression: evt.Parsed.request.remote_ip
-      - meta: http_path
-        expression: evt.Parsed.request.uri
-      - meta: http_method
-        expression: evt.Parsed.request.method
-      - meta: http_host
-        expression: evt.Parsed.request.host
-      - meta: http_user_agent
-        expression: evt.Parsed.request.headers.User-Agent[0]
+statics:
+  - meta: log_type
+    value: honeypot
+  - meta: source_ip
+    expression: "JsonExtract(evt.Line.Raw, 'request.remote_ip')"
+  - meta: http_path
+    expression: "JsonExtract(evt.Line.Raw, 'request.uri')"
+  - meta: http_method
+    expression: "JsonExtract(evt.Line.Raw, 'request.method')"
+  - meta: http_host
+    expression: "JsonExtract(evt.Line.Raw, 'request.host')"
+  - meta: http_user_agent
+    expression: "JsonExtract(evt.Line.Raw, 'request.headers.User-Agent.0')"
