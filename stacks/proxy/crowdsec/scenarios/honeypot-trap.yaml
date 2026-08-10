@@ -1,10 +1,8 @@
-type: leaky
+type: trigger
 name: custom/honeypot-trap
 description: Instant ban on honeypot path access
 filter: "evt.Meta.log_type == 'honeypot'"
 groupby: evt.Meta.source_ip
-capacity: 0
-leakspeed: 0s
 blackhole: 1m
 labels:
   type: honeypot
