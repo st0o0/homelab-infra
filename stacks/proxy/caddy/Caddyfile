@@ -91,29 +91,24 @@
 		path /vendor/* /telescope/* /debug/* /_profiler/*
 	}
 
-	handle @hp_sensitive {
-		log {
-			output file /var/log/caddy/honeypot.log {
-				roll_size 50MiB
-				roll_keep 5
-			}
-			format json {
-				time_format iso8601
-			}
+	log honeypot {
+		output file /var/log/caddy/honeypot.log {
+			roll_size 50MiB
+			roll_keep 5
 		}
+		include http.log.access.honeypot
+		format json {
+			time_format iso8601
+		}
+	}
+
+	handle @hp_sensitive {
+		log_name honeypot
 		abort
 	}
 
 	handle @hp_scanner {
-		log {
-			output file /var/log/caddy/honeypot.log {
-				roll_size 50MiB
-				roll_keep 5
-			}
-			format json {
-				time_format iso8601
-			}
-		}
+		log_name honeypot
 		header Content-Type "text/html; charset=utf-8"
 		respond <<HTML
 			<!DOCTYPE html><html><head><title>Login</title></head>
