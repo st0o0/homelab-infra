@@ -130,6 +130,9 @@
 			Include @crs-setup.conf.example
 			Include @owasp_crs/*.conf
 			SecRuleEngine On
+			SecAuditEngine RelevantOnly
+			SecAuditLog /var/log/caddy/waf-audit.log
+			SecAuditLogFormat json
 		`
 	}
 }
