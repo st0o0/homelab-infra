@@ -706,7 +706,6 @@ loki.process "waf_audit" {
   }
 
   stage.regex {
-    source     = ""
     expression = "\"id\":\\s*(?P<rule_id>\\d+)"
   }
 
