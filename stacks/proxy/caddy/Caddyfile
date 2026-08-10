@@ -96,7 +96,6 @@
 			roll_size 50MiB
 			roll_keep 5
 		}
-		include http.log.access.honeypot
 		format json {
 			time_format iso8601
 		}
