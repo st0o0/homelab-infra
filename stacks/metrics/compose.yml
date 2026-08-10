@@ -101,7 +101,7 @@ services:
       # Push internal metrics to VictoriaMetrics (like VM's selfScrapeInterval)
       - --pushmetrics.url=http://victoriametrics:8428/api/v1/import/prometheus
       - --pushmetrics.interval=${VL_PUSH_METRICS_INTERVAL:-1m}
-      - --pushmetrics.extraLabel=job=victoria-logs
+      - --pushmetrics.extraLabel=job="victoria-logs"
       - --memory.allowedPercent=${VL_MEMORY_ALLOWED_PERCENT:-50}
       - --search.maxConcurrentRequests=${VL_MAX_CONCURRENT_REQUESTS:-1}
       - --maxConcurrentInserts=${VL_MAX_CONCURRENT_INSERTS:-2}
