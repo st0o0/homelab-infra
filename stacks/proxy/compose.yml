@@ -91,6 +91,8 @@ services:
         condition: service_healthy
     environment:
       - CROWDSEC_BOUNCER_API_KEY=${CROWDSEC_BOUNCER_API_KEY:?CROWDSEC_BOUNCER_API_KEY is required}
+      - CADDY_DOMAIN_AUTHENTIK=${CADDY_DOMAIN_AUTHENTIK:?CADDY_DOMAIN_AUTHENTIK is required}
+      - CADDY_TARGET_AUTHENTIK=${CADDY_TARGET_AUTHENTIK:?CADDY_TARGET_AUTHENTIK is required}
     volumes:
       - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
       - ./caddy/sites:/etc/caddy/sites:ro
