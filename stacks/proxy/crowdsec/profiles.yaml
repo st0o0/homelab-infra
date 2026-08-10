@@ -5,5 +5,5 @@ decisions:
   - type: ban
     duration: 4h
 notifications:
-  - file_default
+  - file_alerts
 on_success: break

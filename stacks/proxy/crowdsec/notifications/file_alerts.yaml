@@ -1,5 +1,5 @@
 type: file
-name: file_default
+name: file_alerts
 log_level: info
 format: |
   {{range . -}}

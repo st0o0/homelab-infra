@@ -3,3 +3,7 @@ prometheus:
   level: full
   listen_addr: 0.0.0.0
   listen_port: 6060
+
+plugin_config:
+  user: root
+  group: root
