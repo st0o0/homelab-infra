@@ -16,6 +16,10 @@
     comment: "{{ item.comment | default(omit) }}"
   loop: "{{ ufw_rules + ufw_extra_rules }}"
 
+- name: Set logging level
+  community.general.ufw:
+    logging: "{{ ufw_logging }}"
+
 - name: Enable ufw
   community.general.ufw:
     state: enabled

@@ -15,6 +15,15 @@
     update_cache: true
     cache_valid_time: 3600
 
+- name: Ensure rsyslog routes UFW messages to ufw.log
+  ansible.builtin.copy:
+    dest: /etc/rsyslog.d/20-ufw.conf
+    content: |
+      :msg,contains,"[UFW " /var/log/ufw.log
+      & stop
+    mode: "0644"
+  notify: Restart rsyslog
+
 - name: Include LXC tasks
   ansible.builtin.include_tasks: lxc.yml
   when: ufw_disable_sysctl

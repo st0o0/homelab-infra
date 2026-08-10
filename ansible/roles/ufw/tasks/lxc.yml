@@ -41,6 +41,12 @@
     - _ufw_rules.rc != 0
     - "'Skipping' not in _ufw_rules.stdout"
 
+- name: Set logging level
+  ansible.builtin.command:
+    cmd: /usr/sbin/ufw logging {{ ufw_logging }}
+  register: _ufw_logging
+  changed_when: "'updated' in _ufw_logging.stdout"
+
 - name: Enable ufw
   ansible.builtin.command:
     cmd: /usr/sbin/ufw --force enable
@@ -49,3 +55,43 @@
   failed_when:
     - _ufw_enable.rc != 0
     - "'problem running sysctl' not in _ufw_enable.stderr"
+
+# LXC containers lack /dev/kmsg access, so iptables LOG target silently fails.
+# Use NFLOG + ulogd2 as fallback: NFLOG sends via netlink, ulogd2 forwards to syslog.
+- name: Install ulogd2 for NFLOG-based logging
+  ansible.builtin.apt:
+    name: ulogd2
+    state: present
+
+- name: Configure ulogd2 to forward NFLOG to syslog
+  ansible.builtin.copy:
+    dest: /etc/ulogd.conf
+    content: |
+      [global]
+      logfile="/var/log/ulogd.log"
+      stack=log1:NFLOG,base1:BASE,ifi1:IFINDEX,ip2str1:IP2STR,print1:PRINTPKT,sys1:SYSLOG
+
+      [log1]
+      group=1
+
+      [sys1]
+      facility=LOG_KERN
+      level=LOG_WARNING
+    mode: "0600"
+  notify: Restart ulogd2
+
+- name: Add NFLOG rules to UFW after.rules
+  ansible.builtin.blockinfile:
+    path: /etc/ufw/after.rules
+    insertbefore: "^COMMIT"
+    marker: "# {mark} ANSIBLE MANAGED - NFLOG logging for LXC"
+    block: |
+      -A ufw-after-input -m limit --limit 3/min --limit-burst 10 -j NFLOG --nflog-group 1 --nflog-prefix "[UFW BLOCK] "
+      -A ufw-after-forward -m limit --limit 3/min --limit-burst 10 -j NFLOG --nflog-group 1 --nflog-prefix "[UFW FORWARD] "
+  notify: Reload ufw
+
+- name: Enable ulogd2 service
+  ansible.builtin.service:
+    name: ulogd2
+    enabled: true
+    state: started

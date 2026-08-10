@@ -1,5 +1,15 @@
 - name: Reload ufw
-  ansible.builtin.command:
-    cmd: /usr/sbin/ufw --force disable
+  ansible.builtin.shell:
+    cmd: /usr/sbin/ufw --force disable && /usr/sbin/ufw --force enable
   changed_when: true
   failed_when: false
+
+- name: Restart rsyslog
+  ansible.builtin.service:
+    name: rsyslog
+    state: restarted
+
+- name: Restart ulogd2
+  ansible.builtin.service:
+    name: ulogd2
+    state: restarted
