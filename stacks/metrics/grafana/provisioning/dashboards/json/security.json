@@ -268,7 +268,7 @@
       "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
       "gridPos": { "h": 10, "w": 24, "x": 0, "y": 62 }, "id": 41,
       "options": { "showTime": true, "showLabels": false, "showCommonLabels": false, "wrapLogMessage": true, "prettifyLogMessage": false, "enableLogDetails": true, "sortOrder": "Descending", "dedupStrategy": "none" },
-      "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"auth\", host=~\"${instance:regex}\"} NOT Accepted NOT session NOT pam_unix NOT \"Connection reset\" NOT \"Connection closed\" NOT \"Disconnected from\" NOT \"Received disconnect\"", "refId": "A" }],
+      "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"auth\", host=~\"${instance:regex}\", event_type=~\"invalid_user|failed\"}", "refId": "A" }],
       "title": "SSH Auth Failures", "type": "logs"
     },
     {
@@ -282,8 +282,8 @@
       "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
       "gridPos": { "h": 10, "w": 24, "x": 0, "y": 82 }, "id": 24,
       "options": { "showTime": true, "showLabels": false, "showCommonLabels": false, "wrapLogMessage": true, "prettifyLogMessage": false, "enableLogDetails": true, "sortOrder": "Descending", "dedupStrategy": "none" },
-      "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{container=\"crowdsec\", host=~\"${instance:regex}\"} NOT heartbeat NOT decisions/stream NOT usage-metrics NOT \"watchers/login\" NOT \"capi metrics\" NOT \"usage metrics\"", "refId": "A" }],
-      "title": "CrowdSec Events", "description": "CrowdSec logs excluding routine operations (heartbeats, polling, metrics, auth).", "type": "logs"
+      "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"crowdsec-alerts\", host=~\"${instance:regex}\"}", "refId": "A" }],
+      "title": "CrowdSec Decisions", "description": "CrowdSec security decisions (bans, captchas) from NDJson alerts.", "type": "logs"
     }
   ]
 }

@@ -1,0 +1,16 @@
+type: file
+name: file_default
+log_level: info
+format: |
+  {{range . -}}
+  {{$alert := . -}}
+  {{range .Decisions -}}
+  {"time":"{{$alert.StopAt}}","scenario":"{{.Scenario}}","ip":"{{$alert.Source.Ip}}","type":"{{.Type}}","duration":"{{.Duration}}","country":"{{$alert.Source.Cn}}","asname":"{{$alert.Source.AsName}}","latitude":"{{$alert.Source.Latitude}}","longitude":"{{$alert.Source.Longitude}}"}
+  {{end -}}
+  {{end -}}
+log_path: /var/log/crowdsec/alerts.ndjson
+rotate:
+  enabled: true
+  max_size: 10
+  max_files: 5
+  max_age: 7

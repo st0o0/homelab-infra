@@ -64,6 +64,17 @@ declare "auth" {
       expression = "sudo:\\s+(?P<sudo_failed_user>\\S+)\\s+: \\d+ incorrect password attempt"
     }
 
+    stage.template {
+      source   = "event_type"
+      template = "{{ if .ssh_invalid_user }}invalid_user{{ else if .ssh_failed_user }}failed{{ else if .ssh_accepted_user }}accepted{{ else if .sudo_success_user }}sudo{{ else if .sudo_failed_user }}sudo_failed{{ end }}"
+    }
+
+    stage.labels {
+      values = {
+        event_type = "",
+      }
+    }
+
     stage.metrics {
       metric.counter {
         name              = "auth_ssh_accepted_total"
@@ -118,6 +129,11 @@ declare "auth" {
 
     stage.replace {
       expression = " \\[preauth\\]"
+      replace    = ""
+    }
+
+    stage.replace {
+      expression = " ssh2: \\S+ \\S+$"
       replace    = ""
     }
 

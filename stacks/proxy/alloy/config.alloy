@@ -272,6 +272,17 @@ loki.process "auth" {
     }
   }
 
+  stage.template {
+    source   = "event_type"
+    template = "{{ if .ssh_invalid_user }}invalid_user{{ else if .ssh_failed_user }}failed{{ else if .ssh_accepted_user }}accepted{{ else if .sudo_success_user }}sudo{{ else if .sudo_failed_user }}sudo_failed{{ end }}"
+  }
+
+  stage.labels {
+    values = {
+      event_type = "",
+    }
+  }
+
   stage.metrics {
     metric.counter {
       name              = "auth_ssh_accepted_total"
@@ -326,6 +337,11 @@ loki.process "auth" {
 
   stage.replace {
     expression = " \\[preauth\\]"
+    replace    = ""
+  }
+
+  stage.replace {
+    expression = " ssh2: \\S+ \\S+$"
     replace    = ""
   }
 
@@ -519,6 +535,55 @@ loki.process "ufw" {
   stage.template {
     source   = "formatted"
     template = "{{ .action }} {{ .proto }} {{ .src_ip }}{{ if .spt }}:{{ .spt }}{{ end }} → {{ .dst_ip }}{{ if .dpt }}:{{ .dpt }}{{ end }}"
+  }
+
+  stage.output {
+    source = "formatted"
+  }
+
+  forward_to = [loki.write.central.receiver]
+}
+
+// ── CrowdSec Alert Logs (NDJson) ────────────────────────────
+
+local.file_match "crowdsec_alerts" {
+  path_targets = [
+    {__path__ = "/var/log/host/crowdsec/alerts.ndjson", job = "crowdsec-alerts"},
+  ]
+}
+
+loki.source.file "crowdsec_alerts" {
+  targets    = local.file_match.crowdsec_alerts.targets
+  forward_to = [loki.process.crowdsec_alerts.receiver]
+}
+
+loki.process "crowdsec_alerts" {
+  stage.json {
+    expressions = {
+      time     = "time",
+      scenario = "scenario",
+      ip       = "ip",
+      type     = "type",
+      duration = "duration",
+      country  = "country",
+      asname   = "asname",
+    }
+  }
+
+  stage.timestamp {
+    source = "time"
+    format = "2006-01-02T15:04:05Z"
+  }
+
+  stage.labels {
+    values = {
+      scenario = "",
+    }
+  }
+
+  stage.template {
+    source   = "formatted"
+    template = "{{ .type }} {{ .ip }} ({{ .country }}/{{ .asname }}) {{ .scenario }} [{{ .duration }}]"
   }
 
   stage.output {
