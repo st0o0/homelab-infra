@@ -58,6 +58,6 @@ GEOIPUPDATE_LICENSE_KEY=[[FeelsPrivateMan_geoipupdate_license_key]]
 # CADDY_TARGET_MEALIE=[[FeelsPrivateMan_caddy_target_mealie]]
 # CADDY_DOMAIN_VAULTWARDEN=[[FeelsPrivateMan_caddy_domain_vaultwarden]]
 # CADDY_TARGET_VAULTWARDEN=[[FeelsPrivateMan_caddy_target_vaultwarden]]
-# CADDY_DOMAIN_AUTHENTIK=[[FeelsPrivateMan_caddy_domain_authentik]]
-# CADDY_TARGET_AUTHENTIK=[[FeelsPrivateMan_caddy_target_authentik]]
+CADDY_DOMAIN_AUTHENTIK=[[FeelsPrivateMan_caddy_domain_authentik]]
+CADDY_TARGET_AUTHENTIK=[[FeelsPrivateMan_caddy_target_authentik]]
 """
