@@ -37,6 +37,7 @@ VM_SELF_SCRAPE_INTERVAL=[[FeelsAlertsMan_vm_self_scrape_interval]]
 VM_PORT=[[FeelsAlertsMan_vm_port]]
 VM_PATH_DATA=[[FeelsAlertsMan_vm_path_data]]
 VM_CACHE_TIMESTAMP_OFFSET=10m
+VM_MEMORY_ALLOWED_PERCENT=80
 """
 
 [[stack]]

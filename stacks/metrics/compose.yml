@@ -61,6 +61,7 @@ services:
       # Deduplication window — keep in sync with the Alloy scrape interval
       - --dedup.minScrapeInterval=${VM_SCRAPE_INTERVAL:-30s}
       - --search.cacheTimestampOffset=${VM_CACHE_TIMESTAMP_OFFSET:-5m}
+      - --memory.allowedPercent=${VM_MEMORY_ALLOWED_PERCENT:-60}
       # VictoriaMetrics scrapes its own internals (vm_* metrics)
       - --selfScrapeInterval=${VM_SELF_SCRAPE_INTERVAL:-1m}
     ports:
@@ -78,9 +79,9 @@ services:
       resources:
         limits:
           cpus: 1
-          memory: 2G
+          memory: 3G
         reservations:
-          memory: 1G
+          memory: 1.5G
 
   victorialogs:
     image: victoriametrics/victoria-logs:v1.52.0
