@@ -125,7 +125,7 @@
     {
       "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
       "fieldConfig": { "defaults": { "color": { "mode": "thresholds" }, "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }, { "color": "yellow", "value": 5 }, { "color": "orange", "value": 20 }, { "color": "red", "value": 50 }] }, "unit": "short" }, "overrides": [] },
-      "gridPos": { "h": 4, "w": 4, "x": 8, "y": 12 }, "id": 50,
+      "gridPos": { "h": 4, "w": 3, "x": 8, "y": 12 }, "id": 50,
       "options": { "colorMode": "value", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "textMode": "auto" },
       "targets": [{ "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(increase(loki_process_custom_fail2ban_ban_total{instance=~\"$instance\"}[24h]))", "refId": "A" }],
       "title": "Bans (24h)", "type": "stat"
@@ -133,7 +133,7 @@
     {
       "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
       "fieldConfig": { "defaults": { "color": { "mode": "thresholds" }, "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }, { "color": "yellow", "value": 5 }, { "color": "orange", "value": 20 }, { "color": "red", "value": 50 }] }, "unit": "short" }, "overrides": [] },
-      "gridPos": { "h": 4, "w": 4, "x": 12, "y": 12 }, "id": 51,
+      "gridPos": { "h": 4, "w": 3, "x": 11, "y": 12 }, "id": 51,
       "options": { "colorMode": "value", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "textMode": "auto" },
       "targets": [{ "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(increase(loki_process_custom_fail2ban_found_total{instance=~\"$instance\"}[24h]))", "refId": "A" }],
       "title": "Detections (24h)", "type": "stat"
@@ -141,7 +141,7 @@
     {
       "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
       "fieldConfig": { "defaults": { "color": { "mode": "thresholds" }, "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }, { "color": "yellow", "value": 10 }, { "color": "orange", "value": 50 }, { "color": "red", "value": 100 }] }, "unit": "short" }, "overrides": [] },
-      "gridPos": { "h": 4, "w": 4, "x": 16, "y": 12 }, "id": 52,
+      "gridPos": { "h": 4, "w": 3, "x": 14, "y": 12 }, "id": 52,
       "options": { "colorMode": "value", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "textMode": "auto" },
       "targets": [{ "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(increase(loki_process_custom_auth_ssh_invalid_user_total{instance=~\"$instance\"}[24h]))", "refId": "A" }],
       "title": "SSH Attacks (24h)", "type": "stat"
@@ -149,10 +149,18 @@
     {
       "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
       "fieldConfig": { "defaults": { "color": { "mode": "thresholds" }, "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }] }, "unit": "short" }, "overrides": [] },
-      "gridPos": { "h": 4, "w": 4, "x": 20, "y": 12 }, "id": 57,
+      "gridPos": { "h": 4, "w": 3, "x": 17, "y": 12 }, "id": 57,
       "options": { "colorMode": "value", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "textMode": "auto" },
       "targets": [{ "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(increase(loki_process_custom_auth_ssh_accepted_total{instance=~\"$instance\"}[24h]))", "refId": "A" }],
       "title": "SSH Logins (24h)", "type": "stat"
+    },
+    {
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+      "fieldConfig": { "defaults": { "color": { "mode": "thresholds" }, "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }, { "color": "yellow", "value": 50 }, { "color": "orange", "value": 200 }, { "color": "red", "value": 500 }] }, "unit": "short" }, "overrides": [] },
+      "gridPos": { "h": 4, "w": 4, "x": 20, "y": 12 }, "id": 58,
+      "options": { "colorMode": "value", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "textMode": "auto" },
+      "targets": [{ "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(increase(loki_process_custom_ufw_block_total{instance=~\"$instance\"}[24h]))", "refId": "A" }],
+      "title": "UFW Blocks (24h)", "type": "stat"
     },
 
     { "collapsed": false, "gridPos": { "h": 1, "w": 24, "x": 0, "y": 16 }, "id": 300, "panels": [], "title": "🛡️ CrowdSec", "type": "row" },

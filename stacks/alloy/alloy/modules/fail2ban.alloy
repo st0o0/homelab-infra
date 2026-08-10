@@ -30,13 +30,24 @@ declare "fail2ban" {
   }
 
   loki.process "fail2ban" {
-    // Parse timestamp and strip prefix (keeps level + message)
+    stage.multiline {
+      firstline     = "\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}"
+      max_wait_time = "3s"
+    }
+
     stage.regex {
-      expression = "^(?P<timestamp>\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}),\\d+ \\S+\\s+\\[\\d+\\]:\\s+(?P<content>.+)"
+      expression = "^(?P<timestamp>\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}),\\d+ fail2ban\\.(?P<component>\\S+)\\s+\\[\\d+\\]:\\s+(?P<priority>\\w+)\\s+(?:\\[(?P<jail>\\S+)\\]\\s+)?(?P<content>.+)"
     }
     stage.timestamp {
       source = "timestamp"
       format = "2006-01-02 15:04:05"
+    }
+
+    stage.labels {
+      values = {
+        priority = "",
+        jail     = "",
+      }
     }
 
     // Ban: "NOTICE  [<jail>] Ban <ip>"
@@ -60,7 +71,6 @@ declare "fail2ban" {
         description       = "IPs banned by fail2ban"
         source            = "ban_ip"
         action            = "inc"
-
         max_idle_duration = "24h"
       }
       metric.counter {
@@ -68,7 +78,6 @@ declare "fail2ban" {
         description       = "IPs unbanned by fail2ban"
         source            = "unban_ip"
         action            = "inc"
-
         max_idle_duration = "24h"
       }
       metric.counter {
@@ -76,7 +85,6 @@ declare "fail2ban" {
         description       = "Filter matches found by fail2ban"
         source            = "found_ip"
         action            = "inc"
-
         max_idle_duration = "24h"
       }
     }
@@ -88,11 +96,6 @@ declare "fail2ban" {
     stage.replace {
       expression = " - \\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}\\s*$"
       replace    = ""
-    }
-
-    stage.replace {
-      expression = "^(\\w+)\\s{2,}"
-      replace    = "$1 "
     }
 
     forward_to = argument.forward_to.value

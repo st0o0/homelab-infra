@@ -30,7 +30,6 @@ declare "ufw" {
   }
 
   loki.process "ufw" {
-    // RFC 5424: strip timestamp, hostname, kernel prefix + uptime counter
     stage.regex {
       expression = "^(?P<timestamp_rfc>\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d+[+-]\\d{2}:\\d{2}) \\S+ \\S+:\\s*(?:\\[\\s*\\d+\\.\\d+\\]\\s*)?(?P<content>.+)"
     }
@@ -39,8 +38,40 @@ declare "ufw" {
       format = "2006-01-02T15:04:05.000000-07:00"
     }
 
+    stage.regex {
+      source     = "content"
+      expression = "\\[UFW\\s+(?P<action>\\w+)\\]\\s+IN=(?P<iface>\\S*)\\s+OUT=\\S*\\s+(?:MAC=\\S*\\s+)?SRC=(?P<src_ip>[\\d.]+)\\s+DST=(?P<dst_ip>[\\d.]+)\\s+LEN=\\d+\\s+.*?PROTO=(?P<proto>\\w+)(?:.*?SPT=(?P<spt>\\d+))?(?:.*?DPT=(?P<dpt>\\d+))?"
+    }
+
+    stage.labels {
+      values = {
+        action = "",
+        proto  = "",
+      }
+    }
+
+    stage.regex {
+      source     = "content"
+      expression = "\\[UFW BLOCK\\].*?SRC=(?P<blocked_ip>[\\d.]+)"
+    }
+
+    stage.metrics {
+      metric.counter {
+        name              = "ufw_block_total"
+        description       = "Connections blocked by UFW"
+        source            = "blocked_ip"
+        action            = "inc"
+        max_idle_duration = "24h"
+      }
+    }
+
+    stage.template {
+      source   = "formatted"
+      template = "{{ .action }} {{ .proto }} {{ .src_ip }}{{ if .spt }}:{{ .spt }}{{ end }} → {{ .dst_ip }}{{ if .dpt }}:{{ .dpt }}{{ end }}"
+    }
+
     stage.output {
-      source = "content"
+      source = "formatted"
     }
 
     forward_to = argument.forward_to.value
