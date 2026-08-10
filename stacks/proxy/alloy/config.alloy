@@ -251,15 +251,9 @@ loki.process "auth" {
     expression = "sudo:\\s+(?P<sudo_failed_user>\\S+)\\s+: \\d+ incorrect password attempt"
   }
 
-  // Generic IP extraction for lines not caught by specific patterns
+  // Extract IP for GeoIP lookup (only set when regex matches)
   stage.regex {
-    expression = "from (?P<ssh_generic_ip>\\d+\\.\\d+\\.\\d+\\.\\d+)"
-  }
-
-  // Coalesce IP for GeoIP lookup
-  stage.template {
-    source   = "ip"
-    template = "{{ or .ssh_accepted_ip .ssh_invalid_ip .ssh_failed_ip .ssh_generic_ip }}"
+    expression = "from (?P<ip>\\d+\\.\\d+\\.\\d+\\.\\d+)"
   }
 
   stage.match {
@@ -366,10 +360,9 @@ loki.process "fail2ban" {
     expression = "fail2ban\\.filter\\s+\\[\\d+\\]: INFO\\s+\\[(?P<found_jail>\\S+)\\] Found (?P<found_ip>\\d+\\.\\d+\\.\\d+\\.\\d+)"
   }
 
-  // Coalesce IP for GeoIP lookup
-  stage.template {
-    source   = "ip"
-    template = "{{ or .ban_ip .unban_ip .found_ip }}"
+  // Extract IP for GeoIP lookup (only set when regex matches)
+  stage.regex {
+    expression = "(?:Ban|Unban|Found) (?P<ip>\\d+\\.\\d+\\.\\d+\\.\\d+)"
   }
 
   stage.match {
