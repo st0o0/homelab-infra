@@ -519,7 +519,13 @@ loki.process "ufw" {
 
   stage.regex {
     source     = "content"
-    expression = "\\[UFW BLOCK\\].*?SRC=(?P<blocked_ip>[\\d.]+)"
+    expression = "\\[UFW BLOCK\\].*?SRC=(?P<blocked_ip>[\\d.]+).*?DPT=(?P<dest_port>\\d+)"
+  }
+
+  stage.labels {
+    values = {
+      dest_port = "",
+    }
   }
 
   stage.metrics {
@@ -671,6 +677,67 @@ loki.process "caddy_access" {
 
   stage.output {
     source = "msg"
+  }
+
+  forward_to = [loki.write.central.receiver]
+}
+
+// ── WAF Audit Logs ──────────────────────────────────────────
+
+local.file_match "waf_audit" {
+  path_targets = [
+    {__path__ = "/var/log/host/caddy/waf-audit.log", job = "waf"},
+  ]
+}
+
+loki.source.file "waf_audit" {
+  targets    = local.file_match.waf_audit.targets
+  forward_to = [loki.process.waf_audit.receiver]
+}
+
+loki.process "waf_audit" {
+  stage.json {
+    expressions = {
+      client_ip = "transaction.client_ip",
+      uri       = "transaction.request.uri",
+      method    = "transaction.request.method",
+      status    = "transaction.response.status",
+    }
+  }
+
+  stage.regex {
+    source     = ""
+    expression = "\"id\":\\s*(?P<rule_id>\\d+)"
+  }
+
+  stage.match {
+    selector = "{job=\"waf\"}"
+    pipeline_name = "geoip"
+
+    stage.geoip {
+      source  = "client_ip"
+      db      = "/geoip/GeoLite2-City.mmdb"
+      db_type = "city"
+    }
+  }
+
+  stage.labels {
+    values = {
+      client_ip          = "",
+      uri                = "",
+      method             = "",
+      rule_id            = "",
+      geoip_country_code = "",
+    }
+  }
+
+  stage.template {
+    source   = "formatted"
+    template = "WAF block rule={{ .rule_id }} {{ .method }} {{ .uri }} from {{ .client_ip }}"
+  }
+
+  stage.output {
+    source = "formatted"
   }
 
   forward_to = [loki.write.central.receiver]
