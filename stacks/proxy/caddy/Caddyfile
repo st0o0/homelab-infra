@@ -1,12 +1,16 @@
 {
-	order crowdsec first
+	order coraza_waf first
+	order crowdsec after coraza_waf
+	order rate_limit after crowdsec
 
 	crowdsec {
 		api_url http://localhost:8080
 		api_key {$CROWDSEC_BOUNCER_API_KEY}
 	}
 
-	metrics
+	metrics {
+		per_host
+	}
 
 	log {
 		level INFO
@@ -31,7 +35,114 @@
 	crowdsec
 }
 
+(access-geo-dach) {
+	@geo-blocked not maxmind_geolocation {
+		db_path /geoip/GeoLite2-City.mmdb
+		allow_countries DE AT CH
+	}
+	abort @geo-blocked
+}
+
+(authentik) {
+	forward_auth {$CADDY_TARGET_AUTHENTIK} {
+		uri /outpost.goauthentik.io/auth/caddy
+		copy_headers X-Authentik-Username X-Authentik-Groups X-Authentik-Entitlements X-Authentik-Email X-Authentik-Name X-Authentik-Uid X-Authentik-Jwt X-Authentik-Meta-Jwks X-Authentik-Meta-Outpost X-Authentik-Meta-Provider X-Authentik-Meta-App X-Authentik-Meta-Version
+		trusted_proxies private_ranges
+	}
+}
+
+(ratelimit-strict) {
+	rate_limit {
+		zone strict_{args[0]} {
+			key {remote_host}
+			events 30
+			window 1m
+		}
+	}
+}
+
+(ratelimit-default) {
+	rate_limit {
+		zone default_{args[0]} {
+			key {remote_host}
+			events 100
+			window 1m
+		}
+	}
+}
+
+(ratelimit-media) {
+	rate_limit {
+		zone media_{args[0]} {
+			key {remote_host}
+			events 300
+			window 1m
+		}
+	}
+}
+
+(honeypot) {
+	@hp_sensitive path /.env /.env.* /.git/* /.aws/* /.ssh/* /wp-config.php /config.php
+	@hp_scanner {
+		path /wp-login.php /wp-admin/* /xmlrpc.php /phpmyadmin/* /pma/*
+		path /administrator/* /admin/* /cgi-bin/* /solr/* /console/*
+		path /manager/* /actuator/* /api/v1/admin /setup.php
+		path /.well-known/security.txt /remote/login /login.action
+		path /vendor/* /telescope/* /debug/* /_profiler/*
+	}
+
+	handle @hp_sensitive {
+		log {
+			output file /var/log/caddy/honeypot.log {
+				roll_size 50MiB
+				roll_keep 5
+			}
+			format json {
+				time_format iso8601
+			}
+		}
+		abort
+	}
+
+	handle @hp_scanner {
+		log {
+			output file /var/log/caddy/honeypot.log {
+				roll_size 50MiB
+				roll_keep 5
+			}
+			format json {
+				time_format iso8601
+			}
+		}
+		header Content-Type "text/html; charset=utf-8"
+		respond <<HTML
+			<!DOCTYPE html><html><head><title>Login</title></head>
+			<body style="font-family:Arial;margin:40px auto;max-width:400px">
+			<h2>Admin Login</h2>
+			<form method="POST" action="">
+			<input name="username" placeholder="Username" style="width:100%;padding:8px;margin:4px 0"><br>
+			<input name="password" type="password" placeholder="Password" style="width:100%;padding:8px;margin:4px 0"><br>
+			<button style="width:100%;padding:8px;margin:8px 0">Sign In</button>
+			</form></body></html>
+			HTML 200
+	}
+}
+
+(waf) {
+	coraza_waf {
+		load_owasp_crs
+		directives `
+			Include @coraza.conf-recommended
+			Include @crs-setup.conf.example
+			Include @owasp_crs/*.conf
+			SecRuleEngine On
+		`
+	}
+}
+
 (defaults) {
+	import honeypot
+	import waf
 	import crowdsec
 	maxmind_geolocation {
 		db_path /geoip/GeoLite2-City.mmdb

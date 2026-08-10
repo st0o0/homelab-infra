@@ -1,0 +1,9 @@
+{$CADDY_DOMAIN_JELLYSEERR} {
+	import defaults
+	import ratelimit-default jellyseerr
+	import access-geo-dach
+	import authentik
+
+	reverse_proxy /outpost.goauthentik.io/* {$CADDY_TARGET_AUTHENTIK}
+	reverse_proxy {$CADDY_TARGET_JELLYSEERR}
+}

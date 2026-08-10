@@ -1,11 +1,15 @@
 {$CADDY_DOMAIN_VAULTWARDEN} {
 	import defaults
+	import ratelimit-strict vaultwarden
+	import access-geo-dach
+	import authentik
 
 	header {
 		Permissions-Policy "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()"
 		X-Robots-Tag "noindex, nofollow"
 	}
 
+	reverse_proxy /outpost.goauthentik.io/* {$CADDY_TARGET_AUTHENTIK}
 	reverse_proxy {$CADDY_TARGET_VAULTWARDEN} {
 		header_up X-Real-IP {remote_host}
 	}
