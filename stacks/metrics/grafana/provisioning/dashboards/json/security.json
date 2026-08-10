@@ -66,7 +66,7 @@
               "fillOpacity": 0.4,
               "shape": "circle",
               "showLegend": true,
-              "size": { "field": "Value", "max": 30, "min": 5 }
+              "size": { "field": "Value", "max": 50, "min": 2 }
             },
             "location": { "gazetteer": "public/gazetteer/countries.json", "lookup": "geoip_country_code", "mode": "lookup" },
             "name": "Attacks",
@@ -78,7 +78,7 @@
         "view": { "allLayers": true, "id": "coords", "lat": 30, "lon": 0, "zoom": 2 }
       },
       "targets": [
-        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum by (geoip_country_code) (increase(loki_process_custom_fail2ban_found_total{instance=~\"$instance\"}[$__range]) or increase(loki_process_custom_auth_ssh_invalid_user_total{instance=~\"$instance\"}[$__range]))", "format": "table", "instant": true, "refId": "A" }
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum by (geoip_country_code) (increase(loki_process_custom_fail2ban_found_total{instance=~\"$instance\", geoip_country_code!=\"\"}[$__range]) or increase(loki_process_custom_auth_ssh_invalid_user_total{instance=~\"$instance\", geoip_country_code!=\"\"}[$__range])) > 0", "format": "table", "instant": true, "refId": "A" }
       ],
       "title": "Attack Origins", "type": "geomap"
     },
@@ -97,7 +97,7 @@
       },
       "gridPos": { "h": 10, "w": 8, "x": 16, "y": 1 }, "id": 61,
       "options": { "cellHeight": "sm", "footer": { "countRows": false, "fields": "", "reducer": ["sum"], "show": false }, "showHeader": true, "sortBy": [{ "desc": true, "displayName": "Events" }] },
-      "targets": [{ "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sort_desc(sum by (geoip_country_code) (increase(loki_process_custom_fail2ban_found_total{instance=~\"$instance\"}[$__range]) or increase(loki_process_custom_auth_ssh_invalid_user_total{instance=~\"$instance\"}[$__range])))", "format": "table", "instant": true, "refId": "A" }],
+      "targets": [{ "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sort_desc(sum by (geoip_country_code) (increase(loki_process_custom_fail2ban_found_total{instance=~\"$instance\", geoip_country_code!=\"\"}[$__range]) or increase(loki_process_custom_auth_ssh_invalid_user_total{instance=~\"$instance\", geoip_country_code!=\"\"}[$__range])) > 0)", "format": "table", "instant": true, "refId": "A" }],
       "title": "Top Attack Countries",
       "transformations": [{ "id": "organize", "options": { "excludeByName": { "Time": true, "__name__": true }, "renameByName": { "geoip_country_code": "Country", "Value": "Events" } } }],
       "type": "table"
@@ -260,7 +260,7 @@
       "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
       "gridPos": { "h": 10, "w": 24, "x": 0, "y": 62 }, "id": 41,
       "options": { "showTime": true, "showLabels": false, "showCommonLabels": false, "wrapLogMessage": true, "prettifyLogMessage": false, "enableLogDetails": true, "sortOrder": "Descending", "dedupStrategy": "none" },
-      "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"auth\", host=~\"${instance:regex}\"} NOT Accepted NOT session NOT pam_unix", "refId": "A" }],
+      "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"auth\", host=~\"${instance:regex}\"} NOT Accepted NOT session NOT pam_unix NOT \"Connection reset\" NOT \"Connection closed\" NOT \"Disconnected from\" NOT \"Received disconnect\"", "refId": "A" }],
       "title": "SSH Auth Failures", "type": "logs"
     },
     {
@@ -274,8 +274,8 @@
       "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
       "gridPos": { "h": 10, "w": 24, "x": 0, "y": 82 }, "id": 24,
       "options": { "showTime": true, "showLabels": false, "showCommonLabels": false, "wrapLogMessage": true, "prettifyLogMessage": false, "enableLogDetails": true, "sortOrder": "Descending", "dedupStrategy": "none" },
-      "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{container=\"crowdsec\", host=~\"${instance:regex}\"} NOT heartbeat NOT decisions/stream", "refId": "A" }],
-      "title": "CrowdSec Events", "description": "CrowdSec logs excluding routine heartbeats and bouncer polling.", "type": "logs"
+      "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{container=\"crowdsec\", host=~\"${instance:regex}\"} NOT heartbeat NOT decisions/stream NOT usage-metrics NOT \"watchers/login\" NOT \"capi metrics\" NOT \"usage metrics\"", "refId": "A" }],
+      "title": "CrowdSec Events", "description": "CrowdSec logs excluding routine operations (heartbeats, polling, metrics, auth).", "type": "logs"
     }
   ]
 }
