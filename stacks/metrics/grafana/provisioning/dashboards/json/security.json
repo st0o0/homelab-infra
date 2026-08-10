@@ -78,8 +78,7 @@
         "view": { "allLayers": true, "id": "coords", "lat": 30, "lon": 0, "zoom": 2 }
       },
       "targets": [
-        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum by (geoip_country_code) (increase(loki_process_custom_fail2ban_found_total{instance=~\"$instance\"}[$__range]))", "legendFormat": "Detections {{geoip_country_code}}", "refId": "A" },
-        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum by (geoip_country_code) (increase(loki_process_custom_auth_ssh_invalid_user_total{instance=~\"$instance\"}[$__range]))", "legendFormat": "SSH {{geoip_country_code}}", "refId": "B" }
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum by (geoip_country_code) (increase(loki_process_custom_fail2ban_found_total{instance=~\"$instance\"}[$__range]) or increase(loki_process_custom_auth_ssh_invalid_user_total{instance=~\"$instance\"}[$__range]))", "format": "table", "instant": true, "refId": "A" }
       ],
       "title": "Attack Origins", "type": "geomap"
     },
@@ -206,9 +205,9 @@
       "gridPos": { "h": 8, "w": 12, "x": 0, "y": 34 }, "id": 53,
       "options": { "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" }, "tooltip": { "mode": "multi", "sort": "desc" } },
       "targets": [
-        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum by (instance) (rate(loki_process_custom_auth_ssh_accepted_total{instance=~\"$instance\"}[$__rate_interval]))", "legendFormat": "{{instance}} — Accepted", "refId": "A" },
-        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum by (instance) (rate(loki_process_custom_auth_ssh_failed_total{instance=~\"$instance\"}[$__rate_interval]))", "legendFormat": "{{instance}} — Failed", "refId": "B" },
-        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum by (instance) (rate(loki_process_custom_auth_ssh_invalid_user_total{instance=~\"$instance\"}[$__rate_interval]))", "legendFormat": "{{instance}} — Invalid User", "refId": "C" }
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(rate(loki_process_custom_auth_ssh_accepted_total{instance=~\"$instance\"}[$__rate_interval]))", "legendFormat": "Accepted", "refId": "A" },
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(rate(loki_process_custom_auth_ssh_failed_total{instance=~\"$instance\"}[$__rate_interval]))", "legendFormat": "Failed", "refId": "B" },
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(rate(loki_process_custom_auth_ssh_invalid_user_total{instance=~\"$instance\"}[$__rate_interval]))", "legendFormat": "Invalid User", "refId": "C" }
       ],
       "title": "SSH Auth Rate", "type": "timeseries"
     },
@@ -218,8 +217,8 @@
       "gridPos": { "h": 8, "w": 12, "x": 12, "y": 34 }, "id": 54,
       "options": { "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" }, "tooltip": { "mode": "multi", "sort": "desc" } },
       "targets": [
-        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum by (instance) (rate(loki_process_custom_auth_sudo_success_total{instance=~\"$instance\"}[$__rate_interval]))", "legendFormat": "{{instance}} — Sudo Success", "refId": "A" },
-        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum by (instance) (rate(loki_process_custom_auth_sudo_failed_total{instance=~\"$instance\"}[$__rate_interval]))", "legendFormat": "{{instance}} — Sudo Failed", "refId": "B" }
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(rate(loki_process_custom_auth_sudo_success_total{instance=~\"$instance\"}[$__rate_interval]))", "legendFormat": "Sudo Success", "refId": "A" },
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(rate(loki_process_custom_auth_sudo_failed_total{instance=~\"$instance\"}[$__rate_interval]))", "legendFormat": "Sudo Failed", "refId": "B" }
       ],
       "title": "Sudo Events", "type": "timeseries"
     },
@@ -231,9 +230,9 @@
       "gridPos": { "h": 8, "w": 12, "x": 0, "y": 43 }, "id": 55,
       "options": { "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" }, "tooltip": { "mode": "multi", "sort": "desc" } },
       "targets": [
-        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum by (instance) (rate(loki_process_custom_fail2ban_found_total{instance=~\"$instance\"}[$__rate_interval]))", "legendFormat": "{{instance}} — Found", "refId": "A" },
-        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum by (instance) (rate(loki_process_custom_fail2ban_ban_total{instance=~\"$instance\"}[$__rate_interval]))", "legendFormat": "{{instance}} — Ban", "refId": "B" },
-        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum by (instance) (rate(loki_process_custom_fail2ban_unban_total{instance=~\"$instance\"}[$__rate_interval]))", "legendFormat": "{{instance}} — Unban", "refId": "C" }
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(rate(loki_process_custom_fail2ban_found_total{instance=~\"$instance\"}[$__rate_interval]))", "legendFormat": "Found", "refId": "A" },
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(rate(loki_process_custom_fail2ban_ban_total{instance=~\"$instance\"}[$__rate_interval]))", "legendFormat": "Ban", "refId": "B" },
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(rate(loki_process_custom_fail2ban_unban_total{instance=~\"$instance\"}[$__rate_interval]))", "legendFormat": "Unban", "refId": "C" }
       ],
       "title": "Fail2ban Activity", "type": "timeseries"
     },
@@ -243,8 +242,8 @@
       "gridPos": { "h": 8, "w": 12, "x": 12, "y": 43 }, "id": 56,
       "options": { "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" }, "tooltip": { "mode": "multi", "sort": "desc" } },
       "targets": [
-        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum by (instance) (rate(loki_process_custom_fail2ban_ban_total{instance=~\"$instance\"}[$__rate_interval]))", "legendFormat": "{{instance}} — Ban", "refId": "A" },
-        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum by (instance) (rate(loki_process_custom_fail2ban_unban_total{instance=~\"$instance\"}[$__rate_interval]))", "legendFormat": "{{instance}} — Unban", "refId": "B" }
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(rate(loki_process_custom_fail2ban_ban_total{instance=~\"$instance\"}[$__rate_interval]))", "legendFormat": "Ban", "refId": "A" },
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(rate(loki_process_custom_fail2ban_unban_total{instance=~\"$instance\"}[$__rate_interval]))", "legendFormat": "Unban", "refId": "B" }
       ],
       "title": "Bans vs Unbans", "type": "timeseries"
     },
