@@ -67,7 +67,7 @@ services:
       - --search.maxUniqueTimeseries=${VM_MAX_UNIQUE_TIMESERIES:-50000}
       - --search.maxQueryDuration=${VM_MAX_QUERY_DURATION:-30s}
       - --smallMergeConcurrency=${VM_SMALL_MERGE_CONCURRENCY:-1}
-      - --maxLabelsPerTimeseries=${VM_MAX_LABELS_PER_TIMESERIES:-30}
+      - --maxLabelsPerTimeseries=${VM_MAX_LABELS_PER_TIMESERIES:-35}
       # VictoriaMetrics scrapes its own internals (vm_* metrics)
       - --selfScrapeInterval=${VM_SELF_SCRAPE_INTERVAL:-1m}
     ports:
@@ -101,7 +101,7 @@ services:
       # Push internal metrics to VictoriaMetrics (like VM's selfScrapeInterval)
       - --pushmetrics.url=http://victoriametrics:8428/api/v1/import/prometheus
       - --pushmetrics.interval=${VL_PUSH_METRICS_INTERVAL:-1m}
-      - --pushmetrics.extraLabel=job="victoria-logs"
+      - --pushmetrics.extraLabel=job=victoria-logs
       - --memory.allowedPercent=${VL_MEMORY_ALLOWED_PERCENT:-50}
       - --search.maxConcurrentRequests=${VL_MAX_CONCURRENT_REQUESTS:-1}
       - --maxConcurrentInserts=${VL_MAX_CONCURRENT_INSERTS:-2}
