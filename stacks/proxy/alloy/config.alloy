@@ -319,6 +319,16 @@ loki.process "auth" {
     source = "content"
   }
 
+  stage.replace {
+    expression = " port \\d+(:\\d+)?"
+    replace    = ""
+  }
+
+  stage.replace {
+    expression = " \\[preauth\\]"
+    replace    = ""
+  }
+
   forward_to = [loki.write.central.receiver]
 }
 
@@ -410,6 +420,16 @@ loki.process "fail2ban" {
 
   stage.output {
     source = "content"
+  }
+
+  stage.replace {
+    expression = " - \\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}\\s*$"
+    replace    = ""
+  }
+
+  stage.replace {
+    expression = "^(\\w+)\\s{2,}"
+    replace    = "$1 "
   }
 
   forward_to = [loki.write.central.receiver]
