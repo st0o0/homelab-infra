@@ -65,17 +65,19 @@
       "gridPos": { "h": 10, "w": 16, "x": 0, "y": 1 }, "id": 1,
       "options": {
         "view": { "id": "coords", "lat": 30, "lon": 0, "zoom": 2 },
-        "basemap": { "type": "default" },
+        "basemap": { "config": { "theme": "dark" }, "name": "Layer 0", "type": "default" },
+        "controls": { "mouseWheelZoom": true, "showAttribution": false, "showDebug": false, "showMeasure": false, "showScale": true, "showZoom": true },
         "layers": [
           {
             "type": "heatmap",
             "name": "Visitors",
             "config": {
               "weight": { "field": "requests", "fixed": 1, "min": 0, "max": 1 },
-              "blur": 15,
-              "radius": 10
+              "blur": 20,
+              "radius": 20
             },
-            "location": { "mode": "coords", "latitude": "geoip_latitude", "longitude": "geoip_longitude" }
+            "location": { "mode": "coords", "latitude": "geoip_latitude", "longitude": "geoip_longitude" },
+            "tooltip": true
           }
         ],
         "tooltip": { "mode": "details" }

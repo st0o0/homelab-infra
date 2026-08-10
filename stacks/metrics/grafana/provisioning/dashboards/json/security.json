@@ -48,23 +48,7 @@
     {
       "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
       "fieldConfig": { "defaults": { "color": { "mode": "thresholds" }, "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }, { "color": "yellow", "value": 5 }, { "color": "orange", "value": 20 }, { "color": "red", "value": 50 }] }, "unit": "short" }, "overrides": [] },
-      "gridPos": { "h": 4, "w": 4, "x": 0, "y": 1 }, "id": 10,
-      "options": { "colorMode": "value", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "textMode": "auto" },
-      "targets": [{ "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(cs_active_decisions{instance=~\"$instance\"})", "refId": "A" }],
-      "title": "Active CrowdSec Decisions", "type": "stat"
-    },
-    {
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": { "defaults": { "color": { "mode": "thresholds" }, "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }, { "color": "yellow", "value": 5 }, { "color": "orange", "value": 20 }, { "color": "red", "value": 50 }] }, "unit": "short" }, "overrides": [] },
-      "gridPos": { "h": 4, "w": 4, "x": 4, "y": 1 }, "id": 11,
-      "options": { "colorMode": "value", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "textMode": "auto" },
-      "targets": [{ "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(increase(cs_lapi_bouncer_requests_total{instance=~\"$instance\"}[24h]))", "refId": "A" }],
-      "title": "Bouncer Queries (24h)", "type": "stat"
-    },
-    {
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": { "defaults": { "color": { "mode": "thresholds" }, "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }, { "color": "yellow", "value": 5 }, { "color": "orange", "value": 20 }, { "color": "red", "value": 50 }] }, "unit": "short" }, "overrides": [] },
-      "gridPos": { "h": 4, "w": 4, "x": 8, "y": 1 }, "id": 12,
+      "gridPos": { "h": 4, "w": 6, "x": 0, "y": 1 }, "id": 12,
       "options": { "colorMode": "value", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "textMode": "auto" },
       "targets": [{ "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(increase(loki_process_custom_fail2ban_ban_total{instance=~\"$instance\"}[24h]))", "refId": "A" }],
       "title": "Fail2ban Bans (24h)", "type": "stat"
@@ -72,7 +56,7 @@
     {
       "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
       "fieldConfig": { "defaults": { "color": { "mode": "thresholds" }, "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }, { "color": "yellow", "value": 10 }, { "color": "orange", "value": 50 }, { "color": "red", "value": 100 }] }, "unit": "short" }, "overrides": [] },
-      "gridPos": { "h": 4, "w": 4, "x": 12, "y": 1 }, "id": 13,
+      "gridPos": { "h": 4, "w": 6, "x": 6, "y": 1 }, "id": 13,
       "options": { "colorMode": "value", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "textMode": "auto" },
       "targets": [{ "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(increase(loki_process_custom_auth_ssh_invalid_user_total{instance=~\"$instance\"}[24h]))", "refId": "A" }],
       "title": "SSH Attacks (24h)", "type": "stat"
@@ -80,7 +64,7 @@
     {
       "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
       "fieldConfig": { "defaults": { "color": { "mode": "thresholds" }, "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }, { "color": "yellow", "value": 50 }, { "color": "orange", "value": 200 }, { "color": "red", "value": 500 }] }, "unit": "short" }, "overrides": [] },
-      "gridPos": { "h": 4, "w": 4, "x": 16, "y": 1 }, "id": 14,
+      "gridPos": { "h": 4, "w": 6, "x": 12, "y": 1 }, "id": 14,
       "options": { "colorMode": "value", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "textMode": "auto" },
       "targets": [{ "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(increase(loki_process_custom_ufw_block_total{instance=~\"$instance\"}[24h]))", "refId": "A" }],
       "title": "UFW Blocks (24h)", "type": "stat"
@@ -88,7 +72,7 @@
     {
       "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
       "fieldConfig": { "defaults": { "color": { "mode": "thresholds" }, "thresholds": { "mode": "absolute", "steps": [{ "color": "purple" }, { "color": "red", "value": 10 }] }, "unit": "short" }, "overrides": [] },
-      "gridPos": { "h": 4, "w": 4, "x": 20, "y": 1 }, "id": 15,
+      "gridPos": { "h": 4, "w": 6, "x": 18, "y": 1 }, "id": 15,
       "options": { "colorMode": "value", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "textMode": "auto" },
       "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"honeypot\"} | stats count() as hits", "refId": "A" }],
       "title": "Honeypot Hits", "type": "stat"
@@ -97,31 +81,22 @@
     { "collapsed": false, "gridPos": { "h": 1, "w": 24, "x": 0, "y": 5 }, "id": 2, "panels": [], "title": "🌍 Attack Origins", "type": "row" },
     {
       "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "continuous-YlRd" },
-          "mappings": [],
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }, { "color": "red", "value": 80 }] }
-        },
-        "overrides": []
-      },
+      "fieldConfig": { "defaults": {}, "overrides": [] },
       "gridPos": { "h": 10, "w": 16, "x": 0, "y": 6 }, "id": 20,
       "options": {
         "basemap": { "config": { "theme": "dark" }, "name": "Layer 0", "type": "default" },
-        "controls": { "mouseWheelZoom": true, "showAttribution": true, "showDebug": false, "showMeasure": false, "showScale": false, "showZoom": true },
+        "controls": { "mouseWheelZoom": true, "showAttribution": false, "showDebug": false, "showMeasure": false, "showScale": true, "showZoom": true },
         "layers": [
           {
             "config": {
-              "color": { "field": "Value", "fixed": "red" },
-              "fillOpacity": 0.6,
-              "shape": "circle",
-              "showLegend": true,
-              "size": { "field": "Value", "max": 70, "min": 5 }
+              "weight": { "field": "Value", "fixed": 1, "min": 0, "max": 1 },
+              "blur": 20,
+              "radius": 20
             },
             "location": { "gazetteer": "public/gazetteer/countries.json", "lookup": "geoip_country_code", "mode": "lookup" },
             "name": "Attacks",
             "tooltip": true,
-            "type": "markers"
+            "type": "heatmap"
           }
         ],
         "tooltip": { "mode": "details" },
@@ -166,8 +141,8 @@
       "fieldConfig": { "defaults": {}, "overrides": [] },
       "gridPos": { "h": 8, "w": 12, "x": 12, "y": 17 }, "id": 31,
       "options": {
-        "basemap": { "config": {}, "type": "default" },
-        "controls": { "mouseWheelZoom": true, "showAttribution": true, "showDebug": false, "showMeasure": false, "showScale": false, "showZoom": true },
+        "basemap": { "config": { "theme": "dark" }, "name": "Layer 0", "type": "default" },
+        "controls": { "mouseWheelZoom": true, "showAttribution": false, "showDebug": false, "showMeasure": false, "showScale": true, "showZoom": true },
         "layers": [
           {
             "type": "heatmap",
@@ -177,11 +152,12 @@
               "blur": 20,
               "radius": 20
             },
-            "location": { "mode": "coords", "latitude": "geoip_latitude", "longitude": "geoip_longitude" }
+            "location": { "mode": "coords", "latitude": "geoip_latitude", "longitude": "geoip_longitude" },
+            "tooltip": true
           }
         ],
         "tooltip": { "mode": "details" },
-        "view": { "id": "coords", "lat": 30, "lon": 0, "zoom": 2 }
+        "view": { "allLayers": true, "id": "coords", "lat": 30, "lon": 0, "zoom": 2 }
       },
       "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"honeypot\"} | stats by (geoip_latitude, geoip_longitude) count() as hits", "refId": "A" }],
       "title": "Honeypot Attack Origins", "type": "geomap"
