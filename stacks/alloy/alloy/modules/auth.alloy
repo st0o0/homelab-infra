@@ -111,6 +111,16 @@ declare "auth" {
       source = "content"
     }
 
+    stage.replace {
+      expression = " port \\d+(:\\d+)?"
+      replace    = ""
+    }
+
+    stage.replace {
+      expression = " \\[preauth\\]"
+      replace    = ""
+    }
+
     forward_to = argument.forward_to.value
   }
 }

@@ -85,6 +85,16 @@ declare "fail2ban" {
       source = "content"
     }
 
+    stage.replace {
+      expression = " - \\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}\\s*$"
+      replace    = ""
+    }
+
+    stage.replace {
+      expression = "^(\\w+)\\s{2,}"
+      replace    = "$1 "
+    }
+
     forward_to = argument.forward_to.value
   }
 }
