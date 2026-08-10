@@ -123,6 +123,8 @@ services:
       - ./crowdsec/config.yaml.local:/etc/crowdsec/config.yaml.local:ro
       - ./crowdsec/profiles.yaml:/etc/crowdsec/profiles.yaml:ro
       - ./crowdsec/notifications/file_alerts.yaml:/etc/crowdsec/notifications/file_alerts.yaml:ro
+      - ./crowdsec/parsers:/etc/crowdsec/parsers/s01-parse/custom:ro
+      - ./crowdsec/scenarios:/etc/crowdsec/scenarios/custom:ro
       - /docker/proxy/crowdsec/data:/var/lib/crowdsec/data
       - /docker/proxy/crowdsec/config:/etc/crowdsec
       - /var/log/caddy:/var/log/caddy:ro
