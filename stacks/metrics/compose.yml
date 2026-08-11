@@ -106,6 +106,7 @@ services:
       - --search.maxConcurrentRequests=${VL_MAX_CONCURRENT_REQUESTS:-1}
       - --maxConcurrentInserts=${VL_MAX_CONCURRENT_INSERTS:-2}
       - --storage.minFreeDiskSpaceBytes=${VL_MIN_FREE_DISK_SPACE:-100MB}
+      - --loki.streamFields=host,job,filename,container,event_type,action,proto,priority,jail,scenario,status_class,domain
     ports:
       # Loopback by default; set VLOGS_BIND_IP to the WireGuard IP
       # (e.g. 10.77.32.1) to accept remote observability agents.
