@@ -51,7 +51,9 @@
       "gridPos": { "h": 4, "w": 6, "x": 0, "y": 1 }, "id": 12,
       "options": { "colorMode": "value", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "textMode": "auto" },
       "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"fail2ban\", host=~\"${instance:regex}\"} Ban | stats count() as bans", "refId": "A" }],
-      "title": "Fail2ban Bans (24h)", "type": "stat"
+      "title": "Fail2ban Bans (24h)",
+      "transformations": [{ "id": "convertFieldType", "options": { "conversions": [{ "targetField": "bans", "destinationType": "number" }] } }],
+      "type": "stat"
     },
     {
       "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
@@ -59,7 +61,9 @@
       "gridPos": { "h": 4, "w": 6, "x": 6, "y": 1 }, "id": 13,
       "options": { "colorMode": "value", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "textMode": "auto" },
       "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"auth\", host=~\"${instance:regex}\", event_type=\"invalid_user\"} | stats count() as attacks", "refId": "A" }],
-      "title": "SSH Attacks (24h)", "type": "stat"
+      "title": "SSH Attacks (24h)",
+      "transformations": [{ "id": "convertFieldType", "options": { "conversions": [{ "targetField": "attacks", "destinationType": "number" }] } }],
+      "type": "stat"
     },
     {
       "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
@@ -67,7 +71,9 @@
       "gridPos": { "h": 4, "w": 6, "x": 12, "y": 1 }, "id": 14,
       "options": { "colorMode": "value", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "textMode": "auto" },
       "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"ufw\", host=~\"${instance:regex}\", action=\"BLOCK\"} | stats count() as blocks", "refId": "A" }],
-      "title": "UFW Blocks (24h)", "type": "stat"
+      "title": "UFW Blocks (24h)",
+      "transformations": [{ "id": "convertFieldType", "options": { "conversions": [{ "targetField": "blocks", "destinationType": "number" }] } }],
+      "type": "stat"
     },
     {
       "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
@@ -75,7 +81,9 @@
       "gridPos": { "h": 4, "w": 6, "x": 18, "y": 1 }, "id": 15,
       "options": { "colorMode": "value", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "textMode": "auto" },
       "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"honeypot\"} | stats count() as hits", "refId": "A" }],
-      "title": "Honeypot Hits", "type": "stat"
+      "title": "Honeypot Hits",
+      "transformations": [{ "id": "convertFieldType", "options": { "conversions": [{ "targetField": "hits", "destinationType": "number" }] } }],
+      "type": "stat"
     },
 
     { "collapsed": false, "gridPos": { "h": 1, "w": 24, "x": 0, "y": 5 }, "id": 2, "panels": [], "title": "🌍 Attack Origins", "type": "row" },
@@ -103,7 +111,9 @@
         "view": { "allLayers": true, "id": "coords", "lat": 30, "lon": 0, "zoom": 2 }
       },
       "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=~\"auth|fail2ban\", host=~\"${instance:regex}\"} geoip_latitude:!=\"\" | stats by (geoip_latitude, geoip_longitude) count() as hits", "refId": "A" }],
-      "title": "Attack Origins", "type": "geomap"
+      "title": "Attack Origins",
+      "transformations": [{ "id": "convertFieldType", "options": { "conversions": [{ "targetField": "geoip_latitude", "destinationType": "number" }, { "targetField": "geoip_longitude", "destinationType": "number" }, { "targetField": "hits", "destinationType": "number" }] } }],
+      "type": "geomap"
     },
     {
       "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
@@ -111,7 +121,9 @@
       "gridPos": { "h": 10, "w": 8, "x": 16, "y": 6 }, "id": 21,
       "options": { "showHeader": true, "sortBy": [{ "displayName": "hits", "desc": true }], "footer": { "show": false } },
       "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=~\"auth|fail2ban\", host=~\"${instance:regex}\"} geoip_country_code:!=\"\" | stats by (geoip_country_code) count() as hits | sort by (hits) desc | limit 20", "refId": "A" }],
-      "title": "Top Attack Countries", "type": "table"
+      "title": "Top Attack Countries",
+      "transformations": [{ "id": "convertFieldType", "options": { "conversions": [{ "targetField": "hits", "destinationType": "number" }] } }],
+      "type": "table"
     },
 
     { "collapsed": false, "gridPos": { "h": 1, "w": 24, "x": 0, "y": 16 }, "id": 3, "panels": [], "title": "🕸️ Honeypot", "type": "row" },
@@ -121,7 +133,9 @@
       "gridPos": { "h": 8, "w": 12, "x": 0, "y": 17 }, "id": 30,
       "options": { "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" }, "tooltip": { "mode": "multi", "sort": "desc" } },
       "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"honeypot\"} | stats by (_time:5m) count() as hits", "refId": "A" }],
-      "title": "Honeypot Hits Over Time", "type": "timeseries"
+      "title": "Honeypot Hits Over Time",
+      "transformations": [{ "id": "convertFieldType", "options": { "conversions": [{ "targetField": "hits", "destinationType": "number" }] } }],
+      "type": "timeseries"
     },
     {
       "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
@@ -147,7 +161,9 @@
         "view": { "allLayers": true, "id": "coords", "lat": 30, "lon": 0, "zoom": 2 }
       },
       "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"honeypot\"} | stats by (geoip_latitude, geoip_longitude) count() as hits", "refId": "A" }],
-      "title": "Honeypot Attack Origins", "type": "geomap"
+      "title": "Honeypot Attack Origins",
+      "transformations": [{ "id": "convertFieldType", "options": { "conversions": [{ "targetField": "geoip_latitude", "destinationType": "number" }, { "targetField": "geoip_longitude", "destinationType": "number" }, { "targetField": "hits", "destinationType": "number" }] } }],
+      "type": "geomap"
     },
     {
       "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
@@ -155,7 +171,9 @@
       "gridPos": { "h": 8, "w": 8, "x": 0, "y": 25 }, "id": 32,
       "options": { "showHeader": true, "sortBy": [{ "displayName": "hits", "desc": true }], "footer": { "show": false } },
       "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"honeypot\"} | stats by (uri) count() as hits | sort by (hits) desc | limit 20", "refId": "A" }],
-      "title": "Top Trapped Paths", "type": "table"
+      "title": "Top Trapped Paths",
+      "transformations": [{ "id": "convertFieldType", "options": { "conversions": [{ "targetField": "hits", "destinationType": "number" }] } }],
+      "type": "table"
     },
     {
       "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
@@ -163,7 +181,9 @@
       "gridPos": { "h": 8, "w": 8, "x": 8, "y": 25 }, "id": 33,
       "options": { "showHeader": true, "sortBy": [{ "displayName": "hits", "desc": true }], "footer": { "show": false } },
       "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"honeypot\"} | stats by (client_ip, geoip_country_code) count() as hits | sort by (hits) desc | limit 20", "refId": "A" }],
-      "title": "Top Attacker IPs", "type": "table"
+      "title": "Top Attacker IPs",
+      "transformations": [{ "id": "convertFieldType", "options": { "conversions": [{ "targetField": "hits", "destinationType": "number" }] } }],
+      "type": "table"
     },
     {
       "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
@@ -171,7 +191,9 @@
       "gridPos": { "h": 8, "w": 8, "x": 16, "y": 25 }, "id": 34,
       "options": { "showHeader": true, "sortBy": [{ "displayName": "hits", "desc": true }], "footer": { "show": false } },
       "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"honeypot\"} | stats by (user_agent) count() as hits | sort by (hits) desc | limit 20", "refId": "A" }],
-      "title": "Scanner User Agents", "type": "table"
+      "title": "Scanner User Agents",
+      "transformations": [{ "id": "convertFieldType", "options": { "conversions": [{ "targetField": "hits", "destinationType": "number" }] } }],
+      "type": "table"
     },
 
     { "collapsed": false, "gridPos": { "h": 1, "w": 24, "x": 0, "y": 33 }, "id": 9, "panels": [], "title": "🛡️ WAF", "type": "row" },
@@ -181,7 +203,9 @@
       "gridPos": { "h": 8, "w": 24, "x": 0, "y": 34 }, "id": 90,
       "options": { "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" }, "tooltip": { "mode": "multi", "sort": "desc" } },
       "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"waf\"} | stats by (_time:5m) count() as blocks", "refId": "A" }],
-      "title": "WAF Blocks Over Time", "type": "timeseries"
+      "title": "WAF Blocks Over Time",
+      "transformations": [{ "id": "convertFieldType", "options": { "conversions": [{ "targetField": "blocks", "destinationType": "number" }] } }],
+      "type": "timeseries"
     },
     {
       "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
@@ -189,7 +213,9 @@
       "gridPos": { "h": 8, "w": 8, "x": 0, "y": 42 }, "id": 91,
       "options": { "showHeader": true, "sortBy": [{ "displayName": "hits", "desc": true }], "footer": { "show": false } },
       "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"waf\"} | stats by (rule_id) count() as hits | sort by (hits) desc | limit 20", "refId": "A" }],
-      "title": "Top Triggered Rules", "type": "table"
+      "title": "Top Triggered Rules",
+      "transformations": [{ "id": "convertFieldType", "options": { "conversions": [{ "targetField": "hits", "destinationType": "number" }] } }],
+      "type": "table"
     },
     {
       "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
@@ -197,7 +223,9 @@
       "gridPos": { "h": 8, "w": 8, "x": 8, "y": 42 }, "id": 92,
       "options": { "showHeader": true, "sortBy": [{ "displayName": "hits", "desc": true }], "footer": { "show": false } },
       "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"waf\"} | stats by (client_ip, geoip_country_code) count() as hits | sort by (hits) desc | limit 20", "refId": "A" }],
-      "title": "Top Blocked IPs", "type": "table"
+      "title": "Top Blocked IPs",
+      "transformations": [{ "id": "convertFieldType", "options": { "conversions": [{ "targetField": "hits", "destinationType": "number" }] } }],
+      "type": "table"
     },
     {
       "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
@@ -205,7 +233,9 @@
       "gridPos": { "h": 8, "w": 8, "x": 16, "y": 42 }, "id": 93,
       "options": { "showHeader": true, "sortBy": [{ "displayName": "hits", "desc": true }], "footer": { "show": false } },
       "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"waf\"} | stats by (uri) count() as hits | sort by (hits) desc | limit 20", "refId": "A" }],
-      "title": "Top Blocked Paths", "type": "table"
+      "title": "Top Blocked Paths",
+      "transformations": [{ "id": "convertFieldType", "options": { "conversions": [{ "targetField": "hits", "destinationType": "number" }] } }],
+      "type": "table"
     },
 
     { "collapsed": false, "gridPos": { "h": 1, "w": 24, "x": 0, "y": 50 }, "id": 4, "panels": [], "title": "🛡️ CrowdSec", "type": "row" },
@@ -311,7 +341,9 @@
         { "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"auth\", host=~\"${instance:regex}\", event_type=\"accepted\"} | stats by (_time:5m) count() as accepted", "refId": "A" },
         { "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"auth\", host=~\"${instance:regex}\", event_type=\"invalid_user\"} | stats by (_time:5m) count() as invalid_user", "refId": "C" }
       ],
-      "title": "SSH Attempts (5m)", "type": "timeseries"
+      "title": "SSH Attempts (5m)",
+      "transformations": [{ "id": "convertFieldType", "options": { "conversions": [{ "targetField": "accepted", "destinationType": "number" }, { "targetField": "invalid_user", "destinationType": "number" }] } }],
+      "type": "timeseries"
     },
     {
       "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
@@ -321,7 +353,9 @@
       "targets": [
         { "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"auth\", host=~\"${instance:regex}\", event_type=\"sudo\"} | stats by (_time:5m) count() as sudo_success", "refId": "A" }
       ],
-      "title": "Sudo Events (5m)", "type": "timeseries"
+      "title": "Sudo Events (5m)",
+      "transformations": [{ "id": "convertFieldType", "options": { "conversions": [{ "targetField": "sudo_success", "destinationType": "number" }] } }],
+      "type": "timeseries"
     },
     {
       "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
@@ -329,7 +363,9 @@
       "gridPos": { "h": 8, "w": 12, "x": 0, "y": 80 }, "id": 52,
       "options": { "showHeader": true, "sortBy": [{ "displayName": "attempts", "desc": true }], "footer": { "show": false } },
       "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"auth\", host=~\"${instance:regex}\", event_type=\"invalid_user\"} | extract \"Invalid user <username> from\" | stats by (username) count() as attempts | sort by (attempts) desc | limit 20", "refId": "A" }],
-      "title": "Top SSH Usernames", "type": "table"
+      "title": "Top SSH Usernames",
+      "transformations": [{ "id": "convertFieldType", "options": { "conversions": [{ "targetField": "attempts", "destinationType": "number" }] } }],
+      "type": "table"
     },
 
     { "collapsed": false, "gridPos": { "h": 1, "w": 24, "x": 0, "y": 88 }, "id": 6, "panels": [], "title": "🚫 Fail2ban", "type": "row" },
@@ -343,7 +379,9 @@
         { "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"fail2ban\", host=~\"${instance:regex}\"} Ban | stats by (_time:5m) count() as ban", "refId": "B" },
         { "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"fail2ban\", host=~\"${instance:regex}\"} Unban | stats by (_time:5m) count() as unban", "refId": "C" }
       ],
-      "title": "Fail2ban Activity (5m)", "type": "timeseries"
+      "title": "Fail2ban Activity (5m)",
+      "transformations": [{ "id": "convertFieldType", "options": { "conversions": [{ "targetField": "found", "destinationType": "number" }, { "targetField": "ban", "destinationType": "number" }, { "targetField": "unban", "destinationType": "number" }] } }],
+      "type": "timeseries"
     },
     {
       "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
@@ -351,7 +389,9 @@
       "gridPos": { "h": 8, "w": 12, "x": 12, "y": 89 }, "id": 61,
       "options": { "showHeader": true, "sortBy": [{ "displayName": "bans", "desc": true }], "footer": { "show": false } },
       "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"fail2ban\", host=~\"${instance:regex}\"} Ban | stats by (jail) count() as bans | sort by (bans) desc | limit 10", "refId": "A" }],
-      "title": "Bans by Jail", "type": "table"
+      "title": "Bans by Jail",
+      "transformations": [{ "id": "convertFieldType", "options": { "conversions": [{ "targetField": "bans", "destinationType": "number" }] } }],
+      "type": "table"
     },
 
     { "collapsed": false, "gridPos": { "h": 1, "w": 24, "x": 0, "y": 97 }, "id": 7, "panels": [], "title": "🧱 UFW Firewall", "type": "row" },
@@ -363,7 +403,9 @@
       "targets": [
         { "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"ufw\", host=~\"${instance:regex}\", action=\"BLOCK\"} | stats by (_time:5m) count() as blocks", "refId": "A" }
       ],
-      "title": "UFW Blocks (5m)", "type": "timeseries"
+      "title": "UFW Blocks (5m)",
+      "transformations": [{ "id": "convertFieldType", "options": { "conversions": [{ "targetField": "blocks", "destinationType": "number" }] } }],
+      "type": "timeseries"
     },
     {
       "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
@@ -371,7 +413,9 @@
       "gridPos": { "h": 8, "w": 12, "x": 12, "y": 98 }, "id": 71,
       "options": { "showHeader": true, "sortBy": [{ "displayName": "blocks", "desc": true }], "footer": { "show": false } },
       "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"ufw\", host=~\"${instance:regex}\", action=\"BLOCK\"} | stats by (dest_port) count() as blocks | sort by (blocks) desc | limit 20", "refId": "A" }],
-      "title": "Top Blocked Ports", "type": "table"
+      "title": "Top Blocked Ports",
+      "transformations": [{ "id": "convertFieldType", "options": { "conversions": [{ "targetField": "blocks", "destinationType": "number" }] } }],
+      "type": "table"
     },
 
     { "collapsed": false, "gridPos": { "h": 1, "w": 24, "x": 0, "y": 106 }, "id": 8, "panels": [], "title": "📋 Security Logs", "type": "row" },
