@@ -1,0 +1,66 @@
+// ── Host Metrics ────────────────────────────────────────────
+
+prometheus.exporter.unix "host" {
+  procfs_path = "/host/proc"
+  sysfs_path  = "/host/sys"
+  rootfs_path = "/rootfs"
+
+  filesystem {
+    mount_points_exclude = "^/(dev|proc|sys|run|var/lib/docker/.+)($|/)"
+  }
+}
+
+discovery.relabel "host" {
+  targets = prometheus.exporter.unix.host.targets
+
+  rule {
+    replacement  = sys.env("HOST_HOSTNAME")
+    target_label = "instance"
+  }
+}
+
+prometheus.relabel "host" {
+  forward_to = [prometheus.remote_write.central.receiver]
+
+  rule {
+    replacement  = "node"
+    target_label = "job"
+  }
+}
+
+prometheus.scrape "host" {
+  targets         = discovery.relabel.host.output
+  forward_to      = [prometheus.relabel.host.receiver]
+  scrape_interval = "30s"
+}
+
+// ── Container Metrics (cAdvisor) ────────────────────────────
+
+prometheus.exporter.cadvisor "containers" {
+  docker_host            = "unix:///var/run/docker.sock"
+  docker_only            = true
+  store_container_labels = true
+}
+
+discovery.relabel "cadvisor" {
+  targets = prometheus.exporter.cadvisor.containers.targets
+
+  rule {
+    replacement  = sys.env("HOST_HOSTNAME")
+    target_label = "instance"
+  }
+}
+
+prometheus.scrape "cadvisor" {
+  targets         = discovery.relabel.cadvisor.output
+  forward_to      = [prometheus.remote_write.central.receiver]
+  scrape_interval = "30s"
+}
+
+// ── Self Monitoring ─────────────────────────────────────────
+
+prometheus.scrape "alloy" {
+  targets         = [{ __address__ = "localhost:12345" }]
+  forward_to      = [prometheus.remote_write.central.receiver]
+  scrape_interval = "60s"
+}

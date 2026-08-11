@@ -1,0 +1,21 @@
+loki.process "geoip" {
+  stage.regex {
+    expression = "(?P<geoip_source_ip>\\d+\\.\\d+\\.\\d+\\.\\d+)"
+  }
+
+  stage.geoip {
+    source  = "geoip_source_ip"
+    db      = "/geoip/GeoLite2-City.mmdb"
+    db_type = "city"
+  }
+
+  stage.labels {
+    values = {
+      geoip_country_code = "",
+      geoip_latitude     = "",
+      geoip_longitude    = "",
+    }
+  }
+
+  forward_to = [loki.write.central.receiver]
+}

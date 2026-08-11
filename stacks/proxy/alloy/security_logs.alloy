@@ -1,0 +1,11 @@
+local.file_match "security" {
+  path_targets = [
+    {__path__ = "/var/log/host/clamav/scan.log",    job = "clamav"},
+    {__path__ = "/var/log/host/lynis.log",          job = "lynis"},
+  ]
+}
+
+loki.source.file "security" {
+  targets    = local.file_match.security.targets
+  forward_to = [loki.write.central.receiver]
+}

@@ -1,0 +1,43 @@
+import.file "modules" {
+  filename = "/etc/alloy/modules"
+}
+
+import.file "pipelines" {
+  filename = "/etc/alloy/pipelines"
+}
+
+modules.auth "default" {
+  enabled    = "true"
+  forward_to = [loki.process.geoip.receiver]
+}
+
+modules.fail2ban "default" {
+  enabled    = "true"
+  forward_to = [loki.process.geoip.receiver]
+}
+
+modules.ufw "default" {
+  enabled    = "true"
+  forward_to = [loki.process.geoip.receiver]
+}
+
+modules.security "default" {
+  enabled    = "true"
+  forward_to = [loki.write.central.receiver]
+}
+
+pipelines.caddy_access "default" {
+  forward_to = [loki.write.central.receiver]
+}
+
+pipelines.waf "default" {
+  forward_to = [loki.write.central.receiver]
+}
+
+pipelines.honeypot "default" {
+  forward_to = [loki.write.central.receiver]
+}
+
+pipelines.crowdsec "default" {
+  forward_to = [loki.write.central.receiver]
+}
