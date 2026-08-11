@@ -81,6 +81,10 @@ declare "syslog" {
       }
     }
 
+    stage.drop {
+      expression = "(?i)(session (opened|closed) for user|pam_unix\\(cron:session\\)|run-parts --lsbsysinit)"
+    }
+
     stage.template {
       source   = "formatted"
       template = "{{ .program }}{{ if .pid }}[{{ .pid }}]{{ end }}: {{ .content }}"

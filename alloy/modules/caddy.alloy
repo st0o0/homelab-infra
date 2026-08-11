@@ -15,6 +15,10 @@ declare "caddy" {
   }
 
   loki.process "caddy" {
+    stage.drop {
+      expression = "\"uri\":\\s*\"/(health|ready|live|ping)"
+    }
+
     stage.json {
       expressions = {
         ts            = "ts",
