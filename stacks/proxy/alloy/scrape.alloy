@@ -9,10 +9,21 @@ discovery.relabel "caddy" {
 
 prometheus.scrape "caddy" {
   targets         = discovery.relabel.caddy.output
-  forward_to      = [prometheus.remote_write.central.receiver]
+  forward_to      = [prometheus.relabel.caddy.receiver]
   scrape_interval = "30s"
   job_name        = "caddy"
   metrics_path    = "/metrics"
+}
+
+prometheus.relabel "caddy" {
+  forward_to = [prometheus.remote_write.central.receiver]
+
+  rule {
+    source_labels = ["host"]
+    regex         = "(.+):443"
+    target_label  = "host"
+    replacement   = "$1"
+  }
 }
 
 discovery.relabel "crowdsec" {

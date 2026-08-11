@@ -18,6 +18,7 @@ declare "caddy_access" {
     stage.json {
       expressions = {
         ts            = "ts",
+        level         = "level",
         client_ip     = "request.client_ip",
         host          = "request.host",
         uri           = "request.uri",
@@ -52,11 +53,12 @@ declare "caddy_access" {
 
     stage.template {
       source   = "domain"
-      template = "{{ .host }}"
+      template = "{{ regexReplaceAll \":443$\" .host \"\" }}"
     }
 
     stage.labels {
       values = {
+        level              = "",
         client_ip          = "",
         domain             = "",
         uri                = "",
@@ -64,6 +66,8 @@ declare "caddy_access" {
         user_agent         = "",
         status             = "",
         status_class       = "",
+        duration           = "",
+        response_size      = "",
         geoip_country_code = "",
         geoip_city         = "",
         geoip_latitude     = "",

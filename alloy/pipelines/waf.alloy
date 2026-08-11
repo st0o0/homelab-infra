@@ -25,7 +25,7 @@ declare "waf" {
     }
 
     stage.regex {
-      expression = "\"id\":\\s*(?P<rule_id>\\d+)"
+      expression = "\"data\":\\{[^}]*\"id\":\\s*(?P<rule_id>\\d+)"
     }
 
     stage.match {
@@ -36,6 +36,12 @@ declare "waf" {
         source  = "client_ip"
         db      = "/geoip/GeoLite2-City.mmdb"
         db_type = "city"
+      }
+    }
+
+    stage.static_labels {
+      values = {
+        level = "warn",
       }
     }
 
