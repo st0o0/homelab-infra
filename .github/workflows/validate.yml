@@ -2,7 +2,7 @@ name: Validate Stacks & Komodo
 
 on:
   pull_request:
-    paths: ["stacks/**", "komodo/**"]
+    paths: ["stacks/**", "komodo/**", "alloy/**"]
 
 permissions:
   contents: read
@@ -77,3 +77,29 @@ jobs:
 
       - name: Lint .env files
         run: dotenv-linter --recursive --skip UnorderedKey --skip LowercaseKey stacks/
+
+  alloy-check:
+    name: Alloy Lint & Validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Check alloy formatting
+        run: |
+          docker run --rm -v "$PWD:/work" -w /work grafana/alloy:v1.17.1 fmt --test \
+            alloy/ stacks/alloy/alloy/ stacks/proxy/alloy/
+
+      - name: Validate proxy stack config
+        run: |
+          docker run --rm \
+            -v "$PWD/stacks/proxy/alloy:/etc/alloy:ro" \
+            -v "$PWD/alloy/modules:/etc/alloy/modules:ro" \
+            -v "$PWD/alloy/pipelines:/etc/alloy/pipelines:ro" \
+            grafana/alloy:v1.17.1 validate /etc/alloy/
+
+      - name: Validate generic stack config
+        run: |
+          docker run --rm \
+            -v "$PWD/stacks/alloy/alloy:/etc/alloy:ro" \
+            -v "$PWD/alloy/modules:/etc/alloy/modules:ro" \
+            grafana/alloy:v1.17.1 validate /etc/alloy/
