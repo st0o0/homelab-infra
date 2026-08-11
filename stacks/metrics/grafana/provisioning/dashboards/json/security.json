@@ -1,7 +1,7 @@
 {
   "uid": "security",
   "title": "Security",
-  "description": "Threat detection and response: CrowdSec, honeypot traps, fail2ban, SSH auth, and UFW firewall.",
+  "description": "Threat detection and response: CrowdSec, WAF, fail2ban, SSH auth, and UFW firewall.",
   "tags": ["crowdsec", "fail2ban", "security", "ssh", "ufw", "waf"],
   "editable": false,
   "graphTooltip": 1,
@@ -52,7 +52,7 @@
       "options": { "colorMode": "value", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "textMode": "auto" },
       "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"fail2ban\", host=~\"${instance:regex}\"} Ban | stats count() as bans", "refId": "A" }],
       "title": "Fail2ban Bans (24h)",
-      "transformations": [{ "id": "organize", "options": { "excludeByName": { "Time": true, "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true } } }, { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "bans", "destinationType": "number" }] } }],
+      "transformations": [{ "id": "extractFields", "options": { "source": "labels", "format": "json" } }, { "id": "organize", "options": { "excludeByName": { "Time": true, "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true } } }, { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "bans", "destinationType": "number" }] } }],
       "type": "stat"
     },
     {
@@ -62,7 +62,7 @@
       "options": { "colorMode": "value", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "textMode": "auto" },
       "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"auth\", host=~\"${instance:regex}\", event_type=\"invalid_user\"} | stats count() as attacks", "refId": "A" }],
       "title": "SSH Attacks (24h)",
-      "transformations": [{ "id": "organize", "options": { "excludeByName": { "Time": true, "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true } } }, { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "attacks", "destinationType": "number" }] } }],
+      "transformations": [{ "id": "extractFields", "options": { "source": "labels", "format": "json" } }, { "id": "organize", "options": { "excludeByName": { "Time": true, "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true } } }, { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "attacks", "destinationType": "number" }] } }],
       "type": "stat"
     },
     {
@@ -72,7 +72,7 @@
       "options": { "colorMode": "value", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "textMode": "auto" },
       "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"ufw\", host=~\"${instance:regex}\", action=\"BLOCK\"} | stats count() as blocks", "refId": "A" }],
       "title": "UFW Blocks (24h)",
-      "transformations": [{ "id": "organize", "options": { "excludeByName": { "Time": true, "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true } } }, { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "blocks", "destinationType": "number" }] } }],
+      "transformations": [{ "id": "extractFields", "options": { "source": "labels", "format": "json" } }, { "id": "organize", "options": { "excludeByName": { "Time": true, "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true } } }, { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "blocks", "destinationType": "number" }] } }],
       "type": "stat"
     },
 
@@ -102,7 +102,7 @@
       },
       "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=~\"auth|fail2ban\", host=~\"${instance:regex}\"} geoip_latitude:!=\"\" | stats by (geoip_latitude, geoip_longitude) count() as hits", "refId": "A" }],
       "title": "Attack Origins",
-      "transformations": [{ "id": "organize", "options": { "excludeByName": { "Time": true, "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true } } }, { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "geoip_latitude", "destinationType": "number" }, { "targetField": "geoip_longitude", "destinationType": "number" }, { "targetField": "hits", "destinationType": "number" }] } }],
+      "transformations": [{ "id": "extractFields", "options": { "source": "labels", "format": "json" } }, { "id": "organize", "options": { "excludeByName": { "Time": true, "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true } } }, { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "geoip_latitude", "destinationType": "number" }, { "targetField": "geoip_longitude", "destinationType": "number" }, { "targetField": "hits", "destinationType": "number" }] } }],
       "type": "geomap"
     },
     {
@@ -112,7 +112,7 @@
       "options": { "showHeader": true, "sortBy": [{ "displayName": "hits", "desc": true }], "footer": { "show": false } },
       "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=~\"auth|fail2ban\", host=~\"${instance:regex}\"} geoip_country_code:!=\"\" | stats by (geoip_country_code) count() as hits | sort by (hits) desc | limit 20", "refId": "A" }],
       "title": "Top Attack Countries",
-      "transformations": [{ "id": "organize", "options": { "excludeByName": { "Time": true, "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true } } }, { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "hits", "destinationType": "number" }] } }],
+      "transformations": [{ "id": "extractFields", "options": { "source": "labels", "format": "json" } }, { "id": "organize", "options": { "excludeByName": { "Time": true, "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true } } }, { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "hits", "destinationType": "number" }] } }],
       "type": "table"
     },
 
@@ -124,7 +124,7 @@
       "options": { "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" }, "tooltip": { "mode": "multi", "sort": "desc" } },
       "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"waf\"} | stats by (_time:5m) count() as blocks", "refId": "A" }],
       "title": "WAF Blocks Over Time",
-      "transformations": [{ "id": "organize", "options": { "excludeByName": { "Time": true, "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true } } }, { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "_time", "destinationType": "time" }, { "targetField": "blocks", "destinationType": "number" }] } }],
+      "transformations": [{ "id": "extractFields", "options": { "source": "labels", "format": "json" } }, { "id": "organize", "options": { "excludeByName": { "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true } } }, { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "blocks", "destinationType": "number" }] } }],
       "type": "timeseries"
     },
     {
@@ -134,7 +134,7 @@
       "options": { "showHeader": true, "sortBy": [{ "displayName": "hits", "desc": true }], "footer": { "show": false } },
       "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"waf\"} | stats by (rule_id) count() as hits | sort by (hits) desc | limit 20", "refId": "A" }],
       "title": "Top Triggered Rules",
-      "transformations": [{ "id": "organize", "options": { "excludeByName": { "Time": true, "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true } } }, { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "hits", "destinationType": "number" }] } }],
+      "transformations": [{ "id": "extractFields", "options": { "source": "labels", "format": "json" } }, { "id": "organize", "options": { "excludeByName": { "Time": true, "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true } } }, { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "hits", "destinationType": "number" }] } }],
       "type": "table"
     },
     {
@@ -144,7 +144,7 @@
       "options": { "showHeader": true, "sortBy": [{ "displayName": "hits", "desc": true }], "footer": { "show": false } },
       "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"waf\"} | stats by (client_ip, geoip_country_code) count() as hits | sort by (hits) desc | limit 20", "refId": "A" }],
       "title": "Top Blocked IPs",
-      "transformations": [{ "id": "organize", "options": { "excludeByName": { "Time": true, "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true } } }, { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "hits", "destinationType": "number" }] } }],
+      "transformations": [{ "id": "extractFields", "options": { "source": "labels", "format": "json" } }, { "id": "organize", "options": { "excludeByName": { "Time": true, "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true } } }, { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "hits", "destinationType": "number" }] } }],
       "type": "table"
     },
     {
@@ -154,7 +154,7 @@
       "options": { "showHeader": true, "sortBy": [{ "displayName": "hits", "desc": true }], "footer": { "show": false } },
       "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"waf\"} | stats by (uri) count() as hits | sort by (hits) desc | limit 20", "refId": "A" }],
       "title": "Top Blocked Paths",
-      "transformations": [{ "id": "organize", "options": { "excludeByName": { "Time": true, "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true } } }, { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "hits", "destinationType": "number" }] } }],
+      "transformations": [{ "id": "extractFields", "options": { "source": "labels", "format": "json" } }, { "id": "organize", "options": { "excludeByName": { "Time": true, "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true } } }, { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "hits", "destinationType": "number" }] } }],
       "type": "table"
     },
 
@@ -262,7 +262,7 @@
         { "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"auth\", host=~\"${instance:regex}\", event_type=\"invalid_user\"} | stats by (_time:5m) count() as invalid_user", "refId": "C" }
       ],
       "title": "SSH Attempts (5m)",
-      "transformations": [{ "id": "organize", "options": { "excludeByName": { "Time": true, "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true } } }, { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "_time", "destinationType": "time" }, { "targetField": "accepted", "destinationType": "number" }, { "targetField": "invalid_user", "destinationType": "number" }] } }],
+      "transformations": [{ "id": "extractFields", "options": { "source": "labels", "format": "json" } }, { "id": "organize", "options": { "excludeByName": { "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true } } }, { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "accepted", "destinationType": "number" }, { "targetField": "invalid_user", "destinationType": "number" }] } }],
       "type": "timeseries"
     },
     {
@@ -274,7 +274,7 @@
         { "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"auth\", host=~\"${instance:regex}\", event_type=\"sudo\"} | stats by (_time:5m) count() as sudo_success", "refId": "A" }
       ],
       "title": "Sudo Events (5m)",
-      "transformations": [{ "id": "organize", "options": { "excludeByName": { "Time": true, "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true } } }, { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "_time", "destinationType": "time" }, { "targetField": "sudo_success", "destinationType": "number" }] } }],
+      "transformations": [{ "id": "extractFields", "options": { "source": "labels", "format": "json" } }, { "id": "organize", "options": { "excludeByName": { "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true } } }, { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "sudo_success", "destinationType": "number" }] } }],
       "type": "timeseries"
     },
     {
@@ -284,7 +284,7 @@
       "options": { "showHeader": true, "sortBy": [{ "displayName": "attempts", "desc": true }], "footer": { "show": false } },
       "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"auth\", host=~\"${instance:regex}\", event_type=\"invalid_user\"} | extract \"Invalid user <username> from\" | stats by (username) count() as attempts | sort by (attempts) desc | limit 20", "refId": "A" }],
       "title": "Top SSH Usernames",
-      "transformations": [{ "id": "organize", "options": { "excludeByName": { "Time": true, "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true } } }, { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "attempts", "destinationType": "number" }] } }],
+      "transformations": [{ "id": "extractFields", "options": { "source": "labels", "format": "json" } }, { "id": "organize", "options": { "excludeByName": { "Time": true, "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true } } }, { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "attempts", "destinationType": "number" }] } }],
       "type": "table"
     },
 
@@ -300,7 +300,7 @@
         { "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"fail2ban\", host=~\"${instance:regex}\"} Unban | stats by (_time:5m) count() as unban", "refId": "C" }
       ],
       "title": "Fail2ban Activity (5m)",
-      "transformations": [{ "id": "organize", "options": { "excludeByName": { "Time": true, "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true } } }, { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "_time", "destinationType": "time" }, { "targetField": "found", "destinationType": "number" }, { "targetField": "ban", "destinationType": "number" }, { "targetField": "unban", "destinationType": "number" }] } }],
+      "transformations": [{ "id": "extractFields", "options": { "source": "labels", "format": "json" } }, { "id": "organize", "options": { "excludeByName": { "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true } } }, { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "found", "destinationType": "number" }, { "targetField": "ban", "destinationType": "number" }, { "targetField": "unban", "destinationType": "number" }] } }],
       "type": "timeseries"
     },
     {
@@ -310,7 +310,7 @@
       "options": { "showHeader": true, "sortBy": [{ "displayName": "bans", "desc": true }], "footer": { "show": false } },
       "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"fail2ban\", host=~\"${instance:regex}\"} Ban | stats by (jail) count() as bans | sort by (bans) desc | limit 10", "refId": "A" }],
       "title": "Bans by Jail",
-      "transformations": [{ "id": "organize", "options": { "excludeByName": { "Time": true, "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true } } }, { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "bans", "destinationType": "number" }] } }],
+      "transformations": [{ "id": "extractFields", "options": { "source": "labels", "format": "json" } }, { "id": "organize", "options": { "excludeByName": { "Time": true, "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true } } }, { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "bans", "destinationType": "number" }] } }],
       "type": "table"
     },
 
@@ -324,7 +324,7 @@
         { "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"ufw\", host=~\"${instance:regex}\", action=\"BLOCK\"} | stats by (_time:5m) count() as blocks", "refId": "A" }
       ],
       "title": "UFW Blocks (5m)",
-      "transformations": [{ "id": "organize", "options": { "excludeByName": { "Time": true, "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true } } }, { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "_time", "destinationType": "time" }, { "targetField": "blocks", "destinationType": "number" }] } }],
+      "transformations": [{ "id": "extractFields", "options": { "source": "labels", "format": "json" } }, { "id": "organize", "options": { "excludeByName": { "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true } } }, { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "blocks", "destinationType": "number" }] } }],
       "type": "timeseries"
     },
     {
@@ -334,7 +334,7 @@
       "options": { "showHeader": true, "sortBy": [{ "displayName": "blocks", "desc": true }], "footer": { "show": false } },
       "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"ufw\", host=~\"${instance:regex}\", action=\"BLOCK\"} | stats by (dest_port) count() as blocks | sort by (blocks) desc | limit 20", "refId": "A" }],
       "title": "Top Blocked Ports",
-      "transformations": [{ "id": "organize", "options": { "excludeByName": { "Time": true, "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true } } }, { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "blocks", "destinationType": "number" }] } }],
+      "transformations": [{ "id": "extractFields", "options": { "source": "labels", "format": "json" } }, { "id": "organize", "options": { "excludeByName": { "Time": true, "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true } } }, { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "blocks", "destinationType": "number" }] } }],
       "type": "table"
     },
 

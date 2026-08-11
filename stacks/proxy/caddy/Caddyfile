@@ -92,6 +92,8 @@
 			SecAuditEngine RelevantOnly
 			SecAuditLog /var/log/caddy/waf-audit.log
 			SecAuditLogFormat json
+
+			SecRule REQUEST_URI "^/(if|api|ws|outpost\.goauthentik\.io|static)/" "id:10000,phase:1,nolog,pass,ctl:ruleRemoveById=920170,ctl:ruleRemoveById=920230,ctl:ruleRemoveById=920420,ctl:ruleRemoveById=941100-941999,ctl:ruleRemoveById=942100-942999,ctl:ruleRemoveById=949110"
 		`
 	}
 }

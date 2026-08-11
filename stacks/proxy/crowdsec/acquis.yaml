@@ -3,9 +3,3 @@ filenames:
 labels:
   type: caddy
 poll_without_inotify: true
----
-filenames:
-  - /var/log/caddy/honeypot.log
-labels:
-  type: honeypot
-poll_without_inotify: true
