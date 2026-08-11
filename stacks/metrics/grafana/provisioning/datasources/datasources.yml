@@ -15,3 +15,35 @@ datasources:
     access: proxy
     url: http://victorialogs:9428
     editable: false
+    jsonData:
+      logLevelRules:
+        - field: "_msg"
+          value: "(?i)(level|lvl|severity)[=:]\\s*\"?\\s*(fatal|critical|crit)"
+          level: "critical"
+          operator: "regex"
+          enabled: true
+        - field: "_msg"
+          value: "(?i)(level|lvl|severity)[=:]\\s*\"?\\s*(error|err|eror)"
+          level: "error"
+          operator: "regex"
+          enabled: true
+        - field: "_msg"
+          value: "(?i)(level|lvl|severity)[=:]\\s*\"?\\s*(warn|warning)"
+          level: "warning"
+          operator: "regex"
+          enabled: true
+        - field: "_msg"
+          value: "(?i)(level|lvl|severity)[=:]\\s*\"?\\s*(info|information)"
+          level: "info"
+          operator: "regex"
+          enabled: true
+        - field: "_msg"
+          value: "(?i)(level|lvl|severity)[=:]\\s*\"?\\s*(debug|dbg)"
+          level: "debug"
+          operator: "regex"
+          enabled: true
+        - field: "_msg"
+          value: "(?i)(level|lvl|severity)[=:]\\s*\"?\\s*(trace|trce)"
+          level: "trace"
+          operator: "regex"
+          enabled: true
