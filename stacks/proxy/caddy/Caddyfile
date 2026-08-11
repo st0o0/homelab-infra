@@ -16,6 +16,49 @@
 		level INFO
 	}
 
+	layer4 {
+		:23 {
+			route {
+				proxy localhost:10023
+			}
+		}
+		:445 {
+			route {
+				proxy localhost:10445
+			}
+		}
+		:1883 {
+			route {
+				proxy localhost:11883
+			}
+		}
+		:2222 {
+			route {
+				proxy localhost:12222
+			}
+		}
+		:3307 {
+			route {
+				proxy localhost:13307
+			}
+		}
+		:3389 {
+			route {
+				proxy localhost:13389
+			}
+		}
+		:5900 {
+			route {
+				proxy localhost:15900
+			}
+		}
+		:6379 {
+			route {
+				proxy localhost:16379
+			}
+		}
+	}
+
 	servers :2019 {
 		name metrics
 	}
