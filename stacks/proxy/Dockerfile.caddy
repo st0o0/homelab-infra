@@ -9,3 +9,10 @@ RUN xcaddy build \
 
 FROM caddy:latest
 COPY --from=builder /usr/bin/caddy /usr/bin/caddy
+RUN apk add --no-cache --virtual .cert-deps openssl \
+    && mkdir -p /etc/caddy/certs \
+    && openssl req -x509 -newkey ec -pkeyopt ec_paramgen_curve:prime256v1 \
+       -nodes -days 3650 -subj '/CN=honeypot' \
+       -keyout /etc/caddy/certs/honeypot.key \
+       -out /etc/caddy/certs/honeypot.crt \
+    && apk del .cert-deps
