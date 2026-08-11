@@ -5,7 +5,7 @@ format: |
   {{range . -}}
   {{$alert := . -}}
   {{range .Decisions -}}
-  {"time":"{{$alert.StopAt}}","scenario":"{{.Scenario}}","ip":"{{$alert.Source.Ip}}","type":"{{.Type}}","duration":"{{.Duration}}","country":"{{$alert.Source.Cn}}","asname":"{{$alert.Source.AsName}}","latitude":"{{$alert.Source.Latitude}}","longitude":"{{$alert.Source.Longitude}}"}
+  {"time":"{{$alert.StopAt}}","scenario":"{{.Scenario}}","ip":"{{$alert.Source.IP}}","type":"{{.Type}}","duration":"{{.Duration}}","country":"{{$alert.Source.Cn}}","asname":"{{$alert.Source.AsName}}","latitude":"{{$alert.Source.Latitude}}","longitude":"{{$alert.Source.Longitude}}"}
   {{end -}}
   {{end -}}
 log_path: /var/log/crowdsec/alerts.ndjson

@@ -5,6 +5,9 @@ prometheus.exporter.unix "host" {
   sysfs_path  = "/host/sys"
   rootfs_path = "/rootfs"
 
+  // LXC has no access to kernel slab, DMI, EDAC, RAPL, SELinux
+  set_collectors    = ["cpu", "cpufreq", "diskstats", "entropy", "filefd", "filesystem", "loadavg", "meminfo", "netclass", "netdev", "netstat", "os", "pressure", "processes", "sockstat", "stat", "time", "timex", "uname", "vmstat"]
+
   filesystem {
     mount_points_exclude = "^/(dev|proc|sys|run|var/lib/docker/.+)($|/)"
   }
