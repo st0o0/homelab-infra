@@ -35,6 +35,10 @@ modules.caddy "default" {
   forward_to = [loki.write.central.receiver]
 }
 
+modules.honeypot "default" {
+  forward_to = [loki.write.central.receiver]
+}
+
 modules.waf "default" {
   forward_to = [loki.write.central.receiver]
 }

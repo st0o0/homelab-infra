@@ -1,0 +1,82 @@
+declare "honeypot" {
+  argument "forward_to" {
+    optional = false
+  }
+
+  local.file_match "honeypot" {
+    path_targets = [
+      {__path__ = "/var/log/host/caddy/honeypot.log", job = "honeypot"},
+    ]
+  }
+
+  loki.source.file "honeypot" {
+    targets    = local.file_match.honeypot.targets
+    forward_to = [loki.process.honeypot.receiver]
+  }
+
+  loki.process "honeypot" {
+    stage.json {
+      expressions = {
+        ts            = "ts",
+        level         = "level",
+        client_ip     = "request.client_ip",
+        host          = "request.host",
+        uri           = "request.uri",
+        method        = "request.method",
+        user_agent    = "request.headers.User-Agent",
+        status        = "status",
+        duration      = "duration",
+        response_size = "size",
+      }
+    }
+
+    stage.timestamp {
+      source = "ts"
+      format = "RFC3339Nano"
+    }
+
+    stage.match {
+      selector = "{job=\"honeypot\"}"
+      pipeline_name = "geoip"
+
+      stage.geoip {
+        source  = "client_ip"
+        db      = "/geoip/GeoLite2-City.mmdb"
+        db_type = "city"
+      }
+    }
+
+    stage.template {
+      source   = "domain"
+      template = "{{ regexReplaceAll \":\\d+$\" .host \"\" }}"
+    }
+
+    stage.labels {
+      values = {
+        level              = "",
+        client_ip          = "",
+        domain             = "",
+        uri                = "",
+        method             = "",
+        user_agent         = "",
+        status             = "",
+        duration           = "",
+        response_size      = "",
+        geoip_country_code = "",
+        geoip_country_name = "",
+        geoip_city_name    = "",
+      }
+    }
+
+    stage.template {
+      source   = "formatted"
+      template = "{{ .method }} {{ .status }} {{ .duration }}s {{ .domain }} {{ .uri }}"
+    }
+
+    stage.output {
+      source = "formatted"
+    }
+
+    forward_to = argument.forward_to.value
+  }
+}
