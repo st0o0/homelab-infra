@@ -1,0 +1,16 @@
+discovery.relabel "njord" {
+  targets = [{
+    __address__ = coalesce(sys.env("NJORD_METRICS_TARGET"), "njord:9090"),
+  }]
+  rule {
+    replacement  = sys.env("HOST_HOSTNAME")
+    target_label = "instance"
+  }
+}
+
+prometheus.scrape "njord" {
+  targets         = discovery.relabel.njord.output
+  forward_to      = [prometheus.remote_write.central.receiver]
+  scrape_interval = coalesce(sys.env("SCRAPE_INTERVAL"), "30s")
+  job_name        = "njord"
+}

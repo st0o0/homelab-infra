@@ -4,7 +4,7 @@ services:
       pihole-exporter:
         condition: service_started
     volumes:
-      - ./alloy/features/pihole.alloy:/etc/alloy/pihole.alloy
+      - ../../alloy/features/pihole.alloy:/etc/alloy/pihole.alloy
     environment:
       - PIHOLE_METRICS_TARGET=${ALLOY_PIHOLE_METRICS_TARGET:-pihole-exporter:9617}
 

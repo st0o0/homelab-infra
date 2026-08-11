@@ -50,21 +50,6 @@ declare "ufw" {
       }
     }
 
-    stage.regex {
-      source     = "content"
-      expression = "\\[UFW BLOCK\\].*?SRC=(?P<blocked_ip>[\\d.]+)"
-    }
-
-    stage.metrics {
-      metric.counter {
-        name              = "ufw_block_total"
-        description       = "Connections blocked by UFW"
-        source            = "blocked_ip"
-        action            = "inc"
-        max_idle_duration = "24h"
-      }
-    }
-
     stage.template {
       source   = "formatted"
       template = "{{ .action }} {{ .proto }} {{ .src_ip }}{{ if .spt }}:{{ .spt }}{{ end }} → {{ .dst_ip }}{{ if .dpt }}:{{ .dpt }}{{ end }}"

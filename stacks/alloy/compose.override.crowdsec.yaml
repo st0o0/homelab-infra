@@ -1,6 +1,6 @@
 services:
   alloy:
     volumes:
-      - ./alloy/features/crowdsec.alloy:/etc/alloy/crowdsec.alloy
+      - ../../alloy/features/crowdsec.alloy:/etc/alloy/crowdsec.alloy
     environment:
       - CROWDSEC_METRICS_TARGET=${ALLOY_CROWDSEC_METRICS_TARGET:-crowdsec:6060}

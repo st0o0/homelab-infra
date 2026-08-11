@@ -65,30 +65,6 @@ declare "fail2ban" {
       expression = "fail2ban\\.filter\\s+\\[\\d+\\]: INFO\\s+\\[(?P<found_jail>\\S+)\\] Found (?P<found_ip>\\d+\\.\\d+\\.\\d+\\.\\d+)"
     }
 
-    stage.metrics {
-      metric.counter {
-        name              = "fail2ban_ban_total"
-        description       = "IPs banned by fail2ban"
-        source            = "ban_ip"
-        action            = "inc"
-        max_idle_duration = "24h"
-      }
-      metric.counter {
-        name              = "fail2ban_unban_total"
-        description       = "IPs unbanned by fail2ban"
-        source            = "unban_ip"
-        action            = "inc"
-        max_idle_duration = "24h"
-      }
-      metric.counter {
-        name              = "fail2ban_found_total"
-        description       = "Filter matches found by fail2ban"
-        source            = "found_ip"
-        action            = "inc"
-        max_idle_duration = "24h"
-      }
-    }
-
     stage.output {
       source = "content"
     }

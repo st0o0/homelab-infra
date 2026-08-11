@@ -1,6 +1,15 @@
 prometheus.remote_write "central" {
   endpoint {
     url = sys.env("REMOTE_WRITE_URL")
+
+    queue_config {
+      max_shards           = 5
+      max_samples_per_send = 5000
+      batch_send_deadline  = "15s"
+    }
+  }
+  wal {
+    max_keepalive_time = "24h"
   }
   external_labels = {
     host = sys.env("HOST_HOSTNAME"),

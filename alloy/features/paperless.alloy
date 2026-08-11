@@ -1,0 +1,16 @@
+discovery.relabel "paperless" {
+  targets = [{
+    __address__ = coalesce(sys.env("PAPERLESS_EXPORTER_TARGET"), "paperless-exporter:9934"),
+  }]
+  rule {
+    replacement  = sys.env("HOST_HOSTNAME")
+    target_label = "instance"
+  }
+}
+
+prometheus.scrape "paperless" {
+  targets         = discovery.relabel.paperless.output
+  forward_to      = [prometheus.remote_write.central.receiver]
+  scrape_interval = coalesce(sys.env("SCRAPE_INTERVAL"), "30s")
+  job_name        = "paperless"
+}

@@ -30,6 +30,7 @@ services:
     privileged: true
     volumes:
       - ./alloy:/etc/alloy
+      - ../../alloy/modules:/etc/alloy/modules:ro
       - alloy-data:/var/lib/alloy/data
       - /var/log:/var/log/host:ro
       - /proc:/host/proc:ro

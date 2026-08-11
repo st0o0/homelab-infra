@@ -1,7 +1,7 @@
 services:
   alloy:
     volumes:
-      - ./alloy/features/databases.alloy:/etc/alloy/databases.alloy
+      - ../../alloy/features/databases.alloy:/etc/alloy/databases.alloy
     environment:
       - POSTGRES_DSN=${ALLOY_POSTGRES_DSN:?ALLOY_POSTGRES_DSN is required}
       - IMMICH_POSTGRES_DSN=${ALLOY_IMMICH_POSTGRES_DSN:-}

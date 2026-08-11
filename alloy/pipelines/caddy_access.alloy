@@ -1,0 +1,86 @@
+declare "caddy_access" {
+  argument "forward_to" {
+    optional = false
+  }
+
+  local.file_match "caddy_access" {
+    path_targets = [
+      {__path__ = "/var/log/host/caddy/access.log", job = "caddy-access"},
+    ]
+  }
+
+  loki.source.file "caddy_access" {
+    targets    = local.file_match.caddy_access.targets
+    forward_to = [loki.process.caddy_access.receiver]
+  }
+
+  loki.process "caddy_access" {
+    stage.json {
+      expressions = {
+        ts            = "ts",
+        client_ip     = "request.client_ip",
+        host          = "request.host",
+        uri           = "request.uri",
+        method        = "request.method",
+        user_agent    = "request.headers.User-Agent",
+        status        = "status",
+        duration      = "duration",
+        response_size = "size",
+      }
+    }
+
+    stage.timestamp {
+      source = "ts"
+      format = "RFC3339Nano"
+    }
+
+    stage.template {
+      source   = "status_class"
+      template = "{{ if ge .status 500 }}5xx{{ else if ge .status 400 }}4xx{{ else if ge .status 300 }}3xx{{ else }}2xx{{ end }}"
+    }
+
+    stage.match {
+      selector = "{job=\"caddy-access\"}"
+      pipeline_name = "geoip"
+
+      stage.geoip {
+        source  = "client_ip"
+        db      = "/geoip/GeoLite2-City.mmdb"
+        db_type = "city"
+      }
+    }
+
+    stage.template {
+      source   = "domain"
+      template = "{{ .host }}"
+    }
+
+    stage.labels {
+      values = {
+        client_ip          = "",
+        domain             = "",
+        uri                = "",
+        method             = "",
+        user_agent         = "",
+        status             = "",
+        status_class       = "",
+        geoip_country_code = "",
+        geoip_city         = "",
+        geoip_latitude     = "",
+        geoip_longitude    = "",
+      }
+    }
+
+    stage.json {
+      expressions = {
+        msg = "msg",
+      }
+    }
+
+    stage.output {
+      source = "msg"
+    }
+
+    forward_to = argument.forward_to.value
+  }
+}

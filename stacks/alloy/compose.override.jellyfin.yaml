@@ -1,6 +1,6 @@
 services:
   alloy:
     volumes:
-      - ./alloy/features/jellyfin.alloy:/etc/alloy/jellyfin.alloy
+      - ../../alloy/features/jellyfin.alloy:/etc/alloy/jellyfin.alloy
     environment:
       - JELLYFIN_METRICS_TARGET=${ALLOY_JELLYFIN_METRICS_TARGET:-jellyfin:8096}

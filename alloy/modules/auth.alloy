@@ -75,49 +75,6 @@ declare "auth" {
       }
     }
 
-    stage.metrics {
-      metric.counter {
-        name              = "auth_ssh_accepted_total"
-        description       = "SSH logins accepted"
-        source            = "ssh_accepted_user"
-        action            = "inc"
-
-        max_idle_duration = "24h"
-      }
-      metric.counter {
-        name              = "auth_ssh_failed_total"
-        description       = "SSH logins failed"
-        source            = "ssh_failed_user"
-        action            = "inc"
-
-        max_idle_duration = "24h"
-      }
-      metric.counter {
-        name              = "auth_ssh_invalid_user_total"
-        description       = "SSH logins for non-existent users"
-        source            = "ssh_invalid_user"
-        action            = "inc"
-
-        max_idle_duration = "24h"
-      }
-      metric.counter {
-        name              = "auth_sudo_success_total"
-        description       = "Successful sudo invocations"
-        source            = "sudo_success_user"
-        action            = "inc"
-
-        max_idle_duration = "24h"
-      }
-      metric.counter {
-        name              = "auth_sudo_failed_total"
-        description       = "Failed sudo attempts"
-        source            = "sudo_failed_user"
-        action            = "inc"
-
-        max_idle_duration = "24h"
-      }
-    }
-
     stage.output {
       source = "content"
     }

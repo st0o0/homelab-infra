@@ -1,6 +1,6 @@
 services:
   alloy:
     volumes:
-      - ./alloy/features/backrest.alloy:/etc/alloy/backrest.alloy
+      - ../../alloy/features/backrest.alloy:/etc/alloy/backrest.alloy
     environment:
       - BACKREST_METRICS_TARGET=${ALLOY_BACKREST_METRICS_TARGET:-backrest:9898}

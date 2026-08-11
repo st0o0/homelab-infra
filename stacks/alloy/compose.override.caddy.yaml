@@ -1,6 +1,6 @@
 services:
   alloy:
     volumes:
-      - ./alloy/features/caddy.alloy:/etc/alloy/caddy.alloy
+      - ../../alloy/features/caddy.alloy:/etc/alloy/caddy.alloy
     environment:
       - CADDY_METRICS_TARGET=${ALLOY_CADDY_METRICS_TARGET:-caddy:2019}
