@@ -115,7 +115,7 @@
 (waf-exclusions-jellyfin) {
 	coraza_waf {
 		directives `
-			SecRule REQUEST_URI "^/(web|Items|Videos|Audio|Sessions|System|socket)/" "id:10200,phase:1,nolog,pass,ctl:ruleRemoveById=920230,ctl:ruleRemoveById=920420,ctl:ruleRemoveById=941100-941999,ctl:ruleRemoveById=949110"
+			SecRule REQUEST_URI "^/(web|Items|Videos|Audio|Sessions|System|socket|Users|Library|Subtitles|Branding|Playback|Artists|Shows|Movies|MusicAlbums|Dlna)/" "id:10200,phase:1,nolog,pass,ctl:ruleRemoveById=920170,ctl:ruleRemoveById=920230,ctl:ruleRemoveById=920420,ctl:ruleRemoveById=921110-921160,ctl:ruleRemoveById=930100-930110,ctl:ruleRemoveById=941100-941999,ctl:ruleRemoveById=942100-942999,ctl:ruleRemoveById=949110"
 		`
 	}
 }
