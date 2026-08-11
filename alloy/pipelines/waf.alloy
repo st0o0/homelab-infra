@@ -52,6 +52,7 @@ declare "waf" {
         method             = "",
         rule_id            = "",
         geoip_country_code = "",
+        geoip_country_name = "",
       }
     }
 

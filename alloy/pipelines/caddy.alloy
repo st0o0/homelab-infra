@@ -69,9 +69,8 @@ declare "caddy" {
         duration           = "",
         response_size      = "",
         geoip_country_code = "",
-        geoip_city         = "",
-        geoip_latitude     = "",
-        geoip_longitude    = "",
+        geoip_country_name = "",
+        geoip_city_name    = "",
       }
     }
 

@@ -12,8 +12,7 @@ loki.process "geoip" {
   stage.labels {
     values = {
       geoip_country_code = "",
-      geoip_latitude     = "",
-      geoip_longitude    = "",
+      geoip_country_name = "",
     }
   }
 
