@@ -1,20 +1,20 @@
-declare "caddy_access" {
+declare "caddy" {
   argument "forward_to" {
     optional = false
   }
 
-  local.file_match "caddy_access" {
+  local.file_match "caddy" {
     path_targets = [
-      {__path__ = "/var/log/host/caddy/access.log", job = "caddy-access"},
+      {__path__ = "/var/log/host/caddy/access.log", job = "caddy"},
     ]
   }
 
-  loki.source.file "caddy_access" {
-    targets    = local.file_match.caddy_access.targets
-    forward_to = [loki.process.caddy_access.receiver]
+  loki.source.file "caddy" {
+    targets    = local.file_match.caddy.targets
+    forward_to = [loki.process.caddy.receiver]
   }
 
-  loki.process "caddy_access" {
+  loki.process "caddy" {
     stage.json {
       expressions = {
         ts            = "ts",
@@ -41,7 +41,7 @@ declare "caddy_access" {
     }
 
     stage.match {
-      selector = "{job=\"caddy-access\"}"
+      selector = "{job=\"caddy\"}"
       pipeline_name = "geoip"
 
       stage.geoip {

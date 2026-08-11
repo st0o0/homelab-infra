@@ -26,7 +26,7 @@ modules.security "default" {
   forward_to = [loki.write.central.receiver]
 }
 
-pipelines.caddy_access "default" {
+pipelines.caddy "default" {
   forward_to = [loki.write.central.receiver]
 }
 

@@ -82,7 +82,7 @@
         ],
         "tooltip": { "mode": "details" }
       },
-      "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"caddy-access\", host=~\"${instance:regex}\"} | stats by (geoip_latitude, geoip_longitude) count() as requests", "refId": "A" }],
+      "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"caddy\", host=~\"${instance:regex}\"} | stats by (geoip_latitude, geoip_longitude) count() as requests", "refId": "A" }],
       "title": "Visitor Origins",
       "transformations": [{ "id": "extractFields", "options": { "source": "labels", "format": "json" } }, { "id": "organize", "options": { "excludeByName": { "Time": true, "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true } } }, { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "geoip_latitude", "destinationType": "number" }, { "targetField": "geoip_longitude", "destinationType": "number" }, { "targetField": "requests", "destinationType": "number" }] } }],
       "type": "geomap"
@@ -92,7 +92,7 @@
       "fieldConfig": { "defaults": { "custom": { "align": "auto" } }, "overrides": [] },
       "gridPos": { "h": 10, "w": 8, "x": 16, "y": 1 }, "id": 2,
       "options": { "showHeader": true, "sortBy": [{ "displayName": "requests", "desc": true }], "footer": { "show": false } },
-      "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"caddy-access\", host=~\"${instance:regex}\"} | stats by (geoip_country_code) count() as requests | sort by (requests) desc | limit 20", "refId": "A" }],
+      "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"caddy\", host=~\"${instance:regex}\"} | stats by (geoip_country_code) count() as requests | sort by (requests) desc | limit 20", "refId": "A" }],
       "title": "Top Countries",
       "transformations": [{ "id": "extractFields", "options": { "source": "labels", "format": "json" } }, { "id": "organize", "options": { "excludeByName": { "Time": true, "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true } } }, { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "requests", "destinationType": "number" }] } }],
       "type": "table"
@@ -250,7 +250,7 @@
       "fieldConfig": { "defaults": { "custom": { "align": "auto" } }, "overrides": [] },
       "gridPos": { "h": 8, "w": 12, "x": 0, "y": 59 }, "id": 30,
       "options": { "showHeader": true, "sortBy": [{ "displayName": "requests", "desc": true }], "footer": { "show": false } },
-      "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"caddy-access\", host=~\"${instance:regex}\"} | stats by (uri) count() as requests | sort by (requests) desc | limit 20", "refId": "A" }],
+      "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"caddy\", host=~\"${instance:regex}\"} | stats by (uri) count() as requests | sort by (requests) desc | limit 20", "refId": "A" }],
       "title": "Top Paths",
       "transformations": [{ "id": "extractFields", "options": { "source": "labels", "format": "json" } }, { "id": "organize", "options": { "excludeByName": { "Time": true, "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true } } }, { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "requests", "destinationType": "number" }] } }],
       "type": "table"
@@ -260,7 +260,7 @@
       "fieldConfig": { "defaults": { "custom": { "align": "auto" } }, "overrides": [] },
       "gridPos": { "h": 8, "w": 12, "x": 12, "y": 59 }, "id": 31,
       "options": { "showHeader": true, "sortBy": [{ "displayName": "requests", "desc": true }], "footer": { "show": false } },
-      "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"caddy-access\", host=~\"${instance:regex}\"} | stats by (user_agent) count() as requests | sort by (requests) desc | limit 20", "refId": "A" }],
+      "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"caddy\", host=~\"${instance:regex}\"} | stats by (user_agent) count() as requests | sort by (requests) desc | limit 20", "refId": "A" }],
       "title": "Top User Agents",
       "transformations": [{ "id": "extractFields", "options": { "source": "labels", "format": "json" } }, { "id": "organize", "options": { "excludeByName": { "Time": true, "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true } } }, { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "requests", "destinationType": "number" }] } }],
       "type": "table"
@@ -270,7 +270,7 @@
       "fieldConfig": { "defaults": { "custom": { "align": "auto" } }, "overrides": [] },
       "gridPos": { "h": 8, "w": 12, "x": 0, "y": 67 }, "id": 32,
       "options": { "showHeader": true, "sortBy": [{ "displayName": "requests", "desc": true }], "footer": { "show": false } },
-      "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"caddy-access\", host=~\"${instance:regex}\"} status:=\"404\" | stats by (uri) count() as requests | sort by (requests) desc | limit 20", "refId": "A" }],
+      "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"caddy\", host=~\"${instance:regex}\"} status:=\"404\" | stats by (uri) count() as requests | sort by (requests) desc | limit 20", "refId": "A" }],
       "title": "Top 404 Paths",
       "transformations": [{ "id": "extractFields", "options": { "source": "labels", "format": "json" } }, { "id": "organize", "options": { "excludeByName": { "Time": true, "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true } } }, { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "requests", "destinationType": "number" }] } }],
       "type": "table"
@@ -280,7 +280,7 @@
       "fieldConfig": { "defaults": { "custom": { "align": "auto" } }, "overrides": [] },
       "gridPos": { "h": 8, "w": 12, "x": 12, "y": 67 }, "id": 33,
       "options": { "showHeader": true, "sortBy": [{ "displayName": "avg_duration", "desc": true }], "footer": { "show": false } },
-      "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"caddy-access\", host=~\"${instance:regex}\"} | stats by (uri) count() as requests, avg(duration) as avg_duration | sort by (avg_duration) desc | limit 20", "refId": "A" }],
+      "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"caddy\", host=~\"${instance:regex}\"} | stats by (uri) count() as requests, avg(duration) as avg_duration | sort by (avg_duration) desc | limit 20", "refId": "A" }],
       "title": "Slowest Endpoints",
       "transformations": [{ "id": "extractFields", "options": { "source": "labels", "format": "json" } }, { "id": "organize", "options": { "excludeByName": { "Time": true, "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true } } }, { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "requests", "destinationType": "number" }, { "targetField": "avg_duration", "destinationType": "number" }] } }],
       "type": "table"
@@ -291,7 +291,7 @@
       "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
       "gridPos": { "h": 12, "w": 24, "x": 0, "y": 76 }, "id": 50,
       "options": { "showTime": true, "showLabels": false, "showCommonLabels": false, "wrapLogMessage": false, "prettifyLogMessage": true, "enableLogDetails": true, "sortOrder": "Descending", "dedupStrategy": "none" },
-      "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"caddy-access\", host=~\"${instance:regex}\"}", "refId": "A" }],
+      "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"caddy\", host=~\"${instance:regex}\"}", "refId": "A" }],
       "title": "Caddy Access Logs", "type": "logs"
     }
   ]
