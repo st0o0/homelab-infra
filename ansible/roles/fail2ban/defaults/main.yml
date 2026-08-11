@@ -8,4 +8,12 @@ fail2ban_jails:
     maxretry: 5
     findtime: 10m
     bantime: 1h
+  - name: sshd-ddos
+    enabled: true
+    port: ssh
+    filter: "sshd[mode=ddos]"
+    logpath: /var/log/auth.log
+    maxretry: 3
+    findtime: 30s
+    bantime: 1h
 fail2ban_extra_jails: []

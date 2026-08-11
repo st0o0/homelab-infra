@@ -74,6 +74,24 @@ fail2ban_jails:
     maxretry: 3
     findtime: 10m
     bantime: 24h
+  - name: sshd-ddos
+    enabled: true
+    port: ssh
+    filter: "sshd[mode=ddos]"
+    logpath: /var/log/auth.log
+    maxretry: 3
+    findtime: 30s
+    bantime: 24h
+fail2ban_extra_jails:
+  - name: recidive
+    enabled: true
+    port: all
+    filter: recidive
+    logpath: /var/log/fail2ban.log
+    maxretry: 3
+    findtime: 24h
+    bantime: 1w
+    banaction: "%(banaction_allports)s"
 
 # Proxy (host directories + log symlink)
 proxy_enabled: true

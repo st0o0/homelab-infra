@@ -8,5 +8,8 @@ logpath = {{ jail.logpath }}
 maxretry = {{ jail.maxretry | default(5) }}
 findtime = {{ jail.findtime | default('10m') }}
 bantime = {{ jail.bantime | default('1h') }}
+{% if jail.banaction is defined %}
+banaction = {{ jail.banaction }}
+{% endif %}
 
 {% endfor %}
