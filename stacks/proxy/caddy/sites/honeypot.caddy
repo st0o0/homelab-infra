@@ -11,3 +11,16 @@
 	}
 	reverse_proxy localhost:8181
 }
+
+:80 {
+	log {
+		output file /var/log/caddy/access.log {
+			roll_size 50MiB
+			roll_keep 5
+		}
+		format json {
+			time_format iso8601
+		}
+	}
+	reverse_proxy localhost:8181
+}
