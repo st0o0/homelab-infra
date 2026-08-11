@@ -21,5 +21,59 @@ loki.source.docker "containers" {
 }
 
 loki.process "docker" {
+  stage.match {
+    selector      = "{container=\"ran\"}"
+    pipeline_name = "honeypot"
+
+    stage.json {
+      expressions = {
+        ts         = "time",
+        level      = "level",
+        msg        = "msg",
+        protocol   = "protocol",
+        source_ip  = "source_ip",
+        action     = "action",
+        session_id = "session_id",
+      }
+    }
+
+    stage.timestamp {
+      source = "ts"
+      format = "RFC3339Nano"
+    }
+
+    stage.static_labels {
+      values = {
+        job = "honeypot",
+      }
+    }
+
+    stage.labels {
+      values = {
+        level    = "",
+        protocol = "",
+        client_ip = "source_ip",
+        action   = "",
+      }
+    }
+
+    stage.geoip {
+      source  = "source_ip"
+      db      = "/geoip/GeoLite2-City.mmdb"
+      db_type = "city"
+    }
+
+    stage.labels {
+      values = {
+        geoip_country_code = "",
+        geoip_country_name = "",
+      }
+    }
+
+    stage.output {
+      source = "msg"
+    }
+  }
+
   forward_to = [loki.write.central.receiver]
 }
