@@ -69,32 +69,33 @@
         "controls": { "mouseWheelZoom": true, "showAttribution": false, "showDebug": false, "showMeasure": false, "showScale": true, "showZoom": true },
         "layers": [
           {
-            "type": "heatmap",
-            "name": "Visitors",
             "config": {
-              "weight": { "field": "requests", "fixed": 1, "min": 0, "max": 1 },
-              "blur": 20,
-              "radius": 20
+              "style": { "color": { "field": "requests", "fixed": "semi-dark-blue" }, "opacity": 0.6, "size": { "field": "requests", "min": 5, "max": 30 } }
             },
-            "location": { "mode": "coords", "latitude": "geoip_latitude", "longitude": "geoip_longitude" },
-            "tooltip": true
+            "location": { "mode": "lookup", "lookup": "geoip_country_code", "gazetteer": "public/gazetteer/countries.json" },
+            "name": "Visitors",
+            "tooltip": true,
+            "type": "markers"
           }
         ],
         "tooltip": { "mode": "details" }
       },
-      "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"caddy\", host=~\"${instance:regex}\"} | stats by (geoip_latitude, geoip_longitude) count() as requests", "refId": "A" }],
+      "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"caddy\", host=~\"${instance:regex}\"} geoip_country_code:!=\"\" | stats by (geoip_country_code) count() as requests | sort by (requests) desc", "refId": "A" }],
       "title": "Visitor Origins",
-      "transformations": [{ "id": "extractFields", "options": { "source": "labels", "format": "json" } }, { "id": "organize", "options": { "excludeByName": { "Time": true, "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true } } }, { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "geoip_latitude", "destinationType": "number" }, { "targetField": "geoip_longitude", "destinationType": "number" }, { "targetField": "requests", "destinationType": "number" }] } }],
+      "transformations": [{ "id": "extractFields", "options": { "source": "labels", "format": "json" } }, { "id": "organize", "options": { "excludeByName": { "Time": true, "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true } } }, { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "requests", "destinationType": "number" }] } }],
       "type": "geomap"
     },
     {
       "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
-      "fieldConfig": { "defaults": { "custom": { "align": "auto" } }, "overrides": [] },
+      "fieldConfig": { "defaults": { "custom": { "align": "auto" } }, "overrides": [
+        { "matcher": { "id": "byName", "options": "geoip_country_name" }, "properties": [{ "id": "displayName", "value": "Country" }] },
+        { "matcher": { "id": "byName", "options": "requests" }, "properties": [{ "id": "displayName", "value": "Requests" }, { "id": "custom.cellOptions", "value": { "type": "color-background", "mode": "gradient" } }, { "id": "thresholds", "value": { "mode": "percentage", "steps": [{ "color": "transparent" }, { "color": "#4A90D920", "value": 10 }, { "color": "#4A90D940", "value": 30 }, { "color": "#4A90D980", "value": 60 }] } }] }
+      ] },
       "gridPos": { "h": 10, "w": 8, "x": 16, "y": 1 }, "id": 2,
-      "options": { "showHeader": true, "sortBy": [{ "displayName": "requests", "desc": true }], "footer": { "show": false } },
-      "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"caddy\", host=~\"${instance:regex}\"} | stats by (geoip_country_code) count() as requests | sort by (requests) desc | limit 20", "refId": "A" }],
+      "options": { "showHeader": true, "sortBy": [{ "displayName": "Requests", "desc": true }], "footer": { "show": true, "reducer": ["sum"], "fields": ["requests"] } },
+      "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"caddy\", host=~\"${instance:regex}\"} geoip_country_name:!=\"\" | stats by (geoip_country_name) count() as requests | sort by (requests) desc | limit 20", "refId": "A" }],
       "title": "Top Countries",
-      "transformations": [{ "id": "extractFields", "options": { "source": "labels", "format": "json" } }, { "id": "organize", "options": { "excludeByName": { "Time": true, "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true } } }, { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "requests", "destinationType": "number" }] } }],
+      "transformations": [{ "id": "extractFields", "options": { "source": "labels", "format": "json" } }, { "id": "organize", "options": { "excludeByName": { "Time": true, "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true }, "indexByName": { "geoip_country_name": 0, "requests": 1 } } }, { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "requests", "destinationType": "number" }] } }],
       "type": "table"
     },
 
