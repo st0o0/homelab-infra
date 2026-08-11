@@ -57,7 +57,7 @@
             "matcher": { "id": "byName", "options": "Container" },
             "properties": [
               { "id": "custom.width", "value": 200 },
-              { "id": "links", "value": [{ "title": "View Logs", "url": "/d/fe8htprzrixa8a/docker-logs?var-container=${__data.fields.Container}&${__url_time_range}", "targetBlank": true }] }
+              { "id": "links", "value": [{ "title": "View Logs", "url": "/d/containerlogs/container-logs?var-container=${__data.fields.Container}&${__url_time_range}", "targetBlank": true }] }
             ]
           },
           {
@@ -506,7 +506,7 @@
           "links": [
             {
               "title": "View Logs",
-              "url": "/d/fe8htprzrixa8a/docker-logs?var-container=${__field.labels.name}&${__url_time_range}",
+              "url": "/d/containerlogs/container-logs?var-container=${__field.labels.name}&${__url_time_range}",
               "targetBlank": true
             }
           ],
@@ -650,7 +650,7 @@
           "links": [
             {
               "title": "View Logs",
-              "url": "/d/fe8htprzrixa8a/docker-logs?var-container=${__field.labels.name}&${__url_time_range}",
+              "url": "/d/containerlogs/container-logs?var-container=${__field.labels.name}&${__url_time_range}",
               "targetBlank": true
             }
           ],
@@ -1062,7 +1062,7 @@
           "links": [
             {
               "title": "View Logs",
-              "url": "/d/fe8htprzrixa8a/docker-logs?var-container=${__field.labels.name}&${__url_time_range}",
+              "url": "/d/containerlogs/container-logs?var-container=${__field.labels.name}&${__url_time_range}",
               "targetBlank": true
             }
           ]

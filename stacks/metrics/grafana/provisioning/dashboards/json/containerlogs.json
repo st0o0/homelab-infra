@@ -1,5 +1,5 @@
 {
-  "uid": "docker-logs",
+  "uid": "containerlogs",
   "title": "Container Logs",
   "description": "Docker container log analysis via VictoriaLogs.",
   "tags": ["docker", "logs", "victorialogs"],

@@ -624,7 +624,7 @@
   "timepicker": {},
   "timezone": "browser",
   "title": "UPS",
-  "uid": "nut-ups",
+  "uid": "nut",
   "version": 1,
   "weekStyle": "monday"
 }
