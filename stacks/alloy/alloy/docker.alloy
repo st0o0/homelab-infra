@@ -21,5 +21,22 @@ loki.source.docker "containers" {
 }
 
 loki.process "docker" {
+  stage.json {
+    expressions = {
+      msg   = "msg",
+      level = "level",
+    }
+  }
+
+  stage.labels {
+    values = {
+      level = "level",
+    }
+  }
+
+  stage.output {
+    source = "msg"
+  }
+
   forward_to = [loki.write.central.receiver]
 }

@@ -21,7 +21,7 @@ value = "3"
 
 [[variable]]
 name = "FeelsAlertsMan_vl_retention"
-value = "90d"
+value = "31d"
 
 [[variable]]
 name = "FeelsAlertsMan_vl_push_metrics_interval"
@@ -38,4 +38,4 @@ value = "1m"
 
 [[variable]]
 name = "FeelsAlertsMan_vm_retention"
-value = "90d"
+value = "31d"
