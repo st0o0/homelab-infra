@@ -18,7 +18,7 @@ prometheus.remote_write "central" {
 
 loki.write "central" {
   endpoint {
-    url = sys.env("LOGS_PUSH_URL")
+    url = sys.env("LOGS_PUSH_URL") + "?_stream_fields=host,job,filename,container,event_type,action,proto,priority,jail,scenario,status_class,domain"
   }
   external_labels = {
     host = sys.env("HOST_HOSTNAME"),
