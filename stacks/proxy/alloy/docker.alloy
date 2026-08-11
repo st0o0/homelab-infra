@@ -21,29 +21,7 @@ loki.source.docker "containers" {
 }
 
 loki.process "docker" {
-  stage.match {
-    selector      = "{container=\"ran\"}"
-    pipeline_name = "ran"
+  stage.decolorize {}
 
-    stage.json {
-      expressions = {
-        source_ip = "source_ip",
-      }
-    }
-
-    stage.geoip {
-      source  = "source_ip"
-      db      = "/geoip/GeoLite2-City.mmdb"
-      db_type = "city"
-    }
-
-    stage.labels {
-      values = {
-        geoip_country_code = "",
-        geoip_country_name = "",
-      }
-    }
-  }
-
-  forward_to = [loki.write.central.receiver]
+  forward_to = [loki.process.geoip.receiver]
 }

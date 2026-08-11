@@ -21,5 +21,7 @@ loki.source.docker "containers" {
 }
 
 loki.process "docker" {
+  stage.decolorize {}
+
   forward_to = [loki.write.central.receiver]
 }
