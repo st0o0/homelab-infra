@@ -37,6 +37,12 @@ declare "crowdsec" {
       format = "2006-01-02T15:04:05Z"
     }
 
+    stage.static_labels {
+      values = {
+        level = "warn",
+      }
+    }
+
     stage.labels {
       values = {
         scenario = "",

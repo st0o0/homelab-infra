@@ -65,10 +65,16 @@ declare "sudo" {
       template = "{{ if .sudo_user }}{{ .sudo_user }}{{ else if .sudo_failed_user }}{{ .sudo_failed_user }}{{ end }}"
     }
 
+    stage.template {
+      source   = "level"
+      template = "{{ if eq .event_type \"sudo_failed\" }}warn{{ else }}info{{ end }}"
+    }
+
     stage.labels {
       values = {
         event_type = "",
         username   = "",
+        level      = "",
       }
     }
 

@@ -75,9 +75,15 @@ declare "syslog" {
       template = "{{ if .started_unit }}service_start{{ else if .stopped_unit }}service_stop{{ else if .failed_unit }}service_failed{{ else if .package }}pkg_install{{ else if .oom_match }}oom_kill{{ else if .cron_user }}cron_exec{{ else if .disk_error }}disk_error{{ else if .link_event }}link_change{{ end }}"
     }
 
+    stage.template {
+      source   = "level"
+      template = "{{ if or (eq .event_type \"service_failed\") (eq .event_type \"oom_kill\") (eq .event_type \"disk_error\") }}error{{ else if eq .event_type \"link_change\" }}warn{{ else }}info{{ end }}"
+    }
+
     stage.labels {
       values = {
         event_type = "",
+        level      = "",
       }
     }
 

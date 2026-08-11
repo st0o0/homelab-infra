@@ -17,33 +17,43 @@ datasources:
     editable: false
     jsonData:
       logLevelRules:
-        - field: "_msg"
-          value: "(?i)(level|lvl|severity)[=:]\\s*\"?\\s*(fatal|critical|crit)"
+        - field: "level"
+          value: "critical"
           level: "critical"
-          operator: "regex"
+          operator: "equals"
           enabled: true
-        - field: "_msg"
-          value: "(?i)(level|lvl|severity)[=:]\\s*\"?\\s*(error|err|eror)"
+        - field: "level"
+          value: "fatal"
+          level: "critical"
+          operator: "equals"
+          enabled: true
+        - field: "level"
+          value: "error"
           level: "error"
-          operator: "regex"
+          operator: "equals"
           enabled: true
-        - field: "_msg"
-          value: "(?i)(level|lvl|severity)[=:]\\s*\"?\\s*(warn|warning)"
+        - field: "level"
+          value: "warn"
           level: "warning"
-          operator: "regex"
+          operator: "equals"
           enabled: true
-        - field: "_msg"
-          value: "(?i)(level|lvl|severity)[=:]\\s*\"?\\s*(info|information)"
+        - field: "level"
+          value: "warning"
+          level: "warning"
+          operator: "equals"
+          enabled: true
+        - field: "level"
+          value: "info"
           level: "info"
-          operator: "regex"
+          operator: "equals"
           enabled: true
-        - field: "_msg"
-          value: "(?i)(level|lvl|severity)[=:]\\s*\"?\\s*(debug|dbg)"
+        - field: "level"
+          value: "debug"
           level: "debug"
-          operator: "regex"
+          operator: "equals"
           enabled: true
-        - field: "_msg"
-          value: "(?i)(level|lvl|severity)[=:]\\s*\"?\\s*(trace|trce)"
+        - field: "level"
+          value: "trace"
           level: "trace"
-          operator: "regex"
+          operator: "equals"
           enabled: true

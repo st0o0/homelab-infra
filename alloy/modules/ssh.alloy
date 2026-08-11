@@ -70,12 +70,18 @@ declare "ssh" {
       template = "{{ if .ssh_accepted_ip }}{{ .ssh_accepted_ip }}{{ else if .ssh_failed_ip }}{{ .ssh_failed_ip }}{{ else if .ssh_invalid_ip }}{{ .ssh_invalid_ip }}{{ end }}"
     }
 
+    stage.template {
+      source   = "level"
+      template = "{{ if eq .event_type \"accepted\" }}info{{ else }}warn{{ end }}"
+    }
+
     stage.labels {
       values = {
         event_type  = "",
         client_ip   = "",
         username    = "",
         auth_method = "",
+        level       = "",
       }
     }
 

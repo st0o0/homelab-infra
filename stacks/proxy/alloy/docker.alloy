@@ -33,5 +33,15 @@ loki.process "docker" {
     expression = "(?i)(health\\s*check|healthcheck|/health|/ready|/live|/ping|GET /api/health)"
   }
 
+  stage.regex {
+    expression = "(?i)(?:level|lvl|severity)[=:]\\s*\"?(?P<level>\\w+)"
+  }
+
+  stage.labels {
+    values = {
+      level = "",
+    }
+  }
+
   forward_to = [loki.process.geoip.receiver]
 }

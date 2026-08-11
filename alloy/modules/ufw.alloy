@@ -43,10 +43,16 @@ declare "ufw" {
       expression = "\\[UFW\\s+(?P<action>\\w+)\\]\\s+IN=(?P<iface>\\S*)\\s+OUT=\\S*\\s+(?:MAC=\\S*\\s+)?SRC=(?P<src_ip>[\\d.]+)\\s+DST=(?P<dst_ip>[\\d.]+)\\s+LEN=\\d+\\s+.*?PROTO=(?P<proto>\\w+)(?:.*?SPT=(?P<spt>\\d+))?(?:.*?DPT=(?P<dpt>\\d+))?(?:.*?WINDOW=\\d+\\s+RES=\\S+\\s+(?P<tcp_flags>\\S+)\\s+URGP)?"
     }
 
+    stage.template {
+      source   = "level"
+      template = "{{ if eq .action \"BLOCK\" }}warn{{ else }}info{{ end }}"
+    }
+
     stage.labels {
       values = {
         action = "",
         proto  = "",
+        level  = "",
       }
     }
 

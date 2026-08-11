@@ -43,10 +43,16 @@ declare "fail2ban" {
       format = "2006-01-02 15:04:05"
     }
 
+    stage.template {
+      source   = "level"
+      template = "{{ if or (eq .priority \"ERROR\") }}error{{ else if eq .priority \"WARNING\" }}warn{{ else }}info{{ end }}"
+    }
+
     stage.labels {
       values = {
         priority = "",
         jail     = "",
+        level    = "",
       }
     }
 
