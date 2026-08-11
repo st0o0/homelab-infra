@@ -2,6 +2,7 @@
 	import defaults
 	import waf-exclusions-authentik
 	import ratelimit-media authentik
+	import access-geo-dach
 
 	reverse_proxy {$CADDY_TARGET_AUTHENTIK}
 }
