@@ -194,7 +194,7 @@ services:
       - LOGS_PUSH_URL=${ALLOY_LOGS_PUSH_URL:?ALLOY_LOGS_PUSH_URL is required}
     privileged: true
     volumes:
-      - ./alloy:/etc/alloy:ro
+      - ./alloy:/etc/alloy
       - ../../alloy/modules:/etc/alloy/modules:ro
       - ../../alloy/pipelines:/etc/alloy/pipelines:ro
       - alloy-data:/var/lib/alloy/data
