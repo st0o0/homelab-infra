@@ -1,0 +1,6 @@
+services:
+  alloy:
+    volumes:
+      - ../../alloy/features/njord.alloy:/etc/alloy/njord.alloy
+    environment:
+      - NJORD_METRICS_TARGET=${ALLOY_NJORD_METRICS_TARGET:-njord:9090}

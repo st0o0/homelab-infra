@@ -1,0 +1,30 @@
+services:
+  alloy:
+    depends_on:
+      paperless-exporter:
+        condition: service_started
+    volumes:
+      - ../../alloy/features/paperless.alloy:/etc/alloy/paperless.alloy
+    environment:
+      - PAPERLESS_EXPORTER_TARGET=${ALLOY_PAPERLESS_EXPORTER_TARGET:-paperless-exporter:9934}
+
+  paperless-exporter:
+    image: hansmi/prometheus-paperless-exporter:latest
+    container_name: paperless-exporter
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+    environment:
+      - PAPERLESS_EXPORTER_URI=${ALLOY_PAPERLESS_URL:?ALLOY_PAPERLESS_URL is required}
+      - PAPERLESS_EXPORTER_AUTH_TOKEN=${ALLOY_PAPERLESS_AUTH_TOKEN:?ALLOY_PAPERLESS_AUTH_TOKEN is required}
+      - PAPERLESS_EXPORTER_LISTEN_ADDRESS=:9934
+    deploy:
+      resources:
+        limits:
+          cpus: 0.10
+          memory: 64M
+        reservations:
+          memory: 32M

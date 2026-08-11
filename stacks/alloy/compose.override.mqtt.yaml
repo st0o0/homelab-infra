@@ -1,0 +1,30 @@
+services:
+  alloy:
+    depends_on:
+      mqtt-exporter:
+        condition: service_started
+    volumes:
+      - ../../alloy/features/mqtt.alloy:/etc/alloy/mqtt.alloy
+    environment:
+      - MQTT_EXPORTER_TARGET=${ALLOY_MQTT_EXPORTER_TARGET:-mqtt-exporter:9234}
+
+  mqtt-exporter:
+    image: sapcc/mosquitto-exporter:0.8.0
+    container_name: mqtt-exporter
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+    environment:
+      - MQTT_ADDRESS=${ALLOY_MQTT_BROKER_ADDRESS:?ALLOY_MQTT_BROKER_ADDRESS is required}
+      - MQTT_USER=${ALLOY_MQTT_BROKER_USER:-}
+      - MQTT_PASS=${ALLOY_MQTT_BROKER_PASS:-}
+    deploy:
+      resources:
+        limits:
+          cpus: 0.10
+          memory: 64M
+        reservations:
+          memory: 32M
