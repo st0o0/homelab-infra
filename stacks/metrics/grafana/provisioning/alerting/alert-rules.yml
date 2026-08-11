@@ -22,6 +22,7 @@ groups:
         title: HostDown
         condition: C
         for: 2m
+        is_paused: true
         labels:
           severity: critical
         annotations:
@@ -60,6 +61,7 @@ groups:
         title: HighCPU
         condition: C
         for: 5m
+        is_paused: true
         labels:
           severity: warning
         annotations:
@@ -98,6 +100,7 @@ groups:
         title: HighMemory
         condition: C
         for: 5m
+        is_paused: true
         labels:
           severity: warning
         annotations:
@@ -136,6 +139,7 @@ groups:
         title: DiskAlmostFull
         condition: C
         for: 10m
+        is_paused: true
         labels:
           severity: warning
         annotations:
@@ -174,6 +178,7 @@ groups:
         title: DiskCritical
         condition: C
         for: 5m
+        is_paused: true
         labels:
           severity: critical
         annotations:
@@ -217,6 +222,7 @@ groups:
         title: ContainerRestarting
         condition: C
         for: 0s
+        is_paused: true
         labels:
           severity: warning
         annotations:
@@ -256,6 +262,7 @@ groups:
         title: ContainerMemoryLimit
         condition: C
         for: 5m
+        is_paused: true
         labels:
           severity: warning
         annotations:
@@ -460,6 +467,7 @@ groups:
         title: PiholeDown
         condition: C
         for: 2m
+        is_paused: true
         labels:
           severity: critical
         annotations:
@@ -503,6 +511,7 @@ groups:
         title: PveNodeDown
         condition: C
         for: 2m
+        is_paused: true
         labels:
           severity: critical
         annotations:
@@ -541,6 +550,7 @@ groups:
         title: VmUnexpectedlyStopped
         condition: C
         for: 0s
+        is_paused: true
         noDataState: OK
         labels:
           severity: critical
@@ -580,6 +590,7 @@ groups:
         title: LxcUnexpectedlyStopped
         condition: C
         for: 0s
+        is_paused: true
         noDataState: OK
         labels:
           severity: critical
@@ -619,6 +630,7 @@ groups:
         title: PveStorageAlmostFull
         condition: C
         for: 10m
+        is_paused: true
         labels:
           severity: warning
         annotations:
@@ -657,6 +669,7 @@ groups:
         title: PveStorageCritical
         condition: C
         for: 5m
+        is_paused: true
         labels:
           severity: critical
         annotations:
