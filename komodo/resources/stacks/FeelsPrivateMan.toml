@@ -27,6 +27,9 @@ BIFROST_INTERFACE=wg0
 # ── CrowdSec ────────────────────────────────────────────────
 CROWDSEC_BOUNCER_API_KEY=[[FeelsPrivateMan_crowdsec_bouncer_api_key]]
 
+# ── ran (honeypot) ──────────────────────────────────────────
+RAN_CROWDSEC_API_KEY=[[FeelsPrivateMan_ran_bouncer_api_key]]
+
 # ── Eir ──────────────────────────────────────────────────────
 EIR_MASTERS=bifrost
 EIR_DISCOVERY_MODE=inspect
