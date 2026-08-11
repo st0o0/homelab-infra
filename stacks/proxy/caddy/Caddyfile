@@ -81,47 +81,6 @@
 	}
 }
 
-(honeypot) {
-	@hp_sensitive path /.env /.env.* /.git/* /.aws/* /.ssh/* /wp-config.php /config.php
-	@hp_scanner {
-		path /wp-login.php /wp-admin/* /xmlrpc.php /phpmyadmin/* /pma/*
-		path /administrator/* /admin/* /cgi-bin/* /solr/* /console/*
-		path /manager/* /actuator/* /api/v1/admin /setup.php
-		path /.well-known/security.txt /remote/login /login.action
-		path /vendor/* /telescope/* /debug/* /_profiler/*
-	}
-
-	log honeypot {
-		output file /var/log/caddy/honeypot.log {
-			roll_size 50MiB
-			roll_keep 5
-		}
-		format json {
-			time_format iso8601
-		}
-	}
-
-	handle @hp_sensitive {
-		log_name honeypot
-		abort
-	}
-
-	handle @hp_scanner {
-		log_name honeypot
-		header Content-Type "text/html; charset=utf-8"
-		respond <<HTML
-			<!DOCTYPE html><html><head><title>Login</title></head>
-			<body style="font-family:Arial;margin:40px auto;max-width:400px">
-			<h2>Admin Login</h2>
-			<form method="POST" action="">
-			<input name="username" placeholder="Username" style="width:100%;padding:8px;margin:4px 0"><br>
-			<input name="password" type="password" placeholder="Password" style="width:100%;padding:8px;margin:4px 0"><br>
-			<button style="width:100%;padding:8px;margin:8px 0">Sign In</button>
-			</form></body></html>
-			HTML 200
-	}
-}
-
 (waf) {
 	coraza_waf {
 		load_owasp_crs
@@ -138,7 +97,6 @@
 }
 
 (defaults) {
-	import honeypot
 	import waf
 	import crowdsec
 	encode zstd gzip

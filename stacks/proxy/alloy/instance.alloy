@@ -34,10 +34,6 @@ pipelines.waf "default" {
   forward_to = [loki.write.central.receiver]
 }
 
-pipelines.honeypot "default" {
-  forward_to = [loki.write.central.receiver]
-}
-
 pipelines.crowdsec "default" {
   forward_to = [loki.write.central.receiver]
 }
