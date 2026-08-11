@@ -5,7 +5,7 @@ labels:
 poll_without_inotify: true
 ---
 filenames:
-  - /var/log/caddy/waf-audit.log
+  - /var/log/caddy/waf.log
 labels:
   type: waf
 poll_without_inotify: true

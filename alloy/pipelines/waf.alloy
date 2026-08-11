@@ -3,18 +3,18 @@ declare "waf" {
     optional = false
   }
 
-  local.file_match "waf_audit" {
+  local.file_match "waf" {
     path_targets = [
-      {__path__ = "/var/log/host/caddy/waf-audit.log", job = "waf"},
+      {__path__ = "/var/log/host/caddy/waf.log", job = "waf"},
     ]
   }
 
-  loki.source.file "waf_audit" {
-    targets    = local.file_match.waf_audit.targets
-    forward_to = [loki.process.waf_audit.receiver]
+  loki.source.file "waf" {
+    targets    = local.file_match.waf.targets
+    forward_to = [loki.process.waf.receiver]
   }
 
-  loki.process "waf_audit" {
+  loki.process "waf" {
     stage.json {
       expressions = {
         client_ip = "transaction.client_ip",
