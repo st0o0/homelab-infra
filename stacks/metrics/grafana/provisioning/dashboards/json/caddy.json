@@ -61,7 +61,7 @@
     { "collapsed": false, "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 }, "id": 99, "panels": [], "title": "🌍 Visitor Map", "type": "row" },
     {
       "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
-      "fieldConfig": { "defaults": {}, "overrides": [] },
+      "fieldConfig": { "defaults": { "color": { "mode": "continuous-blues" } }, "overrides": [] },
       "gridPos": { "h": 10, "w": 16, "x": 0, "y": 1 }, "id": 1,
       "options": {
         "view": { "id": "coords", "lat": 30, "lon": 0, "zoom": 2 },
@@ -70,7 +70,8 @@
         "layers": [
           {
             "config": {
-              "style": { "color": { "field": "requests", "fixed": "semi-dark-blue" }, "opacity": 0.6, "size": { "field": "requests", "min": 5, "max": 30 } }
+              "style": { "color": { "field": "requests", "fixed": "dark-green" }, "opacity": 0.7, "size": { "field": "requests", "min": 4, "max": 25 } },
+              "showLegend": false
             },
             "location": { "mode": "lookup", "lookup": "geoip_country_code", "gazetteer": "public/gazetteer/countries.json" },
             "name": "Visitors",
@@ -129,7 +130,7 @@
       "fieldConfig": { "defaults": { "color": { "mode": "thresholds" }, "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }, { "color": "yellow", "value": 0.5 }, { "color": "red", "value": 2 }] }, "unit": "s" }, "overrides": [] },
       "gridPos": { "h": 4, "w": 4, "x": 12, "y": 12 }, "id": 12,
       "options": { "colorMode": "value", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "textMode": "auto" },
-      "targets": [{ "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(rate(caddy_http_request_duration_seconds_sum{instance=~\"$instance\", host=~\"$host\"}[$__rate_interval])) / sum(rate(caddy_http_request_duration_seconds_count{instance=~\"$instance\", host=~\"$host\"}[$__rate_interval]))", "refId": "A" }],
+      "targets": [{ "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(rate(caddy_http_request_duration_seconds_sum{instance=~\"$instance\", host=~\"$host\", code!=\"101\"}[$__rate_interval])) / sum(rate(caddy_http_request_duration_seconds_count{instance=~\"$instance\", host=~\"$host\", code!=\"101\"}[$__rate_interval]))", "refId": "A" }],
       "title": "Avg Duration", "type": "stat"
     },
     {
@@ -172,9 +173,9 @@
       "gridPos": { "h": 8, "w": 12, "x": 0, "y": 25 }, "id": 22,
       "options": { "tooltip": { "mode": "multi", "sort": "desc" }, "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" } },
       "targets": [
-        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "histogram_quantile(0.50, sum by (le) (rate(caddy_http_request_duration_seconds_bucket{instance=~\"$instance\", host=~\"$host\"}[$__rate_interval])))", "legendFormat": "p50", "refId": "A" },
-        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "histogram_quantile(0.95, sum by (le) (rate(caddy_http_request_duration_seconds_bucket{instance=~\"$instance\", host=~\"$host\"}[$__rate_interval])))", "legendFormat": "p95", "refId": "B" },
-        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "histogram_quantile(0.99, sum by (le) (rate(caddy_http_request_duration_seconds_bucket{instance=~\"$instance\", host=~\"$host\"}[$__rate_interval])))", "legendFormat": "p99", "refId": "C" }
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "histogram_quantile(0.50, sum by (le) (rate(caddy_http_request_duration_seconds_bucket{instance=~\"$instance\", host=~\"$host\", code!=\"101\"}[$__rate_interval])))", "legendFormat": "p50", "refId": "A" },
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "histogram_quantile(0.95, sum by (le) (rate(caddy_http_request_duration_seconds_bucket{instance=~\"$instance\", host=~\"$host\", code!=\"101\"}[$__rate_interval])))", "legendFormat": "p95", "refId": "B" },
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "histogram_quantile(0.99, sum by (le) (rate(caddy_http_request_duration_seconds_bucket{instance=~\"$instance\", host=~\"$host\", code!=\"101\"}[$__rate_interval])))", "legendFormat": "p99", "refId": "C" }
       ],
       "title": "Request Duration", "type": "timeseries"
     },
@@ -192,8 +193,8 @@
       "gridPos": { "h": 8, "w": 12, "x": 0, "y": 33 }, "id": 24,
       "options": { "tooltip": { "mode": "multi", "sort": "desc" }, "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" } },
       "targets": [
-        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(rate(caddy_http_response_size_bytes_sum{instance=~\"$instance\", host=~\"$host\"}[$__rate_interval]))", "legendFormat": "Response", "refId": "A" },
-        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(rate(caddy_http_request_size_bytes_sum{instance=~\"$instance\", host=~\"$host\"}[$__rate_interval]))", "legendFormat": "Request", "refId": "B" }
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(rate(caddy_http_response_size_bytes_sum{instance=~\"$instance\", host=~\"$host\", code!=\"101\"}[$__rate_interval]))", "legendFormat": "Response", "refId": "A" },
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(rate(caddy_http_request_size_bytes_sum{instance=~\"$instance\", host=~\"$host\", code!=\"101\"}[$__rate_interval]))", "legendFormat": "Request", "refId": "B" }
       ],
       "title": "Bandwidth", "type": "timeseries"
     },
@@ -215,7 +216,7 @@
       "fieldConfig": { "defaults": { "color": { "mode": "palette-classic" }, "custom": { "fillOpacity": 20, "lineWidth": 2, "lineInterpolation": "smooth", "spanNulls": false, "showPoints": "never" }, "unit": "s" }, "overrides": [] },
       "gridPos": { "h": 8, "w": 12, "x": 0, "y": 42 }, "id": 110,
       "options": { "tooltip": { "mode": "multi", "sort": "desc" }, "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" } },
-      "targets": [{ "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum by (host) (rate(caddy_http_request_duration_seconds_sum{instance=~\"$instance\", host=~\"$host\"}[$__rate_interval])) / sum by (host) (rate(caddy_http_request_duration_seconds_count{instance=~\"$instance\", host=~\"$host\"}[$__rate_interval]))", "legendFormat": "{{host}}", "refId": "A" }],
+      "targets": [{ "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum by (host) (rate(caddy_http_request_duration_seconds_sum{instance=~\"$instance\", host=~\"$host\", code!=\"101\"}[$__rate_interval])) / sum by (host) (rate(caddy_http_request_duration_seconds_count{instance=~\"$instance\", host=~\"$host\", code!=\"101\"}[$__rate_interval]))", "legendFormat": "{{host}}", "refId": "A" }],
       "title": "Avg Duration by Host", "type": "timeseries"
     },
     {
@@ -223,7 +224,7 @@
       "fieldConfig": { "defaults": { "color": { "mode": "palette-classic" }, "custom": { "fillOpacity": 20, "lineWidth": 2, "lineInterpolation": "smooth", "spanNulls": false, "showPoints": "never" }, "unit": "Bps" }, "overrides": [] },
       "gridPos": { "h": 8, "w": 12, "x": 12, "y": 42 }, "id": 111,
       "options": { "tooltip": { "mode": "multi", "sort": "desc" }, "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" } },
-      "targets": [{ "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum by (host) (rate(caddy_http_response_size_bytes_sum{instance=~\"$instance\", host=~\"$host\"}[$__rate_interval]))", "legendFormat": "{{host}}", "refId": "A" }],
+      "targets": [{ "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum by (host) (rate(caddy_http_response_size_bytes_sum{instance=~\"$instance\", host=~\"$host\", code!=\"101\"}[$__rate_interval]))", "legendFormat": "{{host}}", "refId": "A" }],
       "title": "Bandwidth by Host", "type": "timeseries"
     },
     {
@@ -232,58 +233,70 @@
       "gridPos": { "h": 8, "w": 12, "x": 0, "y": 50 }, "id": 112,
       "options": { "tooltip": { "mode": "multi", "sort": "desc" }, "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" } },
       "targets": [
-        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "histogram_quantile(0.95, sum by (host, le) (rate(caddy_http_request_duration_seconds_bucket{instance=~\"$instance\", host=~\"$host\"}[$__rate_interval])))", "legendFormat": "p95 {{host}}", "refId": "A" }
+        { "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "histogram_quantile(0.95, sum by (host, le) (rate(caddy_http_request_duration_seconds_bucket{instance=~\"$instance\", host=~\"$host\", code!=\"101\"}[$__rate_interval])))", "legendFormat": "p95 {{host}}", "refId": "A" }
       ],
       "title": "p95 Duration by Host", "type": "timeseries"
     },
     {
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": { "defaults": { "color": { "mode": "palette-classic" }, "custom": { "fillOpacity": 20, "lineWidth": 2, "lineInterpolation": "smooth", "spanNulls": false, "showPoints": "never", "stacking": { "mode": "normal" } }, "unit": "reqps" }, "overrides": [] },
+      "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
+      "fieldConfig": { "defaults": { "color": { "mode": "palette-classic" }, "custom": { "fillOpacity": 20, "lineWidth": 2, "lineInterpolation": "smooth", "spanNulls": false, "showPoints": "never", "stacking": { "mode": "normal" } }, "unit": "short" }, "overrides": [] },
       "gridPos": { "h": 8, "w": 12, "x": 12, "y": 50 }, "id": 113,
       "options": { "tooltip": { "mode": "multi", "sort": "desc" }, "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" } },
-      "targets": [{ "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum by (host, code) (rate(caddy_http_requests_total{instance=~\"$instance\", host=~\"$host\", code=~\"4..|5..\"}[$__rate_interval]))", "legendFormat": "{{code}} {{host}}", "refId": "A" }],
-      "title": "Errors by Host & Code", "type": "timeseries"
+      "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"caddy\", host=~\"${instance:regex}\"} status:~\"4..\" OR status:~\"5..\" | stats by (_time:5m, status) count() as errors", "queryType": "statsRange", "refId": "A" }],
+      "title": "Errors by Status",
+      "transformations": [{ "id": "extractFields", "options": { "source": "labels", "format": "json" } }, { "id": "organize", "options": { "excludeByName": { "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true } } }, { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "errors", "destinationType": "number" }] } }],
+      "type": "timeseries"
     },
 
     { "collapsed": false, "gridPos": { "h": 1, "w": 24, "x": 0, "y": 58 }, "id": 96, "panels": [], "title": "📁 Top Content", "type": "row" },
     {
       "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
-      "fieldConfig": { "defaults": { "custom": { "align": "auto" } }, "overrides": [] },
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 59 }, "id": 30,
-      "options": { "showHeader": true, "sortBy": [{ "displayName": "requests", "desc": true }], "footer": { "show": false } },
-      "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"caddy\", host=~\"${instance:regex}\"} | stats by (uri) count() as requests | sort by (requests) desc | limit 20", "refId": "A" }],
+      "fieldConfig": { "defaults": { "custom": { "align": "auto" } }, "overrides": [
+        { "matcher": { "id": "byName", "options": "uri" }, "properties": [{ "id": "displayName", "value": "Path" }] },
+        { "matcher": { "id": "byName", "options": "requests" }, "properties": [{ "id": "displayName", "value": "Requests" }, { "id": "custom.cellOptions", "value": { "type": "color-background", "mode": "gradient" } }, { "id": "thresholds", "value": { "mode": "percentage", "steps": [{ "color": "transparent" }, { "color": "#4A90D920", "value": 10 }, { "color": "#4A90D940", "value": 30 }, { "color": "#4A90D980", "value": 60 }] } }] }
+      ] },
+      "gridPos": { "h": 8, "w": 8, "x": 0, "y": 59 }, "id": 30,
+      "options": { "showHeader": true, "sortBy": [{ "displayName": "Requests", "desc": true }], "footer": { "show": true, "reducer": ["sum"], "fields": ["requests"] } },
+      "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"caddy\", host=~\"${instance:regex}\"} uri:!~\"\\.(js|css|png|jpg|svg|woff|woff2|ico|map)\" | stats by (uri) count() as requests | sort by (requests) desc | limit 20", "refId": "A" }],
       "title": "Top Paths",
-      "transformations": [{ "id": "extractFields", "options": { "source": "labels", "format": "json" } }, { "id": "organize", "options": { "excludeByName": { "Time": true, "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true } } }, { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "requests", "destinationType": "number" }] } }],
+      "transformations": [{ "id": "extractFields", "options": { "source": "labels", "format": "json" } }, { "id": "organize", "options": { "excludeByName": { "Time": true, "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true }, "indexByName": { "uri": 0, "requests": 1 } } }, { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "requests", "destinationType": "number" }] } }],
       "type": "table"
     },
     {
       "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
-      "fieldConfig": { "defaults": { "custom": { "align": "auto" } }, "overrides": [] },
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 59 }, "id": 31,
-      "options": { "showHeader": true, "sortBy": [{ "displayName": "requests", "desc": true }], "footer": { "show": false } },
-      "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"caddy\", host=~\"${instance:regex}\"} | stats by (user_agent) count() as requests | sort by (requests) desc | limit 20", "refId": "A" }],
-      "title": "Top User Agents",
+      "fieldConfig": { "defaults": { "color": { "mode": "palette-classic" }, "displayName": "${__field.value}", "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }] } }, "overrides": [] },
+      "gridPos": { "h": 8, "w": 8, "x": 8, "y": 59 }, "id": 31,
+      "options": { "displayMode": "gradient", "orientation": "horizontal", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "/^requests$/", "values": true }, "showUnfilled": true, "text": {} },
+      "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"caddy\", host=~\"${instance:regex}\"} | stats by (status_class) count() as requests | sort by (requests) desc", "refId": "A" }],
+      "title": "Requests by Status Class",
       "transformations": [{ "id": "extractFields", "options": { "source": "labels", "format": "json" } }, { "id": "organize", "options": { "excludeByName": { "Time": true, "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true } } }, { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "requests", "destinationType": "number" }] } }],
-      "type": "table"
+      "type": "bargauge"
     },
     {
       "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
-      "fieldConfig": { "defaults": { "custom": { "align": "auto" } }, "overrides": [] },
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 67 }, "id": 32,
-      "options": { "showHeader": true, "sortBy": [{ "displayName": "requests", "desc": true }], "footer": { "show": false } },
+      "fieldConfig": { "defaults": { "custom": { "align": "auto" } }, "overrides": [
+        { "matcher": { "id": "byName", "options": "uri" }, "properties": [{ "id": "displayName", "value": "Path" }] },
+        { "matcher": { "id": "byName", "options": "requests" }, "properties": [{ "id": "displayName", "value": "Hits" }, { "id": "custom.cellOptions", "value": { "type": "color-background", "mode": "gradient" } }, { "id": "thresholds", "value": { "mode": "percentage", "steps": [{ "color": "transparent" }, { "color": "#FF6B6B20", "value": 10 }, { "color": "#FF6B6B40", "value": 30 }, { "color": "#FF6B6B80", "value": 60 }] } }] }
+      ] },
+      "gridPos": { "h": 8, "w": 8, "x": 16, "y": 59 }, "id": 32,
+      "options": { "showHeader": true, "sortBy": [{ "displayName": "Hits", "desc": true }], "footer": { "show": true, "reducer": ["sum"], "fields": ["requests"] } },
       "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"caddy\", host=~\"${instance:regex}\"} status:=\"404\" | stats by (uri) count() as requests | sort by (requests) desc | limit 20", "refId": "A" }],
       "title": "Top 404 Paths",
-      "transformations": [{ "id": "extractFields", "options": { "source": "labels", "format": "json" } }, { "id": "organize", "options": { "excludeByName": { "Time": true, "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true } } }, { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "requests", "destinationType": "number" }] } }],
+      "transformations": [{ "id": "extractFields", "options": { "source": "labels", "format": "json" } }, { "id": "organize", "options": { "excludeByName": { "Time": true, "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true }, "indexByName": { "uri": 0, "requests": 1 } } }, { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "requests", "destinationType": "number" }] } }],
       "type": "table"
     },
     {
       "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
-      "fieldConfig": { "defaults": { "custom": { "align": "auto" } }, "overrides": [] },
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 67 }, "id": 33,
-      "options": { "showHeader": true, "sortBy": [{ "displayName": "avg_duration", "desc": true }], "footer": { "show": false } },
-      "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"caddy\", host=~\"${instance:regex}\"} | stats by (uri) count() as requests, avg(duration) as avg_duration | sort by (avg_duration) desc | limit 20", "refId": "A" }],
+      "fieldConfig": { "defaults": { "custom": { "align": "auto" } }, "overrides": [
+        { "matcher": { "id": "byName", "options": "uri" }, "properties": [{ "id": "displayName", "value": "Endpoint" }] },
+        { "matcher": { "id": "byName", "options": "requests" }, "properties": [{ "id": "displayName", "value": "Reqs" }, { "id": "custom.width", "value": 70 }] },
+        { "matcher": { "id": "byName", "options": "avg_duration" }, "properties": [{ "id": "displayName", "value": "Avg Duration" }, { "id": "unit", "value": "s" }, { "id": "custom.cellOptions", "value": { "type": "color-background", "mode": "gradient" } }, { "id": "thresholds", "value": { "mode": "absolute", "steps": [{ "color": "transparent" }, { "color": "#FF6B6B20", "value": 0.5 }, { "color": "#FF6B6B40", "value": 2 }, { "color": "#FF6B6B80", "value": 10 }] } }] }
+      ] },
+      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 67 }, "id": 33,
+      "options": { "showHeader": true, "sortBy": [{ "displayName": "Avg Duration", "desc": true }], "footer": { "show": false } },
+      "targets": [{ "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"caddy\", host=~\"${instance:regex}\"} status:!=\"101\" uri:!~\"\\.(js|css|png|jpg|svg|woff|woff2|ico|map)\" | stats by (uri) count() as requests, avg(duration) as avg_duration | sort by (avg_duration) desc | limit 20", "refId": "A" }],
       "title": "Slowest Endpoints",
-      "transformations": [{ "id": "extractFields", "options": { "source": "labels", "format": "json" } }, { "id": "organize", "options": { "excludeByName": { "Time": true, "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true } } }, { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "requests", "destinationType": "number" }, { "targetField": "avg_duration", "destinationType": "number" }] } }],
+      "transformations": [{ "id": "extractFields", "options": { "source": "labels", "format": "json" } }, { "id": "organize", "options": { "excludeByName": { "Time": true, "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true }, "indexByName": { "uri": 0, "avg_duration": 1, "requests": 2 } } }, { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "requests", "destinationType": "number" }, { "targetField": "avg_duration", "destinationType": "number" }] } }],
       "type": "table"
     },
 
