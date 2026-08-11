@@ -2,26 +2,31 @@ import.file "modules" {
   filename = "/etc/alloy/modules"
 }
 
-// Log processing modules — lightweight, stay as modules
-modules.auth "default" {
-  enabled    = coalesce(sys.env("AUTH_LOG_ENABLED"), "false")
-  forward_to = [loki.process.system.receiver]
+modules.syslog "default" {
+  forward_to = [loki.write.central.receiver]
+}
+
+modules.ssh "default" {
+  enabled    = coalesce(sys.env("SSH_LOG_ENABLED"), "false")
+  forward_to = [loki.write.central.receiver]
+}
+
+modules.sudo "default" {
+  enabled    = coalesce(sys.env("SUDO_LOG_ENABLED"), "false")
+  forward_to = [loki.write.central.receiver]
 }
 
 modules.fail2ban "default" {
   enabled    = coalesce(sys.env("FAIL2BAN_LOG_ENABLED"), "false")
-  forward_to = [loki.process.system.receiver]
+  forward_to = [loki.write.central.receiver]
 }
 
 modules.security "default" {
   enabled    = coalesce(sys.env("SECURITY_LOGS_ENABLED"), "false")
-  forward_to = [loki.process.system.receiver]
+  forward_to = [loki.write.central.receiver]
 }
 
 modules.ufw "default" {
   enabled    = coalesce(sys.env("UFW_LOG_ENABLED"), "false")
-  forward_to = [loki.process.system.receiver]
+  forward_to = [loki.write.central.receiver]
 }
-
-// Metrics scrape modules moved to standalone feature files
-// loaded via compose overrides — see alloy/features/

@@ -1,0 +1,86 @@
+declare "sudo" {
+  argument "enabled" {
+    optional = true
+    default  = "false"
+  }
+
+  argument "forward_to" {
+    optional = false
+  }
+
+  local.file_match "sudo" {
+    path_targets = [
+      {__path__ = "/var/log/host/auth.log", job = "sudo", __tmp_enabled = argument.enabled.value},
+    ]
+  }
+
+  discovery.relabel "sudo" {
+    targets = local.file_match.sudo.targets
+
+    rule {
+      source_labels = ["__tmp_enabled"]
+      regex         = "true"
+      action        = "keep"
+    }
+  }
+
+  loki.source.file "sudo" {
+    targets    = discovery.relabel.sudo.output
+    forward_to = [loki.process.sudo.receiver]
+  }
+
+  loki.process "sudo" {
+    stage.regex {
+      expression = "^(?P<timestamp_rfc>\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d+[+-]\\d{2}:\\d{2}) \\S+ \\S+(?:\\[\\d+\\])?:\\s*(?P<content>.+)"
+    }
+    stage.timestamp {
+      source = "timestamp_rfc"
+      format = "2006-01-02T15:04:05.000000-07:00"
+    }
+
+    stage.regex {
+      expression = "sudo(?:\\[\\d+\\])?:\\s+(?P<sudo_user>\\S+)\\s+: TTY="
+    }
+
+    stage.regex {
+      expression = "sudo(?:\\[\\d+\\])?:\\s+(?P<sudo_failed_user>\\S+)\\s+: \\d+ incorrect password attempt"
+    }
+
+    stage.regex {
+      expression = "COMMAND=(?P<command>.+)$"
+    }
+
+    stage.template {
+      source   = "event_type"
+      template = "{{ if .sudo_user }}sudo{{ else if .sudo_failed_user }}sudo_failed{{ end }}"
+    }
+
+    stage.drop {
+      source = "event_type"
+      value  = "^$"
+    }
+
+    stage.template {
+      source   = "username"
+      template = "{{ if .sudo_user }}{{ .sudo_user }}{{ else if .sudo_failed_user }}{{ .sudo_failed_user }}{{ end }}"
+    }
+
+    stage.labels {
+      values = {
+        event_type = "",
+        username   = "",
+      }
+    }
+
+    stage.template {
+      source   = "formatted"
+      template = "{{ .event_type }} {{ .username }}{{ if .command }} {{ .command }}{{ end }}"
+    }
+
+    stage.output {
+      source = "formatted"
+    }
+
+    forward_to = argument.forward_to.value
+  }
+}

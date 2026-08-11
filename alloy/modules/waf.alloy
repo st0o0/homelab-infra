@@ -28,6 +28,18 @@ declare "waf" {
       expression = "\"id\":\\s*(?P<rule_id>\\d+)"
     }
 
+    stage.regex {
+      expression = "\"severity\":\\s*(?P<severity>\\d+)"
+    }
+
+    stage.regex {
+      expression = "\"msg\":\\s*\"(?P<rule_msg>[^\"]+)\""
+    }
+
+    stage.regex {
+      expression = "attack-(?P<attack_category>[a-z]+)"
+    }
+
     stage.match {
       selector = "{job=\"waf\"}"
       pipeline_name = "geoip"
@@ -51,6 +63,8 @@ declare "waf" {
         uri                = "",
         method             = "",
         rule_id            = "",
+        severity           = "",
+        attack_category    = "",
         geoip_country_code = "",
         geoip_country_name = "",
       }
@@ -58,7 +72,7 @@ declare "waf" {
 
     stage.template {
       source   = "formatted"
-      template = "WAF block rule={{ .rule_id }} {{ .method }} {{ .uri }} from {{ .client_ip }}"
+      template = "WAF block rule={{ .rule_id }} {{ .method }} {{ .uri }} from {{ .client_ip }}{{ if .attack_category }} [{{ .attack_category }}{{ if .severity }}/sev{{ .severity }}{{ end }}]{{ end }}"
     }
 
     stage.output {

@@ -1,0 +1,93 @@
+declare "ssh" {
+  argument "enabled" {
+    optional = true
+    default  = "false"
+  }
+
+  argument "forward_to" {
+    optional = false
+  }
+
+  local.file_match "ssh" {
+    path_targets = [
+      {__path__ = "/var/log/host/auth.log", job = "ssh", __tmp_enabled = argument.enabled.value},
+    ]
+  }
+
+  discovery.relabel "ssh" {
+    targets = local.file_match.ssh.targets
+
+    rule {
+      source_labels = ["__tmp_enabled"]
+      regex         = "true"
+      action        = "keep"
+    }
+  }
+
+  loki.source.file "ssh" {
+    targets    = discovery.relabel.ssh.output
+    forward_to = [loki.process.ssh.receiver]
+  }
+
+  loki.process "ssh" {
+    stage.regex {
+      expression = "^(?P<timestamp_rfc>\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d+[+-]\\d{2}:\\d{2}) \\S+ \\S+\\[\\d+\\]:\\s*(?P<content>.+)"
+    }
+    stage.timestamp {
+      source = "timestamp_rfc"
+      format = "2006-01-02T15:04:05.000000-07:00"
+    }
+
+    stage.regex {
+      expression = "sshd(-session)?\\[\\d+\\]: Accepted (?P<auth_method>\\S+) for (?P<ssh_accepted_user>\\S+) from (?P<ssh_accepted_ip>\\d+\\.\\d+\\.\\d+\\.\\d+)"
+    }
+
+    stage.regex {
+      expression = "sshd(-session)?\\[\\d+\\]: Invalid user (?P<ssh_invalid_user>\\S+) from (?P<ssh_invalid_ip>\\d+\\.\\d+\\.\\d+\\.\\d+)"
+    }
+
+    stage.regex {
+      expression = "sshd(-session)?\\[\\d+\\]: Failed password for (?P<ssh_failed_user>\\S+) from (?P<ssh_failed_ip>\\d+\\.\\d+\\.\\d+\\.\\d+)"
+    }
+
+    stage.template {
+      source   = "event_type"
+      template = "{{ if .ssh_accepted_user }}accepted{{ else if .ssh_failed_user }}failed{{ else if .ssh_invalid_user }}invalid_user{{ end }}"
+    }
+
+    stage.drop {
+      source = "event_type"
+      value  = "^$"
+    }
+
+    stage.template {
+      source   = "username"
+      template = "{{ if .ssh_accepted_user }}{{ .ssh_accepted_user }}{{ else if .ssh_failed_user }}{{ .ssh_failed_user }}{{ else if .ssh_invalid_user }}{{ .ssh_invalid_user }}{{ end }}"
+    }
+
+    stage.template {
+      source   = "client_ip"
+      template = "{{ if .ssh_accepted_ip }}{{ .ssh_accepted_ip }}{{ else if .ssh_failed_ip }}{{ .ssh_failed_ip }}{{ else if .ssh_invalid_ip }}{{ .ssh_invalid_ip }}{{ end }}"
+    }
+
+    stage.labels {
+      values = {
+        event_type  = "",
+        client_ip   = "",
+        username    = "",
+        auth_method = "",
+      }
+    }
+
+    stage.template {
+      source   = "formatted"
+      template = "{{ .event_type }} {{ .username }} ← {{ .client_ip }}{{ if .auth_method }} ({{ .auth_method }}){{ end }}"
+    }
+
+    stage.output {
+      source = "formatted"
+    }
+
+    forward_to = argument.forward_to.value
+  }
+}

@@ -5,7 +5,7 @@ declare "crowdsec" {
 
   local.file_match "crowdsec_alerts" {
     path_targets = [
-      {__path__ = "/var/log/host/crowdsec/alerts.ndjson", job = "crowdsec-alerts"},
+      {__path__ = "/var/log/host/crowdsec/alerts.ndjson", job = "crowdsec"},
     ]
   }
 
@@ -17,14 +17,19 @@ declare "crowdsec" {
   loki.process "crowdsec_alerts" {
     stage.json {
       expressions = {
-        time     = "time",
-        scenario = "scenario",
-        ip       = "ip",
-        type     = "type",
-        duration = "duration",
-        country  = "country",
-        asname   = "asname",
+        time         = "time",
+        scenario     = "scenario",
+        ip           = "ip",
+        type         = "type",
+        duration     = "duration",
+        country      = "country",
+        asname       = "asname",
+        events_count = "events_count",
       }
+    }
+
+    stage.regex {
+      expression = "\"origin\":\\s*\"(?P<origin>[^\"]+)\""
     }
 
     stage.timestamp {
@@ -40,7 +45,7 @@ declare "crowdsec" {
 
     stage.template {
       source   = "formatted"
-      template = "{{ .type }} {{ .ip }} ({{ .country }}/{{ .asname }}) {{ .scenario }} [{{ .duration }}]"
+      template = "{{ .type }} {{ .ip }} ({{ .country }}/{{ .asname }}) {{ .scenario }} [{{ .duration }}]{{ if .events_count }} ({{ .events_count }} events{{ if .origin }}, {{ .origin }}{{ end }}){{ end }}"
     }
 
     stage.output {

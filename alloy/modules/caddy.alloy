@@ -74,14 +74,13 @@ declare "caddy" {
       }
     }
 
-    stage.json {
-      expressions = {
-        msg = "msg",
-      }
+    stage.template {
+      source   = "formatted"
+      template = "{{ .method }} {{ .status }} {{ .duration }}s {{ .domain }} {{ .uri }}"
     }
 
     stage.output {
-      source = "msg"
+      source = "formatted"
     }
 
     forward_to = argument.forward_to.value

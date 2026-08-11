@@ -1,0 +1,95 @@
+declare "syslog" {
+  argument "forward_to" {
+    optional = false
+  }
+
+  local.file_match "syslog" {
+    path_targets = [
+      {__path__ = "/var/log/host/syslog", job = "syslog"},
+    ]
+  }
+
+  loki.source.file "syslog" {
+    targets    = local.file_match.syslog.targets
+    forward_to = [loki.process.syslog.receiver]
+  }
+
+  loki.process "syslog" {
+    stage.regex {
+      expression = "^(?P<timestamp_rfc>\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d+[+-]\\d{2}:\\d{2}) \\S+ (?P<program>[a-zA-Z0-9_\\-\\.\\/]+)(?:\\[(?P<pid>\\d+)\\])?:\\s*(?P<content>.+)"
+    }
+
+    stage.timestamp {
+      source = "timestamp_rfc"
+      format = "2006-01-02T15:04:05.000000-07:00"
+    }
+
+    stage.labels {
+      values = {
+        program = "",
+      }
+    }
+
+    stage.regex {
+      source     = "content"
+      expression = "^Started (?P<started_unit>.+)\\.$"
+    }
+
+    stage.regex {
+      source     = "content"
+      expression = "^Stopped (?P<stopped_unit>.+)\\.$"
+    }
+
+    stage.regex {
+      source     = "content"
+      expression = "(?P<failed_unit>\\S+\\.service): (?:Main process exited|Failed)"
+    }
+
+    stage.regex {
+      source     = "content"
+      expression = "status installed (?P<package>\\S+)"
+    }
+
+    stage.regex {
+      source     = "content"
+      expression = "(?P<oom_match>Out of memory|invoked oom-killer|Killed process)"
+    }
+
+    stage.regex {
+      source     = "content"
+      expression = "\\((?P<cron_user>\\S+)\\) CMD \\("
+    }
+
+    stage.regex {
+      source     = "content"
+      expression = "(?P<disk_error>I/O error|SCSI error|EXT4-fs error)"
+    }
+
+    stage.regex {
+      source     = "content"
+      expression = "(?P<link_event>link up|link down|carrier acquired|carrier lost)"
+    }
+
+    stage.template {
+      source   = "event_type"
+      template = "{{ if .started_unit }}service_start{{ else if .stopped_unit }}service_stop{{ else if .failed_unit }}service_failed{{ else if .package }}pkg_install{{ else if .oom_match }}oom_kill{{ else if .cron_user }}cron_exec{{ else if .disk_error }}disk_error{{ else if .link_event }}link_change{{ end }}"
+    }
+
+    stage.labels {
+      values = {
+        event_type = "",
+      }
+    }
+
+    stage.template {
+      source   = "formatted"
+      template = "{{ .program }}{{ if .pid }}[{{ .pid }}]{{ end }}: {{ .content }}"
+    }
+
+    stage.output {
+      source = "formatted"
+    }
+
+    forward_to = argument.forward_to.value
+  }
+}

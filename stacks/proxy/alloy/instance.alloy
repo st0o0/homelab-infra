@@ -2,13 +2,18 @@ import.file "modules" {
   filename = "/etc/alloy/modules"
 }
 
-import.file "pipelines" {
-  filename = "/etc/alloy/pipelines"
+modules.syslog "default" {
+  forward_to = [loki.write.central.receiver]
 }
 
-modules.auth "default" {
+modules.ssh "default" {
   enabled    = "true"
   forward_to = [loki.process.geoip.receiver]
+}
+
+modules.sudo "default" {
+  enabled    = "true"
+  forward_to = [loki.write.central.receiver]
 }
 
 modules.fail2ban "default" {
@@ -26,14 +31,14 @@ modules.security "default" {
   forward_to = [loki.write.central.receiver]
 }
 
-pipelines.caddy "default" {
+modules.caddy "default" {
   forward_to = [loki.write.central.receiver]
 }
 
-pipelines.waf "default" {
+modules.waf "default" {
   forward_to = [loki.write.central.receiver]
 }
 
-pipelines.crowdsec "default" {
+modules.crowdsec "default" {
   forward_to = [loki.write.central.receiver]
 }

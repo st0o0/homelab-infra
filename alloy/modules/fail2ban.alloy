@@ -65,13 +65,18 @@ declare "fail2ban" {
       expression = "fail2ban\\.filter\\s+\\[\\d+\\]: INFO\\s+\\[(?P<found_jail>\\S+)\\] Found (?P<found_ip>\\d+\\.\\d+\\.\\d+\\.\\d+)"
     }
 
-    stage.output {
-      source = "content"
+    // Already banned: "NOTICE  [<jail>] Already banned <ip>"
+    stage.regex {
+      expression = "fail2ban\\.actions\\s+\\[\\d+\\]: NOTICE\\s+\\[(?P<already_jail>\\S+)\\] Already banned (?P<already_ip>\\d+\\.\\d+\\.\\d+\\.\\d+)"
     }
 
-    stage.replace {
-      expression = " - \\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}\\s*$"
-      replace    = ""
+    stage.template {
+      source   = "formatted"
+      template = "{{ if .ban_ip }}BAN {{ .ban_ip }} [{{ .ban_jail }}]{{ else if .unban_ip }}UNBAN {{ .unban_ip }} [{{ .unban_jail }}]{{ else if .found_ip }}FOUND {{ .found_ip }} [{{ .found_jail }}]{{ else if .already_ip }}ALREADY_BANNED {{ .already_ip }} [{{ .already_jail }}]{{ else }}{{ .content }}{{ end }}"
+    }
+
+    stage.output {
+      source = "formatted"
     }
 
     forward_to = argument.forward_to.value

@@ -40,7 +40,7 @@ declare "ufw" {
 
     stage.regex {
       source     = "content"
-      expression = "\\[UFW\\s+(?P<action>\\w+)\\]\\s+IN=(?P<iface>\\S*)\\s+OUT=\\S*\\s+(?:MAC=\\S*\\s+)?SRC=(?P<src_ip>[\\d.]+)\\s+DST=(?P<dst_ip>[\\d.]+)\\s+LEN=\\d+\\s+.*?PROTO=(?P<proto>\\w+)(?:.*?SPT=(?P<spt>\\d+))?(?:.*?DPT=(?P<dpt>\\d+))?"
+      expression = "\\[UFW\\s+(?P<action>\\w+)\\]\\s+IN=(?P<iface>\\S*)\\s+OUT=\\S*\\s+(?:MAC=\\S*\\s+)?SRC=(?P<src_ip>[\\d.]+)\\s+DST=(?P<dst_ip>[\\d.]+)\\s+LEN=\\d+\\s+.*?PROTO=(?P<proto>\\w+)(?:.*?SPT=(?P<spt>\\d+))?(?:.*?DPT=(?P<dpt>\\d+))?(?:.*?WINDOW=\\d+\\s+RES=\\S+\\s+(?P<tcp_flags>\\S+)\\s+URGP)?"
     }
 
     stage.labels {
@@ -52,7 +52,7 @@ declare "ufw" {
 
     stage.template {
       source   = "formatted"
-      template = "{{ .action }} {{ .proto }} {{ .src_ip }}{{ if .spt }}:{{ .spt }}{{ end }} → {{ .dst_ip }}{{ if .dpt }}:{{ .dpt }}{{ end }}"
+      template = "{{ .action }} {{ .proto }} {{ .src_ip }}{{ if .spt }}:{{ .spt }}{{ end }} → {{ .dst_ip }}{{ if .dpt }}:{{ .dpt }}{{ end }}{{ if .tcp_flags }} [{{ .tcp_flags }}]{{ end }}"
     }
 
     stage.output {
