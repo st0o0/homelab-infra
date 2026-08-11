@@ -48,7 +48,7 @@ declare "honeypot" {
 
     stage.template {
       source   = "domain"
-      template = "{{ regexReplaceAll \":\\d+$\" .host \"\" }}"
+      template = "{{ regexReplaceAll \":[0-9]+$\" .host \"\" }}"
     }
 
     stage.labels {
