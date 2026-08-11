@@ -59,3 +59,20 @@ prometheus.scrape "bifrost" {
   job_name        = "bifrost"
   metrics_path    = "/metrics"
 }
+
+discovery.relabel "ran" {
+  targets = [{ __address__ = "localhost:9550" }]
+
+  rule {
+    replacement  = sys.env("HOST_HOSTNAME")
+    target_label = "instance"
+  }
+}
+
+prometheus.scrape "ran" {
+  targets         = discovery.relabel.ran.output
+  forward_to      = [prometheus.remote_write.central.receiver]
+  scrape_interval = "30s"
+  job_name        = "ran"
+  metrics_path    = "/metrics"
+}
