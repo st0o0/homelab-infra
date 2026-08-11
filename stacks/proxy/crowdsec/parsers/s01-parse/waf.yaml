@@ -1,0 +1,21 @@
+name: custom/waf-parser
+description: Parse Coraza WAF JSON audit logs
+filter: "evt.Line.Labels.type == 'waf'"
+onsuccess: next_stage
+nodes:
+  - grok:
+      apply_on: Line.Raw
+      pattern: "%{GREEDYDATA:json_raw}"
+    statics:
+      - meta: log_type
+        value: waf
+      - meta: source_ip
+        expression: "JsonExtract(evt.Line.Raw, 'transaction.client_ip')"
+      - meta: http_method
+        expression: "JsonExtract(evt.Line.Raw, 'transaction.request.method')"
+      - meta: http_uri
+        expression: "JsonExtract(evt.Line.Raw, 'transaction.request.uri')"
+      - meta: http_status
+        expression: "JsonExtract(evt.Line.Raw, 'transaction.response.status')"
+      - parsed: rule_id
+        expression: "JsonExtract(evt.Line.Raw, 'transaction.messages.0.data.id')"

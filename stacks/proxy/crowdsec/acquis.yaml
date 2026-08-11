@@ -3,3 +3,9 @@ filenames:
 labels:
   type: caddy
 poll_without_inotify: true
+---
+filenames:
+  - /var/log/caddy/waf-audit.log
+labels:
+  type: waf
+poll_without_inotify: true

@@ -92,8 +92,38 @@
 			SecAuditEngine RelevantOnly
 			SecAuditLog /var/log/caddy/waf-audit.log
 			SecAuditLogFormat json
+		`
+	}
+}
 
+(waf-exclusions-authentik) {
+	coraza_waf {
+		directives `
 			SecRule REQUEST_URI "^/(if|api|ws|outpost\.goauthentik\.io|static)/" "id:10000,phase:1,nolog,pass,ctl:ruleRemoveById=920170,ctl:ruleRemoveById=920230,ctl:ruleRemoveById=920420,ctl:ruleRemoveById=941100-941999,ctl:ruleRemoveById=942100-942999,ctl:ruleRemoveById=949110"
+		`
+	}
+}
+
+(waf-exclusions-paperless) {
+	coraza_waf {
+		directives `
+			SecRule REQUEST_URI "^/api/" "id:10100,phase:1,nolog,pass,ctl:ruleRemoveById=920420,ctl:ruleRemoveById=921110-921160,ctl:ruleRemoveById=941100-941999,ctl:ruleRemoveById=942100-942999,ctl:ruleRemoveById=949110"
+		`
+	}
+}
+
+(waf-exclusions-jellyfin) {
+	coraza_waf {
+		directives `
+			SecRule REQUEST_URI "^/(web|Items|Videos|Audio|Sessions|System|socket)/" "id:10200,phase:1,nolog,pass,ctl:ruleRemoveById=920230,ctl:ruleRemoveById=920420,ctl:ruleRemoveById=941100-941999,ctl:ruleRemoveById=949110"
+		`
+	}
+}
+
+(waf-exclusions-arr) {
+	coraza_waf {
+		directives `
+			SecRule REQUEST_URI "^/api/" "id:10300,phase:1,nolog,pass,ctl:ruleRemoveById=920420,ctl:ruleRemoveById=941100-941999,ctl:ruleRemoveById=942100-942999,ctl:ruleRemoveById=949110"
 		`
 	}
 }

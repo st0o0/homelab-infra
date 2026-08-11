@@ -1,5 +1,6 @@
 {$CADDY_DOMAIN_AUTHENTIK} {
 	import defaults
+	import waf-exclusions-authentik
 	import ratelimit-media authentik
 
 	reverse_proxy {$CADDY_TARGET_AUTHENTIK}
