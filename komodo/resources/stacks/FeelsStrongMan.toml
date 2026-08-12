@@ -40,7 +40,7 @@ AUTHENTIK_PORT_HTTP=9000
 AUTHENTIK_PATH_MEDIA=/docker/authentik/media
 AUTHENTIK_PATH_TEMPLATES=/docker/authentik/custom-templates
 AUTHENTIK_PATH_CERTS=/docker/authentik/certs
-AUTHENTIK_SECRET_KEY=[[FeelsStrongMan_authentik_key]]
+AUTHENTIK_KEY=[[FeelsStrongMan_authentik_key]]
 # GEO
 AUTHENTIK_GEOIP_ACCOUNT_ID=[[maxmind_account_id]]
 AUTHENTIK_GEOIP_LICENSE_KEY=[[maxmind_license_key]]
