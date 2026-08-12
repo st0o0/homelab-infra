@@ -1,0 +1,6 @@
+type: trigger
+name: custom/appsec-fp-discovery
+description: Temporary scenario to surface every AppSec match for false positive discovery
+filter: "evt.Meta.log_type == 'appsec-info'"
+labels:
+  remediation: false
