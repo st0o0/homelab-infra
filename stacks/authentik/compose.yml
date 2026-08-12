@@ -79,7 +79,6 @@ services:
       - AUTHENTIK_PROVIDER_VAULTWARDEN_REDIRECT_URI=${AUTHENTIK_PROVIDER_VAULTWARDEN_REDIRECT_URI:-}
     volumes:
       - ${AUTHENTIK_PATH_MEDIA:-./media}:/media
-      - ./media/branding:/media/branding:ro
       - ${AUTHENTIK_PATH_TEMPLATES:-./custom-templates}:/templates
       - ./blueprints:/blueprints/custom
     ports:
@@ -166,7 +165,6 @@ services:
       - AUTHENTIK_PROVIDER_PANGOLIN_REDIRECT_URI=${AUTHENTIK_PROVIDER_PANGOLIN_REDIRECT_URI:-}
     volumes:
       - ${AUTHENTIK_PATH_MEDIA:-./media}:/media
-      - ./media/branding:/media/branding:ro
       - ${AUTHENTIK_PATH_CERTS:-./certs}:/certs
       - ${AUTHENTIK_PATH_TEMPLATES:-./custom-templates}:/templates
       - ./blueprints:/blueprints/custom
