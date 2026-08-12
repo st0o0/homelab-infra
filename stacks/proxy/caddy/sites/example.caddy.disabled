@@ -5,17 +5,46 @@
 #   CADDY_DOMAIN_<SERVICE>  → the public domain (e.g. jellyfin.example.com)
 #   CADDY_TARGET_<SERVICE>  → the backend address (e.g. 10.0.0.5:8096)
 
-# Standard HTTPS with Cloudflare DNS challenge:
+# Standard HTTPS:
 # {$CADDY_DOMAIN_MYAPP} {
 # 	import defaults
-# 	reverse_proxy {$CADDY_TARGET_MYAPP}
+# 	import ratelimit-default myapp
+# 	import access-geo-dach
+#
+# 	reverse_proxy {$CADDY_TARGET_MYAPP} {
+# 		header_up X-Real-IP {remote_host}
+# 		header_up X-Forwarded-For {remote_host}
+# 	}
+# }
+
+# With Authentik forward auth:
+# {$CADDY_DOMAIN_MYAPP} {
+# 	import defaults
+# 	import ratelimit-default myapp
+# 	import access-geo-dach
+#
+# 	route {
+# 		import authentik
+#
+# 		reverse_proxy {$CADDY_TARGET_MYAPP} {
+# 			header_up X-Real-IP {remote_host}
+# 			header_up X-Forwarded-For {remote_host}
+# 		}
+# 	}
 # }
 
 # With large upload support (photos/videos):
 # {$CADDY_DOMAIN_MYAPP} {
 # 	import defaults
+# 	import ratelimit-media myapp
+# 	import access-geo-dach
+#
 # 	request_body {
 # 		max_size 10GB
 # 	}
-# 	reverse_proxy {$CADDY_TARGET_MYAPP}
+#
+# 	reverse_proxy {$CADDY_TARGET_MYAPP} {
+# 		header_up X-Real-IP {remote_host}
+# 		header_up X-Forwarded-For {remote_host}
+# 	}
 # }

@@ -9,6 +9,7 @@
 
 	reverse_proxy {$CADDY_TARGET_IMMICH} {
 		header_up X-Real-IP {remote_host}
+		header_up X-Forwarded-For {remote_host}
 		transport http {
 			read_timeout 600s
 		}

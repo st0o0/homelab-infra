@@ -3,5 +3,8 @@
 	import ratelimit-media authentik
 	import access-geo-dach
 
-	reverse_proxy {$CADDY_TARGET_AUTHENTIK}
+	reverse_proxy {$CADDY_TARGET_AUTHENTIK} {
+		header_up X-Real-IP {remote_host}
+		header_up X-Forwarded-For {remote_host}
+	}
 }
