@@ -4,7 +4,9 @@ log_level: info
 format: |
   {{range . -}}
   {{$alert := . -}}
-  {"time":"{{$alert.StopAt}}","scenario":"{{$alert.Scenario}}","ip":"{{$alert.Source.IP}}","country":"{{$alert.Source.Cn}}","asname":"{{$alert.Source.AsName}}","events_count":"{{$alert.EventsCount}}","rule_name":"{{GetMeta $alert "rule_name"}}","target_uri":"{{GetMeta $alert "target_uri"}}","target_host":"{{GetMeta $alert "target_host"}}"}
+  {{range .Events -}}
+  {"time":"{{$alert.StopAt}}","scenario":"{{$alert.Scenario}}","ip":"{{$alert.Source.IP}}","country":"{{$alert.Source.Cn}}","asname":"{{$alert.Source.AsName}}","rule_name":"{{.GetMeta "rule_name"}}","target_uri":"{{.GetMeta "target_uri"}}","target_host":"{{.GetMeta "target_host"}}"}
+  {{end -}}
   {{end -}}
 log_path: /var/log/crowdsec/appsec.ndjson
 rotate:
