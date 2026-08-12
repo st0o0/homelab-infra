@@ -16,5 +16,5 @@ loki.process "geoip" {
     }
   }
 
-  forward_to = [loki.write.central.receiver]
+  forward_to = [loki.secretfilter.redact.receiver]
 }

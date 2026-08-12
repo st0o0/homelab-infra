@@ -3,30 +3,30 @@ import.file "modules" {
 }
 
 modules.syslog "default" {
-  forward_to = [loki.write.central.receiver]
+  forward_to = [loki.secretfilter.redact.receiver]
 }
 
 modules.ssh "default" {
   enabled    = coalesce(sys.env("SSH_LOG_ENABLED"), "false")
-  forward_to = [loki.write.central.receiver]
+  forward_to = [loki.secretfilter.redact.receiver]
 }
 
 modules.sudo "default" {
   enabled    = coalesce(sys.env("SUDO_LOG_ENABLED"), "false")
-  forward_to = [loki.write.central.receiver]
+  forward_to = [loki.secretfilter.redact.receiver]
 }
 
 modules.fail2ban "default" {
   enabled    = coalesce(sys.env("FAIL2BAN_LOG_ENABLED"), "false")
-  forward_to = [loki.write.central.receiver]
+  forward_to = [loki.secretfilter.redact.receiver]
 }
 
 modules.security "default" {
   enabled    = coalesce(sys.env("SECURITY_LOGS_ENABLED"), "false")
-  forward_to = [loki.write.central.receiver]
+  forward_to = [loki.secretfilter.redact.receiver]
 }
 
 modules.ufw "default" {
   enabled    = coalesce(sys.env("UFW_LOG_ENABLED"), "false")
-  forward_to = [loki.write.central.receiver]
+  forward_to = [loki.secretfilter.redact.receiver]
 }
