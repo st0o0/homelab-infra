@@ -1,0 +1,14 @@
+type: file
+name: file_appsec
+log_level: info
+format: |
+  {{range . -}}
+  {{$alert := . -}}
+  {"time":"{{$alert.StopAt}}","scenario":"{{$alert.Scenario}}","ip":"{{$alert.Source.IP}}","country":"{{$alert.Source.Cn}}","asname":"{{$alert.Source.AsName}}","events_count":"{{$alert.EventsCount}}","rule_name":"{{GetMeta $alert "rule_name"}}","target_uri":"{{GetMeta $alert "target_uri"}}","target_host":"{{GetMeta $alert "target_host"}}"}
+  {{end -}}
+log_path: /var/log/crowdsec/appsec.ndjson
+rotate:
+  enabled: true
+  max_size: 10
+  max_files: 5
+  max_age: 7

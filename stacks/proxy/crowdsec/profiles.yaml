@@ -1,3 +1,10 @@
+name: appsec_detection
+filters:
+  - Alert.GetScenario() contains "appsec"
+notifications:
+  - file_appsec
+on_success: break
+---
 name: medium_ban
 filters:
   - Alert.Remediation == true && Alert.GetScope() == "Ip" && Alert.GetScenario() contains "recovery" || Alert.GetScenario() contains "enrollment"

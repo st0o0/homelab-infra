@@ -1,9 +1,3 @@
-filenames:
-  - /var/log/caddy/access.log
-labels:
-  type: caddy
-poll_without_inotify: true
----
 appsec_configs:
   - custom/detection-only
 labels:

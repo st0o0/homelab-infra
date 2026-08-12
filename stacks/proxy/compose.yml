@@ -130,11 +130,10 @@ services:
       - COLLECTIONS=crowdsecurity/caddy crowdsecurity/http-cve crowdsecurity/base-http-scenarios crowdsecurity/appsec-virtual-patching crowdsecurity/appsec-generic-rules crowdsecurity/appsec-crs
       - GID=${PGID:-1000}
     volumes:
-      - ./crowdsec/acquis.yaml:/etc/crowdsec/acquis.yaml:ro
       - ./crowdsec/config.yaml.local:/etc/crowdsec/config.yaml.local:ro
       - ./crowdsec/profiles.yaml:/etc/crowdsec/profiles.yaml:ro
-      - ./crowdsec/notifications/file_alerts.yaml:/etc/crowdsec/notifications/file_alerts.yaml:ro
-      - ./crowdsec/parsers/s01-parse:/etc/crowdsec/parsers/s01-parse/custom:ro
+      - ./crowdsec/acquis.d:/etc/crowdsec/acquis.d:ro
+      - ./crowdsec/notifications:/etc/crowdsec/notifications:ro
       - ./crowdsec/scenarios:/etc/crowdsec/scenarios/custom:ro
       - ./crowdsec/appsec-configs:/etc/crowdsec/appsec-configs/custom:ro
       - /docker/proxy/crowdsec/data:/var/lib/crowdsec/data
