@@ -91,27 +91,61 @@
 # path = "."
 # command = "docker network create media-net 2>/dev/null || true"
 #
-# [[stack]]
-# name = "authentik-1"
-# tags = ["infra"]
-# [stack.config]
-# server = "FeelsStrongMan"
-# run_directory = "stacks/authentik"
-# file_paths = ["compose.yml"]
-# linked_repo = "homelab-infra"
-# extra_args = ["--remove-orphans"]
-# environment = """
-# AUTHENTIK_SECRET_KEY=[[FeelsStrongMan_authentik_secret_key]]
-# AUTHENTIK_DB_PASS=[[FeelsStrongMan_authentik_pg_pass]]
-# AUTHENTIK_DB_HOST=authentik-db
-# AUTHENTIK_DB_USER=authentik
-# AUTHENTIK_DB_NAME=authentik
-# AUTHENTIK_PORT_HTTP=9000
-# AUTHENTIK_PORT_HTTPS=9443
-# AUTHENTIK_PATH_MEDIA=/docker/authentik/media
-# AUTHENTIK_PATH_TEMPLATES=/docker/authentik/custom-templates
-# AUTHENTIK_PATH_CERTS=/docker/authentik/certs
-# """
+[[stack]]
+name = "authentik-1"
+tags = ["infra"]
+[stack.config]
+server = "FeelsStrongMan"
+run_directory = "stacks/authentik"
+file_paths = ["compose.yml"]
+linked_repo = "homelab-infra"
+extra_args = ["--remove-orphans"]
+environment = """
+TZ=[[tz]]
+PUID=[[puid]]
+PGID=[[pgid]]
+AUTHENTIK_SECRET_KEY=[[FeelsStrongMan_authentik_key]]
+AUTHENTIK_DB_HOST=[[FeelsStrongMan_authentik_db_host]]
+AUTHENTIK_DB_NAME=[[FeelsStrongMan_authentik_db_name]]
+AUTHENTIK_DB_USER=[[FeelsStrongMan_authentik_db_user]]
+AUTHENTIK_DB_PASS=[[FeelsStrongMan_authentik_db_pass]]
+AUTHENTIK_EMAIL_HOST=[[FeelsStrongMan_authentik_email_host]]
+AUTHENTIK_EMAIL_PORT=[[FeelsStrongMan_authentik_email_port]]
+AUTHENTIK_EMAIL_USER=[[FeelsStrongMan_authentik_email_user]]
+AUTHENTIK_EMAIL_PASS=[[FeelsStrongMan_authentik_email_pass]]
+AUTHENTIK_EMAIL_FROM=[[FeelsStrongMan_authentik_email_from]]
+AUTHENTIK_LOG_LEVEL=info
+AUTHENTIK_GEOIP_ACCOUNT_ID=[[maxmind_account_id]]
+AUTHENTIK_GEOIP_LICENSE_KEY=[[maxmind_license_key]]
+AUTHENTIK_COOKIE_DOMAIN=[[FeelsStrongMan_authentik_cookie_domain]]
+AUTHENTIK_TRUSTED_PROXY_CIDRS=[[FeelsStrongMan_authentik_trusted_proxy_cidrs]]
+AUTHENTIK_PORT_HTTP=9000
+AUTHENTIK_PATH_MEDIA=/docker/authentik/media
+AUTHENTIK_PATH_TEMPLATES=/docker/authentik/custom-templates
+AUTHENTIK_PATH_CERTS=/docker/authentik/certs
+"""
+
+[[stack]]
+name = "alloy-4"
+tags = ["monitoring"]
+after = ["authentik-1"]
+[stack.config]
+server = "FeelsStrongMan"
+project_name = "alloy-4"
+run_directory = "stacks/alloy"
+file_paths = [
+  "compose.yml",
+  "compose.override.authentik.yaml",
+]
+linked_repo = "homelab-infra"
+extra_args = ["--remove-orphans"]
+environment = """
+TZ=[[tz]]
+ALLOY_REMOTE_WRITE_URL=[[metrics_remote_write_url]]
+ALLOY_LOGS_PUSH_URL=[[metrics_logs_push_url]]
+ALLOY_HOSTNAME=FeelsStrongMan
+ALLOY_SCRAPE_INTERVAL=30s
+"""
 #
 # [[stack]]
 # name = "immich-1"

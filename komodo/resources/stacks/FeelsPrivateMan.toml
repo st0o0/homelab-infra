@@ -45,8 +45,8 @@ ALLOY_REMOTE_WRITE_URL=[[FeelsPrivateMan_metrics_remote_write_url]]
 ALLOY_LOGS_PUSH_URL=[[FeelsPrivateMan_metrics_logs_push_url]]
 
 # ── GeoIP (MaxMind) ─────────────────────────────────────────
-GEOIPUPDATE_ACCOUNT_ID=[[FeelsPrivateMan_geoipupdate_account_id]]
-GEOIPUPDATE_LICENSE_KEY=[[FeelsPrivateMan_geoipupdate_license_key]]
+GEOIPUPDATE_ACCOUNT_ID=[[maxmind_account_id]]
+GEOIPUPDATE_LICENSE_KEY=[[maxmind_license_key]]
 
 # ── Caddy reverse proxy ─────────────────────────────────────
 CADDY_DOMAIN_JELLYFIN=[[FeelsPrivateMan_caddy_domain_jellyfin]]
