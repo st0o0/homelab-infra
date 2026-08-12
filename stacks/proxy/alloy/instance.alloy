@@ -43,3 +43,7 @@ modules.honeypot "default" {
 modules.crowdsec "default" {
   forward_to = [loki.secretfilter.redact.receiver]
 }
+
+modules.appsec "default" {
+  forward_to = [loki.secretfilter.redact.receiver]
+}

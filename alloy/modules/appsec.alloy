@@ -1,0 +1,69 @@
+declare "appsec" {
+  argument "forward_to" {
+    optional = false
+  }
+
+  local.file_match "appsec" {
+    path_targets = [
+      {__path__ = "/var/log/host/crowdsec/appsec.ndjson", job = "appsec"},
+    ]
+  }
+
+  loki.source.file "appsec" {
+    targets    = local.file_match.appsec.targets
+    forward_to = [loki.process.appsec.receiver]
+  }
+
+  loki.process "appsec" {
+    stage.json {
+      expressions = {
+        time         = "time",
+        scenario     = "scenario",
+        ip           = "ip",
+        country      = "country",
+        asname       = "asname",
+        events_count = "events_count",
+        rule_name    = "rule_name",
+        target_uri   = "target_uri",
+        target_host  = "target_host",
+      }
+    }
+
+    stage.timestamp {
+      source = "time"
+      format = "2006-01-02T15:04:05Z"
+    }
+
+    stage.replace {
+      expression = "^https?://[^/]+"
+      replace    = ""
+      source     = "target_uri"
+    }
+
+    stage.static_labels {
+      values = {
+        level = "warn",
+      }
+    }
+
+    stage.labels {
+      values = {
+        scenario    = "",
+        rule_name   = "",
+        target_host = "",
+        country     = "",
+      }
+    }
+
+    stage.template {
+      source   = "formatted"
+      template = "AppSec {{ .scenario }} {{ .ip }} ({{ .country }}/{{ .asname }}) {{ .rule_name }} {{ .target_uri }} ({{ .events_count }} events)"
+    }
+
+    stage.output {
+      source = "formatted"
+    }
+
+    forward_to = argument.forward_to.value
+  }
+}
