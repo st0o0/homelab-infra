@@ -41,13 +41,12 @@ AUTHENTIK_PATH_MEDIA=/docker/authentik/media
 AUTHENTIK_PATH_TEMPLATES=/docker/authentik/custom-templates
 AUTHENTIK_PATH_CERTS=/docker/authentik/certs
 AUTHENTIK_KEY=[[FeelsStrongMan_authentik_key]]
-# GEO
-AUTHENTIK_GEOIP_ACCOUNT_ID=[[maxmind_account_id]]
-AUTHENTIK_GEOIP_LICENSE_KEY=[[maxmind_license_key]]
-
 AUTHENTIK_BRAND_DOMAIN=[[FeelsStrongMan_authentik_brand_domain]]
 AUTHENTIK_COOKIE_DOMAIN=[[FeelsStrongMan_authentik_cookie_domain]]
 AUTHENTIK_TRUSTED_PROXY_CIDRS=[[FeelsStrongMan_authentik_trusted_proxy_cidrs]]
+# GEO
+AUTHENTIK_GEOIP_ACCOUNT_ID=[[maxmind_account_id]]
+AUTHENTIK_GEOIP_LICENSE_KEY=[[maxmind_license_key]]
 # DB
 AUTHENTIK_DB_HOST=[[FeelsStrongMan_authentik_db_host]]
 AUTHENTIK_DB_NAME=[[FeelsStrongMan_authentik_db_name]]
