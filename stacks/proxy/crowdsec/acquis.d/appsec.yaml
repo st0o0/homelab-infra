@@ -1,5 +1,6 @@
 appsec_configs:
   - custom/detection-only
+  - crowdsecurity/crs
 labels:
   type: appsec
 listen_addr: 127.0.0.1:7422
