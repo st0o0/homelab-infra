@@ -45,6 +45,7 @@ AUTHENTIK_KEY=[[FeelsStrongMan_authentik_key]]
 AUTHENTIK_GEOIP_ACCOUNT_ID=[[maxmind_account_id]]
 AUTHENTIK_GEOIP_LICENSE_KEY=[[maxmind_license_key]]
 
+AUTHENTIK_BRAND_DOMAIN=[[FeelsStrongMan_authentik_brand_domain]]
 AUTHENTIK_COOKIE_DOMAIN=[[FeelsStrongMan_authentik_cookie_domain]]
 AUTHENTIK_TRUSTED_PROXY_CIDRS=[[FeelsStrongMan_authentik_trusted_proxy_cidrs]]
 # DB
