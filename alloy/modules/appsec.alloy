@@ -22,6 +22,7 @@ declare "appsec" {
         ip           = "ip",
         country      = "country",
         asname       = "asname",
+        log_type     = "log_type",
         rule_name    = "rule_name",
         target_uri   = "target_uri",
         target_host  = "target_host",
@@ -48,6 +49,7 @@ declare "appsec" {
     stage.labels {
       values = {
         scenario    = "",
+        log_type    = "",
         rule_name   = "",
         target_host = "",
         country     = "",
@@ -56,7 +58,7 @@ declare "appsec" {
 
     stage.template {
       source   = "formatted"
-      template = "AppSec {{ .ip }} ({{ .country }}/{{ .asname }}) {{ .rule_name }} {{ .target_uri }}"
+      template = "AppSec [{{ .log_type }}] {{ .ip }} ({{ .country }}/{{ .asname }}) {{ .rule_name }} {{ .target_host }}{{ .target_uri }}"
     }
 
     stage.output {
