@@ -21,42 +21,113 @@ entries:
       branding_custom_css: |
         :root {
           --ak-accent: #8B6914;
+          --gold: 139, 105, 20;
+          --gold-light: 212, 176, 104;
+          --glass-bg: rgba(255, 255, 255, 0.03);
+          --glass-border: rgba(255, 255, 255, 0.1);
+          --glass-blur: blur(40px);
+          --glass-radius: 24px;
+          --input-radius: 14px;
+          color-scheme: dark;
         }
 
         /* Background */
-        .pf-c-login {
+        .pf-c-login,
+        .pf-c-background-image {
           background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%) !important;
+        }
+
+        /* Login container */
+        .pf-c-login .pf-c-login__container,
+        ak-flow-executor.pf-c-login {
+          background: var(--glass-bg) !important;
+          backdrop-filter: var(--glass-blur) !important;
+          -webkit-backdrop-filter: var(--glass-blur) !important;
+          border: 1px solid var(--glass-border) !important;
+          border-radius: var(--glass-radius) !important;
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15),
+                      inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+          padding: 40px !important;
         }
 
         /* Login card */
         .pf-c-login__main {
-          background: rgba(20, 20, 35, 0.85) !important;
+          background: transparent !important;
           backdrop-filter: blur(20px) !important;
           -webkit-backdrop-filter: blur(20px) !important;
-          border-radius: 16px !important;
-          border: 1px solid rgba(139, 105, 20, 0.2) !important;
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+          border: 1px solid rgba(255, 255, 255, 0.08) !important;
+          border-radius: var(--glass-radius) !important;
+          padding: 45px !important;
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1),
+                      inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
         }
 
         /* Primary buttons */
         .pf-c-button.pf-m-primary {
-          background-color: #8B6914 !important;
-          border: none !important;
-          border-radius: 8px !important;
-          transition: all 0.3s ease !important;
+          background: rgba(var(--gold), 0.35) !important;
+          backdrop-filter: blur(10px) !important;
+          -webkit-backdrop-filter: blur(10px) !important;
+          border: 1px solid rgba(var(--gold), 0.5) !important;
+          color: #f0e6d3 !important;
+          border-radius: var(--input-radius) !important;
+          padding: 14px 24px !important;
           font-weight: 600 !important;
           letter-spacing: 0.5px !important;
+          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15),
+                      0 2px 8px rgba(var(--gold), 0.15) !important;
+          transition: all 0.3s ease !important;
+          position: relative !important;
+          overflow: hidden !important;
         }
         .pf-c-button.pf-m-primary:hover {
-          background-color: #A67B1A !important;
-          box-shadow: 0 4px 16px rgba(139, 105, 20, 0.4) !important;
-          transform: translateY(-1px) !important;
+          background: rgba(var(--gold), 0.5) !important;
+          border-color: rgba(var(--gold), 0.7) !important;
+          transform: translateY(-2px) !important;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2),
+                      0 4px 12px rgba(var(--gold), 0.25) !important;
+        }
+
+        /* Shine animation on button hover */
+        .pf-c-button.pf-m-primary::before {
+          content: '' !important;
+          position: absolute !important;
+          top: 0 !important;
+          left: -100% !important;
+          width: 100% !important;
+          height: 100% !important;
+          background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.2) 50%, transparent 100%) !important;
+          transition: left 0.6s ease !important;
+          z-index: 1 !important;
+          border-radius: var(--input-radius) !important;
+        }
+        .pf-c-button.pf-m-primary:hover::before {
+          left: 100% !important;
+        }
+
+        /* Form inputs */
+        .pf-c-form-control {
+          background-color: rgba(255, 255, 255, 0.06) !important;
+          border: 1.5px solid rgba(255, 255, 255, 0.2) !important;
+          border-radius: var(--input-radius) !important;
+          padding: 10px 15px !important;
+          color: white !important;
+          min-height: 40px !important;
+          backdrop-filter: blur(20px) saturate(130%) !important;
+          -webkit-backdrop-filter: blur(20px) saturate(130%) !important;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2),
+                      inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+          transition: all 0.3s ease !important;
+        }
+        .pf-c-form-control:focus {
+          border-color: rgba(var(--gold), 0.6) !important;
+          box-shadow: 0 0 0 2px rgba(var(--gold), 0.2),
+                      0 4px 15px rgba(0, 0, 0, 0.2) !important;
         }
 
         /* Links */
         .pf-c-login__main a,
         .pf-c-login__main .pf-c-button.pf-m-link {
-          color: #D4B068 !important;
+          color: rgba(var(--gold-light), 0.9) !important;
           transition: color 0.2s ease !important;
         }
         .pf-c-login__main a:hover,
@@ -64,36 +135,68 @@ entries:
           color: #E8C878 !important;
         }
 
-        /* Form inputs */
-        .pf-c-form-control {
-          background-color: rgba(30, 30, 50, 0.8) !important;
-          border: 1px solid rgba(139, 105, 20, 0.3) !important;
-          border-radius: 8px !important;
-          color: #f0e6d3 !important;
-          transition: border-color 0.2s ease !important;
-        }
-        .pf-c-form-control:focus {
-          border-color: #8B6914 !important;
-          box-shadow: 0 0 0 2px rgba(139, 105, 20, 0.25) !important;
-        }
-
         /* Title text */
+        :host(ak-flow-executor) .pf-c-title,
+        :host(ak-flow-executor) h1,
+        :host(ak-flow-executor) h2,
+        :host(ak-stage-identification) .pf-c-title,
+        :host(ak-stage-password) .pf-c-title,
         .pf-c-login__main-header-desc,
         .pf-c-title {
-          color: #f0e6d3 !important;
+          color: white !important;
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5) !important;
         }
 
         /* Labels */
         .pf-c-form__label-text {
-          color: #c0b090 !important;
+          color: rgba(255, 255, 255, 0.8) !important;
+        }
+
+        /* SSO / social buttons */
+        .pf-c-login__main-footer-links-item button,
+        :host(ak-stage-identification) .source-button {
+          background: rgba(255, 255, 255, 0.08) !important;
+          backdrop-filter: blur(10px) !important;
+          border: 1px solid rgba(255, 255, 255, 0.15) !important;
+          border-radius: var(--input-radius) !important;
+          color: white !important;
+          padding: 10px 16px !important;
+          transition: all 0.3s ease !important;
+          position: relative !important;
+          overflow: hidden !important;
+        }
+        .pf-c-login__main-footer-links-item button:hover,
+        :host(ak-stage-identification) .source-button:hover {
+          background: rgba(255, 255, 255, 0.2) !important;
+          transform: translateY(-2px) scale(1.02) !important;
+          box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2) !important;
+          border-color: rgba(255, 255, 255, 0.4) !important;
+        }
+
+        /* SSO separator line */
+        .pf-c-login__main-footer-links::before {
+          content: '' !important;
+          display: block !important;
+          width: 100% !important;
+          height: 1px !important;
+          background: linear-gradient(to right, transparent 0%, rgba(255, 255, 255, 0.2) 20%, rgba(255, 255, 255, 0.2) 80%, transparent 100%) !important;
+          margin: 20px 0 !important;
+        }
+
+        /* Hide powered by */
+        ak-brand-links {
+          display: none !important;
         }
 
         /* Footer */
-        .pf-c-login__footer {
-          color: #8a7a60 !important;
+        .pf-c-login__main-footer-band {
+          background: transparent !important;
+          border: none !important;
+          box-shadow: none !important;
         }
-        .pf-c-login__footer a {
-          color: #D4B068 !important;
+        .pf-c-login__main-footer-band a {
+          color: rgba(255, 255, 255, 0.4) !important;
+          text-decoration: none !important;
         }
 
         /* Logo sizing */
@@ -101,9 +204,46 @@ entries:
           max-height: 80px !important;
         }
 
-        /* Smooth transitions everywhere */
-        * {
-          transition-timing-function: ease !important;
+        /* Library app cards */
+        .pf-c-card {
+          background: rgba(255, 255, 255, 0.03) !important;
+          backdrop-filter: blur(20px) !important;
+          -webkit-backdrop-filter: blur(20px) !important;
+          border: 1px solid rgba(255, 255, 255, 0.08) !important;
+          border-radius: 16px !important;
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1) !important;
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+        .pf-c-card:hover {
+          border-color: rgba(var(--gold), 0.3) !important;
+          box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15),
+                      0 0 20px rgba(var(--gold), 0.08) !important;
+          transform: translateY(-4px) !important;
+        }
+
+        /* Shine on hover for buttons */
+        @keyframes socialShine {
+          100% { left: 130%; }
+        }
+        :host(ak-stage-identification) .source-button:hover::before {
+          content: "" !important;
+          position: absolute !important;
+          top: 0 !important;
+          left: -70% !important;
+          width: 55% !important;
+          height: 100% !important;
+          background: linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.5) 60%, transparent 100%) !important;
+          transform: skewX(-25deg) !important;
+          animation: socialShine 0.65s linear 1 !important;
+          pointer-events: none !important;
+        }
+
+        /* Page background for library */
+        .pf-c-page__main-section {
+          background: transparent !important;
+        }
+        .pf-c-page {
+          background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%) !important;
         }
       attributes:
         footer_links: []
