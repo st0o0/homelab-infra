@@ -16,6 +16,7 @@ services:
       - --storage.path=/var/lib/alloy/data
       - --server.http.listen-addr=0.0.0.0:12345
       - --disable-reporting
+      - --stability.level=experimental
     environment:
       - HOST_HOSTNAME=${ALLOY_HOSTNAME:-}
       - SCRAPE_INTERVAL=${ALLOY_SCRAPE_INTERVAL:-30s}

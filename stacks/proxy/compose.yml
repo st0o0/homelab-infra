@@ -237,6 +237,7 @@ services:
       - --storage.path=/var/lib/alloy/data
       - --server.http.listen-addr=0.0.0.0:12345
       - --disable-reporting
+      - --stability.level=experimental
     environment:
       - HOST_HOSTNAME=${ALLOY_HOSTNAME:-}
       - REMOTE_WRITE_URL=${ALLOY_REMOTE_WRITE_URL:?ALLOY_REMOTE_WRITE_URL is required}
