@@ -19,7 +19,7 @@ ufw_extra_rules:
   - { rule: allow, port: 443, proto: tcp, comment: "Proxy HTTPS" }
   - { rule: allow, port: 443, proto: udp, comment: "Proxy QUIC" }
   - { rule: allow, port: 8888, proto: tcp, comment: "Proxy health" }
-  #- { rule: allow, port: 51820, proto: udp, comment: "Pangolin WireGuard" }
+  - { rule: allow, port: 51820, proto: udp, comment: "Pangolin WireGuard" }
   # ran honeypot traps
   - { rule: allow, port: 23,   proto: tcp, comment: "ran Telnet" }
   - { rule: allow, port: 445,  proto: tcp, comment: "ran SMB" }
