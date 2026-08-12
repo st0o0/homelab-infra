@@ -33,7 +33,7 @@ entries:
       name: recovery-email
     attrs:
       use_global_settings: true
-      token_expiry: 30
+      token_expiry: "minutes=30"
       subject: "Password Reset"
       activate_user_on_success: true
 
