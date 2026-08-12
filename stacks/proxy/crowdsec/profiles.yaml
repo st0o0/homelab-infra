@@ -1,3 +1,23 @@
+name: medium_ban
+filters:
+  - Alert.Remediation == true && Alert.GetScope() == "Ip" && Alert.GetScenario() contains "recovery" || Alert.GetScenario() contains "enrollment"
+decisions:
+  - type: ban
+    duration: 12h
+notifications:
+  - file_alerts
+on_success: break
+---
+name: long_ban
+filters:
+  - Alert.Remediation == true && Alert.GetScope() == "Ip" && Alert.GetScenario() contains "geo-violation"
+decisions:
+  - type: ban
+    duration: 24h
+notifications:
+  - file_alerts
+on_success: break
+---
 name: default_ip_remediation
 filters:
   - Alert.Remediation == true && Alert.GetScope() == "Ip"

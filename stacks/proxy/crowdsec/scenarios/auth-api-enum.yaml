@@ -1,0 +1,11 @@
+type: leaky
+name: custom/auth-api-enum
+description: Ban IPs that enumerate Authentik API endpoints
+filter: "evt.Meta.log_type == 'http_access-log' && evt.Meta.http_path startsWith '/api/' && evt.Meta.http_status in ['400', '401', '403', '404']"
+groupby: evt.Meta.source_ip
+capacity: 8
+leakspeed: 15s
+blackhole: 2m
+labels:
+  type: http
+  remediation: true

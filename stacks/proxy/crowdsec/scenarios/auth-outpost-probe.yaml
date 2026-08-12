@@ -1,0 +1,11 @@
+type: leaky
+name: custom/auth-outpost-probe
+description: Ban IPs that probe Authentik outpost endpoints
+filter: "evt.Meta.log_type == 'http_access-log' && evt.Meta.http_path startsWith '/outpost.goauthentik.io/' && evt.Meta.http_status in ['400', '401', '403', '404']"
+groupby: evt.Meta.source_ip
+capacity: 5
+leakspeed: 20s
+blackhole: 2m
+labels:
+  type: http
+  remediation: true

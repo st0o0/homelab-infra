@@ -1,0 +1,12 @@
+type: leaky
+name: custom/auth-recovery-abuse
+description: Ban IPs that flood password recovery flows
+filter: "evt.Meta.log_type == 'http_access-log' && evt.Meta.http_verb == 'POST' && evt.Meta.http_path startsWith '/api/v3/flows/executor/' && evt.Meta.http_path contains 'recovery'"
+groupby: evt.Meta.source_ip
+capacity: 3
+leakspeed: 60s
+blackhole: 5m
+labels:
+  type: http
+  ban_duration: "12h"
+  remediation: true
