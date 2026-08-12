@@ -7,4 +7,4 @@ pre_eval:
       req.URL.Path startsWith "/Sessions/"
     apply:
       - RemoveInBandRuleByID(932370)
-      - RemoveOutOfBandRuleByID(932370)
+      - RemoveOutBandRuleByID(932370)
