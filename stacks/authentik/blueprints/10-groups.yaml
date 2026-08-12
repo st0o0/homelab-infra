@@ -1,0 +1,20 @@
+version: 1
+metadata:
+  name: Groups
+  labels:
+    blueprints.goauthentik.io/instantiate: "true"
+
+entries:
+  - model: authentik_core.group
+    id: group-homelab
+    identifiers:
+      name: homelab
+    attrs:
+      is_superuser: false
+
+  - model: authentik_core.group
+    id: group-media
+    identifiers:
+      name: media
+    attrs:
+      is_superuser: false

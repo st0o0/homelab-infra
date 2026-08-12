@@ -1,0 +1,37 @@
+version: 1
+metadata:
+  name: Jellyseerr
+  labels:
+    blueprints.goauthentik.io/instantiate: "true"
+
+entries:
+  - model: authentik_core.application
+    id: app
+    identifiers:
+      slug: jellyseerr
+    attrs:
+      name: Jellyseerr
+      group: Netflix
+      meta_launch_url: !Env AUTHENTIK_APP_JELLYSEER_LAUNCH_URL
+      open_in_new_tab: false
+      policy_engine_mode: any
+
+  - model: authentik_policies.policybinding
+    identifiers:
+      target: !KeyOf app
+      order: 0
+    attrs:
+      group: !Find [authentik_core.group, [name, media]]
+      negate: false
+      enabled: true
+      timeout: 30
+
+  - model: authentik_policies.policybinding
+    identifiers:
+      target: !KeyOf app
+      order: 1
+    attrs:
+      group: !Find [authentik_core.group, [name, homelab]]
+      negate: false
+      enabled: true
+      timeout: 30

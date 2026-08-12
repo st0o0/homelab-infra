@@ -1,0 +1,37 @@
+version: 1
+metadata:
+  name: Reputation Policy
+  labels:
+    blueprints.goauthentik.io/instantiate: "true"
+
+entries:
+  # Reputation policy for brute-force protection
+  - model: authentik_policies_reputation.reputationpolicy
+    id: reputation-check
+    identifiers:
+      name: check-reputation
+    attrs:
+      threshold: -5
+      check_ip: true
+      check_username: true
+
+  # Bind reputation check to the authentication flow (first stage)
+  - model: authentik_flows.flowstagebinding
+    id: auth-flow-binding
+    identifiers:
+      target: !Find [authentik_flows.flow, [slug, default-authentication-flow]]
+      order: 0
+    attrs:
+      stage: !Find [authentik_stages_identification.identificationstage, [name, default-authentication-identification]]
+      evaluate_on_plan: true
+      re_evaluate_policies: true
+
+  - model: authentik_policies.policybinding
+    identifiers:
+      target: !KeyOf auth-flow-binding
+      order: 0
+    attrs:
+      policy: !KeyOf reputation-check
+      negate: false
+      enabled: true
+      timeout: 30

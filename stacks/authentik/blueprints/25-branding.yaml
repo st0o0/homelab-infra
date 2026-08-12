@@ -1,0 +1,109 @@
+version: 1
+metadata:
+  name: Sloth Homelab Branding
+  labels:
+    blueprints.goauthentik.io/instantiate: "true"
+
+entries:
+  - model: authentik_brands.brand
+    identifiers:
+      domain: authentik-default
+    attrs:
+      default: true
+      branding_title: Sloth Homelab
+      branding_logo: /media/branding/logo-dark-transparent.png
+      branding_favicon: /media/branding/favicon.ico
+      flow_authentication: !Find [authentik_flows.flow, [slug, default-authentication-flow]]
+      flow_invalidation: !Find [authentik_flows.flow, [slug, default-invalidation-flow]]
+      flow_enrollment: !Find [authentik_flows.flow, [slug, invite-homelab]]
+      flow_recovery: !Find [authentik_flows.flow, [slug, password-recovery]]
+      flow_user_settings: !Find [authentik_flows.flow, [slug, default-user-settings-flow]]
+      branding_custom_css: |
+        :root {
+          --ak-accent: #8B6914;
+        }
+
+        /* Background */
+        .pf-c-login {
+          background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%) !important;
+        }
+
+        /* Login card */
+        .pf-c-login__main {
+          background: rgba(20, 20, 35, 0.85) !important;
+          backdrop-filter: blur(20px) !important;
+          -webkit-backdrop-filter: blur(20px) !important;
+          border-radius: 16px !important;
+          border: 1px solid rgba(139, 105, 20, 0.2) !important;
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+        }
+
+        /* Primary buttons */
+        .pf-c-button.pf-m-primary {
+          background-color: #8B6914 !important;
+          border: none !important;
+          border-radius: 8px !important;
+          transition: all 0.3s ease !important;
+          font-weight: 600 !important;
+          letter-spacing: 0.5px !important;
+        }
+        .pf-c-button.pf-m-primary:hover {
+          background-color: #A67B1A !important;
+          box-shadow: 0 4px 16px rgba(139, 105, 20, 0.4) !important;
+          transform: translateY(-1px) !important;
+        }
+
+        /* Links */
+        .pf-c-login__main a,
+        .pf-c-login__main .pf-c-button.pf-m-link {
+          color: #D4B068 !important;
+          transition: color 0.2s ease !important;
+        }
+        .pf-c-login__main a:hover,
+        .pf-c-login__main .pf-c-button.pf-m-link:hover {
+          color: #E8C878 !important;
+        }
+
+        /* Form inputs */
+        .pf-c-form-control {
+          background-color: rgba(30, 30, 50, 0.8) !important;
+          border: 1px solid rgba(139, 105, 20, 0.3) !important;
+          border-radius: 8px !important;
+          color: #f0e6d3 !important;
+          transition: border-color 0.2s ease !important;
+        }
+        .pf-c-form-control:focus {
+          border-color: #8B6914 !important;
+          box-shadow: 0 0 0 2px rgba(139, 105, 20, 0.25) !important;
+        }
+
+        /* Title text */
+        .pf-c-login__main-header-desc,
+        .pf-c-title {
+          color: #f0e6d3 !important;
+        }
+
+        /* Labels */
+        .pf-c-form__label-text {
+          color: #c0b090 !important;
+        }
+
+        /* Footer */
+        .pf-c-login__footer {
+          color: #8a7a60 !important;
+        }
+        .pf-c-login__footer a {
+          color: #D4B068 !important;
+        }
+
+        /* Logo sizing */
+        .pf-c-brand {
+          max-height: 80px !important;
+        }
+
+        /* Smooth transitions everywhere */
+        * {
+          transition-timing-function: ease !important;
+        }
+      attributes:
+        footer_links: []

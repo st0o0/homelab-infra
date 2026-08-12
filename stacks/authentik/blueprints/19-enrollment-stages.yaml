@@ -1,0 +1,90 @@
+version: 1
+metadata:
+  name: Enrollment Stages
+  labels:
+    blueprints.goauthentik.io/instantiate: "true"
+
+entries:
+  # Prompt fields
+  - model: authentik_stages_prompt.prompt
+    identifiers:
+      field_key: username
+    attrs:
+      name: Username
+      label: Username
+      type: username
+      required: true
+      placeholder: Username
+      order: 0
+
+  - model: authentik_stages_prompt.prompt
+    identifiers:
+      field_key: name
+    attrs:
+      name: Name
+      label: Name
+      type: text
+      required: true
+      placeholder: Full name
+      order: 1
+
+  - model: authentik_stages_prompt.prompt
+    identifiers:
+      field_key: email
+    attrs:
+      name: Email
+      label: Email
+      type: email
+      required: true
+      placeholder: Email address
+      order: 2
+
+  - model: authentik_stages_prompt.prompt
+    identifiers:
+      field_key: password
+    attrs:
+      name: Password
+      label: Password
+      type: password
+      required: true
+      placeholder: Password
+      order: 3
+
+  - model: authentik_stages_prompt.prompt
+    identifiers:
+      field_key: password_repeat
+    attrs:
+      name: Password (repeat)
+      label: Password (repeat)
+      type: password
+      required: true
+      placeholder: Repeat password
+      order: 4
+
+  # Invitation stage
+  - model: authentik_stages_invitation.invitationstage
+    identifiers:
+      name: enrollment-invitation
+    attrs:
+      continue_flow_without_invitation: false
+
+  # Prompt stage
+  - model: authentik_stages_prompt.promptstage
+    identifiers:
+      name: enrollment-prompt
+    attrs:
+      fields:
+        - !Find [authentik_stages_prompt.prompt, [field_key, username]]
+        - !Find [authentik_stages_prompt.prompt, [field_key, name]]
+        - !Find [authentik_stages_prompt.prompt, [field_key, email]]
+        - !Find [authentik_stages_prompt.prompt, [field_key, password]]
+        - !Find [authentik_stages_prompt.prompt, [field_key, password_repeat]]
+      validation_policies:
+        - !Find [authentik_policies_password.passwordpolicy, [name, password-complexity]]
+
+  # Login stage
+  - model: authentik_stages_user_login.userloginstage
+    identifiers:
+      name: enrollment-login
+    attrs:
+      session_duration: seconds=0

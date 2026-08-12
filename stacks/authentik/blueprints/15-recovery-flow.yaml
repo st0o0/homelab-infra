@@ -1,0 +1,124 @@
+version: 1
+metadata:
+  name: Password Recovery Flow
+  labels:
+    blueprints.goauthentik.io/instantiate: "true"
+
+entries:
+  # Recovery flow
+  - model: authentik_flows.flow
+    id: flow
+    identifiers:
+      slug: password-recovery
+    attrs:
+      name: Password Recovery
+      title: Reset your password
+      designation: recovery
+      authentication: require_unauthenticated
+
+  # Identification stage (email input)
+  - model: authentik_stages_identification.identificationstage
+    id: identification
+    identifiers:
+      name: recovery-identification
+    attrs:
+      user_fields:
+        - email
+      case_insensitive_matching: true
+
+  # Email stage (sends recovery link)
+  - model: authentik_stages_email.emailstage
+    id: email
+    identifiers:
+      name: recovery-email
+    attrs:
+      use_global_settings: true
+      token_expiry: 30
+      subject: "Password Reset"
+      activate_user_on_success: true
+
+  # Prompt stage (new password)
+  - model: authentik_stages_prompt.prompt
+    identifiers:
+      field_key: password_recovery
+    attrs:
+      name: Password (recovery)
+      label: New Password
+      type: password
+      required: true
+      placeholder: New password
+      order: 0
+
+  - model: authentik_stages_prompt.prompt
+    identifiers:
+      field_key: password_recovery_repeat
+    attrs:
+      name: Password repeat (recovery)
+      label: Repeat New Password
+      type: password
+      required: true
+      placeholder: Repeat new password
+      order: 1
+
+  - model: authentik_stages_prompt.promptstage
+    id: password-prompt
+    identifiers:
+      name: recovery-password-prompt
+    attrs:
+      fields:
+        - !Find [authentik_stages_prompt.prompt, [field_key, password_recovery]]
+        - !Find [authentik_stages_prompt.prompt, [field_key, password_recovery_repeat]]
+      validation_policies:
+        - !Find [authentik_policies_password.passwordpolicy, [name, password-complexity]]
+
+  # User write stage (saves new password)
+  - model: authentik_stages_user_write.userwritestage
+    id: user-write
+    identifiers:
+      name: recovery-user-write
+    attrs:
+      user_creation_mode: never_create
+
+  # Login stage (auto-login after reset)
+  - model: authentik_stages_user_login.userloginstage
+    id: user-login
+    identifiers:
+      name: recovery-login
+    attrs:
+      session_duration: seconds=0
+
+  # Stage bindings
+  - model: authentik_flows.flowstagebinding
+    identifiers:
+      target: !KeyOf flow
+      order: 10
+    attrs:
+      stage: !KeyOf identification
+
+  - model: authentik_flows.flowstagebinding
+    identifiers:
+      target: !KeyOf flow
+      order: 20
+    attrs:
+      stage: !KeyOf email
+
+  - model: authentik_flows.flowstagebinding
+    identifiers:
+      target: !KeyOf flow
+      order: 30
+    attrs:
+      stage: !KeyOf password-prompt
+
+  - model: authentik_flows.flowstagebinding
+    identifiers:
+      target: !KeyOf flow
+      order: 40
+    attrs:
+      stage: !KeyOf user-write
+
+  - model: authentik_flows.flowstagebinding
+    identifiers:
+      target: !KeyOf flow
+      order: 50
+    attrs:
+      stage: !KeyOf user-login
