@@ -1,6 +1,7 @@
 {
 	order crowdsec first
-	order rate_limit after crowdsec
+	order appsec after crowdsec
+	order rate_limit after appsec
 
 	crowdsec {
 		api_url http://localhost:8080
