@@ -10,6 +10,12 @@ discovery.relabel "containers" {
     regex         = "/(.*)"
     target_label  = "container"
   }
+
+  rule {
+    replacement  = ""
+    target_label = "host"
+    action       = "replace"
+  }
 }
 
 loki.source.docker "containers" {

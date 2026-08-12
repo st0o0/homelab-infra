@@ -11,8 +11,8 @@ entries:
     attrs:
       default: true
       branding_title: Sloth Homelab
-      branding_logo: /media/branding/logo-dark-transparent.png
-      branding_favicon: /media/branding/favicon.ico
+      branding_logo: branding/logo-dark-transparent.png
+      branding_favicon: branding/favicon.ico
       flow_authentication: !Find [authentik_flows.flow, [slug, default-authentication-flow]]
       flow_invalidation: !Find [authentik_flows.flow, [slug, default-invalidation-flow]]
       flow_enrollment: !Find [authentik_flows.flow, [slug, invite-homelab]]
