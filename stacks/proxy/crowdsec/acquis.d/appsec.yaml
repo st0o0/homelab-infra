@@ -1,7 +1,7 @@
 appsec_configs:
   - custom/detection-only
   - crowdsecurity/crs
-  #- custom/whitelist-jellyfin
+  - custom/whitelist-jellyfin
 labels:
   type: appsec
 listen_addr: 127.0.0.1:7422
