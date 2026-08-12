@@ -1,6 +1,5 @@
 {$CADDY_DOMAIN_JELLYFIN} {
 	import defaults
-	import waf-exclusions-jellyfin
 	import ratelimit-media jellyfin
 	import access-geo-dach
 

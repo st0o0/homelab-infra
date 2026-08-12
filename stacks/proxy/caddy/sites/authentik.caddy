@@ -1,6 +1,5 @@
 {$CADDY_DOMAIN_AUTHENTIK} {
 	import defaults
-	import waf-exclusions-authentik
 	import ratelimit-media authentik
 	import access-geo-dach
 

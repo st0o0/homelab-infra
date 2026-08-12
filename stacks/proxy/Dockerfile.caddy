@@ -2,10 +2,10 @@ FROM caddy:builder AS builder
 
 RUN xcaddy build \
     --with github.com/hslatman/caddy-crowdsec-bouncer/http@latest \
+    --with github.com/hslatman/caddy-crowdsec-bouncer/appsec@latest \
     --with github.com/porech/caddy-maxmind-geolocation@latest \
     --with github.com/mholt/caddy-ratelimit@latest \
-    --with github.com/mholt/caddy-l4@latest \
-    --with github.com/corazawaf/coraza-caddy/v2@latest
+    --with github.com/mholt/caddy-l4@latest
 
 FROM caddy:latest
 COPY --from=builder /usr/bin/caddy /usr/bin/caddy

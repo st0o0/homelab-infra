@@ -3,7 +3,7 @@ import.file "modules" {
 }
 
 modules.syslog "default" {
-  forward_to = [loki.write.central.receiver]
+  forward_to = [loki.secretfilter.redact.receiver]
 }
 
 modules.ssh "default" {
@@ -13,7 +13,7 @@ modules.ssh "default" {
 
 modules.sudo "default" {
   enabled    = "true"
-  forward_to = [loki.write.central.receiver]
+  forward_to = [loki.secretfilter.redact.receiver]
 }
 
 modules.fail2ban "default" {
@@ -28,21 +28,18 @@ modules.ufw "default" {
 
 modules.security "default" {
   enabled    = "true"
-  forward_to = [loki.write.central.receiver]
+  forward_to = [loki.secretfilter.redact.receiver]
 }
 
 modules.caddy "default" {
-  forward_to = [loki.write.central.receiver]
+  forward_to = [loki.secretfilter.redact.receiver]
 }
 
 modules.honeypot "default" {
-  forward_to = [loki.write.central.receiver]
+  forward_to = [loki.secretfilter.redact.receiver]
 }
 
-modules.waf "default" {
-  forward_to = [loki.write.central.receiver]
-}
 
 modules.crowdsec "default" {
-  forward_to = [loki.write.central.receiver]
+  forward_to = [loki.secretfilter.redact.receiver]
 }

@@ -1,11 +1,11 @@
 {
-	order coraza_waf first
-	order crowdsec after coraza_waf
+	order crowdsec first
 	order rate_limit after crowdsec
 
 	crowdsec {
 		api_url http://localhost:8080
 		api_key {$CROWDSEC_BOUNCER_API_KEY}
+		appsec_url http://localhost:7422
 	}
 
 	metrics {
@@ -81,56 +81,13 @@
 	}
 }
 
-(waf) {
-	coraza_waf {
-		load_owasp_crs
-		directives `
-			Include @coraza.conf-recommended
-			Include @crs-setup.conf.example
-			Include @owasp_crs/*.conf
-			SecRuleEngine On
-			SecAuditEngine RelevantOnly
-			SecAuditLog /var/log/caddy/waf.log
-			SecAuditLogFormat json
-		`
-	}
-}
-
-(waf-exclusions-authentik) {
-	coraza_waf {
-		directives `
-			SecRule REQUEST_URI "^/(if|api|ws|outpost\.goauthentik\.io|static)/" "id:10000,phase:1,nolog,pass,ctl:ruleRemoveById=920170,ctl:ruleRemoveById=920230,ctl:ruleRemoveById=920420,ctl:ruleRemoveById=941100-941999,ctl:ruleRemoveById=942100-942999,ctl:ruleRemoveById=949110"
-		`
-	}
-}
-
-(waf-exclusions-paperless) {
-	coraza_waf {
-		directives `
-			SecRule REQUEST_URI "^/api/" "id:10100,phase:1,nolog,pass,ctl:ruleRemoveById=920420,ctl:ruleRemoveById=921110-921160,ctl:ruleRemoveById=941100-941999,ctl:ruleRemoveById=942100-942999,ctl:ruleRemoveById=949110"
-		`
-	}
-}
-
-(waf-exclusions-jellyfin) {
-	coraza_waf {
-		directives `
-			SecRule REQUEST_URI "^/(web|Items|Videos|Audio|Sessions|System|socket|Users|Library|Subtitles|Branding|Playback|Artists|Shows|Movies|MusicAlbums|Dlna)/" "id:10200,phase:1,nolog,pass,ctl:ruleRemoveById=920170,ctl:ruleRemoveById=920230,ctl:ruleRemoveById=920420,ctl:ruleRemoveById=921110-921160,ctl:ruleRemoveById=930100-930110,ctl:ruleRemoveById=941100-941999,ctl:ruleRemoveById=942100-942999,ctl:ruleRemoveById=949110"
-		`
-	}
-}
-
-(waf-exclusions-arr) {
-	coraza_waf {
-		directives `
-			SecRule REQUEST_URI "^/api/" "id:10300,phase:1,nolog,pass,ctl:ruleRemoveById=920420,ctl:ruleRemoveById=941100-941999,ctl:ruleRemoveById=942100-942999,ctl:ruleRemoveById=949110"
-		`
-	}
+(appsec) {
+	appsec
 }
 
 (defaults) {
-	import waf
 	import crowdsec
+	import appsec
 	encode zstd gzip
 	log {
 		output file /var/log/caddy/access.log {
