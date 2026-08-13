@@ -43,6 +43,8 @@ ALLOY_REMOTE_WRITE_URL=[[metrics_remote_write_url]]
 ALLOY_LOGS_PUSH_URL=[[metrics_logs_push_url]]
 ALLOY_HOSTNAME=FeelsUPSMan
 ALLOY_SCRAPE_INTERVAL=60s
+GEOIPUPDATE_ACCOUNT_ID=[[maxmind_account_id]]
+GEOIPUPDATE_LICENSE_KEY=[[maxmind_license_key]]
 
 # ── Low-power tuning (Pi 2) ──────────────────────────────
 ALLOY_GOGC=50

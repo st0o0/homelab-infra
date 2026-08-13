@@ -5,11 +5,40 @@ x-logging: &default-logging
     max-file: "3"
 
 services:
+  geoipupdate:
+    image: maxmindinc/geoipupdate:v7
+    container_name: geoipupdate
+    restart: unless-stopped
+    logging: *default-logging
+    environment:
+      - GEOIPUPDATE_ACCOUNT_ID=${GEOIPUPDATE_ACCOUNT_ID:?GEOIPUPDATE_ACCOUNT_ID is required}
+      - GEOIPUPDATE_LICENSE_KEY=${GEOIPUPDATE_LICENSE_KEY:?GEOIPUPDATE_LICENSE_KEY is required}
+      - GEOIPUPDATE_EDITION_IDS=GeoLite2-City
+      - GEOIPUPDATE_FREQUENCY=${GEOIPUPDATE_FREQUENCY:-24}
+    volumes:
+      - geoip-data:/usr/share/GeoIP
+    healthcheck:
+      test: ["CMD", "test", "-f", "/usr/share/GeoIP/GeoLite2-City.mmdb"]
+      interval: 5s
+      timeout: 2s
+      retries: 30
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          cpus: "0.10"
+          memory: 64M
+        reservations:
+          memory: 32M
+
   alloy:
     image: grafana/alloy:v1.17.1
     container_name: alloy
     restart: unless-stopped
     logging: *default-logging
+    depends_on:
+      geoipupdate:
+        condition: service_healthy
     command:
       - run
       - /etc/alloy/
@@ -33,6 +62,7 @@ services:
       - ./alloy:/etc/alloy
       - ../../alloy/modules:/etc/alloy/modules:ro
       - alloy-data:/var/lib/alloy/data
+      - geoip-data:/geoip:ro
       - /var/log:/var/log/host:ro
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
@@ -50,3 +80,4 @@ services:
 
 volumes:
   alloy-data:
+  geoip-data:
