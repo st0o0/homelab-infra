@@ -12,7 +12,7 @@ discovery.relabel "containers" {
   }
 
   rule {
-    replacement  = ""
+    replacement  = sys.env("HOST_HOSTNAME")
     target_label = "host"
     action       = "replace"
   }
@@ -29,6 +29,12 @@ loki.source.docker "containers" {
 loki.process "docker" {
   stage.label_drop {
     values = ["host"]
+  }
+
+  stage.static_labels {
+    values = {
+      host = sys.env("HOST_HOSTNAME"),
+    }
   }
 
   stage.decolorize {}
