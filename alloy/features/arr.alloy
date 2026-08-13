@@ -1,0 +1,50 @@
+discovery.relabel "sonarr" {
+  targets = [{
+    __address__ = coalesce(sys.env("SONARR_EXPORTER_TARGET"), "arr-sonarr-exporter:9707"),
+  }]
+  rule {
+    replacement  = sys.env("HOST_HOSTNAME")
+    target_label = "instance"
+  }
+}
+
+prometheus.scrape "sonarr" {
+  targets         = discovery.relabel.sonarr.output
+  forward_to      = [prometheus.remote_write.central.receiver]
+  scrape_interval = coalesce(sys.env("SCRAPE_INTERVAL"), "30s")
+  job_name        = "sonarr"
+}
+
+discovery.relabel "radarr" {
+  targets = [{
+    __address__ = coalesce(sys.env("RADARR_EXPORTER_TARGET"), "arr-radarr-exporter:9708"),
+  }]
+  rule {
+    replacement  = sys.env("HOST_HOSTNAME")
+    target_label = "instance"
+  }
+}
+
+prometheus.scrape "radarr" {
+  targets         = discovery.relabel.radarr.output
+  forward_to      = [prometheus.remote_write.central.receiver]
+  scrape_interval = coalesce(sys.env("SCRAPE_INTERVAL"), "30s")
+  job_name        = "radarr"
+}
+
+discovery.relabel "prowlarr" {
+  targets = [{
+    __address__ = coalesce(sys.env("PROWLARR_EXPORTER_TARGET"), "arr-prowlarr-exporter:9709"),
+  }]
+  rule {
+    replacement  = sys.env("HOST_HOSTNAME")
+    target_label = "instance"
+  }
+}
+
+prometheus.scrape "prowlarr" {
+  targets         = discovery.relabel.prowlarr.output
+  forward_to      = [prometheus.remote_write.central.receiver]
+  scrape_interval = coalesce(sys.env("SCRAPE_INTERVAL"), "30s")
+  job_name        = "prowlarr"
+}
