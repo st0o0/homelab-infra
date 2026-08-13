@@ -11,7 +11,7 @@ entries:
     attrs:
       default: true
       branding_title: Sloth Homelab
-      branding_logo: https://raw.githubusercontent.com/st0o0/homelab-infra/main/stacks/authentik/media/branding/logo-dark-transparent.png
+      branding_logo: https://raw.githubusercontent.com/st0o0/homelab-infra/main/stacks/authentik/media/branding/logo-icon-transparent.png
       branding_favicon: https://raw.githubusercontent.com/st0o0/homelab-infra/main/stacks/authentik/media/branding/favicon.ico
       flow_authentication: !Find [authentik_flows.flow, [slug, default-authentication-flow]]
       flow_invalidation: !Find [authentik_flows.flow, [slug, default-invalidation-flow]]
@@ -30,7 +30,7 @@ entries:
         /* ===== EASY CUSTOMIZATION ===== */
         /* Change the background image URL below */
         :root {
-            --ak-flow-background: url(https://images.unsplash.com/photo-1604165645922-eb8fdc7d84ee?auto=format&fit=crop&w=1920&q=80);
+            --ak-flow-background: url(https://images.unsplash.com/photo-1728847267621-4bd40b62be04?auto=format&fit=crop&w=1920&q=80);
             --ak-social-separator-text: "Or continue with";
             --ak-accent: #d0ced0;
         }
@@ -670,7 +670,12 @@ entries:
         }
         
         /* Hide welcome text */
-        .pf-c-login__main-header-desc {
+        .pf-c-login__main-header-desc,
+        .pf-c-login__main-header .pf-c-title,
+        :host(ak-stage-identification) .pf-c-login__main-header-desc,
+        :host(ak-stage-identification) .pf-c-login__main-header .pf-c-title,
+        :host(ak-flow-executor) .pf-c-login__main-header-desc,
+        :host(ak-flow-executor) .pf-c-login__main-header .pf-c-title {
             display: none !important;
         }
         
