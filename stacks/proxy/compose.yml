@@ -18,8 +18,6 @@ services:
       - "80:80"
       - "443:443"
       - "443:443/udp"
-      - "2019:2019"
-      - "6060:6060"
       - "8888:8888"
       # honeypot traps (ran)
       - "23:23"
@@ -46,7 +44,7 @@ services:
       - BIFROST_RESOLVE=${BIFROST_RESOLVE:-on}
       - BIFROST_RECONNECT=${BIFROST_RECONNECT:-on}
       - BIFROST_HEALTHCHECK=${BIFROST_HEALTHCHECK:-on}
-      - BIFROST_PROBE=${BIFROST_PROBE:-off}
+      - BIFROST_PROBE=${BIFROST_PROBE:-on}
       - BIFROST_METRICS=${BIFROST_METRICS:-on}
       - BIFROST_METRICS_ADDR=${BIFROST_METRICS_ADDR:-:9586}
     deploy:
@@ -72,7 +70,7 @@ services:
       - EIR_MAX_RETRIES=${EIR_MAX_RETRIES:-3}
       - EIR_RETRY_BACKOFF=${EIR_RETRY_BACKOFF:-5s}
       - EIR_LOG_LEVEL=${EIR_LOG_LEVEL:-info}
-      - EIR_LOG_FORMAT=${EIR_LOG_FORMAT:-text}
+      - EIR_LOG_FORMAT=${EIR_LOG_FORMAT:-json}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     deploy:
@@ -181,7 +179,7 @@ services:
           memory: 32M
 
   ran:
-    image: ghcr.io/st0o0/ran:0.1.1
+    image: ghcr.io/st0o0/ran:0.2.0
     container_name: ran
     restart: unless-stopped
     logging: *default-logging
