@@ -8,15 +8,29 @@ x-common: &common
   restart: unless-stopped
   logging: *default-logging
   environment: &common-env
-    PUID: ${PUID:-}
-    PGID: ${PGID:-}
     TZ: ${TZ:-}
 
 services:
   sonarr:
     <<: *common
-    image: linuxserver/sonarr:4.0.16.2944-ls302
+    image: ghcr.io/sonarr/sonarr:4.0.19.2979
     container_name: arr-sonarr
+    user: "${PUID}:${PGID}"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8989/ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    environment:
+      <<: *common-env
+      SONARR__AUTH__APIKEY: ${SONARR_API_KEY:?SONARR_API_KEY is required}
+      SONARR__POSTGRES__HOST: ${SONARR_POSTGRES_HOST:?SONARR_POSTGRES_HOST is required}
+      SONARR__POSTGRES__PORT: ${SONARR_POSTGRES_PORT:?SONARR_POSTGRES_PORT is required}
+      SONARR__POSTGRES__USER: ${SONARR_POSTGRES_USER:?SONARR_POSTGRES_USER is required}
+      SONARR__POSTGRES__PASSWORD: ${SONARR_POSTGRES_PASS:?SONARR_POSTGRES_PASS is required}
+      SONARR__POSTGRES__MAINDB: ${SONARR_POSTGRES_MAINDB:-sonarr-main}
+      SONARR__POSTGRES__LOGDB: ${SONARR_POSTGRES_LOGDB:-sonarr-log}
     ports:
       - "${SONARR_PORT:-1089}:8989"
     volumes:
@@ -28,8 +42,24 @@ services:
 
   radarr:
     <<: *common
-    image: linuxserver/radarr:6.3.0.10514-ls312
+    image: ghcr.io/radarr/radarr:6.3.0.10514
     container_name: arr-radarr
+    user: "${PUID}:${PGID}"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:7878/ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    environment:
+      <<: *common-env
+      RADARR__AUTH__APIKEY: ${RADARR_API_KEY:?RADARR_API_KEY is required}
+      RADARR__POSTGRES__HOST: ${RADARR_POSTGRES_HOST:?RADARR_POSTGRES_HOST is required}
+      RADARR__POSTGRES__PORT: ${RADARR_POSTGRES_PORT:?RADARR_POSTGRES_PORT is required}
+      RADARR__POSTGRES__USER: ${RADARR_POSTGRES_USER:?RADARR_POSTGRES_USER is required}
+      RADARR__POSTGRES__PASSWORD: ${RADARR_POSTGRES_PASS:?RADARR_POSTGRES_PASS is required}
+      RADARR__POSTGRES__MAINDB: ${RADARR_POSTGRES_MAINDB:-radarr-main}
+      RADARR__POSTGRES__LOGDB: ${RADARR_POSTGRES_LOGDB:-radarr-log}
     ports:
       - "${RADARR_PORT:-1078}:7878"
     volumes:
@@ -41,8 +71,24 @@ services:
 
   prowlarr:
     <<: *common
-    image: linuxserver/prowlarr:2.5.2.5491-ls155
+    image: ghcr.io/prowlarr/prowlarr:2.5.2.5491
     container_name: arr-prowlarr
+    user: "${PUID}:${PGID}"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9696/ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    environment:
+      <<: *common-env
+      PROWLARR__AUTH__APIKEY: ${PROWLARR_API_KEY:?PROWLARR_API_KEY is required}
+      PROWLARR__POSTGRES__HOST: ${PROWLARR_POSTGRES_HOST:?PROWLARR_POSTGRES_HOST is required}
+      PROWLARR__POSTGRES__PORT: ${PROWLARR_POSTGRES_PORT:?PROWLARR_POSTGRES_PORT is required}
+      PROWLARR__POSTGRES__USER: ${PROWLARR_POSTGRES_USER:?PROWLARR_POSTGRES_USER is required}
+      PROWLARR__POSTGRES__PASSWORD: ${PROWLARR_POSTGRES_PASS:?PROWLARR_POSTGRES_PASS is required}
+      PROWLARR__POSTGRES__MAINDB: ${PROWLARR_POSTGRES_MAINDB:-prowlarr-main}
+      PROWLARR__POSTGRES__LOGDB: ${PROWLARR_POSTGRES_LOGDB:-prowlarr-log}
     ports:
       - "${PROWLARR_PORT:-1096}:9696"
     volumes:
@@ -52,15 +98,25 @@ services:
       - media
 
   seerr:
+    <<: *common
     image: ghcr.io/seerr-team/seerr:v3.4.0
     container_name: arr-seerr
-    restart: unless-stopped
-    logging: *default-logging
     init: true
+    depends_on:
+      sonarr:
+        condition: service_healthy
+      radarr:
+        condition: service_healthy
     environment:
-      - LOG_LEVEL=${SEERR_LOG_LEVEL:-debug}
-      - TZ=${TZ:-}
-      - PORT=5055
+      <<: *common-env
+      LOG_LEVEL: ${SEERR_LOG_LEVEL:-info}
+      PORT: 5055
+      DB_TYPE: ${SEERR_DB_TYPE:-postgres}
+      DB_HOST: ${SEERR_DB_HOST:?SEERR_DB_HOST is required}
+      DB_PORT: ${SEERR_DB_PORT:?SEERR_DB_PORT is required}
+      DB_USER: ${SEERR_DB_USER:?SEERR_DB_USER is required}
+      DB_PASS: ${SEERR_DB_PASS:?SEERR_DB_PASS is required}
+      DB_NAME: ${SEERR_DB_NAME:-seerr}
     ports:
       - "${SEERR_PORT:-1055}:5055"
     volumes:
@@ -68,14 +124,66 @@ services:
     networks:
       - arr
 
-  arr-dashboard:
+  seekarr:
     <<: *common
-    image: khak1s/arr-dashboard:2.23.0
-    container_name: arr-dashboard
-    ports:
-      - "${ARR_DASHBOARD_PORT:-1005}:3000"
+    image: ghcr.io/scottrobertson/seekarr:0.3.0
+    container_name: arr-seekarr
+    depends_on:
+      sonarr:
+        condition: service_healthy
+      radarr:
+        condition: service_healthy
     volumes:
-      - ${ARR_DASHBOARD_PATH_CONFIG:-./data/arrdashboard/config}:/config
+      - ${SEEKARR_PATH_CONFIG:-./data/seekarr/config.yml}:/seekarr/config.yml:ro
+      - ${SEEKARR_PATH_DATA:-./data/seekarr/data}:/seekarr/data
+    networks:
+      - arr
+
+  sonarr-exporter:
+    <<: *common
+    image: ghcr.io/onedr0p/exportarr:v2.3.0
+    container_name: arr-sonarr-exporter
+    command: ["sonarr"]
+    depends_on:
+      sonarr:
+        condition: service_healthy
+    environment:
+      <<: *common-env
+      PORT: "9707"
+      URL: ${SONARR_API_URL:-http://sonarr:8989}
+      API_KEY: ${SONARR_API_KEY:?SONARR_API_KEY is required}
+    networks:
+      - arr
+
+  radarr-exporter:
+    <<: *common
+    image: ghcr.io/onedr0p/exportarr:v2.3.0
+    container_name: arr-radarr-exporter
+    command: ["radarr"]
+    depends_on:
+      radarr:
+        condition: service_healthy
+    environment:
+      <<: *common-env
+      PORT: "9708"
+      URL: ${RADARR_API_URL:-http://radarr:7878}
+      API_KEY: ${RADARR_API_KEY:?RADARR_API_KEY is required}
+    networks:
+      - arr
+
+  prowlarr-exporter:
+    <<: *common
+    image: ghcr.io/onedr0p/exportarr:v2.3.0
+    container_name: arr-prowlarr-exporter
+    command: ["prowlarr"]
+    depends_on:
+      prowlarr:
+        condition: service_healthy
+    environment:
+      <<: *common-env
+      PORT: "9709"
+      URL: ${PROWLARR_API_URL:-http://prowlarr:9696}
+      API_KEY: ${PROWLARR_API_KEY:?PROWLARR_API_KEY is required}
     networks:
       - arr
 
@@ -83,18 +191,22 @@ services:
     <<: *common
     image: recyclarr/recyclarr:8.7.0
     container_name: arr-recyclarr
+    depends_on:
+      sonarr:
+        condition: service_healthy
+      radarr:
+        condition: service_healthy
     ports:
       - "${RECYCLARR_PORT:-7879}:7879"
     environment:
       <<: *common-env
+      CRON_SCHEDULE: ${RECYCLARR_CRON_SCHEDULE:-0 */6 * * *}
       SONARR_API_URL: ${SONARR_API_URL:-http://sonarr:8989}
       RADARR_API_URL: ${RADARR_API_URL:-http://radarr:7878}
       SONARR_API_KEY: ${SONARR_API_KEY:?SONARR_API_KEY is required}
       RADARR_API_KEY: ${RADARR_API_KEY:?RADARR_API_KEY is required}
-      BACKUP_PATH: /data/backups
     volumes:
       - ${RECYCLARR_PATH_CONFIG:-./data/recyclarr/config}:/config
-      - ${RECYCLARR_PATH_BACKUP:-./data/recyclarr/backups}:/data/backups
     networks:
       - arr
 
@@ -114,21 +226,6 @@ services:
       - mediathek_smb:/data/complete
     ports:
       - "${MEDIATHEKARR_PORT:-1007}:5007"
-    networks:
-      - arr
-
-  flaresolverr:
-    image: flaresolverr/flaresolverr:v3.5.0
-    container_name: arr-flaresolverr
-    restart: unless-stopped
-    logging: *default-logging
-    ports:
-      - "${FLARESOLVERR_PORT:-8191}:8191"
-    environment:
-      - LOG_LEVEL=${FLARESOLVERR_LOG_LEVEL:-info}
-      - LOG_HTML=false
-      - CAPTCHA_SOLVER=none
-      - TZ=${TZ:-}
     networks:
       - arr
 
