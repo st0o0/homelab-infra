@@ -23,7 +23,7 @@ loki.secretfilter "redact" {
 
 loki.write "central" {
   endpoint {
-    url = sys.env("LOGS_PUSH_URL") + "?_msg_field=msg,message,log,text&_stream_fields=host,job,filename,container,event_type,action,proto,priority,jail,scenario,status_class,domain"
+    url = sys.env("LOGS_PUSH_URL") + "?_msg_field=msg,message,log,text&_stream_fields=host,job,filename,container,event_type,action,proto,priority,jail,scenario,status_class,domain&message_fields_prefix=msg."
   }
   external_labels = {
     host = sys.env("HOST_HOSTNAME"),
