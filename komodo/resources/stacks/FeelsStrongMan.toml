@@ -3,7 +3,6 @@
 [[stack]]
 name = "alloy-4"
 tags = ["monitoring"]
-after = ["authentik-1"]
 [stack.config]
 server = "FeelsStrongMan"
 project_name = "alloy-4"
@@ -11,6 +10,7 @@ run_directory = "stacks/alloy"
 file_paths = [
   "compose.yml",
   "compose.override.authentik.yaml",
+  "compose.override.jellyfin.yaml",
 ]
 linked_repo = "homelab-infra"
 extra_args = ["--remove-orphans"]
@@ -21,6 +21,10 @@ ALLOY_LOGS_PUSH_URL=[[metrics_logs_push_url]]
 ALLOY_HOSTNAME=FeelsStrongMan
 ALLOY_SCRAPE_INTERVAL=30s
 """
+
+[stack.config.pre_deploy]
+path = "."
+command = "for net in authentik-net media-net immich-net; do docker network create $net 2>/dev/null || true; done"
 
 [[stack]]
 name = "authentik-1"
@@ -209,6 +213,10 @@ AUTHENTIK_PROVIDER_PANGOLIN_REDIRECT_URI=[[FeelsStrongMan_authentik_provider_pan
 # IMMICH_PATH_UPLOAD=/docker/immich/upload
 # IMMICH_PATH_CACHE=/docker/immich/cache
 # """
+#
+# [stack.config.pre_deploy]
+# path = "."
+# command = "docker network create immich-net 2>/dev/null || true"
 #
 # [[stack]]
 # name = "mealie-1"

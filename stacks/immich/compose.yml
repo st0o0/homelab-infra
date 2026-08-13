@@ -25,6 +25,9 @@ services:
         condition: service_healthy
       cache:
         condition: service_started
+    networks:
+      - default
+      - immich-net
     deploy:
       resources:
         limits:
@@ -67,6 +70,10 @@ services:
           memory: 1GB
         reservations:
           memory: 512M
+
+networks:
+  immich-net:
+    name: immich-net
 
 volumes:
   media_smb:

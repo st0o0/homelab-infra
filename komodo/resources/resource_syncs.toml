@@ -1,5 +1,5 @@
-# Both syncs are declared here so homelab-infra-sync (delete = true)
-# sees them in its resource_path and does not try to delete either.
+# Both syncs are declared here so bootstrap can load homelab-infra-sync.
+# delete = false because a ResourceSync cannot manage itself.
 
 [[resource_sync]]
 name = "bootstrap"
@@ -36,6 +36,6 @@ include_resources = true
 include_variables = true
 include_user_groups = false
 
-delete = true
+delete = false
 webhook_enabled = true
 pending_alert = true

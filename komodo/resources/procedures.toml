@@ -1,24 +1,22 @@
-# Komodo Procedure resources — deploy automation that pulls the shared
-# `homelab-infra` Repo (see repos.toml) once, then redeploys only the
-# stacks whose compose file actually changed.
+# Komodo Procedure resources — single Git webhook triggers the full
+# deploy pipeline: sync TOML definitions, then redeploy only stacks
+# whose compose actually changed.
 #
-# Attach a single Git webhook to `deploy-homelab-infra` (Settings → Git
-# Providers, or this Procedure's own webhook config) instead of one
-# per-stack webhook.
+# GitHub webhook (push events on main):
+#   https://<KOMODO_HOST>/listener/github/procedure/deploy-homelab-infra/main
 #
-# Note: BatchDeployStackIfChanged only reacts to compose file changes — a
-# stacks.toml-only change (new env var, new server assignment, adding
-# `linked_repo` to a stack) still needs its own Resource Sync run to take
-# effect, same as a manual Deploy would.
+# PullRepo is NOT needed — stacks use linked_repo, so
+# BatchDeployStackIfChanged pulls the repo implicitly per server.
 
 [[procedure]]
 name = "deploy-homelab-infra"
-description = "Pull homelab-infra once, then redeploy only changed stacks"
+description = "Sync resources, then redeploy changed stacks"
+webhook_enabled = true
 
 [[procedure.config.stage]]
-name = "Pull"
+name = "Sync"
 executions = [
-  { execution.type = "PullRepo", execution.params.repo = "homelab-infra" }
+  { execution.type = "RunSync", execution.params.sync = "homelab-infra-sync" }
 ]
 
 [[procedure.config.stage]]

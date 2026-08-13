@@ -5,3 +5,10 @@ services:
     environment:
       - IMMICH_METRICS_SERVER_TARGET=${ALLOY_IMMICH_METRICS_SERVER_TARGET:-immich-server:8081}
       - IMMICH_METRICS_MICROSERVICES_TARGET=${ALLOY_IMMICH_METRICS_MICROSERVICES_TARGET:-immich-server:8082}
+    networks:
+      - default
+      - immich-net
+
+networks:
+  immich-net:
+    external: true

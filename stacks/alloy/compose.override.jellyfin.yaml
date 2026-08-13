@@ -4,3 +4,10 @@ services:
       - ../../alloy/features/jellyfin.alloy:/etc/alloy/jellyfin.alloy
     environment:
       - JELLYFIN_METRICS_TARGET=${ALLOY_JELLYFIN_METRICS_TARGET:-jellyfin:8096}
+    networks:
+      - default
+      - media-net
+
+networks:
+  media-net:
+    external: true
