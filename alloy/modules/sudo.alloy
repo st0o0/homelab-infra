@@ -47,6 +47,10 @@ declare "sudo" {
     }
 
     stage.regex {
+      expression = "TTY=(?P<tty>\\S+)\\s+;\\s+PWD=(?P<pwd>\\S+)\\s+;\\s+USER=(?P<target_user>\\S+)"
+    }
+
+    stage.regex {
       expression = "COMMAND=(?P<command>.+)$"
     }
 
@@ -72,15 +76,16 @@ declare "sudo" {
 
     stage.labels {
       values = {
-        event_type = "",
-        username   = "",
-        level      = "",
+        event_type  = "",
+        username    = "",
+        target_user = "",
+        level       = "",
       }
     }
 
     stage.template {
       source   = "formatted"
-      template = "{{ .event_type }} {{ .username }}{{ if .command }} {{ .command }}{{ end }}"
+      template = "{{ .event_type }} {{ .username }} → {{ .target_user }}{{ if .command }} {{ .command }}{{ end }}"
     }
 
     stage.output {

@@ -19,12 +19,19 @@ declare "crowdsec" {
       expressions = {
         time         = "time",
         scenario     = "scenario",
-        ip           = "ip",
+        client_ip    = "ip",
         type         = "type",
         duration     = "duration",
         country      = "country",
         asname       = "asname",
+        as_num       = "as_num",
         events_count = "events_count",
+        simulated    = "simulated",
+        scope        = "scope",
+        range        = "range",
+        start_at     = "start_at",
+        stop_at      = "stop_at",
+        machine_id   = "machine_id",
       }
     }
 
@@ -37,6 +44,12 @@ declare "crowdsec" {
       format = "2006-01-02T15:04:05Z"
     }
 
+    stage.geoip {
+      source  = "client_ip"
+      db      = "/geoip/GeoLite2-City.mmdb"
+      db_type = "city"
+    }
+
     stage.static_labels {
       values = {
         level = "warn",
@@ -45,13 +58,18 @@ declare "crowdsec" {
 
     stage.labels {
       values = {
-        scenario = "",
+        scenario           = "",
+        simulated          = "",
+        scope              = "",
+        client_ip          = "",
+        geoip_country_code = "",
+        geoip_country_name = "",
       }
     }
 
     stage.template {
       source   = "formatted"
-      template = "{{ .type }} {{ .ip }} ({{ .country }}/{{ .asname }}) {{ .scenario }} [{{ .duration }}]{{ if .events_count }} ({{ .events_count }} events{{ if .origin }}, {{ .origin }}{{ end }}){{ end }}"
+      template = "CrowdSec {{ .type }} {{ .client_ip }} ({{ .country }}/{{ .asname }}) {{ .scenario }} [{{ .duration }}]{{ if .events_count }} ({{ .events_count }} events{{ if .origin }}, {{ .origin }}{{ end }}){{ end }}{{ if eq .simulated \"true\" }} [SIMULATED]{{ end }}"
     }
 
     stage.output {

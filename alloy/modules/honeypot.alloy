@@ -47,6 +47,11 @@ declare "honeypot" {
     }
 
     stage.template {
+      source   = "status_class"
+      template = "{{ if ge .status 500 }}5xx{{ else if ge .status 400 }}4xx{{ else if ge .status 300 }}3xx{{ else }}2xx{{ end }}"
+    }
+
+    stage.template {
       source   = "domain"
       template = "{{ regexReplaceAll \":[0-9]+$\" .host \"\" }}"
     }

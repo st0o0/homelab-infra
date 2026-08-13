@@ -40,7 +40,7 @@ declare "ufw" {
 
     stage.regex {
       source     = "content"
-      expression = "\\[UFW\\s+(?P<action>\\w+)\\]\\s+IN=(?P<iface>\\S*)\\s+OUT=\\S*\\s+(?:MAC=\\S*\\s+)?SRC=(?P<src_ip>[\\d.]+)\\s+DST=(?P<dst_ip>[\\d.]+)\\s+LEN=\\d+\\s+.*?PROTO=(?P<proto>\\w+)(?:.*?SPT=(?P<spt>\\d+))?(?:.*?DPT=(?P<dpt>\\d+))?(?:.*?WINDOW=\\d+\\s+RES=\\S+\\s+(?P<tcp_flags>\\S+)\\s+URGP)?"
+      expression = "\\[UFW\\s+(?P<action>\\w+)\\]\\s+IN=(?P<iface>\\S*)\\s+OUT=\\S*\\s+(?:MAC=\\S*\\s+)?SRC=(?P<client_ip>[\\d.]+)\\s+DST=(?P<dst_ip>[\\d.]+)\\s+LEN=(?P<len>\\d+)\\s+.*?TTL=(?P<ttl>\\d+)\\s+.*?PROTO=(?P<proto>\\w+)(?:.*?SPT=(?P<src_port>\\d+))?(?:.*?DPT=(?P<dst_port>\\d+))?(?:.*?WINDOW=\\d+\\s+RES=\\S+\\s+(?P<tcp_flags>\\S+)\\s+URGP)?(?:.*?TYPE=(?P<icmp_type>\\d+))?(?:.*?CODE=(?P<icmp_code>\\d+))?"
     }
 
     stage.template {
@@ -50,15 +50,30 @@ declare "ufw" {
 
     stage.labels {
       values = {
-        action = "",
-        proto  = "",
-        level  = "",
+        action   = "",
+        proto    = "",
+        client_ip = "",
+        dst_port = "",
+        level    = "",
+      }
+    }
+
+    stage.geoip {
+      source  = "client_ip"
+      db      = "/geoip/GeoLite2-City.mmdb"
+      db_type = "city"
+    }
+
+    stage.labels {
+      values = {
+        geoip_country_code = "",
+        geoip_country_name = "",
       }
     }
 
     stage.template {
       source   = "formatted"
-      template = "{{ .action }} {{ .proto }} {{ .src_ip }}{{ if .spt }}:{{ .spt }}{{ end }} → {{ .dst_ip }}{{ if .dpt }}:{{ .dpt }}{{ end }}{{ if .tcp_flags }} [{{ .tcp_flags }}]{{ end }}"
+      template = "{{ .action }} {{ .proto }} {{ .client_ip }}{{ if .src_port }}:{{ .src_port }}{{ end }} → {{ .dst_ip }}{{ if .dst_port }}:{{ .dst_port }}{{ end }}{{ if .tcp_flags }} [{{ .tcp_flags }}]{{ end }}{{ if .icmp_type }} [type={{ .icmp_type }} code={{ .icmp_code }}]{{ end }}"
     }
 
     stage.output {

@@ -17,15 +17,21 @@ declare "appsec" {
   loki.process "appsec" {
     stage.json {
       expressions = {
-        time         = "time",
-        scenario     = "scenario",
-        ip           = "ip",
-        country      = "country",
-        asname       = "asname",
-        log_type     = "log_type",
-        rule_name    = "rule_name",
-        target_uri   = "target_uri",
-        target_host  = "target_host",
+        time           = "time",
+        scenario       = "scenario",
+        client_ip      = "ip",
+        country        = "country",
+        asname         = "asname",
+        as_num         = "as_num",
+        log_type       = "log_type",
+        rule_name      = "rule_name",
+        target_uri     = "target_uri",
+        target_host    = "target_host",
+        method         = "method",
+        inband_action  = "inband_action",
+        matched_zones  = "matched_zones",
+        user_agent     = "user_agent",
+        req_uuid       = "req_uuid",
       }
     }
 
@@ -40,6 +46,12 @@ declare "appsec" {
       source     = "target_uri"
     }
 
+    stage.geoip {
+      source  = "client_ip"
+      db      = "/geoip/GeoLite2-City.mmdb"
+      db_type = "city"
+    }
+
     stage.static_labels {
       values = {
         level = "warn",
@@ -48,17 +60,22 @@ declare "appsec" {
 
     stage.labels {
       values = {
-        scenario    = "",
-        log_type    = "",
-        rule_name   = "",
-        target_host = "",
-        country     = "",
+        scenario           = "",
+        log_type           = "",
+        rule_name          = "",
+        target_host        = "",
+        country            = "",
+        client_ip          = "",
+        method             = "",
+        inband_action      = "",
+        geoip_country_code = "",
+        geoip_country_name = "",
       }
     }
 
     stage.template {
       source   = "formatted"
-      template = "AppSec [{{ .log_type }}] {{ .ip }} ({{ .country }}/{{ .asname }}) {{ .rule_name }} {{ .target_host }}{{ .target_uri }}"
+      template = "AppSec [{{ .inband_action }}] {{ .method }} {{ .client_ip }} ({{ .country }}/{{ .asname }}) {{ .rule_name }} {{ .target_host }}{{ .target_uri }}"
     }
 
     stage.output {

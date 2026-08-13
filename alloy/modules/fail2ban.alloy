@@ -48,37 +48,36 @@ declare "fail2ban" {
       template = "{{ if or (eq .priority \"ERROR\") }}error{{ else if eq .priority \"WARNING\" }}warn{{ else }}info{{ end }}"
     }
 
+    stage.regex {
+      expression = "\\[(?P<jail>\\S+)\\]\\s+(?P<action>Ban|Unban|Found|Already banned|Increase Ban|Restore Ban)\\s+(?P<client_ip>\\d+\\.\\d+\\.\\d+\\.\\d+)"
+    }
+
     stage.labels {
       values = {
-        priority = "",
-        jail     = "",
-        level    = "",
+        priority  = "",
+        jail      = "",
+        action    = "",
+        client_ip = "",
+        level     = "",
       }
     }
 
-    // Ban: "NOTICE  [<jail>] Ban <ip>"
-    stage.regex {
-      expression = "fail2ban\\.actions\\s+\\[\\d+\\]: NOTICE\\s+\\[(?P<ban_jail>\\S+)\\] Ban (?P<ban_ip>\\d+\\.\\d+\\.\\d+\\.\\d+)"
+    stage.geoip {
+      source  = "client_ip"
+      db      = "/geoip/GeoLite2-City.mmdb"
+      db_type = "city"
     }
 
-    // Unban: "NOTICE  [<jail>] Unban <ip>"
-    stage.regex {
-      expression = "fail2ban\\.actions\\s+\\[\\d+\\]: NOTICE\\s+\\[(?P<unban_jail>\\S+)\\] Unban (?P<unban_ip>\\d+\\.\\d+\\.\\d+\\.\\d+)"
-    }
-
-    // Found: "INFO    [<jail>] Found <ip>"
-    stage.regex {
-      expression = "fail2ban\\.filter\\s+\\[\\d+\\]: INFO\\s+\\[(?P<found_jail>\\S+)\\] Found (?P<found_ip>\\d+\\.\\d+\\.\\d+\\.\\d+)"
-    }
-
-    // Already banned: "NOTICE  [<jail>] Already banned <ip>"
-    stage.regex {
-      expression = "fail2ban\\.actions\\s+\\[\\d+\\]: NOTICE\\s+\\[(?P<already_jail>\\S+)\\] Already banned (?P<already_ip>\\d+\\.\\d+\\.\\d+\\.\\d+)"
+    stage.labels {
+      values = {
+        geoip_country_code = "",
+        geoip_country_name = "",
+      }
     }
 
     stage.template {
       source   = "formatted"
-      template = "{{ if .ban_ip }}BAN {{ .ban_ip }} [{{ .ban_jail }}]{{ else if .unban_ip }}UNBAN {{ .unban_ip }} [{{ .unban_jail }}]{{ else if .found_ip }}FOUND {{ .found_ip }} [{{ .found_jail }}]{{ else if .already_ip }}ALREADY_BANNED {{ .already_ip }} [{{ .already_jail }}]{{ else }}{{ .content }}{{ end }}"
+      template = "{{ if .action }}{{ .action }} {{ .client_ip }} [{{ .jail }}]{{ else }}{{ .content }}{{ end }}"
     }
 
     stage.output {
