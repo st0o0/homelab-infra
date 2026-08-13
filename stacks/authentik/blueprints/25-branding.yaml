@@ -30,7 +30,7 @@ entries:
         /* ===== EASY CUSTOMIZATION ===== */
         /* Change the background image URL below */
         :root {
-            --ak-flow-background: url(https://images.unsplash.com/photo-1728847267621-4bd40b62be04?auto=format&fit=crop&w=1920&q=80);
+            --ak-flow-background: url(https://images.unsplash.com/photo-1724521154181-93e3207aa22c?auto=format&fit=crop&w=1920&q=80);
             --ak-social-separator-text: "Or continue with";
             --ak-accent: #d0ced0;
         }
@@ -702,7 +702,7 @@ entries:
             height: 100% !important;
             background-image: var(--ak-flow-background) !important;
             background-size: cover !important;
-            background-position: center !important;
+            background-position: 30% center !important;
             background-repeat: no-repeat !important;
             z-index: -1 !important;
             pointer-events: none !important;
@@ -1232,7 +1232,7 @@ entries:
             /* Font Awesome Key Icon (White) */
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' fill='white'%3E%3Cpath d='M336 352c97.2 0 176-78.8 176-176S433.2 0 336 0S160 78.8 160 176c0 18.7 2.9 36.6 8.3 53.7L7 391c-4.5 4.5-7 10.6-7 17v80c0 13.3 10.7 24 24 24h80c13.3 0 24-10.7 24-24V448h40c13.3 0 24-10.7 24-24V384h40c6.4 0 12.5-2.5 17-7l33.3-33.3c16.9 5.2 38.6 352zM336 96a80 80 0 1 1 0 160 80 80 0 1 1 0-160z'/%3E%3C/svg%3E") !important;
             background-repeat: no-repeat !important;
-            background-position: center !important;
+            background-position: 30% center !important;
             background-size: contain !important;
             /* Reset any glitchy borders/backgrounds from previous states */
             border: none !important;
@@ -1441,7 +1441,7 @@ entries:
         .pf-c-page {
             background-image: var(--ak-flow-background) !important;
             background-size: cover !important;
-            background-position: center !important;
+            background-position: 30% center !important;
             background-repeat: no-repeat !important;
             background-attachment: fixed !important;
         }
@@ -2041,7 +2041,7 @@ entries:
                     rgba(255, 255, 255, 1) 68%,
                     rgba(255, 255, 255, 1) 100%) !important;
             background-size: 100% 1px !important;
-            background-position: center !important;
+            background-position: 30% center !important;
             background-repeat: no-repeat !important;
         }
         
@@ -2218,7 +2218,7 @@ entries:
                 background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
                 background-image: var(--ak-flow-background) !important;
                 background-size: cover !important;
-                background-position: center !important;
+                background-position: 30% center !important;
                 background-repeat: no-repeat !important;
                 filter: blur(8px) !important;
                 -webkit-filter: blur(8px) !important;
@@ -2399,7 +2399,7 @@ entries:
                 /* fallback */
                 background-image: var(--ak-flow-background) !important;
                 background-size: cover !important;
-                background-position: center !important;
+                background-position: 30% center !important;
                 background-repeat: no-repeat !important;
                 /* iOS Fix: Mobile scroll behavior to avoid jitter/locks */
                 background-attachment: scroll !important;

@@ -15,6 +15,20 @@ discovery.relabel "cadvisor" {
 
 prometheus.scrape "cadvisor" {
   targets         = discovery.relabel.cadvisor.output
-  forward_to      = [prometheus.remote_write.central.receiver]
+  forward_to      = [prometheus.relabel.cadvisor.receiver]
   scrape_interval = coalesce(sys.env("SCRAPE_INTERVAL"), "30s")
+}
+
+prometheus.relabel "cadvisor" {
+  forward_to = [prometheus.remote_write.central.receiver]
+
+  rule {
+    action       = "labeldrop"
+    regex        = "container_label_com_docker_compose_.*"
+  }
+
+  rule {
+    action       = "labeldrop"
+    regex        = "container_label_org_opencontainers_.*"
+  }
 }

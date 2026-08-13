@@ -27,6 +27,10 @@ loki.source.docker "containers" {
 }
 
 loki.process "docker" {
+  stage.label_drop {
+    values = ["host"]
+  }
+
   stage.decolorize {}
 
   stage.multiline {
