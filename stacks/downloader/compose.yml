@@ -16,7 +16,7 @@ services:
       - /dev/net/tun:/dev/net/tun
     ports:
       - "${GLUETUN_PORT:-8079}:8000"
-      - "${SABNZBD_PORT:-8080}:8080"
+      - "${NZBGET_PORT:-6789}:6789"
     environment:
       - VPN_SERVICE_PROVIDER=${GLUETUN_VPN_PROVIDER:-airvpn}
       - VPN_TYPE=${GLUETUN_VPN_TYPE:-wireguard}
@@ -32,23 +32,39 @@ services:
     networks:
       media:
         aliases:
-          - sabnzbd
+          - nzbget
 
-  sabnzbd:
-    image: lscr.io/linuxserver/sabnzbd:5.0.4-ls263
-    container_name: sabnzbd
+  nzbget:
+    image: nzbgetcom/nzbget:v24.8
+    container_name: nzbget
     restart: unless-stopped
     logging: *default-logging
-    cap_add:
-      - SYS_ADMIN
     environment:
       - PUID=${PUID:-}
       - PGID=${PGID:-}
       - TZ=${TZ:-}
+      - NZBGET_USER=${NZBGET_USER:-}
+      - NZBGET_PASS=${NZBGET_PASS:-}
+      - NZBOP_MAINDIR=/data
+      - NZBOP_DESTDIR=/data/complete
+      - NZBOP_INTERDIR=/data/ssd/inter
+      - NZBOP_TEMPDIR=/data/ssd/tmp
+      - NZBOP_SERVER1_HOST=${NZBOP_SERVER1_HOST:-}
+      - NZBOP_SERVER1_PORT=${NZBOP_SERVER1_PORT:-563}
+      - NZBOP_SERVER1_USERNAME=${NZBOP_SERVER1_USERNAME:-}
+      - NZBOP_SERVER1_PASSWORD=${NZBOP_SERVER1_PASSWORD:-}
+      - NZBOP_SERVER1_CONNECTIONS=${NZBOP_SERVER1_CONNECTIONS:-10}
+      - NZBOP_SERVER1_ENCRYPTION=${NZBOP_SERVER1_ENCRYPTION:-yes}
+      - NZBOP_CATEGORY1_NAME=sonarr
+      - NZBOP_CATEGORY1_DESTDIR=/data/complete/sonarr
+      - NZBOP_CATEGORY2_NAME=radarr
+      - NZBOP_CATEGORY2_DESTDIR=/data/complete/radarr
+      - NZBOP_CATEGORY3_NAME=mediathek
+      - NZBOP_CATEGORY3_DESTDIR=/data/complete/mediathek
     volumes:
-      - ./sabnzbd/config:/config
-      - sabnzbd_smb:/data/complete
-      - ${SABNZBD_PATH_SSD:-./sabnzbd/ssd}:/data/ssd
+      - ./nzbget/config:/config
+      - nzbget_smb:/data/complete
+      - ${NZBGET_PATH_SSD:-./nzbget/ssd}:/data/ssd
     network_mode: service:gluetun
     depends_on:
       gluetun:
@@ -56,7 +72,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 1.5G
+          memory: 512M
           cpus: "1"
 
 networks:
@@ -65,7 +81,7 @@ networks:
     external: true
 
 volumes:
-  sabnzbd_smb:
+  nzbget_smb:
     driver: local
     driver_opts:
       type: cifs
