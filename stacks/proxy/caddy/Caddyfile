@@ -26,6 +26,9 @@
 	servers :443 {
 		name proxy
 	}
+	servers :80 {
+		name honeypot
+	}
 }
 
 :2019 {
