@@ -20,3 +20,43 @@ CADVISOR_HOUSEKEEPING_INTERVAL=30s
 CADVISOR_DOCKER_ONLY=true
 CADVISOR_DISABLE_METRICS=advtcp,cpu_topology,cpuset,hugetlb,memory_numa,process,referenced_memory,resctrl,sched,tcp,udp
 """
+
+[[stack.config.config_files]]
+path = "../../alloy/modules/appsec.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "../../alloy/modules/caddy.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "../../alloy/modules/crowdsec.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "../../alloy/modules/fail2ban.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "../../alloy/modules/honeypot.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "../../alloy/modules/security.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "../../alloy/modules/ssh.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "../../alloy/modules/sudo.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "../../alloy/modules/syslog.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "../../alloy/modules/ufw.alloy"
+requires = "Redeploy"

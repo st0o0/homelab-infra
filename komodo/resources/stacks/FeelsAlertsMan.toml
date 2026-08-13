@@ -78,3 +78,55 @@ ALLOY_NUT_EXP_SERVER_PORT=3493
 ALLOY_NUT_EXP_USER=[[FeelsAlertsMan_nut_exp_user]]
 ALLOY_NUT_EXP_PASS=[[FeelsAlertsMan_nut_exp_password]]
 """
+
+[[stack.config.config_files]]
+path = "../../alloy/modules/appsec.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "../../alloy/modules/caddy.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "../../alloy/modules/crowdsec.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "../../alloy/modules/fail2ban.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "../../alloy/modules/honeypot.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "../../alloy/modules/security.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "../../alloy/modules/ssh.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "../../alloy/modules/sudo.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "../../alloy/modules/syslog.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "../../alloy/modules/ufw.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "../../alloy/features/pihole.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "../../alloy/features/pve.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "../../alloy/features/nut.alloy"
+requires = "Redeploy"

@@ -76,9 +76,19 @@ skip_secret_interp = false
 # path = "extra.env"
 
 # ── Config files (tracked for diff during deploy) ────────────────────
+# Files listed here are diffed by DeployStackIfChanged.
+# Paths are relative to run_directory.
+# requires: "Redeploy" (full redeploy) | "Restart" (restart services) | "None"
+#
+# Inline contents (managed in Komodo UI):
 # [[stack.config.config_files]]
 # path = "nginx.conf"
 # contents = "..."
+#
+# Git-tracked files outside run_directory (e.g. shared configs):
+# [[stack.config.config_files]]
+# path = "../../alloy/modules/ssh.alloy"
+# requires = "Redeploy"
 
 # ── Deploy behavior ──────────────────────────────────────────────────
 # Run `docker compose pull` before deploying
