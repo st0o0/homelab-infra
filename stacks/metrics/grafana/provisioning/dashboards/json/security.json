@@ -1664,24 +1664,6 @@
                   }
                 ]
               }
-            },
-            {
-              "id": "filterByValue",
-              "options": {
-                "filters": [
-                  {
-                    "fieldName": "count",
-                    "config": {
-                      "id": "equal",
-                      "options": {
-                        "value": 0
-                      }
-                    }
-                  }
-                ],
-                "type": "exclude",
-                "match": "any"
-              }
             }
           ],
           "type": "timeseries"
@@ -1727,7 +1709,7 @@
                 "lastNotNull"
               ],
               "fields": "",
-              "values": false
+              "values": true
             },
             "showUnfilled": true,
             "valueMode": "color"
@@ -1750,7 +1732,7 @@
             {
               "id": "renameByRegex",
               "options": {
-                "regex": "count\\{jail=\"(.*)\"\\}",
+                "regex": ".*=\"(.+)\".*",
                 "renamePattern": "$1"
               }
             }

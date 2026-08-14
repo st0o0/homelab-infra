@@ -1950,20 +1950,7 @@
                 }
               }
             },
-            "overrides": [
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "Time"
-                },
-                "properties": [
-                  {
-                    "id": "custom.hidden",
-                    "value": true
-                  }
-                ]
-              }
-            ]
+            "overrides": []
           },
           "targets": [
             {
@@ -1978,14 +1965,29 @@
           ],
           "transformations": [
             {
-              "id": "convertFieldType",
+              "id": "renameByRegex",
               "options": {
-                "conversions": [
-                  {
-                    "targetField": "hits",
-                    "destinationType": "number"
-                  }
-                ]
+                "regex": ".*domain=\"([^\"]+)\".*uri=\"([^\"]+)\".*",
+                "renamePattern": "$1$2"
+              }
+            },
+            {
+              "id": "reduce",
+              "options": {
+                "reducers": [
+                  "lastNotNull"
+                ],
+                "mode": "seriesToRows",
+                "includeTimeField": false
+              }
+            },
+            {
+              "id": "organize",
+              "options": {
+                "renameByName": {
+                  "Field": "Path",
+                  "Last *": "Hits"
+                }
               }
             }
           ]
@@ -2020,20 +2022,7 @@
                 }
               }
             },
-            "overrides": [
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "Time"
-                },
-                "properties": [
-                  {
-                    "id": "custom.hidden",
-                    "value": true
-                  }
-                ]
-              }
-            ]
+            "overrides": []
           },
           "targets": [
             {
@@ -2048,14 +2037,29 @@
           ],
           "transformations": [
             {
-              "id": "convertFieldType",
+              "id": "renameByRegex",
               "options": {
-                "conversions": [
-                  {
-                    "targetField": "hits",
-                    "destinationType": "number"
-                  }
-                ]
+                "regex": ".*client_ip=\"([^\"]+)\".*geoip_country_name=\"([^\"]+)\".*",
+                "renamePattern": "$1 ($2)"
+              }
+            },
+            {
+              "id": "reduce",
+              "options": {
+                "reducers": [
+                  "lastNotNull"
+                ],
+                "mode": "seriesToRows",
+                "includeTimeField": false
+              }
+            },
+            {
+              "id": "organize",
+              "options": {
+                "renameByName": {
+                  "Field": "Client",
+                  "Last *": "Hits"
+                }
               }
             }
           ]
@@ -2090,20 +2094,7 @@
                 }
               }
             },
-            "overrides": [
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "Time"
-                },
-                "properties": [
-                  {
-                    "id": "custom.hidden",
-                    "value": true
-                  }
-                ]
-              }
-            ]
+            "overrides": []
           },
           "targets": [
             {
@@ -2118,14 +2109,29 @@
           ],
           "transformations": [
             {
-              "id": "convertFieldType",
+              "id": "renameByRegex",
               "options": {
-                "conversions": [
-                  {
-                    "targetField": "avg_duration",
-                    "destinationType": "number"
-                  }
-                ]
+                "regex": ".*domain=\"([^\"]+)\".*uri=\"([^\"]+)\".*",
+                "renamePattern": "$1$2"
+              }
+            },
+            {
+              "id": "reduce",
+              "options": {
+                "reducers": [
+                  "lastNotNull"
+                ],
+                "mode": "seriesToRows",
+                "includeTimeField": false
+              }
+            },
+            {
+              "id": "organize",
+              "options": {
+                "renameByName": {
+                  "Field": "Path",
+                  "Last *": "Avg Duration"
+                }
               }
             }
           ]
@@ -2160,20 +2166,7 @@
                 }
               }
             },
-            "overrides": [
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "Time"
-                },
-                "properties": [
-                  {
-                    "id": "custom.hidden",
-                    "value": true
-                  }
-                ]
-              }
-            ]
+            "overrides": []
           },
           "targets": [
             {
@@ -2188,14 +2181,29 @@
           ],
           "transformations": [
             {
-              "id": "convertFieldType",
+              "id": "renameByRegex",
               "options": {
-                "conversions": [
-                  {
-                    "targetField": "hits",
-                    "destinationType": "number"
-                  }
-                ]
+                "regex": ".*domain=\"([^\"]+)\".*status=\"([^\"]+)\".*",
+                "renamePattern": "$1 [$2]"
+              }
+            },
+            {
+              "id": "reduce",
+              "options": {
+                "reducers": [
+                  "lastNotNull"
+                ],
+                "mode": "seriesToRows",
+                "includeTimeField": false
+              }
+            },
+            {
+              "id": "organize",
+              "options": {
+                "renameByName": {
+                  "Field": "Domain [Status]",
+                  "Last *": "Hits"
+                }
               }
             }
           ]
