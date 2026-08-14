@@ -1,9 +1,9 @@
 {
-  "__elements": {},
-  "annotations": {
-    "list": [
-      {
-        "builtIn": 1,
+  "annotations": [
+    {
+      "kind": "AnnotationQuery",
+      "spec": {
+        "builtIn": true,
         "datasource": {
           "type": "grafana",
           "uid": "-- Grafana --"
@@ -11,1153 +11,3795 @@
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
+        "legacyOptions": {
+          "type": "dashboard"
+        },
         "name": "Annotations & Alerts",
-        "type": "dashboard"
+        "query": {
+          "kind": "grafana",
+          "spec": {}
+        }
       }
-    ]
-  },
-  "description": "VictoriaLogs engine health, ingestion, and log dataset analysis.",
-  "editable": true,
-  "fiscalYearStartMonth": 0,
-  "graphTooltip": 1,
-  "id": null,
-  "links": [],
-  "liveNow": false,
-  "panels": [
-    {
-      "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 },
-      "id": 100,
-      "panels": [],
-      "title": "📊 Overview",
-      "type": "row"
-    },
-    {
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "mappings": [],
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "blue", "value": null }] },
-          "unit": "dtdurations"
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 4, "w": 3, "x": 0, "y": 1 },
-      "id": 1,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "textMode": "auto"
-      },
-      "targets": [{ "expr": "vm_app_uptime_seconds{job=\"victoria-logs\"}", "legendFormat": "", "refId": "A" }],
-      "title": "Uptime",
-      "type": "stat"
-    },
-    {
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "mappings": [],
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 4, "w": 3, "x": 3, "y": 1 },
-      "id": 2,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "textMode": "auto"
-      },
-      "targets": [{ "expr": "sum(vl_active_force_merges{job=\"victoria-logs\"}) + sum(vl_active_merges{job=\"victoria-logs\"})", "legendFormat": "", "refId": "A" }],
-      "title": "Active Merges",
-      "type": "stat"
-    },
-    {
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "mappings": [],
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "blue", "value": null }] },
-          "unit": "bytes"
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 4, "w": 3, "x": 6, "y": 1 },
-      "id": 3,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "textMode": "auto"
-      },
-      "targets": [{ "expr": "sum(vl_data_size_bytes{job=\"victoria-logs\"})", "legendFormat": "", "refId": "A" }],
-      "title": "Data Size",
-      "type": "stat"
-    },
-    {
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "mappings": [],
-          "max": 100,
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              { "color": "green", "value": null },
-              { "color": "yellow", "value": 70 },
-              { "color": "red", "value": 90 }
-            ]
-          },
-          "unit": "percent"
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 4, "w": 3, "x": 9, "y": 1 },
-      "id": 4,
-      "options": {
-        "orientation": "auto",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true
-      },
-      "targets": [{ "expr": "(1 - vl_free_disk_space_bytes{job=\"victoria-logs\"} / vl_total_disk_space_bytes{job=\"victoria-logs\"}) * 100", "legendFormat": "", "refId": "A" }],
-      "title": "Disk Used %",
-      "type": "gauge"
-    },
-    {
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "mappings": [],
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "blue", "value": null }] },
-          "unit": "bytes"
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 4, "w": 3, "x": 12, "y": 1 },
-      "id": 5,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "textMode": "auto"
-      },
-      "targets": [{ "expr": "process_resident_memory_bytes{job=\"victoria-logs\"}", "legendFormat": "", "refId": "A" }],
-      "title": "RSS Memory",
-      "type": "stat"
-    },
-    {
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "mappings": [],
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "blue", "value": null }] },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 4, "w": 3, "x": 15, "y": 1 },
-      "id": 6,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "textMode": "auto"
-      },
-      "targets": [{ "expr": "go_goroutines{job=\"victoria-logs\"}", "legendFormat": "", "refId": "A" }],
-      "title": "Goroutines",
-      "type": "stat"
-    },
-    {
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "mappings": [],
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "blue", "value": null }] },
-          "unit": "sishort"
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 4, "w": 3, "x": 18, "y": 1 },
-      "id": 7,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "textMode": "auto"
-      },
-      "targets": [{ "expr": "sum(vl_storage_rows{job=\"victoria-logs\"})", "legendFormat": "", "refId": "A" }],
-      "title": "Rows Stored",
-      "type": "stat"
-    },
-    {
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              { "color": "green", "value": null },
-              { "color": "yellow", "value": 1 },
-              { "color": "red", "value": 10 }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 4, "w": 3, "x": 21, "y": 1 },
-      "id": 8,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "textMode": "auto"
-      },
-      "targets": [{ "expr": "sum(increase(vl_slow_queries_total{job=\"victoria-logs\"}[1h]))", "legendFormat": "", "refId": "A" }],
-      "title": "Slow Queries (1h)",
-      "type": "stat"
-    },
-    {
-      "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 5 },
-      "id": 200,
-      "panels": [],
-      "title": "📥 Ingestion",
-      "type": "row"
-    },
-    {
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "palette-classic" },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 20,
-            "gradientMode": "none",
-            "hideFrom": { "legend": false, "tooltip": false, "viz": false },
-            "lineInterpolation": "smooth",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": { "type": "linear" },
-            "showPoints": "never",
-            "spanNulls": true,
-            "stacking": { "group": "A", "mode": "none" },
-            "thresholdsStyle": { "mode": "off" }
-          },
-          "mappings": [],
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] },
-          "unit": "ops"
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 6 },
-      "id": 9,
-      "options": {
-        "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom", "showLegend": true },
-        "tooltip": { "mode": "multi", "sort": "desc" }
-      },
-      "targets": [{ "expr": "sum(rate(vl_rows_ingested_total{job=\"victoria-logs\"}[$__rate_interval]))", "legendFormat": "rows/s", "refId": "A" }],
-      "title": "Ingestion Rate",
-      "type": "timeseries"
-    },
-    {
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "palette-classic" },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 20,
-            "gradientMode": "none",
-            "hideFrom": { "legend": false, "tooltip": false, "viz": false },
-            "lineInterpolation": "smooth",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": { "type": "linear" },
-            "showPoints": "never",
-            "spanNulls": true,
-            "stacking": { "group": "A", "mode": "none" },
-            "thresholdsStyle": { "mode": "off" }
-          },
-          "mappings": [],
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] },
-          "unit": "bytes"
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 6 },
-      "id": 10,
-      "options": {
-        "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom", "showLegend": true },
-        "tooltip": { "mode": "multi", "sort": "desc" }
-      },
-      "targets": [
-        { "expr": "vl_data_size_bytes{job=\"victoria-logs\"}", "legendFormat": "{{type}}", "refId": "A" }
-      ],
-      "title": "Data Size Over Time",
-      "type": "timeseries"
-    },
-    {
-      "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 14 },
-      "id": 300,
-      "panels": [],
-      "title": "🔍 Queries",
-      "type": "row"
-    },
-    {
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "palette-classic" },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 20,
-            "gradientMode": "none",
-            "hideFrom": { "legend": false, "tooltip": false, "viz": false },
-            "lineInterpolation": "smooth",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": { "type": "linear" },
-            "showPoints": "never",
-            "spanNulls": true,
-            "stacking": { "group": "A", "mode": "none" },
-            "thresholdsStyle": { "mode": "off" }
-          },
-          "mappings": [],
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] },
-          "unit": "reqps"
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 15 },
-      "id": 11,
-      "options": {
-        "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom", "showLegend": true },
-        "tooltip": { "mode": "multi", "sort": "desc" }
-      },
-      "targets": [{ "expr": "topk(10, rate(vl_http_requests_total{job=\"victoria-logs\"}[$__rate_interval]))", "legendFormat": "{{path}}", "refId": "A" }],
-      "title": "HTTP Requests Rate",
-      "type": "timeseries"
-    },
-    {
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "palette-classic" },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 20,
-            "gradientMode": "none",
-            "hideFrom": { "legend": false, "tooltip": false, "viz": false },
-            "lineInterpolation": "smooth",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": { "type": "linear" },
-            "showPoints": "never",
-            "spanNulls": true,
-            "stacking": { "group": "A", "mode": "none" },
-            "thresholdsStyle": { "mode": "off" }
-          },
-          "mappings": [],
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] },
-          "unit": "s"
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 15 },
-      "id": 12,
-      "options": {
-        "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom", "showLegend": true },
-        "tooltip": { "mode": "multi", "sort": "desc" }
-      },
-      "targets": [{ "expr": "sum by (path) (vl_http_request_duration_seconds_sum{job=\"victoria-logs\"}) / sum by (path) (vl_http_request_duration_seconds_count{job=\"victoria-logs\"})", "legendFormat": "", "refId": "A" }],
-      "title": "Avg Request Duration",
-      "type": "timeseries"
-    },
-    {
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "palette-classic" },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 20,
-            "gradientMode": "none",
-            "hideFrom": { "legend": false, "tooltip": false, "viz": false },
-            "lineInterpolation": "smooth",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": { "type": "linear" },
-            "showPoints": "never",
-            "spanNulls": true,
-            "stacking": { "group": "A", "mode": "none" },
-            "thresholdsStyle": { "mode": "off" }
-          },
-          "mappings": [],
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] },
-          "unit": "bytes"
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 23 },
-      "id": 13,
-      "options": {
-        "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom", "showLegend": true },
-        "tooltip": { "mode": "multi", "sort": "desc" }
-      },
-      "targets": [
-        { "expr": "vl_compressed_data_size_bytes{job=\"victoria-logs\"}", "legendFormat": "compressed", "refId": "A" },
-        { "expr": "vl_uncompressed_data_size_bytes{job=\"victoria-logs\"}", "legendFormat": "uncompressed", "refId": "B" }
-      ],
-      "title": "Compressed vs Uncompressed",
-      "type": "timeseries"
-    },
-    {
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "palette-classic" },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 20,
-            "gradientMode": "none",
-            "hideFrom": { "legend": false, "tooltip": false, "viz": false },
-            "lineInterpolation": "smooth",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": { "type": "linear" },
-            "showPoints": "never",
-            "spanNulls": true,
-            "stacking": { "group": "A", "mode": "none" },
-            "thresholdsStyle": { "mode": "off" }
-          },
-          "mappings": [],
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 23 },
-      "id": 14,
-      "options": {
-        "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom", "showLegend": true },
-        "tooltip": { "mode": "multi", "sort": "desc" }
-      },
-      "targets": [
-        { "expr": "vl_indexdb_parts{job=\"victoria-logs\"}", "legendFormat": "indexdb parts", "refId": "A" },
-        { "expr": "vl_indexdb_blocks{job=\"victoria-logs\"}", "legendFormat": "indexdb blocks", "refId": "B" },
-        { "expr": "sum by (type) (vl_storage_rows{job=\"victoria-logs\"})", "legendFormat": "rows {{type}}", "refId": "C" }
-      ],
-      "title": "Parts & Blocks",
-      "type": "timeseries"
-    },
-    {
-      "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 31 },
-      "id": 400,
-      "panels": [],
-      "title": "📋 Log Analysis",
-      "type": "row"
-    },
-    {
-      "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
-      "description": "Total log entries matching $filter in the selected time range.",
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "mappings": [],
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": 0 }] },
-          "unit": "sishort"
-        },
-        "overrides": [
-          { "matcher": { "id": "byName", "options": "rows" }, "properties": [{ "id": "unit", "value": "none" }] }
-        ]
-      },
-      "gridPos": { "h": 7, "w": 6, "x": 0, "y": 32 },
-      "id": 29,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "center",
-        "orientation": "auto",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "targets": [
-        {
-          "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
-          "editorMode": "code",
-          "expr": "${filter:raw} | count()",
-          "queryType": "stats",
-          "refId": "A"
-        }
-      ],
-      "title": "Total logs",
-      "type": "stat"
-    },
-    {
-      "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
-      "description": "Time since the newest matching log.",
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "mappings": [],
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": 0 }] },
-          "unit": "ns"
-        },
-        "overrides": [
-          { "matcher": { "id": "byName", "options": "rows" }, "properties": [{ "id": "unit", "value": "none" }] }
-        ]
-      },
-      "gridPos": { "h": 7, "w": 6, "x": 6, "y": 32 },
-      "id": 57,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "targets": [
-        {
-          "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
-          "editorMode": "code",
-          "expr": "${filter:raw} | first 1 by (_time desc) | math (now() - _time) default 0 as lag_ns | max(lag_ns) as lag_ns",
-          "queryType": "stats",
-          "refId": "A"
-        }
-      ],
-      "title": "Last log age",
-      "type": "stat"
-    },
-    {
-      "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
-      "description": "Records-per-second over time for the current filter.",
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "palette-classic" },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "barWidthFactor": 0.6,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": { "legend": false, "tooltip": false, "viz": false },
-                        "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": { "type": "linear" },
-            "showPoints": "auto",
-            "showValues": false,
-            "spanNulls": true,
-            "stacking": { "group": "A", "mode": "none" },
-            "thresholdsStyle": { "mode": "off" }
-          },
-          "mappings": [],
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": 0 }] },
-          "unit": "none"
-        },
-        "overrides": [
-          { "matcher": { "id": "byName", "options": "rows" }, "properties": [{ "id": "unit", "value": "none" }] }
-        ]
-      },
-      "gridPos": { "h": 7, "w": 12, "x": 12, "y": 32 },
-      "id": 33,
-      "options": {
-        "legend": { "calcs": [], "displayMode": "list", "placement": "bottom", "showLegend": true },
-        "tooltip": { "hideZeros": false, "mode": "single", "sort": "none" }
-      },
-      "targets": [
-        {
-          "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
-          "editorMode": "code",
-          "expr": "${filter:raw} | stats () rate()",
-          "legendFormat": "rate",
-          "queryType": "statsRange",
-          "refId": "A"
-        }
-      ],
-      "title": "Log ingestion rate",
-      "type": "timeseries"
-    },
-    {
-      "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 39 },
-      "id": 500,
-      "panels": [],
-      "title": "📋 Fields",
-      "type": "row"
-    },
-    {
-      "description": "Fields ranked by storage consumption.",
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "custom": {
-            "align": "auto",
-            "cellOptions": { "type": "auto" },
-            "footer": { "reducers": [] },
-            "inspect": false,
-            "wrapText": false
-          },
-          "mappings": [],
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "blue", "value": 0 }] },
-          "unit": "bytes"
-        },
-        "overrides": [
-          { "matcher": { "id": "byName", "options": "Rows" }, "properties": [{ "id": "unit", "value": "sishort" }] },
-          { "matcher": { "id": "byName", "options": "Total bytes" }, "properties": [{ "id": "custom.cellOptions", "value": { "type": "gauge", "valueDisplayMode": "color" } }] }
-        ]
-      },
-      "gridPos": { "h": 10, "w": 24, "x": 0, "y": 40 },
-      "id": 28,
-      "options": {
-        "cellHeight": "sm",
-        "showHeader": true,
-        "sortBy": [{ "desc": true, "displayName": "Total bytes" }]
-      },
-      "targets": [
-        {
-          "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
-          "editorMode": "code",
-          "expr": "${filter:raw}\n  | block_stats\n  | stats by (field)\n      sum(values_bytes) as values_bytes,\n      sum(bloom_bytes) as bloom_bytes,\n      sum(rows) as rows\n  | math\n      (values_bytes+bloom_bytes) as total_bytes,\n      round(total_bytes / rows, 0.01) as bytes_per_row\n  | sort by (total_bytes desc) limit $limit\n  | total_stats min(total_bytes) as min_total_bytes, max(total_bytes) as max_total_bytes",
-          "queryType": "instant",
-          "refId": "A"
-        }
-      ],
-      "title": "Top $limit heaviest fields",
-      "transformations": [
-        { "id": "extractFields", "options": { "delimiter": ",", "keepTime": false, "replace": true, "source": "labels" } },
-        { "id": "configFromData", "options": { "applyTo": { "id": "byName", "options": "total_bytes" }, "configRefId": "A", "mappings": [{ "fieldName": "max_total_bytes", "handlerKey": "max" }, { "fieldName": "min_total_bytes", "handlerKey": "min" }] } },
-        { "id": "organize", "options": { "excludeByName": { "k": true, "max_total_bytes": true, "min_total_bytes": true }, "indexByName": { "bloom_bytes": 5, "bytes_per_row": 3, "field": 0, "rows": 2, "total_bytes": 1, "values_bytes": 4 }, "renameByName": { "bloom_bytes": "Bloom filter bytes", "bytes_per_row": "Bytes/row", "field": "Field", "rows": "Rows", "total_bytes": "Total bytes", "values_bytes": "Value bytes" } } }
-      ],
-      "type": "table"
-    },
-    {
-      "description": "Total number of distinct field names.",
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "mappings": [],
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "blue", "value": 0 }] },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 9, "w": 4, "x": 0, "y": 50 },
-      "id": 60,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "targets": [
-        {
-          "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
-          "editorMode": "code",
-          "expr": "${filter:raw} | field_names | count()",
-          "queryType": "stats",
-          "refId": "A"
-        }
-      ],
-      "title": "Total field names",
-      "type": "stat"
-    },
-    {
-      "description": "Schema discovery: most frequently seen field names.",
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "custom": { "align": "auto", "cellOptions": { "type": "auto" }, "footer": { "reducers": [] }, "inspect": false, "wrapText": false },
-          "mappings": [],
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "blue", "value": 0 }] },
-          "unit": "short"
-        },
-        "overrides": [
-          { "matcher": { "id": "byName", "options": "Log count" }, "properties": [{ "id": "custom.cellOptions", "value": { "mode": "gradient", "type": "gauge", "valueDisplayMode": "text" } }] }
-        ]
-      },
-      "gridPos": { "h": 9, "w": 9, "x": 4, "y": 50 },
-      "id": 50,
-      "options": { "cellHeight": "sm", "showHeader": true, "sortBy": [{ "desc": true, "displayName": "Log count" }] },
-      "targets": [
-        {
-          "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
-          "editorMode": "code",
-          "expr": "${filter:raw}\n  | field_names\n  | sort by (hits desc) limit $limit\n  | total_stats max(hits) as max_count, min(hits) as min_count",
-          "queryType": "instant",
-          "refId": "A"
-        }
-      ],
-      "title": "Top field names (limit: $limit)",
-      "transformations": [
-        { "id": "extractFields", "options": { "delimiter": ",", "keepTime": false, "replace": true, "source": "labels" } },
-        { "id": "configFromData", "options": { "applyTo": { "id": "byName", "options": "hits" }, "configRefId": "A", "mappings": [{ "fieldName": "max_count", "handlerKey": "max" }, { "fieldName": "min_count", "handlerKey": "min" }] } },
-        { "id": "organize", "options": { "excludeByName": { "max_count": true, "min_count": true }, "indexByName": { "hits": 1, "name": 0 }, "renameByName": { "hits": "Log count", "name": "Field name" } } }
-      ],
-      "type": "table"
-    },
-    {
-      "description": "Least frequently present field names. Find stale, rare, or dynamic keys.",
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "custom": { "align": "auto", "cellOptions": { "type": "auto" }, "footer": { "reducers": [] }, "inspect": false, "wrapText": false },
-          "mappings": [],
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "blue", "value": 0 }] },
-          "unit": "short"
-        },
-        "overrides": [
-          { "matcher": { "id": "byName", "options": "Log count" }, "properties": [{ "id": "custom.cellOptions", "value": { "mode": "gradient", "type": "gauge", "valueDisplayMode": "text" } }] }
-        ]
-      },
-      "gridPos": { "h": 9, "w": 11, "x": 13, "y": 50 },
-      "id": 54,
-      "options": { "cellHeight": "sm", "showHeader": true, "sortBy": [{ "desc": false, "displayName": "Log count" }] },
-      "targets": [
-        {
-          "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
-          "editorMode": "code",
-          "expr": "${filter:raw}\n  | field_names\n  | sort by (hits asc) limit $limit\n  | total_stats max(hits) as max_count, min(hits) as min_count",
-          "queryType": "instant",
-          "refId": "A"
-        }
-      ],
-      "title": "Rare field names (limit: $limit)",
-      "transformations": [
-        { "id": "extractFields", "options": { "delimiter": ",", "keepTime": false, "replace": true, "source": "labels" } },
-        { "id": "configFromData", "options": { "applyTo": { "id": "byName", "options": "hits" }, "configRefId": "A", "mappings": [{ "fieldName": "max_count", "handlerKey": "max" }, { "fieldName": "min_count", "handlerKey": "min" }] } },
-        { "id": "organize", "options": { "excludeByName": { "max_count": true, "min_count": true }, "indexByName": { "hits": 1, "name": 0 }, "renameByName": { "hits": "Log count", "name": "Field name" } } }
-      ],
-      "type": "table"
-    },
-    {
-      "description": "Most frequently seen log message patterns.",
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "custom": { "align": "auto", "cellOptions": { "type": "auto" }, "footer": { "reducers": [] }, "inspect": true, "wrapText": false },
-          "links": [],
-          "mappings": [],
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "blue", "value": 0 }] },
-          "unit": "short"
-        },
-        "overrides": [
-          { "matcher": { "id": "byName", "options": "Log count" }, "properties": [{ "id": "custom.cellOptions", "value": { "mode": "gradient", "type": "gauge", "valueDisplayMode": "text" } }] }
-        ]
-      },
-      "gridPos": { "h": 9, "w": 13, "x": 0, "y": 59 },
-      "id": 55,
-      "options": { "cellHeight": "sm", "showHeader": true, "sortBy": [{ "desc": true, "displayName": "Log count" }] },
-      "targets": [
-        {
-          "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
-          "editorMode": "code",
-          "expr": "${filter:raw}\n  | collapse_nums prettify\n  | top $limit by (_msg) \n  | total_stats max(hits) as max_count, min(hits) as min_count\n  | rename _msg msg",
-          "queryType": "instant",
-          "refId": "A"
-        }
-      ],
-      "title": "Top $limit _msg patterns",
-      "transformations": [
-        { "id": "extractFields", "options": { "delimiter": ",", "format": "json", "keepTime": false, "replace": true, "source": "labels" } },
-        { "id": "configFromData", "options": { "applyTo": { "id": "byName", "options": "hits" }, "configRefId": "A", "mappings": [{ "fieldName": "max_count", "handlerKey": "max" }, { "fieldName": "min_count", "handlerKey": "min" }] } },
-        { "id": "organize", "options": { "excludeByName": { "max_count": true, "min_count": true }, "indexByName": { "hits": 1, "msg": 0 }, "renameByName": { "hits": "Log count", "msg": "_msg" } } }
-      ],
-      "type": "table"
-    },
-    {
-      "description": "Top field=value pairs (excluding stream metadata).",
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "custom": { "align": "auto", "cellOptions": { "type": "auto" }, "footer": { "reducers": [] }, "inspect": false, "wrapText": false },
-          "mappings": [],
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "blue", "value": 0 }] },
-          "unit": "short"
-        },
-        "overrides": [
-          { "matcher": { "id": "byName", "options": "Log count" }, "properties": [{ "id": "custom.cellOptions", "value": { "mode": "gradient", "type": "gauge", "valueDisplayMode": "text" } }] }
-        ]
-      },
-      "gridPos": { "h": 9, "w": 11, "x": 13, "y": 59 },
-      "id": 56,
-      "options": { "cellHeight": "sm", "showHeader": true, "sortBy": [{ "desc": true, "displayName": "Log count" }] },
-      "targets": [
-        {
-          "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
-          "editorMode": "code",
-          "expr": "${filter:raw}\n  | facets\n  | filter -field_name:in(_stream_id,_stream)\n  | sort by (hits desc) limit $limit\n  | total_stats max(hits) as max_count, min(hits) as min_count",
-          "queryType": "instant",
-          "refId": "A"
-        }
-      ],
-      "title": "Top $limit fields (key-value pair)",
-      "transformations": [
-        { "id": "extractFields", "options": { "delimiter": ",", "format": "json", "keepTime": false, "replace": true, "source": "labels" } },
-        { "id": "configFromData", "options": { "applyTo": { "id": "byName", "options": "hits" }, "configRefId": "A", "mappings": [{ "fieldName": "max_count", "handlerKey": "max" }, { "fieldName": "min_count", "handlerKey": "min" }] } },
-        { "id": "organize", "options": { "excludeByName": { "max_count": true, "min_count": true }, "indexByName": { "field_name": 2, "field_value": 3, "hits": 4 }, "renameByName": { "hits": "Log count" } } }
-      ],
-      "type": "table"
-    },
-    {
-      "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 68 },
-      "id": 600,
-      "panels": [],
-      "title": "🔄 Streams",
-      "type": "row"
-    },
-    {
-      "description": "Number of distinct log streams.",
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "mappings": [],
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "purple", "value": 0 }] },
-          "unit": "sishort"
-        },
-        "overrides": [
-          { "matcher": { "id": "byName", "options": "rows" }, "properties": [{ "id": "unit", "value": "none" }] }
-        ]
-      },
-      "gridPos": { "h": 9, "w": 4, "x": 0, "y": 69 },
-      "id": 35,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "targets": [
-        {
-          "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
-          "editorMode": "code",
-          "expr": "${filter:raw} | stats count_uniq(_stream) as active_streams",
-          "queryType": "stats",
-          "refId": "A"
-        }
-      ],
-      "title": "Total streams",
-      "type": "stat"
-    },
-    {
-      "description": "Distinct log streams per interval over time.",
-      "fieldConfig": {
-        "defaults": {
-          "color": { "fixedColor": "dark-purple", "mode": "fixed" },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "barWidthFactor": 0.6,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": { "legend": false, "tooltip": false, "viz": false },
-                        "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": { "type": "linear" },
-            "showPoints": "auto",
-            "showValues": false,
-            "spanNulls": true,
-            "stacking": { "group": "A", "mode": "none" },
-            "thresholdsStyle": { "mode": "off" }
-          },
-          "mappings": [],
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "dark-purple", "value": 0 }] },
-          "unit": "none"
-        },
-        "overrides": [
-          { "matcher": { "id": "byName", "options": "rows" }, "properties": [{ "id": "unit", "value": "none" }] }
-        ]
-      },
-      "gridPos": { "h": 9, "w": 20, "x": 4, "y": 69 },
-      "id": 30,
-      "options": {
-        "legend": { "calcs": [], "displayMode": "list", "placement": "bottom", "showLegend": true },
-        "tooltip": { "hideZeros": false, "mode": "single", "sort": "none" }
-      },
-      "targets": [
-        {
-          "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
-          "editorMode": "code",
-          "expr": "${filter:raw} | stats count_uniq(_stream) as active_streams",
-          "queryType": "statsRange",
-          "refId": "A"
-        }
-      ],
-      "title": "Active streams (step: $__interval)",
-      "type": "timeseries"
-    },
-    {
-      "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
-      "description": "Streams with the lowest log volume.",
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "custom": { "align": "auto", "cellOptions": { "type": "auto" }, "footer": { "reducers": [] }, "inspect": false },
-          "mappings": [],
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "dark-purple", "value": 0 }] },
-          "unit": "short"
-        },
-        "overrides": [
-          { "matcher": { "id": "byName", "options": "Log count" }, "properties": [{ "id": "custom.cellOptions", "value": { "type": "gauge", "valueDisplayMode": "text" } }] }
-        ]
-      },
-      "gridPos": { "h": 9, "w": 13, "x": 0, "y": 78 },
-      "id": 53,
-      "options": { "cellHeight": "sm", "showHeader": true, "sortBy": [{ "desc": false, "displayName": "Log count" }] },
-      "targets": [
-        {
-          "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
-          "editorMode": "code",
-          "expr": "${filter:raw}\n  | stats by (_stream) count() as hits\n  | first $limit (hits asc)\n  | copy _stream as stream\n  | fields stream, hits\n  | total_stats max(hits) as max_count, min(hits) as min_count",
-          "queryType": "instant",
-          "refId": "A"
-        }
-      ],
-      "title": "Least active streams (limit: $limit)",
-      "transformations": [
-        { "id": "extractFields", "options": { "delimiter": ",", "format": "auto", "keepTime": false, "replace": true, "source": "labels" } },
-        { "id": "configFromData", "options": { "applyTo": { "id": "byName", "options": "hits" }, "configRefId": "A", "mappings": [{ "fieldName": "max_count", "handlerKey": "max", "reducerId": "lastNotNull" }, { "fieldName": "min_count", "handlerKey": "min" }] } },
-        { "id": "organize", "options": { "excludeByName": { "max_count": true, "min_count": true, "totals": true }, "indexByName": { "hits": 1, "stream": 0 }, "renameByName": { "hits": "Log count", "stream": "Stream" } } }
-      ],
-      "type": "table"
-    },
-    {
-      "description": "Busiest streams by log count.",
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "custom": { "align": "auto", "cellOptions": { "type": "auto" }, "footer": { "reducers": [] }, "inspect": false },
-          "mappings": [],
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "dark-purple", "value": 0 }] },
-          "unit": "short"
-        },
-        "overrides": [
-          { "matcher": { "id": "byName", "options": "Log count" }, "properties": [{ "id": "custom.cellOptions", "value": { "type": "gauge", "valueDisplayMode": "text" } }] }
-        ]
-      },
-      "gridPos": { "h": 9, "w": 11, "x": 13, "y": 78 },
-      "id": 46,
-      "options": { "cellHeight": "sm", "showHeader": true, "sortBy": [{ "desc": true, "displayName": "Log count" }] },
-      "targets": [
-        {
-          "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
-          "editorMode": "code",
-          "expr": "${filter:raw} | \n    top $limit by (_stream) | \n    rename _stream stream | \n    total_stats max(hits) as max_count, min(hits) as min_count",
-          "queryType": "instant",
-          "refId": "A"
-        }
-      ],
-      "title": "Top streams (limit: $limit)",
-      "transformations": [
-        { "id": "extractFields", "options": { "delimiter": ",", "format": "auto", "keepTime": false, "replace": true, "source": "labels" } },
-        { "id": "configFromData", "options": { "applyTo": { "id": "byName", "options": "hits" }, "configRefId": "A", "mappings": [{ "fieldName": "max_count", "handlerKey": "max", "reducerId": "lastNotNull" }, { "fieldName": "min_count", "handlerKey": "min" }] } },
-        { "id": "organize", "options": { "excludeByName": { "max_count": true, "min_count": true, "totals": true }, "indexByName": { "hits": 1, "stream": 0 }, "renameByName": { "hits": "Log count", "stream": "Stream" } } }
-      ],
-      "type": "table"
-    },
-    {
-      "description": "Top log streams by total storage size.",
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "custom": { "align": "auto", "cellOptions": { "type": "auto" }, "footer": { "reducers": [] }, "inspect": false, "wrapText": false },
-          "mappings": [],
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "dark-purple", "value": 0 }] },
-          "unit": "bytes"
-        },
-        "overrides": [
-          { "matcher": { "id": "byName", "options": "Total bytes" }, "properties": [{ "id": "custom.cellOptions", "value": { "type": "gauge" } }] }
-        ]
-      },
-      "gridPos": { "h": 9, "w": 24, "x": 0, "y": 87 },
-      "id": 63,
-      "options": { "cellHeight": "sm", "showHeader": true, "sortBy": [{ "desc": true, "displayName": "Total bytes" }] },
-      "targets": [
-        {
-          "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
-          "editorMode": "code",
-          "expr": "${filter:raw}\n    | block_stats\n    | rename _stream stream\n    | stats by (stream)\n        sum(values_bytes) as values_bytes,\n        sum(bloom_bytes) as bloom_bytes\n    | math (values_bytes + bloom_bytes) as total_bytes\n    | sort by (total_bytes desc) limit $limit\n    | total_stats max(total_bytes) as max_count, min(total_bytes) as min_count",
-          "queryType": "instant",
-          "refId": "A"
-        }
-      ],
-      "title": "Top $limit streams by bytes (desc)",
-      "transformations": [
-        { "id": "extractFields", "options": { "delimiter": ",", "format": "auto", "keepTime": false, "replace": true, "source": "labels" } },
-        { "id": "configFromData", "options": { "applyTo": { "id": "byName", "options": "total_bytes" }, "configRefId": "A", "mappings": [{ "fieldName": "max_count", "handlerKey": "max", "reducerId": "lastNotNull" }, { "fieldName": "min_count", "handlerKey": "min" }] } },
-        { "id": "organize", "options": { "excludeByName": { "max_count": true, "min_count": true, "totals": true }, "indexByName": { "bloom_bytes": 3, "stream": 0, "total_bytes": 1, "values_bytes": 2 }, "renameByName": { "bloom_bytes": "Bloom filter bytes", "stream": "Stream", "total_bytes": "Total bytes", "values_bytes": "Value bytes" } } }
-      ],
-      "type": "table"
-    },
-    {
-      "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 96 },
-      "id": 700,
-      "panels": [],
-      "title": "📜 Raw",
-      "type": "row"
-    },
-    {
-      "description": "Recent 500 logs matching $filter.",
-      "fieldConfig": {
-        "defaults": {},
-        "overrides": []
-      },
-      "gridPos": { "h": 13, "w": 24, "x": 0, "y": 97 },
-      "id": 62,
-      "options": {
-        "dedupStrategy": "none",
-        "detailsMode": "inline",
-        "enableInfiniteScrolling": false,
-        "enableLogDetails": true,
-        "prettifyLogMessage": false,
-        "showCommonLabels": false,
-        "showControls": true,
-        "showLabels": false,
-        "showTime": false,
-        "sortOrder": "Descending",
-        "syntaxHighlighting": false,
-        "wrapLogMessage": false
-      },
-      "targets": [
-        {
-          "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
-          "editorMode": "code",
-          "expr": "${filter:raw} | sort by (_time) desc limit 500",
-          "queryType": "instant",
-          "refId": "A"
-        }
-      ],
-      "title": "Logs (limit 500)",
-      "type": "logs"
     }
   ],
-  "refresh": "30s",
-  "schemaVersion": 38,
+  "cursorSync": "Crosshair",
+  "description": "VictoriaLogs engine health, ingestion, and log dataset analysis.",
+  "editable": true,
+  "elements": {
+    "panel-1": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-metrics-datasource",
+                    "uid": "victoriametrics"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-metrics-datasource",
+                    "spec": {
+                      "expr": "vm_app_uptime_seconds{job=\"victoria-logs\"}",
+                      "legendFormat": ""
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 1,
+        "links": [],
+        "title": "Uptime",
+        "vizConfig": {
+          "kind": "stat",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "blue",
+                      "value": null
+                    }
+                  ]
+                },
+                "unit": "dtdurations"
+              },
+              "overrides": []
+            },
+            "options": {
+              "colorMode": "value",
+              "graphMode": "none",
+              "justifyMode": "auto",
+              "orientation": "auto",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "textMode": "auto"
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-10": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-metrics-datasource",
+                    "uid": "victoriametrics"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-metrics-datasource",
+                    "spec": {
+                      "expr": "vl_data_size_bytes{job=\"victoria-logs\"}",
+                      "legendFormat": "{{type}}"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 10,
+        "links": [],
+        "title": "Data Size Over Time",
+        "vizConfig": {
+          "kind": "timeseries",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisCenteredZero": false,
+                  "axisColorMode": "text",
+                  "axisLabel": "",
+                  "axisPlacement": "auto",
+                  "barAlignment": 0,
+                  "drawStyle": "line",
+                  "fillOpacity": 20,
+                  "gradientMode": "none",
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "lineInterpolation": "smooth",
+                  "lineWidth": 2,
+                  "pointSize": 5,
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "showPoints": "never",
+                  "spanNulls": true,
+                  "stacking": {
+                    "group": "A",
+                    "mode": "none"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    }
+                  ]
+                },
+                "unit": "bytes"
+              },
+              "overrides": []
+            },
+            "options": {
+              "legend": {
+                "calcs": [
+                  "mean",
+                  "max"
+                ],
+                "displayMode": "table",
+                "placement": "bottom",
+                "showLegend": true
+              },
+              "tooltip": {
+                "mode": "multi",
+                "sort": "desc"
+              }
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-11": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-metrics-datasource",
+                    "uid": "victoriametrics"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-metrics-datasource",
+                    "spec": {
+                      "expr": "topk(10, rate(vl_http_requests_total{job=\"victoria-logs\"}[$__rate_interval]))",
+                      "legendFormat": "{{path}}"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 11,
+        "links": [],
+        "title": "HTTP Requests Rate",
+        "vizConfig": {
+          "kind": "timeseries",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisCenteredZero": false,
+                  "axisColorMode": "text",
+                  "axisLabel": "",
+                  "axisPlacement": "auto",
+                  "barAlignment": 0,
+                  "drawStyle": "line",
+                  "fillOpacity": 20,
+                  "gradientMode": "none",
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "lineInterpolation": "smooth",
+                  "lineWidth": 2,
+                  "pointSize": 5,
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "showPoints": "never",
+                  "spanNulls": true,
+                  "stacking": {
+                    "group": "A",
+                    "mode": "none"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    }
+                  ]
+                },
+                "unit": "reqps"
+              },
+              "overrides": []
+            },
+            "options": {
+              "legend": {
+                "calcs": [
+                  "mean",
+                  "max"
+                ],
+                "displayMode": "table",
+                "placement": "bottom",
+                "showLegend": true
+              },
+              "tooltip": {
+                "mode": "multi",
+                "sort": "desc"
+              }
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-12": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-metrics-datasource",
+                    "uid": "victoriametrics"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-metrics-datasource",
+                    "spec": {
+                      "expr": "sum by (path) (vl_http_request_duration_seconds_sum{job=\"victoria-logs\"}) / sum by (path) (vl_http_request_duration_seconds_count{job=\"victoria-logs\"})",
+                      "legendFormat": ""
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 12,
+        "links": [],
+        "title": "Avg Request Duration",
+        "vizConfig": {
+          "kind": "timeseries",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisCenteredZero": false,
+                  "axisColorMode": "text",
+                  "axisLabel": "",
+                  "axisPlacement": "auto",
+                  "barAlignment": 0,
+                  "drawStyle": "line",
+                  "fillOpacity": 20,
+                  "gradientMode": "none",
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "lineInterpolation": "smooth",
+                  "lineWidth": 2,
+                  "pointSize": 5,
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "showPoints": "never",
+                  "spanNulls": true,
+                  "stacking": {
+                    "group": "A",
+                    "mode": "none"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    }
+                  ]
+                },
+                "unit": "s"
+              },
+              "overrides": []
+            },
+            "options": {
+              "legend": {
+                "calcs": [
+                  "mean",
+                  "max"
+                ],
+                "displayMode": "table",
+                "placement": "bottom",
+                "showLegend": true
+              },
+              "tooltip": {
+                "mode": "multi",
+                "sort": "desc"
+              }
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-13": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-metrics-datasource",
+                    "uid": "victoriametrics"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-metrics-datasource",
+                    "spec": {
+                      "expr": "vl_compressed_data_size_bytes{job=\"victoria-logs\"}",
+                      "legendFormat": "compressed"
+                    }
+                  },
+                  "refId": "A"
+                }
+              },
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-metrics-datasource",
+                    "uid": "victoriametrics"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-metrics-datasource",
+                    "spec": {
+                      "expr": "vl_uncompressed_data_size_bytes{job=\"victoria-logs\"}",
+                      "legendFormat": "uncompressed"
+                    }
+                  },
+                  "refId": "B"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 13,
+        "links": [],
+        "title": "Compressed vs Uncompressed",
+        "vizConfig": {
+          "kind": "timeseries",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisCenteredZero": false,
+                  "axisColorMode": "text",
+                  "axisLabel": "",
+                  "axisPlacement": "auto",
+                  "barAlignment": 0,
+                  "drawStyle": "line",
+                  "fillOpacity": 20,
+                  "gradientMode": "none",
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "lineInterpolation": "smooth",
+                  "lineWidth": 2,
+                  "pointSize": 5,
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "showPoints": "never",
+                  "spanNulls": true,
+                  "stacking": {
+                    "group": "A",
+                    "mode": "none"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    }
+                  ]
+                },
+                "unit": "bytes"
+              },
+              "overrides": []
+            },
+            "options": {
+              "legend": {
+                "calcs": [
+                  "mean",
+                  "max"
+                ],
+                "displayMode": "table",
+                "placement": "bottom",
+                "showLegend": true
+              },
+              "tooltip": {
+                "mode": "multi",
+                "sort": "desc"
+              }
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-14": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-metrics-datasource",
+                    "uid": "victoriametrics"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-metrics-datasource",
+                    "spec": {
+                      "expr": "vl_indexdb_parts{job=\"victoria-logs\"}",
+                      "legendFormat": "indexdb parts"
+                    }
+                  },
+                  "refId": "A"
+                }
+              },
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-metrics-datasource",
+                    "uid": "victoriametrics"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-metrics-datasource",
+                    "spec": {
+                      "expr": "vl_indexdb_blocks{job=\"victoria-logs\"}",
+                      "legendFormat": "indexdb blocks"
+                    }
+                  },
+                  "refId": "B"
+                }
+              },
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-metrics-datasource",
+                    "uid": "victoriametrics"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-metrics-datasource",
+                    "spec": {
+                      "expr": "sum by (type) (vl_storage_rows{job=\"victoria-logs\"})",
+                      "legendFormat": "rows {{type}}"
+                    }
+                  },
+                  "refId": "C"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 14,
+        "links": [],
+        "title": "Parts & Blocks",
+        "vizConfig": {
+          "kind": "timeseries",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisCenteredZero": false,
+                  "axisColorMode": "text",
+                  "axisLabel": "",
+                  "axisPlacement": "auto",
+                  "barAlignment": 0,
+                  "drawStyle": "line",
+                  "fillOpacity": 20,
+                  "gradientMode": "none",
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "lineInterpolation": "smooth",
+                  "lineWidth": 2,
+                  "pointSize": 5,
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "showPoints": "never",
+                  "spanNulls": true,
+                  "stacking": {
+                    "group": "A",
+                    "mode": "none"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": []
+            },
+            "options": {
+              "legend": {
+                "calcs": [
+                  "mean",
+                  "max"
+                ],
+                "displayMode": "table",
+                "placement": "bottom",
+                "showLegend": true
+              },
+              "tooltip": {
+                "mode": "multi",
+                "sort": "desc"
+              }
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-2": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-metrics-datasource",
+                    "uid": "victoriametrics"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-metrics-datasource",
+                    "spec": {
+                      "expr": "sum(vl_active_force_merges{job=\"victoria-logs\"}) + sum(vl_active_merges{job=\"victoria-logs\"})",
+                      "legendFormat": ""
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 2,
+        "links": [],
+        "title": "Active Merges",
+        "vizConfig": {
+          "kind": "stat",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": []
+            },
+            "options": {
+              "colorMode": "value",
+              "graphMode": "none",
+              "justifyMode": "auto",
+              "orientation": "auto",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "textMode": "auto"
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-28": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-logs-datasource",
+                    "uid": "victorialogs"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-logs-datasource",
+                    "spec": {
+                      "editorMode": "code",
+                      "expr": "${filter:raw}\n  | block_stats\n  | stats by (field)\n      sum(values_bytes) as values_bytes,\n      sum(bloom_bytes) as bloom_bytes,\n      sum(rows) as rows\n  | math\n      (values_bytes+bloom_bytes) as total_bytes,\n      round(total_bytes / rows, 0.01) as bytes_per_row\n  | sort by (total_bytes desc) limit $limit\n  | total_stats min(total_bytes) as min_total_bytes, max(total_bytes) as max_total_bytes",
+                      "queryType": "instant"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": [
+              {
+                "kind": "extractFields",
+                "spec": {
+                  "id": "extractFields",
+                  "options": {
+                    "delimiter": ",",
+                    "keepTime": false,
+                    "replace": true,
+                    "source": "labels"
+                  }
+                }
+              },
+              {
+                "kind": "configFromData",
+                "spec": {
+                  "id": "configFromData",
+                  "options": {
+                    "applyTo": {
+                      "id": "byName",
+                      "options": "total_bytes"
+                    },
+                    "configRefId": "A",
+                    "mappings": [
+                      {
+                        "fieldName": "max_total_bytes",
+                        "handlerKey": "max"
+                      },
+                      {
+                        "fieldName": "min_total_bytes",
+                        "handlerKey": "min"
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "kind": "organize",
+                "spec": {
+                  "id": "organize",
+                  "options": {
+                    "excludeByName": {
+                      "k": true,
+                      "max_total_bytes": true,
+                      "min_total_bytes": true
+                    },
+                    "indexByName": {
+                      "bloom_bytes": 5,
+                      "bytes_per_row": 3,
+                      "field": 0,
+                      "rows": 2,
+                      "total_bytes": 1,
+                      "values_bytes": 4
+                    },
+                    "renameByName": {
+                      "bloom_bytes": "Bloom filter bytes",
+                      "bytes_per_row": "Bytes/row",
+                      "field": "Field",
+                      "rows": "Rows",
+                      "total_bytes": "Total bytes",
+                      "values_bytes": "Value bytes"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": "Fields ranked by storage consumption.",
+        "id": 28,
+        "links": [],
+        "title": "Top $limit heaviest fields",
+        "vizConfig": {
+          "kind": "table",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "custom": {
+                  "align": "auto",
+                  "cellOptions": {
+                    "type": "auto"
+                  },
+                  "footer": {
+                    "reducers": []
+                  },
+                  "inspect": false,
+                  "wrapText": false
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "blue",
+                      "value": 0
+                    }
+                  ]
+                },
+                "unit": "bytes"
+              },
+              "overrides": [
+                {
+                  "matcher": {
+                    "id": "byName",
+                    "options": "Rows"
+                  },
+                  "properties": [
+                    {
+                      "id": "unit",
+                      "value": "sishort"
+                    }
+                  ]
+                },
+                {
+                  "matcher": {
+                    "id": "byName",
+                    "options": "Total bytes"
+                  },
+                  "properties": [
+                    {
+                      "id": "custom.cellOptions",
+                      "value": {
+                        "type": "gauge",
+                        "valueDisplayMode": "color"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            "options": {
+              "cellHeight": "sm",
+              "showHeader": true,
+              "sortBy": [
+                {
+                  "desc": true,
+                  "displayName": "Total bytes"
+                }
+              ]
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-29": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-logs-datasource",
+                    "uid": "victorialogs"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-logs-datasource",
+                    "spec": {
+                      "editorMode": "code",
+                      "expr": "${filter:raw} | count()",
+                      "queryType": "stats"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "Total log entries matching $filter in the selected time range.",
+        "id": 29,
+        "links": [],
+        "title": "Total logs",
+        "vizConfig": {
+          "kind": "stat",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": 0
+                    }
+                  ]
+                },
+                "unit": "sishort"
+              },
+              "overrides": [
+                {
+                  "matcher": {
+                    "id": "byName",
+                    "options": "rows"
+                  },
+                  "properties": [
+                    {
+                      "id": "unit",
+                      "value": "none"
+                    }
+                  ]
+                }
+              ]
+            },
+            "options": {
+              "colorMode": "value",
+              "graphMode": "area",
+              "justifyMode": "center",
+              "orientation": "auto",
+              "percentChangeColorMode": "standard",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "showPercentChange": false,
+              "textMode": "auto",
+              "wideLayout": true
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-3": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-metrics-datasource",
+                    "uid": "victoriametrics"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-metrics-datasource",
+                    "spec": {
+                      "expr": "sum(vl_data_size_bytes{job=\"victoria-logs\"})",
+                      "legendFormat": ""
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 3,
+        "links": [],
+        "title": "Data Size",
+        "vizConfig": {
+          "kind": "stat",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "blue",
+                      "value": null
+                    }
+                  ]
+                },
+                "unit": "bytes"
+              },
+              "overrides": []
+            },
+            "options": {
+              "colorMode": "value",
+              "graphMode": "none",
+              "justifyMode": "auto",
+              "orientation": "auto",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "textMode": "auto"
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-30": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-logs-datasource",
+                    "uid": "victorialogs"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-logs-datasource",
+                    "spec": {
+                      "editorMode": "code",
+                      "expr": "${filter:raw} | stats count_uniq(_stream) as active_streams",
+                      "queryType": "statsRange"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "Distinct log streams per interval over time.",
+        "id": 30,
+        "links": [],
+        "title": "Active streams (step: $__interval)",
+        "vizConfig": {
+          "kind": "timeseries",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "fixedColor": "dark-purple",
+                  "mode": "fixed"
+                },
+                "custom": {
+                  "axisBorderShow": false,
+                  "axisCenteredZero": false,
+                  "axisColorMode": "text",
+                  "axisLabel": "",
+                  "axisPlacement": "auto",
+                  "barAlignment": 0,
+                  "barWidthFactor": 0.6,
+                  "drawStyle": "line",
+                  "fillOpacity": 0,
+                  "gradientMode": "none",
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "lineInterpolation": "linear",
+                  "lineWidth": 1,
+                  "pointSize": 5,
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "showPoints": "auto",
+                  "showValues": false,
+                  "spanNulls": true,
+                  "stacking": {
+                    "group": "A",
+                    "mode": "none"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "dark-purple",
+                      "value": 0
+                    }
+                  ]
+                },
+                "unit": "none"
+              },
+              "overrides": [
+                {
+                  "matcher": {
+                    "id": "byName",
+                    "options": "rows"
+                  },
+                  "properties": [
+                    {
+                      "id": "unit",
+                      "value": "none"
+                    }
+                  ]
+                }
+              ]
+            },
+            "options": {
+              "legend": {
+                "calcs": [],
+                "displayMode": "list",
+                "placement": "bottom",
+                "showLegend": true
+              },
+              "tooltip": {
+                "hideZeros": false,
+                "mode": "single",
+                "sort": "none"
+              }
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-33": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-logs-datasource",
+                    "uid": "victorialogs"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-logs-datasource",
+                    "spec": {
+                      "editorMode": "code",
+                      "expr": "${filter:raw} | stats () rate()",
+                      "legendFormat": "rate",
+                      "queryType": "statsRange"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "Records-per-second over time for the current filter.",
+        "id": 33,
+        "links": [],
+        "title": "Log ingestion rate",
+        "vizConfig": {
+          "kind": "timeseries",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisBorderShow": false,
+                  "axisCenteredZero": false,
+                  "axisColorMode": "text",
+                  "axisLabel": "",
+                  "axisPlacement": "auto",
+                  "barAlignment": 0,
+                  "barWidthFactor": 0.6,
+                  "drawStyle": "line",
+                  "fillOpacity": 0,
+                  "gradientMode": "none",
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "lineInterpolation": "linear",
+                  "lineWidth": 1,
+                  "pointSize": 5,
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "showPoints": "auto",
+                  "showValues": false,
+                  "spanNulls": true,
+                  "stacking": {
+                    "group": "A",
+                    "mode": "none"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": 0
+                    }
+                  ]
+                },
+                "unit": "none"
+              },
+              "overrides": [
+                {
+                  "matcher": {
+                    "id": "byName",
+                    "options": "rows"
+                  },
+                  "properties": [
+                    {
+                      "id": "unit",
+                      "value": "none"
+                    }
+                  ]
+                }
+              ]
+            },
+            "options": {
+              "legend": {
+                "calcs": [],
+                "displayMode": "list",
+                "placement": "bottom",
+                "showLegend": true
+              },
+              "tooltip": {
+                "hideZeros": false,
+                "mode": "single",
+                "sort": "none"
+              }
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-35": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-logs-datasource",
+                    "uid": "victorialogs"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-logs-datasource",
+                    "spec": {
+                      "editorMode": "code",
+                      "expr": "${filter:raw} | stats count_uniq(_stream) as active_streams",
+                      "queryType": "stats"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "Number of distinct log streams.",
+        "id": 35,
+        "links": [],
+        "title": "Total streams",
+        "vizConfig": {
+          "kind": "stat",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "purple",
+                      "value": 0
+                    }
+                  ]
+                },
+                "unit": "sishort"
+              },
+              "overrides": [
+                {
+                  "matcher": {
+                    "id": "byName",
+                    "options": "rows"
+                  },
+                  "properties": [
+                    {
+                      "id": "unit",
+                      "value": "none"
+                    }
+                  ]
+                }
+              ]
+            },
+            "options": {
+              "colorMode": "value",
+              "graphMode": "area",
+              "justifyMode": "auto",
+              "orientation": "auto",
+              "percentChangeColorMode": "standard",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "showPercentChange": false,
+              "textMode": "auto",
+              "wideLayout": true
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-4": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-metrics-datasource",
+                    "uid": "victoriametrics"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-metrics-datasource",
+                    "spec": {
+                      "expr": "(1 - vl_free_disk_space_bytes{job=\"victoria-logs\"} / vl_total_disk_space_bytes{job=\"victoria-logs\"}) * 100",
+                      "legendFormat": ""
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 4,
+        "links": [],
+        "title": "Disk Used %",
+        "vizConfig": {
+          "kind": "gauge",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "max": 100,
+                "min": 0,
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "yellow",
+                      "value": 70
+                    },
+                    {
+                      "color": "red",
+                      "value": 90
+                    }
+                  ]
+                },
+                "unit": "percent"
+              },
+              "overrides": []
+            },
+            "options": {
+              "orientation": "auto",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "showThresholdLabels": false,
+              "showThresholdMarkers": true
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-46": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-logs-datasource",
+                    "uid": "victorialogs"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-logs-datasource",
+                    "spec": {
+                      "editorMode": "code",
+                      "expr": "${filter:raw} | \n    top $limit by (_stream) | \n    rename _stream stream | \n    total_stats max(hits) as max_count, min(hits) as min_count",
+                      "queryType": "instant"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": [
+              {
+                "kind": "extractFields",
+                "spec": {
+                  "id": "extractFields",
+                  "options": {
+                    "delimiter": ",",
+                    "format": "auto",
+                    "keepTime": false,
+                    "replace": true,
+                    "source": "labels"
+                  }
+                }
+              },
+              {
+                "kind": "configFromData",
+                "spec": {
+                  "id": "configFromData",
+                  "options": {
+                    "applyTo": {
+                      "id": "byName",
+                      "options": "hits"
+                    },
+                    "configRefId": "A",
+                    "mappings": [
+                      {
+                        "fieldName": "max_count",
+                        "handlerKey": "max",
+                        "reducerId": "lastNotNull"
+                      },
+                      {
+                        "fieldName": "min_count",
+                        "handlerKey": "min"
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "kind": "organize",
+                "spec": {
+                  "id": "organize",
+                  "options": {
+                    "excludeByName": {
+                      "max_count": true,
+                      "min_count": true,
+                      "totals": true
+                    },
+                    "indexByName": {
+                      "hits": 1,
+                      "stream": 0
+                    },
+                    "renameByName": {
+                      "hits": "Log count",
+                      "stream": "Stream"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": "Busiest streams by log count.",
+        "id": 46,
+        "links": [],
+        "title": "Top streams (limit: $limit)",
+        "vizConfig": {
+          "kind": "table",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "custom": {
+                  "align": "auto",
+                  "cellOptions": {
+                    "type": "auto"
+                  },
+                  "footer": {
+                    "reducers": []
+                  },
+                  "inspect": false
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "dark-purple",
+                      "value": 0
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": [
+                {
+                  "matcher": {
+                    "id": "byName",
+                    "options": "Log count"
+                  },
+                  "properties": [
+                    {
+                      "id": "custom.cellOptions",
+                      "value": {
+                        "type": "gauge",
+                        "valueDisplayMode": "text"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            "options": {
+              "cellHeight": "sm",
+              "showHeader": true,
+              "sortBy": [
+                {
+                  "desc": true,
+                  "displayName": "Log count"
+                }
+              ]
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-5": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-metrics-datasource",
+                    "uid": "victoriametrics"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-metrics-datasource",
+                    "spec": {
+                      "expr": "process_resident_memory_bytes{job=\"victoria-logs\"}",
+                      "legendFormat": ""
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 5,
+        "links": [],
+        "title": "RSS Memory",
+        "vizConfig": {
+          "kind": "stat",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "blue",
+                      "value": null
+                    }
+                  ]
+                },
+                "unit": "bytes"
+              },
+              "overrides": []
+            },
+            "options": {
+              "colorMode": "value",
+              "graphMode": "none",
+              "justifyMode": "auto",
+              "orientation": "auto",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "textMode": "auto"
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-50": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-logs-datasource",
+                    "uid": "victorialogs"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-logs-datasource",
+                    "spec": {
+                      "editorMode": "code",
+                      "expr": "${filter:raw}\n  | field_names\n  | sort by (hits desc) limit $limit\n  | total_stats max(hits) as max_count, min(hits) as min_count",
+                      "queryType": "instant"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": [
+              {
+                "kind": "extractFields",
+                "spec": {
+                  "id": "extractFields",
+                  "options": {
+                    "delimiter": ",",
+                    "keepTime": false,
+                    "replace": true,
+                    "source": "labels"
+                  }
+                }
+              },
+              {
+                "kind": "configFromData",
+                "spec": {
+                  "id": "configFromData",
+                  "options": {
+                    "applyTo": {
+                      "id": "byName",
+                      "options": "hits"
+                    },
+                    "configRefId": "A",
+                    "mappings": [
+                      {
+                        "fieldName": "max_count",
+                        "handlerKey": "max"
+                      },
+                      {
+                        "fieldName": "min_count",
+                        "handlerKey": "min"
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "kind": "organize",
+                "spec": {
+                  "id": "organize",
+                  "options": {
+                    "excludeByName": {
+                      "max_count": true,
+                      "min_count": true
+                    },
+                    "indexByName": {
+                      "hits": 1,
+                      "name": 0
+                    },
+                    "renameByName": {
+                      "hits": "Log count",
+                      "name": "Field name"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": "Schema discovery: most frequently seen field names.",
+        "id": 50,
+        "links": [],
+        "title": "Top field names (limit: $limit)",
+        "vizConfig": {
+          "kind": "table",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "custom": {
+                  "align": "auto",
+                  "cellOptions": {
+                    "type": "auto"
+                  },
+                  "footer": {
+                    "reducers": []
+                  },
+                  "inspect": false,
+                  "wrapText": false
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "blue",
+                      "value": 0
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": [
+                {
+                  "matcher": {
+                    "id": "byName",
+                    "options": "Log count"
+                  },
+                  "properties": [
+                    {
+                      "id": "custom.cellOptions",
+                      "value": {
+                        "mode": "gradient",
+                        "type": "gauge",
+                        "valueDisplayMode": "text"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            "options": {
+              "cellHeight": "sm",
+              "showHeader": true,
+              "sortBy": [
+                {
+                  "desc": true,
+                  "displayName": "Log count"
+                }
+              ]
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-53": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-logs-datasource",
+                    "uid": "victorialogs"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-logs-datasource",
+                    "spec": {
+                      "editorMode": "code",
+                      "expr": "${filter:raw}\n  | stats by (_stream) count() as hits\n  | first $limit (hits asc)\n  | copy _stream as stream\n  | fields stream, hits\n  | total_stats max(hits) as max_count, min(hits) as min_count",
+                      "queryType": "instant"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": [
+              {
+                "kind": "extractFields",
+                "spec": {
+                  "id": "extractFields",
+                  "options": {
+                    "delimiter": ",",
+                    "format": "auto",
+                    "keepTime": false,
+                    "replace": true,
+                    "source": "labels"
+                  }
+                }
+              },
+              {
+                "kind": "configFromData",
+                "spec": {
+                  "id": "configFromData",
+                  "options": {
+                    "applyTo": {
+                      "id": "byName",
+                      "options": "hits"
+                    },
+                    "configRefId": "A",
+                    "mappings": [
+                      {
+                        "fieldName": "max_count",
+                        "handlerKey": "max",
+                        "reducerId": "lastNotNull"
+                      },
+                      {
+                        "fieldName": "min_count",
+                        "handlerKey": "min"
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "kind": "organize",
+                "spec": {
+                  "id": "organize",
+                  "options": {
+                    "excludeByName": {
+                      "max_count": true,
+                      "min_count": true,
+                      "totals": true
+                    },
+                    "indexByName": {
+                      "hits": 1,
+                      "stream": 0
+                    },
+                    "renameByName": {
+                      "hits": "Log count",
+                      "stream": "Stream"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": "Streams with the lowest log volume.",
+        "id": 53,
+        "links": [],
+        "title": "Least active streams (limit: $limit)",
+        "vizConfig": {
+          "kind": "table",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "custom": {
+                  "align": "auto",
+                  "cellOptions": {
+                    "type": "auto"
+                  },
+                  "footer": {
+                    "reducers": []
+                  },
+                  "inspect": false
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "dark-purple",
+                      "value": 0
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": [
+                {
+                  "matcher": {
+                    "id": "byName",
+                    "options": "Log count"
+                  },
+                  "properties": [
+                    {
+                      "id": "custom.cellOptions",
+                      "value": {
+                        "type": "gauge",
+                        "valueDisplayMode": "text"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            "options": {
+              "cellHeight": "sm",
+              "showHeader": true,
+              "sortBy": [
+                {
+                  "desc": false,
+                  "displayName": "Log count"
+                }
+              ]
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-54": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-logs-datasource",
+                    "uid": "victorialogs"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-logs-datasource",
+                    "spec": {
+                      "editorMode": "code",
+                      "expr": "${filter:raw}\n  | field_names\n  | sort by (hits asc) limit $limit\n  | total_stats max(hits) as max_count, min(hits) as min_count",
+                      "queryType": "instant"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": [
+              {
+                "kind": "extractFields",
+                "spec": {
+                  "id": "extractFields",
+                  "options": {
+                    "delimiter": ",",
+                    "keepTime": false,
+                    "replace": true,
+                    "source": "labels"
+                  }
+                }
+              },
+              {
+                "kind": "configFromData",
+                "spec": {
+                  "id": "configFromData",
+                  "options": {
+                    "applyTo": {
+                      "id": "byName",
+                      "options": "hits"
+                    },
+                    "configRefId": "A",
+                    "mappings": [
+                      {
+                        "fieldName": "max_count",
+                        "handlerKey": "max"
+                      },
+                      {
+                        "fieldName": "min_count",
+                        "handlerKey": "min"
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "kind": "organize",
+                "spec": {
+                  "id": "organize",
+                  "options": {
+                    "excludeByName": {
+                      "max_count": true,
+                      "min_count": true
+                    },
+                    "indexByName": {
+                      "hits": 1,
+                      "name": 0
+                    },
+                    "renameByName": {
+                      "hits": "Log count",
+                      "name": "Field name"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": "Least frequently present field names. Find stale, rare, or dynamic keys.",
+        "id": 54,
+        "links": [],
+        "title": "Rare field names (limit: $limit)",
+        "vizConfig": {
+          "kind": "table",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "custom": {
+                  "align": "auto",
+                  "cellOptions": {
+                    "type": "auto"
+                  },
+                  "footer": {
+                    "reducers": []
+                  },
+                  "inspect": false,
+                  "wrapText": false
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "blue",
+                      "value": 0
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": [
+                {
+                  "matcher": {
+                    "id": "byName",
+                    "options": "Log count"
+                  },
+                  "properties": [
+                    {
+                      "id": "custom.cellOptions",
+                      "value": {
+                        "mode": "gradient",
+                        "type": "gauge",
+                        "valueDisplayMode": "text"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            "options": {
+              "cellHeight": "sm",
+              "showHeader": true,
+              "sortBy": [
+                {
+                  "desc": false,
+                  "displayName": "Log count"
+                }
+              ]
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-55": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-logs-datasource",
+                    "uid": "victorialogs"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-logs-datasource",
+                    "spec": {
+                      "editorMode": "code",
+                      "expr": "${filter:raw}\n  | collapse_nums prettify\n  | top $limit by (_msg) \n  | total_stats max(hits) as max_count, min(hits) as min_count\n  | rename _msg msg",
+                      "queryType": "instant"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": [
+              {
+                "kind": "extractFields",
+                "spec": {
+                  "id": "extractFields",
+                  "options": {
+                    "delimiter": ",",
+                    "format": "json",
+                    "keepTime": false,
+                    "replace": true,
+                    "source": "labels"
+                  }
+                }
+              },
+              {
+                "kind": "configFromData",
+                "spec": {
+                  "id": "configFromData",
+                  "options": {
+                    "applyTo": {
+                      "id": "byName",
+                      "options": "hits"
+                    },
+                    "configRefId": "A",
+                    "mappings": [
+                      {
+                        "fieldName": "max_count",
+                        "handlerKey": "max"
+                      },
+                      {
+                        "fieldName": "min_count",
+                        "handlerKey": "min"
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "kind": "organize",
+                "spec": {
+                  "id": "organize",
+                  "options": {
+                    "excludeByName": {
+                      "max_count": true,
+                      "min_count": true
+                    },
+                    "indexByName": {
+                      "hits": 1,
+                      "msg": 0
+                    },
+                    "renameByName": {
+                      "hits": "Log count",
+                      "msg": "_msg"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": "Most frequently seen log message patterns.",
+        "id": 55,
+        "links": [],
+        "title": "Top $limit _msg patterns",
+        "vizConfig": {
+          "kind": "table",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "custom": {
+                  "align": "auto",
+                  "cellOptions": {
+                    "type": "auto"
+                  },
+                  "footer": {
+                    "reducers": []
+                  },
+                  "inspect": true,
+                  "wrapText": false
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "blue",
+                      "value": 0
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": [
+                {
+                  "matcher": {
+                    "id": "byName",
+                    "options": "Log count"
+                  },
+                  "properties": [
+                    {
+                      "id": "custom.cellOptions",
+                      "value": {
+                        "mode": "gradient",
+                        "type": "gauge",
+                        "valueDisplayMode": "text"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            "options": {
+              "cellHeight": "sm",
+              "showHeader": true,
+              "sortBy": [
+                {
+                  "desc": true,
+                  "displayName": "Log count"
+                }
+              ]
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-56": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-logs-datasource",
+                    "uid": "victorialogs"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-logs-datasource",
+                    "spec": {
+                      "editorMode": "code",
+                      "expr": "${filter:raw}\n  | facets\n  | filter -field_name:in(_stream_id,_stream)\n  | sort by (hits desc) limit $limit\n  | total_stats max(hits) as max_count, min(hits) as min_count",
+                      "queryType": "instant"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": [
+              {
+                "kind": "extractFields",
+                "spec": {
+                  "id": "extractFields",
+                  "options": {
+                    "delimiter": ",",
+                    "format": "json",
+                    "keepTime": false,
+                    "replace": true,
+                    "source": "labels"
+                  }
+                }
+              },
+              {
+                "kind": "configFromData",
+                "spec": {
+                  "id": "configFromData",
+                  "options": {
+                    "applyTo": {
+                      "id": "byName",
+                      "options": "hits"
+                    },
+                    "configRefId": "A",
+                    "mappings": [
+                      {
+                        "fieldName": "max_count",
+                        "handlerKey": "max"
+                      },
+                      {
+                        "fieldName": "min_count",
+                        "handlerKey": "min"
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "kind": "organize",
+                "spec": {
+                  "id": "organize",
+                  "options": {
+                    "excludeByName": {
+                      "max_count": true,
+                      "min_count": true
+                    },
+                    "indexByName": {
+                      "field_name": 2,
+                      "field_value": 3,
+                      "hits": 4
+                    },
+                    "renameByName": {
+                      "hits": "Log count"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": "Top field=value pairs (excluding stream metadata).",
+        "id": 56,
+        "links": [],
+        "title": "Top $limit fields (key-value pair)",
+        "vizConfig": {
+          "kind": "table",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "custom": {
+                  "align": "auto",
+                  "cellOptions": {
+                    "type": "auto"
+                  },
+                  "footer": {
+                    "reducers": []
+                  },
+                  "inspect": false,
+                  "wrapText": false
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "blue",
+                      "value": 0
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": [
+                {
+                  "matcher": {
+                    "id": "byName",
+                    "options": "Log count"
+                  },
+                  "properties": [
+                    {
+                      "id": "custom.cellOptions",
+                      "value": {
+                        "mode": "gradient",
+                        "type": "gauge",
+                        "valueDisplayMode": "text"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            "options": {
+              "cellHeight": "sm",
+              "showHeader": true,
+              "sortBy": [
+                {
+                  "desc": true,
+                  "displayName": "Log count"
+                }
+              ]
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-57": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-logs-datasource",
+                    "uid": "victorialogs"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-logs-datasource",
+                    "spec": {
+                      "editorMode": "code",
+                      "expr": "${filter:raw} | first 1 by (_time desc) | math (now() - _time) default 0 as lag_ns | max(lag_ns) as lag_ns",
+                      "queryType": "stats"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "Time since the newest matching log.",
+        "id": 57,
+        "links": [],
+        "title": "Last log age",
+        "vizConfig": {
+          "kind": "stat",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": 0
+                    }
+                  ]
+                },
+                "unit": "ns"
+              },
+              "overrides": [
+                {
+                  "matcher": {
+                    "id": "byName",
+                    "options": "rows"
+                  },
+                  "properties": [
+                    {
+                      "id": "unit",
+                      "value": "none"
+                    }
+                  ]
+                }
+              ]
+            },
+            "options": {
+              "colorMode": "value",
+              "graphMode": "area",
+              "justifyMode": "auto",
+              "orientation": "auto",
+              "percentChangeColorMode": "standard",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "showPercentChange": false,
+              "textMode": "auto",
+              "wideLayout": true
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-6": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-metrics-datasource",
+                    "uid": "victoriametrics"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-metrics-datasource",
+                    "spec": {
+                      "expr": "go_goroutines{job=\"victoria-logs\"}",
+                      "legendFormat": ""
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 6,
+        "links": [],
+        "title": "Goroutines",
+        "vizConfig": {
+          "kind": "stat",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "blue",
+                      "value": null
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": []
+            },
+            "options": {
+              "colorMode": "value",
+              "graphMode": "area",
+              "justifyMode": "auto",
+              "orientation": "auto",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "textMode": "auto"
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-60": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-logs-datasource",
+                    "uid": "victorialogs"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-logs-datasource",
+                    "spec": {
+                      "editorMode": "code",
+                      "expr": "${filter:raw} | field_names | count()",
+                      "queryType": "stats"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "Total number of distinct field names.",
+        "id": 60,
+        "links": [],
+        "title": "Total field names",
+        "vizConfig": {
+          "kind": "stat",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "blue",
+                      "value": 0
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": []
+            },
+            "options": {
+              "colorMode": "value",
+              "graphMode": "area",
+              "justifyMode": "auto",
+              "orientation": "auto",
+              "percentChangeColorMode": "standard",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "showPercentChange": false,
+              "textMode": "auto",
+              "wideLayout": true
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-62": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-logs-datasource",
+                    "uid": "victorialogs"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-logs-datasource",
+                    "spec": {
+                      "editorMode": "code",
+                      "expr": "${filter:raw} | sort by (_time) desc limit 500",
+                      "queryType": "instant"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "Recent 500 logs matching $filter.",
+        "id": 62,
+        "links": [],
+        "title": "Logs (limit 500)",
+        "vizConfig": {
+          "kind": "logs",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {},
+              "overrides": []
+            },
+            "options": {
+              "dedupStrategy": "none",
+              "detailsMode": "inline",
+              "enableInfiniteScrolling": false,
+              "enableLogDetails": true,
+              "prettifyLogMessage": false,
+              "showCommonLabels": false,
+              "showControls": true,
+              "showLabels": false,
+              "showTime": false,
+              "sortOrder": "Descending",
+              "syntaxHighlighting": false,
+              "wrapLogMessage": false
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-63": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-logs-datasource",
+                    "uid": "victorialogs"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-logs-datasource",
+                    "spec": {
+                      "editorMode": "code",
+                      "expr": "${filter:raw}\n    | block_stats\n    | rename _stream stream\n    | stats by (stream)\n        sum(values_bytes) as values_bytes,\n        sum(bloom_bytes) as bloom_bytes\n    | math (values_bytes + bloom_bytes) as total_bytes\n    | sort by (total_bytes desc) limit $limit\n    | total_stats max(total_bytes) as max_count, min(total_bytes) as min_count",
+                      "queryType": "instant"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": [
+              {
+                "kind": "extractFields",
+                "spec": {
+                  "id": "extractFields",
+                  "options": {
+                    "delimiter": ",",
+                    "format": "auto",
+                    "keepTime": false,
+                    "replace": true,
+                    "source": "labels"
+                  }
+                }
+              },
+              {
+                "kind": "configFromData",
+                "spec": {
+                  "id": "configFromData",
+                  "options": {
+                    "applyTo": {
+                      "id": "byName",
+                      "options": "total_bytes"
+                    },
+                    "configRefId": "A",
+                    "mappings": [
+                      {
+                        "fieldName": "max_count",
+                        "handlerKey": "max",
+                        "reducerId": "lastNotNull"
+                      },
+                      {
+                        "fieldName": "min_count",
+                        "handlerKey": "min"
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "kind": "organize",
+                "spec": {
+                  "id": "organize",
+                  "options": {
+                    "excludeByName": {
+                      "max_count": true,
+                      "min_count": true,
+                      "totals": true
+                    },
+                    "indexByName": {
+                      "bloom_bytes": 3,
+                      "stream": 0,
+                      "total_bytes": 1,
+                      "values_bytes": 2
+                    },
+                    "renameByName": {
+                      "bloom_bytes": "Bloom filter bytes",
+                      "stream": "Stream",
+                      "total_bytes": "Total bytes",
+                      "values_bytes": "Value bytes"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": "Top log streams by total storage size.",
+        "id": 63,
+        "links": [],
+        "title": "Top $limit streams by bytes (desc)",
+        "vizConfig": {
+          "kind": "table",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "custom": {
+                  "align": "auto",
+                  "cellOptions": {
+                    "type": "auto"
+                  },
+                  "footer": {
+                    "reducers": []
+                  },
+                  "inspect": false,
+                  "wrapText": false
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "dark-purple",
+                      "value": 0
+                    }
+                  ]
+                },
+                "unit": "bytes"
+              },
+              "overrides": [
+                {
+                  "matcher": {
+                    "id": "byName",
+                    "options": "Total bytes"
+                  },
+                  "properties": [
+                    {
+                      "id": "custom.cellOptions",
+                      "value": {
+                        "type": "gauge"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            "options": {
+              "cellHeight": "sm",
+              "showHeader": true,
+              "sortBy": [
+                {
+                  "desc": true,
+                  "displayName": "Total bytes"
+                }
+              ]
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-7": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-metrics-datasource",
+                    "uid": "victoriametrics"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-metrics-datasource",
+                    "spec": {
+                      "expr": "sum(vl_storage_rows{job=\"victoria-logs\"})",
+                      "legendFormat": ""
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 7,
+        "links": [],
+        "title": "Rows Stored",
+        "vizConfig": {
+          "kind": "stat",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "blue",
+                      "value": null
+                    }
+                  ]
+                },
+                "unit": "sishort"
+              },
+              "overrides": []
+            },
+            "options": {
+              "colorMode": "value",
+              "graphMode": "none",
+              "justifyMode": "auto",
+              "orientation": "auto",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "textMode": "auto"
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-8": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-metrics-datasource",
+                    "uid": "victoriametrics"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-metrics-datasource",
+                    "spec": {
+                      "expr": "sum(increase(vl_slow_queries_total{job=\"victoria-logs\"}[1h]))",
+                      "legendFormat": ""
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 8,
+        "links": [],
+        "title": "Slow Queries (1h)",
+        "vizConfig": {
+          "kind": "stat",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "yellow",
+                      "value": 1
+                    },
+                    {
+                      "color": "red",
+                      "value": 10
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": []
+            },
+            "options": {
+              "colorMode": "value",
+              "graphMode": "none",
+              "justifyMode": "auto",
+              "orientation": "auto",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "textMode": "auto"
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-9": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-metrics-datasource",
+                    "uid": "victoriametrics"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-metrics-datasource",
+                    "spec": {
+                      "expr": "sum(rate(vl_rows_ingested_total{job=\"victoria-logs\"}[$__rate_interval]))",
+                      "legendFormat": "rows/s"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 9,
+        "links": [],
+        "title": "Ingestion Rate",
+        "vizConfig": {
+          "kind": "timeseries",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisCenteredZero": false,
+                  "axisColorMode": "text",
+                  "axisLabel": "",
+                  "axisPlacement": "auto",
+                  "barAlignment": 0,
+                  "drawStyle": "line",
+                  "fillOpacity": 20,
+                  "gradientMode": "none",
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "lineInterpolation": "smooth",
+                  "lineWidth": 2,
+                  "pointSize": 5,
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "showPoints": "never",
+                  "spanNulls": true,
+                  "stacking": {
+                    "group": "A",
+                    "mode": "none"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    }
+                  ]
+                },
+                "unit": "ops"
+              },
+              "overrides": []
+            },
+            "options": {
+              "legend": {
+                "calcs": [
+                  "mean",
+                  "max"
+                ],
+                "displayMode": "table",
+                "placement": "bottom",
+                "showLegend": true
+              },
+              "tooltip": {
+                "mode": "multi",
+                "sort": "desc"
+              }
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    }
+  },
+  "layout": {
+    "kind": "RowsLayout",
+    "spec": {
+      "rows": [
+        {
+          "kind": "RowsLayoutRow",
+          "spec": {
+            "collapse": false,
+            "layout": {
+              "kind": "GridLayout",
+              "spec": {
+                "items": [
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-1"
+                      },
+                      "height": 4,
+                      "width": 3,
+                      "x": 0,
+                      "y": 0
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-2"
+                      },
+                      "height": 4,
+                      "width": 3,
+                      "x": 3,
+                      "y": 0
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-3"
+                      },
+                      "height": 4,
+                      "width": 3,
+                      "x": 6,
+                      "y": 0
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-4"
+                      },
+                      "height": 4,
+                      "width": 3,
+                      "x": 9,
+                      "y": 0
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-5"
+                      },
+                      "height": 4,
+                      "width": 3,
+                      "x": 12,
+                      "y": 0
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-6"
+                      },
+                      "height": 4,
+                      "width": 3,
+                      "x": 15,
+                      "y": 0
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-7"
+                      },
+                      "height": 4,
+                      "width": 3,
+                      "x": 18,
+                      "y": 0
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-8"
+                      },
+                      "height": 4,
+                      "width": 3,
+                      "x": 21,
+                      "y": 0
+                    }
+                  }
+                ]
+              }
+            },
+            "title": "📊 Overview"
+          }
+        },
+        {
+          "kind": "RowsLayoutRow",
+          "spec": {
+            "collapse": false,
+            "layout": {
+              "kind": "GridLayout",
+              "spec": {
+                "items": [
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-9"
+                      },
+                      "height": 8,
+                      "width": 12,
+                      "x": 0,
+                      "y": 0
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-10"
+                      },
+                      "height": 8,
+                      "width": 12,
+                      "x": 12,
+                      "y": 0
+                    }
+                  }
+                ]
+              }
+            },
+            "title": "📥 Ingestion"
+          }
+        },
+        {
+          "kind": "RowsLayoutRow",
+          "spec": {
+            "collapse": false,
+            "layout": {
+              "kind": "GridLayout",
+              "spec": {
+                "items": [
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-11"
+                      },
+                      "height": 8,
+                      "width": 12,
+                      "x": 0,
+                      "y": 0
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-12"
+                      },
+                      "height": 8,
+                      "width": 12,
+                      "x": 12,
+                      "y": 0
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-13"
+                      },
+                      "height": 8,
+                      "width": 12,
+                      "x": 0,
+                      "y": 8
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-14"
+                      },
+                      "height": 8,
+                      "width": 12,
+                      "x": 12,
+                      "y": 8
+                    }
+                  }
+                ]
+              }
+            },
+            "title": "🔍 Queries"
+          }
+        },
+        {
+          "kind": "RowsLayoutRow",
+          "spec": {
+            "collapse": false,
+            "layout": {
+              "kind": "GridLayout",
+              "spec": {
+                "items": [
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-29"
+                      },
+                      "height": 7,
+                      "width": 6,
+                      "x": 0,
+                      "y": 0
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-57"
+                      },
+                      "height": 7,
+                      "width": 6,
+                      "x": 6,
+                      "y": 0
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-33"
+                      },
+                      "height": 7,
+                      "width": 12,
+                      "x": 12,
+                      "y": 0
+                    }
+                  }
+                ]
+              }
+            },
+            "title": "📋 Log Analysis"
+          }
+        },
+        {
+          "kind": "RowsLayoutRow",
+          "spec": {
+            "collapse": false,
+            "layout": {
+              "kind": "GridLayout",
+              "spec": {
+                "items": [
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-28"
+                      },
+                      "height": 10,
+                      "width": 24,
+                      "x": 0,
+                      "y": 0
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-60"
+                      },
+                      "height": 9,
+                      "width": 4,
+                      "x": 0,
+                      "y": 10
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-50"
+                      },
+                      "height": 9,
+                      "width": 9,
+                      "x": 4,
+                      "y": 10
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-54"
+                      },
+                      "height": 9,
+                      "width": 11,
+                      "x": 13,
+                      "y": 10
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-55"
+                      },
+                      "height": 9,
+                      "width": 13,
+                      "x": 0,
+                      "y": 19
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-56"
+                      },
+                      "height": 9,
+                      "width": 11,
+                      "x": 13,
+                      "y": 19
+                    }
+                  }
+                ]
+              }
+            },
+            "title": "📋 Fields"
+          }
+        },
+        {
+          "kind": "RowsLayoutRow",
+          "spec": {
+            "collapse": false,
+            "layout": {
+              "kind": "GridLayout",
+              "spec": {
+                "items": [
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-35"
+                      },
+                      "height": 9,
+                      "width": 4,
+                      "x": 0,
+                      "y": 0
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-30"
+                      },
+                      "height": 9,
+                      "width": 20,
+                      "x": 4,
+                      "y": 0
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-53"
+                      },
+                      "height": 9,
+                      "width": 13,
+                      "x": 0,
+                      "y": 9
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-46"
+                      },
+                      "height": 9,
+                      "width": 11,
+                      "x": 13,
+                      "y": 9
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-63"
+                      },
+                      "height": 9,
+                      "width": 24,
+                      "x": 0,
+                      "y": 18
+                    }
+                  }
+                ]
+              }
+            },
+            "title": "🔄 Streams"
+          }
+        },
+        {
+          "kind": "RowsLayoutRow",
+          "spec": {
+            "collapse": false,
+            "layout": {
+              "kind": "GridLayout",
+              "spec": {
+                "items": [
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-62"
+                      },
+                      "height": 13,
+                      "width": 24,
+                      "x": 0,
+                      "y": 0
+                    }
+                  }
+                ]
+              }
+            },
+            "title": "📜 Raw"
+          }
+        }
+      ]
+    }
+  },
+  "links": [],
+  "liveNow": false,
+  "preload": false,
   "tags": [
     "victorialogs",
     "monitoring",
     "logs"
   ],
-  "templating": {
-    "list": [
-      {
-        "current": { "text": "*", "value": "*" },
+  "timeSettings": {
+    "autoRefresh": "30s",
+    "autoRefreshIntervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "fiscalYearStartMonth": 0,
+    "from": "now-6h",
+    "hideTimepicker": false,
+    "timezone": "browser",
+    "to": "now"
+  },
+  "title": "VictoriaLogs",
+  "variables": [
+    {
+      "kind": "TextVariable",
+      "spec": {
+        "current": {
+          "text": "*",
+          "value": "*"
+        },
         "description": "Custom LogsQL filter attached to every query. Type any word or phrase. Set to \"*\" to not filter.",
+        "hide": "dontHide",
         "name": "filter",
-        "options": [{ "selected": true, "text": "*", "value": "*" }],
         "query": "*",
-        "type": "textbox"
-      },
-      {
-        "current": { "text": "20", "value": "20" },
+        "skipUrlSync": false
+      }
+    },
+    {
+      "kind": "CustomVariable",
+      "spec": {
+        "allowCustomValue": true,
+        "current": {
+          "text": "20",
+          "value": "20"
+        },
+        "hide": "dontHide",
+        "includeAll": false,
+        "multi": false,
         "name": "limit",
         "options": [
-          { "selected": true, "text": "20", "value": "20" },
-          { "selected": false, "text": "50", "value": "50" },
-          { "selected": false, "text": "100", "value": "100" }
+          {
+            "selected": true,
+            "text": "20",
+            "value": "20"
+          },
+          {
+            "selected": false,
+            "text": "50",
+            "value": "50"
+          },
+          {
+            "selected": false,
+            "text": "100",
+            "value": "100"
+          }
         ],
         "query": "20,50,100",
-        "type": "custom"
+        "skipUrlSync": false
       }
-    ]
-  },
-  "time": { "from": "now-6h", "to": "now" },
-  "timepicker": {},
-  "timezone": "browser",
-  "title": "VictoriaLogs",
-  "uid": "victorialogs",
-  "version": 1,
-  "weekStyle": "monday"
+    }
+  ]
 }

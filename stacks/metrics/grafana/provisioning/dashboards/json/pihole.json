@@ -1,9 +1,9 @@
 {
-  "__elements": {},
-  "annotations": {
-    "list": [
-      {
-        "builtIn": 1,
+  "annotations": [
+    {
+      "kind": "AnnotationQuery",
+      "spec": {
+        "builtIn": true,
         "datasource": {
           "type": "grafana",
           "uid": "-- Grafana --"
@@ -11,1053 +11,2567 @@
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
+        "legacyOptions": {
+          "type": "dashboard"
+        },
         "name": "Annotations & Alerts",
-        "type": "dashboard"
+        "query": {
+          "kind": "grafana",
+          "spec": {}
+        }
       }
-    ]
-  },
-  "description": "Pi-hole DNS query analytics and ad blocking stats.",
-  "editable": true,
-  "fiscalYearStartMonth": 0,
-  "graphTooltip": 1,
-  "id": null,
-  "links": [],
-  "liveNow": false,
-  "refresh": "30s",
-  "panels": [
-    {
-      "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 },
-      "id": 100,
-      "panels": [],
-      "title": "🛡️ Per Instance",
-      "type": "row"
-    },
-    {
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "mappings": [
-            { "options": { "0": { "color": "red", "text": "Disabled" }, "1": { "color": "green", "text": "Active" } }, "type": "value" }
-          ],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              { "color": "red", "value": null },
-              { "color": "green", "value": 1 }
-            ]
-          },
-          "unit": "none"
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 4, "w": 3, "x": 0, "y": 1 },
-      "id": 1,
-      "options": {
-        "colorMode": "background",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "textMode": "auto"
-      },
-      "targets": [
-        {
-          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-          "expr": "pihole_status{hostname=~\"$instance\"}",
-          "legendFormat": "{{hostname}}",
-          "refId": "A"
-        }
-      ],
-      "title": "Status",
-      "type": "stat"
-    },
-    {
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [{ "color": "green", "value": null }]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 4, "w": 5, "x": 3, "y": 1 },
-      "id": 3,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "textMode": "auto"
-      },
-      "targets": [
-        {
-          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-          "expr": "pihole_dns_queries_all_types{hostname=~\"$instance\"}",
-          "legendFormat": "{{hostname}}",
-          "refId": "A"
-        }
-      ],
-      "title": "DNS Queries Today",
-      "type": "stat"
-    },
-    {
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [{ "color": "orange", "value": null }]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 4, "w": 4, "x": 8, "y": 1 },
-      "id": 4,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "textMode": "auto"
-      },
-      "targets": [
-        {
-          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-          "expr": "pihole_ads_blocked_today{hostname=~\"$instance\"}",
-          "legendFormat": "{{hostname}}",
-          "refId": "A"
-        }
-      ],
-      "title": "Ads Blocked Today",
-      "type": "stat"
-    },
-    {
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              { "color": "green", "value": null },
-              { "color": "yellow", "value": 15 },
-              { "color": "red", "value": 30 }
-            ]
-          },
-          "max": 100,
-          "min": 0,
-          "unit": "percent"
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 4, "w": 4, "x": 12, "y": 1 },
-      "id": 5,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "showPercentChange": false,
-        "textMode": "auto"
-      },
-      "targets": [
-        {
-          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-          "expr": "pihole_ads_percentage_today{hostname=~\"$instance\"}",
-          "legendFormat": "{{hostname}}",
-          "refId": "A"
-        }
-      ],
-      "title": "Ads Blocked %",
-      "type": "stat"
-    },
-    {
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [{ "color": "blue", "value": null }]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 4, "w": 4, "x": 16, "y": 1 },
-      "id": 2,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "textMode": "auto"
-      },
-      "targets": [
-        {
-          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-          "expr": "pihole_domains_being_blocked{hostname=~\"$instance\"}",
-          "legendFormat": "{{hostname}}",
-          "refId": "A"
-        }
-      ],
-      "title": "Domains on Blocklist",
-      "type": "stat"
-    },
-    {
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [{ "color": "purple", "value": null }]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 4, "w": 4, "x": 20, "y": 1 },
-      "id": 6,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "textMode": "auto"
-      },
-      "targets": [
-        {
-          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-          "expr": "pihole_unique_domains{hostname=~\"$instance\"}",
-          "legendFormat": "{{hostname}}",
-          "refId": "A"
-        }
-      ],
-      "title": "Unique Domains",
-      "type": "stat"
-    },
-    {
-      "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 5 },
-      "id": 700,
-      "panels": [],
-      "title": "📊 Distribution",
-      "type": "row"
-    },
-    {
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "fixed" },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [{ "color": "green", "value": null }]
-          },
-          "unit": "short"
-        },
-        "overrides": [
-          {
-            "matcher": { "id": "byName", "options": "Allowed" },
-            "properties": [{ "id": "color", "value": { "fixedColor": "green", "mode": "fixed" } }]
-          },
-          {
-            "matcher": { "id": "byName", "options": "Blocked" },
-            "properties": [{ "id": "color", "value": { "fixedColor": "red", "mode": "fixed" } }]
-          }
-        ]
-      },
-      "gridPos": { "h": 8, "w": 8, "x": 0, "y": 6 },
-      "id": 30,
-      "options": {
-        "legend": { "displayMode": "table", "placement": "right", "values": ["value", "percent"] },
-        "pieType": "donut",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "tooltip": { "mode": "single", "sort": "none" }
-      },
-      "targets": [
-        {
-          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-          "expr": "sum(pihole_dns_queries_all_types{hostname=~\"$instance\"}) - sum(pihole_ads_blocked_today{hostname=~\"$instance\"})",
-          "legendFormat": "Allowed",
-          "refId": "A"
-        },
-        {
-          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-          "expr": "sum(pihole_ads_blocked_today{hostname=~\"$instance\"})",
-          "legendFormat": "Blocked",
-          "refId": "B"
-        }
-      ],
-      "title": "Allowed vs Blocked",
-      "type": "piechart"
-    },
-    {
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "palette-classic" },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [{ "color": "green", "value": null }]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 8, "w": 8, "x": 8, "y": 6 },
-      "id": 31,
-      "options": {
-        "legend": { "displayMode": "table", "placement": "right", "values": ["value", "percent"] },
-        "pieType": "donut",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "tooltip": { "mode": "single", "sort": "none" }
-      },
-      "targets": [
-        {
-          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-          "expr": "pihole_dns_queries_all_types{hostname=~\"$instance\"}",
-          "legendFormat": "{{hostname}}",
-          "refId": "A"
-        }
-      ],
-      "title": "Queries by Instance",
-      "type": "piechart"
-    },
-    {
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "palette-classic" },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [{ "color": "green", "value": null }]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 8, "w": 8, "x": 16, "y": 6 },
-      "id": 32,
-      "options": {
-        "legend": { "displayMode": "table", "placement": "right", "values": ["value", "percent"] },
-        "pieType": "donut",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "tooltip": { "mode": "single", "sort": "none" }
-      },
-      "targets": [
-        {
-          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-          "expr": "pihole_ads_blocked_today{hostname=~\"$instance\"}",
-          "legendFormat": "{{hostname}}",
-          "refId": "A"
-        }
-      ],
-      "title": "Blocks by Instance",
-      "type": "piechart"
-    },
-    {
-      "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 14 },
-      "id": 200,
-      "panels": [],
-      "title": "📈 Query Trends",
-      "type": "row"
-    },
-    {
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "palette-classic" },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 20,
-            "gradientMode": "none",
-            "lineInterpolation": "smooth",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": { "type": "linear" },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": { "group": "A", "mode": "none" },
-            "thresholdsStyle": { "mode": "off" }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [{ "color": "green", "value": null }]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 15 },
-      "id": 7,
-      "options": {
-        "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" },
-        "tooltip": { "mode": "multi", "sort": "desc" }
-      },
-      "targets": [
-        {
-          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-          "expr": "max by (hostname) (pihole_request_rate{hostname=~\"$instance\"})",
-          "legendFormat": "{{hostname}}",
-          "refId": "A"
-        }
-      ],
-      "title": "Request Rate",
-      "type": "timeseries"
-    },
-    {
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "palette-classic" },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 20,
-            "gradientMode": "none",
-            "lineInterpolation": "smooth",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": { "type": "linear" },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": { "group": "A", "mode": "none" },
-            "thresholdsStyle": { "mode": "off" }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [{ "color": "green", "value": null }]
-          },
-          "unit": "ops"
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 15 },
-      "id": 8,
-      "options": {
-        "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" },
-        "tooltip": { "mode": "multi", "sort": "desc" }
-      },
-      "targets": [
-        {
-          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-          "expr": "rate(pihole_ads_blocked_today{hostname=~\"$instance\"}[$__rate_interval])",
-          "legendFormat": "{{hostname}}",
-          "refId": "A"
-        }
-      ],
-      "title": "Ads Blocked Rate",
-      "type": "timeseries"
-    },
-    {
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "palette-classic" },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 20,
-            "gradientMode": "none",
-            "lineInterpolation": "smooth",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": { "type": "linear" },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": { "group": "A", "mode": "none" },
-            "thresholdsStyle": { "mode": "off" }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [{ "color": "green", "value": null }]
-          },
-          "unit": "percent"
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 23 },
-      "id": 9,
-      "options": {
-        "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" },
-        "tooltip": { "mode": "multi", "sort": "desc" }
-      },
-      "targets": [
-        {
-          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-          "expr": "max by (hostname) (pihole_ads_percentage_today{hostname=~\"$instance\"})",
-          "legendFormat": "{{hostname}}",
-          "refId": "A"
-        }
-      ],
-      "title": "Block Percentage",
-      "type": "timeseries"
-    },
-    {
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "palette-classic" },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 25,
-            "gradientMode": "none",
-            "lineInterpolation": "smooth",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": { "type": "linear" },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": { "group": "A", "mode": "normal" },
-            "thresholdsStyle": { "mode": "off" }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [{ "color": "green", "value": null }]
-          },
-          "unit": "reqps"
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 23 },
-      "id": 10,
-      "options": {
-        "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" },
-        "tooltip": { "mode": "multi", "sort": "desc" }
-      },
-      "targets": [
-        {
-          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-          "expr": "rate(pihole_queries_cached{hostname=~\"$instance\"}[$__rate_interval])",
-          "legendFormat": "Cached {{hostname}}",
-          "refId": "A"
-        },
-        {
-          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-          "expr": "rate(pihole_queries_forwarded{hostname=~\"$instance\"}[$__rate_interval])",
-          "legendFormat": "Forwarded {{hostname}}",
-          "refId": "B"
-        }
-      ],
-      "title": "Cache vs Forward Rate",
-      "type": "timeseries"
-    },
-    {
-      "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 31 },
-      "id": 500,
-      "panels": [],
-      "title": "💻 Clients",
-      "type": "row"
-    },
-    {
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "palette-classic" },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 20,
-            "gradientMode": "none",
-            "lineInterpolation": "smooth",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": { "type": "linear" },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": { "group": "A", "mode": "none" },
-            "thresholdsStyle": { "mode": "off" }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [{ "color": "green", "value": null }]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 32 },
-      "id": 20,
-      "options": {
-        "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" },
-        "tooltip": { "mode": "multi", "sort": "desc" }
-      },
-      "targets": [
-        {
-          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-          "expr": "max by (hostname) (pihole_unique_clients{hostname=~\"$instance\"})",
-          "legendFormat": "{{hostname}}",
-          "refId": "A"
-        }
-      ],
-      "title": "Unique Clients",
-      "type": "timeseries"
-    },
-    {
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [{ "color": "green", "value": null }]
-          },
-          "unit": "short",
-          "custom": {
-            "align": "auto",
-            "cellOptions": { "type": "auto" },
-            "inspect": false
-          }
-        },
-        "overrides": [
-          {
-            "matcher": { "id": "byName", "options": "client" },
-            "properties": [{ "id": "custom.width", "value": 200 }]
-          }
-        ]
-      },
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 32 },
-      "id": 21,
-      "options": {
-        "cellHeight": "sm",
-        "footer": { "countRows": false, "fields": "", "reducer": ["sum"], "show": false },
-        "showHeader": true,
-        "sortBy": [{ "desc": true, "displayName": "Count" }]
-      },
-      "targets": [
-        {
-          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-          "expr": "topk(10, max by (client, hostname) (pihole_top_sources{hostname=~\"$instance\"}))",
-          "format": "table",
-          "instant": true,
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
-      "title": "Top Clients",
-      "transformations": [
-        {
-          "id": "organize",
-          "options": {
-            "excludeByName": { "Time": true, "__name__": true, "instance": true, "job": true, "host": true },
-            "renameByName": { "Value": "Count", "client": "Client", "hostname": "Pi-hole" }
-          }
-        }
-      ],
-      "type": "table"
-    },
-    {
-      "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 40 },
-      "id": 300,
-      "panels": [],
-      "title": "🔍 DNS Breakdown",
-      "type": "row"
-    },
-    {
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "palette-classic" },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [{ "color": "green", "value": null }]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 8, "w": 8, "x": 0, "y": 41 },
-      "id": 11,
-      "options": {
-        "legend": { "displayMode": "table", "placement": "right", "values": ["value", "percent"] },
-        "pieType": "donut",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "tooltip": { "mode": "single", "sort": "none" }
-      },
-      "targets": [
-        {
-          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-          "expr": "sum by (type) (max by (type, hostname) (pihole_querytypes{hostname=~\"$instance\"}))",
-          "legendFormat": "{{type}}",
-          "refId": "A"
-        }
-      ],
-      "title": "Query Types",
-      "type": "piechart"
-    },
-    {
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "palette-classic" },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [{ "color": "green", "value": null }]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 8, "w": 8, "x": 8, "y": 41 },
-      "id": 12,
-      "options": {
-        "legend": { "displayMode": "table", "placement": "right", "values": ["value", "percent"] },
-        "pieType": "donut",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "tooltip": { "mode": "single", "sort": "none" }
-      },
-      "targets": [
-        {
-          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-          "expr": "sum by (type) (max by (type, hostname) (pihole_reply{hostname=~\"$instance\"}))",
-          "legendFormat": "{{type}}",
-          "refId": "A"
-        }
-      ],
-      "title": "Reply Types",
-      "type": "piechart"
-    },
-    {
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "palette-classic" },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [{ "color": "green", "value": null }]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 8, "w": 8, "x": 16, "y": 41 },
-      "id": 13,
-      "options": {
-        "legend": { "displayMode": "table", "placement": "right", "values": ["value", "percent"] },
-        "pieType": "donut",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "tooltip": { "mode": "single", "sort": "none" }
-      },
-      "targets": [
-        {
-          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-          "expr": "sum by (destination_name) (max by (destination_name, hostname) (pihole_forward_destinations{hostname=~\"$instance\"}))",
-          "legendFormat": "{{destination_name}}",
-          "refId": "A"
-        }
-      ],
-      "title": "Forward Destinations",
-      "type": "piechart"
-    },
-    {
-      "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 49 },
-      "id": 600,
-      "panels": [],
-      "title": "🌐 Upstream",
-      "type": "row"
-    },
-    {
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "palette-classic" },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 20,
-            "gradientMode": "none",
-            "lineInterpolation": "smooth",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": { "type": "linear" },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": { "group": "A", "mode": "none" },
-            "thresholdsStyle": { "mode": "off" }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [{ "color": "green", "value": null }]
-          },
-          "unit": "s"
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 50 },
-      "id": 22,
-      "options": {
-        "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" },
-        "tooltip": { "mode": "multi", "sort": "desc" }
-      },
-      "targets": [
-        {
-          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-          "expr": "max by (destination_name, hostname) (pihole_forward_destinations_responsetime{hostname=~\"$instance\"})",
-          "legendFormat": "{{destination_name}} ({{hostname}})",
-          "refId": "A"
-        }
-      ],
-      "title": "Upstream Response Time",
-      "type": "timeseries"
-    },
-    {
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "palette-classic" },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 20,
-            "gradientMode": "none",
-            "lineInterpolation": "smooth",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": { "type": "linear" },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": { "group": "A", "mode": "none" },
-            "thresholdsStyle": { "mode": "off" }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [{ "color": "green", "value": null }]
-          },
-          "unit": "s"
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 50 },
-      "id": 23,
-      "options": {
-        "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" },
-        "tooltip": { "mode": "multi", "sort": "desc" }
-      },
-      "targets": [
-        {
-          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-          "expr": "max by (destination_name, hostname) (pihole_forward_destinations_responsevariance{hostname=~\"$instance\"})",
-          "legendFormat": "{{destination_name}} ({{hostname}})",
-          "refId": "A"
-        }
-      ],
-      "title": "Upstream Response Variance",
-      "type": "timeseries"
-    },
-    {
-      "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 58 },
-      "id": 400,
-      "panels": [],
-      "title": "🏆 Top Domains",
-      "type": "row"
-    },
-    {
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [{ "color": "green", "value": null }]
-          },
-          "unit": "short",
-          "custom": {
-            "align": "auto",
-            "cellOptions": { "type": "auto" },
-            "inspect": false
-          }
-        },
-        "overrides": [
-          {
-            "matcher": { "id": "byName", "options": "domain" },
-            "properties": [{ "id": "custom.width", "value": 300 }]
-          }
-        ]
-      },
-      "gridPos": { "h": 10, "w": 12, "x": 0, "y": 59 },
-      "id": 14,
-      "options": {
-        "cellHeight": "sm",
-        "footer": { "countRows": false, "fields": "", "reducer": ["sum"], "show": false },
-        "showHeader": true,
-        "sortBy": [{ "desc": true, "displayName": "Count" }]
-      },
-      "targets": [
-        {
-          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-          "expr": "topk(10, max by (domain, hostname) (pihole_top_queries{hostname=~\"$instance\"}))",
-          "format": "table",
-          "instant": true,
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
-      "title": "Top Queries",
-      "transformations": [
-        {
-          "id": "organize",
-          "options": {
-            "excludeByName": { "Time": true, "__name__": true, "instance": true, "job": true, "host": true },
-            "renameByName": { "Value": "Count", "domain": "Domain", "hostname": "Pi-hole" }
-          }
-        }
-      ],
-      "type": "table"
-    },
-    {
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              { "color": "green", "value": null },
-              { "color": "red", "value": 100 }
-            ]
-          },
-          "unit": "short",
-          "custom": {
-            "align": "auto",
-            "cellOptions": { "type": "auto" },
-            "inspect": false
-          }
-        },
-        "overrides": [
-          {
-            "matcher": { "id": "byName", "options": "domain" },
-            "properties": [{ "id": "custom.width", "value": 300 }]
-          }
-        ]
-      },
-      "gridPos": { "h": 10, "w": 12, "x": 12, "y": 59 },
-      "id": 15,
-      "options": {
-        "cellHeight": "sm",
-        "footer": { "countRows": false, "fields": "", "reducer": ["sum"], "show": false },
-        "showHeader": true,
-        "sortBy": [{ "desc": true, "displayName": "Count" }]
-      },
-      "targets": [
-        {
-          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-          "expr": "topk(10, max by (domain, hostname) (pihole_top_ads{hostname=~\"$instance\"}))",
-          "format": "table",
-          "instant": true,
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
-      "title": "Top Blocked",
-      "transformations": [
-        {
-          "id": "organize",
-          "options": {
-            "excludeByName": { "Time": true, "__name__": true, "instance": true, "job": true, "host": true },
-            "renameByName": { "Value": "Count", "domain": "Domain", "hostname": "Pi-hole" }
-          }
-        }
-      ],
-      "type": "table"
     }
   ],
-  "schemaVersion": 39,
-  "tags": ["pihole", "dns"],
-  "templating": {
-    "list": [
-      {
+  "cursorSync": "Crosshair",
+  "description": "Pi-hole DNS query analytics and ad blocking stats.",
+  "editable": true,
+  "elements": {
+    "panel-1": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-metrics-datasource",
+                    "uid": "victoriametrics"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-metrics-datasource",
+                    "spec": {
+                      "expr": "pihole_status{hostname=~\"$instance\"}",
+                      "legendFormat": "{{hostname}}"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 1,
+        "links": [],
+        "title": "Status",
+        "vizConfig": {
+          "kind": "stat",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "mappings": [
+                  {
+                    "options": {
+                      "0": {
+                        "color": "red",
+                        "text": "Disabled"
+                      },
+                      "1": {
+                        "color": "green",
+                        "text": "Active"
+                      }
+                    },
+                    "type": "value"
+                  }
+                ],
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "red",
+                      "value": null
+                    },
+                    {
+                      "color": "green",
+                      "value": 1
+                    }
+                  ]
+                },
+                "unit": "none"
+              },
+              "overrides": []
+            },
+            "options": {
+              "colorMode": "background",
+              "graphMode": "none",
+              "justifyMode": "auto",
+              "orientation": "auto",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "textMode": "auto"
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-10": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-metrics-datasource",
+                    "uid": "victoriametrics"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-metrics-datasource",
+                    "spec": {
+                      "expr": "rate(pihole_queries_cached{hostname=~\"$instance\"}[$__rate_interval])",
+                      "legendFormat": "Cached {{hostname}}"
+                    }
+                  },
+                  "refId": "A"
+                }
+              },
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-metrics-datasource",
+                    "uid": "victoriametrics"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-metrics-datasource",
+                    "spec": {
+                      "expr": "rate(pihole_queries_forwarded{hostname=~\"$instance\"}[$__rate_interval])",
+                      "legendFormat": "Forwarded {{hostname}}"
+                    }
+                  },
+                  "refId": "B"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 10,
+        "links": [],
+        "title": "Cache vs Forward Rate",
+        "vizConfig": {
+          "kind": "timeseries",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisBorderShow": false,
+                  "axisCenteredZero": false,
+                  "axisLabel": "",
+                  "axisPlacement": "auto",
+                  "barAlignment": 0,
+                  "drawStyle": "line",
+                  "fillOpacity": 25,
+                  "gradientMode": "none",
+                  "lineInterpolation": "smooth",
+                  "lineWidth": 2,
+                  "pointSize": 5,
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "showPoints": "never",
+                  "spanNulls": false,
+                  "stacking": {
+                    "group": "A",
+                    "mode": "normal"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    }
+                  ]
+                },
+                "unit": "reqps"
+              },
+              "overrides": []
+            },
+            "options": {
+              "legend": {
+                "calcs": [
+                  "mean",
+                  "max"
+                ],
+                "displayMode": "table",
+                "placement": "bottom"
+              },
+              "tooltip": {
+                "mode": "multi",
+                "sort": "desc"
+              }
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-11": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-metrics-datasource",
+                    "uid": "victoriametrics"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-metrics-datasource",
+                    "spec": {
+                      "expr": "sum by (type) (max by (type, hostname) (pihole_querytypes{hostname=~\"$instance\"}))",
+                      "legendFormat": "{{type}}"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 11,
+        "links": [],
+        "title": "Query Types",
+        "vizConfig": {
+          "kind": "piechart",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": []
+            },
+            "options": {
+              "legend": {
+                "displayMode": "table",
+                "placement": "right",
+                "values": [
+                  "value",
+                  "percent"
+                ]
+              },
+              "pieType": "donut",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "tooltip": {
+                "mode": "single",
+                "sort": "none"
+              }
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-12": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-metrics-datasource",
+                    "uid": "victoriametrics"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-metrics-datasource",
+                    "spec": {
+                      "expr": "sum by (type) (max by (type, hostname) (pihole_reply{hostname=~\"$instance\"}))",
+                      "legendFormat": "{{type}}"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 12,
+        "links": [],
+        "title": "Reply Types",
+        "vizConfig": {
+          "kind": "piechart",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": []
+            },
+            "options": {
+              "legend": {
+                "displayMode": "table",
+                "placement": "right",
+                "values": [
+                  "value",
+                  "percent"
+                ]
+              },
+              "pieType": "donut",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "tooltip": {
+                "mode": "single",
+                "sort": "none"
+              }
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-13": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-metrics-datasource",
+                    "uid": "victoriametrics"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-metrics-datasource",
+                    "spec": {
+                      "expr": "sum by (destination_name) (max by (destination_name, hostname) (pihole_forward_destinations{hostname=~\"$instance\"}))",
+                      "legendFormat": "{{destination_name}}"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 13,
+        "links": [],
+        "title": "Forward Destinations",
+        "vizConfig": {
+          "kind": "piechart",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": []
+            },
+            "options": {
+              "legend": {
+                "displayMode": "table",
+                "placement": "right",
+                "values": [
+                  "value",
+                  "percent"
+                ]
+              },
+              "pieType": "donut",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "tooltip": {
+                "mode": "single",
+                "sort": "none"
+              }
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-14": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-metrics-datasource",
+                    "uid": "victoriametrics"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-metrics-datasource",
+                    "spec": {
+                      "expr": "topk(10, max by (domain, hostname) (pihole_top_queries{hostname=~\"$instance\"}))",
+                      "format": "table",
+                      "instant": true,
+                      "legendFormat": ""
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": [
+              {
+                "kind": "organize",
+                "spec": {
+                  "id": "organize",
+                  "options": {
+                    "excludeByName": {
+                      "Time": true,
+                      "__name__": true,
+                      "host": true,
+                      "instance": true,
+                      "job": true
+                    },
+                    "renameByName": {
+                      "Value": "Count",
+                      "domain": "Domain",
+                      "hostname": "Pi-hole"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": "",
+        "id": 14,
+        "links": [],
+        "title": "Top Queries",
+        "vizConfig": {
+          "kind": "table",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "custom": {
+                  "align": "auto",
+                  "cellOptions": {
+                    "type": "auto"
+                  },
+                  "inspect": false
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": [
+                {
+                  "matcher": {
+                    "id": "byName",
+                    "options": "domain"
+                  },
+                  "properties": [
+                    {
+                      "id": "custom.width",
+                      "value": 300
+                    }
+                  ]
+                }
+              ]
+            },
+            "options": {
+              "cellHeight": "sm",
+              "footer": {
+                "countRows": false,
+                "fields": "",
+                "reducer": [
+                  "sum"
+                ],
+                "show": false
+              },
+              "showHeader": true,
+              "sortBy": [
+                {
+                  "desc": true,
+                  "displayName": "Count"
+                }
+              ]
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-15": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-metrics-datasource",
+                    "uid": "victoriametrics"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-metrics-datasource",
+                    "spec": {
+                      "expr": "topk(10, max by (domain, hostname) (pihole_top_ads{hostname=~\"$instance\"}))",
+                      "format": "table",
+                      "instant": true,
+                      "legendFormat": ""
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": [
+              {
+                "kind": "organize",
+                "spec": {
+                  "id": "organize",
+                  "options": {
+                    "excludeByName": {
+                      "Time": true,
+                      "__name__": true,
+                      "host": true,
+                      "instance": true,
+                      "job": true
+                    },
+                    "renameByName": {
+                      "Value": "Count",
+                      "domain": "Domain",
+                      "hostname": "Pi-hole"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": "",
+        "id": 15,
+        "links": [],
+        "title": "Top Blocked",
+        "vizConfig": {
+          "kind": "table",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "custom": {
+                  "align": "auto",
+                  "cellOptions": {
+                    "type": "auto"
+                  },
+                  "inspect": false
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "red",
+                      "value": 100
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": [
+                {
+                  "matcher": {
+                    "id": "byName",
+                    "options": "domain"
+                  },
+                  "properties": [
+                    {
+                      "id": "custom.width",
+                      "value": 300
+                    }
+                  ]
+                }
+              ]
+            },
+            "options": {
+              "cellHeight": "sm",
+              "footer": {
+                "countRows": false,
+                "fields": "",
+                "reducer": [
+                  "sum"
+                ],
+                "show": false
+              },
+              "showHeader": true,
+              "sortBy": [
+                {
+                  "desc": true,
+                  "displayName": "Count"
+                }
+              ]
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-2": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-metrics-datasource",
+                    "uid": "victoriametrics"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-metrics-datasource",
+                    "spec": {
+                      "expr": "pihole_domains_being_blocked{hostname=~\"$instance\"}",
+                      "legendFormat": "{{hostname}}"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 2,
+        "links": [],
+        "title": "Domains on Blocklist",
+        "vizConfig": {
+          "kind": "stat",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "blue",
+                      "value": null
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": []
+            },
+            "options": {
+              "colorMode": "value",
+              "graphMode": "none",
+              "justifyMode": "auto",
+              "orientation": "auto",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "textMode": "auto"
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-20": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-metrics-datasource",
+                    "uid": "victoriametrics"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-metrics-datasource",
+                    "spec": {
+                      "expr": "max by (hostname) (pihole_unique_clients{hostname=~\"$instance\"})",
+                      "legendFormat": "{{hostname}}"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 20,
+        "links": [],
+        "title": "Unique Clients",
+        "vizConfig": {
+          "kind": "timeseries",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisBorderShow": false,
+                  "axisCenteredZero": false,
+                  "axisLabel": "",
+                  "axisPlacement": "auto",
+                  "barAlignment": 0,
+                  "drawStyle": "line",
+                  "fillOpacity": 20,
+                  "gradientMode": "none",
+                  "lineInterpolation": "smooth",
+                  "lineWidth": 2,
+                  "pointSize": 5,
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "showPoints": "never",
+                  "spanNulls": false,
+                  "stacking": {
+                    "group": "A",
+                    "mode": "none"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": []
+            },
+            "options": {
+              "legend": {
+                "calcs": [
+                  "mean",
+                  "max"
+                ],
+                "displayMode": "table",
+                "placement": "bottom"
+              },
+              "tooltip": {
+                "mode": "multi",
+                "sort": "desc"
+              }
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-21": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-metrics-datasource",
+                    "uid": "victoriametrics"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-metrics-datasource",
+                    "spec": {
+                      "expr": "topk(10, max by (client, hostname) (pihole_top_sources{hostname=~\"$instance\"}))",
+                      "format": "table",
+                      "instant": true,
+                      "legendFormat": ""
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": [
+              {
+                "kind": "organize",
+                "spec": {
+                  "id": "organize",
+                  "options": {
+                    "excludeByName": {
+                      "Time": true,
+                      "__name__": true,
+                      "host": true,
+                      "instance": true,
+                      "job": true
+                    },
+                    "renameByName": {
+                      "Value": "Count",
+                      "client": "Client",
+                      "hostname": "Pi-hole"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": "",
+        "id": 21,
+        "links": [],
+        "title": "Top Clients",
+        "vizConfig": {
+          "kind": "table",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "custom": {
+                  "align": "auto",
+                  "cellOptions": {
+                    "type": "auto"
+                  },
+                  "inspect": false
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": [
+                {
+                  "matcher": {
+                    "id": "byName",
+                    "options": "client"
+                  },
+                  "properties": [
+                    {
+                      "id": "custom.width",
+                      "value": 200
+                    }
+                  ]
+                }
+              ]
+            },
+            "options": {
+              "cellHeight": "sm",
+              "footer": {
+                "countRows": false,
+                "fields": "",
+                "reducer": [
+                  "sum"
+                ],
+                "show": false
+              },
+              "showHeader": true,
+              "sortBy": [
+                {
+                  "desc": true,
+                  "displayName": "Count"
+                }
+              ]
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-22": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-metrics-datasource",
+                    "uid": "victoriametrics"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-metrics-datasource",
+                    "spec": {
+                      "expr": "max by (destination_name, hostname) (pihole_forward_destinations_responsetime{hostname=~\"$instance\"})",
+                      "legendFormat": "{{destination_name}} ({{hostname}})"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 22,
+        "links": [],
+        "title": "Upstream Response Time",
+        "vizConfig": {
+          "kind": "timeseries",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisBorderShow": false,
+                  "axisCenteredZero": false,
+                  "axisLabel": "",
+                  "axisPlacement": "auto",
+                  "barAlignment": 0,
+                  "drawStyle": "line",
+                  "fillOpacity": 20,
+                  "gradientMode": "none",
+                  "lineInterpolation": "smooth",
+                  "lineWidth": 2,
+                  "pointSize": 5,
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "showPoints": "never",
+                  "spanNulls": false,
+                  "stacking": {
+                    "group": "A",
+                    "mode": "none"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    }
+                  ]
+                },
+                "unit": "s"
+              },
+              "overrides": []
+            },
+            "options": {
+              "legend": {
+                "calcs": [
+                  "mean",
+                  "max"
+                ],
+                "displayMode": "table",
+                "placement": "bottom"
+              },
+              "tooltip": {
+                "mode": "multi",
+                "sort": "desc"
+              }
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-23": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-metrics-datasource",
+                    "uid": "victoriametrics"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-metrics-datasource",
+                    "spec": {
+                      "expr": "max by (destination_name, hostname) (pihole_forward_destinations_responsevariance{hostname=~\"$instance\"})",
+                      "legendFormat": "{{destination_name}} ({{hostname}})"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 23,
+        "links": [],
+        "title": "Upstream Response Variance",
+        "vizConfig": {
+          "kind": "timeseries",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisBorderShow": false,
+                  "axisCenteredZero": false,
+                  "axisLabel": "",
+                  "axisPlacement": "auto",
+                  "barAlignment": 0,
+                  "drawStyle": "line",
+                  "fillOpacity": 20,
+                  "gradientMode": "none",
+                  "lineInterpolation": "smooth",
+                  "lineWidth": 2,
+                  "pointSize": 5,
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "showPoints": "never",
+                  "spanNulls": false,
+                  "stacking": {
+                    "group": "A",
+                    "mode": "none"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    }
+                  ]
+                },
+                "unit": "s"
+              },
+              "overrides": []
+            },
+            "options": {
+              "legend": {
+                "calcs": [
+                  "mean",
+                  "max"
+                ],
+                "displayMode": "table",
+                "placement": "bottom"
+              },
+              "tooltip": {
+                "mode": "multi",
+                "sort": "desc"
+              }
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-3": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-metrics-datasource",
+                    "uid": "victoriametrics"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-metrics-datasource",
+                    "spec": {
+                      "expr": "pihole_dns_queries_all_types{hostname=~\"$instance\"}",
+                      "legendFormat": "{{hostname}}"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 3,
+        "links": [],
+        "title": "DNS Queries Today",
+        "vizConfig": {
+          "kind": "stat",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": []
+            },
+            "options": {
+              "colorMode": "value",
+              "graphMode": "none",
+              "justifyMode": "auto",
+              "orientation": "auto",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "textMode": "auto"
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-30": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-metrics-datasource",
+                    "uid": "victoriametrics"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-metrics-datasource",
+                    "spec": {
+                      "expr": "sum(pihole_dns_queries_all_types{hostname=~\"$instance\"}) - sum(pihole_ads_blocked_today{hostname=~\"$instance\"})",
+                      "legendFormat": "Allowed"
+                    }
+                  },
+                  "refId": "A"
+                }
+              },
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-metrics-datasource",
+                    "uid": "victoriametrics"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-metrics-datasource",
+                    "spec": {
+                      "expr": "sum(pihole_ads_blocked_today{hostname=~\"$instance\"})",
+                      "legendFormat": "Blocked"
+                    }
+                  },
+                  "refId": "B"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 30,
+        "links": [],
+        "title": "Allowed vs Blocked",
+        "vizConfig": {
+          "kind": "piechart",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "fixed"
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": [
+                {
+                  "matcher": {
+                    "id": "byName",
+                    "options": "Allowed"
+                  },
+                  "properties": [
+                    {
+                      "id": "color",
+                      "value": {
+                        "fixedColor": "green",
+                        "mode": "fixed"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "matcher": {
+                    "id": "byName",
+                    "options": "Blocked"
+                  },
+                  "properties": [
+                    {
+                      "id": "color",
+                      "value": {
+                        "fixedColor": "red",
+                        "mode": "fixed"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            "options": {
+              "legend": {
+                "displayMode": "table",
+                "placement": "right",
+                "values": [
+                  "value",
+                  "percent"
+                ]
+              },
+              "pieType": "donut",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "tooltip": {
+                "mode": "single",
+                "sort": "none"
+              }
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-31": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-metrics-datasource",
+                    "uid": "victoriametrics"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-metrics-datasource",
+                    "spec": {
+                      "expr": "pihole_dns_queries_all_types{hostname=~\"$instance\"}",
+                      "legendFormat": "{{hostname}}"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 31,
+        "links": [],
+        "title": "Queries by Instance",
+        "vizConfig": {
+          "kind": "piechart",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": []
+            },
+            "options": {
+              "legend": {
+                "displayMode": "table",
+                "placement": "right",
+                "values": [
+                  "value",
+                  "percent"
+                ]
+              },
+              "pieType": "donut",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "tooltip": {
+                "mode": "single",
+                "sort": "none"
+              }
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-32": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-metrics-datasource",
+                    "uid": "victoriametrics"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-metrics-datasource",
+                    "spec": {
+                      "expr": "pihole_ads_blocked_today{hostname=~\"$instance\"}",
+                      "legendFormat": "{{hostname}}"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 32,
+        "links": [],
+        "title": "Blocks by Instance",
+        "vizConfig": {
+          "kind": "piechart",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": []
+            },
+            "options": {
+              "legend": {
+                "displayMode": "table",
+                "placement": "right",
+                "values": [
+                  "value",
+                  "percent"
+                ]
+              },
+              "pieType": "donut",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "tooltip": {
+                "mode": "single",
+                "sort": "none"
+              }
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-4": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-metrics-datasource",
+                    "uid": "victoriametrics"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-metrics-datasource",
+                    "spec": {
+                      "expr": "pihole_ads_blocked_today{hostname=~\"$instance\"}",
+                      "legendFormat": "{{hostname}}"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 4,
+        "links": [],
+        "title": "Ads Blocked Today",
+        "vizConfig": {
+          "kind": "stat",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "orange",
+                      "value": null
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": []
+            },
+            "options": {
+              "colorMode": "value",
+              "graphMode": "none",
+              "justifyMode": "auto",
+              "orientation": "auto",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "textMode": "auto"
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-5": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-metrics-datasource",
+                    "uid": "victoriametrics"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-metrics-datasource",
+                    "spec": {
+                      "expr": "pihole_ads_percentage_today{hostname=~\"$instance\"}",
+                      "legendFormat": "{{hostname}}"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 5,
+        "links": [],
+        "title": "Ads Blocked %",
+        "vizConfig": {
+          "kind": "stat",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "max": 100,
+                "min": 0,
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "yellow",
+                      "value": 15
+                    },
+                    {
+                      "color": "red",
+                      "value": 30
+                    }
+                  ]
+                },
+                "unit": "percent"
+              },
+              "overrides": []
+            },
+            "options": {
+              "colorMode": "value",
+              "graphMode": "none",
+              "justifyMode": "auto",
+              "orientation": "auto",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "showPercentChange": false,
+              "textMode": "auto"
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-6": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-metrics-datasource",
+                    "uid": "victoriametrics"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-metrics-datasource",
+                    "spec": {
+                      "expr": "pihole_unique_domains{hostname=~\"$instance\"}",
+                      "legendFormat": "{{hostname}}"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 6,
+        "links": [],
+        "title": "Unique Domains",
+        "vizConfig": {
+          "kind": "stat",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "purple",
+                      "value": null
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": []
+            },
+            "options": {
+              "colorMode": "value",
+              "graphMode": "none",
+              "justifyMode": "auto",
+              "orientation": "auto",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "textMode": "auto"
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-7": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-metrics-datasource",
+                    "uid": "victoriametrics"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-metrics-datasource",
+                    "spec": {
+                      "expr": "max by (hostname) (pihole_request_rate{hostname=~\"$instance\"})",
+                      "legendFormat": "{{hostname}}"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 7,
+        "links": [],
+        "title": "Request Rate",
+        "vizConfig": {
+          "kind": "timeseries",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisBorderShow": false,
+                  "axisCenteredZero": false,
+                  "axisLabel": "",
+                  "axisPlacement": "auto",
+                  "barAlignment": 0,
+                  "drawStyle": "line",
+                  "fillOpacity": 20,
+                  "gradientMode": "none",
+                  "lineInterpolation": "smooth",
+                  "lineWidth": 2,
+                  "pointSize": 5,
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "showPoints": "never",
+                  "spanNulls": false,
+                  "stacking": {
+                    "group": "A",
+                    "mode": "none"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": []
+            },
+            "options": {
+              "legend": {
+                "calcs": [
+                  "mean",
+                  "max"
+                ],
+                "displayMode": "table",
+                "placement": "bottom"
+              },
+              "tooltip": {
+                "mode": "multi",
+                "sort": "desc"
+              }
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-8": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-metrics-datasource",
+                    "uid": "victoriametrics"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-metrics-datasource",
+                    "spec": {
+                      "expr": "rate(pihole_ads_blocked_today{hostname=~\"$instance\"}[$__rate_interval])",
+                      "legendFormat": "{{hostname}}"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 8,
+        "links": [],
+        "title": "Ads Blocked Rate",
+        "vizConfig": {
+          "kind": "timeseries",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisBorderShow": false,
+                  "axisCenteredZero": false,
+                  "axisLabel": "",
+                  "axisPlacement": "auto",
+                  "barAlignment": 0,
+                  "drawStyle": "line",
+                  "fillOpacity": 20,
+                  "gradientMode": "none",
+                  "lineInterpolation": "smooth",
+                  "lineWidth": 2,
+                  "pointSize": 5,
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "showPoints": "never",
+                  "spanNulls": false,
+                  "stacking": {
+                    "group": "A",
+                    "mode": "none"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    }
+                  ]
+                },
+                "unit": "ops"
+              },
+              "overrides": []
+            },
+            "options": {
+              "legend": {
+                "calcs": [
+                  "mean",
+                  "max"
+                ],
+                "displayMode": "table",
+                "placement": "bottom"
+              },
+              "tooltip": {
+                "mode": "multi",
+                "sort": "desc"
+              }
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-9": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-metrics-datasource",
+                    "uid": "victoriametrics"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-metrics-datasource",
+                    "spec": {
+                      "expr": "max by (hostname) (pihole_ads_percentage_today{hostname=~\"$instance\"})",
+                      "legendFormat": "{{hostname}}"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 9,
+        "links": [],
+        "title": "Block Percentage",
+        "vizConfig": {
+          "kind": "timeseries",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisBorderShow": false,
+                  "axisCenteredZero": false,
+                  "axisLabel": "",
+                  "axisPlacement": "auto",
+                  "barAlignment": 0,
+                  "drawStyle": "line",
+                  "fillOpacity": 20,
+                  "gradientMode": "none",
+                  "lineInterpolation": "smooth",
+                  "lineWidth": 2,
+                  "pointSize": 5,
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "showPoints": "never",
+                  "spanNulls": false,
+                  "stacking": {
+                    "group": "A",
+                    "mode": "none"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    }
+                  ]
+                },
+                "unit": "percent"
+              },
+              "overrides": []
+            },
+            "options": {
+              "legend": {
+                "calcs": [
+                  "mean",
+                  "max"
+                ],
+                "displayMode": "table",
+                "placement": "bottom"
+              },
+              "tooltip": {
+                "mode": "multi",
+                "sort": "desc"
+              }
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    }
+  },
+  "layout": {
+    "kind": "RowsLayout",
+    "spec": {
+      "rows": [
+        {
+          "kind": "RowsLayoutRow",
+          "spec": {
+            "collapse": false,
+            "layout": {
+              "kind": "GridLayout",
+              "spec": {
+                "items": [
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-1"
+                      },
+                      "height": 4,
+                      "width": 3,
+                      "x": 0,
+                      "y": 0
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-3"
+                      },
+                      "height": 4,
+                      "width": 5,
+                      "x": 3,
+                      "y": 0
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-4"
+                      },
+                      "height": 4,
+                      "width": 4,
+                      "x": 8,
+                      "y": 0
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-5"
+                      },
+                      "height": 4,
+                      "width": 4,
+                      "x": 12,
+                      "y": 0
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-2"
+                      },
+                      "height": 4,
+                      "width": 4,
+                      "x": 16,
+                      "y": 0
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-6"
+                      },
+                      "height": 4,
+                      "width": 4,
+                      "x": 20,
+                      "y": 0
+                    }
+                  }
+                ]
+              }
+            },
+            "title": "🛡️ Per Instance"
+          }
+        },
+        {
+          "kind": "RowsLayoutRow",
+          "spec": {
+            "collapse": false,
+            "layout": {
+              "kind": "GridLayout",
+              "spec": {
+                "items": [
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-30"
+                      },
+                      "height": 8,
+                      "width": 8,
+                      "x": 0,
+                      "y": 0
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-31"
+                      },
+                      "height": 8,
+                      "width": 8,
+                      "x": 8,
+                      "y": 0
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-32"
+                      },
+                      "height": 8,
+                      "width": 8,
+                      "x": 16,
+                      "y": 0
+                    }
+                  }
+                ]
+              }
+            },
+            "title": "📊 Distribution"
+          }
+        },
+        {
+          "kind": "RowsLayoutRow",
+          "spec": {
+            "collapse": false,
+            "layout": {
+              "kind": "GridLayout",
+              "spec": {
+                "items": [
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-7"
+                      },
+                      "height": 8,
+                      "width": 12,
+                      "x": 0,
+                      "y": 0
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-8"
+                      },
+                      "height": 8,
+                      "width": 12,
+                      "x": 12,
+                      "y": 0
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-9"
+                      },
+                      "height": 8,
+                      "width": 12,
+                      "x": 0,
+                      "y": 8
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-10"
+                      },
+                      "height": 8,
+                      "width": 12,
+                      "x": 12,
+                      "y": 8
+                    }
+                  }
+                ]
+              }
+            },
+            "title": "📈 Query Trends"
+          }
+        },
+        {
+          "kind": "RowsLayoutRow",
+          "spec": {
+            "collapse": false,
+            "layout": {
+              "kind": "GridLayout",
+              "spec": {
+                "items": [
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-20"
+                      },
+                      "height": 8,
+                      "width": 12,
+                      "x": 0,
+                      "y": 0
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-21"
+                      },
+                      "height": 8,
+                      "width": 12,
+                      "x": 12,
+                      "y": 0
+                    }
+                  }
+                ]
+              }
+            },
+            "title": "💻 Clients"
+          }
+        },
+        {
+          "kind": "RowsLayoutRow",
+          "spec": {
+            "collapse": false,
+            "layout": {
+              "kind": "GridLayout",
+              "spec": {
+                "items": [
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-11"
+                      },
+                      "height": 8,
+                      "width": 8,
+                      "x": 0,
+                      "y": 0
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-12"
+                      },
+                      "height": 8,
+                      "width": 8,
+                      "x": 8,
+                      "y": 0
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-13"
+                      },
+                      "height": 8,
+                      "width": 8,
+                      "x": 16,
+                      "y": 0
+                    }
+                  }
+                ]
+              }
+            },
+            "title": "🔍 DNS Breakdown"
+          }
+        },
+        {
+          "kind": "RowsLayoutRow",
+          "spec": {
+            "collapse": false,
+            "layout": {
+              "kind": "GridLayout",
+              "spec": {
+                "items": [
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-22"
+                      },
+                      "height": 8,
+                      "width": 12,
+                      "x": 0,
+                      "y": 0
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-23"
+                      },
+                      "height": 8,
+                      "width": 12,
+                      "x": 12,
+                      "y": 0
+                    }
+                  }
+                ]
+              }
+            },
+            "title": "🌐 Upstream"
+          }
+        },
+        {
+          "kind": "RowsLayoutRow",
+          "spec": {
+            "collapse": false,
+            "layout": {
+              "kind": "GridLayout",
+              "spec": {
+                "items": [
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-14"
+                      },
+                      "height": 10,
+                      "width": 12,
+                      "x": 0,
+                      "y": 0
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-15"
+                      },
+                      "height": 10,
+                      "width": 12,
+                      "x": 12,
+                      "y": 0
+                    }
+                  }
+                ]
+              }
+            },
+            "title": "🏆 Top Domains"
+          }
+        }
+      ]
+    }
+  },
+  "links": [],
+  "liveNow": false,
+  "preload": false,
+  "tags": [
+    "pihole",
+    "dns"
+  ],
+  "timeSettings": {
+    "autoRefresh": "30s",
+    "autoRefreshIntervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "fiscalYearStartMonth": 0,
+    "from": "now-24h",
+    "hideTimepicker": false,
+    "timezone": "browser",
+    "to": "now"
+  },
+  "title": "Pi-hole",
+  "variables": [
+    {
+      "kind": "QueryVariable",
+      "spec": {
         "allValue": ".*",
-        "current": {},
-        "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+        "allowCustomValue": true,
+        "current": {
+          "text": "",
+          "value": ""
+        },
+        "datasource": {
+          "type": "victoriametrics-metrics-datasource",
+          "uid": "victoriametrics"
+        },
         "definition": "label_values(pihole_status, hostname)",
-        "hide": 0,
+        "hide": "dontHide",
         "includeAll": true,
         "label": "Instance",
         "multi": true,
         "name": "instance",
         "options": [],
-        "query": { "qryType": 1, "query": "label_values(pihole_status, hostname)" },
-        "refresh": 2,
+        "query": {
+          "kind": "victoriametrics-metrics-datasource",
+          "spec": {
+            "qryType": 1,
+            "query": "label_values(pihole_status, hostname)"
+          }
+        },
+        "refresh": "onTimeRangeChanged",
         "regex": "",
-        "sort": 1,
-        "type": "query"
+        "skipUrlSync": false,
+        "sort": "alphabeticalAsc"
       }
-    ]
-  },
-  "time": { "from": "now-24h", "to": "now" },
-  "timepicker": {},
-  "timezone": "browser",
-  "title": "Pi-hole",
-  "uid": "pihole",
-  "version": 1
+    }
+  ]
 }

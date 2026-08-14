@@ -1,0 +1,3489 @@
+{
+  "annotations": [
+    {
+      "kind": "AnnotationQuery",
+      "spec": {
+        "builtIn": true,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "legacyOptions": {
+          "type": "dashboard"
+        },
+        "name": "Annotations & Alerts",
+        "query": {
+          "kind": "grafana",
+          "spec": {}
+        }
+      }
+    }
+  ],
+  "cursorSync": "Crosshair",
+  "description": "SSH, sudo, fail2ban, and UFW security event monitoring.",
+  "editable": true,
+  "elements": {
+    "panel-1": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-logs-datasource",
+                    "uid": "victorialogs"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-logs-datasource",
+                    "spec": {
+                      "expr": "{job=\"ssh\",host=~\"$instance\"} event_type:\"invalid_user\" | count()",
+                      "queryType": "stats"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 1,
+        "links": [],
+        "title": "SSH Attacks 24h",
+        "vizConfig": {
+          "kind": "stat",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "yellow",
+                      "value": 10
+                    },
+                    {
+                      "color": "orange",
+                      "value": 50
+                    },
+                    {
+                      "color": "red",
+                      "value": 100
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": []
+            },
+            "options": {
+              "colorMode": "value",
+              "graphMode": "none",
+              "justifyMode": "auto",
+              "orientation": "auto",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "textMode": "auto"
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-10": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-logs-datasource",
+                    "uid": "victorialogs"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-logs-datasource",
+                    "spec": {
+                      "expr": "{job=~\"ssh|fail2ban|ufw|crowdsec|appsec|honeypot\"} geoip_country_code:!\"\" | stats by (geoip_country_code) count() as count",
+                      "legendFormat": "",
+                      "queryType": "stats"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": [
+              {
+                "kind": "reduce",
+                "spec": {
+                  "id": "reduce",
+                  "options": {
+                    "labelsToFields": true,
+                    "reducers": [
+                      "lastNotNull"
+                    ]
+                  }
+                }
+              },
+              {
+                "kind": "organize",
+                "spec": {
+                  "id": "organize",
+                  "options": {
+                    "excludeByName": {
+                      "Field": true,
+                      "__name__": true
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": "",
+        "id": 10,
+        "links": [],
+        "title": "Attack Origins Map",
+        "vizConfig": {
+          "kind": "geomap",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "yellow",
+                      "value": null
+                    },
+                    {
+                      "color": "orange",
+                      "value": 10
+                    },
+                    {
+                      "color": "red",
+                      "value": 50
+                    },
+                    {
+                      "color": "dark-red",
+                      "value": 200
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": []
+            },
+            "options": {
+              "basemap": {
+                "config": {},
+                "name": "Basemap",
+                "type": "default"
+              },
+              "controls": {
+                "mouseWheelZoom": true,
+                "showAttribution": true,
+                "showDebug": false,
+                "showMeasure": false,
+                "showScale": false,
+                "showZoom": true
+              },
+              "layers": [
+                {
+                  "config": {
+                    "showLegend": true,
+                    "style": {
+                      "color": {
+                        "field": "count"
+                      },
+                      "opacity": 0.6,
+                      "size": {
+                        "field": "count",
+                        "fixed": 5,
+                        "max": 15,
+                        "min": 2
+                      },
+                      "symbol": {
+                        "fixed": "img/icons/marker/circle.svg",
+                        "mode": "fixed"
+                      }
+                    }
+                  },
+                  "location": {
+                    "lookup": "geoip_country_code",
+                    "mode": "lookup"
+                  },
+                  "name": "Attacks",
+                  "tooltip": true,
+                  "type": "markers"
+                }
+              ],
+              "tooltip": {
+                "mode": "details"
+              },
+              "view": {
+                "allLayers": true,
+                "id": "coords",
+                "lat": 20,
+                "lon": 0,
+                "zoom": 2
+              }
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-11": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-logs-datasource",
+                    "uid": "victorialogs"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-logs-datasource",
+                    "spec": {
+                      "expr": "{job=~\"ssh|fail2ban|ufw|crowdsec|appsec|honeypot\"} geoip_country_code:!\"\" | stats by (geoip_country_code, job) count() as count",
+                      "legendFormat": "",
+                      "queryType": "stats"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": [
+              {
+                "kind": "reduce",
+                "spec": {
+                  "id": "reduce",
+                  "options": {
+                    "labelsToFields": true,
+                    "reducers": [
+                      "lastNotNull"
+                    ]
+                  }
+                }
+              },
+              {
+                "kind": "organize",
+                "spec": {
+                  "id": "organize",
+                  "options": {
+                    "excludeByName": {
+                      "Field": true,
+                      "__name__": true
+                    }
+                  }
+                }
+              },
+              {
+                "kind": "groupingToMatrix",
+                "spec": {
+                  "id": "groupingToMatrix",
+                  "options": {
+                    "columnField": "job",
+                    "emptyValue": "0",
+                    "rowField": "geoip_country_code",
+                    "valueField": "Last *"
+                  }
+                }
+              },
+              {
+                "kind": "organize",
+                "spec": {
+                  "id": "organize",
+                  "options": {
+                    "renameByName": {
+                      "appsec": "AppSec",
+                      "crowdsec": "CrowdSec",
+                      "fail2ban": "Fail2ban",
+                      "geoip_country_code\\job": "Country",
+                      "honeypot": "Honeypot",
+                      "ssh": "SSH",
+                      "ufw": "UFW"
+                    }
+                  }
+                }
+              },
+              {
+                "kind": "convertFieldType",
+                "spec": {
+                  "id": "convertFieldType",
+                  "options": {
+                    "conversions": [
+                      {
+                        "destinationType": "number",
+                        "targetField": "Honeypot"
+                      },
+                      {
+                        "destinationType": "number",
+                        "targetField": "SSH"
+                      },
+                      {
+                        "destinationType": "number",
+                        "targetField": "UFW"
+                      },
+                      {
+                        "destinationType": "number",
+                        "targetField": "Fail2ban"
+                      },
+                      {
+                        "destinationType": "number",
+                        "targetField": "CrowdSec"
+                      },
+                      {
+                        "destinationType": "number",
+                        "targetField": "AppSec"
+                      }
+                    ],
+                    "fields": {}
+                  }
+                }
+              },
+              {
+                "kind": "calculateField",
+                "spec": {
+                  "id": "calculateField",
+                  "options": {
+                    "alias": "Total",
+                    "mode": "reduceRow",
+                    "reduce": {
+                      "reducer": "sum"
+                    },
+                    "replaceFields": false
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": "",
+        "id": 11,
+        "links": [],
+        "title": "Top Countries by Source",
+        "vizConfig": {
+          "kind": "table",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "custom": {
+                  "align": "left",
+                  "cellOptions": {
+                    "type": "auto"
+                  },
+                  "inspect": false
+                },
+                "mappings": [
+                  {
+                    "options": {
+                      "match": "null",
+                      "result": {
+                        "text": "0"
+                      }
+                    },
+                    "type": "special"
+                  }
+                ],
+                "noValue": "0",
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": []
+            },
+            "options": {
+              "cellHeight": "sm",
+              "footer": {
+                "countRows": false,
+                "enablePagination": false,
+                "fields": "",
+                "reducer": [
+                  "sum"
+                ],
+                "show": true
+              },
+              "showHeader": true,
+              "sortBy": [
+                {
+                  "desc": true,
+                  "displayName": "Total"
+                }
+              ]
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-20": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-logs-datasource",
+                    "uid": "victorialogs"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-logs-datasource",
+                    "spec": {
+                      "expr": "{job=\"ssh\",host=~\"$instance\"} event_type:\"accepted\" | sort by (_time) desc | limit 50",
+                      "format": "table"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": [
+              {
+                "kind": "organize",
+                "spec": {
+                  "id": "organize",
+                  "options": {
+                    "includeByName": {
+                      "_time": true,
+                      "auth_method": true,
+                      "client_ip": true,
+                      "geoip_country_name": true,
+                      "host": true,
+                      "username": true
+                    },
+                    "indexByName": {
+                      "_time": 0,
+                      "auth_method": 5,
+                      "client_ip": 3,
+                      "geoip_country_name": 4,
+                      "host": 1,
+                      "username": 2
+                    },
+                    "renameByName": {
+                      "_time": "Time",
+                      "auth_method": "Auth",
+                      "client_ip": "Source IP",
+                      "geoip_country_name": "Country",
+                      "host": "Host",
+                      "username": "User"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": "",
+        "id": 20,
+        "links": [],
+        "title": "Successful Logins",
+        "vizConfig": {
+          "kind": "table",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "custom": {
+                  "align": "left",
+                  "cellOptions": {
+                    "type": "auto"
+                  },
+                  "inspect": false
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    }
+                  ]
+                }
+              },
+              "overrides": [
+                {
+                  "matcher": {
+                    "id": "byName",
+                    "options": "Auth"
+                  },
+                  "properties": [
+                    {
+                      "id": "mappings",
+                      "value": [
+                        {
+                          "options": {
+                            "password": {
+                              "text": "Password"
+                            },
+                            "publickey": {
+                              "text": "Key"
+                            }
+                          },
+                          "type": "value"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "options": {
+              "cellHeight": "sm",
+              "footer": {
+                "countRows": false,
+                "fields": "",
+                "reducer": [
+                  "sum"
+                ],
+                "show": false
+              },
+              "showHeader": true,
+              "sortBy": [
+                {
+                  "desc": true,
+                  "displayName": "Time"
+                }
+              ]
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-21": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-logs-datasource",
+                    "uid": "victorialogs"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-logs-datasource",
+                    "spec": {
+                      "expr": "{job=\"ssh\",host=~\"$instance\"} event_type:~\"invalid_user|preauth|failed\" | stats by (username) count() as count | sort by (count) desc | limit 10",
+                      "format": "table",
+                      "queryType": "stats"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": [
+              {
+                "kind": "renameByRegex",
+                "spec": {
+                  "id": "renameByRegex",
+                  "options": {
+                    "regex": ".*=\"(.+)\".*",
+                    "renamePattern": "$1"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": "",
+        "id": 21,
+        "links": [],
+        "title": "Targeted Usernames",
+        "vizConfig": {
+          "kind": "bargauge",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "continuous-GrYlRd"
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": []
+            },
+            "options": {
+              "displayMode": "gradient",
+              "minVizHeight": 10,
+              "minVizWidth": 0,
+              "orientation": "horizontal",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": true
+              },
+              "showUnfilled": true,
+              "valueMode": "color"
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-22": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-logs-datasource",
+                    "uid": "victorialogs"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-logs-datasource",
+                    "spec": {
+                      "expr": "{job=\"ssh\",host=~\"$instance\"} event_type:~\"invalid_user|preauth|failed\" | stats by (geoip_country_name) count() as count | sort by (count) desc | limit 10",
+                      "format": "table",
+                      "queryType": "stats"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": [
+              {
+                "kind": "renameByRegex",
+                "spec": {
+                  "id": "renameByRegex",
+                  "options": {
+                    "regex": ".*=\"(.+)\".*",
+                    "renamePattern": "$1"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": "",
+        "id": 22,
+        "links": [],
+        "title": "Attacks by Country",
+        "vizConfig": {
+          "kind": "bargauge",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "continuous-GrYlRd"
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": []
+            },
+            "options": {
+              "displayMode": "gradient",
+              "minVizHeight": 10,
+              "minVizWidth": 0,
+              "orientation": "horizontal",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": true
+              },
+              "showUnfilled": true,
+              "valueMode": "color"
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-23": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-logs-datasource",
+                    "uid": "victorialogs"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-logs-datasource",
+                    "spec": {
+                      "expr": "{job=\"ssh\",host=~\"$instance\"} event_type:\"invalid_user\" | stats by (_time:5m) count() as count",
+                      "legendFormat": "Invalid User",
+                      "queryType": "statsRange"
+                    }
+                  },
+                  "refId": "A"
+                }
+              },
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-logs-datasource",
+                    "uid": "victorialogs"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-logs-datasource",
+                    "spec": {
+                      "expr": "{job=\"ssh\",host=~\"$instance\"} event_type:\"preauth\" | stats by (_time:5m) count() as count",
+                      "legendFormat": "Preauth",
+                      "queryType": "statsRange"
+                    }
+                  },
+                  "refId": "B"
+                }
+              },
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-logs-datasource",
+                    "uid": "victorialogs"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-logs-datasource",
+                    "spec": {
+                      "expr": "{job=\"ssh\",host=~\"$instance\"} event_type:\"failed\" | stats by (_time:5m) count() as count",
+                      "legendFormat": "Failed",
+                      "queryType": "statsRange"
+                    }
+                  },
+                  "refId": "C"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": [
+              {
+                "kind": "extractFields",
+                "spec": {
+                  "id": "extractFields",
+                  "options": {
+                    "format": "json",
+                    "source": "labels"
+                  }
+                }
+              },
+              {
+                "kind": "organize",
+                "spec": {
+                  "id": "organize",
+                  "options": {
+                    "excludeByName": {
+                      "Line": true,
+                      "detected_level": true,
+                      "id": true,
+                      "labels": true,
+                      "streamId": true,
+                      "streams": true
+                    }
+                  }
+                }
+              },
+              {
+                "kind": "convertFieldType",
+                "spec": {
+                  "id": "convertFieldType",
+                  "options": {
+                    "conversions": [
+                      {
+                        "destinationType": "number",
+                        "targetField": "count"
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": "",
+        "id": 23,
+        "links": [],
+        "title": "Attack Timeline",
+        "vizConfig": {
+          "kind": "timeseries",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisBorderShow": false,
+                  "axisCenteredZero": false,
+                  "axisLabel": "",
+                  "axisPlacement": "auto",
+                  "barAlignment": 0,
+                  "drawStyle": "line",
+                  "fillOpacity": 20,
+                  "gradientMode": "none",
+                  "lineInterpolation": "smooth",
+                  "lineWidth": 2,
+                  "pointSize": 5,
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "showPoints": "never",
+                  "spanNulls": true,
+                  "stacking": {
+                    "group": "A",
+                    "mode": "normal"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "min": 0,
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": []
+            },
+            "options": {
+              "legend": {
+                "calcs": [
+                  "mean",
+                  "max"
+                ],
+                "displayMode": "table",
+                "placement": "bottom"
+              },
+              "tooltip": {
+                "mode": "multi",
+                "sort": "desc"
+              }
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-24": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-logs-datasource",
+                    "uid": "victorialogs"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-logs-datasource",
+                    "spec": {
+                      "expr": "{job=\"ssh\",host=~\"$instance\"} event_type:~\"invalid_user|preauth|failed\" | stats by (client_ip, geoip_country_name) count() as count | sort by (count) desc | limit 20",
+                      "format": "table",
+                      "queryType": "stats"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": [
+              {
+                "kind": "reduce",
+                "spec": {
+                  "id": "reduce",
+                  "options": {
+                    "labelsToFields": true,
+                    "reducers": [
+                      "lastNotNull"
+                    ]
+                  }
+                }
+              },
+              {
+                "kind": "organize",
+                "spec": {
+                  "id": "organize",
+                  "options": {
+                    "excludeByName": {
+                      "Field": true,
+                      "__name__": true
+                    },
+                    "renameByName": {
+                      "Last *": "Count",
+                      "geoip_country_name": "Country"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": "",
+        "id": 24,
+        "links": [],
+        "title": "Top Attackers",
+        "vizConfig": {
+          "kind": "table",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "custom": {
+                  "align": "left",
+                  "cellOptions": {
+                    "type": "auto"
+                  },
+                  "inspect": false
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": [
+                {
+                  "matcher": {
+                    "id": "byName",
+                    "options": "client_ip"
+                  },
+                  "properties": [
+                    {
+                      "id": "links",
+                      "value": [
+                        {
+                          "title": "Investigate IP",
+                          "url": "/d/ip-investigation?var-ip=${__value.text}"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "options": {
+              "cellHeight": "sm",
+              "footer": {
+                "countRows": false,
+                "fields": "",
+                "reducer": [
+                  "sum"
+                ],
+                "show": false
+              },
+              "showHeader": true,
+              "sortBy": [
+                {
+                  "desc": true,
+                  "displayName": "count"
+                }
+              ]
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-30": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-logs-datasource",
+                    "uid": "victorialogs"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-logs-datasource",
+                    "spec": {
+                      "expr": "{job=\"sudo\",host=~\"$instance\"} event_type:* | count()",
+                      "queryType": "stats"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 30,
+        "links": [],
+        "title": "Sudo Total 24h",
+        "vizConfig": {
+          "kind": "stat",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "blue",
+                      "value": null
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": []
+            },
+            "options": {
+              "colorMode": "value",
+              "graphMode": "none",
+              "justifyMode": "auto",
+              "orientation": "auto",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "textMode": "auto"
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-32": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-logs-datasource",
+                    "uid": "victorialogs"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-logs-datasource",
+                    "spec": {
+                      "expr": "{job=\"sudo\",host=~\"$instance\"} event_type:*"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 32,
+        "links": [],
+        "title": "Recent Commands",
+        "vizConfig": {
+          "kind": "logs",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "custom": {
+                  "align": "left",
+                  "cellOptions": {
+                    "type": "auto"
+                  },
+                  "inspect": false
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": []
+            },
+            "options": {
+              "cellHeight": "sm",
+              "footer": {
+                "countRows": false,
+                "fields": "",
+                "reducer": [
+                  "sum"
+                ],
+                "show": false
+              },
+              "showHeader": true,
+              "sortBy": [
+                {
+                  "desc": true,
+                  "displayName": "Time"
+                }
+              ]
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-33": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-logs-datasource",
+                    "uid": "victorialogs"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-logs-datasource",
+                    "spec": {
+                      "expr": "{job=\"sudo\",host=~\"$instance\"} event_type:\"sudo_failed\" | count()",
+                      "queryType": "stats"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 33,
+        "links": [],
+        "title": "Sudo Failed 24h",
+        "vizConfig": {
+          "kind": "stat",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "fixedColor": "red",
+                  "mode": "fixed"
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "red",
+                      "value": null
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": []
+            },
+            "options": {
+              "colorMode": "value",
+              "graphMode": "none",
+              "justifyMode": "auto",
+              "orientation": "auto",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "textMode": "auto"
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-34": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-logs-datasource",
+                    "uid": "victorialogs"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-logs-datasource",
+                    "spec": {
+                      "expr": "{job=\"sudo\",host=~\"$instance\"} event_type:\"sudo\" | stats by (_time:5m) count() as count",
+                      "legendFormat": "Sudo",
+                      "queryType": "statsRange"
+                    }
+                  },
+                  "refId": "A"
+                }
+              },
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-logs-datasource",
+                    "uid": "victorialogs"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-logs-datasource",
+                    "spec": {
+                      "expr": "{job=\"sudo\",host=~\"$instance\"} event_type:\"sudo_failed\" | stats by (_time:5m) count() as count",
+                      "legendFormat": "Failed",
+                      "queryType": "statsRange"
+                    }
+                  },
+                  "refId": "B"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": [
+              {
+                "kind": "extractFields",
+                "spec": {
+                  "id": "extractFields",
+                  "options": {
+                    "format": "json",
+                    "source": "labels"
+                  }
+                }
+              },
+              {
+                "kind": "organize",
+                "spec": {
+                  "id": "organize",
+                  "options": {
+                    "excludeByName": {
+                      "Line": true,
+                      "detected_level": true,
+                      "id": true,
+                      "labels": true,
+                      "streamId": true,
+                      "streams": true
+                    }
+                  }
+                }
+              },
+              {
+                "kind": "convertFieldType",
+                "spec": {
+                  "id": "convertFieldType",
+                  "options": {
+                    "conversions": [
+                      {
+                        "destinationType": "number",
+                        "targetField": "count"
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": "",
+        "id": 34,
+        "links": [],
+        "title": "Sudo Events",
+        "vizConfig": {
+          "kind": "timeseries",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisBorderShow": false,
+                  "axisCenteredZero": false,
+                  "axisLabel": "",
+                  "axisPlacement": "auto",
+                  "barAlignment": 0,
+                  "drawStyle": "line",
+                  "fillOpacity": 20,
+                  "gradientMode": "none",
+                  "lineInterpolation": "smooth",
+                  "lineWidth": 2,
+                  "pointSize": 5,
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "showPoints": "never",
+                  "spanNulls": true,
+                  "stacking": {
+                    "group": "A",
+                    "mode": "none"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "min": 0,
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": []
+            },
+            "options": {
+              "legend": {
+                "calcs": [
+                  "mean",
+                  "max"
+                ],
+                "displayMode": "table",
+                "placement": "bottom"
+              },
+              "tooltip": {
+                "mode": "multi",
+                "sort": "desc"
+              }
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-4": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-logs-datasource",
+                    "uid": "victorialogs"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-logs-datasource",
+                    "spec": {
+                      "expr": "{job=\"fail2ban\",host=~\"$instance\"} action:\"Ban\" | count()",
+                      "queryType": "stats"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 4,
+        "links": [],
+        "title": "Fail2ban Bans 24h",
+        "vizConfig": {
+          "kind": "stat",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "yellow",
+                      "value": 5
+                    },
+                    {
+                      "color": "orange",
+                      "value": 20
+                    },
+                    {
+                      "color": "red",
+                      "value": 50
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": []
+            },
+            "options": {
+              "colorMode": "value",
+              "graphMode": "none",
+              "justifyMode": "auto",
+              "orientation": "auto",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "textMode": "auto"
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-40": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-logs-datasource",
+                    "uid": "victorialogs"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-logs-datasource",
+                    "spec": {
+                      "expr": "{job=\"fail2ban\",host=~\"$instance\"} action:\"Ban\" | stats by (_time:5m) count() as count",
+                      "legendFormat": "Ban",
+                      "queryType": "statsRange"
+                    }
+                  },
+                  "refId": "A"
+                }
+              },
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-logs-datasource",
+                    "uid": "victorialogs"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-logs-datasource",
+                    "spec": {
+                      "expr": "{job=\"fail2ban\",host=~\"$instance\"} action:\"Unban\" | stats by (_time:5m) count() as count",
+                      "legendFormat": "Unban",
+                      "queryType": "statsRange"
+                    }
+                  },
+                  "refId": "B"
+                }
+              },
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-logs-datasource",
+                    "uid": "victorialogs"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-logs-datasource",
+                    "spec": {
+                      "expr": "{job=\"fail2ban\",host=~\"$instance\"} action:\"Found\" | stats by (_time:5m) count() as count",
+                      "legendFormat": "Found",
+                      "queryType": "statsRange"
+                    }
+                  },
+                  "refId": "C"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": [
+              {
+                "kind": "extractFields",
+                "spec": {
+                  "id": "extractFields",
+                  "options": {
+                    "format": "json",
+                    "source": "labels"
+                  }
+                }
+              },
+              {
+                "kind": "organize",
+                "spec": {
+                  "id": "organize",
+                  "options": {
+                    "excludeByName": {
+                      "Line": true,
+                      "detected_level": true,
+                      "id": true,
+                      "labels": true,
+                      "streamId": true,
+                      "streams": true
+                    }
+                  }
+                }
+              },
+              {
+                "kind": "convertFieldType",
+                "spec": {
+                  "id": "convertFieldType",
+                  "options": {
+                    "conversions": [
+                      {
+                        "destinationType": "number",
+                        "targetField": "count"
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "kind": "filterByValue",
+                "spec": {
+                  "id": "filterByValue",
+                  "options": {
+                    "filters": [
+                      {
+                        "config": {
+                          "id": "equal",
+                          "options": {
+                            "value": 0
+                          }
+                        },
+                        "fieldName": "count"
+                      }
+                    ],
+                    "match": "any",
+                    "type": "exclude"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": "",
+        "id": 40,
+        "links": [],
+        "title": "Fail2ban Activity",
+        "vizConfig": {
+          "kind": "timeseries",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisBorderShow": false,
+                  "axisCenteredZero": false,
+                  "axisLabel": "",
+                  "axisPlacement": "auto",
+                  "barAlignment": 0,
+                  "drawStyle": "line",
+                  "fillOpacity": 20,
+                  "gradientMode": "none",
+                  "lineInterpolation": "smooth",
+                  "lineWidth": 2,
+                  "pointSize": 5,
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "showPoints": "never",
+                  "spanNulls": true,
+                  "stacking": {
+                    "group": "A",
+                    "mode": "none"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "min": 0,
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": []
+            },
+            "options": {
+              "legend": {
+                "calcs": [
+                  "mean",
+                  "max"
+                ],
+                "displayMode": "table",
+                "placement": "bottom"
+              },
+              "tooltip": {
+                "mode": "multi",
+                "sort": "desc"
+              }
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-41": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-logs-datasource",
+                    "uid": "victorialogs"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-logs-datasource",
+                    "spec": {
+                      "expr": "{job=\"fail2ban\",host=~\"$instance\"} action:\"Ban\" | stats by (jail) count() as count | sort by (count) desc | limit 10",
+                      "format": "table",
+                      "queryType": "stats"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": [
+              {
+                "kind": "renameByRegex",
+                "spec": {
+                  "id": "renameByRegex",
+                  "options": {
+                    "regex": "count\\{jail=\"(.*)\"\\}",
+                    "renamePattern": "$1"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": "",
+        "id": 41,
+        "links": [],
+        "title": "Bans by Jail",
+        "vizConfig": {
+          "kind": "bargauge",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "continuous-GrYlRd"
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": []
+            },
+            "options": {
+              "displayMode": "gradient",
+              "minVizHeight": 10,
+              "minVizWidth": 0,
+              "orientation": "horizontal",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "showUnfilled": true,
+              "valueMode": "color"
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-42": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-logs-datasource",
+                    "uid": "victorialogs"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-logs-datasource",
+                    "spec": {
+                      "expr": "{job=\"fail2ban\",host=~\"$instance\"} action:\"Ban\" | stats by (client_ip, geoip_country_name) count() as count | sort by (count) desc | limit 20",
+                      "format": "table",
+                      "queryType": "stats"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": [
+              {
+                "kind": "reduce",
+                "spec": {
+                  "id": "reduce",
+                  "options": {
+                    "labelsToFields": true,
+                    "reducers": [
+                      "lastNotNull"
+                    ]
+                  }
+                }
+              },
+              {
+                "kind": "organize",
+                "spec": {
+                  "id": "organize",
+                  "options": {
+                    "excludeByName": {
+                      "Field": true,
+                      "__name__": true
+                    },
+                    "renameByName": {
+                      "Last *": "Count",
+                      "geoip_country_name": "Country"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": "",
+        "id": 42,
+        "links": [],
+        "title": "Top Banned IPs",
+        "vizConfig": {
+          "kind": "table",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "custom": {
+                  "align": "left",
+                  "cellOptions": {
+                    "type": "auto"
+                  },
+                  "inspect": false
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": [
+                {
+                  "matcher": {
+                    "id": "byName",
+                    "options": "client_ip"
+                  },
+                  "properties": [
+                    {
+                      "id": "links",
+                      "value": [
+                        {
+                          "title": "Investigate IP",
+                          "url": "/d/ip-investigation?var-ip=${__value.text}"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "options": {
+              "cellHeight": "sm",
+              "footer": {
+                "countRows": false,
+                "fields": "",
+                "reducer": [
+                  "sum"
+                ],
+                "show": false
+              },
+              "showHeader": true,
+              "sortBy": [
+                {
+                  "desc": true,
+                  "displayName": "count"
+                }
+              ]
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-5": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-logs-datasource",
+                    "uid": "victorialogs"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-logs-datasource",
+                    "spec": {
+                      "expr": "{job=\"ufw\",host=~\"$instance\"} action:\"BLOCK\" | count()",
+                      "queryType": "stats"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 5,
+        "links": [],
+        "title": "UFW Blocks 24h",
+        "vizConfig": {
+          "kind": "stat",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "yellow",
+                      "value": 100
+                    },
+                    {
+                      "color": "orange",
+                      "value": 500
+                    },
+                    {
+                      "color": "red",
+                      "value": 1000
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": []
+            },
+            "options": {
+              "colorMode": "value",
+              "graphMode": "none",
+              "justifyMode": "auto",
+              "orientation": "auto",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "textMode": "auto"
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-50": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-logs-datasource",
+                    "uid": "victorialogs"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-logs-datasource",
+                    "spec": {
+                      "expr": "{job=\"ufw\",host=~\"$instance\"} proto:\"TCP\" action:\"BLOCK\" | stats by (_time:5m) count() as count",
+                      "legendFormat": "TCP",
+                      "queryType": "statsRange"
+                    }
+                  },
+                  "refId": "A"
+                }
+              },
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-logs-datasource",
+                    "uid": "victorialogs"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-logs-datasource",
+                    "spec": {
+                      "expr": "{job=\"ufw\",host=~\"$instance\"} proto:\"UDP\" action:\"BLOCK\" | stats by (_time:5m) count() as count",
+                      "legendFormat": "UDP",
+                      "queryType": "statsRange"
+                    }
+                  },
+                  "refId": "B"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": [
+              {
+                "kind": "extractFields",
+                "spec": {
+                  "id": "extractFields",
+                  "options": {
+                    "format": "json",
+                    "source": "labels"
+                  }
+                }
+              },
+              {
+                "kind": "organize",
+                "spec": {
+                  "id": "organize",
+                  "options": {
+                    "excludeByName": {
+                      "Line": true,
+                      "detected_level": true,
+                      "id": true,
+                      "labels": true,
+                      "streamId": true,
+                      "streams": true
+                    }
+                  }
+                }
+              },
+              {
+                "kind": "convertFieldType",
+                "spec": {
+                  "id": "convertFieldType",
+                  "options": {
+                    "conversions": [
+                      {
+                        "destinationType": "number",
+                        "targetField": "count"
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": "",
+        "id": 50,
+        "links": [],
+        "title": "UFW Blocks",
+        "vizConfig": {
+          "kind": "timeseries",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisBorderShow": false,
+                  "axisCenteredZero": false,
+                  "axisLabel": "",
+                  "axisPlacement": "auto",
+                  "barAlignment": 0,
+                  "drawStyle": "line",
+                  "fillOpacity": 20,
+                  "gradientMode": "none",
+                  "lineInterpolation": "smooth",
+                  "lineWidth": 2,
+                  "pointSize": 5,
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "showPoints": "never",
+                  "spanNulls": true,
+                  "stacking": {
+                    "group": "A",
+                    "mode": "none"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "min": 0,
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": []
+            },
+            "options": {
+              "legend": {
+                "calcs": [
+                  "mean",
+                  "max"
+                ],
+                "displayMode": "table",
+                "placement": "bottom"
+              },
+              "tooltip": {
+                "mode": "multi",
+                "sort": "desc"
+              }
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-51": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-logs-datasource",
+                    "uid": "victorialogs"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-logs-datasource",
+                    "spec": {
+                      "expr": "{job=\"ufw\",host=~\"$instance\"} action:\"BLOCK\" | stats by (dst_port) count() as count | sort by (count) desc | limit 20",
+                      "format": "table",
+                      "queryType": "stats"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": [
+              {
+                "kind": "reduce",
+                "spec": {
+                  "id": "reduce",
+                  "options": {
+                    "labelsToFields": true,
+                    "reducers": [
+                      "lastNotNull"
+                    ]
+                  }
+                }
+              },
+              {
+                "kind": "organize",
+                "spec": {
+                  "id": "organize",
+                  "options": {
+                    "excludeByName": {
+                      "Field": true,
+                      "__name__": true
+                    },
+                    "renameByName": {
+                      "Last *": "Count",
+                      "dst_port": "Port"
+                    }
+                  }
+                }
+              },
+              {
+                "kind": "convertFieldType",
+                "spec": {
+                  "id": "convertFieldType",
+                  "options": {
+                    "conversions": [
+                      {
+                        "destinationType": "string",
+                        "targetField": "Port"
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": "",
+        "id": 51,
+        "links": [],
+        "title": "Top Blocked Ports",
+        "vizConfig": {
+          "kind": "table",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "custom": {
+                  "align": "left",
+                  "cellOptions": {
+                    "type": "auto"
+                  },
+                  "inspect": false
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": []
+            },
+            "options": {
+              "cellHeight": "sm",
+              "footer": {
+                "countRows": false,
+                "fields": "",
+                "reducer": [
+                  "sum"
+                ],
+                "show": false
+              },
+              "showHeader": true,
+              "sortBy": [
+                {
+                  "desc": true,
+                  "displayName": "Count"
+                }
+              ]
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-52": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-logs-datasource",
+                    "uid": "victorialogs"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-logs-datasource",
+                    "spec": {
+                      "expr": "{job=\"ufw\",host=~\"$instance\"} action:\"BLOCK\" | stats by (client_ip, geoip_country_name) count() as count | sort by (count) desc | limit 20",
+                      "format": "table",
+                      "queryType": "stats"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": [
+              {
+                "kind": "reduce",
+                "spec": {
+                  "id": "reduce",
+                  "options": {
+                    "labelsToFields": true,
+                    "reducers": [
+                      "lastNotNull"
+                    ]
+                  }
+                }
+              },
+              {
+                "kind": "organize",
+                "spec": {
+                  "id": "organize",
+                  "options": {
+                    "excludeByName": {
+                      "Field": true,
+                      "__name__": true
+                    },
+                    "renameByName": {
+                      "Last *": "Count",
+                      "geoip_country_name": "Country"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": "",
+        "id": 52,
+        "links": [],
+        "title": "Top Blocked IPs",
+        "vizConfig": {
+          "kind": "table",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "custom": {
+                  "align": "left",
+                  "cellOptions": {
+                    "type": "auto"
+                  },
+                  "inspect": false
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": [
+                {
+                  "matcher": {
+                    "id": "byName",
+                    "options": "client_ip"
+                  },
+                  "properties": [
+                    {
+                      "id": "links",
+                      "value": [
+                        {
+                          "title": "Investigate IP",
+                          "url": "/d/ip-investigation?var-ip=${__value.text}"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "options": {
+              "cellHeight": "sm",
+              "footer": {
+                "countRows": false,
+                "fields": "",
+                "reducer": [
+                  "sum"
+                ],
+                "show": false
+              },
+              "showHeader": true,
+              "sortBy": [
+                {
+                  "desc": true,
+                  "displayName": "count"
+                }
+              ]
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-6": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-logs-datasource",
+                    "uid": "victorialogs"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-logs-datasource",
+                    "spec": {
+                      "expr": "{job=\"ssh\",host=~\"$instance\"} event_type:\"accepted\" | count()",
+                      "queryType": "stats"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 6,
+        "links": [],
+        "title": "SSH Accepted 24h",
+        "vizConfig": {
+          "kind": "stat",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "blue",
+                      "value": null
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": []
+            },
+            "options": {
+              "colorMode": "value",
+              "graphMode": "none",
+              "justifyMode": "auto",
+              "orientation": "auto",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "textMode": "auto"
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-60": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-logs-datasource",
+                    "uid": "victorialogs"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-logs-datasource",
+                    "spec": {
+                      "expr": "{job=\"ssh\",host=~\"$instance\"}"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 60,
+        "links": [],
+        "title": "SSH Auth Logs",
+        "vizConfig": {
+          "kind": "logs",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {},
+              "overrides": []
+            },
+            "options": {
+              "dedupStrategy": "none",
+              "enableLogDetails": true,
+              "prettifyLogMessage": false,
+              "showCommonLabels": false,
+              "showLabels": false,
+              "showTime": true,
+              "sortOrder": "Descending",
+              "wrapLogMessage": false
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-61": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-logs-datasource",
+                    "uid": "victorialogs"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-logs-datasource",
+                    "spec": {
+                      "expr": "{job=\"sudo\",host=~\"$instance\"} event_type:*"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 61,
+        "links": [],
+        "title": "Sudo Logs",
+        "vizConfig": {
+          "kind": "logs",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {},
+              "overrides": []
+            },
+            "options": {
+              "dedupStrategy": "none",
+              "enableLogDetails": true,
+              "prettifyLogMessage": false,
+              "showCommonLabels": false,
+              "showLabels": false,
+              "showTime": true,
+              "sortOrder": "Descending",
+              "wrapLogMessage": false
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-62": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-logs-datasource",
+                    "uid": "victorialogs"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-logs-datasource",
+                    "spec": {
+                      "expr": "{job=\"fail2ban\",host=~\"$instance\"}"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 62,
+        "links": [],
+        "title": "Fail2ban Logs",
+        "vizConfig": {
+          "kind": "logs",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {},
+              "overrides": []
+            },
+            "options": {
+              "dedupStrategy": "none",
+              "enableLogDetails": true,
+              "prettifyLogMessage": false,
+              "showCommonLabels": false,
+              "showLabels": false,
+              "showTime": true,
+              "sortOrder": "Descending",
+              "wrapLogMessage": false
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-63": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-logs-datasource",
+                    "uid": "victorialogs"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-logs-datasource",
+                    "spec": {
+                      "expr": "{job=\"ufw\",host=~\"$instance\"}"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 63,
+        "links": [],
+        "title": "UFW Firewall Logs",
+        "vizConfig": {
+          "kind": "logs",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {},
+              "overrides": []
+            },
+            "options": {
+              "dedupStrategy": "none",
+              "enableLogDetails": true,
+              "prettifyLogMessage": false,
+              "showCommonLabels": false,
+              "showLabels": false,
+              "showTime": true,
+              "sortOrder": "Descending",
+              "wrapLogMessage": false
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-7": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-logs-datasource",
+                    "uid": "victorialogs"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-logs-datasource",
+                    "spec": {
+                      "expr": "{job=~\"ssh|fail2ban|ufw|crowdsec|appsec\",host=~\"$instance\"} client_ip:!\"\" | count_uniq(client_ip)",
+                      "queryType": "stats"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 7,
+        "links": [],
+        "title": "Unique Attacker IPs 24h",
+        "vizConfig": {
+          "kind": "stat",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "yellow",
+                      "value": 10
+                    },
+                    {
+                      "color": "orange",
+                      "value": 30
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": []
+            },
+            "options": {
+              "colorMode": "value",
+              "graphMode": "none",
+              "justifyMode": "auto",
+              "orientation": "auto",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "textMode": "auto"
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    },
+    "panel-8": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "datasource": {
+                    "type": "victoriametrics-logs-datasource",
+                    "uid": "victorialogs"
+                  },
+                  "hidden": false,
+                  "query": {
+                    "kind": "victoriametrics-logs-datasource",
+                    "spec": {
+                      "expr": "{job=~\"ssh|fail2ban|ufw|crowdsec|appsec\",host=~\"$instance\"} geoip_country_code:!\"\" | count_uniq(geoip_country_code)",
+                      "queryType": "stats"
+                    }
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 8,
+        "links": [],
+        "title": "Attack Countries 24h",
+        "vizConfig": {
+          "kind": "stat",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "blue",
+                      "value": null
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": []
+            },
+            "options": {
+              "colorMode": "value",
+              "graphMode": "none",
+              "justifyMode": "auto",
+              "orientation": "auto",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "textMode": "auto"
+            },
+            "pluginVersion": ""
+          }
+        }
+      }
+    }
+  },
+  "layout": {
+    "kind": "RowsLayout",
+    "spec": {
+      "rows": [
+        {
+          "kind": "RowsLayoutRow",
+          "spec": {
+            "collapse": false,
+            "layout": {
+              "kind": "GridLayout",
+              "spec": {
+                "items": [
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-6"
+                      },
+                      "height": 4,
+                      "width": 4,
+                      "x": 0,
+                      "y": 0
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-1"
+                      },
+                      "height": 4,
+                      "width": 4,
+                      "x": 4,
+                      "y": 0
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-4"
+                      },
+                      "height": 4,
+                      "width": 4,
+                      "x": 8,
+                      "y": 0
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-5"
+                      },
+                      "height": 4,
+                      "width": 4,
+                      "x": 12,
+                      "y": 0
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-7"
+                      },
+                      "height": 4,
+                      "width": 4,
+                      "x": 16,
+                      "y": 0
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-8"
+                      },
+                      "height": 4,
+                      "width": 4,
+                      "x": 20,
+                      "y": 0
+                    }
+                  }
+                ]
+              }
+            },
+            "title": "📊 Overview"
+          }
+        },
+        {
+          "kind": "RowsLayoutRow",
+          "spec": {
+            "collapse": false,
+            "layout": {
+              "kind": "GridLayout",
+              "spec": {
+                "items": [
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-10"
+                      },
+                      "height": 12,
+                      "width": 24,
+                      "x": 0,
+                      "y": 0
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-11"
+                      },
+                      "height": 10,
+                      "width": 24,
+                      "x": 0,
+                      "y": 12
+                    }
+                  }
+                ]
+              }
+            },
+            "title": "🌍 Attack Origins"
+          }
+        },
+        {
+          "kind": "RowsLayoutRow",
+          "spec": {
+            "collapse": false,
+            "layout": {
+              "kind": "GridLayout",
+              "spec": {
+                "items": [
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-20"
+                      },
+                      "height": 6,
+                      "width": 24,
+                      "x": 0,
+                      "y": 0
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-23"
+                      },
+                      "height": 8,
+                      "width": 12,
+                      "x": 0,
+                      "y": 6
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-24"
+                      },
+                      "height": 8,
+                      "width": 12,
+                      "x": 12,
+                      "y": 6
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-21"
+                      },
+                      "height": 6,
+                      "width": 12,
+                      "x": 0,
+                      "y": 14
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-22"
+                      },
+                      "height": 6,
+                      "width": 12,
+                      "x": 12,
+                      "y": 14
+                    }
+                  }
+                ]
+              }
+            },
+            "title": "🔑 SSH"
+          }
+        },
+        {
+          "kind": "RowsLayoutRow",
+          "spec": {
+            "collapse": true,
+            "layout": {
+              "kind": "GridLayout",
+              "spec": {
+                "items": [
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-30"
+                      },
+                      "height": 8,
+                      "width": 4,
+                      "x": 0,
+                      "y": 0
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-33"
+                      },
+                      "height": 8,
+                      "width": 4,
+                      "x": 4,
+                      "y": 0
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-34"
+                      },
+                      "height": 8,
+                      "width": 16,
+                      "x": 8,
+                      "y": 0
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-32"
+                      },
+                      "height": 8,
+                      "width": 24,
+                      "x": 0,
+                      "y": 8
+                    }
+                  }
+                ]
+              }
+            },
+            "title": "🔐 Sudo"
+          }
+        },
+        {
+          "kind": "RowsLayoutRow",
+          "spec": {
+            "collapse": true,
+            "layout": {
+              "kind": "GridLayout",
+              "spec": {
+                "items": [
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-40"
+                      },
+                      "height": 8,
+                      "width": 12,
+                      "x": 0,
+                      "y": -14
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-41"
+                      },
+                      "height": 8,
+                      "width": 6,
+                      "x": 12,
+                      "y": -14
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-42"
+                      },
+                      "height": 8,
+                      "width": 6,
+                      "x": 18,
+                      "y": -14
+                    }
+                  }
+                ]
+              }
+            },
+            "title": "🚫 Fail2ban"
+          }
+        },
+        {
+          "kind": "RowsLayoutRow",
+          "spec": {
+            "collapse": true,
+            "layout": {
+              "kind": "GridLayout",
+              "spec": {
+                "items": [
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-50"
+                      },
+                      "height": 8,
+                      "width": 12,
+                      "x": 0,
+                      "y": -6
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-51"
+                      },
+                      "height": 8,
+                      "width": 6,
+                      "x": 12,
+                      "y": -6
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-52"
+                      },
+                      "height": 8,
+                      "width": 6,
+                      "x": 18,
+                      "y": -6
+                    }
+                  }
+                ]
+              }
+            },
+            "title": "🔥 UFW"
+          }
+        },
+        {
+          "kind": "RowsLayoutRow",
+          "spec": {
+            "collapse": true,
+            "layout": {
+              "kind": "GridLayout",
+              "spec": {
+                "items": [
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-60"
+                      },
+                      "height": 10,
+                      "width": 24,
+                      "x": 0,
+                      "y": 2
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-61"
+                      },
+                      "height": 10,
+                      "width": 24,
+                      "x": 0,
+                      "y": 12
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-62"
+                      },
+                      "height": 10,
+                      "width": 24,
+                      "x": 0,
+                      "y": 22
+                    }
+                  },
+                  {
+                    "kind": "GridLayoutItem",
+                    "spec": {
+                      "element": {
+                        "kind": "ElementReference",
+                        "name": "panel-63"
+                      },
+                      "height": 10,
+                      "width": 24,
+                      "x": 0,
+                      "y": 32
+                    }
+                  }
+                ]
+              }
+            },
+            "title": "📜 Logs"
+          }
+        }
+      ]
+    }
+  },
+  "links": [],
+  "liveNow": false,
+  "preload": false,
+  "tags": [
+    "security",
+    "ssh",
+    "sudo",
+    "fail2ban",
+    "ufw"
+  ],
+  "timeSettings": {
+    "autoRefresh": "30s",
+    "autoRefreshIntervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "fiscalYearStartMonth": 0,
+    "from": "now-6h",
+    "hideTimepicker": false,
+    "timezone": "browser",
+    "to": "now"
+  },
+  "title": "Security",
+  "variables": [
+    {
+      "kind": "QueryVariable",
+      "spec": {
+        "allValue": ".*",
+        "allowCustomValue": true,
+        "current": {
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": {
+          "type": "victoriametrics-metrics-datasource",
+          "uid": "victoriametrics"
+        },
+        "definition": "label_values(node_uname_info, instance)",
+        "hide": "dontHide",
+        "includeAll": true,
+        "label": "Instance",
+        "multi": true,
+        "name": "instance",
+        "options": [],
+        "query": {
+          "kind": "victoriametrics-metrics-datasource",
+          "spec": {
+            "qryType": 1,
+            "query": "label_values(node_uname_info, instance)"
+          }
+        },
+        "refresh": "onTimeRangeChanged",
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": "alphabeticalAsc"
+      }
+    }
+  ]
+}
