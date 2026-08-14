@@ -1,13 +1,20 @@
 {
-  "__elements": {},
+  "uid": "proxmox",
+  "title": "Proxmox",
+  "description": "Proxmox VE node, VM, LXC, and storage metrics.",
+  "tags": ["proxmox", "pve", "virtualization", "pve-exporter"],
+  "editable": true,
+  "graphTooltip": 1,
+  "refresh": "30s",
+  "time": {"from": "now-1h", "to": "now"},
+  "timezone": "browser",
+  "timepicker": {},
+  "schemaVersion": 38,
   "annotations": {
     "list": [
       {
         "builtIn": 1,
-        "datasource": {
-          "type": "grafana",
-          "uid": "-- Grafana --"
-        },
+        "datasource": {"type": "grafana", "uid": "-- Grafana --"},
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
@@ -16,396 +23,229 @@
       }
     ]
   },
-  "description": "Proxmox VE node, VM, LXC, and storage metrics.",
-  "editable": true,
-  "fiscalYearStartMonth": 0,
-  "graphTooltip": 1,
-  "id": null,
-  "links": [],
-  "liveNow": false,
+  "templating": {
+    "list": [
+      {
+        "allValue": ".*",
+        "current": {"selected": true, "text": "All", "value": "$__all"},
+        "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
+        "definition": "label_values(pve_node_up, node)",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Node",
+        "multi": true,
+        "name": "node",
+        "options": [],
+        "query": {
+          "query": "label_values(pve_node_up, node)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      }
+    ]
+  },
   "panels": [
     {
-      "collapsed": false,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 0
-      },
-      "id": 100,
-      "panels": [],
+      "type": "row",
       "title": "📊 Cluster Overview",
-      "type": "row"
+      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 0}
     },
     {
-      "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "none"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 0,
-        "y": 1
-      },
-      "id": 1,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "textMode": "auto"
-      },
-      "targets": [
-        {
-          "expr": "count(pve_node_up == 1)",
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
+      "type": "stat",
       "title": "Nodes Online",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
-      },
+      "gridPos": {"h": 4, "w": 4, "x": 0, "y": 1},
+      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "blue",
-                "value": null
-              }
-            ]
-          },
+          "color": {"mode": "thresholds"},
           "unit": "none"
-        },
-        "overrides": []
+        }
       },
-      "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 4,
-        "y": 1
-      },
-      "id": 2,
       "options": {
         "colorMode": "value",
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "fields": "",
           "values": false
         },
         "textMode": "auto"
       },
-      "targets": [
-        {
-          "expr": "sum(pve_node_vm_count)",
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
+      "targets": [{"refId": "A", "expr": "count(pve_node_up == 1)"}]
+    },
+    {
+      "type": "stat",
       "title": "Total VMs",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
-      },
+      "gridPos": {"h": 4, "w": 4, "x": 4, "y": 1},
+      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
+          "color": {"mode": "thresholds"},
           "thresholds": {
             "mode": "absolute",
-            "steps": [
-              {
-                "color": "purple",
-                "value": null
-              }
-            ]
+            "steps": [{"color": "blue", "value": null}]
           },
           "unit": "none"
-        },
-        "overrides": []
+        }
       },
-      "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 8,
-        "y": 1
-      },
-      "id": 3,
       "options": {
         "colorMode": "value",
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "fields": "",
           "values": false
         },
         "textMode": "auto"
       },
-      "targets": [
-        {
-          "expr": "sum(pve_node_lxc_count)",
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
+      "targets": [{"refId": "A", "expr": "sum(pve_node_vm_count)"}]
+    },
+    {
+      "type": "stat",
       "title": "Total LXC",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
-      },
+      "gridPos": {"h": 4, "w": 4, "x": 8, "y": 1},
+      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "max": 100,
-          "min": 0,
+          "color": {"mode": "thresholds"},
           "thresholds": {
             "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "yellow",
-                "value": 70
-              },
-              {
-                "color": "red",
-                "value": 90
-              }
-            ]
+            "steps": [{"color": "purple", "value": null}]
           },
-          "unit": "percent"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 12,
-        "y": 1
-      },
-      "id": 4,
-      "options": {
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true
-      },
-      "targets": [
-        {
-          "expr": "avg(pve_node_cpu_load) * 100",
-          "legendFormat": "",
-          "refId": "A"
+          "unit": "none"
         }
-      ],
-      "title": "Cluster CPU",
-      "type": "gauge"
-    },
-    {
-      "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
       },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "max": 100,
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "yellow",
-                "value": 70
-              },
-              {
-                "color": "red",
-                "value": 90
-              }
-            ]
-          },
-          "unit": "percent"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 16,
-        "y": 1
-      },
-      "id": 5,
-      "options": {
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true
-      },
-      "targets": [
-        {
-          "expr": "sum(pve_node_memory_used_bytes) / sum(pve_node_memory_total_bytes) * 100",
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
-      "title": "Cluster Memory",
-      "type": "gauge"
-    },
-    {
-      "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "bytes"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 20,
-        "y": 1
-      },
-      "id": 6,
       "options": {
         "colorMode": "value",
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "fields": "",
           "values": false
         },
         "textMode": "auto"
       },
-      "targets": [
-        {
-          "expr": "sum(pve_node_memory_total_bytes)",
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
-      "title": "Total Memory",
-      "type": "stat"
+      "targets": [{"refId": "A", "expr": "sum(pve_node_lxc_count)"}]
     },
     {
-      "collapsed": false,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 5
-      },
-      "id": 101,
-      "panels": [],
-      "title": "🖥️ Node: $node",
-      "type": "row"
-    },
-    {
-      "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
-      },
+      "type": "gauge",
+      "title": "Cluster CPU",
+      "gridPos": {"h": 4, "w": 4, "x": 12, "y": 1},
+      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "palette-classic"
+          "color": {"mode": "thresholds"},
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {"color": "green", "value": null},
+              {"color": "yellow", "value": 70},
+              {"color": "red", "value": 90}
+            ]
           },
+          "unit": "percent"
+        }
+      },
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "targets": [{"refId": "A", "expr": "avg(pve_node_cpu_load) * 100"}]
+    },
+    {
+      "type": "gauge",
+      "title": "Cluster Memory",
+      "gridPos": {"h": 4, "w": 4, "x": 16, "y": 1},
+      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "thresholds"},
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {"color": "green", "value": null},
+              {"color": "yellow", "value": 70},
+              {"color": "red", "value": 90}
+            ]
+          },
+          "unit": "percent"
+        }
+      },
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(pve_node_memory_used_bytes) / sum(pve_node_memory_total_bytes) * 100"
+        }
+      ]
+    },
+    {
+      "type": "stat",
+      "title": "Total Memory",
+      "gridPos": {"h": 4, "w": 4, "x": 20, "y": 1},
+      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "thresholds"},
+          "unit": "bytes"
+        }
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [{"refId": "A", "expr": "sum(pve_node_memory_total_bytes)"}]
+    },
+    {
+      "type": "row",
+      "title": "🖥️ Node: $node",
+      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 5}
+    },
+    {
+      "type": "timeseries",
+      "title": "CPU Load",
+      "gridPos": {"h": 8, "w": 8, "x": 0, "y": 6},
+      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "palette-classic"},
           "custom": {
             "axisCenteredZero": false,
             "axisColorMode": "text",
@@ -415,85 +255,46 @@
             "drawStyle": "line",
             "fillOpacity": 20,
             "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
+            "hideFrom": {"legend": false, "tooltip": false, "viz": false},
             "lineInterpolation": "smooth",
             "lineWidth": 2,
             "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
+            "scaleDistribution": {"type": "linear"},
             "showPoints": "never",
             "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
+            "stacking": {"group": "A", "mode": "none"},
+            "thresholdsStyle": {"mode": "off"}
           },
-          "mappings": [],
           "max": 1,
           "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
           "unit": "percentunit"
-        },
-        "overrides": []
+        }
       },
-      "gridPos": {
-        "h": 8,
-        "w": 8,
-        "x": 0,
-        "y": 6
-      },
-      "id": 10,
       "options": {
         "legend": {
-          "calcs": [
-            "mean",
-            "max"
-          ],
+          "calcs": ["mean", "max"],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
         },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "desc"
-        }
+        "tooltip": {"mode": "multi", "sort": "desc"}
       },
       "targets": [
         {
+          "refId": "A",
           "expr": "max by (node) (pve_node_cpu_load{node=~\"$node\"})",
-          "legendFormat": "{{node}}",
-          "refId": "A"
+          "legendFormat": "{{node}}"
         }
-      ],
-      "title": "CPU Load",
-      "type": "timeseries"
+      ]
     },
     {
-      "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
-      },
+      "type": "timeseries",
+      "title": "Memory Usage",
+      "gridPos": {"h": 8, "w": 8, "x": 8, "y": 6},
+      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
+          "color": {"mode": "palette-classic"},
           "custom": {
             "axisCenteredZero": false,
             "axisColorMode": "text",
@@ -503,88 +304,49 @@
             "drawStyle": "line",
             "fillOpacity": 20,
             "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
+            "hideFrom": {"legend": false, "tooltip": false, "viz": false},
             "lineInterpolation": "smooth",
             "lineWidth": 2,
             "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
+            "scaleDistribution": {"type": "linear"},
             "showPoints": "never",
             "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
+            "stacking": {"group": "A", "mode": "none"},
+            "thresholdsStyle": {"mode": "off"}
           },
           "unit": "bytes"
-        },
-        "overrides": []
+        }
       },
-      "gridPos": {
-        "h": 8,
-        "w": 8,
-        "x": 8,
-        "y": 6
-      },
-      "id": 11,
       "options": {
         "legend": {
-          "calcs": [
-            "mean",
-            "max"
-          ],
+          "calcs": ["mean", "max"],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
         },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "desc"
-        }
+        "tooltip": {"mode": "multi", "sort": "desc"}
       },
       "targets": [
         {
+          "refId": "A",
           "expr": "max by (node) (pve_node_memory_used_bytes{node=~\"$node\"})",
-          "legendFormat": "{{node}} Used",
-          "refId": "A"
+          "legendFormat": "{{node}} Used"
         },
         {
+          "refId": "B",
           "expr": "max by (node) (pve_node_memory_total_bytes{node=~\"$node\"})",
-          "legendFormat": "{{node}} Total",
-          "refId": "B"
+          "legendFormat": "{{node}} Total"
         }
-      ],
-      "title": "Memory Usage",
-      "type": "timeseries"
+      ]
     },
     {
-      "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
-      },
+      "type": "timeseries",
+      "title": "Load Averages",
+      "gridPos": {"h": 8, "w": 8, "x": 16, "y": 6},
+      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
+          "color": {"mode": "palette-classic"},
           "custom": {
             "axisCenteredZero": false,
             "axisColorMode": "text",
@@ -594,133 +356,74 @@
             "drawStyle": "line",
             "fillOpacity": 20,
             "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
+            "hideFrom": {"legend": false, "tooltip": false, "viz": false},
             "lineInterpolation": "smooth",
             "lineWidth": 2,
             "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
+            "scaleDistribution": {"type": "linear"},
             "showPoints": "never",
             "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
+            "stacking": {"group": "A", "mode": "none"},
+            "thresholdsStyle": {"mode": "off"}
           },
           "unit": "short"
-        },
-        "overrides": []
+        }
       },
-      "gridPos": {
-        "h": 8,
-        "w": 8,
-        "x": 16,
-        "y": 6
-      },
-      "id": 12,
       "options": {
         "legend": {
-          "calcs": [
-            "mean",
-            "max"
-          ],
+          "calcs": ["mean", "max"],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
         },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "desc"
-        }
+        "tooltip": {"mode": "multi", "sort": "desc"}
       },
       "targets": [
         {
+          "refId": "A",
           "expr": "max by (node) (pve_node_load1{node=~\"$node\"})",
-          "legendFormat": "{{node}} 1m",
-          "refId": "A"
+          "legendFormat": "{{node}} 1m"
         },
         {
+          "refId": "B",
           "expr": "max by (node) (pve_node_load5{node=~\"$node\"})",
-          "legendFormat": "{{node}} 5m",
-          "refId": "B"
+          "legendFormat": "{{node}} 5m"
         },
         {
+          "refId": "C",
           "expr": "max by (node) (pve_node_load15{node=~\"$node\"})",
-          "legendFormat": "{{node}} 15m",
-          "refId": "C"
+          "legendFormat": "{{node}} 15m"
         }
-      ],
-      "title": "Load Averages",
-      "type": "timeseries"
+      ]
     },
     {
-      "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
-      },
+      "type": "bargauge",
+      "title": "Root Filesystem Usage",
+      "gridPos": {"h": 6, "w": 12, "x": 0, "y": 14},
+      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
+          "color": {"mode": "thresholds"},
           "max": 100,
           "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "yellow",
-                "value": 70
-              },
-              {
-                "color": "red",
-                "value": 85
-              }
+              {"color": "green", "value": null},
+              {"color": "yellow", "value": 70},
+              {"color": "red", "value": 85}
             ]
           },
           "unit": "percent"
-        },
-        "overrides": []
+        }
       },
-      "gridPos": {
-        "h": 6,
-        "w": 12,
-        "x": 0,
-        "y": 14
-      },
-      "id": 13,
       "options": {
         "displayMode": "lcd",
         "minVizHeight": 10,
         "minVizWidth": 0,
         "orientation": "horizontal",
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "fields": "",
           "values": false
         },
@@ -729,24 +432,20 @@
       },
       "targets": [
         {
+          "refId": "A",
           "expr": "max by (node) (pve_node_rootfs_used_bytes{node=~\"$node\"}) / max by (node) (pve_node_rootfs_total_bytes{node=~\"$node\"}) * 100",
-          "legendFormat": "{{node}}",
-          "refId": "A"
+          "legendFormat": "{{node}}"
         }
-      ],
-      "title": "Root Filesystem Usage",
-      "type": "bargauge"
+      ]
     },
     {
-      "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
-      },
+      "type": "timeseries",
+      "title": "CPU IOWait / Idle",
+      "gridPos": {"h": 6, "w": 12, "x": 12, "y": 14},
+      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
+          "color": {"mode": "palette-classic"},
           "custom": {
             "axisCenteredZero": false,
             "axisColorMode": "text",
@@ -756,266 +455,136 @@
             "drawStyle": "line",
             "fillOpacity": 20,
             "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
+            "hideFrom": {"legend": false, "tooltip": false, "viz": false},
             "lineInterpolation": "smooth",
             "lineWidth": 2,
             "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
+            "scaleDistribution": {"type": "linear"},
             "showPoints": "never",
             "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
+            "stacking": {"group": "A", "mode": "none"},
+            "thresholdsStyle": {"mode": "off"}
           },
           "unit": "percentunit"
-        },
-        "overrides": []
+        }
       },
-      "gridPos": {
-        "h": 6,
-        "w": 12,
-        "x": 12,
-        "y": 14
-      },
-      "id": 14,
       "options": {
         "legend": {
-          "calcs": [
-            "mean",
-            "max"
-          ],
+          "calcs": ["mean", "max"],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
         },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "desc"
-        }
+        "tooltip": {"mode": "multi", "sort": "desc"}
       },
       "targets": [
         {
+          "refId": "A",
           "expr": "max by (node) (pve_node_iowait{node=~\"$node\"})",
-          "legendFormat": "{{node}} IOWait",
-          "refId": "A"
+          "legendFormat": "{{node}} IOWait"
         },
         {
+          "refId": "B",
           "expr": "max by (node) (pve_node_idle{node=~\"$node\"})",
-          "legendFormat": "{{node}} Idle",
-          "refId": "B"
+          "legendFormat": "{{node}} Idle"
         }
-      ],
-      "title": "CPU IOWait / Idle",
-      "type": "timeseries"
+      ]
     },
     {
+      "type": "row",
+      "title": "🖥️ Virtual Machines",
+      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 20},
       "collapsed": true,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 20
-      },
-      "id": 200,
       "panels": [
         {
-          "datasource": {
-            "type": "victoriametrics-metrics-datasource",
-            "uid": "victoriametrics"
-          },
+          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
           "fieldConfig": {
             "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
+              "color": {"mode": "thresholds"},
               "custom": {
                 "align": "auto",
-                "cellOptions": {
-                  "type": "auto"
-                },
+                "cellOptions": {"type": "auto"},
                 "inspect": false
               },
               "mappings": [
                 {
                   "options": {
-                    "0": {
-                      "color": "red",
-                      "index": 1,
-                      "text": "Stopped"
-                    },
-                    "1": {
-                      "color": "green",
-                      "index": 0,
-                      "text": "Running"
-                    }
+                    "0": {"color": "red", "index": 1, "text": "Stopped"},
+                    "1": {"color": "green", "index": 0, "text": "Running"}
                   },
                   "type": "value"
                 }
               ],
               "thresholds": {
                 "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "red",
-                    "value": null
-                  },
-                  {
-                    "color": "green",
-                    "value": 1
-                  }
-                ]
+                "steps": [{"color": "red", "value": null}, {"color": "green", "value": 1}]
               }
             },
             "overrides": [
               {
-                "matcher": {
-                  "id": "byName",
-                  "options": "Status"
-                },
+                "matcher": {"id": "byName", "options": "Status"},
                 "properties": [
                   {
                     "id": "custom.cellOptions",
-                    "value": {
-                      "type": "color-background",
-                      "mode": "basic"
-                    }
+                    "value": {"type": "color-background", "mode": "basic"}
                   },
-                  {
-                    "id": "custom.width",
-                    "value": 100
-                  }
+                  {"id": "custom.width", "value": 100}
                 ]
               },
               {
-                "matcher": {
-                  "id": "byName",
-                  "options": "CPU"
-                },
+                "matcher": {"id": "byName", "options": "CPU"},
                 "properties": [
-                  {
-                    "id": "unit",
-                    "value": "percentunit"
-                  },
+                  {"id": "unit", "value": "percentunit"},
                   {
                     "id": "custom.cellOptions",
-                    "value": {
-                      "type": "auto"
-                    }
+                    "value": {"type": "auto"}
                   },
-                  {
-                    "id": "custom.width",
-                    "value": 80
-                  }
+                  {"id": "custom.width", "value": 80}
                 ]
               },
               {
-                "matcher": {
-                  "id": "byName",
-                  "options": "Memory"
-                },
-                "properties": [
-                  {
-                    "id": "unit",
-                    "value": "bytes"
-                  }
-                ]
+                "matcher": {"id": "byName", "options": "Memory"},
+                "properties": [{"id": "unit", "value": "bytes"}]
               },
               {
-                "matcher": {
-                  "id": "byName",
-                  "options": "Uptime"
-                },
-                "properties": [
-                  {
-                    "id": "unit",
-                    "value": "s"
-                  }
-                ]
+                "matcher": {"id": "byName", "options": "Uptime"},
+                "properties": [{"id": "unit", "value": "s"}]
               },
               {
-                "matcher": {
-                  "id": "byName",
-                  "options": "Last Backup"
-                },
+                "matcher": {"id": "byName", "options": "Last Backup"},
                 "properties": [
-                  {
-                    "id": "unit",
-                    "value": "s"
-                  },
+                  {"id": "unit", "value": "s"},
                   {
                     "id": "thresholds",
                     "value": {
                       "mode": "absolute",
                       "steps": [
-                        {
-                          "color": "green",
-                          "value": null
-                        },
-                        {
-                          "color": "yellow",
-                          "value": 86400
-                        },
-                        {
-                          "color": "red",
-                          "value": 604800
-                        }
+                        {"color": "green", "value": null},
+                        {"color": "yellow", "value": 86400},
+                        {"color": "red", "value": 604800}
                       ]
                     }
                   },
                   {
                     "id": "custom.cellOptions",
-                    "value": {
-                      "type": "color-text"
-                    }
+                    "value": {"type": "color-text"}
                   }
                 ]
               }
             ]
           },
-          "gridPos": {
-            "h": 10,
-            "w": 24,
-            "x": 0,
-            "y": 21
-          },
+          "gridPos": {"h": 10, "w": 24, "x": 0, "y": 21},
           "id": 201,
           "options": {
             "cellHeight": "sm",
             "footer": {
               "countRows": false,
               "fields": "",
-              "reducer": [
-                "sum"
-              ],
+              "reducer": ["sum"],
               "show": false
             },
             "showHeader": true,
-            "sortBy": [
-              {
-                "desc": true,
-                "displayName": "Status"
-              }
-            ]
+            "sortBy": [{"desc": true, "displayName": "Status"}]
           },
           "targets": [
             {
@@ -1058,9 +627,7 @@
           "transformations": [
             {
               "id": "seriesToColumns",
-              "options": {
-                "byField": "vmid"
-              }
+              "options": {"byField": "vmid"}
             },
             {
               "id": "organize",
@@ -1124,15 +691,10 @@
           "type": "table"
         },
         {
-          "datasource": {
-            "type": "victoriametrics-metrics-datasource",
-            "uid": "victoriametrics"
-          },
+          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
           "fieldConfig": {
             "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
+              "color": {"mode": "palette-classic"},
               "custom": {
                 "axisCenteredZero": false,
                 "axisColorMode": "text",
@@ -1142,63 +704,36 @@
                 "drawStyle": "line",
                 "fillOpacity": 20,
                 "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
+                "hideFrom": {"legend": false, "tooltip": false, "viz": false},
                 "lineInterpolation": "smooth",
                 "lineWidth": 2,
                 "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
+                "scaleDistribution": {"type": "linear"},
                 "showPoints": "never",
                 "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
+                "stacking": {"group": "A", "mode": "none"},
+                "thresholdsStyle": {"mode": "off"}
               },
               "mappings": [],
               "max": 1,
               "thresholds": {
                 "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  }
-                ]
+                "steps": [{"color": "green", "value": null}]
               },
               "unit": "percentunit"
             },
             "overrides": []
           },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 0,
-            "y": 31
-          },
+          "gridPos": {"h": 8, "w": 12, "x": 0, "y": 31},
           "id": 204,
           "options": {
             "legend": {
-              "calcs": [
-                "mean",
-                "max"
-              ],
+              "calcs": ["mean", "max"],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
             },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
+            "tooltip": {"mode": "multi", "sort": "desc"}
           },
           "targets": [
             {
@@ -1211,15 +746,10 @@
           "type": "timeseries"
         },
         {
-          "datasource": {
-            "type": "victoriametrics-metrics-datasource",
-            "uid": "victoriametrics"
-          },
+          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
           "fieldConfig": {
             "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
+              "color": {"mode": "palette-classic"},
               "custom": {
                 "axisCenteredZero": false,
                 "axisColorMode": "text",
@@ -1229,62 +759,35 @@
                 "drawStyle": "line",
                 "fillOpacity": 20,
                 "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
+                "hideFrom": {"legend": false, "tooltip": false, "viz": false},
                 "lineInterpolation": "smooth",
                 "lineWidth": 2,
                 "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
+                "scaleDistribution": {"type": "linear"},
                 "showPoints": "never",
                 "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
+                "stacking": {"group": "A", "mode": "none"},
+                "thresholdsStyle": {"mode": "off"}
               },
               "mappings": [],
               "thresholds": {
                 "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  }
-                ]
+                "steps": [{"color": "green", "value": null}]
               },
               "unit": "bytes"
             },
             "overrides": []
           },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 12,
-            "y": 31
-          },
+          "gridPos": {"h": 8, "w": 12, "x": 12, "y": 31},
           "id": 205,
           "options": {
             "legend": {
-              "calcs": [
-                "mean",
-                "max"
-              ],
+              "calcs": ["mean", "max"],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
             },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
+            "tooltip": {"mode": "multi", "sort": "desc"}
           },
           "targets": [
             {
@@ -1297,15 +800,10 @@
           "type": "timeseries"
         },
         {
-          "datasource": {
-            "type": "victoriametrics-metrics-datasource",
-            "uid": "victoriametrics"
-          },
+          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
           "fieldConfig": {
             "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
+              "color": {"mode": "palette-classic"},
               "custom": {
                 "axisCenteredZero": false,
                 "axisColorMode": "text",
@@ -1315,62 +813,35 @@
                 "drawStyle": "line",
                 "fillOpacity": 20,
                 "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
+                "hideFrom": {"legend": false, "tooltip": false, "viz": false},
                 "lineInterpolation": "smooth",
                 "lineWidth": 2,
                 "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
+                "scaleDistribution": {"type": "linear"},
                 "showPoints": "never",
                 "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
+                "stacking": {"group": "A", "mode": "none"},
+                "thresholdsStyle": {"mode": "off"}
               },
               "mappings": [],
               "thresholds": {
                 "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  }
-                ]
+                "steps": [{"color": "green", "value": null}]
               },
               "unit": "Bps"
             },
             "overrides": []
           },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 0,
-            "y": 31
-          },
+          "gridPos": {"h": 8, "w": 12, "x": 0, "y": 31},
           "id": 202,
           "options": {
             "legend": {
-              "calcs": [
-                "mean",
-                "max"
-              ],
+              "calcs": ["mean", "max"],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
             },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
+            "tooltip": {"mode": "multi", "sort": "desc"}
           },
           "targets": [
             {
@@ -1388,15 +859,10 @@
           "type": "timeseries"
         },
         {
-          "datasource": {
-            "type": "victoriametrics-metrics-datasource",
-            "uid": "victoriametrics"
-          },
+          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
           "fieldConfig": {
             "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
+              "color": {"mode": "palette-classic"},
               "custom": {
                 "axisCenteredZero": false,
                 "axisColorMode": "text",
@@ -1406,62 +872,35 @@
                 "drawStyle": "line",
                 "fillOpacity": 20,
                 "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
+                "hideFrom": {"legend": false, "tooltip": false, "viz": false},
                 "lineInterpolation": "smooth",
                 "lineWidth": 2,
                 "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
+                "scaleDistribution": {"type": "linear"},
                 "showPoints": "never",
                 "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
+                "stacking": {"group": "A", "mode": "none"},
+                "thresholdsStyle": {"mode": "off"}
               },
               "mappings": [],
               "thresholds": {
                 "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  }
-                ]
+                "steps": [{"color": "green", "value": null}]
               },
               "unit": "Bps"
             },
             "overrides": []
           },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 12,
-            "y": 31
-          },
+          "gridPos": {"h": 8, "w": 12, "x": 12, "y": 31},
           "id": 203,
           "options": {
             "legend": {
-              "calcs": [
-                "mean",
-                "max"
-              ],
+              "calcs": ["mean", "max"],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
             },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
+            "tooltip": {"mode": "multi", "sort": "desc"}
           },
           "targets": [
             {
@@ -1478,198 +917,103 @@
           "title": "VM Disk I/O",
           "type": "timeseries"
         }
-      ],
-      "title": "🖥️ Virtual Machines",
-      "type": "row"
+      ]
     },
     {
+      "type": "row",
+      "title": "📦 LXC Containers",
+      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 21},
       "collapsed": true,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 21
-      },
-      "id": 210,
       "panels": [
         {
-          "datasource": {
-            "type": "victoriametrics-metrics-datasource",
-            "uid": "victoriametrics"
-          },
+          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
           "fieldConfig": {
             "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
+              "color": {"mode": "thresholds"},
               "custom": {
                 "align": "auto",
-                "cellOptions": {
-                  "type": "auto"
-                },
+                "cellOptions": {"type": "auto"},
                 "inspect": false
               },
               "mappings": [
                 {
                   "options": {
-                    "0": {
-                      "color": "red",
-                      "index": 1,
-                      "text": "Stopped"
-                    },
-                    "1": {
-                      "color": "green",
-                      "index": 0,
-                      "text": "Running"
-                    }
+                    "0": {"color": "red", "index": 1, "text": "Stopped"},
+                    "1": {"color": "green", "index": 0, "text": "Running"}
                   },
                   "type": "value"
                 }
               ],
               "thresholds": {
                 "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "red",
-                    "value": null
-                  },
-                  {
-                    "color": "green",
-                    "value": 1
-                  }
-                ]
+                "steps": [{"color": "red", "value": null}, {"color": "green", "value": 1}]
               }
             },
             "overrides": [
               {
-                "matcher": {
-                  "id": "byName",
-                  "options": "Status"
-                },
+                "matcher": {"id": "byName", "options": "Status"},
                 "properties": [
                   {
                     "id": "custom.cellOptions",
-                    "value": {
-                      "type": "color-background",
-                      "mode": "basic"
-                    }
+                    "value": {"type": "color-background", "mode": "basic"}
                   },
-                  {
-                    "id": "custom.width",
-                    "value": 100
-                  }
+                  {"id": "custom.width", "value": 100}
                 ]
               },
               {
-                "matcher": {
-                  "id": "byName",
-                  "options": "CPU"
-                },
+                "matcher": {"id": "byName", "options": "CPU"},
                 "properties": [
-                  {
-                    "id": "unit",
-                    "value": "percentunit"
-                  },
+                  {"id": "unit", "value": "percentunit"},
                   {
                     "id": "custom.cellOptions",
-                    "value": {
-                      "type": "auto"
-                    }
+                    "value": {"type": "auto"}
                   },
-                  {
-                    "id": "custom.width",
-                    "value": 80
-                  }
+                  {"id": "custom.width", "value": 80}
                 ]
               },
               {
-                "matcher": {
-                  "id": "byName",
-                  "options": "Memory"
-                },
-                "properties": [
-                  {
-                    "id": "unit",
-                    "value": "bytes"
-                  }
-                ]
+                "matcher": {"id": "byName", "options": "Memory"},
+                "properties": [{"id": "unit", "value": "bytes"}]
               },
               {
-                "matcher": {
-                  "id": "byName",
-                  "options": "Uptime"
-                },
-                "properties": [
-                  {
-                    "id": "unit",
-                    "value": "s"
-                  }
-                ]
+                "matcher": {"id": "byName", "options": "Uptime"},
+                "properties": [{"id": "unit", "value": "s"}]
               },
               {
-                "matcher": {
-                  "id": "byName",
-                  "options": "Last Backup"
-                },
+                "matcher": {"id": "byName", "options": "Last Backup"},
                 "properties": [
-                  {
-                    "id": "unit",
-                    "value": "s"
-                  },
+                  {"id": "unit", "value": "s"},
                   {
                     "id": "thresholds",
                     "value": {
                       "mode": "absolute",
                       "steps": [
-                        {
-                          "color": "green",
-                          "value": null
-                        },
-                        {
-                          "color": "yellow",
-                          "value": 86400
-                        },
-                        {
-                          "color": "red",
-                          "value": 604800
-                        }
+                        {"color": "green", "value": null},
+                        {"color": "yellow", "value": 86400},
+                        {"color": "red", "value": 604800}
                       ]
                     }
                   },
                   {
                     "id": "custom.cellOptions",
-                    "value": {
-                      "type": "color-text"
-                    }
+                    "value": {"type": "color-text"}
                   }
                 ]
               }
             ]
           },
-          "gridPos": {
-            "h": 10,
-            "w": 24,
-            "x": 0,
-            "y": 22
-          },
+          "gridPos": {"h": 10, "w": 24, "x": 0, "y": 22},
           "id": 211,
           "options": {
             "cellHeight": "sm",
             "footer": {
               "countRows": false,
               "fields": "",
-              "reducer": [
-                "sum"
-              ],
+              "reducer": ["sum"],
               "show": false
             },
             "showHeader": true,
-            "sortBy": [
-              {
-                "desc": true,
-                "displayName": "Status"
-              }
-            ]
+            "sortBy": [{"desc": true, "displayName": "Status"}]
           },
           "targets": [
             {
@@ -1712,9 +1056,7 @@
           "transformations": [
             {
               "id": "seriesToColumns",
-              "options": {
-                "byField": "vmid"
-              }
+              "options": {"byField": "vmid"}
             },
             {
               "id": "organize",
@@ -1778,15 +1120,10 @@
           "type": "table"
         },
         {
-          "datasource": {
-            "type": "victoriametrics-metrics-datasource",
-            "uid": "victoriametrics"
-          },
+          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
           "fieldConfig": {
             "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
+              "color": {"mode": "palette-classic"},
               "custom": {
                 "axisCenteredZero": false,
                 "axisColorMode": "text",
@@ -1796,63 +1133,36 @@
                 "drawStyle": "line",
                 "fillOpacity": 20,
                 "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
+                "hideFrom": {"legend": false, "tooltip": false, "viz": false},
                 "lineInterpolation": "smooth",
                 "lineWidth": 2,
                 "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
+                "scaleDistribution": {"type": "linear"},
                 "showPoints": "never",
                 "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
+                "stacking": {"group": "A", "mode": "none"},
+                "thresholdsStyle": {"mode": "off"}
               },
               "mappings": [],
               "max": 1,
               "thresholds": {
                 "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  }
-                ]
+                "steps": [{"color": "green", "value": null}]
               },
               "unit": "percentunit"
             },
             "overrides": []
           },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 0,
-            "y": 32
-          },
+          "gridPos": {"h": 8, "w": 12, "x": 0, "y": 32},
           "id": 214,
           "options": {
             "legend": {
-              "calcs": [
-                "mean",
-                "max"
-              ],
+              "calcs": ["mean", "max"],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
             },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
+            "tooltip": {"mode": "multi", "sort": "desc"}
           },
           "targets": [
             {
@@ -1865,15 +1175,10 @@
           "type": "timeseries"
         },
         {
-          "datasource": {
-            "type": "victoriametrics-metrics-datasource",
-            "uid": "victoriametrics"
-          },
+          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
           "fieldConfig": {
             "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
+              "color": {"mode": "palette-classic"},
               "custom": {
                 "axisCenteredZero": false,
                 "axisColorMode": "text",
@@ -1883,62 +1188,35 @@
                 "drawStyle": "line",
                 "fillOpacity": 20,
                 "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
+                "hideFrom": {"legend": false, "tooltip": false, "viz": false},
                 "lineInterpolation": "smooth",
                 "lineWidth": 2,
                 "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
+                "scaleDistribution": {"type": "linear"},
                 "showPoints": "never",
                 "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
+                "stacking": {"group": "A", "mode": "none"},
+                "thresholdsStyle": {"mode": "off"}
               },
               "mappings": [],
               "thresholds": {
                 "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  }
-                ]
+                "steps": [{"color": "green", "value": null}]
               },
               "unit": "bytes"
             },
             "overrides": []
           },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 12,
-            "y": 32
-          },
+          "gridPos": {"h": 8, "w": 12, "x": 12, "y": 32},
           "id": 215,
           "options": {
             "legend": {
-              "calcs": [
-                "mean",
-                "max"
-              ],
+              "calcs": ["mean", "max"],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
             },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
+            "tooltip": {"mode": "multi", "sort": "desc"}
           },
           "targets": [
             {
@@ -1951,15 +1229,10 @@
           "type": "timeseries"
         },
         {
-          "datasource": {
-            "type": "victoriametrics-metrics-datasource",
-            "uid": "victoriametrics"
-          },
+          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
           "fieldConfig": {
             "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
+              "color": {"mode": "palette-classic"},
               "custom": {
                 "axisCenteredZero": false,
                 "axisColorMode": "text",
@@ -1969,62 +1242,35 @@
                 "drawStyle": "line",
                 "fillOpacity": 20,
                 "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
+                "hideFrom": {"legend": false, "tooltip": false, "viz": false},
                 "lineInterpolation": "smooth",
                 "lineWidth": 2,
                 "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
+                "scaleDistribution": {"type": "linear"},
                 "showPoints": "never",
                 "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
+                "stacking": {"group": "A", "mode": "none"},
+                "thresholdsStyle": {"mode": "off"}
               },
               "mappings": [],
               "thresholds": {
                 "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  }
-                ]
+                "steps": [{"color": "green", "value": null}]
               },
               "unit": "Bps"
             },
             "overrides": []
           },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 0,
-            "y": 32
-          },
+          "gridPos": {"h": 8, "w": 12, "x": 0, "y": 32},
           "id": 212,
           "options": {
             "legend": {
-              "calcs": [
-                "mean",
-                "max"
-              ],
+              "calcs": ["mean", "max"],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
             },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
+            "tooltip": {"mode": "multi", "sort": "desc"}
           },
           "targets": [
             {
@@ -2042,15 +1288,10 @@
           "type": "timeseries"
         },
         {
-          "datasource": {
-            "type": "victoriametrics-metrics-datasource",
-            "uid": "victoriametrics"
-          },
+          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
           "fieldConfig": {
             "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
+              "color": {"mode": "palette-classic"},
               "custom": {
                 "axisCenteredZero": false,
                 "axisColorMode": "text",
@@ -2060,62 +1301,35 @@
                 "drawStyle": "line",
                 "fillOpacity": 20,
                 "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
+                "hideFrom": {"legend": false, "tooltip": false, "viz": false},
                 "lineInterpolation": "smooth",
                 "lineWidth": 2,
                 "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
+                "scaleDistribution": {"type": "linear"},
                 "showPoints": "never",
                 "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
+                "stacking": {"group": "A", "mode": "none"},
+                "thresholdsStyle": {"mode": "off"}
               },
               "mappings": [],
               "thresholds": {
                 "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  }
-                ]
+                "steps": [{"color": "green", "value": null}]
               },
               "unit": "Bps"
             },
             "overrides": []
           },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 12,
-            "y": 32
-          },
+          "gridPos": {"h": 8, "w": 12, "x": 12, "y": 32},
           "id": 213,
           "options": {
             "legend": {
-              "calcs": [
-                "mean",
-                "max"
-              ],
+              "calcs": ["mean", "max"],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
             },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
+            "tooltip": {"mode": "multi", "sort": "desc"}
           },
           "targets": [
             {
@@ -2132,60 +1346,35 @@
           "title": "LXC Disk I/O",
           "type": "timeseries"
         }
-      ],
-      "title": "📦 LXC Containers",
-      "type": "row"
+      ]
     },
     {
+      "type": "row",
+      "title": "💾 Storage",
+      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 22},
       "collapsed": true,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 22
-      },
-      "id": 220,
       "panels": [
         {
-          "datasource": {
-            "type": "victoriametrics-metrics-datasource",
-            "uid": "victoriametrics"
-          },
+          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
           "fieldConfig": {
             "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
+              "color": {"mode": "thresholds"},
               "mappings": [],
               "max": 100,
               "min": 0,
               "thresholds": {
                 "mode": "absolute",
                 "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  },
-                  {
-                    "color": "yellow",
-                    "value": 70
-                  },
-                  {
-                    "color": "red",
-                    "value": 85
-                  }
+                  {"color": "green", "value": null},
+                  {"color": "yellow", "value": 70},
+                  {"color": "red", "value": 85}
                 ]
               },
               "unit": "percent"
             },
             "overrides": []
           },
-          "gridPos": {
-            "h": 8,
-            "w": 24,
-            "x": 0,
-            "y": 23
-          },
+          "gridPos": {"h": 8, "w": 24, "x": 0, "y": 23},
           "id": 221,
           "options": {
             "displayMode": "lcd",
@@ -2193,9 +1382,7 @@
             "minVizWidth": 0,
             "orientation": "horizontal",
             "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
+              "calcs": ["lastNotNull"],
               "fields": "",
               "values": false
             },
@@ -2212,69 +1399,36 @@
           "title": "Storage Usage",
           "type": "bargauge"
         }
-      ],
-      "title": "💾 Storage",
-      "type": "row"
+      ]
     },
     {
+      "type": "row",
+      "title": "🗄️ ZFS",
+      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 23},
       "collapsed": true,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 23
-      },
-      "id": 230,
       "panels": [
         {
-          "datasource": {
-            "type": "victoriametrics-metrics-datasource",
-            "uid": "victoriametrics"
-          },
+          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
           "fieldConfig": {
             "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
+              "color": {"mode": "thresholds"},
               "mappings": [
                 {
                   "options": {
-                    "0": {
-                      "color": "red",
-                      "index": 1,
-                      "text": "DEGRADED"
-                    },
-                    "1": {
-                      "color": "green",
-                      "index": 0,
-                      "text": "ONLINE"
-                    }
+                    "0": {"color": "red", "index": 1, "text": "DEGRADED"},
+                    "1": {"color": "green", "index": 0, "text": "ONLINE"}
                   },
                   "type": "value"
                 }
               ],
               "thresholds": {
                 "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "red",
-                    "value": null
-                  },
-                  {
-                    "color": "green",
-                    "value": 1
-                  }
-                ]
+                "steps": [{"color": "red", "value": null}, {"color": "green", "value": 1}]
               }
             },
             "overrides": []
           },
-          "gridPos": {
-            "h": 4,
-            "w": 24,
-            "x": 0,
-            "y": 24
-          },
+          "gridPos": {"h": 4, "w": 24, "x": 0, "y": 24},
           "id": 231,
           "options": {
             "colorMode": "background",
@@ -2282,9 +1436,7 @@
             "justifyMode": "center",
             "orientation": "horizontal",
             "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
+              "calcs": ["lastNotNull"],
               "fields": "",
               "values": false
             },
@@ -2301,45 +1453,26 @@
           "type": "stat"
         },
         {
-          "datasource": {
-            "type": "victoriametrics-metrics-datasource",
-            "uid": "victoriametrics"
-          },
+          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
           "fieldConfig": {
             "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
+              "color": {"mode": "thresholds"},
               "mappings": [],
               "max": 100,
               "min": 0,
               "thresholds": {
                 "mode": "absolute",
                 "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  },
-                  {
-                    "color": "yellow",
-                    "value": 30
-                  },
-                  {
-                    "color": "red",
-                    "value": 60
-                  }
+                  {"color": "green", "value": null},
+                  {"color": "yellow", "value": 30},
+                  {"color": "red", "value": 60}
                 ]
               },
               "unit": "percent"
             },
             "overrides": []
           },
-          "gridPos": {
-            "h": 6,
-            "w": 12,
-            "x": 0,
-            "y": 28
-          },
+          "gridPos": {"h": 6, "w": 12, "x": 0, "y": 28},
           "id": 232,
           "options": {
             "displayMode": "lcd",
@@ -2347,9 +1480,7 @@
             "minVizWidth": 0,
             "orientation": "horizontal",
             "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
+              "calcs": ["lastNotNull"],
               "fields": "",
               "values": false
             },
@@ -2367,15 +1498,10 @@
           "type": "bargauge"
         },
         {
-          "datasource": {
-            "type": "victoriametrics-metrics-datasource",
-            "uid": "victoriametrics"
-          },
+          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
           "fieldConfig": {
             "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
+              "color": {"mode": "palette-classic"},
               "custom": {
                 "axisCenteredZero": false,
                 "axisColorMode": "text",
@@ -2385,62 +1511,35 @@
                 "drawStyle": "line",
                 "fillOpacity": 20,
                 "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
+                "hideFrom": {"legend": false, "tooltip": false, "viz": false},
                 "lineInterpolation": "smooth",
                 "lineWidth": 2,
                 "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
+                "scaleDistribution": {"type": "linear"},
                 "showPoints": "never",
                 "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
+                "stacking": {"group": "A", "mode": "none"},
+                "thresholdsStyle": {"mode": "off"}
               },
               "mappings": [],
               "thresholds": {
                 "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  }
-                ]
+                "steps": [{"color": "green", "value": null}]
               },
               "unit": "bytes"
             },
             "overrides": []
           },
-          "gridPos": {
-            "h": 6,
-            "w": 12,
-            "x": 12,
-            "y": 28
-          },
+          "gridPos": {"h": 6, "w": 12, "x": 12, "y": 28},
           "id": 233,
           "options": {
             "legend": {
-              "calcs": [
-                "mean",
-                "max"
-              ],
+              "calcs": ["mean", "max"],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
             },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
+            "tooltip": {"mode": "multi", "sort": "desc"}
           },
           "targets": [
             {
@@ -2453,52 +1552,31 @@
           "type": "timeseries"
         },
         {
-          "datasource": {
-            "type": "victoriametrics-metrics-datasource",
-            "uid": "victoriametrics"
-          },
+          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
           "fieldConfig": {
             "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
+              "color": {"mode": "thresholds"},
               "mappings": [],
               "max": 100,
               "min": 0,
               "thresholds": {
                 "mode": "absolute",
                 "steps": [
-                  {
-                    "color": "red",
-                    "value": null
-                  },
-                  {
-                    "color": "yellow",
-                    "value": 80
-                  },
-                  {
-                    "color": "green",
-                    "value": 95
-                  }
+                  {"color": "red", "value": null},
+                  {"color": "yellow", "value": 80},
+                  {"color": "green", "value": 95}
                 ]
               },
               "unit": "percent"
             },
             "overrides": []
           },
-          "gridPos": {
-            "h": 6,
-            "w": 24,
-            "x": 0,
-            "y": 34
-          },
+          "gridPos": {"h": 6, "w": 24, "x": 0, "y": 34},
           "id": 234,
           "options": {
             "orientation": "auto",
             "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
+              "calcs": ["lastNotNull"],
               "fields": "",
               "values": false
             },
@@ -2515,30 +1593,19 @@
           "title": "ZFS ARC Hit Ratio",
           "type": "gauge"
         }
-      ],
-      "title": "🗄️ ZFS",
-      "type": "row"
+      ]
     },
     {
+      "type": "row",
+      "title": "🌡️ Hardware Sensors",
+      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 24},
       "collapsed": true,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 24
-      },
-      "id": 240,
       "panels": [
         {
-          "datasource": {
-            "type": "victoriametrics-metrics-datasource",
-            "uid": "victoriametrics"
-          },
+          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
           "fieldConfig": {
             "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
+              "color": {"mode": "palette-classic"},
               "custom": {
                 "axisCenteredZero": false,
                 "axisColorMode": "text",
@@ -2548,70 +1615,39 @@
                 "drawStyle": "line",
                 "fillOpacity": 10,
                 "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
+                "hideFrom": {"legend": false, "tooltip": false, "viz": false},
                 "lineInterpolation": "linear",
                 "lineWidth": 2,
                 "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
+                "scaleDistribution": {"type": "linear"},
                 "showPoints": "never",
                 "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
+                "stacking": {"group": "A", "mode": "none"},
+                "thresholdsStyle": {"mode": "off"}
               },
               "mappings": [],
               "thresholds": {
                 "mode": "absolute",
                 "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  },
-                  {
-                    "color": "yellow",
-                    "value": 50
-                  },
-                  {
-                    "color": "red",
-                    "value": 70
-                  }
+                  {"color": "green", "value": null},
+                  {"color": "yellow", "value": 50},
+                  {"color": "red", "value": 70}
                 ]
               },
               "unit": "celsius"
             },
             "overrides": []
           },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 0,
-            "y": 25
-          },
+          "gridPos": {"h": 8, "w": 12, "x": 0, "y": 25},
           "id": 241,
           "options": {
             "legend": {
-              "calcs": [
-                "mean",
-                "max"
-              ],
+              "calcs": ["mean", "max"],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
             },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
+            "tooltip": {"mode": "multi", "sort": "desc"}
           },
           "targets": [
             {
@@ -2624,15 +1660,10 @@
           "type": "timeseries"
         },
         {
-          "datasource": {
-            "type": "victoriametrics-metrics-datasource",
-            "uid": "victoriametrics"
-          },
+          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
           "fieldConfig": {
             "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
+              "color": {"mode": "palette-classic"},
               "custom": {
                 "axisCenteredZero": false,
                 "axisColorMode": "text",
@@ -2642,62 +1673,35 @@
                 "drawStyle": "line",
                 "fillOpacity": 10,
                 "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
+                "hideFrom": {"legend": false, "tooltip": false, "viz": false},
                 "lineInterpolation": "linear",
                 "lineWidth": 2,
                 "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
+                "scaleDistribution": {"type": "linear"},
                 "showPoints": "never",
                 "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
+                "stacking": {"group": "A", "mode": "none"},
+                "thresholdsStyle": {"mode": "off"}
               },
               "mappings": [],
               "thresholds": {
                 "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  }
-                ]
+                "steps": [{"color": "green", "value": null}]
               },
               "unit": "rotrpm"
             },
             "overrides": []
           },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 12,
-            "y": 25
-          },
+          "gridPos": {"h": 8, "w": 12, "x": 12, "y": 25},
           "id": 242,
           "options": {
             "legend": {
-              "calcs": [
-                "mean",
-                "max"
-              ],
+              "calcs": ["mean", "max"],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
             },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
+            "tooltip": {"mode": "multi", "sort": "desc"}
           },
           "targets": [
             {
@@ -2710,15 +1714,10 @@
           "type": "timeseries"
         },
         {
-          "datasource": {
-            "type": "victoriametrics-metrics-datasource",
-            "uid": "victoriametrics"
-          },
+          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
           "fieldConfig": {
             "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
+              "color": {"mode": "palette-classic"},
               "custom": {
                 "axisCenteredZero": false,
                 "axisColorMode": "text",
@@ -2728,62 +1727,35 @@
                 "drawStyle": "line",
                 "fillOpacity": 10,
                 "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
+                "hideFrom": {"legend": false, "tooltip": false, "viz": false},
                 "lineInterpolation": "linear",
                 "lineWidth": 2,
                 "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
+                "scaleDistribution": {"type": "linear"},
                 "showPoints": "never",
                 "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
+                "stacking": {"group": "A", "mode": "none"},
+                "thresholdsStyle": {"mode": "off"}
               },
               "mappings": [],
               "thresholds": {
                 "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  }
-                ]
+                "steps": [{"color": "green", "value": null}]
               },
               "unit": "watt"
             },
             "overrides": []
           },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 0,
-            "y": 33
-          },
+          "gridPos": {"h": 8, "w": 12, "x": 0, "y": 33},
           "id": 243,
           "options": {
             "legend": {
-              "calcs": [
-                "mean",
-                "max"
-              ],
+              "calcs": ["mean", "max"],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
             },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
+            "tooltip": {"mode": "multi", "sort": "desc"}
           },
           "targets": [
             {
@@ -2796,15 +1768,10 @@
           "type": "timeseries"
         },
         {
-          "datasource": {
-            "type": "victoriametrics-metrics-datasource",
-            "uid": "victoriametrics"
-          },
+          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
           "fieldConfig": {
             "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
+              "color": {"mode": "palette-classic"},
               "custom": {
                 "axisCenteredZero": false,
                 "axisColorMode": "text",
@@ -2814,62 +1781,35 @@
                 "drawStyle": "line",
                 "fillOpacity": 10,
                 "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
+                "hideFrom": {"legend": false, "tooltip": false, "viz": false},
                 "lineInterpolation": "linear",
                 "lineWidth": 2,
                 "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
+                "scaleDistribution": {"type": "linear"},
                 "showPoints": "never",
                 "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
+                "stacking": {"group": "A", "mode": "none"},
+                "thresholdsStyle": {"mode": "off"}
               },
               "mappings": [],
               "thresholds": {
                 "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  }
-                ]
+                "steps": [{"color": "green", "value": null}]
               },
               "unit": "volt"
             },
             "overrides": []
           },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 12,
-            "y": 33
-          },
+          "gridPos": {"h": 8, "w": 12, "x": 12, "y": 33},
           "id": 244,
           "options": {
             "legend": {
-              "calcs": [
-                "mean",
-                "max"
-              ],
+              "calcs": ["mean", "max"],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
             },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
+            "tooltip": {"mode": "multi", "sort": "desc"}
           },
           "targets": [
             {
@@ -2881,69 +1821,36 @@
           "title": "Voltage Readings",
           "type": "timeseries"
         }
-      ],
-      "title": "🌡️ Hardware Sensors",
-      "type": "row"
+      ]
     },
     {
+      "type": "row",
+      "title": "💽 Disk Metrics",
+      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 25},
       "collapsed": true,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 25
-      },
-      "id": 250,
       "panels": [
         {
-          "datasource": {
-            "type": "victoriametrics-metrics-datasource",
-            "uid": "victoriametrics"
-          },
+          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
           "fieldConfig": {
             "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
+              "color": {"mode": "thresholds"},
               "mappings": [
                 {
                   "options": {
-                    "0": {
-                      "color": "red",
-                      "index": 1,
-                      "text": "⚠️ FAILING"
-                    },
-                    "1": {
-                      "color": "green",
-                      "index": 0,
-                      "text": "✅ HEALTHY"
-                    }
+                    "0": {"color": "red", "index": 1, "text": "⚠️ FAILING"},
+                    "1": {"color": "green", "index": 0, "text": "✅ HEALTHY"}
                   },
                   "type": "value"
                 }
               ],
               "thresholds": {
                 "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "red",
-                    "value": null
-                  },
-                  {
-                    "color": "green",
-                    "value": 1
-                  }
-                ]
+                "steps": [{"color": "red", "value": null}, {"color": "green", "value": 1}]
               }
             },
             "overrides": []
           },
-          "gridPos": {
-            "h": 8,
-            "w": 24,
-            "x": 0,
-            "y": 26
-          },
+          "gridPos": {"h": 8, "w": 24, "x": 0, "y": 26},
           "id": 251,
           "options": {
             "colorMode": "background",
@@ -2951,9 +1858,7 @@
             "justifyMode": "center",
             "orientation": "horizontal",
             "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
+              "calcs": ["lastNotNull"],
               "fields": "",
               "values": false
             },
@@ -2970,15 +1875,10 @@
           "type": "stat"
         },
         {
-          "datasource": {
-            "type": "victoriametrics-metrics-datasource",
-            "uid": "victoriametrics"
-          },
+          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
           "fieldConfig": {
             "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
+              "color": {"mode": "palette-classic"},
               "custom": {
                 "axisCenteredZero": false,
                 "axisColorMode": "text",
@@ -2988,70 +1888,39 @@
                 "drawStyle": "line",
                 "fillOpacity": 10,
                 "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
+                "hideFrom": {"legend": false, "tooltip": false, "viz": false},
                 "lineInterpolation": "linear",
                 "lineWidth": 2,
                 "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
+                "scaleDistribution": {"type": "linear"},
                 "showPoints": "never",
                 "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
+                "stacking": {"group": "A", "mode": "none"},
+                "thresholdsStyle": {"mode": "off"}
               },
               "mappings": [],
               "thresholds": {
                 "mode": "absolute",
                 "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  },
-                  {
-                    "color": "yellow",
-                    "value": 50
-                  },
-                  {
-                    "color": "red",
-                    "value": 60
-                  }
+                  {"color": "green", "value": null},
+                  {"color": "yellow", "value": 50},
+                  {"color": "red", "value": 60}
                 ]
               },
               "unit": "celsius"
             },
             "overrides": []
           },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 0,
-            "y": 34
-          },
+          "gridPos": {"h": 8, "w": 12, "x": 0, "y": 34},
           "id": 252,
           "options": {
             "legend": {
-              "calcs": [
-                "mean",
-                "max"
-              ],
+              "calcs": ["mean", "max"],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
             },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
+            "tooltip": {"mode": "multi", "sort": "desc"}
           },
           "targets": [
             {
@@ -3064,45 +1933,26 @@
           "type": "timeseries"
         },
         {
-          "datasource": {
-            "type": "victoriametrics-metrics-datasource",
-            "uid": "victoriametrics"
-          },
+          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
           "fieldConfig": {
             "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
+              "color": {"mode": "thresholds"},
               "mappings": [],
               "max": 100,
               "min": 0,
               "thresholds": {
                 "mode": "absolute",
                 "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  },
-                  {
-                    "color": "yellow",
-                    "value": 50
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
+                  {"color": "green", "value": null},
+                  {"color": "yellow", "value": 50},
+                  {"color": "red", "value": 80}
                 ]
               },
               "unit": "percent"
             },
             "overrides": []
           },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 12,
-            "y": 34
-          },
+          "gridPos": {"h": 8, "w": 12, "x": 12, "y": 34},
           "id": 253,
           "options": {
             "displayMode": "lcd",
@@ -3110,9 +1960,7 @@
             "minVizWidth": 0,
             "orientation": "horizontal",
             "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
+              "calcs": ["lastNotNull"],
               "fields": "",
               "values": false
             },
@@ -3130,99 +1978,44 @@
           "type": "bargauge"
         },
         {
-          "datasource": {
-            "type": "victoriametrics-metrics-datasource",
-            "uid": "victoriametrics"
-          },
+          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
           "fieldConfig": {
             "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
+              "color": {"mode": "thresholds"},
               "custom": {
                 "align": "auto",
-                "cellOptions": {
-                  "type": "auto"
-                },
+                "cellOptions": {"type": "auto"},
                 "inspect": false
               },
               "mappings": [],
               "thresholds": {
                 "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "blue",
-                    "value": null
-                  }
-                ]
+                "steps": [{"color": "blue", "value": null}]
               }
             },
             "overrides": [
               {
-                "matcher": {
-                  "id": "byName",
-                  "options": "Power-On"
-                },
-                "properties": [
-                  {
-                    "id": "unit",
-                    "value": "h"
-                  },
-                  {
-                    "id": "custom.width",
-                    "value": 100
-                  }
-                ]
+                "matcher": {"id": "byName", "options": "Power-On"},
+                "properties": [{"id": "unit", "value": "h"}, {"id": "custom.width", "value": 100}]
               },
               {
-                "matcher": {
-                  "id": "byName",
-                  "options": "TBW"
-                },
-                "properties": [
-                  {
-                    "id": "unit",
-                    "value": "decbytes"
-                  },
-                  {
-                    "id": "custom.width",
-                    "value": 120
-                  }
-                ]
+                "matcher": {"id": "byName", "options": "TBW"},
+                "properties": [{"id": "unit", "value": "decbytes"}, {"id": "custom.width", "value": 120}]
               },
               {
-                "matcher": {
-                  "id": "byName",
-                  "options": "Spare %"
-                },
-                "properties": [
-                  {
-                    "id": "unit",
-                    "value": "percent"
-                  },
-                  {
-                    "id": "custom.width",
-                    "value": 80
-                  }
-                ]
+                "matcher": {"id": "byName", "options": "Spare %"},
+                "properties": [{"id": "unit", "value": "percent"}, {"id": "custom.width", "value": 80}]
               }
             ]
           },
-          "gridPos": {
-            "h": 10,
-            "w": 24,
-            "x": 0,
-            "y": 42
-          },
+          "gridPos": {"h": 10, "w": 24, "x": 0, "y": 42},
           "id": 254,
           "options": {
             "cellHeight": "md",
             "footer": {
               "countRows": false,
               "fields": "",
-              "reducer": [
-                "sum"
-              ],
+              "reducer": ["sum"],
               "show": false
             },
             "showHeader": true
@@ -3254,9 +2047,7 @@
           "transformations": [
             {
               "id": "seriesToColumns",
-              "options": {
-                "byField": "device"
-              }
+              "options": {"byField": "device"}
             },
             {
               "id": "organize",
@@ -3312,88 +2103,45 @@
           "type": "table"
         },
         {
-          "datasource": {
-            "type": "victoriametrics-metrics-datasource",
-            "uid": "victoriametrics"
-          },
+          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
           "fieldConfig": {
             "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
+              "color": {"mode": "thresholds"},
               "custom": {
                 "align": "auto",
-                "cellOptions": {
-                  "type": "auto"
-                },
+                "cellOptions": {"type": "auto"},
                 "inspect": false
               },
               "mappings": [],
               "thresholds": {
                 "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "blue",
-                    "value": null
-                  }
-                ]
+                "steps": [{"color": "blue", "value": null}]
               },
               "unit": "decbytes"
             },
             "overrides": [
               {
-                "matcher": {
-                  "id": "byName",
-                  "options": "Device"
-                },
-                "properties": [
-                  {
-                    "id": "custom.width",
-                    "value": 120
-                  }
-                ]
+                "matcher": {"id": "byName", "options": "Device"},
+                "properties": [{"id": "custom.width", "value": 120}]
               },
               {
-                "matcher": {
-                  "id": "byName",
-                  "options": "Model"
-                },
-                "properties": [
-                  {
-                    "id": "custom.width",
-                    "value": 200
-                  }
-                ]
+                "matcher": {"id": "byName", "options": "Model"},
+                "properties": [{"id": "custom.width", "value": 200}]
               },
               {
-                "matcher": {
-                  "id": "byName",
-                  "options": "Written"
-                },
-                "properties": [
-                  {
-                    "id": "unit",
-                    "value": "decbytes"
-                  }
-                ]
+                "matcher": {"id": "byName", "options": "Written"},
+                "properties": [{"id": "unit", "value": "decbytes"}]
               }
             ]
           },
-          "gridPos": {
-            "h": 6,
-            "w": 24,
-            "x": 0,
-            "y": 52
-          },
+          "gridPos": {"h": 6, "w": 24, "x": 0, "y": 52},
           "id": 256,
           "options": {
             "cellHeight": "md",
             "footer": {
               "countRows": false,
               "fields": "",
-              "reducer": [
-                "sum"
-              ],
+              "reducer": ["sum"],
               "show": false
             },
             "showHeader": true
@@ -3423,26 +2171,17 @@
                   "type": true
                 },
                 "indexByName": {},
-                "renameByName": {
-                  "device": "Device",
-                  "model": "Model",
-                  "Value": "Written"
-                }
+                "renameByName": {"device": "Device", "model": "Model", "Value": "Written"}
               }
             }
           ],
           "type": "table"
         },
         {
-          "datasource": {
-            "type": "victoriametrics-metrics-datasource",
-            "uid": "victoriametrics"
-          },
+          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
           "fieldConfig": {
             "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
+              "color": {"mode": "palette-classic"},
               "custom": {
                 "axisCenteredZero": false,
                 "axisColorMode": "text",
@@ -3452,62 +2191,35 @@
                 "drawStyle": "line",
                 "fillOpacity": 20,
                 "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
+                "hideFrom": {"legend": false, "tooltip": false, "viz": false},
                 "lineInterpolation": "smooth",
                 "lineWidth": 2,
                 "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
+                "scaleDistribution": {"type": "linear"},
                 "showPoints": "never",
                 "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
+                "stacking": {"group": "A", "mode": "none"},
+                "thresholdsStyle": {"mode": "off"}
               },
               "mappings": [],
               "thresholds": {
                 "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  }
-                ]
+                "steps": [{"color": "green", "value": null}]
               },
               "unit": "Bps"
             },
             "overrides": []
           },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 0,
-            "y": 60
-          },
+          "gridPos": {"h": 8, "w": 12, "x": 0, "y": 60},
           "id": 257,
           "options": {
             "legend": {
-              "calcs": [
-                "mean",
-                "max"
-              ],
+              "calcs": ["mean", "max"],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
             },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
+            "tooltip": {"mode": "multi", "sort": "desc"}
           },
           "targets": [
             {
@@ -3525,15 +2237,10 @@
           "type": "timeseries"
         },
         {
-          "datasource": {
-            "type": "victoriametrics-metrics-datasource",
-            "uid": "victoriametrics"
-          },
+          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
           "fieldConfig": {
             "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
+              "color": {"mode": "palette-classic"},
               "custom": {
                 "axisCenteredZero": false,
                 "axisColorMode": "text",
@@ -3543,62 +2250,35 @@
                 "drawStyle": "line",
                 "fillOpacity": 20,
                 "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
+                "hideFrom": {"legend": false, "tooltip": false, "viz": false},
                 "lineInterpolation": "smooth",
                 "lineWidth": 2,
                 "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
+                "scaleDistribution": {"type": "linear"},
                 "showPoints": "never",
                 "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
+                "stacking": {"group": "A", "mode": "none"},
+                "thresholdsStyle": {"mode": "off"}
               },
               "mappings": [],
               "thresholds": {
                 "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  }
-                ]
+                "steps": [{"color": "green", "value": null}]
               },
               "unit": "iops"
             },
             "overrides": []
           },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 12,
-            "y": 60
-          },
+          "gridPos": {"h": 8, "w": 12, "x": 12, "y": 60},
           "id": 258,
           "options": {
             "legend": {
-              "calcs": [
-                "mean",
-                "max"
-              ],
+              "calcs": ["mean", "max"],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
             },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
+            "tooltip": {"mode": "multi", "sort": "desc"}
           },
           "targets": [
             {
@@ -3615,61 +2295,7 @@
           "title": "Disk IOPS",
           "type": "timeseries"
         }
-      ],
-      "title": "💽 Disk Metrics",
-      "type": "row"
+      ]
     }
-  ],
-  "refresh": "30s",
-  "schemaVersion": 38,
-  "style": "dark",
-  "tags": [
-    "proxmox",
-    "pve",
-    "virtualization",
-    "pve-exporter"
-  ],
-  "templating": {
-    "list": [
-      {
-        "allValue": ".*",
-        "current": {
-          "selected": true,
-          "text": "All",
-          "value": "$__all"
-        },
-        "datasource": {
-          "type": "victoriametrics-metrics-datasource",
-          "uid": "victoriametrics"
-        },
-        "definition": "label_values(pve_node_up, node)",
-        "hide": 0,
-        "includeAll": true,
-        "label": "Node",
-        "multi": true,
-        "name": "node",
-        "options": [],
-        "query": {
-          "query": "label_values(pve_node_up, node)",
-          "refId": "PrometheusVariableQueryEditor-VariableQuery"
-        },
-        "refresh": 1,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 1,
-        "type": "query"
-      }
-    ]
-  },
-  "time": {
-    "from": "now-1h",
-    "to": "now"
-  },
-  "timepicker": {},
-  "timezone": "browser",
-  "title": "Proxmox",
-  "uid": "proxmox",
-  "version": 1,
-  "weekStart": "",
-  "gnetId": 24550
+  ]
 }

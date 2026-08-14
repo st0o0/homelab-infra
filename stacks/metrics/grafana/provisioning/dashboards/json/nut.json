@@ -1,10 +1,20 @@
 {
-  "__elements": {},
+  "uid": "nut",
+  "title": "UPS",
+  "description": "Network UPS Tools — battery, input power, load, and status.",
+  "tags": ["nut", "ups", "monitoring"],
+  "editable": true,
+  "graphTooltip": 1,
+  "refresh": "30s",
+  "time": {"from": "now-6h", "to": "now"},
+  "timezone": "browser",
+  "timepicker": {},
+  "schemaVersion": 38,
   "annotations": {
     "list": [
       {
         "builtIn": 1,
-        "datasource": { "type": "grafana", "uid": "-- Grafana --" },
+        "datasource": {"type": "grafana", "uid": "-- Grafana --"},
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
@@ -13,478 +23,464 @@
       }
     ]
   },
-  "description": "Network UPS Tools — battery, input power, load, and status.",
-  "editable": true,
-  "fiscalYearStartMonth": 0,
-  "graphTooltip": 1,
-  "id": null,
-  "links": [],
-  "liveNow": false,
+  "templating": {
+    "list": []
+  },
   "panels": [
     {
-      "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 },
-      "id": 100,
-      "panels": [],
+      "type": "row",
       "title": "🔋 Overview",
-      "type": "row"
+      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 0}
     },
     {
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "mappings": [
-            { "options": { "1": { "color": "green", "text": "Online" } }, "type": "value" },
-            { "options": { "0": { "color": "red", "text": "Offline" } }, "type": "value" }
-          ],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              { "color": "red", "value": null },
-              { "color": "green", "value": 1 }
-            ]
-          },
-          "unit": "none"
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 4, "w": 4, "x": 0, "y": 1 },
-      "id": 1,
-      "options": {
-        "colorMode": "background",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "textMode": "auto"
-      },
-      "targets": [
-        {
-          "expr": "network_ups_tools_ups_status{job=~\".*nut.*\", flag=\"OL\"}",
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
+      "type": "stat",
       "title": "Status",
-      "type": "stat"
-    },
-    {
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+      "gridPos": {"h": 4, "w": 4, "x": 0, "y": 1},
+      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
       "fieldConfig": {
         "defaults": {
-          "color": { "mode": "thresholds" },
-          "mappings": [],
-          "max": 100,
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              { "color": "red", "value": null },
-              { "color": "yellow", "value": 20 },
-              { "color": "green", "value": 50 }
-            ]
-          },
-          "unit": "percent"
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 4, "w": 4, "x": 4, "y": 1 },
-      "id": 2,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "textMode": "auto"
-      },
-      "targets": [
-        {
-          "expr": "network_ups_tools_battery_charge{job=~\".*nut.*\"}",
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
-      "title": "Battery Charge",
-      "type": "stat"
-    },
-    {
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "mappings": [],
-          "max": 100,
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              { "color": "green", "value": null },
-              { "color": "yellow", "value": 70 },
-              { "color": "red", "value": 90 }
-            ]
-          },
-          "unit": "percent"
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 4, "w": 4, "x": 8, "y": 1 },
-      "id": 3,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "textMode": "auto"
-      },
-      "targets": [
-        {
-          "expr": "network_ups_tools_ups_load{job=~\".*nut.*\"}",
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
-      "title": "UPS Load",
-      "type": "stat"
-    },
-    {
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [{ "color": "blue", "value": null }]
-          },
-          "unit": "volt"
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 4, "w": 4, "x": 12, "y": 1 },
-      "id": 4,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "textMode": "auto"
-      },
-      "targets": [
-        {
-          "expr": "network_ups_tools_input_voltage{job=~\".*nut.*\"}",
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
-      "title": "Input Voltage",
-      "type": "stat"
-    },
-    {
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [{ "color": "blue", "value": null }]
-          },
-          "unit": "volt"
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 4, "w": 4, "x": 16, "y": 1 },
-      "id": 5,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "textMode": "auto"
-      },
-      "targets": [
-        {
-          "expr": "network_ups_tools_battery_voltage{job=~\".*nut.*\"}",
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
-      "title": "Battery Voltage",
-      "type": "stat"
-    },
-    {
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [{ "color": "text", "value": null }]
-          },
-          "unit": "none"
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 4, "w": 4, "x": 20, "y": 1 },
-      "id": 6,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "textMode": "name"
-      },
-      "targets": [
-        {
-          "expr": "network_ups_tools_device_info{job=~\".*nut.*\"}",
-          "legendFormat": "{{model}}",
-          "refId": "A"
-        }
-      ],
-      "title": "Device",
-      "type": "stat"
-    },
-    {
-      "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 5 },
-      "id": 200,
-      "panels": [],
-      "title": "📈 History",
-      "type": "row"
-    },
-    {
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "palette-classic" },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 20,
-            "gradientMode": "none",
-            "hideFrom": { "legend": false, "tooltip": false, "viz": false },
-            "lineInterpolation": "smooth",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": { "type": "linear" },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": { "group": "A", "mode": "none" },
-            "thresholdsStyle": { "mode": "off" }
-          },
-          "mappings": [],
-          "max": 100,
-          "min": 0,
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] },
-          "unit": "percent"
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 6 },
-      "id": 10,
-      "options": {
-        "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom", "showLegend": true },
-        "tooltip": { "mode": "multi", "sort": "desc" }
-      },
-      "targets": [
-        {
-          "expr": "network_ups_tools_battery_charge{job=~\".*nut.*\"}",
-          "legendFormat": "charge",
-          "refId": "A"
-        }
-      ],
-      "title": "Battery Charge",
-      "type": "timeseries"
-    },
-    {
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "palette-classic" },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 20,
-            "gradientMode": "none",
-            "hideFrom": { "legend": false, "tooltip": false, "viz": false },
-            "lineInterpolation": "smooth",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": { "type": "linear" },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": { "group": "A", "mode": "none" },
-            "thresholdsStyle": { "mode": "off" }
-          },
-          "mappings": [],
-          "max": 100,
-          "min": 0,
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] },
-          "unit": "percent"
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 6 },
-      "id": 11,
-      "options": {
-        "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom", "showLegend": true },
-        "tooltip": { "mode": "multi", "sort": "desc" }
-      },
-      "targets": [
-        {
-          "expr": "network_ups_tools_ups_load{job=~\".*nut.*\"}",
-          "legendFormat": "load",
-          "refId": "A"
-        }
-      ],
-      "title": "UPS Load",
-      "type": "timeseries"
-    },
-    {
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "palette-classic" },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 20,
-            "gradientMode": "none",
-            "hideFrom": { "legend": false, "tooltip": false, "viz": false },
-            "lineInterpolation": "smooth",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": { "type": "linear" },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": { "group": "A", "mode": "none" },
-            "thresholdsStyle": { "mode": "off" }
-          },
-          "mappings": [],
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] },
-          "unit": "volt"
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 14 },
-      "id": 12,
-      "options": {
-        "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom", "showLegend": true },
-        "tooltip": { "mode": "multi", "sort": "desc" }
-      },
-      "targets": [
-        { "expr": "network_ups_tools_input_voltage{job=~\".*nut.*\"}", "legendFormat": "input", "refId": "A" },
-        { "expr": "network_ups_tools_input_voltage_nominal{job=~\".*nut.*\"}", "legendFormat": "nominal", "refId": "B" }
-      ],
-      "title": "Input Voltage",
-      "type": "timeseries"
-    },
-    {
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "palette-classic" },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 20,
-            "gradientMode": "none",
-            "hideFrom": { "legend": false, "tooltip": false, "viz": false },
-            "lineInterpolation": "smooth",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": { "type": "linear" },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": { "group": "A", "mode": "none" },
-            "thresholdsStyle": { "mode": "off" }
-          },
-          "mappings": [],
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] },
-          "unit": "volt"
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 14 },
-      "id": 13,
-      "options": {
-        "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom", "showLegend": true },
-        "tooltip": { "mode": "multi", "sort": "desc" }
-      },
-      "targets": [
-        { "expr": "network_ups_tools_battery_voltage{job=~\".*nut.*\"}", "legendFormat": "actual", "refId": "A" },
-        { "expr": "network_ups_tools_battery_voltage_nominal{job=~\".*nut.*\"}", "legendFormat": "nominal", "refId": "B" }
-      ],
-      "title": "Battery Voltage",
-      "type": "timeseries"
-    },
-    {
-      "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 22 },
-      "id": 300,
-      "panels": [],
-      "title": "⚡ Status Flags",
-      "type": "row"
-    },
-    {
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "custom": {
-            "fillOpacity": 80,
-            "lineWidth": 0,
-            "spanNulls": false
-          },
+          "color": {"mode": "thresholds"},
           "mappings": [
             {
               "options": {
-                "0": { "color": "transparent", "text": "—" },
-                "1": { "color": "orange", "text": "Active" }
+                "1": {"color": "green", "text": "Online"}
+              },
+              "type": "value"
+            },
+            {
+              "options": {
+                "0": {"color": "red", "text": "Offline"}
               },
               "type": "value"
             }
           ],
           "thresholds": {
             "mode": "absolute",
-            "steps": [{ "color": "green", "value": null }]
+            "steps": [{"color": "red", "value": null}, {"color": "green", "value": 1}]
           },
+          "unit": "none"
+        }
+      },
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [{"refId": "A", "expr": "network_ups_tools_ups_status{job=~\".*nut.*\", flag=\"OL\"}"}]
+    },
+    {
+      "type": "stat",
+      "title": "Battery Charge",
+      "gridPos": {"h": 4, "w": 4, "x": 4, "y": 1},
+      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "thresholds"},
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {"color": "red", "value": null},
+              {"color": "yellow", "value": 20},
+              {"color": "green", "value": 50}
+            ]
+          },
+          "unit": "percent"
+        }
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [{"refId": "A", "expr": "network_ups_tools_battery_charge{job=~\".*nut.*\"}"}]
+    },
+    {
+      "type": "stat",
+      "title": "UPS Load",
+      "gridPos": {"h": 4, "w": 4, "x": 8, "y": 1},
+      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "thresholds"},
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {"color": "green", "value": null},
+              {"color": "yellow", "value": 70},
+              {"color": "red", "value": 90}
+            ]
+          },
+          "unit": "percent"
+        }
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [{"refId": "A", "expr": "network_ups_tools_ups_load{job=~\".*nut.*\"}"}]
+    },
+    {
+      "type": "stat",
+      "title": "Input Voltage",
+      "gridPos": {"h": 4, "w": 4, "x": 12, "y": 1},
+      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "thresholds"},
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [{"color": "blue", "value": null}]
+          },
+          "unit": "volt"
+        }
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [{"refId": "A", "expr": "network_ups_tools_input_voltage{job=~\".*nut.*\"}"}]
+    },
+    {
+      "type": "stat",
+      "title": "Battery Voltage",
+      "gridPos": {"h": 4, "w": 4, "x": 16, "y": 1},
+      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "thresholds"},
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [{"color": "blue", "value": null}]
+          },
+          "unit": "volt"
+        }
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [{"refId": "A", "expr": "network_ups_tools_battery_voltage{job=~\".*nut.*\"}"}]
+    },
+    {
+      "type": "stat",
+      "title": "Device",
+      "gridPos": {"h": 4, "w": 4, "x": 20, "y": 1},
+      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "thresholds"},
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [{"color": "text", "value": null}]
+          },
+          "unit": "none"
+        }
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "name"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "network_ups_tools_device_info{job=~\".*nut.*\"}",
+          "legendFormat": "{{model}}"
+        }
+      ]
+    },
+    {
+      "type": "row",
+      "title": "📈 History",
+      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 5}
+    },
+    {
+      "type": "timeseries",
+      "title": "Battery Charge",
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 6},
+      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "palette-classic"},
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 20,
+            "gradientMode": "none",
+            "hideFrom": {"legend": false, "tooltip": false, "viz": false},
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {"type": "linear"},
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {"group": "A", "mode": "none"},
+            "thresholdsStyle": {"mode": "off"}
+          },
+          "max": 100,
+          "min": 0,
+          "unit": "percent"
+        }
+      },
+      "options": {
+        "legend": {
+          "calcs": ["mean", "max"],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {"mode": "multi", "sort": "desc"}
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "network_ups_tools_battery_charge{job=~\".*nut.*\"}",
+          "legendFormat": "charge"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "UPS Load",
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 6},
+      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "palette-classic"},
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 20,
+            "gradientMode": "none",
+            "hideFrom": {"legend": false, "tooltip": false, "viz": false},
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {"type": "linear"},
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {"group": "A", "mode": "none"},
+            "thresholdsStyle": {"mode": "off"}
+          },
+          "max": 100,
+          "min": 0,
+          "unit": "percent"
+        }
+      },
+      "options": {
+        "legend": {
+          "calcs": ["mean", "max"],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {"mode": "multi", "sort": "desc"}
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "network_ups_tools_ups_load{job=~\".*nut.*\"}",
+          "legendFormat": "load"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Input Voltage",
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 14},
+      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "palette-classic"},
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 20,
+            "gradientMode": "none",
+            "hideFrom": {"legend": false, "tooltip": false, "viz": false},
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {"type": "linear"},
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {"group": "A", "mode": "none"},
+            "thresholdsStyle": {"mode": "off"}
+          },
+          "unit": "volt"
+        }
+      },
+      "options": {
+        "legend": {
+          "calcs": ["mean", "max"],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {"mode": "multi", "sort": "desc"}
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "network_ups_tools_input_voltage{job=~\".*nut.*\"}",
+          "legendFormat": "input"
+        },
+        {
+          "refId": "B",
+          "expr": "network_ups_tools_input_voltage_nominal{job=~\".*nut.*\"}",
+          "legendFormat": "nominal"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Battery Voltage",
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 14},
+      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "palette-classic"},
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 20,
+            "gradientMode": "none",
+            "hideFrom": {"legend": false, "tooltip": false, "viz": false},
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {"type": "linear"},
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {"group": "A", "mode": "none"},
+            "thresholdsStyle": {"mode": "off"}
+          },
+          "unit": "volt"
+        }
+      },
+      "options": {
+        "legend": {
+          "calcs": ["mean", "max"],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {"mode": "multi", "sort": "desc"}
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "network_ups_tools_battery_voltage{job=~\".*nut.*\"}",
+          "legendFormat": "actual"
+        },
+        {
+          "refId": "B",
+          "expr": "network_ups_tools_battery_voltage_nominal{job=~\".*nut.*\"}",
+          "legendFormat": "nominal"
+        }
+      ]
+    },
+    {
+      "type": "row",
+      "title": "⚡ Status Flags",
+      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 22}
+    },
+    {
+      "type": "state-timeline",
+      "title": "UPS Status Flags",
+      "gridPos": {"h": 8, "w": 24, "x": 0, "y": 23},
+      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "thresholds"},
+          "custom": {"fillOpacity": 80, "lineWidth": 0, "spanNulls": false},
+          "mappings": [
+            {
+              "options": {
+                "0": {"color": "transparent", "text": "—"},
+                "1": {"color": "orange", "text": "Active"}
+              },
+              "type": "value"
+            }
+          ],
           "unit": "none"
         },
         "overrides": [
           {
-            "matcher": { "id": "byName", "options": "OL" },
+            "matcher": {"id": "byName", "options": "OL"},
             "properties": [
               {
                 "id": "mappings",
                 "value": [
                   {
                     "options": {
-                      "0": { "color": "red", "text": "Offline" },
-                      "1": { "color": "green", "text": "Online" }
+                      "0": {"color": "red", "text": "Offline"},
+                      "1": {"color": "green", "text": "Online"}
                     },
                     "type": "value"
                   }
@@ -493,15 +489,15 @@
             ]
           },
           {
-            "matcher": { "id": "byName", "options": "OB" },
+            "matcher": {"id": "byName", "options": "OB"},
             "properties": [
               {
                 "id": "mappings",
                 "value": [
                   {
                     "options": {
-                      "0": { "color": "transparent", "text": "—" },
-                      "1": { "color": "red", "text": "On Battery" }
+                      "0": {"color": "transparent", "text": "—"},
+                      "1": {"color": "red", "text": "On Battery"}
                     },
                     "type": "value"
                   }
@@ -510,15 +506,15 @@
             ]
           },
           {
-            "matcher": { "id": "byName", "options": "LB" },
+            "matcher": {"id": "byName", "options": "LB"},
             "properties": [
               {
                 "id": "mappings",
                 "value": [
                   {
                     "options": {
-                      "0": { "color": "transparent", "text": "—" },
-                      "1": { "color": "red", "text": "Low Battery" }
+                      "0": {"color": "transparent", "text": "—"},
+                      "1": {"color": "red", "text": "Low Battery"}
                     },
                     "type": "value"
                   }
@@ -527,15 +523,15 @@
             ]
           },
           {
-            "matcher": { "id": "byName", "options": "CHRG" },
+            "matcher": {"id": "byName", "options": "CHRG"},
             "properties": [
               {
                 "id": "mappings",
                 "value": [
                   {
                     "options": {
-                      "0": { "color": "transparent", "text": "—" },
-                      "1": { "color": "blue", "text": "Charging" }
+                      "0": {"color": "transparent", "text": "—"},
+                      "1": {"color": "blue", "text": "Charging"}
                     },
                     "type": "value"
                   }
@@ -544,15 +540,15 @@
             ]
           },
           {
-            "matcher": { "id": "byName", "options": "DISCHRG" },
+            "matcher": {"id": "byName", "options": "DISCHRG"},
             "properties": [
               {
                 "id": "mappings",
                 "value": [
                   {
                     "options": {
-                      "0": { "color": "transparent", "text": "—" },
-                      "1": { "color": "orange", "text": "Discharging" }
+                      "0": {"color": "transparent", "text": "—"},
+                      "1": {"color": "orange", "text": "Discharging"}
                     },
                     "type": "value"
                   }
@@ -561,15 +557,15 @@
             ]
           },
           {
-            "matcher": { "id": "byName", "options": "RB" },
+            "matcher": {"id": "byName", "options": "RB"},
             "properties": [
               {
                 "id": "mappings",
                 "value": [
                   {
                     "options": {
-                      "0": { "color": "transparent", "text": "—" },
-                      "1": { "color": "red", "text": "Replace Battery" }
+                      "0": {"color": "transparent", "text": "—"},
+                      "1": {"color": "red", "text": "Replace Battery"}
                     },
                     "type": "value"
                   }
@@ -578,15 +574,15 @@
             ]
           },
           {
-            "matcher": { "id": "byName", "options": "FSD" },
+            "matcher": {"id": "byName", "options": "FSD"},
             "properties": [
               {
                 "id": "mappings",
                 "value": [
                   {
                     "options": {
-                      "0": { "color": "transparent", "text": "—" },
-                      "1": { "color": "red", "text": "Forced Shutdown" }
+                      "0": {"color": "transparent", "text": "—"},
+                      "1": {"color": "red", "text": "Forced Shutdown"}
                     },
                     "type": "value"
                   }
@@ -596,35 +592,21 @@
           }
         ]
       },
-      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 23 },
-      "id": 20,
       "options": {
         "showValue": "auto",
         "mergeValues": true,
         "alignValue": "center",
-        "legend": { "displayMode": "list", "placement": "bottom", "showLegend": true },
-        "tooltip": { "mode": "multi", "sort": "desc" }
+        "legend": {"displayMode": "list", "placement": "bottom", "showLegend": true},
+        "tooltip": {"mode": "multi", "sort": "desc"}
       },
       "targets": [
         {
+          "refId": "A",
           "expr": "network_ups_tools_ups_status{job=~\".*nut.*\"}",
-          "legendFormat": "{{flag}}",
-          "refId": "A"
+          "legendFormat": "{{flag}}"
         }
-      ],
-      "title": "UPS Status Flags",
-      "type": "state-timeline"
+      ]
     }
   ],
-  "refresh": "30s",
-  "schemaVersion": 38,
-  "tags": ["nut", "ups", "monitoring"],
-  "templating": { "list": [] },
-  "time": { "from": "now-6h", "to": "now" },
-  "timepicker": {},
-  "timezone": "browser",
-  "title": "UPS",
-  "uid": "nut",
-  "version": 1,
   "weekStyle": "monday"
 }

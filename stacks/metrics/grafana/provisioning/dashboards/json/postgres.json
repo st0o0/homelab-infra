@@ -1,4 +1,15 @@
 {
+  "uid": "postgres",
+  "title": "PostgreSQL",
+  "description": "PostgreSQL server activity, connections, and table statistics.",
+  "tags": ["postgres"],
+  "editable": true,
+  "graphTooltip": 1,
+  "refresh": "30s",
+  "time": {"from": "now-1h", "to": "now"},
+  "timezone": "browser",
+  "timepicker": {},
+  "schemaVersion": 38,
   "annotations": {
     "list": [
       {
@@ -12,1002 +23,11 @@
       }
     ]
   },
-  "description": "PostgreSQL server activity, connections, and table statistics.",
-  "editable": true,
-  "gnetId": 14114,
-  "graphTooltip": 1,
-  "id": null,
-  "links": [],
-  "panels": [
-    {
-      "collapsed": false,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 0
-      },
-      "id": 100,
-      "title": "📊 Overview",
-      "type": "row"
-    },
-    {
-      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
-      "fieldConfig": {
-        "defaults": {
-          "color": {"mode": "palette-classic"},
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 20,
-            "gradientMode": "none",
-            "hideFrom": {"legend": false, "tooltip": false, "viz": false},
-            "lineInterpolation": "smooth",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": {"type": "linear"},
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {"group": "A", "mode": "none"},
-            "thresholdsStyle": {"mode": "off"}
-          },
-          "mappings": [],
-          "thresholds": {"mode": "absolute", "steps": [{"color": "green"}]},
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 7,
-        "w": 20,
-        "x": 0,
-        "y": 1
-      },
-      "id": 1,
-      "options": {
-        "legend": {"calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom", "showLegend": true},
-        "tooltip": {"mode": "multi", "sort": "desc"}
-      },
-      "targets": [
-        {
-          "alias": "fetched",
-          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
-          "expr": "sum by (instance) (irate(pg_stat_database_tup_fetched{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}[5m]))",
-          "format": "time_series",
-          "groupBy": [
-            {
-              "params": [
-                "$interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "intervalFactor": 2,
-          "legendFormat": "{{instance}} fetched",
-          "measurement": "postgresql",
-          "policy": "default",
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "tup_fetched"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              },
-              {
-                "params": [
-                  "10s"
-                ],
-                "type": "non_negative_derivative"
-              }
-            ]
-          ],
-          "step": 120,
-          "tags": [
-            {
-              "key": "instance",
-              "operator": "=~",
-              "value": "/^$instance$/"
-            }
-          ]
-        },
-        {
-          "alias": "fetched",
-          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
-          "expr": "sum by (instance) (irate(pg_stat_database_tup_returned{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}[5m]))",
-          "format": "time_series",
-          "groupBy": [
-            {
-              "params": [
-                "$interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "intervalFactor": 2,
-          "legendFormat": "{{instance}} returned",
-          "measurement": "postgresql",
-          "policy": "default",
-          "refId": "B",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "tup_fetched"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              },
-              {
-                "params": [
-                  "10s"
-                ],
-                "type": "non_negative_derivative"
-              }
-            ]
-          ],
-          "step": 120,
-          "tags": [
-            {
-              "key": "instance",
-              "operator": "=~",
-              "value": "/^$instance$/"
-            }
-          ]
-        },
-        {
-          "alias": "fetched",
-          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
-          "expr": "sum by (instance) (irate(pg_stat_database_tup_inserted{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}[5m]))",
-          "format": "time_series",
-          "groupBy": [
-            {
-              "params": [
-                "$interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "intervalFactor": 2,
-          "legendFormat": "{{instance}} inserted",
-          "measurement": "postgresql",
-          "policy": "default",
-          "refId": "C",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "tup_fetched"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              },
-              {
-                "params": [
-                  "10s"
-                ],
-                "type": "non_negative_derivative"
-              }
-            ]
-          ],
-          "step": 120,
-          "tags": [
-            {
-              "key": "instance",
-              "operator": "=~",
-              "value": "/^$instance$/"
-            }
-          ]
-        },
-        {
-          "alias": "fetched",
-          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
-          "expr": "sum by (instance) (irate(pg_stat_database_tup_updated{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}[5m]))",
-          "format": "time_series",
-          "groupBy": [
-            {
-              "params": [
-                "$interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "intervalFactor": 2,
-          "legendFormat": "{{instance}} updated",
-          "measurement": "postgresql",
-          "policy": "default",
-          "refId": "D",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "tup_fetched"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              },
-              {
-                "params": [
-                  "10s"
-                ],
-                "type": "non_negative_derivative"
-              }
-            ]
-          ],
-          "step": 120,
-          "tags": [
-            {
-              "key": "instance",
-              "operator": "=~",
-              "value": "/^$instance$/"
-            }
-          ]
-        },
-        {
-          "alias": "fetched",
-          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
-          "expr": "sum by (instance) (irate(pg_stat_database_tup_deleted{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}[5m]))",
-          "format": "time_series",
-          "groupBy": [
-            {
-              "params": [
-                "$interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "intervalFactor": 2,
-          "legendFormat": "{{instance}} deleted",
-          "measurement": "postgresql",
-          "policy": "default",
-          "refId": "E",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "tup_fetched"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              },
-              {
-                "params": [
-                  "10s"
-                ],
-                "type": "non_negative_derivative"
-              }
-            ]
-          ],
-          "step": 120,
-          "tags": [
-            {
-              "key": "instance",
-              "operator": "=~",
-              "value": "/^$instance$/"
-            }
-          ]
-        }
-      ],
-      "title": "Rows",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
-      "fieldConfig": {
-        "defaults": {
-          "color": {"mode": "thresholds"},
-          "mappings": [],
-          "thresholds": {"mode": "absolute", "steps": [{"color": "green"}]},
-          "unit": "none"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 4,
-        "x": 20,
-        "y": 1
-      },
-      "id": 11,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": false},
-        "textMode": "auto"
-      },
-      "targets": [
-        {
-          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
-          "expr": "sum(irate(pg_stat_database_xact_commit{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}[5m])) + sum(irate(pg_stat_database_xact_rollback{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}[5m]))",
-          "format": "time_series",
-          "groupBy": [
-            {
-              "params": [
-                "$interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "intervalFactor": 2,
-          "measurement": "postgresql",
-          "policy": "default",
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "xact_commit"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              },
-              {
-                "params": [
-                  "10s"
-                ],
-                "type": "non_negative_derivative"
-              }
-            ]
-          ],
-          "step": 1800,
-          "tags": [
-            {
-              "key": "instance",
-              "operator": "=~",
-              "value": "/^$instance$/"
-            }
-          ]
-        }
-      ],
-      "title": "QPS",
-      "type": "stat"
-    },
-    {
-      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
-      "fieldConfig": {
-        "defaults": {
-          "color": {"mode": "palette-classic"},
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 20,
-            "gradientMode": "none",
-            "hideFrom": {"legend": false, "tooltip": false, "viz": false},
-            "lineInterpolation": "smooth",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": {"type": "linear"},
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {"group": "A", "mode": "none"},
-            "thresholdsStyle": {"mode": "off"}
-          },
-          "mappings": [],
-          "min": 0,
-          "thresholds": {"mode": "absolute", "steps": [{"color": "green"}]},
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 7,
-        "w": 12,
-        "x": 0,
-        "y": 8
-      },
-      "id": 2,
-      "options": {
-        "legend": {"calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom", "showLegend": true},
-        "tooltip": {"mode": "multi", "sort": "desc"}
-      },
-      "targets": [
-        {
-          "alias": "Buffers Allocated",
-          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
-          "expr": "irate(pg_stat_bgwriter_buffers_alloc{instance=~'$instance',job=~'$job'}[5m])",
-          "format": "time_series",
-          "groupBy": [
-            {
-              "params": [
-                "$interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "intervalFactor": 2,
-          "legendFormat": "buffers_alloc",
-          "measurement": "postgresql",
-          "policy": "default",
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "buffers_alloc"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              },
-              {
-                "params": [],
-                "type": "difference"
-              }
-            ]
-          ],
-          "step": 240,
-          "tags": [
-            {
-              "key": "instance",
-              "operator": "=~",
-              "value": "/^$instance$/"
-            }
-          ]
-        },
-        {
-          "alias": "Buffers Allocated",
-          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
-          "expr": "irate(pg_stat_bgwriter_buffers_backend_fsync{instance=~'$instance',job=~'$job'}[5m])",
-          "format": "time_series",
-          "groupBy": [
-            {
-              "params": [
-                "$interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "intervalFactor": 2,
-          "legendFormat": "buffers_backend_fsync",
-          "measurement": "postgresql",
-          "policy": "default",
-          "refId": "B",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "buffers_alloc"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              },
-              {
-                "params": [],
-                "type": "difference"
-              }
-            ]
-          ],
-          "step": 240,
-          "tags": [
-            {
-              "key": "instance",
-              "operator": "=~",
-              "value": "/^$instance$/"
-            }
-          ]
-        },
-        {
-          "alias": "Buffers Allocated",
-          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
-          "expr": "irate(pg_stat_bgwriter_buffers_backend{instance=~'$instance',job=~'$job'}[5m])",
-          "format": "time_series",
-          "groupBy": [
-            {
-              "params": [
-                "$interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "intervalFactor": 2,
-          "legendFormat": "buffers_backend",
-          "measurement": "postgresql",
-          "policy": "default",
-          "refId": "C",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "buffers_alloc"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              },
-              {
-                "params": [],
-                "type": "difference"
-              }
-            ]
-          ],
-          "step": 240,
-          "tags": [
-            {
-              "key": "instance",
-              "operator": "=~",
-              "value": "/^$instance$/"
-            }
-          ]
-        },
-        {
-          "alias": "Buffers Allocated",
-          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
-          "expr": "irate(pg_stat_bgwriter_buffers_clean{instance=~'$instance',job=~'$job'}[5m])",
-          "format": "time_series",
-          "groupBy": [
-            {
-              "params": [
-                "$interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "intervalFactor": 2,
-          "legendFormat": "buffers_clean",
-          "measurement": "postgresql",
-          "policy": "default",
-          "refId": "D",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "buffers_alloc"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              },
-              {
-                "params": [],
-                "type": "difference"
-              }
-            ]
-          ],
-          "step": 240,
-          "tags": [
-            {
-              "key": "instance",
-              "operator": "=~",
-              "value": "/^$instance$/"
-            }
-          ]
-        },
-        {
-          "alias": "Buffers Allocated",
-          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
-          "expr": "irate(pg_stat_bgwriter_buffers_checkpoint{instance=~'$instance',job=~'$job'}[5m])",
-          "format": "time_series",
-          "groupBy": [
-            {
-              "params": [
-                "$interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "intervalFactor": 2,
-          "legendFormat": "buffers_checkpoint",
-          "measurement": "postgresql",
-          "policy": "default",
-          "refId": "E",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "buffers_alloc"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              },
-              {
-                "params": [],
-                "type": "difference"
-              }
-            ]
-          ],
-          "step": 240,
-          "tags": [
-            {
-              "key": "instance",
-              "operator": "=~",
-              "value": "/^$instance$/"
-            }
-          ]
-        }
-      ],
-      "title": "Buffers",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
-      "fieldConfig": {
-        "defaults": {
-          "color": {"mode": "palette-classic"},
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 20,
-            "gradientMode": "none",
-            "hideFrom": {"legend": false, "tooltip": false, "viz": false},
-            "lineInterpolation": "smooth",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": {"type": "linear"},
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {"group": "A", "mode": "none"},
-            "thresholdsStyle": {"mode": "off"}
-          },
-          "mappings": [],
-          "min": 0,
-          "thresholds": {"mode": "absolute", "steps": [{"color": "green"}]},
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 7,
-        "w": 12,
-        "x": 12,
-        "y": 8
-      },
-      "id": 3,
-      "options": {
-        "legend": {"calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom", "showLegend": true},
-        "tooltip": {"mode": "multi", "sort": "desc"}
-      },
-      "targets": [
-        {
-          "alias": "conflicts",
-          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
-          "expr": "sum by (instance) (rate(pg_stat_database_deadlocks{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}[5m]))",
-          "format": "time_series",
-          "groupBy": [
-            {
-              "params": [
-                "$interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "intervalFactor": 2,
-          "legendFormat": "{{instance}} deadlocks",
-          "measurement": "postgresql",
-          "policy": "default",
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "conflicts"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              },
-              {
-                "params": [],
-                "type": "difference"
-              }
-            ]
-          ],
-          "step": 240,
-          "tags": [
-            {
-              "key": "instance",
-              "operator": "=~",
-              "value": "/^$instance$/"
-            }
-          ]
-        },
-        {
-          "alias": "deadlocks",
-          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
-          "expr": "sum by (instance) (rate(pg_stat_database_conflicts{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}[5m]))",
-          "format": "time_series",
-          "groupBy": [
-            {
-              "params": [
-                "$interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "intervalFactor": 2,
-          "legendFormat": "{{instance}} conflicts",
-          "measurement": "postgresql",
-          "policy": "default",
-          "refId": "B",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "deadlocks"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              },
-              {
-                "params": [],
-                "type": "difference"
-              }
-            ]
-          ],
-          "step": 240,
-          "tags": [
-            {
-              "key": "instance",
-              "operator": "=~",
-              "value": "/^$instance$/"
-            }
-          ]
-        }
-      ],
-      "title": "Conflicts/Deadlocks",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
-      "fieldConfig": {
-        "defaults": {
-          "color": {"mode": "palette-classic"},
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 20,
-            "gradientMode": "none",
-            "hideFrom": {"legend": false, "tooltip": false, "viz": false},
-            "lineInterpolation": "smooth",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": {"type": "linear"},
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {"group": "A", "mode": "none"},
-            "thresholdsStyle": {"mode": "off"}
-          },
-          "mappings": [],
-          "thresholds": {"mode": "absolute", "steps": [{"color": "green"}]},
-          "unit": "percentunit"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 7,
-        "w": 12,
-        "x": 0,
-        "y": 15
-      },
-      "id": 12,
-      "options": {
-        "legend": {"calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom", "showLegend": true},
-        "tooltip": {"mode": "multi", "sort": "desc"}
-      },
-      "targets": [
-        {
-          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
-          "expr": "sum by (instance) (pg_stat_database_blks_hit{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}) / (sum by (instance) (pg_stat_database_blks_hit{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}) + sum by (instance) (pg_stat_database_blks_read{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}))",
-          "format": "time_series",
-          "intervalFactor": 2,
-          "legendFormat": "{{instance}} cache hit rate",
-          "refId": "A",
-          "step": 240
-        }
-      ],
-      "title": "Cache hit ratio",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
-      "fieldConfig": {
-        "defaults": {
-          "color": {"mode": "palette-classic"},
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 20,
-            "gradientMode": "none",
-            "hideFrom": {"legend": false, "tooltip": false, "viz": false},
-            "lineInterpolation": "smooth",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": {"type": "linear"},
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {"group": "A", "mode": "none"},
-            "thresholdsStyle": {"mode": "off"}
-          },
-          "mappings": [],
-          "thresholds": {"mode": "absolute", "steps": [{"color": "green"}]},
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 7,
-        "w": 12,
-        "x": 12,
-        "y": 15
-      },
-      "id": 13,
-      "options": {
-        "legend": {"calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom", "showLegend": true},
-        "tooltip": {"mode": "multi", "sort": "desc"}
-      },
-      "targets": [
-        {
-          "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
-          "expr": "pg_stat_database_numbackends{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}",
-          "format": "time_series",
-          "intervalFactor": 2,
-          "legendFormat": "{{instance}} / {{datname}}",
-          "refId": "A",
-          "step": 240
-        }
-      ],
-      "title": "Number of active connections",
-      "type": "timeseries"
-    }
-  ],
-  "refresh": "30s",
-  "schemaVersion": 38,
-  "tags": [
-    "postgres"
-  ],
   "templating": {
     "list": [
       {
         "allValue": ".*",
-        "current": {
-          "selected": false,
-          "text": "All",
-          "value": "$__all"
-        },
+        "current": {"selected": false, "text": "All", "value": "$__all"},
         "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
         "definition": "",
         "hide": 0,
@@ -1029,11 +49,7 @@
       },
       {
         "allValue": ".*",
-        "current": {
-          "selected": false,
-          "text": "All",
-          "value": "$__all"
-        },
+        "current": {"selected": false, "text": "All", "value": "$__all"},
         "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
         "definition": "label_values(pg_stat_database_tup_fetched{instance=~\"$instance\",datname!~\"template.*|postgres\"},datname)",
         "hide": 0,
@@ -1055,11 +71,7 @@
       },
       {
         "allValue": null,
-        "current": {
-          "selected": true,
-          "text": "postgres",
-          "value": "postgres"
-        },
+        "current": {"selected": true, "text": "postgres", "value": "postgres"},
         "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
         "definition": "label_values(pg_up, job)",
         "hide": 0,
@@ -1067,13 +79,7 @@
         "label": "job",
         "multi": false,
         "name": "job",
-        "options": [
-          {
-            "selected": true,
-            "text": "postgres",
-            "value": "postgres"
-          }
-        ],
+        "options": [{"selected": true, "text": "postgres", "value": "postgres"}],
         "query": "label_values(pg_up, job)",
         "refresh": 0,
         "regex": "",
@@ -1087,13 +93,761 @@
       }
     ]
   },
-  "time": {
-    "from": "now-1h",
-    "to": "now"
-  },
-  "timepicker": {},
-  "timezone": "browser",
-  "title": "PostgreSQL",
-  "uid": "postgres",
-  "version": 1
+  "panels": [
+    {
+      "type": "row",
+      "title": "📊 Overview",
+      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 0}
+    },
+    {
+      "type": "timeseries",
+      "title": "Rows",
+      "gridPos": {"h": 7, "w": 20, "x": 0, "y": 1},
+      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "palette-classic"},
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 20,
+            "gradientMode": "none",
+            "hideFrom": {"legend": false, "tooltip": false, "viz": false},
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {"type": "linear"},
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {"group": "A", "mode": "none"},
+            "thresholdsStyle": {"mode": "off"}
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [{"color": "green"}]
+          },
+          "unit": "short"
+        }
+      },
+      "options": {
+        "legend": {
+          "calcs": ["mean", "max"],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {"mode": "multi", "sort": "desc"}
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (instance) (irate(pg_stat_database_tup_fetched{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}[5m]))",
+          "legendFormat": "{{instance}} fetched",
+          "alias": "fetched",
+          "groupBy": [
+            {
+              "params": ["$interval"],
+              "type": "time"
+            },
+            {
+              "params": ["null"],
+              "type": "fill"
+            }
+          ],
+          "intervalFactor": 2,
+          "measurement": "postgresql",
+          "policy": "default",
+          "select": [
+            [
+              {
+                "params": ["tup_fetched"],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              },
+              {
+                "params": ["10s"],
+                "type": "non_negative_derivative"
+              }
+            ]
+          ],
+          "step": 120,
+          "tags": [{"key": "instance", "operator": "=~", "value": "/^$instance$/"}]
+        },
+        {
+          "refId": "B",
+          "expr": "sum by (instance) (irate(pg_stat_database_tup_returned{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}[5m]))",
+          "legendFormat": "{{instance}} returned",
+          "alias": "fetched",
+          "groupBy": [
+            {
+              "params": ["$interval"],
+              "type": "time"
+            },
+            {
+              "params": ["null"],
+              "type": "fill"
+            }
+          ],
+          "intervalFactor": 2,
+          "measurement": "postgresql",
+          "policy": "default",
+          "select": [
+            [
+              {
+                "params": ["tup_fetched"],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              },
+              {
+                "params": ["10s"],
+                "type": "non_negative_derivative"
+              }
+            ]
+          ],
+          "step": 120,
+          "tags": [{"key": "instance", "operator": "=~", "value": "/^$instance$/"}]
+        },
+        {
+          "refId": "C",
+          "expr": "sum by (instance) (irate(pg_stat_database_tup_inserted{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}[5m]))",
+          "legendFormat": "{{instance}} inserted",
+          "alias": "fetched",
+          "groupBy": [
+            {
+              "params": ["$interval"],
+              "type": "time"
+            },
+            {
+              "params": ["null"],
+              "type": "fill"
+            }
+          ],
+          "intervalFactor": 2,
+          "measurement": "postgresql",
+          "policy": "default",
+          "select": [
+            [
+              {
+                "params": ["tup_fetched"],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              },
+              {
+                "params": ["10s"],
+                "type": "non_negative_derivative"
+              }
+            ]
+          ],
+          "step": 120,
+          "tags": [{"key": "instance", "operator": "=~", "value": "/^$instance$/"}]
+        },
+        {
+          "refId": "D",
+          "expr": "sum by (instance) (irate(pg_stat_database_tup_updated{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}[5m]))",
+          "legendFormat": "{{instance}} updated",
+          "alias": "fetched",
+          "groupBy": [
+            {
+              "params": ["$interval"],
+              "type": "time"
+            },
+            {
+              "params": ["null"],
+              "type": "fill"
+            }
+          ],
+          "intervalFactor": 2,
+          "measurement": "postgresql",
+          "policy": "default",
+          "select": [
+            [
+              {
+                "params": ["tup_fetched"],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              },
+              {
+                "params": ["10s"],
+                "type": "non_negative_derivative"
+              }
+            ]
+          ],
+          "step": 120,
+          "tags": [{"key": "instance", "operator": "=~", "value": "/^$instance$/"}]
+        },
+        {
+          "refId": "E",
+          "expr": "sum by (instance) (irate(pg_stat_database_tup_deleted{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}[5m]))",
+          "legendFormat": "{{instance}} deleted",
+          "alias": "fetched",
+          "groupBy": [
+            {
+              "params": ["$interval"],
+              "type": "time"
+            },
+            {
+              "params": ["null"],
+              "type": "fill"
+            }
+          ],
+          "intervalFactor": 2,
+          "measurement": "postgresql",
+          "policy": "default",
+          "select": [
+            [
+              {
+                "params": ["tup_fetched"],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              },
+              {
+                "params": ["10s"],
+                "type": "non_negative_derivative"
+              }
+            ]
+          ],
+          "step": 120,
+          "tags": [{"key": "instance", "operator": "=~", "value": "/^$instance$/"}]
+        }
+      ]
+    },
+    {
+      "type": "stat",
+      "title": "QPS",
+      "gridPos": {"h": 3, "w": 4, "x": 20, "y": 1},
+      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "thresholds"},
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [{"color": "green"}]
+          },
+          "unit": "none"
+        }
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(irate(pg_stat_database_xact_commit{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}[5m])) + sum(irate(pg_stat_database_xact_rollback{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}[5m]))",
+          "groupBy": [
+            {
+              "params": ["$interval"],
+              "type": "time"
+            },
+            {
+              "params": ["null"],
+              "type": "fill"
+            }
+          ],
+          "intervalFactor": 2,
+          "measurement": "postgresql",
+          "policy": "default",
+          "select": [
+            [
+              {
+                "params": ["xact_commit"],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              },
+              {
+                "params": ["10s"],
+                "type": "non_negative_derivative"
+              }
+            ]
+          ],
+          "step": 1800,
+          "tags": [{"key": "instance", "operator": "=~", "value": "/^$instance$/"}]
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Buffers",
+      "gridPos": {"h": 7, "w": 12, "x": 0, "y": 8},
+      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "palette-classic"},
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 20,
+            "gradientMode": "none",
+            "hideFrom": {"legend": false, "tooltip": false, "viz": false},
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {"type": "linear"},
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {"group": "A", "mode": "none"},
+            "thresholdsStyle": {"mode": "off"}
+          },
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [{"color": "green"}]
+          },
+          "unit": "short"
+        }
+      },
+      "options": {
+        "legend": {
+          "calcs": ["mean", "max"],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {"mode": "multi", "sort": "desc"}
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "irate(pg_stat_bgwriter_buffers_alloc{instance=~'$instance',job=~'$job'}[5m])",
+          "legendFormat": "buffers_alloc",
+          "alias": "Buffers Allocated",
+          "groupBy": [
+            {
+              "params": ["$interval"],
+              "type": "time"
+            },
+            {
+              "params": ["null"],
+              "type": "fill"
+            }
+          ],
+          "intervalFactor": 2,
+          "measurement": "postgresql",
+          "policy": "default",
+          "select": [
+            [
+              {
+                "params": ["buffers_alloc"],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              },
+              {
+                "params": [],
+                "type": "difference"
+              }
+            ]
+          ],
+          "step": 240,
+          "tags": [{"key": "instance", "operator": "=~", "value": "/^$instance$/"}]
+        },
+        {
+          "refId": "B",
+          "expr": "irate(pg_stat_bgwriter_buffers_backend_fsync{instance=~'$instance',job=~'$job'}[5m])",
+          "legendFormat": "buffers_backend_fsync",
+          "alias": "Buffers Allocated",
+          "groupBy": [
+            {
+              "params": ["$interval"],
+              "type": "time"
+            },
+            {
+              "params": ["null"],
+              "type": "fill"
+            }
+          ],
+          "intervalFactor": 2,
+          "measurement": "postgresql",
+          "policy": "default",
+          "select": [
+            [
+              {
+                "params": ["buffers_alloc"],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              },
+              {
+                "params": [],
+                "type": "difference"
+              }
+            ]
+          ],
+          "step": 240,
+          "tags": [{"key": "instance", "operator": "=~", "value": "/^$instance$/"}]
+        },
+        {
+          "refId": "C",
+          "expr": "irate(pg_stat_bgwriter_buffers_backend{instance=~'$instance',job=~'$job'}[5m])",
+          "legendFormat": "buffers_backend",
+          "alias": "Buffers Allocated",
+          "groupBy": [
+            {
+              "params": ["$interval"],
+              "type": "time"
+            },
+            {
+              "params": ["null"],
+              "type": "fill"
+            }
+          ],
+          "intervalFactor": 2,
+          "measurement": "postgresql",
+          "policy": "default",
+          "select": [
+            [
+              {
+                "params": ["buffers_alloc"],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              },
+              {
+                "params": [],
+                "type": "difference"
+              }
+            ]
+          ],
+          "step": 240,
+          "tags": [{"key": "instance", "operator": "=~", "value": "/^$instance$/"}]
+        },
+        {
+          "refId": "D",
+          "expr": "irate(pg_stat_bgwriter_buffers_clean{instance=~'$instance',job=~'$job'}[5m])",
+          "legendFormat": "buffers_clean",
+          "alias": "Buffers Allocated",
+          "groupBy": [
+            {
+              "params": ["$interval"],
+              "type": "time"
+            },
+            {
+              "params": ["null"],
+              "type": "fill"
+            }
+          ],
+          "intervalFactor": 2,
+          "measurement": "postgresql",
+          "policy": "default",
+          "select": [
+            [
+              {
+                "params": ["buffers_alloc"],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              },
+              {
+                "params": [],
+                "type": "difference"
+              }
+            ]
+          ],
+          "step": 240,
+          "tags": [{"key": "instance", "operator": "=~", "value": "/^$instance$/"}]
+        },
+        {
+          "refId": "E",
+          "expr": "irate(pg_stat_bgwriter_buffers_checkpoint{instance=~'$instance',job=~'$job'}[5m])",
+          "legendFormat": "buffers_checkpoint",
+          "alias": "Buffers Allocated",
+          "groupBy": [
+            {
+              "params": ["$interval"],
+              "type": "time"
+            },
+            {
+              "params": ["null"],
+              "type": "fill"
+            }
+          ],
+          "intervalFactor": 2,
+          "measurement": "postgresql",
+          "policy": "default",
+          "select": [
+            [
+              {
+                "params": ["buffers_alloc"],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              },
+              {
+                "params": [],
+                "type": "difference"
+              }
+            ]
+          ],
+          "step": 240,
+          "tags": [{"key": "instance", "operator": "=~", "value": "/^$instance$/"}]
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Conflicts/Deadlocks",
+      "gridPos": {"h": 7, "w": 12, "x": 12, "y": 8},
+      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "palette-classic"},
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 20,
+            "gradientMode": "none",
+            "hideFrom": {"legend": false, "tooltip": false, "viz": false},
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {"type": "linear"},
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {"group": "A", "mode": "none"},
+            "thresholdsStyle": {"mode": "off"}
+          },
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [{"color": "green"}]
+          },
+          "unit": "short"
+        }
+      },
+      "options": {
+        "legend": {
+          "calcs": ["mean", "max"],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {"mode": "multi", "sort": "desc"}
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (instance) (rate(pg_stat_database_deadlocks{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}[5m]))",
+          "legendFormat": "{{instance}} deadlocks",
+          "alias": "conflicts",
+          "groupBy": [
+            {
+              "params": ["$interval"],
+              "type": "time"
+            },
+            {
+              "params": ["null"],
+              "type": "fill"
+            }
+          ],
+          "intervalFactor": 2,
+          "measurement": "postgresql",
+          "policy": "default",
+          "select": [
+            [
+              {
+                "params": ["conflicts"],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              },
+              {
+                "params": [],
+                "type": "difference"
+              }
+            ]
+          ],
+          "step": 240,
+          "tags": [{"key": "instance", "operator": "=~", "value": "/^$instance$/"}]
+        },
+        {
+          "refId": "B",
+          "expr": "sum by (instance) (rate(pg_stat_database_conflicts{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}[5m]))",
+          "legendFormat": "{{instance}} conflicts",
+          "alias": "deadlocks",
+          "groupBy": [
+            {
+              "params": ["$interval"],
+              "type": "time"
+            },
+            {
+              "params": ["null"],
+              "type": "fill"
+            }
+          ],
+          "intervalFactor": 2,
+          "measurement": "postgresql",
+          "policy": "default",
+          "select": [
+            [
+              {
+                "params": ["deadlocks"],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              },
+              {
+                "params": [],
+                "type": "difference"
+              }
+            ]
+          ],
+          "step": 240,
+          "tags": [{"key": "instance", "operator": "=~", "value": "/^$instance$/"}]
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Cache hit ratio",
+      "gridPos": {"h": 7, "w": 12, "x": 0, "y": 15},
+      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "palette-classic"},
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 20,
+            "gradientMode": "none",
+            "hideFrom": {"legend": false, "tooltip": false, "viz": false},
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {"type": "linear"},
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {"group": "A", "mode": "none"},
+            "thresholdsStyle": {"mode": "off"}
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [{"color": "green"}]
+          },
+          "unit": "percentunit"
+        }
+      },
+      "options": {
+        "legend": {
+          "calcs": ["mean", "max"],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {"mode": "multi", "sort": "desc"}
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (instance) (pg_stat_database_blks_hit{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}) / (sum by (instance) (pg_stat_database_blks_hit{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}) + sum by (instance) (pg_stat_database_blks_read{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}))",
+          "legendFormat": "{{instance}} cache hit rate",
+          "intervalFactor": 2,
+          "step": 240
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Number of active connections",
+      "gridPos": {"h": 7, "w": 12, "x": 12, "y": 15},
+      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "palette-classic"},
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 20,
+            "gradientMode": "none",
+            "hideFrom": {"legend": false, "tooltip": false, "viz": false},
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {"type": "linear"},
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {"group": "A", "mode": "none"},
+            "thresholdsStyle": {"mode": "off"}
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [{"color": "green"}]
+          },
+          "unit": "short"
+        }
+      },
+      "options": {
+        "legend": {
+          "calcs": ["mean", "max"],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {"mode": "multi", "sort": "desc"}
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "pg_stat_database_numbackends{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}",
+          "legendFormat": "{{instance}} / {{datname}}",
+          "intervalFactor": 2,
+          "step": 240
+        }
+      ]
+    }
+  ]
 }

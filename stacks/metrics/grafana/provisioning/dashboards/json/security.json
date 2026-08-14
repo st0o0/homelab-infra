@@ -1,13 +1,20 @@
 {
-  "__elements": {},
+  "uid": "security",
+  "title": "Security",
+  "description": "SSH, sudo, fail2ban, and UFW security event monitoring.",
+  "tags": ["security", "ssh", "sudo", "fail2ban", "ufw"],
+  "editable": true,
+  "graphTooltip": 1,
+  "refresh": "30s",
+  "time": {"from": "now-6h", "to": "now"},
+  "timezone": "browser",
+  "timepicker": {},
+  "schemaVersion": 39,
   "annotations": {
     "list": [
       {
         "builtIn": 1,
-        "datasource": {
-          "type": "grafana",
-          "uid": "-- Grafana --"
-        },
+        "datasource": {"type": "grafana", "uid": "-- Grafana --"},
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
@@ -16,141 +23,55 @@
       }
     ]
   },
-  "description": "SSH, sudo, fail2ban, and UFW security event monitoring.",
-  "editable": true,
-  "fiscalYearStartMonth": 0,
-  "graphTooltip": 1,
-  "id": null,
-  "links": [],
-  "liveNow": false,
-  "refresh": "30s",
+  "templating": {
+    "list": [
+      {
+        "allValue": ".*",
+        "current": {"text": "All", "value": "$__all"},
+        "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
+        "definition": "label_values(node_uname_info, instance)",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Instance",
+        "multi": true,
+        "name": "instance",
+        "options": [],
+        "query": {"qryType": 1, "query": "label_values(node_uname_info, instance)"},
+        "refresh": 2,
+        "regex": "",
+        "sort": 1,
+        "type": "query"
+      }
+    ]
+  },
   "panels": [
     {
-      "collapsed": false,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 0
-      },
-      "id": 100,
-      "panels": [],
+      "type": "row",
       "title": "📊 Overview",
-      "type": "row"
+      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 0}
     },
     {
-      "datasource": {
-        "type": "victoriametrics-logs-datasource",
-        "uid": "victorialogs"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "fixedColor": "blue",
-            "mode": "fixed"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "blue",
-                "value": null
-              }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 0,
-        "y": 1
-      },
-      "id": 6,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "textMode": "auto"
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "victoriametrics-logs-datasource",
-            "uid": "victorialogs"
-          },
-          "expr": "{job=\"ssh\",host=~\"$instance\"} event_type:\"accepted\" | count()",
-          "queryType": "stats",
-          "refId": "A"
-        }
-      ],
+      "type": "stat",
       "title": "SSH Accepted 24h",
-      "transformations": [],
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "victoriametrics-logs-datasource",
-        "uid": "victorialogs"
-      },
+      "gridPos": {"h": 4, "w": 4, "x": 0, "y": 1},
+      "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
+          "color": {"fixedColor": "blue", "mode": "fixed"},
           "thresholds": {
             "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "yellow",
-                "value": 10
-              },
-              {
-                "color": "orange",
-                "value": 50
-              },
-              {
-                "color": "red",
-                "value": 100
-              }
-            ]
+            "steps": [{"color": "blue", "value": null}]
           },
           "unit": "short"
-        },
-        "overrides": []
+        }
       },
-      "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 4,
-        "y": 1
-      },
-      "id": 1,
       "options": {
         "colorMode": "value",
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "fields": "",
           "values": false
         },
@@ -158,71 +79,39 @@
       },
       "targets": [
         {
-          "datasource": {
-            "type": "victoriametrics-logs-datasource",
-            "uid": "victorialogs"
-          },
-          "expr": "{job=\"ssh\",host=~\"$instance\"} event_type:\"invalid_user\" | count()",
-          "queryType": "stats",
-          "refId": "A"
+          "refId": "A",
+          "expr": "{job=\"ssh\",host=~\"$instance\"} event_type:\"accepted\" | count()",
+          "queryType": "stats"
         }
-      ],
+      ]
+    },
+    {
+      "type": "stat",
       "title": "SSH Attacks 24h",
-      "transformations": [],
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "victoriametrics-logs-datasource",
-        "uid": "victorialogs"
-      },
+      "gridPos": {"h": 4, "w": 4, "x": 4, "y": 1},
+      "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
+          "color": {"mode": "thresholds"},
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "yellow",
-                "value": 5
-              },
-              {
-                "color": "orange",
-                "value": 20
-              },
-              {
-                "color": "red",
-                "value": 50
-              }
+              {"color": "green", "value": null},
+              {"color": "yellow", "value": 10},
+              {"color": "orange", "value": 50},
+              {"color": "red", "value": 100}
             ]
           },
           "unit": "short"
-        },
-        "overrides": []
+        }
       },
-      "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 8,
-        "y": 1
-      },
-      "id": 4,
       "options": {
         "colorMode": "value",
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "fields": "",
           "values": false
         },
@@ -230,71 +119,39 @@
       },
       "targets": [
         {
-          "datasource": {
-            "type": "victoriametrics-logs-datasource",
-            "uid": "victorialogs"
-          },
-          "expr": "{job=\"fail2ban\",host=~\"$instance\"} action:\"Ban\" | count()",
-          "queryType": "stats",
-          "refId": "A"
+          "refId": "A",
+          "expr": "{job=\"ssh\",host=~\"$instance\"} event_type:\"invalid_user\" | count()",
+          "queryType": "stats"
         }
-      ],
+      ]
+    },
+    {
+      "type": "stat",
       "title": "Fail2ban Bans 24h",
-      "transformations": [],
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "victoriametrics-logs-datasource",
-        "uid": "victorialogs"
-      },
+      "gridPos": {"h": 4, "w": 4, "x": 8, "y": 1},
+      "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
+          "color": {"mode": "thresholds"},
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "yellow",
-                "value": 100
-              },
-              {
-                "color": "orange",
-                "value": 500
-              },
-              {
-                "color": "red",
-                "value": 1000
-              }
+              {"color": "green", "value": null},
+              {"color": "yellow", "value": 5},
+              {"color": "orange", "value": 20},
+              {"color": "red", "value": 50}
             ]
           },
           "unit": "short"
-        },
-        "overrides": []
+        }
       },
-      "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 12,
-        "y": 1
-      },
-      "id": 5,
       "options": {
         "colorMode": "value",
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "fields": "",
           "values": false
         },
@@ -302,71 +159,39 @@
       },
       "targets": [
         {
-          "datasource": {
-            "type": "victoriametrics-logs-datasource",
-            "uid": "victorialogs"
-          },
-          "expr": "{job=\"ufw\",host=~\"$instance\"} action:\"BLOCK\" | count()",
-          "queryType": "stats",
-          "refId": "A"
+          "refId": "A",
+          "expr": "{job=\"fail2ban\",host=~\"$instance\"} action:\"Ban\" | count()",
+          "queryType": "stats"
         }
-      ],
+      ]
+    },
+    {
+      "type": "stat",
       "title": "UFW Blocks 24h",
-      "transformations": [],
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "victoriametrics-logs-datasource",
-        "uid": "victorialogs"
-      },
+      "gridPos": {"h": 4, "w": 4, "x": 12, "y": 1},
+      "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
+          "color": {"mode": "thresholds"},
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "yellow",
-                "value": 10
-              },
-              {
-                "color": "orange",
-                "value": 30
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
+              {"color": "green", "value": null},
+              {"color": "yellow", "value": 100},
+              {"color": "orange", "value": 500},
+              {"color": "red", "value": 1000}
             ]
           },
           "unit": "short"
-        },
-        "overrides": []
+        }
       },
-      "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 16,
-        "y": 1
-      },
-      "id": 7,
       "options": {
         "colorMode": "value",
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "fields": "",
           "values": false
         },
@@ -374,60 +199,39 @@
       },
       "targets": [
         {
-          "datasource": {
-            "type": "victoriametrics-logs-datasource",
-            "uid": "victorialogs"
-          },
-          "expr": "{job=~\"ssh|fail2ban|ufw|crowdsec|appsec\",host=~\"$instance\"} client_ip:!\"\" | count_uniq(client_ip)",
-          "queryType": "stats",
-          "refId": "A"
+          "refId": "A",
+          "expr": "{job=\"ufw\",host=~\"$instance\"} action:\"BLOCK\" | count()",
+          "queryType": "stats"
         }
-      ],
+      ]
+    },
+    {
+      "type": "stat",
       "title": "Unique Attacker IPs 24h",
-      "transformations": [],
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "victoriametrics-logs-datasource",
-        "uid": "victorialogs"
-      },
+      "gridPos": {"h": 4, "w": 4, "x": 16, "y": 1},
+      "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "fixedColor": "blue",
-            "mode": "fixed"
-          },
-          "mappings": [],
+          "color": {"mode": "thresholds"},
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              {
-                "color": "blue",
-                "value": null
-              }
+              {"color": "green", "value": null},
+              {"color": "yellow", "value": 10},
+              {"color": "orange", "value": 30},
+              {"color": "red", "value": 80}
             ]
           },
           "unit": "short"
-        },
-        "overrides": []
+        }
       },
-      "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 20,
-        "y": 1
-      },
-      "id": 8,
       "options": {
         "colorMode": "value",
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "fields": "",
           "values": false
         },
@@ -435,75 +239,72 @@
       },
       "targets": [
         {
-          "datasource": {
-            "type": "victoriametrics-logs-datasource",
-            "uid": "victorialogs"
-          },
-          "expr": "{job=~\"ssh|fail2ban|ufw|crowdsec|appsec\",host=~\"$instance\"} geoip_country_code:!\"\" | count_uniq(geoip_country_code)",
-          "queryType": "stats",
-          "refId": "A"
+          "refId": "A",
+          "expr": "{job=~\"ssh|fail2ban|ufw|crowdsec|appsec\",host=~\"$instance\"} client_ip:!\"\" | count_uniq(client_ip)",
+          "queryType": "stats"
         }
-      ],
+      ]
+    },
+    {
+      "type": "stat",
       "title": "Attack Countries 24h",
-      "transformations": [],
-      "type": "stat"
-    },
-    {
-      "collapsed": false,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 5
-      },
-      "id": 200,
-      "panels": [],
-      "title": "🌍 Attack Origins",
-      "type": "row"
-    },
-    {
-      "datasource": {
-        "type": "victoriametrics-logs-datasource",
-        "uid": "victorialogs"
-      },
+      "gridPos": {"h": 4, "w": 4, "x": 20, "y": 1},
+      "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "thresholds"
+          "color": {"fixedColor": "blue", "mode": "fixed"},
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [{"color": "blue", "value": null}]
           },
-          "mappings": [],
+          "unit": "short"
+        }
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "{job=~\"ssh|fail2ban|ufw|crowdsec|appsec\",host=~\"$instance\"} geoip_country_code:!\"\" | count_uniq(geoip_country_code)",
+          "queryType": "stats"
+        }
+      ]
+    },
+    {
+      "type": "row",
+      "title": "🌍 Attack Origins",
+      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 5}
+    },
+    {
+      "type": "geomap",
+      "title": "Attack Origins Map",
+      "gridPos": {"h": 12, "w": 24, "x": 0, "y": 6},
+      "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "thresholds"},
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              {
-                "color": "yellow",
-                "value": null
-              },
-              {
-                "color": "orange",
-                "value": 10
-              },
-              {
-                "color": "red",
-                "value": 50
-              },
-              {
-                "color": "dark-red",
-                "value": 200
-              }
+              {"color": "yellow", "value": null},
+              {"color": "orange", "value": 10},
+              {"color": "red", "value": 50},
+              {"color": "dark-red", "value": 200}
             ]
           },
           "unit": "short"
-        },
-        "overrides": []
+        }
       },
-      "gridPos": {
-        "h": 12,
-        "w": 24,
-        "x": 0,
-        "y": 6
-      },
-      "id": 10,
       "options": {
         "basemap": {
           "config": {},
@@ -523,92 +324,55 @@
             "config": {
               "showLegend": true,
               "style": {
-                "color": {
-                  "field": "count"
-                },
+                "color": {"field": "count"},
                 "opacity": 0.6,
-                "size": {
-                  "field": "count",
-                  "fixed": 5,
-                  "max": 15,
-                  "min": 2
-                },
-                "symbol": {
-                  "fixed": "img/icons/marker/circle.svg",
-                  "mode": "fixed"
-                }
+                "size": {"field": "count", "fixed": 5, "max": 15, "min": 2},
+                "symbol": {"fixed": "img/icons/marker/circle.svg", "mode": "fixed"}
               }
             },
-            "location": {
-              "mode": "lookup",
-              "lookup": "geoip_country_code"
-            },
+            "location": {"mode": "lookup", "lookup": "geoip_country_code"},
             "name": "Attacks",
             "tooltip": true,
             "type": "markers"
           }
         ],
-        "tooltip": {
-          "mode": "details"
-        },
-        "view": {
-          "allLayers": true,
-          "id": "coords",
-          "lat": 20,
-          "lon": 0,
-          "zoom": 2
-        }
+        "tooltip": {"mode": "details"},
+        "view": {"allLayers": true, "id": "coords", "lat": 20, "lon": 0, "zoom": 2}
       },
-      "targets": [
-        {
-          "datasource": {
-            "type": "victoriametrics-logs-datasource",
-            "uid": "victorialogs"
-          },
-          "expr": "{job=~\"ssh|fail2ban|ufw|crowdsec|appsec|honeypot\"} geoip_country_code:!\"\" | stats by (geoip_country_code) count() as count",
-          "queryType": "stats",
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
-      "title": "Attack Origins Map",
       "transformations": [
         {
           "id": "reduce",
           "options": {
-            "reducers": [
-              "lastNotNull"
-            ],
+            "reducers": ["lastNotNull"],
             "labelsToFields": true
           }
         },
         {
           "id": "organize",
           "options": {
-            "excludeByName": {
-              "Field": true,
-              "__name__": true
-            }
+            "excludeByName": {"Field": true, "__name__": true}
           }
         }
       ],
-      "type": "geomap"
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "{job=~\"ssh|fail2ban|ufw|crowdsec|appsec|honeypot\"} geoip_country_code:!\"\" | stats by (geoip_country_code) count() as count",
+          "queryType": "stats"
+        }
+      ]
     },
     {
-      "datasource": {
-        "type": "victoriametrics-logs-datasource",
-        "uid": "victorialogs"
-      },
+      "type": "table",
+      "title": "Top Countries by Source",
+      "gridPos": {"h": 10, "w": 24, "x": 0, "y": 18},
+      "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
+          "color": {"mode": "thresholds"},
           "custom": {
             "align": "left",
-            "cellOptions": {
-              "type": "auto"
-            },
+            "cellOptions": {"type": "auto"},
             "inspect": false
           },
           "mappings": [
@@ -616,82 +380,38 @@
               "type": "special",
               "options": {
                 "match": "null",
-                "result": {
-                  "text": "0"
-                }
+                "result": {"text": "0"}
               }
             }
           ],
           "noValue": "0",
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
           "unit": "short"
-        },
-        "overrides": []
+        }
       },
-      "gridPos": {
-        "h": 10,
-        "w": 24,
-        "x": 0,
-        "y": 18
-      },
-      "id": 11,
       "options": {
         "cellHeight": "sm",
         "footer": {
           "countRows": false,
           "enablePagination": false,
           "fields": "",
-          "reducer": [
-            "sum"
-          ],
+          "reducer": ["sum"],
           "show": true
         },
         "showHeader": true,
-        "sortBy": [
-          {
-            "desc": true,
-            "displayName": "Total"
-          }
-        ]
+        "sortBy": [{"desc": true, "displayName": "Total"}]
       },
-      "targets": [
-        {
-          "datasource": {
-            "type": "victoriametrics-logs-datasource",
-            "uid": "victorialogs"
-          },
-          "expr": "{job=~\"ssh|fail2ban|ufw|crowdsec|appsec|honeypot\"} geoip_country_code:!\"\" | stats by (geoip_country_code, job) count() as count",
-          "queryType": "stats",
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
-      "title": "Top Countries by Source",
       "transformations": [
         {
           "id": "reduce",
           "options": {
-            "reducers": [
-              "lastNotNull"
-            ],
+            "reducers": ["lastNotNull"],
             "labelsToFields": true
           }
         },
         {
           "id": "organize",
           "options": {
-            "excludeByName": {
-              "Field": true,
-              "__name__": true
-            }
+            "excludeByName": {"Field": true, "__name__": true}
           }
         },
         {
@@ -721,12 +441,12 @@
           "id": "convertFieldType",
           "options": {
             "conversions": [
-              { "targetField": "Honeypot", "destinationType": "number" },
-              { "targetField": "SSH", "destinationType": "number" },
-              { "targetField": "UFW", "destinationType": "number" },
-              { "targetField": "Fail2ban", "destinationType": "number" },
-              { "targetField": "CrowdSec", "destinationType": "number" },
-              { "targetField": "AppSec", "destinationType": "number" }
+              {"targetField": "Honeypot", "destinationType": "number"},
+              {"targetField": "SSH", "destinationType": "number"},
+              {"targetField": "UFW", "destinationType": "number"},
+              {"targetField": "Fail2ban", "destinationType": "number"},
+              {"targetField": "CrowdSec", "destinationType": "number"},
+              {"targetField": "AppSec", "destinationType": "number"}
             ],
             "fields": {}
           }
@@ -735,63 +455,42 @@
           "id": "calculateField",
           "options": {
             "mode": "reduceRow",
-            "reduce": {
-              "reducer": "sum"
-            },
+            "reduce": {"reducer": "sum"},
             "alias": "Total",
             "replaceFields": false
           }
         }
       ],
-      "type": "table"
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "{job=~\"ssh|fail2ban|ufw|crowdsec|appsec|honeypot\"} geoip_country_code:!\"\" | stats by (geoip_country_code, job) count() as count",
+          "queryType": "stats"
+        }
+      ]
     },
     {
-      "collapsed": false,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 28
-      },
-      "id": 300,
-      "panels": [],
+      "type": "row",
       "title": "🔑 SSH",
-      "type": "row"
+      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 28}
     },
     {
-      "datasource": {
-        "type": "victoriametrics-logs-datasource",
-        "uid": "victorialogs"
-      },
+      "type": "table",
+      "title": "Successful Logins",
+      "gridPos": {"h": 6, "w": 24, "x": 0, "y": 29},
+      "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
+          "color": {"mode": "thresholds"},
           "custom": {
             "align": "left",
-            "cellOptions": {
-              "type": "auto"
-            },
+            "cellOptions": {"type": "auto"},
             "inspect": false
           }
         },
         "overrides": [
           {
-            "matcher": {
-              "id": "byName",
-              "options": "Auth"
-            },
+            "matcher": {"id": "byName", "options": "Auth"},
             "properties": [
               {
                 "id": "mappings",
@@ -799,12 +498,8 @@
                   {
                     "type": "value",
                     "options": {
-                      "publickey": {
-                        "text": "Key"
-                      },
-                      "password": {
-                        "text": "Password"
-                      }
+                      "publickey": {"text": "Key"},
+                      "password": {"text": "Password"}
                     }
                   }
                 ]
@@ -813,43 +508,17 @@
           }
         ]
       },
-      "gridPos": {
-        "h": 6,
-        "w": 24,
-        "x": 0,
-        "y": 29
-      },
-      "id": 20,
       "options": {
         "cellHeight": "sm",
         "footer": {
           "countRows": false,
           "fields": "",
-          "reducer": [
-            "sum"
-          ],
+          "reducer": ["sum"],
           "show": false
         },
         "showHeader": true,
-        "sortBy": [
-          {
-            "desc": true,
-            "displayName": "Time"
-          }
-        ]
+        "sortBy": [{"desc": true, "displayName": "Time"}]
       },
-      "targets": [
-        {
-          "datasource": {
-            "type": "victoriametrics-logs-datasource",
-            "uid": "victorialogs"
-          },
-          "expr": "{job=\"ssh\",host=~\"$instance\"} event_type:\"accepted\" | sort by (_time) desc | limit 50",
-          "format": "table",
-          "refId": "A"
-        }
-      ],
-      "title": "Successful Logins",
       "transformations": [
         {
           "id": "organize",
@@ -881,18 +550,22 @@
           }
         }
       ],
-      "type": "table"
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "{job=\"ssh\",host=~\"$instance\"} event_type:\"accepted\" | sort by (_time) desc | limit 50",
+          "format": "table"
+        }
+      ]
     },
     {
-      "datasource": {
-        "type": "victoriametrics-logs-datasource",
-        "uid": "victorialogs"
-      },
+      "type": "timeseries",
+      "title": "Attack Timeline",
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 35},
+      "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
+          "color": {"mode": "palette-classic"},
           "custom": {
             "axisBorderShow": false,
             "axisCenteredZero": false,
@@ -905,95 +578,28 @@
             "lineInterpolation": "smooth",
             "lineWidth": 2,
             "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
+            "scaleDistribution": {"type": "linear"},
             "showPoints": "never",
             "spanNulls": true,
-            "stacking": {
-              "group": "A",
-              "mode": "normal"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
+            "stacking": {"group": "A", "mode": "normal"},
+            "thresholdsStyle": {"mode": "off"}
           },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "short",
-          "min": 0
-        },
-        "overrides": []
+          "min": 0,
+          "unit": "short"
+        }
       },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 35
-      },
-      "id": 23,
       "options": {
         "legend": {
-          "calcs": [
-            "mean",
-            "max"
-          ],
+          "calcs": ["mean", "max"],
           "displayMode": "table",
           "placement": "bottom"
         },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "desc"
-        }
+        "tooltip": {"mode": "multi", "sort": "desc"}
       },
-      "targets": [
-        {
-          "datasource": {
-            "type": "victoriametrics-logs-datasource",
-            "uid": "victorialogs"
-          },
-          "expr": "{job=\"ssh\",host=~\"$instance\"} event_type:\"invalid_user\" | stats by (_time:5m) count() as count",
-          "queryType": "statsRange",
-          "legendFormat": "Invalid User",
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "victoriametrics-logs-datasource",
-            "uid": "victorialogs"
-          },
-          "expr": "{job=\"ssh\",host=~\"$instance\"} event_type:\"preauth\" | stats by (_time:5m) count() as count",
-          "queryType": "statsRange",
-          "legendFormat": "Preauth",
-          "refId": "B"
-        },
-        {
-          "datasource": {
-            "type": "victoriametrics-logs-datasource",
-            "uid": "victorialogs"
-          },
-          "expr": "{job=\"ssh\",host=~\"$instance\"} event_type:\"failed\" | stats by (_time:5m) count() as count",
-          "queryType": "statsRange",
-          "legendFormat": "Failed",
-          "refId": "C"
-        }
-      ],
-      "title": "Attack Timeline",
       "transformations": [
         {
           "id": "extractFields",
-          "options": {
-            "source": "labels",
-            "format": "json"
-          }
+          "options": {"source": "labels", "format": "json"}
         },
         {
           "id": "organize",
@@ -1011,311 +617,193 @@
         {
           "id": "convertFieldType",
           "options": {
-            "conversions": [
-              {
-                "targetField": "count",
-                "destinationType": "number"
-              }
-            ]
+            "conversions": [{"targetField": "count", "destinationType": "number"}]
           }
         }
       ],
-      "type": "timeseries"
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "{job=\"ssh\",host=~\"$instance\"} event_type:\"invalid_user\" | stats by (_time:5m) count() as count",
+          "legendFormat": "Invalid User",
+          "queryType": "statsRange"
+        },
+        {
+          "refId": "B",
+          "expr": "{job=\"ssh\",host=~\"$instance\"} event_type:\"preauth\" | stats by (_time:5m) count() as count",
+          "legendFormat": "Preauth",
+          "queryType": "statsRange"
+        },
+        {
+          "refId": "C",
+          "expr": "{job=\"ssh\",host=~\"$instance\"} event_type:\"failed\" | stats by (_time:5m) count() as count",
+          "legendFormat": "Failed",
+          "queryType": "statsRange"
+        }
+      ]
     },
     {
-      "datasource": {
-        "type": "victoriametrics-logs-datasource",
-        "uid": "victorialogs"
-      },
+      "type": "table",
+      "title": "Top Attackers",
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 35},
+      "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "short",
+          "color": {"mode": "thresholds"},
           "custom": {
             "align": "left",
-            "cellOptions": {
-              "type": "auto"
-            },
+            "cellOptions": {"type": "auto"},
             "inspect": false
-          }
+          },
+          "unit": "short"
         },
         "overrides": [
           {
-            "matcher": {
-              "id": "byName",
-              "options": "client_ip"
-            },
+            "matcher": {"id": "byName", "options": "client_ip"},
             "properties": [
               {
                 "id": "links",
-                "value": [
-                  {
-                    "title": "Investigate IP",
-                    "url": "/d/ip-investigation?var-ip=${__value.text}"
-                  }
-                ]
+                "value": [{"title": "Investigate IP", "url": "/d/ip-investigation?var-ip=${__value.text}"}]
               }
             ]
           }
         ]
       },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 35
-      },
-      "id": 24,
       "options": {
         "cellHeight": "sm",
         "footer": {
           "countRows": false,
           "fields": "",
-          "reducer": [
-            "sum"
-          ],
+          "reducer": ["sum"],
           "show": false
         },
         "showHeader": true,
-        "sortBy": [
-          {
-            "desc": true,
-            "displayName": "count"
-          }
-        ]
+        "sortBy": [{"desc": true, "displayName": "count"}]
       },
-      "targets": [
-        {
-          "datasource": {
-            "type": "victoriametrics-logs-datasource",
-            "uid": "victorialogs"
-          },
-          "expr": "{job=\"ssh\",host=~\"$instance\"} event_type:~\"invalid_user|preauth|failed\" | stats by (client_ip, geoip_country_name) count() as count | sort by (count) desc | limit 20",
-          "format": "table",
-          "queryType": "stats",
-          "refId": "A"
-        }
-      ],
-      "title": "Top Attackers",
       "transformations": [
         {
           "id": "reduce",
           "options": {
-            "reducers": [
-              "lastNotNull"
-            ],
+            "reducers": ["lastNotNull"],
             "labelsToFields": true
           }
         },
         {
           "id": "organize",
           "options": {
-            "excludeByName": {
-              "Field": true,
-              "__name__": true
-            },
-            "renameByName": {
-              "Last *": "Count",
-              "geoip_country_name": "Country"
-            }
+            "excludeByName": {"Field": true, "__name__": true},
+            "renameByName": {"Last *": "Count", "geoip_country_name": "Country"}
           }
         }
       ],
-      "type": "table"
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "{job=\"ssh\",host=~\"$instance\"} event_type:~\"invalid_user|preauth|failed\" | stats by (client_ip, geoip_country_name) count() as count | sort by (count) desc | limit 20",
+          "format": "table",
+          "queryType": "stats"
+        }
+      ]
     },
     {
-      "datasource": {
-        "type": "victoriametrics-logs-datasource",
-        "uid": "victorialogs"
-      },
+      "type": "bargauge",
+      "title": "Targeted Usernames",
+      "gridPos": {"h": 6, "w": 12, "x": 0, "y": 43},
+      "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "continuous-GrYlRd"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
+          "color": {"mode": "continuous-GrYlRd"},
           "unit": "short"
-        },
-        "overrides": []
+        }
       },
-      "gridPos": {
-        "h": 6,
-        "w": 12,
-        "x": 0,
-        "y": 43
-      },
-      "id": 21,
       "options": {
         "displayMode": "gradient",
         "minVizHeight": 10,
         "minVizWidth": 0,
         "orientation": "horizontal",
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "fields": "",
           "values": true
         },
         "showUnfilled": true,
         "valueMode": "color"
       },
+      "transformations": [
+        {
+          "id": "renameByRegex",
+          "options": {"regex": ".*=\"(.+)\".*", "renamePattern": "$1"}
+        }
+      ],
       "targets": [
         {
-          "datasource": {
-            "type": "victoriametrics-logs-datasource",
-            "uid": "victorialogs"
-          },
+          "refId": "A",
           "expr": "{job=\"ssh\",host=~\"$instance\"} event_type:~\"invalid_user|preauth|failed\" | stats by (username) count() as count | sort by (count) desc | limit 10",
           "format": "table",
-          "queryType": "stats",
-          "refId": "A"
+          "queryType": "stats"
         }
-      ],
-      "title": "Targeted Usernames",
-      "transformations": [
-        {
-          "id": "renameByRegex",
-          "options": {
-            "regex": ".*=\"(.+)\".*",
-            "renamePattern": "$1"
-          }
-        }
-      ],
-      "type": "bargauge"
+      ]
     },
     {
-      "datasource": {
-        "type": "victoriametrics-logs-datasource",
-        "uid": "victorialogs"
-      },
+      "type": "bargauge",
+      "title": "Attacks by Country",
+      "gridPos": {"h": 6, "w": 12, "x": 12, "y": 43},
+      "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "continuous-GrYlRd"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
+          "color": {"mode": "continuous-GrYlRd"},
           "unit": "short"
-        },
-        "overrides": []
+        }
       },
-      "gridPos": {
-        "h": 6,
-        "w": 12,
-        "x": 12,
-        "y": 43
-      },
-      "id": 22,
       "options": {
         "displayMode": "gradient",
         "minVizHeight": 10,
         "minVizWidth": 0,
         "orientation": "horizontal",
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "fields": "",
           "values": true
         },
         "showUnfilled": true,
         "valueMode": "color"
       },
-      "targets": [
-        {
-          "datasource": {
-            "type": "victoriametrics-logs-datasource",
-            "uid": "victorialogs"
-          },
-          "expr": "{job=\"ssh\",host=~\"$instance\"} event_type:~\"invalid_user|preauth|failed\" | stats by (geoip_country_name) count() as count | sort by (count) desc | limit 10",
-          "format": "table",
-          "queryType": "stats",
-          "refId": "A"
-        }
-      ],
-      "title": "Attacks by Country",
       "transformations": [
         {
           "id": "renameByRegex",
-          "options": {
-            "regex": ".*=\"(.+)\".*",
-            "renamePattern": "$1"
-          }
+          "options": {"regex": ".*=\"(.+)\".*", "renamePattern": "$1"}
         }
       ],
-      "type": "bargauge"
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "{job=\"ssh\",host=~\"$instance\"} event_type:~\"invalid_user|preauth|failed\" | stats by (geoip_country_name) count() as count | sort by (count) desc | limit 10",
+          "format": "table",
+          "queryType": "stats"
+        }
+      ]
     },
     {
+      "type": "row",
+      "title": "🔐 Sudo",
+      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 49},
       "collapsed": true,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 49
-      },
-      "id": 400,
       "panels": [
         {
-          "datasource": {
-            "type": "victoriametrics-logs-datasource",
-            "uid": "victorialogs"
-          },
+          "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
           "fieldConfig": {
             "defaults": {
-              "color": {
-                "fixedColor": "blue",
-                "mode": "fixed"
-              },
+              "color": {"fixedColor": "blue", "mode": "fixed"},
               "mappings": [],
               "thresholds": {
                 "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "blue",
-                    "value": null
-                  }
-                ]
+                "steps": [{"color": "blue", "value": null}]
               },
               "unit": "short"
             },
             "overrides": []
           },
-          "gridPos": {
-            "h": 8,
-            "w": 4,
-            "x": 0,
-            "y": 50
-          },
+          "gridPos": {"h": 8, "w": 4, "x": 0, "y": 50},
           "id": 30,
           "options": {
             "colorMode": "value",
@@ -1323,9 +811,7 @@
             "justifyMode": "auto",
             "orientation": "auto",
             "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
+              "calcs": ["lastNotNull"],
               "fields": "",
               "values": false
             },
@@ -1333,10 +819,7 @@
           },
           "targets": [
             {
-              "datasource": {
-                "type": "victoriametrics-logs-datasource",
-                "uid": "victorialogs"
-              },
+              "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
               "expr": "{job=\"sudo\",host=~\"$instance\"} event_type:* | count()",
               "queryType": "stats",
               "refId": "A"
@@ -1347,36 +830,20 @@
           "type": "stat"
         },
         {
-          "datasource": {
-            "type": "victoriametrics-logs-datasource",
-            "uid": "victorialogs"
-          },
+          "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
           "fieldConfig": {
             "defaults": {
-              "color": {
-                "fixedColor": "red",
-                "mode": "fixed"
-              },
+              "color": {"fixedColor": "red", "mode": "fixed"},
               "mappings": [],
               "thresholds": {
                 "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "red",
-                    "value": null
-                  }
-                ]
+                "steps": [{"color": "red", "value": null}]
               },
               "unit": "short"
             },
             "overrides": []
           },
-          "gridPos": {
-            "h": 8,
-            "w": 4,
-            "x": 4,
-            "y": 50
-          },
+          "gridPos": {"h": 8, "w": 4, "x": 4, "y": 50},
           "id": 33,
           "options": {
             "colorMode": "value",
@@ -1384,9 +851,7 @@
             "justifyMode": "auto",
             "orientation": "auto",
             "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
+              "calcs": ["lastNotNull"],
               "fields": "",
               "values": false
             },
@@ -1394,10 +859,7 @@
           },
           "targets": [
             {
-              "datasource": {
-                "type": "victoriametrics-logs-datasource",
-                "uid": "victorialogs"
-              },
+              "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
               "expr": "{job=\"sudo\",host=~\"$instance\"} event_type:\"sudo_failed\" | count()",
               "queryType": "stats",
               "refId": "A"
@@ -1408,15 +870,10 @@
           "type": "stat"
         },
         {
-          "datasource": {
-            "type": "victoriametrics-logs-datasource",
-            "uid": "victorialogs"
-          },
+          "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
           "fieldConfig": {
             "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
+              "color": {"mode": "palette-classic"},
               "custom": {
                 "axisBorderShow": false,
                 "axisCenteredZero": false,
@@ -1429,71 +886,42 @@
                 "lineInterpolation": "smooth",
                 "lineWidth": 2,
                 "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
+                "scaleDistribution": {"type": "linear"},
                 "showPoints": "never",
                 "spanNulls": true,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
+                "stacking": {"group": "A", "mode": "none"},
+                "thresholdsStyle": {"mode": "off"}
               },
               "mappings": [],
               "thresholds": {
                 "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  }
-                ]
+                "steps": [{"color": "green", "value": null}]
               },
               "unit": "short",
               "min": 0
             },
             "overrides": []
           },
-          "gridPos": {
-            "h": 8,
-            "w": 16,
-            "x": 8,
-            "y": 50
-          },
+          "gridPos": {"h": 8, "w": 16, "x": 8, "y": 50},
           "id": 34,
           "options": {
             "legend": {
-              "calcs": [
-                "mean",
-                "max"
-              ],
+              "calcs": ["mean", "max"],
               "displayMode": "table",
               "placement": "bottom"
             },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
+            "tooltip": {"mode": "multi", "sort": "desc"}
           },
           "targets": [
             {
-              "datasource": {
-                "type": "victoriametrics-logs-datasource",
-                "uid": "victorialogs"
-              },
+              "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
               "expr": "{job=\"sudo\",host=~\"$instance\"} event_type:\"sudo\" | stats by (_time:5m) count() as count",
               "queryType": "statsRange",
               "legendFormat": "Sudo",
               "refId": "A"
             },
             {
-              "datasource": {
-                "type": "victoriametrics-logs-datasource",
-                "uid": "victorialogs"
-              },
+              "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
               "expr": "{job=\"sudo\",host=~\"$instance\"} event_type:\"sudo_failed\" | stats by (_time:5m) count() as count",
               "queryType": "statsRange",
               "legendFormat": "Failed",
@@ -1504,10 +932,7 @@
           "transformations": [
             {
               "id": "extractFields",
-              "options": {
-                "source": "labels",
-                "format": "json"
-              }
+              "options": {"source": "labels", "format": "json"}
             },
             {
               "id": "organize",
@@ -1525,79 +950,47 @@
             {
               "id": "convertFieldType",
               "options": {
-                "conversions": [
-                  {
-                    "targetField": "count",
-                    "destinationType": "number"
-                  }
-                ]
+                "conversions": [{"targetField": "count", "destinationType": "number"}]
               }
             }
           ],
           "type": "timeseries"
         },
         {
-          "datasource": {
-            "type": "victoriametrics-logs-datasource",
-            "uid": "victorialogs"
-          },
+          "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
           "fieldConfig": {
             "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
+              "color": {"mode": "thresholds"},
               "mappings": [],
               "thresholds": {
                 "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  }
-                ]
+                "steps": [{"color": "green", "value": null}]
               },
               "unit": "short",
               "custom": {
                 "align": "left",
-                "cellOptions": {
-                  "type": "auto"
-                },
+                "cellOptions": {"type": "auto"},
                 "inspect": false
               }
             },
             "overrides": []
           },
-          "gridPos": {
-            "h": 8,
-            "w": 24,
-            "x": 0,
-            "y": 58
-          },
+          "gridPos": {"h": 8, "w": 24, "x": 0, "y": 58},
           "id": 32,
           "options": {
             "cellHeight": "sm",
             "footer": {
               "countRows": false,
               "fields": "",
-              "reducer": [
-                "sum"
-              ],
+              "reducer": ["sum"],
               "show": false
             },
             "showHeader": true,
-            "sortBy": [
-              {
-                "desc": true,
-                "displayName": "Time"
-              }
-            ]
+            "sortBy": [{"desc": true, "displayName": "Time"}]
           },
           "targets": [
             {
-              "datasource": {
-                "type": "victoriametrics-logs-datasource",
-                "uid": "victorialogs"
-              },
+              "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
               "expr": "{job=\"sudo\",host=~\"$instance\"} event_type:*",
               "refId": "A"
             }
@@ -1606,30 +999,19 @@
           "transformations": [],
           "type": "logs"
         }
-      ],
-      "title": "🔐 Sudo",
-      "type": "row"
+      ]
     },
     {
+      "type": "row",
+      "title": "🚫 Fail2ban",
+      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 50},
       "collapsed": true,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 50
-      },
-      "id": 500,
       "panels": [
         {
-          "datasource": {
-            "type": "victoriametrics-logs-datasource",
-            "uid": "victorialogs"
-          },
+          "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
           "fieldConfig": {
             "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
+              "color": {"mode": "palette-classic"},
               "custom": {
                 "axisBorderShow": false,
                 "axisCenteredZero": false,
@@ -1642,81 +1024,49 @@
                 "lineInterpolation": "smooth",
                 "lineWidth": 2,
                 "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
+                "scaleDistribution": {"type": "linear"},
                 "showPoints": "never",
                 "spanNulls": true,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
+                "stacking": {"group": "A", "mode": "none"},
+                "thresholdsStyle": {"mode": "off"}
               },
               "mappings": [],
               "thresholds": {
                 "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  }
-                ]
+                "steps": [{"color": "green", "value": null}]
               },
               "unit": "short",
               "min": 0
             },
             "overrides": []
           },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 0,
-            "y": 37
-          },
+          "gridPos": {"h": 8, "w": 12, "x": 0, "y": 37},
           "id": 40,
           "options": {
             "legend": {
-              "calcs": [
-                "mean",
-                "max"
-              ],
+              "calcs": ["mean", "max"],
               "displayMode": "table",
               "placement": "bottom"
             },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
+            "tooltip": {"mode": "multi", "sort": "desc"}
           },
           "targets": [
             {
-              "datasource": {
-                "type": "victoriametrics-logs-datasource",
-                "uid": "victorialogs"
-              },
+              "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
               "expr": "{job=\"fail2ban\",host=~\"$instance\"} action:\"Ban\" | stats by (_time:5m) count() as count",
               "queryType": "statsRange",
               "legendFormat": "Ban",
               "refId": "A"
             },
             {
-              "datasource": {
-                "type": "victoriametrics-logs-datasource",
-                "uid": "victorialogs"
-              },
+              "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
               "expr": "{job=\"fail2ban\",host=~\"$instance\"} action:\"Unban\" | stats by (_time:5m) count() as count",
               "queryType": "statsRange",
               "legendFormat": "Unban",
               "refId": "B"
             },
             {
-              "datasource": {
-                "type": "victoriametrics-logs-datasource",
-                "uid": "victorialogs"
-              },
+              "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
               "expr": "{job=\"fail2ban\",host=~\"$instance\"} action:\"Found\" | stats by (_time:5m) count() as count",
               "queryType": "statsRange",
               "legendFormat": "Found",
@@ -1727,10 +1077,7 @@
           "transformations": [
             {
               "id": "extractFields",
-              "options": {
-                "source": "labels",
-                "format": "json"
-              }
+              "options": {"source": "labels", "format": "json"}
             },
             {
               "id": "organize",
@@ -1748,12 +1095,7 @@
             {
               "id": "convertFieldType",
               "options": {
-                "conversions": [
-                  {
-                    "targetField": "count",
-                    "destinationType": "number"
-                  }
-                ]
+                "conversions": [{"targetField": "count", "destinationType": "number"}]
               }
             },
             {
@@ -1764,9 +1106,7 @@
                     "fieldName": "count",
                     "config": {
                       "id": "equal",
-                      "options": {
-                        "value": 0
-                      }
+                      "options": {"value": 0}
                     }
                   }
                 ],
@@ -1778,35 +1118,20 @@
           "type": "timeseries"
         },
         {
-          "datasource": {
-            "type": "victoriametrics-logs-datasource",
-            "uid": "victorialogs"
-          },
+          "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
           "fieldConfig": {
             "defaults": {
-              "color": {
-                "mode": "continuous-GrYlRd"
-              },
+              "color": {"mode": "continuous-GrYlRd"},
               "mappings": [],
               "thresholds": {
                 "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  }
-                ]
+                "steps": [{"color": "green", "value": null}]
               },
               "unit": "short"
             },
             "overrides": []
           },
-          "gridPos": {
-            "h": 8,
-            "w": 6,
-            "x": 12,
-            "y": 37
-          },
+          "gridPos": {"h": 8, "w": 6, "x": 12, "y": 37},
           "id": 41,
           "options": {
             "displayMode": "gradient",
@@ -1814,9 +1139,7 @@
             "minVizWidth": 0,
             "orientation": "horizontal",
             "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
+              "calcs": ["lastNotNull"],
               "fields": "",
               "values": false
             },
@@ -1825,10 +1148,7 @@
           },
           "targets": [
             {
-              "datasource": {
-                "type": "victoriametrics-logs-datasource",
-                "uid": "victorialogs"
-              },
+              "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
               "expr": "{job=\"fail2ban\",host=~\"$instance\"} action:\"Ban\" | stats by (jail) count() as count | sort by (count) desc | limit 10",
               "format": "table",
               "queryType": "stats",
@@ -1840,93 +1160,55 @@
           "transformations": [
             {
               "id": "renameByRegex",
-              "options": {
-                "regex": "count\\{jail=\"(.*)\"\\}",
-                "renamePattern": "$1"
-              }
+              "options": {"regex": "count\\{jail=\"(.*)\"\\}", "renamePattern": "$1"}
             }
           ]
         },
         {
-          "datasource": {
-            "type": "victoriametrics-logs-datasource",
-            "uid": "victorialogs"
-          },
+          "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
           "fieldConfig": {
             "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
+              "color": {"mode": "thresholds"},
               "mappings": [],
               "thresholds": {
                 "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  }
-                ]
+                "steps": [{"color": "green", "value": null}]
               },
               "unit": "short",
               "custom": {
                 "align": "left",
-                "cellOptions": {
-                  "type": "auto"
-                },
+                "cellOptions": {"type": "auto"},
                 "inspect": false
               }
             },
             "overrides": [
               {
-                "matcher": {
-                  "id": "byName",
-                  "options": "client_ip"
-                },
+                "matcher": {"id": "byName", "options": "client_ip"},
                 "properties": [
                   {
                     "id": "links",
-                    "value": [
-                      {
-                        "title": "Investigate IP",
-                        "url": "/d/ip-investigation?var-ip=${__value.text}"
-                      }
-                    ]
+                    "value": [{"title": "Investigate IP", "url": "/d/ip-investigation?var-ip=${__value.text}"}]
                   }
                 ]
               }
             ]
           },
-          "gridPos": {
-            "h": 8,
-            "w": 6,
-            "x": 18,
-            "y": 37
-          },
+          "gridPos": {"h": 8, "w": 6, "x": 18, "y": 37},
           "id": 42,
           "options": {
             "cellHeight": "sm",
             "footer": {
               "countRows": false,
               "fields": "",
-              "reducer": [
-                "sum"
-              ],
+              "reducer": ["sum"],
               "show": false
             },
             "showHeader": true,
-            "sortBy": [
-              {
-                "desc": true,
-                "displayName": "count"
-              }
-            ]
+            "sortBy": [{"desc": true, "displayName": "count"}]
           },
           "targets": [
             {
-              "datasource": {
-                "type": "victoriametrics-logs-datasource",
-                "uid": "victorialogs"
-              },
+              "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
               "expr": "{job=\"fail2ban\",host=~\"$instance\"} action:\"Ban\" | stats by (client_ip, geoip_country_name) count() as count | sort by (count) desc | limit 20",
               "format": "table",
               "queryType": "stats",
@@ -1938,52 +1220,33 @@
             {
               "id": "reduce",
               "options": {
-                "reducers": [
-                  "lastNotNull"
-                ],
+                "reducers": ["lastNotNull"],
                 "labelsToFields": true
               }
             },
             {
               "id": "organize",
               "options": {
-                "excludeByName": {
-                  "Field": true,
-                  "__name__": true
-                },
-                "renameByName": {
-                  "Last *": "Count",
-                  "geoip_country_name": "Country"
-                }
+                "excludeByName": {"Field": true, "__name__": true},
+                "renameByName": {"Last *": "Count", "geoip_country_name": "Country"}
               }
             }
           ],
           "type": "table"
         }
-      ],
-      "title": "🚫 Fail2ban",
-      "type": "row"
+      ]
     },
     {
+      "type": "row",
+      "title": "🔥 UFW",
+      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 51},
       "collapsed": true,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 51
-      },
-      "id": 600,
       "panels": [
         {
-          "datasource": {
-            "type": "victoriametrics-logs-datasource",
-            "uid": "victorialogs"
-          },
+          "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
           "fieldConfig": {
             "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
+              "color": {"mode": "palette-classic"},
               "custom": {
                 "axisBorderShow": false,
                 "axisCenteredZero": false,
@@ -1996,71 +1259,42 @@
                 "lineInterpolation": "smooth",
                 "lineWidth": 2,
                 "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
+                "scaleDistribution": {"type": "linear"},
                 "showPoints": "never",
                 "spanNulls": true,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
+                "stacking": {"group": "A", "mode": "none"},
+                "thresholdsStyle": {"mode": "off"}
               },
               "mappings": [],
               "thresholds": {
                 "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  }
-                ]
+                "steps": [{"color": "green", "value": null}]
               },
               "unit": "short",
               "min": 0
             },
             "overrides": []
           },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 0,
-            "y": 46
-          },
+          "gridPos": {"h": 8, "w": 12, "x": 0, "y": 46},
           "id": 50,
           "options": {
             "legend": {
-              "calcs": [
-                "mean",
-                "max"
-              ],
+              "calcs": ["mean", "max"],
               "displayMode": "table",
               "placement": "bottom"
             },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
+            "tooltip": {"mode": "multi", "sort": "desc"}
           },
           "targets": [
             {
-              "datasource": {
-                "type": "victoriametrics-logs-datasource",
-                "uid": "victorialogs"
-              },
+              "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
               "expr": "{job=\"ufw\",host=~\"$instance\"} proto:\"TCP\" action:\"BLOCK\" | stats by (_time:5m) count() as count",
               "queryType": "statsRange",
               "legendFormat": "TCP",
               "refId": "A"
             },
             {
-              "datasource": {
-                "type": "victoriametrics-logs-datasource",
-                "uid": "victorialogs"
-              },
+              "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
               "expr": "{job=\"ufw\",host=~\"$instance\"} proto:\"UDP\" action:\"BLOCK\" | stats by (_time:5m) count() as count",
               "queryType": "statsRange",
               "legendFormat": "UDP",
@@ -2071,10 +1305,7 @@
           "transformations": [
             {
               "id": "extractFields",
-              "options": {
-                "source": "labels",
-                "format": "json"
-              }
+              "options": {"source": "labels", "format": "json"}
             },
             {
               "id": "organize",
@@ -2092,79 +1323,47 @@
             {
               "id": "convertFieldType",
               "options": {
-                "conversions": [
-                  {
-                    "targetField": "count",
-                    "destinationType": "number"
-                  }
-                ]
+                "conversions": [{"targetField": "count", "destinationType": "number"}]
               }
             }
           ],
           "type": "timeseries"
         },
         {
-          "datasource": {
-            "type": "victoriametrics-logs-datasource",
-            "uid": "victorialogs"
-          },
+          "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
           "fieldConfig": {
             "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
+              "color": {"mode": "thresholds"},
               "mappings": [],
               "thresholds": {
                 "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  }
-                ]
+                "steps": [{"color": "green", "value": null}]
               },
               "unit": "short",
               "custom": {
                 "align": "left",
-                "cellOptions": {
-                  "type": "auto"
-                },
+                "cellOptions": {"type": "auto"},
                 "inspect": false
               }
             },
             "overrides": []
           },
-          "gridPos": {
-            "h": 8,
-            "w": 6,
-            "x": 12,
-            "y": 46
-          },
+          "gridPos": {"h": 8, "w": 6, "x": 12, "y": 46},
           "id": 51,
           "options": {
             "cellHeight": "sm",
             "footer": {
               "countRows": false,
               "fields": "",
-              "reducer": [
-                "sum"
-              ],
+              "reducer": ["sum"],
               "show": false
             },
             "showHeader": true,
-            "sortBy": [
-              {
-                "desc": true,
-                "displayName": "Count"
-              }
-            ]
+            "sortBy": [{"desc": true, "displayName": "Count"}]
           },
           "targets": [
             {
-              "datasource": {
-                "type": "victoriametrics-logs-datasource",
-                "uid": "victorialogs"
-              },
+              "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
               "expr": "{job=\"ufw\",host=~\"$instance\"} action:\"BLOCK\" | stats by (dst_port) count() as count | sort by (count) desc | limit 20",
               "format": "table",
               "queryType": "stats",
@@ -2176,119 +1375,71 @@
             {
               "id": "reduce",
               "options": {
-                "reducers": [
-                  "lastNotNull"
-                ],
+                "reducers": ["lastNotNull"],
                 "labelsToFields": true
               }
             },
             {
               "id": "organize",
               "options": {
-                "excludeByName": {
-                  "Field": true,
-                  "__name__": true
-                },
-                "renameByName": {
-                  "Last *": "Count",
-                  "dst_port": "Port"
-                }
+                "excludeByName": {"Field": true, "__name__": true},
+                "renameByName": {"Last *": "Count", "dst_port": "Port"}
               }
             },
             {
               "id": "convertFieldType",
               "options": {
-                "conversions": [
-                  {
-                    "targetField": "Port",
-                    "destinationType": "string"
-                  }
-                ]
+                "conversions": [{"targetField": "Port", "destinationType": "string"}]
               }
             }
           ],
           "type": "table"
         },
         {
-          "datasource": {
-            "type": "victoriametrics-logs-datasource",
-            "uid": "victorialogs"
-          },
+          "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
           "fieldConfig": {
             "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
+              "color": {"mode": "thresholds"},
               "mappings": [],
               "thresholds": {
                 "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  }
-                ]
+                "steps": [{"color": "green", "value": null}]
               },
               "unit": "short",
               "custom": {
                 "align": "left",
-                "cellOptions": {
-                  "type": "auto"
-                },
+                "cellOptions": {"type": "auto"},
                 "inspect": false
               }
             },
             "overrides": [
               {
-                "matcher": {
-                  "id": "byName",
-                  "options": "client_ip"
-                },
+                "matcher": {"id": "byName", "options": "client_ip"},
                 "properties": [
                   {
                     "id": "links",
-                    "value": [
-                      {
-                        "title": "Investigate IP",
-                        "url": "/d/ip-investigation?var-ip=${__value.text}"
-                      }
-                    ]
+                    "value": [{"title": "Investigate IP", "url": "/d/ip-investigation?var-ip=${__value.text}"}]
                   }
                 ]
               }
             ]
           },
-          "gridPos": {
-            "h": 8,
-            "w": 6,
-            "x": 18,
-            "y": 46
-          },
+          "gridPos": {"h": 8, "w": 6, "x": 18, "y": 46},
           "id": 52,
           "options": {
             "cellHeight": "sm",
             "footer": {
               "countRows": false,
               "fields": "",
-              "reducer": [
-                "sum"
-              ],
+              "reducer": ["sum"],
               "show": false
             },
             "showHeader": true,
-            "sortBy": [
-              {
-                "desc": true,
-                "displayName": "count"
-              }
-            ]
+            "sortBy": [{"desc": true, "displayName": "count"}]
           },
           "targets": [
             {
-              "datasource": {
-                "type": "victoriametrics-logs-datasource",
-                "uid": "victorialogs"
-              },
+              "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
               "expr": "{job=\"ufw\",host=~\"$instance\"} action:\"BLOCK\" | stats by (client_ip, geoip_country_name) count() as count | sort by (count) desc | limit 20",
               "format": "table",
               "queryType": "stats",
@@ -2300,53 +1451,31 @@
             {
               "id": "reduce",
               "options": {
-                "reducers": [
-                  "lastNotNull"
-                ],
+                "reducers": ["lastNotNull"],
                 "labelsToFields": true
               }
             },
             {
               "id": "organize",
               "options": {
-                "excludeByName": {
-                  "Field": true,
-                  "__name__": true
-                },
-                "renameByName": {
-                  "Last *": "Count",
-                  "geoip_country_name": "Country"
-                }
+                "excludeByName": {"Field": true, "__name__": true},
+                "renameByName": {"Last *": "Count", "geoip_country_name": "Country"}
               }
             }
           ],
           "type": "table"
         }
-      ],
-      "title": "🔥 UFW",
-      "type": "row"
+      ]
     },
     {
+      "type": "row",
+      "title": "📜 Logs",
+      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 52},
       "collapsed": true,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 52
-      },
-      "id": 700,
       "panels": [
         {
-          "datasource": {
-            "type": "victoriametrics-logs-datasource",
-            "uid": "victorialogs"
-          },
-          "gridPos": {
-            "h": 10,
-            "w": 24,
-            "x": 0,
-            "y": 55
-          },
+          "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
+          "gridPos": {"h": 10, "w": 24, "x": 0, "y": 55},
           "id": 60,
           "options": {
             "dedupStrategy": "none",
@@ -2360,10 +1489,7 @@
           },
           "targets": [
             {
-              "datasource": {
-                "type": "victoriametrics-logs-datasource",
-                "uid": "victorialogs"
-              },
+              "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
               "expr": "{job=\"ssh\",host=~\"$instance\"}",
               "refId": "A"
             }
@@ -2372,16 +1498,8 @@
           "type": "logs"
         },
         {
-          "datasource": {
-            "type": "victoriametrics-logs-datasource",
-            "uid": "victorialogs"
-          },
-          "gridPos": {
-            "h": 10,
-            "w": 24,
-            "x": 0,
-            "y": 65
-          },
+          "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
+          "gridPos": {"h": 10, "w": 24, "x": 0, "y": 65},
           "id": 61,
           "options": {
             "dedupStrategy": "none",
@@ -2395,10 +1513,7 @@
           },
           "targets": [
             {
-              "datasource": {
-                "type": "victoriametrics-logs-datasource",
-                "uid": "victorialogs"
-              },
+              "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
               "expr": "{job=\"sudo\",host=~\"$instance\"} event_type:*",
               "refId": "A"
             }
@@ -2407,16 +1522,8 @@
           "type": "logs"
         },
         {
-          "datasource": {
-            "type": "victoriametrics-logs-datasource",
-            "uid": "victorialogs"
-          },
-          "gridPos": {
-            "h": 10,
-            "w": 24,
-            "x": 0,
-            "y": 75
-          },
+          "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
+          "gridPos": {"h": 10, "w": 24, "x": 0, "y": 75},
           "id": 62,
           "options": {
             "dedupStrategy": "none",
@@ -2430,10 +1537,7 @@
           },
           "targets": [
             {
-              "datasource": {
-                "type": "victoriametrics-logs-datasource",
-                "uid": "victorialogs"
-              },
+              "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
               "expr": "{job=\"fail2ban\",host=~\"$instance\"}",
               "refId": "A"
             }
@@ -2442,16 +1546,8 @@
           "type": "logs"
         },
         {
-          "datasource": {
-            "type": "victoriametrics-logs-datasource",
-            "uid": "victorialogs"
-          },
-          "gridPos": {
-            "h": 10,
-            "w": 24,
-            "x": 0,
-            "y": 85
-          },
+          "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
+          "gridPos": {"h": 10, "w": 24, "x": 0, "y": 85},
           "id": 63,
           "options": {
             "dedupStrategy": "none",
@@ -2465,10 +1561,7 @@
           },
           "targets": [
             {
-              "datasource": {
-                "type": "victoriametrics-logs-datasource",
-                "uid": "victorialogs"
-              },
+              "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
               "expr": "{job=\"ufw\",host=~\"$instance\"}",
               "refId": "A"
             }
@@ -2476,56 +1569,7 @@
           "title": "UFW Firewall Logs",
           "type": "logs"
         }
-      ],
-      "title": "📜 Logs",
-      "type": "row"
+      ]
     }
-  ],
-  "schemaVersion": 39,
-  "tags": [
-    "security",
-    "ssh",
-    "sudo",
-    "fail2ban",
-    "ufw"
-  ],
-  "templating": {
-    "list": [
-      {
-        "allValue": ".*",
-        "current": {
-          "text": "All",
-          "value": "$__all"
-        },
-        "datasource": {
-          "type": "victoriametrics-metrics-datasource",
-          "uid": "victoriametrics"
-        },
-        "definition": "label_values(node_uname_info, instance)",
-        "hide": 0,
-        "includeAll": true,
-        "label": "Instance",
-        "multi": true,
-        "name": "instance",
-        "options": [],
-        "query": {
-          "qryType": 1,
-          "query": "label_values(node_uname_info, instance)"
-        },
-        "refresh": 2,
-        "regex": "",
-        "sort": 1,
-        "type": "query"
-      }
-    ]
-  },
-  "time": {
-    "from": "now-6h",
-    "to": "now"
-  },
-  "timepicker": {},
-  "timezone": "browser",
-  "title": "Security",
-  "uid": "security",
-  "version": 1
+  ]
 }
