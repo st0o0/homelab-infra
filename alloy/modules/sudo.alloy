@@ -59,9 +59,14 @@ declare "sudo" {
       template = "{{ if .sudo_user }}sudo{{ else if .sudo_failed_user }}sudo_failed{{ end }}"
     }
 
+    stage.template {
+      source   = "is_sudo"
+      template = "{{ if .sudo_user }}yes{{ else if .sudo_failed_user }}yes{{ else }}no{{ end }}"
+    }
+
     stage.drop {
-      source     = "event_type"
-      expression = "^$"
+      source = "is_sudo"
+      value  = "no"
     }
 
     stage.template {
@@ -79,6 +84,7 @@ declare "sudo" {
         event_type  = "",
         username    = "",
         target_user = "",
+        command     = "",
         level       = "",
       }
     }

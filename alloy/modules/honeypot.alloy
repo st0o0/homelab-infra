@@ -67,9 +67,11 @@ declare "honeypot" {
         status             = "",
         duration           = "",
         response_size      = "",
-        geoip_country_code = "",
-        geoip_country_name = "",
-        geoip_city_name    = "",
+        geoip_country_code         = "",
+        geoip_country_name         = "",
+        geoip_city_name            = "",
+        geoip_location_latitude    = "",
+        geoip_location_longitude   = "",
       }
     }
 

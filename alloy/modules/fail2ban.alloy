@@ -70,8 +70,10 @@ declare "fail2ban" {
 
     stage.labels {
       values = {
-        geoip_country_code = "",
-        geoip_country_name = "",
+        geoip_country_code         = "",
+        geoip_country_name         = "",
+        geoip_location_latitude    = "",
+        geoip_location_longitude   = "",
       }
     }
 
