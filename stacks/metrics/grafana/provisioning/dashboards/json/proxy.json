@@ -1851,8 +1851,8 @@
                       "group": "victoriametrics-logs-datasource",
                       "kind": "DataQuery",
                       "spec": {
-                        "expr": "{job=\"caddy\",host=~\"\"} uri:!\"\" | top 20 by (uri)",
-                        "queryType": "instant"
+                        "expr": "{job=\"caddy\",host=~\"\"} uri:!\"\" | stats by (uri) count() as hits | sort by (hits) desc | limit 20",
+                        "queryType": "stats"
                       },
                       "version": "v0"
                     },
@@ -1860,34 +1860,7 @@
                   }
                 }
               ],
-              "transformations": [
-                {
-                  "id": "extractFields",
-                  "options": {
-                    "source": "labels"
-                  }
-                },
-                {
-                  "id": "organize",
-                  "options": {
-                    "includeByName": {
-                      "uri": true,
-                      "hits": true
-                    }
-                  }
-                },
-                {
-                  "id": "convertFieldType",
-                  "options": {
-                    "conversions": [
-                      {
-                        "targetField": "hits",
-                        "destinationType": "number"
-                      }
-                    ]
-                  }
-                }
-              ]
+              "transformations": []
             }
           },
           "description": "",
@@ -1942,8 +1915,8 @@
                       "group": "victoriametrics-logs-datasource",
                       "kind": "DataQuery",
                       "spec": {
-                        "expr": "{job=\"caddy\",host=~\"\"} user_agent:!\"\" | top 20 by (user_agent)",
-                        "queryType": "instant"
+                        "expr": "{job=\"caddy\",host=~\"\"} user_agent:!\"\" | stats by (user_agent) count() as hits | sort by (hits) desc | limit 20",
+                        "queryType": "stats"
                       },
                       "version": "v0"
                     },
@@ -1951,34 +1924,7 @@
                   }
                 }
               ],
-              "transformations": [
-                {
-                  "id": "extractFields",
-                  "options": {
-                    "source": "labels"
-                  }
-                },
-                {
-                  "id": "organize",
-                  "options": {
-                    "includeByName": {
-                      "user_agent": true,
-                      "hits": true
-                    }
-                  }
-                },
-                {
-                  "id": "convertFieldType",
-                  "options": {
-                    "conversions": [
-                      {
-                        "targetField": "hits",
-                        "destinationType": "number"
-                      }
-                    ]
-                  }
-                }
-              ]
+              "transformations": []
             }
           },
           "description": "",
@@ -2040,8 +1986,8 @@
                       "group": "victoriametrics-logs-datasource",
                       "kind": "DataQuery",
                       "spec": {
-                        "expr": "{job=\"caddy\",host=~\"\"} status:!\"\" | top 10 by (status)",
-                        "queryType": "instant"
+                        "expr": "{job=\"caddy\",host=~\"\"} status:!\"\" | stats by (status) count() as hits",
+                        "queryType": "stats"
                       },
                       "version": "v0"
                     },
@@ -2049,34 +1995,7 @@
                   }
                 }
               ],
-              "transformations": [
-                {
-                  "id": "extractFields",
-                  "options": {
-                    "source": "labels"
-                  }
-                },
-                {
-                  "id": "organize",
-                  "options": {
-                    "includeByName": {
-                      "status": true,
-                      "hits": true
-                    }
-                  }
-                },
-                {
-                  "id": "convertFieldType",
-                  "options": {
-                    "conversions": [
-                      {
-                        "targetField": "hits",
-                        "destinationType": "number"
-                      }
-                    ]
-                  }
-                }
-              ]
+              "transformations": []
             }
           },
           "description": "",
@@ -2131,8 +2050,8 @@
                       "group": "victoriametrics-logs-datasource",
                       "kind": "DataQuery",
                       "spec": {
-                        "expr": "{job=\"caddy\",host=~\"\"} duration:!\"\" | top 20 by (domain, uri, method)",
-                        "queryType": "instant"
+                        "expr": "{job=\"caddy\",host=~\"\"} duration:!\"\" | stats by (domain, uri) avg(duration) as avg_duration | sort by (avg_duration) desc | limit 20",
+                        "queryType": "stats"
                       },
                       "version": "v0"
                     },
@@ -2140,36 +2059,7 @@
                   }
                 }
               ],
-              "transformations": [
-                {
-                  "id": "extractFields",
-                  "options": {
-                    "source": "labels"
-                  }
-                },
-                {
-                  "id": "organize",
-                  "options": {
-                    "includeByName": {
-                      "domain": true,
-                      "uri": true,
-                      "method": true,
-                      "hits": true
-                    }
-                  }
-                },
-                {
-                  "id": "convertFieldType",
-                  "options": {
-                    "conversions": [
-                      {
-                        "targetField": "hits",
-                        "destinationType": "number"
-                      }
-                    ]
-                  }
-                }
-              ]
+              "transformations": []
             }
           },
           "description": "",
@@ -2407,8 +2297,8 @@
                       "group": "victoriametrics-logs-datasource",
                       "kind": "DataQuery",
                       "spec": {
-                        "expr": "{job=\"appsec\",host=~\"\"} method:!\"\" | top 10 by (method)",
-                        "queryType": "instant"
+                        "expr": "{job=\"appsec\",host=~\"\"} method:!\"\" | stats by (method) count() as hits",
+                        "queryType": "stats"
                       },
                       "version": "v0"
                     },
@@ -2416,34 +2306,7 @@
                   }
                 }
               ],
-              "transformations": [
-                {
-                  "id": "extractFields",
-                  "options": {
-                    "source": "labels"
-                  }
-                },
-                {
-                  "id": "organize",
-                  "options": {
-                    "includeByName": {
-                      "method": true,
-                      "hits": true
-                    }
-                  }
-                },
-                {
-                  "id": "convertFieldType",
-                  "options": {
-                    "conversions": [
-                      {
-                        "targetField": "hits",
-                        "destinationType": "number"
-                      }
-                    ]
-                  }
-                }
-              ]
+              "transformations": []
             }
           },
           "description": "",
@@ -2505,8 +2368,8 @@
                       "group": "victoriametrics-logs-datasource",
                       "kind": "DataQuery",
                       "spec": {
-                        "expr": "{job=\"appsec\",host=~\"\"} | top 10 by (scenario)",
-                        "queryType": "instant"
+                        "expr": "{job=\"appsec\",host=~\"\"} scenario:!\"\" | stats by (scenario) count() as hits",
+                        "queryType": "stats"
                       },
                       "version": "v0"
                     },
@@ -2514,34 +2377,7 @@
                   }
                 }
               ],
-              "transformations": [
-                {
-                  "id": "extractFields",
-                  "options": {
-                    "source": "labels"
-                  }
-                },
-                {
-                  "id": "organize",
-                  "options": {
-                    "includeByName": {
-                      "scenario": true,
-                      "hits": true
-                    }
-                  }
-                },
-                {
-                  "id": "convertFieldType",
-                  "options": {
-                    "conversions": [
-                      {
-                        "targetField": "hits",
-                        "destinationType": "number"
-                      }
-                    ]
-                  }
-                }
-              ]
+              "transformations": []
             }
           },
           "description": "",
@@ -2596,8 +2432,8 @@
                       "group": "victoriametrics-logs-datasource",
                       "kind": "DataQuery",
                       "spec": {
-                        "expr": "{job=\"appsec\",host=~\"\"} target_uri:!\"\" | top 20 by (target_uri)",
-                        "queryType": "instant"
+                        "expr": "{job=\"appsec\",host=~\"\"} target_uri:!\"\" | stats by (target_uri) count() as hits | sort by (hits) desc | limit 20",
+                        "queryType": "stats"
                       },
                       "version": "v0"
                     },
@@ -2605,34 +2441,7 @@
                   }
                 }
               ],
-              "transformations": [
-                {
-                  "id": "extractFields",
-                  "options": {
-                    "source": "labels"
-                  }
-                },
-                {
-                  "id": "organize",
-                  "options": {
-                    "includeByName": {
-                      "target_uri": true,
-                      "hits": true
-                    }
-                  }
-                },
-                {
-                  "id": "convertFieldType",
-                  "options": {
-                    "conversions": [
-                      {
-                        "targetField": "hits",
-                        "destinationType": "number"
-                      }
-                    ]
-                  }
-                }
-              ]
+              "transformations": []
             }
           },
           "description": "",
@@ -2687,8 +2496,8 @@
                       "group": "victoriametrics-logs-datasource",
                       "kind": "DataQuery",
                       "spec": {
-                        "expr": "{job=\"appsec\",host=~\"\"} client_ip:!\"\" | top 20 by (client_ip)",
-                        "queryType": "instant"
+                        "expr": "{job=\"appsec\",host=~\"\"} client_ip:!\"\" | stats by (client_ip, geoip_country_name) count() as hits | sort by (hits) desc | limit 20",
+                        "queryType": "stats"
                       },
                       "version": "v0"
                     },
@@ -2696,34 +2505,7 @@
                   }
                 }
               ],
-              "transformations": [
-                {
-                  "id": "extractFields",
-                  "options": {
-                    "source": "labels"
-                  }
-                },
-                {
-                  "id": "organize",
-                  "options": {
-                    "includeByName": {
-                      "client_ip": true,
-                      "hits": true
-                    }
-                  }
-                },
-                {
-                  "id": "convertFieldType",
-                  "options": {
-                    "conversions": [
-                      {
-                        "targetField": "hits",
-                        "destinationType": "number"
-                      }
-                    ]
-                  }
-                }
-              ]
+              "transformations": []
             }
           },
           "description": "",
@@ -2778,8 +2560,8 @@
                       "group": "victoriametrics-logs-datasource",
                       "kind": "DataQuery",
                       "spec": {
-                        "expr": "{job=\"appsec\",host=~\"\"} target_host:!\"\" | top 10 by (target_host)",
-                        "queryType": "instant"
+                        "expr": "{job=\"appsec\",host=~\"\"} target_host:!\"\" | stats by (target_host) count() as hits | sort by (hits) desc",
+                        "queryType": "stats"
                       },
                       "version": "v0"
                     },
@@ -2787,34 +2569,7 @@
                   }
                 }
               ],
-              "transformations": [
-                {
-                  "id": "extractFields",
-                  "options": {
-                    "source": "labels"
-                  }
-                },
-                {
-                  "id": "organize",
-                  "options": {
-                    "includeByName": {
-                      "target_host": true,
-                      "hits": true
-                    }
-                  }
-                },
-                {
-                  "id": "convertFieldType",
-                  "options": {
-                    "conversions": [
-                      {
-                        "targetField": "hits",
-                        "destinationType": "number"
-                      }
-                    ]
-                  }
-                }
-              ]
+              "transformations": []
             }
           },
           "description": "",
@@ -3583,8 +3338,8 @@
                       "group": "victoriametrics-logs-datasource",
                       "kind": "DataQuery",
                       "spec": {
-                        "expr": "{job=\"honeypot\",host=~\"\"} domain:!\"\" | top 20 by (domain)",
-                        "queryType": "instant"
+                        "expr": "{job=\"honeypot\",host=~\"\"} domain:!\"\" | stats by (domain) count() as hits | sort by (hits) desc | limit 20",
+                        "queryType": "stats"
                       },
                       "version": "v0"
                     },
@@ -3592,34 +3347,7 @@
                   }
                 }
               ],
-              "transformations": [
-                {
-                  "id": "extractFields",
-                  "options": {
-                    "source": "labels"
-                  }
-                },
-                {
-                  "id": "organize",
-                  "options": {
-                    "includeByName": {
-                      "domain": true,
-                      "hits": true
-                    }
-                  }
-                },
-                {
-                  "id": "convertFieldType",
-                  "options": {
-                    "conversions": [
-                      {
-                        "targetField": "hits",
-                        "destinationType": "number"
-                      }
-                    ]
-                  }
-                }
-              ]
+              "transformations": []
             }
           },
           "description": "",
@@ -3674,8 +3402,8 @@
                       "group": "victoriametrics-logs-datasource",
                       "kind": "DataQuery",
                       "spec": {
-                        "expr": "{job=\"honeypot\",host=~\"\"} uri:!\"\" | top 20 by (uri)",
-                        "queryType": "instant"
+                        "expr": "{job=\"honeypot\",host=~\"\"} uri:!\"\" | stats by (uri) count() as hits | sort by (hits) desc | limit 20",
+                        "queryType": "stats"
                       },
                       "version": "v0"
                     },
@@ -3683,34 +3411,7 @@
                   }
                 }
               ],
-              "transformations": [
-                {
-                  "id": "extractFields",
-                  "options": {
-                    "source": "labels"
-                  }
-                },
-                {
-                  "id": "organize",
-                  "options": {
-                    "includeByName": {
-                      "uri": true,
-                      "hits": true
-                    }
-                  }
-                },
-                {
-                  "id": "convertFieldType",
-                  "options": {
-                    "conversions": [
-                      {
-                        "targetField": "hits",
-                        "destinationType": "number"
-                      }
-                    ]
-                  }
-                }
-              ]
+              "transformations": []
             }
           },
           "description": "",
@@ -3765,8 +3466,8 @@
                       "group": "victoriametrics-logs-datasource",
                       "kind": "DataQuery",
                       "spec": {
-                        "expr": "{job=\"honeypot\",host=~\"\"} client_ip:!\"\" | top 20 by (client_ip)",
-                        "queryType": "instant"
+                        "expr": "{job=\"honeypot\",host=~\"\"} client_ip:!\"\" | stats by (client_ip, geoip_country_name, geoip_city_name) count() as hits | sort by (hits) desc | limit 20",
+                        "queryType": "stats"
                       },
                       "version": "v0"
                     },
@@ -3774,34 +3475,7 @@
                   }
                 }
               ],
-              "transformations": [
-                {
-                  "id": "extractFields",
-                  "options": {
-                    "source": "labels"
-                  }
-                },
-                {
-                  "id": "organize",
-                  "options": {
-                    "includeByName": {
-                      "client_ip": true,
-                      "hits": true
-                    }
-                  }
-                },
-                {
-                  "id": "convertFieldType",
-                  "options": {
-                    "conversions": [
-                      {
-                        "targetField": "hits",
-                        "destinationType": "number"
-                      }
-                    ]
-                  }
-                }
-              ]
+              "transformations": []
             }
           },
           "description": "",
@@ -3863,8 +3537,8 @@
                       "group": "victoriametrics-logs-datasource",
                       "kind": "DataQuery",
                       "spec": {
-                        "expr": "{job=\"honeypot\",host=~\"\"} status:!\"\" | top 10 by (status)",
-                        "queryType": "instant"
+                        "expr": "{job=\"honeypot\",host=~\"\"} status:!\"\" | stats by (status) count() as hits",
+                        "queryType": "stats"
                       },
                       "version": "v0"
                     },
@@ -3872,34 +3546,7 @@
                   }
                 }
               ],
-              "transformations": [
-                {
-                  "id": "extractFields",
-                  "options": {
-                    "source": "labels"
-                  }
-                },
-                {
-                  "id": "organize",
-                  "options": {
-                    "includeByName": {
-                      "status": true,
-                      "hits": true
-                    }
-                  }
-                },
-                {
-                  "id": "convertFieldType",
-                  "options": {
-                    "conversions": [
-                      {
-                        "targetField": "hits",
-                        "destinationType": "number"
-                      }
-                    ]
-                  }
-                }
-              ]
+              "transformations": []
             }
           },
           "description": "",
