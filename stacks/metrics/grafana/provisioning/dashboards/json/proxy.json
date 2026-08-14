@@ -4522,21 +4522,34 @@
         "spec": {
           "name": "instance",
           "label": "Instance",
-          "datasource": {
-            "type": "victoriametrics-metrics-datasource",
-            "uid": "victoriametrics"
-          },
-          "query": "label_values(caddy_http_requests_total, instance)",
-          "multi": true,
-          "includeAll": true,
           "allValue": ".*",
+          "allowCustomValue": true,
           "current": {
-            "text": "All",
-            "value": "$__all"
+            "text": "",
+            "value": ""
           },
-          "refresh": 2,
-          "sort": 1,
-          "hide": ""
+          "definition": "label_values(caddy_http_requests_total, instance)",
+          "hide": "dontHide",
+          "includeAll": true,
+          "multi": true,
+          "options": [],
+          "query": {
+            "datasource": {
+              "name": "victoriametrics"
+            },
+            "group": "victoriametrics-metrics-datasource",
+            "kind": "DataQuery",
+            "spec": {
+              "qryType": 1,
+              "query": "label_values(caddy_http_requests_total, instance)",
+              "refId": "VariableQuery"
+            },
+            "version": "v0"
+          },
+          "refresh": "onDashboardLoad",
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": "alphabeticalAsc"
         }
       }
     ]
