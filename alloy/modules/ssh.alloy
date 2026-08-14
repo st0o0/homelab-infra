@@ -84,13 +84,23 @@ declare "ssh" {
       template = "{{ if eq .event_type \"accepted\" }}info{{ else }}warn{{ end }}"
     }
 
+    stage.geoip {
+      source  = "client_ip"
+      db      = "/geoip/GeoLite2-City.mmdb"
+      db_type = "city"
+    }
+
     stage.labels {
       values = {
-        event_type  = "",
-        client_ip   = "",
-        username    = "",
-        auth_method = "",
-        level       = "",
+        event_type                 = "",
+        client_ip                  = "",
+        username                   = "",
+        auth_method                = "",
+        level                      = "",
+        geoip_country_code         = "",
+        geoip_country_name         = "",
+        geoip_location_latitude    = "",
+        geoip_location_longitude   = "",
       }
     }
 

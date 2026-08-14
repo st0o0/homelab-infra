@@ -58,5 +58,5 @@ loki.process "docker" {
     }
   }
 
-  forward_to = [loki.process.geoip.receiver]
+  forward_to = [loki.secretfilter.redact.receiver]
 }

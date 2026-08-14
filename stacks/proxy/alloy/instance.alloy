@@ -8,7 +8,7 @@ modules.syslog "default" {
 
 modules.ssh "default" {
   enabled    = "true"
-  forward_to = [loki.process.geoip.receiver]
+  forward_to = [loki.secretfilter.redact.receiver]
 }
 
 modules.sudo "default" {
@@ -18,12 +18,12 @@ modules.sudo "default" {
 
 modules.fail2ban "default" {
   enabled    = "true"
-  forward_to = [loki.process.geoip.receiver]
+  forward_to = [loki.secretfilter.redact.receiver]
 }
 
 modules.ufw "default" {
   enabled    = "true"
-  forward_to = [loki.process.geoip.receiver]
+  forward_to = [loki.secretfilter.redact.receiver]
 }
 
 modules.security "default" {
