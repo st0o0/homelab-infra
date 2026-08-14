@@ -60,8 +60,8 @@ declare "sudo" {
     }
 
     stage.drop {
-      source = "event_type"
-      value  = "^$"
+      source     = "event_type"
+      expression = "^$"
     }
 
     stage.template {
