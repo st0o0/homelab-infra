@@ -5,7 +5,7 @@ format: |
   {{range . -}}
   {{$alert := . -}}
   {{range .Events -}}
-  {"time":"{{$alert.StopAt}}","scenario":"{{$alert.Scenario}}","ip":"{{$alert.Source.IP}}","country":"{{$alert.Source.Cn}}","asname":"{{$alert.Source.AsName}}","log_type":"{{.GetMeta "log_type"}}","rule_name":"{{.GetMeta "rule_name"}}","target_host":"{{.GetMeta "target_host"}}","target_uri":"{{.GetMeta "target_uri"}}"}
+  {"time":"{{$alert.StopAt}}","scenario":"{{$alert.Scenario}}","ip":"{{$alert.Source.IP}}","country":"{{$alert.Source.Cn}}","asname":"{{$alert.Source.AsName}}","as_num":"{{$alert.Source.AsNumber}}","log_type":"{{.GetMeta "log_type"}}","rule_name":"{{.GetMeta "rule_name"}}","target_host":"{{.GetMeta "target_host"}}","target_uri":"{{.GetMeta "target_uri"}}","method":"{{.GetMeta "method"}}","inband_action":"{{.GetMeta "inband_action"}}","matched_zones":"{{.GetMeta "matched_zones"}}","user_agent":"{{.GetMeta "user_agent"}}"}
   {{end -}}
   {{end -}}
 log_path: /var/log/crowdsec/appsec.ndjson
