@@ -4073,8 +4073,8 @@
                 "kind": "AutoGridLayout",
                 "spec": {
                   "columnWidthMode": "standard",
-                  "rowHeightMode": "standard",
-                  "maxColumnCount": 4,
+                  "rowHeightMode": "short",
+                  "maxColumnCount": 6,
                   "items": [
                     {
                       "kind": "AutoGridLayoutItem",
@@ -4340,7 +4340,7 @@
                 "spec": {
                   "columnWidthMode": "standard",
                   "rowHeightMode": "standard",
-                  "maxColumnCount": 4,
+                  "maxColumnCount": 3,
                   "items": [
                     {
                       "kind": "AutoGridLayoutItem",
@@ -4550,9 +4550,9 @@
               "layout": {
                 "kind": "AutoGridLayout",
                 "spec": {
-                  "columnWidthMode": "standard",
+                  "columnWidthMode": "wide",
                   "rowHeightMode": "standard",
-                  "maxColumnCount": 4,
+                  "maxColumnCount": 1,
                   "items": [
                     {
                       "kind": "AutoGridLayoutItem",
