@@ -70,6 +70,11 @@
         }
       ],
       "title": "SSH Attacks 24h",
+      "transformations": [
+        { "id": "extractFields", "options": { "source": "labels", "format": "json" } },
+        { "id": "organize", "options": { "excludeByName": { "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true, "Time": true } } },
+        { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "count", "destinationType": "number" }] } }
+      ],
       "type": "stat"
     },
     {
@@ -109,6 +114,11 @@
         }
       ],
       "title": "Preauth Disconnects 24h",
+      "transformations": [
+        { "id": "extractFields", "options": { "source": "labels", "format": "json" } },
+        { "id": "organize", "options": { "excludeByName": { "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true, "Time": true } } },
+        { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "count", "destinationType": "number" }] } }
+      ],
       "type": "stat"
     },
     {
@@ -144,6 +154,11 @@
         }
       ],
       "title": "Sudo Events 24h",
+      "transformations": [
+        { "id": "extractFields", "options": { "source": "labels", "format": "json" } },
+        { "id": "organize", "options": { "excludeByName": { "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true, "Time": true } } },
+        { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "count", "destinationType": "number" }] } }
+      ],
       "type": "stat"
     },
     {
@@ -183,6 +198,11 @@
         }
       ],
       "title": "Fail2ban Bans 24h",
+      "transformations": [
+        { "id": "extractFields", "options": { "source": "labels", "format": "json" } },
+        { "id": "organize", "options": { "excludeByName": { "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true, "Time": true } } },
+        { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "count", "destinationType": "number" }] } }
+      ],
       "type": "stat"
     },
     {
@@ -222,6 +242,11 @@
         }
       ],
       "title": "UFW Blocks 24h",
+      "transformations": [
+        { "id": "extractFields", "options": { "source": "labels", "format": "json" } },
+        { "id": "organize", "options": { "excludeByName": { "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true, "Time": true } } },
+        { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "count", "destinationType": "number" }] } }
+      ],
       "type": "stat"
     },
     {
@@ -304,6 +329,11 @@
         }
       ],
       "title": "Attack Origins Map",
+      "transformations": [
+        { "id": "extractFields", "options": { "source": "labels", "format": "json" } },
+        { "id": "organize", "options": { "excludeByName": { "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true, "Time": true } } },
+        { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "count", "destinationType": "number" }] } }
+      ],
       "type": "geomap"
     },
     {
@@ -369,6 +399,11 @@
         }
       ],
       "title": "Top Countries by Source",
+      "transformations": [
+        { "id": "extractFields", "options": { "source": "labels", "format": "json" } },
+        { "id": "organize", "options": { "excludeByName": { "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true, "Time": true } } },
+        { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "count", "destinationType": "number" }] } }
+      ],
       "type": "barchart"
     },
     {
@@ -448,6 +483,11 @@
         }
       ],
       "title": "SSH Attempts",
+      "transformations": [
+        { "id": "extractFields", "options": { "source": "labels", "format": "json" } },
+        { "id": "organize", "options": { "excludeByName": { "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true } } },
+        { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "count", "destinationType": "number" }] } }
+      ],
       "type": "timeseries"
     },
     {
@@ -487,6 +527,11 @@
         }
       ],
       "title": "Top SSH Usernames",
+      "transformations": [
+        { "id": "extractFields", "options": { "source": "labels", "format": "json" } },
+        { "id": "organize", "options": { "excludeByName": { "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true, "Time": true } } },
+        { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "count", "destinationType": "number" }] } }
+      ],
       "type": "table"
     },
     {
@@ -541,6 +586,11 @@
         }
       ],
       "title": "Top Source IPs",
+      "transformations": [
+        { "id": "extractFields", "options": { "source": "labels", "format": "json" } },
+        { "id": "organize", "options": { "excludeByName": { "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true, "Time": true } } },
+        { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "count", "destinationType": "number" }] } }
+      ],
       "type": "table"
     },
     {
@@ -603,6 +653,11 @@
             }
           ],
           "title": "Sudo Events",
+          "transformations": [
+            { "id": "extractFields", "options": { "source": "labels", "format": "json" } },
+            { "id": "organize", "options": { "excludeByName": { "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true } } },
+            { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "count", "destinationType": "number" }] } }
+          ],
           "type": "timeseries"
         },
         {
@@ -640,6 +695,11 @@
             }
           ],
           "title": "By Target User",
+          "transformations": [
+            { "id": "extractFields", "options": { "source": "labels", "format": "json" } },
+            { "id": "organize", "options": { "excludeByName": { "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true, "Time": true } } },
+            { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "count", "destinationType": "number" }] } }
+          ],
           "type": "bargauge"
         },
         {
@@ -674,7 +734,6 @@
               "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
               "expr": "{job=\"sudo\",host=~\"$instance\"} | sort by (_time) desc | limit 30",
               "format": "table",
-              "queryType": "stats",
               "refId": "A"
             }
           ],
@@ -760,6 +819,11 @@
             }
           ],
           "title": "Fail2ban Activity",
+          "transformations": [
+            { "id": "extractFields", "options": { "source": "labels", "format": "json" } },
+            { "id": "organize", "options": { "excludeByName": { "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true } } },
+            { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "count", "destinationType": "number" }] } }
+          ],
           "type": "timeseries"
         },
         {
@@ -851,6 +915,11 @@
             }
           ],
           "title": "Top Banned IPs",
+          "transformations": [
+            { "id": "extractFields", "options": { "source": "labels", "format": "json" } },
+            { "id": "organize", "options": { "excludeByName": { "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true, "Time": true } } },
+            { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "count", "destinationType": "number" }] } }
+          ],
           "type": "table"
         }
       ],
@@ -917,6 +986,11 @@
             }
           ],
           "title": "UFW Blocks",
+          "transformations": [
+            { "id": "extractFields", "options": { "source": "labels", "format": "json" } },
+            { "id": "organize", "options": { "excludeByName": { "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true } } },
+            { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "count", "destinationType": "number" }] } }
+          ],
           "type": "timeseries"
         },
         {
@@ -956,6 +1030,11 @@
             }
           ],
           "title": "Top Blocked Ports",
+          "transformations": [
+            { "id": "extractFields", "options": { "source": "labels", "format": "json" } },
+            { "id": "organize", "options": { "excludeByName": { "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true, "Time": true } } },
+            { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "count", "destinationType": "number" }] } }
+          ],
           "type": "table"
         },
         {
@@ -1010,6 +1089,11 @@
             }
           ],
           "title": "Top Blocked IPs",
+          "transformations": [
+            { "id": "extractFields", "options": { "source": "labels", "format": "json" } },
+            { "id": "organize", "options": { "excludeByName": { "Line": true, "id": true, "labels": true, "streams": true, "streamId": true, "detected_level": true, "Time": true } } },
+            { "id": "convertFieldType", "options": { "conversions": [{ "targetField": "count", "destinationType": "number" }] } }
+          ],
           "type": "table"
         }
       ],

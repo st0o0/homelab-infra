@@ -1,49 +1,30 @@
 {
   "uid": "proxy",
-  "title": "Proxy Stack",
-  "schemaVersion": 40,
-  "editable": true,
-  "graphTooltip": 1,
-  "refresh": "30s",
-  "time": {
-    "from": "now-6h",
-    "to": "now"
-  },
-  "timezone": "browser",
-  "tags": [
-    "proxy",
-    "caddy",
-    "crowdsec",
-    "waf",
-    "honeypot"
-  ],
-  "variables": [
+  "annotations": [
     {
-      "kind": "QueryVariable",
+      "kind": "AnnotationQuery",
       "spec": {
-        "name": "instance",
-        "label": "Instance",
-        "datasource": {
-          "type": "victoriametrics-metrics-datasource",
-          "uid": "victoriametrics"
-        },
-        "query": "label_values(caddy_http_requests_total, instance)",
-        "multi": true,
-        "includeAll": true,
-        "allValue": ".*",
-        "current": {
-          "text": "All",
-          "value": "$__all"
-        },
-        "options": [],
-        "refresh": 2,
-        "sort": 1,
-        "hide": 0
+        "builtIn": true,
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "query": {
+          "datasource": {
+            "name": "-- Grafana --"
+          },
+          "group": "grafana",
+          "kind": "DataQuery",
+          "spec": {},
+          "version": "v0"
+        }
       }
     }
   ],
+  "cursorSync": "Crosshair",
+  "editable": true,
   "elements": {
-    "overview-tunnel-up": {
+    "panel-tunnel-up": {
       "kind": "Panel",
       "spec": {
         "title": "Tunnel Up",
@@ -116,18 +97,23 @@
                     "uid": "victoriametrics"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-metrics-datasource",
+                      "uid": "victoriametrics"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "bifrost_tunnel_up"
                   }
                 }
               }
             ],
-            "transformations": [],
-            "queryOptions": {}
+            "transformations": []
           }
         }
       }
     },
-    "overview-caddy-config": {
+    "panel-caddy-config": {
       "kind": "Panel",
       "spec": {
         "title": "Caddy Config",
@@ -200,18 +186,23 @@
                     "uid": "victoriametrics"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-metrics-datasource",
+                      "uid": "victoriametrics"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "caddy_config_last_reload_successful"
                   }
                 }
               }
             ],
-            "transformations": [],
-            "queryOptions": {}
+            "transformations": []
           }
         }
       }
     },
-    "overview-reconnects": {
+    "panel-reconnects": {
       "kind": "Panel",
       "spec": {
         "title": "Reconnects",
@@ -264,18 +255,23 @@
                     "uid": "victoriametrics"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-metrics-datasource",
+                      "uid": "victoriametrics"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "increase(bifrost_reconnects_total[$__range])"
                   }
                 }
               }
             ],
-            "transformations": [],
-            "queryOptions": {}
+            "transformations": []
           }
         }
       }
     },
-    "overview-resolves": {
+    "panel-resolves": {
       "kind": "Panel",
       "spec": {
         "title": "Resolves",
@@ -328,18 +324,23 @@
                     "uid": "victoriametrics"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-metrics-datasource",
+                      "uid": "victoriametrics"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "increase(bifrost_resolves_total[$__range])"
                   }
                 }
               }
             ],
-            "transformations": [],
-            "queryOptions": {}
+            "transformations": []
           }
         }
       }
     },
-    "overview-endpoint-changes": {
+    "panel-endpoint-changes": {
       "kind": "Panel",
       "spec": {
         "title": "Endpoint Changes",
@@ -392,18 +393,23 @@
                     "uid": "victoriametrics"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-metrics-datasource",
+                      "uid": "victoriametrics"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "increase(bifrost_endpoint_changes_total[$__range])"
                   }
                 }
               }
             ],
-            "transformations": [],
-            "queryOptions": {}
+            "transformations": []
           }
         }
       }
     },
-    "overview-req-rate": {
+    "panel-request-rate": {
       "kind": "Panel",
       "spec": {
         "title": "Request Rate",
@@ -456,18 +462,23 @@
                     "uid": "victoriametrics"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-metrics-datasource",
+                      "uid": "victoriametrics"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "sum(rate(caddy_http_requests_total{instance=~\"$instance\"}[5m]))"
                   }
                 }
               }
             ],
-            "transformations": [],
-            "queryOptions": {}
+            "transformations": []
           }
         }
       }
     },
-    "overview-error-rate": {
+    "panel-error-rate": {
       "kind": "Panel",
       "spec": {
         "title": "Error Rate",
@@ -528,18 +539,23 @@
                     "uid": "victoriametrics"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-metrics-datasource",
+                      "uid": "victoriametrics"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "sum(rate(caddy_http_request_errors_total{instance=~\"$instance\"}[5m])) / sum(rate(caddy_http_requests_total{instance=~\"$instance\"}[5m])) * 100"
                   }
                 }
               }
             ],
-            "transformations": [],
-            "queryOptions": {}
+            "transformations": []
           }
         }
       }
     },
-    "overview-avg-duration": {
+    "panel-avg-duration": {
       "kind": "Panel",
       "spec": {
         "title": "Avg Duration",
@@ -600,18 +616,23 @@
                     "uid": "victoriametrics"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-metrics-datasource",
+                      "uid": "victoriametrics"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "sum(rate(caddy_http_request_duration_seconds_sum{instance=~\"$instance\"}[5m])) / sum(rate(caddy_http_request_duration_seconds_count{instance=~\"$instance\"}[5m]))"
                   }
                 }
               }
             ],
-            "transformations": [],
-            "queryOptions": {}
+            "transformations": []
           }
         }
       }
     },
-    "overview-in-flight": {
+    "panel-in-flight": {
       "kind": "Panel",
       "spec": {
         "title": "In-Flight",
@@ -664,18 +685,23 @@
                     "uid": "victoriametrics"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-metrics-datasource",
+                      "uid": "victoriametrics"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "sum(caddy_http_requests_in_flight{instance=~\"$instance\"})"
                   }
                 }
               }
             ],
-            "transformations": [],
-            "queryOptions": {}
+            "transformations": []
           }
         }
       }
     },
-    "overview-active-decisions": {
+    "panel-active-decisions": {
       "kind": "Panel",
       "spec": {
         "title": "Active Decisions",
@@ -728,18 +754,23 @@
                     "uid": "victoriametrics"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-metrics-datasource",
+                      "uid": "victoriametrics"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "sum(cs_active_decisions{instance=~\"$instance\"})"
                   }
                 }
               }
             ],
-            "transformations": [],
-            "queryOptions": {}
+            "transformations": []
           }
         }
       }
     },
-    "overview-honeypot-traps": {
+    "panel-honeypot-traps-24h": {
       "kind": "Panel",
       "spec": {
         "title": "Honeypot Traps (24h)",
@@ -792,18 +823,23 @@
                     "uid": "victoriametrics"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-metrics-datasource",
+                      "uid": "victoriametrics"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "sum(increase(ran_connections_total{instance=~\"$instance\"}[24h]))"
                   }
                 }
               }
             ],
-            "transformations": [],
-            "queryOptions": {}
+            "transformations": []
           }
         }
       }
     },
-    "overview-total-reqs": {
+    "panel-total-requests-24h": {
       "kind": "Panel",
       "spec": {
         "title": "Total Requests (24h)",
@@ -856,18 +892,23 @@
                     "uid": "victoriametrics"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-metrics-datasource",
+                      "uid": "victoriametrics"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "sum(increase(caddy_http_requests_total{instance=~\"$instance\"}[24h]))"
                   }
                 }
               }
             ],
-            "transformations": [],
-            "queryOptions": {}
+            "transformations": []
           }
         }
       }
     },
-    "overview-peer-bandwidth": {
+    "panel-peer-bandwidth": {
       "kind": "Panel",
       "spec": {
         "title": "Peer Bandwidth",
@@ -922,6 +963,12 @@
                     "uid": "victoriametrics"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-metrics-datasource",
+                      "uid": "victoriametrics"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "rate(bifrost_peer_receive_bytes_total{instance=~\"$instance\"}[5m])",
                     "legendFormat": "Receive"
                   }
@@ -936,19 +983,24 @@
                     "uid": "victoriametrics"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-metrics-datasource",
+                      "uid": "victoriametrics"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "rate(bifrost_peer_transmit_bytes_total{instance=~\"$instance\"}[5m])",
                     "legendFormat": "Transmit"
                   }
                 }
               }
             ],
-            "transformations": [],
-            "queryOptions": {}
+            "transformations": []
           }
         }
       }
     },
-    "overview-handshake-age": {
+    "panel-peer-handshake-age": {
       "kind": "Panel",
       "spec": {
         "title": "Peer Handshake Age",
@@ -1003,18 +1055,23 @@
                     "uid": "victoriametrics"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-metrics-datasource",
+                      "uid": "victoriametrics"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "bifrost_peer_last_handshake_age_seconds{instance=~\"$instance\"}"
                   }
                 }
               }
             ],
-            "transformations": [],
-            "queryOptions": {}
+            "transformations": []
           }
         }
       }
     },
-    "traffic-stat-total": {
+    "panel-total-requests": {
       "kind": "Panel",
       "spec": {
         "title": "Total Requests",
@@ -1067,18 +1124,23 @@
                     "uid": "victoriametrics"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-metrics-datasource",
+                      "uid": "victoriametrics"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "sum(rate(caddy_http_requests_total{instance=~\"$instance\"}[5m]))"
                   }
                 }
               }
             ],
-            "transformations": [],
-            "queryOptions": {}
+            "transformations": []
           }
         }
       }
     },
-    "traffic-stat-served": {
+    "panel-served-proxy": {
       "kind": "Panel",
       "spec": {
         "title": "Served (Proxy)",
@@ -1131,18 +1193,23 @@
                     "uid": "victoriametrics"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-metrics-datasource",
+                      "uid": "victoriametrics"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "sum(rate(caddy_http_requests_total{instance=~\"$instance\",server=\"proxy\"}[5m]))"
                   }
                 }
               }
             ],
-            "transformations": [],
-            "queryOptions": {}
+            "transformations": []
           }
         }
       }
     },
-    "traffic-stat-honeypot": {
+    "panel-honeypot": {
       "kind": "Panel",
       "spec": {
         "title": "Honeypot",
@@ -1195,18 +1262,23 @@
                     "uid": "victoriametrics"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-metrics-datasource",
+                      "uid": "victoriametrics"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "sum(rate(caddy_http_requests_total{instance=~\"$instance\",server=\"honeypot\"}[5m]))"
                   }
                 }
               }
             ],
-            "transformations": [],
-            "queryOptions": {}
+            "transformations": []
           }
         }
       }
     },
-    "traffic-request-flow": {
+    "panel-request-flow": {
       "kind": "Panel",
       "spec": {
         "title": "Request Flow",
@@ -1264,19 +1336,24 @@
                     "uid": "victoriametrics"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-metrics-datasource",
+                      "uid": "victoriametrics"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "sum by (server) (rate(caddy_http_requests_total{instance=~\"$instance\"}[5m]))",
                     "legendFormat": "{{server}}"
                   }
                 }
               }
             ],
-            "transformations": [],
-            "queryOptions": {}
+            "transformations": []
           }
         }
       }
     },
-    "traffic-per-domain": {
+    "panel-requests-per-domain": {
       "kind": "Panel",
       "spec": {
         "title": "Requests per Domain",
@@ -1331,19 +1408,24 @@
                     "uid": "victoriametrics"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-metrics-datasource",
+                      "uid": "victoriametrics"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "sum by (host) (rate(caddy_http_requests_total{instance=~\"$instance\",server=\"proxy\"}[5m]))",
                     "legendFormat": "{{host}}"
                   }
                 }
               }
             ],
-            "transformations": [],
-            "queryOptions": {}
+            "transformations": []
           }
         }
       }
     },
-    "traffic-waf-analysis": {
+    "panel-waf-analysis": {
       "kind": "Panel",
       "spec": {
         "title": "WAF Analysis",
@@ -1398,18 +1480,23 @@
                     "uid": "victoriametrics"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-metrics-datasource",
+                      "uid": "victoriametrics"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "rate(cs_appsec_reqs_total{instance=~\"$instance\"}[5m])"
                   }
                 }
               }
             ],
-            "transformations": [],
-            "queryOptions": {}
+            "transformations": []
           }
         }
       }
     },
-    "traffic-latency": {
+    "panel-latency": {
       "kind": "Panel",
       "spec": {
         "title": "Latency",
@@ -1464,6 +1551,12 @@
                     "uid": "victoriametrics"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-metrics-datasource",
+                      "uid": "victoriametrics"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "histogram_quantile(0.5, sum by (le,server) (rate(caddy_http_request_duration_seconds_bucket{instance=~\"$instance\"}[5m])))",
                     "legendFormat": "p50 {{server}}"
                   }
@@ -1478,19 +1571,24 @@
                     "uid": "victoriametrics"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-metrics-datasource",
+                      "uid": "victoriametrics"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "histogram_quantile(0.95, sum by (le,server) (rate(caddy_http_request_duration_seconds_bucket{instance=~\"$instance\"}[5m])))",
                     "legendFormat": "p95 {{server}}"
                   }
                 }
               }
             ],
-            "transformations": [],
-            "queryOptions": {}
+            "transformations": []
           }
         }
       }
     },
-    "traffic-errors": {
+    "panel-errors": {
       "kind": "Panel",
       "spec": {
         "title": "Errors",
@@ -1545,19 +1643,24 @@
                     "uid": "victoriametrics"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-metrics-datasource",
+                      "uid": "victoriametrics"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "sum by (server) (rate(caddy_http_request_errors_total{instance=~\"$instance\"}[5m]))",
                     "legendFormat": "{{server}}"
                   }
                 }
               }
             ],
-            "transformations": [],
-            "queryOptions": {}
+            "transformations": []
           }
         }
       }
     },
-    "traffic-top-paths": {
+    "panel-top-paths": {
       "kind": "Panel",
       "spec": {
         "title": "Top Paths",
@@ -1598,19 +1701,57 @@
                     "uid": "victorialogs"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-logs-datasource",
+                      "uid": "victorialogs"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "{job=\"caddy\",host=~\"$instance\"} | stats by (uri) count() as count | sort by (count) desc | limit 20",
                     "queryType": "stats"
                   }
                 }
               }
             ],
-            "transformations": [],
-            "queryOptions": {}
+            "transformations": [
+              {
+                "id": "extractFields",
+                "options": {
+                  "source": "labels",
+                  "format": "json"
+                }
+              },
+              {
+                "id": "organize",
+                "options": {
+                  "excludeByName": {
+                    "Line": true,
+                    "id": true,
+                    "labels": true,
+                    "streams": true,
+                    "streamId": true,
+                    "detected_level": true,
+                    "Time": true
+                  }
+                }
+              },
+              {
+                "id": "convertFieldType",
+                "options": {
+                  "conversions": [
+                    {
+                      "targetField": "count",
+                      "destinationType": "number"
+                    }
+                  ]
+                }
+              }
+            ]
           }
         }
       }
     },
-    "traffic-top-agents": {
+    "panel-top-user-agents": {
       "kind": "Panel",
       "spec": {
         "title": "Top User Agents",
@@ -1651,19 +1792,57 @@
                     "uid": "victorialogs"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-logs-datasource",
+                      "uid": "victorialogs"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "{job=\"caddy\",host=~\"$instance\"} | stats by (user_agent) count() as count | sort by (count) desc | limit 20",
                     "queryType": "stats"
                   }
                 }
               }
             ],
-            "transformations": [],
-            "queryOptions": {}
+            "transformations": [
+              {
+                "id": "extractFields",
+                "options": {
+                  "source": "labels",
+                  "format": "json"
+                }
+              },
+              {
+                "id": "organize",
+                "options": {
+                  "excludeByName": {
+                    "Line": true,
+                    "id": true,
+                    "labels": true,
+                    "streams": true,
+                    "streamId": true,
+                    "detected_level": true,
+                    "Time": true
+                  }
+                }
+              },
+              {
+                "id": "convertFieldType",
+                "options": {
+                  "conversions": [
+                    {
+                      "targetField": "count",
+                      "destinationType": "number"
+                    }
+                  ]
+                }
+              }
+            ]
           }
         }
       }
     },
-    "traffic-status-dist": {
+    "panel-status-distribution": {
       "kind": "Panel",
       "spec": {
         "title": "Status Distribution",
@@ -1711,19 +1890,57 @@
                     "uid": "victorialogs"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-logs-datasource",
+                      "uid": "victorialogs"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "{job=\"caddy\",host=~\"$instance\"} status:!=\"\" | stats by (status) count() as count",
                     "queryType": "stats"
                   }
                 }
               }
             ],
-            "transformations": [],
-            "queryOptions": {}
+            "transformations": [
+              {
+                "id": "extractFields",
+                "options": {
+                  "source": "labels",
+                  "format": "json"
+                }
+              },
+              {
+                "id": "organize",
+                "options": {
+                  "excludeByName": {
+                    "Line": true,
+                    "id": true,
+                    "labels": true,
+                    "streams": true,
+                    "streamId": true,
+                    "detected_level": true,
+                    "Time": true
+                  }
+                }
+              },
+              {
+                "id": "convertFieldType",
+                "options": {
+                  "conversions": [
+                    {
+                      "targetField": "count",
+                      "destinationType": "number"
+                    }
+                  ]
+                }
+              }
+            ]
           }
         }
       }
     },
-    "traffic-slowest": {
+    "panel-slowest-requests": {
       "kind": "Panel",
       "spec": {
         "title": "Slowest Requests",
@@ -1764,19 +1981,57 @@
                     "uid": "victorialogs"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-logs-datasource",
+                      "uid": "victorialogs"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "{job=\"caddy\",host=~\"$instance\"} | stats by (domain, uri, method) avg(duration) as avg_duration | sort by (avg_duration) desc | limit 20",
                     "queryType": "stats"
                   }
                 }
               }
             ],
-            "transformations": [],
-            "queryOptions": {}
+            "transformations": [
+              {
+                "id": "extractFields",
+                "options": {
+                  "source": "labels",
+                  "format": "json"
+                }
+              },
+              {
+                "id": "organize",
+                "options": {
+                  "excludeByName": {
+                    "Line": true,
+                    "id": true,
+                    "labels": true,
+                    "streams": true,
+                    "streamId": true,
+                    "detected_level": true,
+                    "Time": true
+                  }
+                }
+              },
+              {
+                "id": "convertFieldType",
+                "options": {
+                  "conversions": [
+                    {
+                      "targetField": "avg_duration",
+                      "destinationType": "number"
+                    }
+                  ]
+                }
+              }
+            ]
           }
         }
       }
     },
-    "security-waf-timeline": {
+    "panel-waf-events-timeline": {
       "kind": "Panel",
       "spec": {
         "title": "WAF Events Timeline",
@@ -1831,19 +2086,56 @@
                     "uid": "victorialogs"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-logs-datasource",
+                      "uid": "victorialogs"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "{job=\"appsec\",host=~\"$instance\"} | stats by (_time:5m) count() as count",
                     "queryType": "statsRange"
                   }
                 }
               }
             ],
-            "transformations": [],
-            "queryOptions": {}
+            "transformations": [
+              {
+                "id": "extractFields",
+                "options": {
+                  "source": "labels",
+                  "format": "json"
+                }
+              },
+              {
+                "id": "organize",
+                "options": {
+                  "excludeByName": {
+                    "Line": true,
+                    "id": true,
+                    "labels": true,
+                    "streams": true,
+                    "streamId": true,
+                    "detected_level": true
+                  }
+                }
+              },
+              {
+                "id": "convertFieldType",
+                "options": {
+                  "conversions": [
+                    {
+                      "targetField": "count",
+                      "destinationType": "number"
+                    }
+                  ]
+                }
+              }
+            ]
           }
         }
       }
     },
-    "security-top-rules": {
+    "panel-top-rules": {
       "kind": "Panel",
       "spec": {
         "title": "Top Rules",
@@ -1884,6 +2176,12 @@
                     "uid": "victoriametrics"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-metrics-datasource",
+                      "uid": "victoriametrics"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "topk(20, cs_appsec_rule_hits{instance=~\"$instance\"})",
                     "legendFormat": "{{rule_name}}",
                     "instant": true,
@@ -1892,13 +2190,12 @@
                 }
               }
             ],
-            "transformations": [],
-            "queryOptions": {}
+            "transformations": []
           }
         }
       }
     },
-    "security-by-method": {
+    "panel-by-method": {
       "kind": "Panel",
       "spec": {
         "title": "By Method",
@@ -1946,19 +2243,57 @@
                     "uid": "victorialogs"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-logs-datasource",
+                      "uid": "victorialogs"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "{job=\"appsec\",host=~\"$instance\"} method:!=\"\" | stats by (method) count() as count",
                     "queryType": "stats"
                   }
                 }
               }
             ],
-            "transformations": [],
-            "queryOptions": {}
+            "transformations": [
+              {
+                "id": "extractFields",
+                "options": {
+                  "source": "labels",
+                  "format": "json"
+                }
+              },
+              {
+                "id": "organize",
+                "options": {
+                  "excludeByName": {
+                    "Line": true,
+                    "id": true,
+                    "labels": true,
+                    "streams": true,
+                    "streamId": true,
+                    "detected_level": true,
+                    "Time": true
+                  }
+                }
+              },
+              {
+                "id": "convertFieldType",
+                "options": {
+                  "conversions": [
+                    {
+                      "targetField": "count",
+                      "destinationType": "number"
+                    }
+                  ]
+                }
+              }
+            ]
           }
         }
       }
     },
-    "security-by-scenario": {
+    "panel-by-scenario": {
       "kind": "Panel",
       "spec": {
         "title": "By Scenario",
@@ -2006,19 +2341,57 @@
                     "uid": "victorialogs"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-logs-datasource",
+                      "uid": "victorialogs"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "{job=\"appsec\",host=~\"$instance\"} | stats by (scenario) count() as count",
                     "queryType": "stats"
                   }
                 }
               }
             ],
-            "transformations": [],
-            "queryOptions": {}
+            "transformations": [
+              {
+                "id": "extractFields",
+                "options": {
+                  "source": "labels",
+                  "format": "json"
+                }
+              },
+              {
+                "id": "organize",
+                "options": {
+                  "excludeByName": {
+                    "Line": true,
+                    "id": true,
+                    "labels": true,
+                    "streams": true,
+                    "streamId": true,
+                    "detected_level": true,
+                    "Time": true
+                  }
+                }
+              },
+              {
+                "id": "convertFieldType",
+                "options": {
+                  "conversions": [
+                    {
+                      "targetField": "count",
+                      "destinationType": "number"
+                    }
+                  ]
+                }
+              }
+            ]
           }
         }
       }
     },
-    "security-top-paths": {
+    "panel-top-targeted-paths": {
       "kind": "Panel",
       "spec": {
         "title": "Top Targeted Paths",
@@ -2059,19 +2432,57 @@
                     "uid": "victorialogs"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-logs-datasource",
+                      "uid": "victorialogs"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "{job=\"appsec\",host=~\"$instance\"} target_uri:!=\"\" | stats by (target_uri) count() as count | sort by (count) desc | limit 20",
                     "queryType": "stats"
                   }
                 }
               }
             ],
-            "transformations": [],
-            "queryOptions": {}
+            "transformations": [
+              {
+                "id": "extractFields",
+                "options": {
+                  "source": "labels",
+                  "format": "json"
+                }
+              },
+              {
+                "id": "organize",
+                "options": {
+                  "excludeByName": {
+                    "Line": true,
+                    "id": true,
+                    "labels": true,
+                    "streams": true,
+                    "streamId": true,
+                    "detected_level": true,
+                    "Time": true
+                  }
+                }
+              },
+              {
+                "id": "convertFieldType",
+                "options": {
+                  "conversions": [
+                    {
+                      "targetField": "count",
+                      "destinationType": "number"
+                    }
+                  ]
+                }
+              }
+            ]
           }
         }
       }
     },
-    "security-top-ips": {
+    "panel-top-ips": {
       "kind": "Panel",
       "spec": {
         "title": "Top IPs",
@@ -2112,19 +2523,57 @@
                     "uid": "victorialogs"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-logs-datasource",
+                      "uid": "victorialogs"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "{job=\"appsec\",host=~\"$instance\"} | stats by (client_ip, geoip_country_name) count() as count | sort by (count) desc | limit 20",
                     "queryType": "stats"
                   }
                 }
               }
             ],
-            "transformations": [],
-            "queryOptions": {}
+            "transformations": [
+              {
+                "id": "extractFields",
+                "options": {
+                  "source": "labels",
+                  "format": "json"
+                }
+              },
+              {
+                "id": "organize",
+                "options": {
+                  "excludeByName": {
+                    "Line": true,
+                    "id": true,
+                    "labels": true,
+                    "streams": true,
+                    "streamId": true,
+                    "detected_level": true,
+                    "Time": true
+                  }
+                }
+              },
+              {
+                "id": "convertFieldType",
+                "options": {
+                  "conversions": [
+                    {
+                      "targetField": "count",
+                      "destinationType": "number"
+                    }
+                  ]
+                }
+              }
+            ]
           }
         }
       }
     },
-    "security-top-hosts": {
+    "panel-top-targeted-hosts": {
       "kind": "Panel",
       "spec": {
         "title": "Top Targeted Hosts",
@@ -2165,19 +2614,57 @@
                     "uid": "victorialogs"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-logs-datasource",
+                      "uid": "victorialogs"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "{job=\"appsec\",host=~\"$instance\"} | stats by (target_host) count() as count | sort by (count) desc",
                     "queryType": "stats"
                   }
                 }
               }
             ],
-            "transformations": [],
-            "queryOptions": {}
+            "transformations": [
+              {
+                "id": "extractFields",
+                "options": {
+                  "source": "labels",
+                  "format": "json"
+                }
+              },
+              {
+                "id": "organize",
+                "options": {
+                  "excludeByName": {
+                    "Line": true,
+                    "id": true,
+                    "labels": true,
+                    "streams": true,
+                    "streamId": true,
+                    "detected_level": true,
+                    "Time": true
+                  }
+                }
+              },
+              {
+                "id": "convertFieldType",
+                "options": {
+                  "conversions": [
+                    {
+                      "targetField": "count",
+                      "destinationType": "number"
+                    }
+                  ]
+                }
+              }
+            ]
           }
         }
       }
     },
-    "security-cs-active-decisions": {
+    "panel-active-decisions-2": {
       "kind": "Panel",
       "spec": {
         "title": "Active Decisions",
@@ -2232,19 +2719,24 @@
                     "uid": "victoriametrics"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-metrics-datasource",
+                      "uid": "victoriametrics"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "cs_active_decisions{instance=~\"$instance\"}",
                     "legendFormat": "{{reason}}"
                   }
                 }
               }
             ],
-            "transformations": [],
-            "queryOptions": {}
+            "transformations": []
           }
         }
       }
     },
-    "security-cs-bouncer": {
+    "panel-bouncer-requests": {
       "kind": "Panel",
       "spec": {
         "title": "Bouncer Requests",
@@ -2299,18 +2791,23 @@
                     "uid": "victoriametrics"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-metrics-datasource",
+                      "uid": "victoriametrics"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "rate(cs_bouncer_requests_total{instance=~\"$instance\"}[5m])"
                   }
                 }
               }
             ],
-            "transformations": [],
-            "queryOptions": {}
+            "transformations": []
           }
         }
       }
     },
-    "honeypot-stat-active": {
+    "panel-active-sessions": {
       "kind": "Panel",
       "spec": {
         "title": "Active Sessions",
@@ -2363,18 +2860,23 @@
                     "uid": "victoriametrics"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-metrics-datasource",
+                      "uid": "victoriametrics"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "sum(ran_active_sessions{instance=~\"$instance\"})"
                   }
                 }
               }
             ],
-            "transformations": [],
-            "queryOptions": {}
+            "transformations": []
           }
         }
       }
     },
-    "honeypot-stat-connections": {
+    "panel-connections-24h": {
       "kind": "Panel",
       "spec": {
         "title": "Connections (24h)",
@@ -2427,18 +2929,23 @@
                     "uid": "victoriametrics"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-metrics-datasource",
+                      "uid": "victoriametrics"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "sum(increase(ran_connections_total{instance=~\"$instance\"}[24h]))"
                   }
                 }
               }
             ],
-            "transformations": [],
-            "queryOptions": {}
+            "transformations": []
           }
         }
       }
     },
-    "honeypot-stat-credentials": {
+    "panel-credentials-captured-24h": {
       "kind": "Panel",
       "spec": {
         "title": "Credentials Captured (24h)",
@@ -2491,18 +2998,23 @@
                     "uid": "victoriametrics"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-metrics-datasource",
+                      "uid": "victoriametrics"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "sum(increase(ran_credentials_captured_total{instance=~\"$instance\"}[24h]))"
                   }
                 }
               }
             ],
-            "transformations": [],
-            "queryOptions": {}
+            "transformations": []
           }
         }
       }
     },
-    "honeypot-connections-proto": {
+    "panel-connections-by-protocol": {
       "kind": "Panel",
       "spec": {
         "title": "Connections by Protocol",
@@ -2557,19 +3069,24 @@
                     "uid": "victoriametrics"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-metrics-datasource",
+                      "uid": "victoriametrics"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "rate(ran_connections_total{instance=~\"$instance\"}[5m])",
                     "legendFormat": "{{protocol}}"
                   }
                 }
               }
             ],
-            "transformations": [],
-            "queryOptions": {}
+            "transformations": []
           }
         }
       }
     },
-    "honeypot-credentials-proto": {
+    "panel-credentials-by-protocol": {
       "kind": "Panel",
       "spec": {
         "title": "Credentials by Protocol",
@@ -2624,19 +3141,24 @@
                     "uid": "victoriametrics"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-metrics-datasource",
+                      "uid": "victoriametrics"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "rate(ran_credentials_captured_total{instance=~\"$instance\"}[5m])",
                     "legendFormat": "{{protocol}}"
                   }
                 }
               }
             ],
-            "transformations": [],
-            "queryOptions": {}
+            "transformations": []
           }
         }
       }
     },
-    "honeypot-duration-proto": {
+    "panel-session-duration-by-protocol": {
       "kind": "Panel",
       "spec": {
         "title": "Session Duration by Protocol",
@@ -2691,6 +3213,12 @@
                     "uid": "victoriametrics"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-metrics-datasource",
+                      "uid": "victoriametrics"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "histogram_quantile(0.5, sum by (le,protocol) (rate(ran_session_duration_seconds_bucket{instance=~\"$instance\"}[5m])))",
                     "legendFormat": "p50 {{protocol}}"
                   }
@@ -2705,19 +3233,24 @@
                     "uid": "victoriametrics"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-metrics-datasource",
+                      "uid": "victoriametrics"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "histogram_quantile(0.95, sum by (le,protocol) (rate(ran_session_duration_seconds_bucket{instance=~\"$instance\"}[5m])))",
                     "legendFormat": "p95 {{protocol}}"
                   }
                 }
               }
             ],
-            "transformations": [],
-            "queryOptions": {}
+            "transformations": []
           }
         }
       }
     },
-    "honeypot-active-proto": {
+    "panel-active-sessions-by-protocol": {
       "kind": "Panel",
       "spec": {
         "title": "Active Sessions by Protocol",
@@ -2772,19 +3305,24 @@
                     "uid": "victoriametrics"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-metrics-datasource",
+                      "uid": "victoriametrics"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "ran_active_sessions{instance=~\"$instance\"}",
                     "legendFormat": "{{protocol}}"
                   }
                 }
               }
             ],
-            "transformations": [],
-            "queryOptions": {}
+            "transformations": []
           }
         }
       }
     },
-    "honeypot-top-domains": {
+    "panel-top-domains": {
       "kind": "Panel",
       "spec": {
         "title": "Top Domains",
@@ -2825,19 +3363,57 @@
                     "uid": "victorialogs"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-logs-datasource",
+                      "uid": "victorialogs"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "{job=\"honeypot\",host=~\"$instance\"} | stats by (domain) count() as count | sort by (count) desc | limit 20",
                     "queryType": "stats"
                   }
                 }
               }
             ],
-            "transformations": [],
-            "queryOptions": {}
+            "transformations": [
+              {
+                "id": "extractFields",
+                "options": {
+                  "source": "labels",
+                  "format": "json"
+                }
+              },
+              {
+                "id": "organize",
+                "options": {
+                  "excludeByName": {
+                    "Line": true,
+                    "id": true,
+                    "labels": true,
+                    "streams": true,
+                    "streamId": true,
+                    "detected_level": true,
+                    "Time": true
+                  }
+                }
+              },
+              {
+                "id": "convertFieldType",
+                "options": {
+                  "conversions": [
+                    {
+                      "targetField": "count",
+                      "destinationType": "number"
+                    }
+                  ]
+                }
+              }
+            ]
           }
         }
       }
     },
-    "honeypot-top-paths": {
+    "panel-top-paths-2": {
       "kind": "Panel",
       "spec": {
         "title": "Top Paths",
@@ -2878,19 +3454,57 @@
                     "uid": "victorialogs"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-logs-datasource",
+                      "uid": "victorialogs"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "{job=\"honeypot\",host=~\"$instance\"} | stats by (uri) count() as count | sort by (count) desc | limit 20",
                     "queryType": "stats"
                   }
                 }
               }
             ],
-            "transformations": [],
-            "queryOptions": {}
+            "transformations": [
+              {
+                "id": "extractFields",
+                "options": {
+                  "source": "labels",
+                  "format": "json"
+                }
+              },
+              {
+                "id": "organize",
+                "options": {
+                  "excludeByName": {
+                    "Line": true,
+                    "id": true,
+                    "labels": true,
+                    "streams": true,
+                    "streamId": true,
+                    "detected_level": true,
+                    "Time": true
+                  }
+                }
+              },
+              {
+                "id": "convertFieldType",
+                "options": {
+                  "conversions": [
+                    {
+                      "targetField": "count",
+                      "destinationType": "number"
+                    }
+                  ]
+                }
+              }
+            ]
           }
         }
       }
     },
-    "honeypot-top-ips": {
+    "panel-top-ips-2": {
       "kind": "Panel",
       "spec": {
         "title": "Top IPs",
@@ -2931,19 +3545,57 @@
                     "uid": "victorialogs"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-logs-datasource",
+                      "uid": "victorialogs"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "{job=\"honeypot\",host=~\"$instance\"} | stats by (client_ip, geoip_country_name, geoip_city_name) count() as count | sort by (count) desc | limit 20",
                     "queryType": "stats"
                   }
                 }
               }
             ],
-            "transformations": [],
-            "queryOptions": {}
+            "transformations": [
+              {
+                "id": "extractFields",
+                "options": {
+                  "source": "labels",
+                  "format": "json"
+                }
+              },
+              {
+                "id": "organize",
+                "options": {
+                  "excludeByName": {
+                    "Line": true,
+                    "id": true,
+                    "labels": true,
+                    "streams": true,
+                    "streamId": true,
+                    "detected_level": true,
+                    "Time": true
+                  }
+                }
+              },
+              {
+                "id": "convertFieldType",
+                "options": {
+                  "conversions": [
+                    {
+                      "targetField": "count",
+                      "destinationType": "number"
+                    }
+                  ]
+                }
+              }
+            ]
           }
         }
       }
     },
-    "honeypot-status-dist": {
+    "panel-status-distribution-2": {
       "kind": "Panel",
       "spec": {
         "title": "Status Distribution",
@@ -2991,19 +3643,57 @@
                     "uid": "victorialogs"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-logs-datasource",
+                      "uid": "victorialogs"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "{job=\"honeypot\",host=~\"$instance\"} status:!=\"\" | stats by (status) count() as count",
                     "queryType": "stats"
                   }
                 }
               }
             ],
-            "transformations": [],
-            "queryOptions": {}
+            "transformations": [
+              {
+                "id": "extractFields",
+                "options": {
+                  "source": "labels",
+                  "format": "json"
+                }
+              },
+              {
+                "id": "organize",
+                "options": {
+                  "excludeByName": {
+                    "Line": true,
+                    "id": true,
+                    "labels": true,
+                    "streams": true,
+                    "streamId": true,
+                    "detected_level": true,
+                    "Time": true
+                  }
+                }
+              },
+              {
+                "id": "convertFieldType",
+                "options": {
+                  "conversions": [
+                    {
+                      "targetField": "count",
+                      "destinationType": "number"
+                    }
+                  ]
+                }
+              }
+            ]
           }
         }
       }
     },
-    "logs-caddy": {
+    "panel-caddy-logs": {
       "kind": "Panel",
       "spec": {
         "title": "Caddy Logs",
@@ -3040,18 +3730,23 @@
                     "uid": "victorialogs"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-logs-datasource",
+                      "uid": "victorialogs"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "{job=\"caddy\",host=~\"$instance\"}"
                   }
                 }
               }
             ],
-            "transformations": [],
-            "queryOptions": {}
+            "transformations": []
           }
         }
       }
     },
-    "logs-appsec": {
+    "panel-appsec-logs": {
       "kind": "Panel",
       "spec": {
         "title": "AppSec Logs",
@@ -3088,18 +3783,23 @@
                     "uid": "victorialogs"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-logs-datasource",
+                      "uid": "victorialogs"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "{job=\"appsec\",host=~\"$instance\"}"
                   }
                 }
               }
             ],
-            "transformations": [],
-            "queryOptions": {}
+            "transformations": []
           }
         }
       }
     },
-    "logs-crowdsec": {
+    "panel-crowdsec-logs": {
       "kind": "Panel",
       "spec": {
         "title": "CrowdSec Logs",
@@ -3136,18 +3836,23 @@
                     "uid": "victorialogs"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-logs-datasource",
+                      "uid": "victorialogs"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "{job=\"crowdsec\",host=~\"$instance\"}"
                   }
                 }
               }
             ],
-            "transformations": [],
-            "queryOptions": {}
+            "transformations": []
           }
         }
       }
     },
-    "logs-honeypot": {
+    "panel-honeypot-logs": {
       "kind": "Panel",
       "spec": {
         "title": "Honeypot Logs",
@@ -3184,13 +3889,18 @@
                     "uid": "victorialogs"
                   },
                   "query": {
+                    "datasource": {
+                      "type": "victoriametrics-logs-datasource",
+                      "uid": "victorialogs"
+                    },
+                    "kind": "DataQuery",
+                    "spec": {},
                     "expr": "{job=\"honeypot\",host=~\"$instance\"}"
                   }
                 }
               }
             ],
-            "transformations": [],
-            "queryOptions": {}
+            "transformations": []
           }
         }
       }
@@ -3203,7 +3913,7 @@
         {
           "kind": "TabsLayoutTab",
           "spec": {
-            "title": "Overview",
+            "title": "📊 Overview",
             "layout": {
               "kind": "GridLayout",
               "spec": {
@@ -3212,12 +3922,12 @@
                     "kind": "GridLayoutItem",
                     "spec": {
                       "x": 0,
-                      "y": 0,
+                      "y": 1,
                       "width": 3,
                       "height": 4,
                       "element": {
                         "kind": "ElementReference",
-                        "name": "overview-tunnel-up"
+                        "name": "panel-tunnel-up"
                       }
                     }
                   },
@@ -3225,12 +3935,12 @@
                     "kind": "GridLayoutItem",
                     "spec": {
                       "x": 3,
-                      "y": 0,
+                      "y": 1,
                       "width": 3,
                       "height": 4,
                       "element": {
                         "kind": "ElementReference",
-                        "name": "overview-caddy-config"
+                        "name": "panel-caddy-config"
                       }
                     }
                   },
@@ -3238,12 +3948,12 @@
                     "kind": "GridLayoutItem",
                     "spec": {
                       "x": 6,
-                      "y": 0,
+                      "y": 1,
                       "width": 3,
                       "height": 4,
                       "element": {
                         "kind": "ElementReference",
-                        "name": "overview-reconnects"
+                        "name": "panel-reconnects"
                       }
                     }
                   },
@@ -3251,12 +3961,12 @@
                     "kind": "GridLayoutItem",
                     "spec": {
                       "x": 9,
-                      "y": 0,
+                      "y": 1,
                       "width": 3,
                       "height": 4,
                       "element": {
                         "kind": "ElementReference",
-                        "name": "overview-resolves"
+                        "name": "panel-resolves"
                       }
                     }
                   },
@@ -3264,12 +3974,12 @@
                     "kind": "GridLayoutItem",
                     "spec": {
                       "x": 12,
-                      "y": 0,
+                      "y": 1,
                       "width": 3,
                       "height": 4,
                       "element": {
                         "kind": "ElementReference",
-                        "name": "overview-endpoint-changes"
+                        "name": "panel-endpoint-changes"
                       }
                     }
                   },
@@ -3277,12 +3987,12 @@
                     "kind": "GridLayoutItem",
                     "spec": {
                       "x": 0,
-                      "y": 4,
+                      "y": 5,
                       "width": 3,
                       "height": 4,
                       "element": {
                         "kind": "ElementReference",
-                        "name": "overview-req-rate"
+                        "name": "panel-request-rate"
                       }
                     }
                   },
@@ -3290,12 +4000,12 @@
                     "kind": "GridLayoutItem",
                     "spec": {
                       "x": 3,
-                      "y": 4,
+                      "y": 5,
                       "width": 3,
                       "height": 4,
                       "element": {
                         "kind": "ElementReference",
-                        "name": "overview-error-rate"
+                        "name": "panel-error-rate"
                       }
                     }
                   },
@@ -3303,12 +4013,12 @@
                     "kind": "GridLayoutItem",
                     "spec": {
                       "x": 6,
-                      "y": 4,
+                      "y": 5,
                       "width": 3,
                       "height": 4,
                       "element": {
                         "kind": "ElementReference",
-                        "name": "overview-avg-duration"
+                        "name": "panel-avg-duration"
                       }
                     }
                   },
@@ -3316,12 +4026,12 @@
                     "kind": "GridLayoutItem",
                     "spec": {
                       "x": 9,
-                      "y": 4,
+                      "y": 5,
                       "width": 3,
                       "height": 4,
                       "element": {
                         "kind": "ElementReference",
-                        "name": "overview-in-flight"
+                        "name": "panel-in-flight"
                       }
                     }
                   },
@@ -3329,12 +4039,12 @@
                     "kind": "GridLayoutItem",
                     "spec": {
                       "x": 12,
-                      "y": 4,
+                      "y": 5,
                       "width": 3,
                       "height": 4,
                       "element": {
                         "kind": "ElementReference",
-                        "name": "overview-active-decisions"
+                        "name": "panel-active-decisions"
                       }
                     }
                   },
@@ -3342,12 +4052,12 @@
                     "kind": "GridLayoutItem",
                     "spec": {
                       "x": 15,
-                      "y": 4,
+                      "y": 5,
                       "width": 3,
                       "height": 4,
                       "element": {
                         "kind": "ElementReference",
-                        "name": "overview-honeypot-traps"
+                        "name": "panel-honeypot-traps-24h"
                       }
                     }
                   },
@@ -3355,12 +4065,12 @@
                     "kind": "GridLayoutItem",
                     "spec": {
                       "x": 18,
-                      "y": 4,
+                      "y": 5,
                       "width": 3,
                       "height": 4,
                       "element": {
                         "kind": "ElementReference",
-                        "name": "overview-total-reqs"
+                        "name": "panel-total-requests-24h"
                       }
                     }
                   },
@@ -3368,12 +4078,12 @@
                     "kind": "GridLayoutItem",
                     "spec": {
                       "x": 0,
-                      "y": 8,
+                      "y": 9,
                       "width": 12,
                       "height": 8,
                       "element": {
                         "kind": "ElementReference",
-                        "name": "overview-peer-bandwidth"
+                        "name": "panel-peer-bandwidth"
                       }
                     }
                   },
@@ -3381,12 +4091,12 @@
                     "kind": "GridLayoutItem",
                     "spec": {
                       "x": 12,
-                      "y": 8,
+                      "y": 9,
                       "width": 12,
                       "height": 8,
                       "element": {
                         "kind": "ElementReference",
-                        "name": "overview-handshake-age"
+                        "name": "panel-peer-handshake-age"
                       }
                     }
                   }
@@ -3398,7 +4108,7 @@
         {
           "kind": "TabsLayoutTab",
           "spec": {
-            "title": "Traffic",
+            "title": "🌐 Traffic",
             "layout": {
               "kind": "GridLayout",
               "spec": {
@@ -3412,7 +4122,7 @@
                       "height": 4,
                       "element": {
                         "kind": "ElementReference",
-                        "name": "traffic-stat-total"
+                        "name": "panel-total-requests"
                       }
                     }
                   },
@@ -3425,7 +4135,7 @@
                       "height": 4,
                       "element": {
                         "kind": "ElementReference",
-                        "name": "traffic-stat-served"
+                        "name": "panel-served-proxy"
                       }
                     }
                   },
@@ -3438,7 +4148,7 @@
                       "height": 4,
                       "element": {
                         "kind": "ElementReference",
-                        "name": "traffic-stat-honeypot"
+                        "name": "panel-honeypot"
                       }
                     }
                   },
@@ -3451,7 +4161,7 @@
                       "height": 8,
                       "element": {
                         "kind": "ElementReference",
-                        "name": "traffic-request-flow"
+                        "name": "panel-request-flow"
                       }
                     }
                   },
@@ -3464,7 +4174,7 @@
                       "height": 8,
                       "element": {
                         "kind": "ElementReference",
-                        "name": "traffic-per-domain"
+                        "name": "panel-requests-per-domain"
                       }
                     }
                   },
@@ -3477,7 +4187,7 @@
                       "height": 8,
                       "element": {
                         "kind": "ElementReference",
-                        "name": "traffic-waf-analysis"
+                        "name": "panel-waf-analysis"
                       }
                     }
                   },
@@ -3490,7 +4200,7 @@
                       "height": 8,
                       "element": {
                         "kind": "ElementReference",
-                        "name": "traffic-latency"
+                        "name": "panel-latency"
                       }
                     }
                   },
@@ -3503,7 +4213,7 @@
                       "height": 8,
                       "element": {
                         "kind": "ElementReference",
-                        "name": "traffic-errors"
+                        "name": "panel-errors"
                       }
                     }
                   },
@@ -3516,7 +4226,7 @@
                       "height": 8,
                       "element": {
                         "kind": "ElementReference",
-                        "name": "traffic-top-paths"
+                        "name": "panel-top-paths"
                       }
                     }
                   },
@@ -3529,7 +4239,7 @@
                       "height": 8,
                       "element": {
                         "kind": "ElementReference",
-                        "name": "traffic-top-agents"
+                        "name": "panel-top-user-agents"
                       }
                     }
                   },
@@ -3542,7 +4252,7 @@
                       "height": 8,
                       "element": {
                         "kind": "ElementReference",
-                        "name": "traffic-status-dist"
+                        "name": "panel-status-distribution"
                       }
                     }
                   },
@@ -3555,7 +4265,7 @@
                       "height": 8,
                       "element": {
                         "kind": "ElementReference",
-                        "name": "traffic-slowest"
+                        "name": "panel-slowest-requests"
                       }
                     }
                   }
@@ -3567,7 +4277,7 @@
         {
           "kind": "TabsLayoutTab",
           "spec": {
-            "title": "Security",
+            "title": "🛡️ Security",
             "layout": {
               "kind": "GridLayout",
               "spec": {
@@ -3581,7 +4291,7 @@
                       "height": 8,
                       "element": {
                         "kind": "ElementReference",
-                        "name": "security-waf-timeline"
+                        "name": "panel-waf-events-timeline"
                       }
                     }
                   },
@@ -3594,7 +4304,7 @@
                       "height": 8,
                       "element": {
                         "kind": "ElementReference",
-                        "name": "security-top-rules"
+                        "name": "panel-top-rules"
                       }
                     }
                   },
@@ -3607,7 +4317,7 @@
                       "height": 8,
                       "element": {
                         "kind": "ElementReference",
-                        "name": "security-by-method"
+                        "name": "panel-by-method"
                       }
                     }
                   },
@@ -3620,7 +4330,7 @@
                       "height": 8,
                       "element": {
                         "kind": "ElementReference",
-                        "name": "security-by-scenario"
+                        "name": "panel-by-scenario"
                       }
                     }
                   },
@@ -3633,7 +4343,7 @@
                       "height": 8,
                       "element": {
                         "kind": "ElementReference",
-                        "name": "security-top-paths"
+                        "name": "panel-top-targeted-paths"
                       }
                     }
                   },
@@ -3646,7 +4356,7 @@
                       "height": 8,
                       "element": {
                         "kind": "ElementReference",
-                        "name": "security-top-ips"
+                        "name": "panel-top-ips"
                       }
                     }
                   },
@@ -3659,7 +4369,7 @@
                       "height": 8,
                       "element": {
                         "kind": "ElementReference",
-                        "name": "security-top-hosts"
+                        "name": "panel-top-targeted-hosts"
                       }
                     }
                   },
@@ -3672,7 +4382,7 @@
                       "height": 8,
                       "element": {
                         "kind": "ElementReference",
-                        "name": "security-cs-active-decisions"
+                        "name": "panel-active-decisions-2"
                       }
                     }
                   },
@@ -3685,7 +4395,7 @@
                       "height": 8,
                       "element": {
                         "kind": "ElementReference",
-                        "name": "security-cs-bouncer"
+                        "name": "panel-bouncer-requests"
                       }
                     }
                   }
@@ -3697,7 +4407,7 @@
         {
           "kind": "TabsLayoutTab",
           "spec": {
-            "title": "Honeypot",
+            "title": "🍯 Honeypot",
             "layout": {
               "kind": "GridLayout",
               "spec": {
@@ -3711,7 +4421,7 @@
                       "height": 4,
                       "element": {
                         "kind": "ElementReference",
-                        "name": "honeypot-stat-active"
+                        "name": "panel-active-sessions"
                       }
                     }
                   },
@@ -3724,7 +4434,7 @@
                       "height": 4,
                       "element": {
                         "kind": "ElementReference",
-                        "name": "honeypot-stat-connections"
+                        "name": "panel-connections-24h"
                       }
                     }
                   },
@@ -3737,7 +4447,7 @@
                       "height": 4,
                       "element": {
                         "kind": "ElementReference",
-                        "name": "honeypot-stat-credentials"
+                        "name": "panel-credentials-captured-24h"
                       }
                     }
                   },
@@ -3750,7 +4460,7 @@
                       "height": 8,
                       "element": {
                         "kind": "ElementReference",
-                        "name": "honeypot-connections-proto"
+                        "name": "panel-connections-by-protocol"
                       }
                     }
                   },
@@ -3763,7 +4473,7 @@
                       "height": 8,
                       "element": {
                         "kind": "ElementReference",
-                        "name": "honeypot-credentials-proto"
+                        "name": "panel-credentials-by-protocol"
                       }
                     }
                   },
@@ -3776,7 +4486,7 @@
                       "height": 8,
                       "element": {
                         "kind": "ElementReference",
-                        "name": "honeypot-duration-proto"
+                        "name": "panel-session-duration-by-protocol"
                       }
                     }
                   },
@@ -3789,7 +4499,7 @@
                       "height": 8,
                       "element": {
                         "kind": "ElementReference",
-                        "name": "honeypot-active-proto"
+                        "name": "panel-active-sessions-by-protocol"
                       }
                     }
                   },
@@ -3802,7 +4512,7 @@
                       "height": 8,
                       "element": {
                         "kind": "ElementReference",
-                        "name": "honeypot-top-domains"
+                        "name": "panel-top-domains"
                       }
                     }
                   },
@@ -3815,7 +4525,7 @@
                       "height": 8,
                       "element": {
                         "kind": "ElementReference",
-                        "name": "honeypot-top-paths"
+                        "name": "panel-top-paths-2"
                       }
                     }
                   },
@@ -3828,7 +4538,7 @@
                       "height": 8,
                       "element": {
                         "kind": "ElementReference",
-                        "name": "honeypot-top-ips"
+                        "name": "panel-top-ips-2"
                       }
                     }
                   },
@@ -3841,7 +4551,7 @@
                       "height": 8,
                       "element": {
                         "kind": "ElementReference",
-                        "name": "honeypot-status-dist"
+                        "name": "panel-status-distribution-2"
                       }
                     }
                   }
@@ -3853,7 +4563,7 @@
         {
           "kind": "TabsLayoutTab",
           "spec": {
-            "title": "Logs",
+            "title": "📜 Logs",
             "layout": {
               "kind": "GridLayout",
               "spec": {
@@ -3867,7 +4577,7 @@
                       "height": 10,
                       "element": {
                         "kind": "ElementReference",
-                        "name": "logs-caddy"
+                        "name": "panel-caddy-logs"
                       }
                     }
                   },
@@ -3880,7 +4590,7 @@
                       "height": 10,
                       "element": {
                         "kind": "ElementReference",
-                        "name": "logs-appsec"
+                        "name": "panel-appsec-logs"
                       }
                     }
                   },
@@ -3893,7 +4603,7 @@
                       "height": 10,
                       "element": {
                         "kind": "ElementReference",
-                        "name": "logs-crowdsec"
+                        "name": "panel-crowdsec-logs"
                       }
                     }
                   },
@@ -3906,7 +4616,7 @@
                       "height": 10,
                       "element": {
                         "kind": "ElementReference",
-                        "name": "logs-honeypot"
+                        "name": "panel-honeypot-logs"
                       }
                     }
                   }
@@ -3918,19 +4628,66 @@
       ]
     }
   },
-  "annotations": [
-    {
-      "kind": "AnnotationQuery",
+  "links": [],
+  "liveNow": false,
+  "preferences": {
+    "layout": {
+      "kind": "GridLayout",
       "spec": {
-        "name": "Annotations & Alerts",
+        "items": []
+      }
+    }
+  },
+  "preload": false,
+  "tags": [
+    "proxy",
+    "caddy",
+    "crowdsec",
+    "waf",
+    "honeypot"
+  ],
+  "timeSettings": {
+    "autoRefresh": "30s",
+    "autoRefreshIntervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "fiscalYearStartMonth": 0,
+    "from": "now-6h",
+    "hideTimepicker": false,
+    "timezone": "browser",
+    "to": "now"
+  },
+  "title": "Proxy Stack",
+  "variables": [
+    {
+      "kind": "QueryVariable",
+      "spec": {
+        "name": "instance",
+        "label": "Instance",
         "datasource": {
-          "type": "grafana",
-          "uid": "-- Grafana --"
+          "type": "victoriametrics-metrics-datasource",
+          "uid": "victoriametrics"
         },
-        "enable": true,
-        "hide": true,
-        "iconColor": "rgba(0, 211, 255, 1)",
-        "builtIn": true
+        "query": "label_values(caddy_http_requests_total, instance)",
+        "multi": true,
+        "includeAll": true,
+        "allValue": ".*",
+        "current": {
+          "text": "All",
+          "value": "$__all"
+        },
+        "refresh": 2,
+        "sort": 1,
+        "hide": 0
       }
     }
   ]
