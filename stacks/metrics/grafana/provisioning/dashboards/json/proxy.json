@@ -1796,34 +1796,10 @@
           ],
           "transformations": [
             {
-              "id": "extractFields",
+              "id": "renameByRegex",
               "options": {
-                "source": "labels",
-                "format": "json"
-              }
-            },
-            {
-              "id": "organize",
-              "options": {
-                "excludeByName": {
-                  "Line": true,
-                  "id": true,
-                  "labels": true,
-                  "streams": true,
-                  "streamId": true,
-                  "detected_level": true
-                }
-              }
-            },
-            {
-              "id": "convertFieldType",
-              "options": {
-                "conversions": [
-                  {
-                    "targetField": "hits",
-                    "destinationType": "number"
-                  }
-                ]
+                "regex": ".*=\"([^\"]+)\"}$",
+                "renamePattern": "$1"
               }
             }
           ]
@@ -1878,34 +1854,10 @@
           ],
           "transformations": [
             {
-              "id": "extractFields",
+              "id": "renameByRegex",
               "options": {
-                "source": "labels",
-                "format": "json"
-              }
-            },
-            {
-              "id": "organize",
-              "options": {
-                "excludeByName": {
-                  "Line": true,
-                  "id": true,
-                  "labels": true,
-                  "streams": true,
-                  "streamId": true,
-                  "detected_level": true
-                }
-              }
-            },
-            {
-              "id": "convertFieldType",
-              "options": {
-                "conversions": [
-                  {
-                    "targetField": "hits",
-                    "destinationType": "number"
-                  }
-                ]
+                "regex": ".*=\"([^\"]+)\"}$",
+                "renamePattern": "$1"
               }
             }
           ]
@@ -1960,34 +1912,10 @@
           ],
           "transformations": [
             {
-              "id": "extractFields",
+              "id": "renameByRegex",
               "options": {
-                "source": "labels",
-                "format": "json"
-              }
-            },
-            {
-              "id": "organize",
-              "options": {
-                "excludeByName": {
-                  "Line": true,
-                  "id": true,
-                  "labels": true,
-                  "streams": true,
-                  "streamId": true,
-                  "detected_level": true
-                }
-              }
-            },
-            {
-              "id": "convertFieldType",
-              "options": {
-                "conversions": [
-                  {
-                    "targetField": "hits",
-                    "destinationType": "number"
-                  }
-                ]
+                "regex": ".*=\"([^\"]+)\"}$",
+                "renamePattern": "$1"
               }
             }
           ]
@@ -2021,7 +1949,21 @@
                   "type": "auto"
                 }
               }
-            }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Time"
+                },
+                "properties": [
+                  {
+                    "id": "custom.hidden",
+                    "value": true
+                  }
+                ]
+              }
+            ]
           },
           "targets": [
             {
@@ -2035,26 +1977,6 @@
             }
           ],
           "transformations": [
-            {
-              "id": "extractFields",
-              "options": {
-                "source": "labels",
-                "format": "json"
-              }
-            },
-            {
-              "id": "organize",
-              "options": {
-                "excludeByName": {
-                  "Line": true,
-                  "id": true,
-                  "labels": true,
-                  "streams": true,
-                  "streamId": true,
-                  "detected_level": true
-                }
-              }
-            },
             {
               "id": "convertFieldType",
               "options": {
@@ -2071,7 +1993,7 @@
         {
           "id": 314,
           "type": "table",
-          "title": "Top User Agents",
+          "title": "Top Client IPs",
           "gridPos": {
             "x": 12,
             "y": 48,
@@ -2097,7 +2019,21 @@
                   "type": "auto"
                 }
               }
-            }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Time"
+                },
+                "properties": [
+                  {
+                    "id": "custom.hidden",
+                    "value": true
+                  }
+                ]
+              }
+            ]
           },
           "targets": [
             {
@@ -2106,31 +2042,11 @@
                 "type": "victoriametrics-logs-datasource",
                 "uid": "victorialogs"
               },
-              "expr": "{job=\"caddy\"} user_agent:!\"\" | stats by (user_agent) count() as hits | sort by (hits) desc | limit 20",
+              "expr": "{job=\"caddy\"} client_ip:!\"\" | stats by (client_ip, geoip_country_name) count() as hits | sort by (hits) desc | limit 20",
               "queryType": "stats"
             }
           ],
           "transformations": [
-            {
-              "id": "extractFields",
-              "options": {
-                "source": "labels",
-                "format": "json"
-              }
-            },
-            {
-              "id": "organize",
-              "options": {
-                "excludeByName": {
-                  "Line": true,
-                  "id": true,
-                  "labels": true,
-                  "streams": true,
-                  "streamId": true,
-                  "detected_level": true
-                }
-              }
-            },
             {
               "id": "convertFieldType",
               "options": {
@@ -2173,7 +2089,21 @@
                   "type": "auto"
                 }
               }
-            }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Time"
+                },
+                "properties": [
+                  {
+                    "id": "custom.hidden",
+                    "value": true
+                  }
+                ]
+              }
+            ]
           },
           "targets": [
             {
@@ -2187,26 +2117,6 @@
             }
           ],
           "transformations": [
-            {
-              "id": "extractFields",
-              "options": {
-                "source": "labels",
-                "format": "json"
-              }
-            },
-            {
-              "id": "organize",
-              "options": {
-                "excludeByName": {
-                  "Line": true,
-                  "id": true,
-                  "labels": true,
-                  "streams": true,
-                  "streamId": true,
-                  "detected_level": true
-                }
-              }
-            },
             {
               "id": "convertFieldType",
               "options": {
@@ -2249,7 +2159,21 @@
                   "type": "auto"
                 }
               }
-            }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Time"
+                },
+                "properties": [
+                  {
+                    "id": "custom.hidden",
+                    "value": true
+                  }
+                ]
+              }
+            ]
           },
           "targets": [
             {
@@ -2263,26 +2187,6 @@
             }
           ],
           "transformations": [
-            {
-              "id": "extractFields",
-              "options": {
-                "source": "labels",
-                "format": "json"
-              }
-            },
-            {
-              "id": "organize",
-              "options": {
-                "excludeByName": {
-                  "Line": true,
-                  "id": true,
-                  "labels": true,
-                  "streams": true,
-                  "streamId": true,
-                  "detected_level": true
-                }
-              }
-            },
             {
               "id": "convertFieldType",
               "options": {
