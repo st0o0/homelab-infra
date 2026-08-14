@@ -48,7 +48,6 @@ GEOIPUPDATE_LICENSE_KEY=[[maxmind_license_key]]
 
 # ── Low-power tuning (Pi 2) ──────────────────────────────
 ALLOY_GOGC=50
-ALLOY_GOMEMLIMIT=200MiB
 ALLOY_GOMAXPROCS=2
 ALLOY_CADVISOR_DOCKER_ONLY=true
 ALLOY_CADVISOR_STORE_LABELS=true
