@@ -64,8 +64,8 @@
       "targets": [
         {
           "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
-          "expr": "{job=\"ssh\",host=~\"$instance\"} event_type:\"invalid_user\" | stats count() as count",
-          "instant": true,
+          "expr": "{job=\"ssh\",host=~\"$instance\"} event_type:\"invalid_user\" | count()",
+          "queryType": "stats",
           "refId": "A"
         }
       ],
@@ -103,8 +103,8 @@
       "targets": [
         {
           "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
-          "expr": "{job=\"ssh\",host=~\"$instance\"} event_type:\"preauth\" | stats count() as count",
-          "instant": true,
+          "expr": "{job=\"ssh\",host=~\"$instance\"} event_type:\"preauth\" | count()",
+          "queryType": "stats",
           "refId": "A"
         }
       ],
@@ -138,8 +138,8 @@
       "targets": [
         {
           "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
-          "expr": "{job=\"sudo\",host=~\"$instance\"} | stats count() as count",
-          "instant": true,
+          "expr": "{job=\"sudo\",host=~\"$instance\"} | count()",
+          "queryType": "stats",
           "refId": "A"
         }
       ],
@@ -177,8 +177,8 @@
       "targets": [
         {
           "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
-          "expr": "{job=\"fail2ban\",host=~\"$instance\"} action:\"Ban\" | stats count() as count",
-          "instant": true,
+          "expr": "{job=\"fail2ban\",host=~\"$instance\"} action:\"Ban\" | count()",
+          "queryType": "stats",
           "refId": "A"
         }
       ],
@@ -216,8 +216,8 @@
       "targets": [
         {
           "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
-          "expr": "{job=\"ufw\",host=~\"$instance\"} action:\"BLOCK\" | stats count() as count",
-          "instant": true,
+          "expr": "{job=\"ufw\",host=~\"$instance\"} action:\"BLOCK\" | count()",
+          "queryType": "stats",
           "refId": "A"
         }
       ],
@@ -283,22 +283,22 @@
       "targets": [
         {
           "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
-          "expr": "{job=\"ssh\",host=~\"$instance\"} geoip_country_code:!=\"\" | stats by (geoip_country_code) count() as count",
-          "instant": true,
+          "expr": "{job=\"ssh\",host=~\"$instance\"} geoip_country_code:!\"\" | stats by (geoip_country_code) count() as count",
+          "queryType": "stats",
           "legendFormat": "SSH",
           "refId": "A"
         },
         {
           "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
-          "expr": "{job=\"fail2ban\",host=~\"$instance\"} geoip_country_code:!=\"\" | stats by (geoip_country_code) count() as count",
-          "instant": true,
+          "expr": "{job=\"fail2ban\",host=~\"$instance\"} geoip_country_code:!\"\" | stats by (geoip_country_code) count() as count",
+          "queryType": "stats",
           "legendFormat": "Fail2ban",
           "refId": "B"
         },
         {
           "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
-          "expr": "{job=\"ufw\",host=~\"$instance\"} geoip_country_code:!=\"\" | stats by (geoip_country_code) count() as count",
-          "instant": true,
+          "expr": "{job=\"ufw\",host=~\"$instance\"} geoip_country_code:!\"\" | stats by (geoip_country_code) count() as count",
+          "queryType": "stats",
           "legendFormat": "UFW",
           "refId": "C"
         }
@@ -348,22 +348,22 @@
       "targets": [
         {
           "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
-          "expr": "{job=\"ssh\",host=~\"$instance\"} geoip_country_code:!=\"\" | stats by (geoip_country_code) count() as count",
-          "instant": true,
+          "expr": "{job=\"ssh\",host=~\"$instance\"} geoip_country_code:!\"\" | stats by (geoip_country_code) count() as count",
+          "queryType": "stats",
           "legendFormat": "SSH",
           "refId": "A"
         },
         {
           "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
-          "expr": "{job=\"fail2ban\",host=~\"$instance\"} geoip_country_code:!=\"\" | stats by (geoip_country_code) count() as count",
-          "instant": true,
+          "expr": "{job=\"fail2ban\",host=~\"$instance\"} geoip_country_code:!\"\" | stats by (geoip_country_code) count() as count",
+          "queryType": "stats",
           "legendFormat": "Fail2ban",
           "refId": "B"
         },
         {
           "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
-          "expr": "{job=\"ufw\",host=~\"$instance\"} geoip_country_code:!=\"\" | stats by (geoip_country_code) count() as count",
-          "instant": true,
+          "expr": "{job=\"ufw\",host=~\"$instance\"} geoip_country_code:!\"\" | stats by (geoip_country_code) count() as count",
+          "queryType": "stats",
           "legendFormat": "UFW",
           "refId": "C"
         }
@@ -421,24 +421,28 @@
         {
           "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
           "expr": "{job=\"ssh\",host=~\"$instance\"} event_type:\"invalid_user\" | stats by (_time:5m) count() as count",
+          "queryType": "statsRange",
           "legendFormat": "Invalid User",
           "refId": "A"
         },
         {
           "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
           "expr": "{job=\"ssh\",host=~\"$instance\"} event_type:\"accepted\" | stats by (_time:5m) count() as count",
+          "queryType": "statsRange",
           "legendFormat": "Accepted",
           "refId": "B"
         },
         {
           "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
           "expr": "{job=\"ssh\",host=~\"$instance\"} event_type:\"failed\" | stats by (_time:5m) count() as count",
+          "queryType": "statsRange",
           "legendFormat": "Failed",
           "refId": "C"
         },
         {
           "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
           "expr": "{job=\"ssh\",host=~\"$instance\"} event_type:\"preauth\" | stats by (_time:5m) count() as count",
+          "queryType": "statsRange",
           "legendFormat": "Preauth",
           "refId": "D"
         }
@@ -476,9 +480,9 @@
       "targets": [
         {
           "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
-          "expr": "{job=\"ssh\",host=~\"$instance\"} username:!=\"\" | stats by (username) count() as count | sort by (count) desc | limit 20",
+          "expr": "{job=\"ssh\",host=~\"$instance\"} username:!\"\" | stats by (username) count() as count | sort by (count) desc | limit 20",
           "format": "table",
-          "instant": true,
+          "queryType": "stats",
           "refId": "A"
         }
       ],
@@ -530,9 +534,9 @@
       "targets": [
         {
           "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
-          "expr": "{job=\"ssh\",host=~\"$instance\"} client_ip:!=\"\" | stats by (client_ip, geoip_country_name) count() as count | sort by (count) desc | limit 20",
+          "expr": "{job=\"ssh\",host=~\"$instance\"} client_ip:!\"\" | stats by (client_ip, geoip_country_name) count() as count | sort by (count) desc | limit 20",
           "format": "table",
-          "instant": true,
+          "queryType": "stats",
           "refId": "A"
         }
       ],
@@ -586,12 +590,14 @@
             {
               "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
               "expr": "{job=\"sudo\",host=~\"$instance\"} | stats by (_time:5m) count() as count",
+              "queryType": "statsRange",
               "legendFormat": "Sudo",
               "refId": "A"
             },
             {
               "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
               "expr": "{job=\"sudo\",host=~\"$instance\"} result:\"failed\" | stats by (_time:5m) count() as count",
+              "queryType": "statsRange",
               "legendFormat": "Failed",
               "refId": "B"
             }
@@ -629,7 +635,7 @@
               "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
               "expr": "{job=\"sudo\",host=~\"$instance\"} | stats by (username) count() as count | sort by (count) desc | limit 10",
               "format": "table",
-              "instant": true,
+              "queryType": "stats",
               "refId": "A"
             }
           ],
@@ -668,7 +674,7 @@
               "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
               "expr": "{job=\"sudo\",host=~\"$instance\"} | sort by (_time) desc | limit 30",
               "format": "table",
-              "instant": true,
+              "queryType": "stats",
               "refId": "A"
             }
           ],
@@ -734,18 +740,21 @@
             {
               "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
               "expr": "{job=\"fail2ban\",host=~\"$instance\"} action:\"Ban\" | stats by (_time:5m) count() as count",
+              "queryType": "statsRange",
               "legendFormat": "Ban",
               "refId": "A"
             },
             {
               "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
               "expr": "{job=\"fail2ban\",host=~\"$instance\"} action:\"Unban\" | stats by (_time:5m) count() as count",
+              "queryType": "statsRange",
               "legendFormat": "Unban",
               "refId": "B"
             },
             {
               "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
               "expr": "{job=\"fail2ban\",host=~\"$instance\"} action:\"Found\" | stats by (_time:5m) count() as count",
+              "queryType": "statsRange",
               "legendFormat": "Found",
               "refId": "C"
             }
@@ -783,7 +792,7 @@
               "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
               "expr": "{job=\"fail2ban\",host=~\"$instance\"} action:\"Ban\" | stats by (jail) count() as count | sort by (count) desc | limit 10",
               "format": "table",
-              "instant": true,
+              "queryType": "stats",
               "refId": "A"
             }
           ],
@@ -837,7 +846,7 @@
               "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
               "expr": "{job=\"fail2ban\",host=~\"$instance\"} action:\"Ban\" | stats by (client_ip, geoip_country_name) count() as count | sort by (count) desc | limit 20",
               "format": "table",
-              "instant": true,
+              "queryType": "stats",
               "refId": "A"
             }
           ],
@@ -895,12 +904,14 @@
             {
               "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
               "expr": "{job=\"ufw\",host=~\"$instance\"} proto:\"TCP\" action:\"BLOCK\" | stats by (_time:5m) count() as count",
+              "queryType": "statsRange",
               "legendFormat": "TCP",
               "refId": "A"
             },
             {
               "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
               "expr": "{job=\"ufw\",host=~\"$instance\"} proto:\"UDP\" action:\"BLOCK\" | stats by (_time:5m) count() as count",
+              "queryType": "statsRange",
               "legendFormat": "UDP",
               "refId": "B"
             }
@@ -940,7 +951,7 @@
               "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
               "expr": "{job=\"ufw\",host=~\"$instance\"} action:\"BLOCK\" | stats by (dst_port) count() as count | sort by (count) desc | limit 20",
               "format": "table",
-              "instant": true,
+              "queryType": "stats",
               "refId": "A"
             }
           ],
@@ -994,7 +1005,7 @@
               "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
               "expr": "{job=\"ufw\",host=~\"$instance\"} action:\"BLOCK\" | stats by (client_ip, geoip_country_name) count() as count | sort by (count) desc | limit 20",
               "format": "table",
-              "instant": true,
+              "queryType": "stats",
               "refId": "A"
             }
           ],

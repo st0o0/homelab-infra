@@ -1598,7 +1598,8 @@
                     "uid": "victorialogs"
                   },
                   "query": {
-                    "query": "{job=\"caddy\",host=~\"$instance\"} | stats by (uri) count() as count | sort by (count) desc | limit 20"
+                    "expr": "{job=\"caddy\",host=~\"$instance\"} | stats by (uri) count() as count | sort by (count) desc | limit 20",
+                    "queryType": "stats"
                   }
                 }
               }
@@ -1650,7 +1651,8 @@
                     "uid": "victorialogs"
                   },
                   "query": {
-                    "query": "{job=\"caddy\",host=~\"$instance\"} | stats by (user_agent) count() as count | sort by (count) desc | limit 20"
+                    "expr": "{job=\"caddy\",host=~\"$instance\"} | stats by (user_agent) count() as count | sort by (count) desc | limit 20",
+                    "queryType": "stats"
                   }
                 }
               }
@@ -1709,7 +1711,8 @@
                     "uid": "victorialogs"
                   },
                   "query": {
-                    "query": "{job=\"caddy\",host=~\"$instance\"} status:!=\"\" | stats by (status) count() as count"
+                    "expr": "{job=\"caddy\",host=~\"$instance\"} status:!=\"\" | stats by (status) count() as count",
+                    "queryType": "stats"
                   }
                 }
               }
@@ -1761,7 +1764,8 @@
                     "uid": "victorialogs"
                   },
                   "query": {
-                    "query": "{job=\"caddy\",host=~\"$instance\"} | stats by (domain, uri, method) avg(duration) as avg_duration | sort by (avg_duration) desc | limit 20"
+                    "expr": "{job=\"caddy\",host=~\"$instance\"} | stats by (domain, uri, method) avg(duration) as avg_duration | sort by (avg_duration) desc | limit 20",
+                    "queryType": "stats"
                   }
                 }
               }
@@ -1827,7 +1831,8 @@
                     "uid": "victorialogs"
                   },
                   "query": {
-                    "query": "{job=\"appsec\",host=~\"$instance\"} | stats by (_time:5m) count() as count"
+                    "expr": "{job=\"appsec\",host=~\"$instance\"} | stats by (_time:5m) count() as count",
+                    "queryType": "statsRange"
                   }
                 }
               }
@@ -1941,7 +1946,8 @@
                     "uid": "victorialogs"
                   },
                   "query": {
-                    "query": "{job=\"appsec\",host=~\"$instance\"} method:!=\"\" | stats by (method) count() as count"
+                    "expr": "{job=\"appsec\",host=~\"$instance\"} method:!=\"\" | stats by (method) count() as count",
+                    "queryType": "stats"
                   }
                 }
               }
@@ -2000,7 +2006,8 @@
                     "uid": "victorialogs"
                   },
                   "query": {
-                    "query": "{job=\"appsec\",host=~\"$instance\"} | stats by (scenario) count() as count"
+                    "expr": "{job=\"appsec\",host=~\"$instance\"} | stats by (scenario) count() as count",
+                    "queryType": "stats"
                   }
                 }
               }
@@ -2052,7 +2059,8 @@
                     "uid": "victorialogs"
                   },
                   "query": {
-                    "query": "{job=\"appsec\",host=~\"$instance\"} target_uri:!=\"\" | stats by (target_uri) count() as count | sort by (count) desc | limit 20"
+                    "expr": "{job=\"appsec\",host=~\"$instance\"} target_uri:!=\"\" | stats by (target_uri) count() as count | sort by (count) desc | limit 20",
+                    "queryType": "stats"
                   }
                 }
               }
@@ -2104,7 +2112,8 @@
                     "uid": "victorialogs"
                   },
                   "query": {
-                    "query": "{job=\"appsec\",host=~\"$instance\"} | stats by (client_ip, geoip_country_name) count() as count | sort by (count) desc | limit 20"
+                    "expr": "{job=\"appsec\",host=~\"$instance\"} | stats by (client_ip, geoip_country_name) count() as count | sort by (count) desc | limit 20",
+                    "queryType": "stats"
                   }
                 }
               }
@@ -2156,7 +2165,8 @@
                     "uid": "victorialogs"
                   },
                   "query": {
-                    "query": "{job=\"appsec\",host=~\"$instance\"} | stats by (target_host) count() as count | sort by (count) desc"
+                    "expr": "{job=\"appsec\",host=~\"$instance\"} | stats by (target_host) count() as count | sort by (count) desc",
+                    "queryType": "stats"
                   }
                 }
               }
@@ -2815,7 +2825,8 @@
                     "uid": "victorialogs"
                   },
                   "query": {
-                    "query": "{job=\"honeypot\",host=~\"$instance\"} | stats by (domain) count() as count | sort by (count) desc | limit 20"
+                    "expr": "{job=\"honeypot\",host=~\"$instance\"} | stats by (domain) count() as count | sort by (count) desc | limit 20",
+                    "queryType": "stats"
                   }
                 }
               }
@@ -2867,7 +2878,8 @@
                     "uid": "victorialogs"
                   },
                   "query": {
-                    "query": "{job=\"honeypot\",host=~\"$instance\"} | stats by (uri) count() as count | sort by (count) desc | limit 20"
+                    "expr": "{job=\"honeypot\",host=~\"$instance\"} | stats by (uri) count() as count | sort by (count) desc | limit 20",
+                    "queryType": "stats"
                   }
                 }
               }
@@ -2919,7 +2931,8 @@
                     "uid": "victorialogs"
                   },
                   "query": {
-                    "query": "{job=\"honeypot\",host=~\"$instance\"} | stats by (client_ip, geoip_country_name, geoip_city_name) count() as count | sort by (count) desc | limit 20"
+                    "expr": "{job=\"honeypot\",host=~\"$instance\"} | stats by (client_ip, geoip_country_name, geoip_city_name) count() as count | sort by (count) desc | limit 20",
+                    "queryType": "stats"
                   }
                 }
               }
@@ -2978,7 +2991,8 @@
                     "uid": "victorialogs"
                   },
                   "query": {
-                    "query": "{job=\"honeypot\",host=~\"$instance\"} status:!=\"\" | stats by (status) count() as count"
+                    "expr": "{job=\"honeypot\",host=~\"$instance\"} status:!=\"\" | stats by (status) count() as count",
+                    "queryType": "stats"
                   }
                 }
               }
@@ -3026,7 +3040,7 @@
                     "uid": "victorialogs"
                   },
                   "query": {
-                    "query": "{job=\"caddy\",host=~\"$instance\"}"
+                    "expr": "{job=\"caddy\",host=~\"$instance\"}"
                   }
                 }
               }
@@ -3074,7 +3088,7 @@
                     "uid": "victorialogs"
                   },
                   "query": {
-                    "query": "{job=\"appsec\",host=~\"$instance\"}"
+                    "expr": "{job=\"appsec\",host=~\"$instance\"}"
                   }
                 }
               }
@@ -3122,7 +3136,7 @@
                     "uid": "victorialogs"
                   },
                   "query": {
-                    "query": "{job=\"crowdsec\",host=~\"$instance\"}"
+                    "expr": "{job=\"crowdsec\",host=~\"$instance\"}"
                   }
                 }
               }
@@ -3170,7 +3184,7 @@
                     "uid": "victorialogs"
                   },
                   "query": {
-                    "query": "{job=\"honeypot\",host=~\"$instance\"}"
+                    "expr": "{job=\"honeypot\",host=~\"$instance\"}"
                   }
                 }
               }
