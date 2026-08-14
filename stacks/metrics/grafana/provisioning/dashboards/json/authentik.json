@@ -2,11 +2,16 @@
   "uid": "authentik",
   "title": "Authentik",
   "description": "Authentik identity provider metrics and performance.",
-  "tags": ["authentik"],
+  "tags": [
+    "authentik"
+  ],
   "editable": true,
   "graphTooltip": 1,
   "refresh": "30s",
-  "time": {"from": "now-6h", "to": "now"},
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
   "timezone": "browser",
   "timepicker": {},
   "schemaVersion": 38,
@@ -34,7 +39,10 @@
       {
         "allValue": ".*",
         "current": {},
-        "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
+        "datasource": {
+          "type": "victoriametrics-metrics-datasource",
+          "uid": "victoriametrics"
+        },
         "definition": "authentik_outpost_connection",
         "hide": 0,
         "includeAll": true,
@@ -42,7 +50,10 @@
         "multi": true,
         "name": "namespace",
         "options": [],
-        "query": {"query": "authentik_outpost_connection", "refId": "StandardVariableQuery"},
+        "query": {
+          "query": "authentik_outpost_connection",
+          "refId": "StandardVariableQuery"
+        },
         "refresh": 1,
         "regex": "/.*namespace=\"([^\"]*).*/",
         "skipUrlSync": false,
@@ -52,7 +63,10 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
+        "datasource": {
+          "type": "victoriametrics-metrics-datasource",
+          "uid": "victoriametrics"
+        },
         "definition": "authentik_outpost_info{outpost_type=\"proxy\"}",
         "hide": 2,
         "includeAll": false,
@@ -73,7 +87,10 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
+        "datasource": {
+          "type": "victoriametrics-metrics-datasource",
+          "uid": "victoriametrics"
+        },
         "definition": "authentik_outpost_info{outpost_type=\"ldap\"}",
         "hide": 2,
         "includeAll": false,
@@ -97,17 +114,36 @@
     {
       "type": "row",
       "title": "🔐 authentik Core",
-      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 0},
-      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"}
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "victoriametrics"
+      },
+      "id": 1
     },
     {
       "type": "timeseries",
       "title": "FlowPlanner time by flow",
-      "gridPos": {"h": 12, "w": 17, "x": 0, "y": 1},
-      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
+      "gridPos": {
+        "h": 12,
+        "w": 17,
+        "x": 0,
+        "y": 1
+      },
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "victoriametrics"
+      },
       "fieldConfig": {
         "defaults": {
-          "color": {"mode": "palette-classic"},
+          "color": {
+            "mode": "palette-classic"
+          },
           "custom": {
             "axisLabel": "",
             "axisPlacement": "auto",
@@ -115,31 +151,57 @@
             "drawStyle": "line",
             "fillOpacity": 20,
             "gradientMode": "none",
-            "hideFrom": {"legend": false, "tooltip": false, "viz": false},
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
             "lineInterpolation": "smooth",
             "lineWidth": 2,
             "pointSize": 5,
-            "scaleDistribution": {"type": "linear"},
+            "scaleDistribution": {
+              "type": "linear"
+            },
             "showPoints": "never",
             "spanNulls": true,
-            "stacking": {"group": "A", "mode": "none"},
-            "thresholdsStyle": {"mode": "off"}
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
           },
           "thresholds": {
             "mode": "absolute",
-            "steps": [{"color": "green", "value": null}, {"color": "red", "value": 80}]
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
           },
           "unit": "ms"
         }
       },
       "options": {
         "legend": {
-          "calcs": ["mean", "max"],
+          "calcs": [
+            "mean",
+            "max"
+          ],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
         },
-        "tooltip": {"mode": "multi", "sort": "desc"}
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
       },
       "targets": [
         {
@@ -147,36 +209,63 @@
           "expr": "avg by (flow_slug) (rate(authentik_flows_plan_time_sum{namespace=~\"$namespace\"}[5m]) / rate(authentik_flows_plan_time_count{namespace=~\"$namespace\"}[5m]))",
           "legendFormat": "{{ flow_slug }}"
         }
-      ]
+      ],
+      "id": 2
     },
     {
       "type": "piechart",
       "title": "Task status",
-      "gridPos": {"h": 6, "w": 3, "x": 17, "y": 1},
-      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
+      "gridPos": {
+        "h": 6,
+        "w": 3,
+        "x": 17,
+        "y": 1
+      },
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "victoriametrics"
+      },
       "fieldConfig": {
         "defaults": {
-          "color": {"mode": "palette-classic"},
+          "color": {
+            "mode": "palette-classic"
+          },
           "custom": {
-            "hideFrom": {"legend": false, "tooltip": false, "viz": false}
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
           }
         },
         "overrides": [
           {
-            "matcher": {"id": "byName", "options": "Successful"},
+            "matcher": {
+              "id": "byName",
+              "options": "Successful"
+            },
             "properties": [
               {
                 "id": "color",
-                "value": {"fixedColor": "green", "mode": "fixed"}
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
               }
             ]
           },
           {
-            "matcher": {"id": "byName", "options": "Failed"},
+            "matcher": {
+              "id": "byName",
+              "options": "Failed"
+            },
             "properties": [
               {
                 "id": "color",
-                "value": {"fixedColor": "red", "mode": "fixed"}
+                "value": {
+                  "fixedColor": "red",
+                  "mode": "fixed"
+                }
               }
             ]
           }
@@ -192,12 +281,17 @@
         },
         "pieType": "donut",
         "reduceOptions": {
-          "calcs": ["lastNotNull"],
+          "calcs": [
+            "lastNotNull"
+          ],
           "fields": "",
           "values": false
         },
         "text": {},
-        "tooltip": {"mode": "multi", "sort": "desc"}
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
       },
       "targets": [
         {
@@ -213,29 +307,51 @@
           "hide": false,
           "instant": true
         }
-      ]
+      ],
+      "id": 3
     },
     {
       "type": "text",
-      "gridPos": {"h": 5, "w": 4, "x": 20, "y": 1},
-      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 20,
+        "y": 1
+      },
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "victoriametrics"
+      },
       "options": {
         "content": "\n\n<img src=\"https://goauthentik.io/img/icon_top_brand.svg\">",
         "mode": "html"
-      }
+      },
+      "id": 4
     },
     {
       "type": "stat",
       "title": "Connected Workers",
-      "gridPos": {"h": 3, "w": 4, "x": 20, "y": 6},
-      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 20,
+        "y": 6
+      },
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "victoriametrics"
+      },
       "fieldConfig": {
         "defaults": {
-          "color": {"mode": "thresholds"},
+          "color": {
+            "mode": "thresholds"
+          },
           "mappings": [
             {
               "options": {
-                "0": {"text": "None"}
+                "0": {
+                  "text": "None"
+                }
               },
               "type": "value"
             }
@@ -248,26 +364,48 @@
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": ["lastNotNull"],
+          "calcs": [
+            "lastNotNull"
+          ],
           "fields": "",
           "values": false
         },
         "text": {},
         "textMode": "auto"
       },
-      "targets": [{"refId": "A", "expr": "max(authentik_admin_workers{namespace=~\"$namespace\"})"}]
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "max(authentik_admin_workers{namespace=~\"$namespace\"})"
+        }
+      ],
+      "id": 5
     },
     {
       "type": "piechart",
       "title": "Cached policies",
       "description": "",
-      "gridPos": {"h": 6, "w": 3, "x": 17, "y": 7},
-      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
+      "gridPos": {
+        "h": 6,
+        "w": 3,
+        "x": 17,
+        "y": 7
+      },
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "victoriametrics"
+      },
       "fieldConfig": {
         "defaults": {
-          "color": {"mode": "palette-classic"},
+          "color": {
+            "mode": "palette-classic"
+          },
           "custom": {
-            "hideFrom": {"legend": false, "tooltip": false, "viz": false}
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
           }
         }
       },
@@ -281,12 +419,17 @@
         },
         "pieType": "donut",
         "reduceOptions": {
-          "calcs": ["lastNotNull"],
+          "calcs": [
+            "lastNotNull"
+          ],
           "fields": "",
           "values": false
         },
         "text": {},
-        "tooltip": {"mode": "multi", "sort": "desc"}
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
       },
       "targets": [
         {
@@ -302,20 +445,33 @@
           "hide": false,
           "instant": true
         }
-      ]
+      ],
+      "id": 6
     },
     {
       "type": "stat",
       "title": "Connected Outposts",
-      "gridPos": {"h": 4, "w": 4, "x": 20, "y": 9},
-      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 20,
+        "y": 9
+      },
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "victoriametrics"
+      },
       "fieldConfig": {
         "defaults": {
-          "color": {"mode": "thresholds"},
+          "color": {
+            "mode": "thresholds"
+          },
           "mappings": [
             {
               "options": {
-                "0": {"text": "None"}
+                "0": {
+                  "text": "None"
+                }
               },
               "type": "value"
             }
@@ -328,27 +484,54 @@
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": ["lastNotNull"],
+          "calcs": [
+            "lastNotNull"
+          ],
           "fields": "",
           "values": false
         },
         "text": {},
         "textMode": "auto"
       },
-      "targets": [{"refId": "A", "expr": "sum(authentik_outposts_connected{namespace=~\"$namespace\"})"}]
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(authentik_outposts_connected{namespace=~\"$namespace\"})"
+        }
+      ],
+      "id": 7
     },
     {
       "type": "bargauge",
       "title": "System task duration",
       "description": "",
-      "gridPos": {"h": 16, "w": 4, "x": 0, "y": 13},
-      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
+      "gridPos": {
+        "h": 16,
+        "w": 4,
+        "x": 0,
+        "y": 13
+      },
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "victoriametrics"
+      },
       "fieldConfig": {
         "defaults": {
-          "color": {"mode": "thresholds"},
+          "color": {
+            "mode": "thresholds"
+          },
           "thresholds": {
             "mode": "absolute",
-            "steps": [{"color": "green", "value": null}, {"color": "red", "value": 800000}]
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 800000
+              }
+            ]
           },
           "unit": "ms"
         }
@@ -357,7 +540,9 @@
         "displayMode": "lcd",
         "orientation": "horizontal",
         "reduceOptions": {
-          "calcs": ["lastNotNull"],
+          "calcs": [
+            "lastNotNull"
+          ],
           "fields": "",
           "values": false
         },
@@ -371,16 +556,27 @@
           "legendFormat": "{{ task_name }}",
           "instant": true
         }
-      ]
+      ],
+      "id": 8
     },
     {
       "type": "timeseries",
       "title": "PolicyEngine Execution time by binding type (Top 5)",
-      "gridPos": {"h": 8, "w": 20, "x": 4, "y": 13},
-      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
+      "gridPos": {
+        "h": 8,
+        "w": 20,
+        "x": 4,
+        "y": 13
+      },
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "victoriametrics"
+      },
       "fieldConfig": {
         "defaults": {
-          "color": {"mode": "palette-classic"},
+          "color": {
+            "mode": "palette-classic"
+          },
           "custom": {
             "axisLabel": "",
             "axisPlacement": "auto",
@@ -388,31 +584,57 @@
             "drawStyle": "line",
             "fillOpacity": 20,
             "gradientMode": "none",
-            "hideFrom": {"legend": false, "tooltip": false, "viz": false},
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
             "lineInterpolation": "smooth",
             "lineWidth": 2,
             "pointSize": 5,
-            "scaleDistribution": {"type": "linear"},
+            "scaleDistribution": {
+              "type": "linear"
+            },
             "showPoints": "never",
             "spanNulls": true,
-            "stacking": {"group": "A", "mode": "none"},
-            "thresholdsStyle": {"mode": "off"}
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
           },
           "thresholds": {
             "mode": "absolute",
-            "steps": [{"color": "green", "value": null}, {"color": "red", "value": 80}]
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
           },
           "unit": "ms"
         }
       },
       "options": {
         "legend": {
-          "calcs": ["mean", "max"],
+          "calcs": [
+            "mean",
+            "max"
+          ],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
         },
-        "tooltip": {"mode": "multi", "sort": "desc"}
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
       },
       "targets": [
         {
@@ -420,16 +642,27 @@
           "expr": "topk(5, avg by(binding_target_type) (rate(authentik_policies_execution_time_sum{namespace=~\"$namespace\"}[5m]) / rate(authentik_policies_execution_time_count{namespace=~\"$namespace\"}[5m])))",
           "legendFormat": "{{ binding_target_type }}"
         }
-      ]
+      ],
+      "id": 9
     },
     {
       "type": "timeseries",
       "title": "PolicyEngine Execution time by binding target (Top 5)",
-      "gridPos": {"h": 8, "w": 20, "x": 4, "y": 21},
-      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
+      "gridPos": {
+        "h": 8,
+        "w": 20,
+        "x": 4,
+        "y": 21
+      },
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "victoriametrics"
+      },
       "fieldConfig": {
         "defaults": {
-          "color": {"mode": "palette-classic"},
+          "color": {
+            "mode": "palette-classic"
+          },
           "custom": {
             "axisLabel": "",
             "axisPlacement": "auto",
@@ -437,31 +670,57 @@
             "drawStyle": "line",
             "fillOpacity": 20,
             "gradientMode": "none",
-            "hideFrom": {"legend": false, "tooltip": false, "viz": false},
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
             "lineInterpolation": "smooth",
             "lineWidth": 2,
             "pointSize": 5,
-            "scaleDistribution": {"type": "linear"},
+            "scaleDistribution": {
+              "type": "linear"
+            },
             "showPoints": "never",
             "spanNulls": true,
-            "stacking": {"group": "A", "mode": "none"},
-            "thresholdsStyle": {"mode": "off"}
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
           },
           "thresholds": {
             "mode": "absolute",
-            "steps": [{"color": "green", "value": null}, {"color": "red", "value": 80}]
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
           },
           "unit": "ms"
         }
       },
       "options": {
         "legend": {
-          "calcs": ["mean", "max"],
+          "calcs": [
+            "mean",
+            "max"
+          ],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
         },
-        "tooltip": {"mode": "multi", "sort": "desc"}
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
       },
       "targets": [
         {
@@ -469,23 +728,43 @@
           "expr": "topk(5, avg by(object_type) (rate(authentik_policies_execution_time_sum{namespace=~\"$namespace\"}[5m]) / rate(authentik_policies_execution_time_count{namespace=~\"$namespace\"}[5m])))",
           "legendFormat": "{{ object_type }}"
         }
-      ]
+      ],
+      "id": 10
     },
     {
       "type": "row",
       "title": "🌐 Proxy Outpost: $outpost_proxy",
-      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 29},
-      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
-      "repeat": "outpost_proxy"
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 29
+      },
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "victoriametrics"
+      },
+      "repeat": "outpost_proxy",
+      "id": 100
     },
     {
       "type": "timeseries",
       "title": "Outpost requests (per 5 minutes)",
-      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 30},
-      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 30
+      },
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "victoriametrics"
+      },
       "fieldConfig": {
         "defaults": {
-          "color": {"mode": "palette-classic"},
+          "color": {
+            "mode": "palette-classic"
+          },
           "custom": {
             "axisLabel": "",
             "axisPlacement": "auto",
@@ -493,30 +772,56 @@
             "drawStyle": "line",
             "fillOpacity": 20,
             "gradientMode": "none",
-            "hideFrom": {"legend": false, "tooltip": false, "viz": false},
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
             "lineInterpolation": "smooth",
             "lineWidth": 2,
             "pointSize": 5,
-            "scaleDistribution": {"type": "linear"},
+            "scaleDistribution": {
+              "type": "linear"
+            },
             "showPoints": "never",
             "spanNulls": false,
-            "stacking": {"group": "A", "mode": "none"},
-            "thresholdsStyle": {"mode": "off"}
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
           },
           "thresholds": {
             "mode": "absolute",
-            "steps": [{"color": "green", "value": null}, {"color": "red", "value": 80}]
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
           }
         }
       },
       "options": {
         "legend": {
-          "calcs": ["mean", "max"],
+          "calcs": [
+            "mean",
+            "max"
+          ],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
         },
-        "tooltip": {"mode": "multi", "sort": "desc"}
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
       },
       "targets": [
         {
@@ -524,17 +829,28 @@
           "expr": "sum by (host) (rate(authentik_outpost_proxy_requests_sum{namespace=~\"$namespace\", outpost_name=\"$outpost_proxy\"}[5m]))",
           "legendFormat": "{{ host }}"
         }
-      ]
+      ],
+      "id": 101
     },
     {
       "type": "timeseries",
       "title": "Outpost requests (per 5 minutes) (unauthenticated, but allow-listed)",
       "description": "",
-      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 30},
-      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 30
+      },
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "victoriametrics"
+      },
       "fieldConfig": {
         "defaults": {
-          "color": {"mode": "palette-classic"},
+          "color": {
+            "mode": "palette-classic"
+          },
           "custom": {
             "axisLabel": "",
             "axisPlacement": "auto",
@@ -542,30 +858,56 @@
             "drawStyle": "line",
             "fillOpacity": 20,
             "gradientMode": "none",
-            "hideFrom": {"legend": false, "tooltip": false, "viz": false},
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
             "lineInterpolation": "smooth",
             "lineWidth": 2,
             "pointSize": 5,
-            "scaleDistribution": {"type": "linear"},
+            "scaleDistribution": {
+              "type": "linear"
+            },
             "showPoints": "never",
             "spanNulls": false,
-            "stacking": {"group": "A", "mode": "none"},
-            "thresholdsStyle": {"mode": "off"}
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
           },
           "thresholds": {
             "mode": "absolute",
-            "steps": [{"color": "green", "value": null}, {"color": "red", "value": 80}]
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
           }
         }
       },
       "options": {
         "legend": {
-          "calcs": ["mean", "max"],
+          "calcs": [
+            "mean",
+            "max"
+          ],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
         },
-        "tooltip": {"mode": "multi", "sort": "desc"}
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
       },
       "targets": [
         {
@@ -573,23 +915,43 @@
           "expr": "sum by (host) (rate(authentik_outpost_proxy_requests_sum{outpost_name=\"$outpost_proxy\", namespace=~\"$namespace\",user=\"\"}[5m]))",
           "legendFormat": "{{ host }}"
         }
-      ]
+      ],
+      "id": 102
     },
     {
       "type": "row",
       "title": "📂 LDAP Outpost: $outpost_ldap",
-      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 38},
-      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
-      "repeat": "outpost_ldap"
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 38
+      },
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "victoriametrics"
+      },
+      "repeat": "outpost_ldap",
+      "id": 200
     },
     {
       "type": "timeseries",
       "title": "LDAP Requests (per 5 minutes)",
-      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 39},
-      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 39
+      },
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "victoriametrics"
+      },
       "fieldConfig": {
         "defaults": {
-          "color": {"mode": "palette-classic"},
+          "color": {
+            "mode": "palette-classic"
+          },
           "custom": {
             "axisLabel": "",
             "axisPlacement": "auto",
@@ -597,30 +959,56 @@
             "drawStyle": "line",
             "fillOpacity": 20,
             "gradientMode": "none",
-            "hideFrom": {"legend": false, "tooltip": false, "viz": false},
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
             "lineInterpolation": "smooth",
             "lineWidth": 2,
             "pointSize": 5,
-            "scaleDistribution": {"type": "linear"},
+            "scaleDistribution": {
+              "type": "linear"
+            },
             "showPoints": "never",
             "spanNulls": false,
-            "stacking": {"group": "A", "mode": "none"},
-            "thresholdsStyle": {"mode": "off"}
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
           },
           "thresholds": {
             "mode": "absolute",
-            "steps": [{"color": "green", "value": null}, {"color": "red", "value": 80}]
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
           }
         }
       },
       "options": {
         "legend": {
-          "calcs": ["mean", "max"],
+          "calcs": [
+            "mean",
+            "max"
+          ],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
         },
-        "tooltip": {"mode": "multi", "sort": "desc"}
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
       },
       "targets": [
         {
@@ -628,16 +1016,27 @@
           "expr": "avg by (dn) (rate(authentik_outpost_ldap_requests_bucket{namespace=~\"$namespace\", outpost_name=\"$outpost_ldap\"}[5m]))",
           "legendFormat": "{{ dn }}"
         }
-      ]
+      ],
+      "id": 201
     },
     {
       "type": "timeseries",
       "title": "LDAP Rejected Requests (per 5 minutes)",
-      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 39},
-      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 39
+      },
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "victoriametrics"
+      },
       "fieldConfig": {
         "defaults": {
-          "color": {"mode": "palette-classic"},
+          "color": {
+            "mode": "palette-classic"
+          },
           "custom": {
             "axisLabel": "",
             "axisPlacement": "auto",
@@ -645,30 +1044,56 @@
             "drawStyle": "line",
             "fillOpacity": 20,
             "gradientMode": "none",
-            "hideFrom": {"legend": false, "tooltip": false, "viz": false},
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
             "lineInterpolation": "smooth",
             "lineWidth": 2,
             "pointSize": 5,
-            "scaleDistribution": {"type": "linear"},
+            "scaleDistribution": {
+              "type": "linear"
+            },
             "showPoints": "never",
             "spanNulls": false,
-            "stacking": {"group": "A", "mode": "none"},
-            "thresholdsStyle": {"mode": "off"}
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
           },
           "thresholds": {
             "mode": "absolute",
-            "steps": [{"color": "green", "value": null}, {"color": "red", "value": 80}]
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
           }
         }
       },
       "options": {
         "legend": {
-          "calcs": ["mean", "max"],
+          "calcs": [
+            "mean",
+            "max"
+          ],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
         },
-        "tooltip": {"mode": "multi", "sort": "desc"}
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
       },
       "targets": [
         {
@@ -676,16 +1101,27 @@
           "expr": "avg by (reason) (rate(authentik_outpost_ldap_requests_rejected{namespace=~\"$namespace\", outpost_name=\"$outpost_ldap\"}[5m]))",
           "legendFormat": "{{ reason }}"
         }
-      ]
+      ],
+      "id": 202
     },
     {
       "type": "timeseries",
       "title": "FlowExecutor Timings",
-      "gridPos": {"h": 8, "w": 16, "x": 0, "y": 47},
-      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
+      "gridPos": {
+        "h": 8,
+        "w": 16,
+        "x": 0,
+        "y": 47
+      },
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "victoriametrics"
+      },
       "fieldConfig": {
         "defaults": {
-          "color": {"mode": "palette-classic"},
+          "color": {
+            "mode": "palette-classic"
+          },
           "custom": {
             "axisLabel": "",
             "axisPlacement": "auto",
@@ -693,30 +1129,56 @@
             "drawStyle": "line",
             "fillOpacity": 20,
             "gradientMode": "none",
-            "hideFrom": {"legend": false, "tooltip": false, "viz": false},
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
             "lineInterpolation": "smooth",
             "lineWidth": 2,
             "pointSize": 5,
-            "scaleDistribution": {"type": "linear"},
+            "scaleDistribution": {
+              "type": "linear"
+            },
             "showPoints": "never",
             "spanNulls": false,
-            "stacking": {"group": "A", "mode": "none"},
-            "thresholdsStyle": {"mode": "off"}
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
           },
           "thresholds": {
             "mode": "absolute",
-            "steps": [{"color": "green", "value": null}, {"color": "red", "value": 80}]
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
           }
         }
       },
       "options": {
         "legend": {
-          "calcs": ["mean", "max"],
+          "calcs": [
+            "mean",
+            "max"
+          ],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
         },
-        "tooltip": {"mode": "multi", "sort": "desc"}
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
       },
       "targets": [
         {
@@ -731,30 +1193,54 @@
           "legendFormat": "{{ flow }} POST",
           "hide": false
         }
-      ]
+      ],
+      "id": 203
     },
     {
       "type": "piechart",
       "title": "LDAP Requests by type",
-      "gridPos": {"h": 8, "w": 4, "x": 16, "y": 47},
-      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
+      "gridPos": {
+        "h": 8,
+        "w": 4,
+        "x": 16,
+        "y": 47
+      },
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "victoriametrics"
+      },
       "fieldConfig": {
         "defaults": {
-          "color": {"mode": "palette-classic"},
+          "color": {
+            "mode": "palette-classic"
+          },
           "custom": {
-            "hideFrom": {"legend": false, "tooltip": false, "viz": false}
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
           }
         }
       },
       "options": {
-        "legend": {"displayMode": "list", "placement": "bottom", "showLegend": true},
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
         "pieType": "pie",
         "reduceOptions": {
-          "calcs": ["lastNotNull"],
+          "calcs": [
+            "lastNotNull"
+          ],
           "fields": "",
           "values": false
         },
-        "tooltip": {"mode": "multi", "sort": "desc"}
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
       },
       "targets": [
         {
@@ -763,31 +1249,55 @@
           "legendFormat": "{{ type }}",
           "hide": false
         }
-      ]
+      ],
+      "id": 204
     },
     {
       "type": "piechart",
       "title": "LDAP Rejected Requests by reason",
       "description": "",
-      "gridPos": {"h": 8, "w": 4, "x": 20, "y": 47},
-      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
+      "gridPos": {
+        "h": 8,
+        "w": 4,
+        "x": 20,
+        "y": 47
+      },
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "victoriametrics"
+      },
       "fieldConfig": {
         "defaults": {
-          "color": {"mode": "palette-classic"},
+          "color": {
+            "mode": "palette-classic"
+          },
           "custom": {
-            "hideFrom": {"legend": false, "tooltip": false, "viz": false}
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
           }
         }
       },
       "options": {
-        "legend": {"displayMode": "list", "placement": "bottom", "showLegend": true},
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
         "pieType": "pie",
         "reduceOptions": {
-          "calcs": ["lastNotNull"],
+          "calcs": [
+            "lastNotNull"
+          ],
           "fields": "",
           "values": false
         },
-        "tooltip": {"mode": "multi", "sort": "desc"}
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
       },
       "targets": [
         {
@@ -796,7 +1306,8 @@
           "legendFormat": "{{ reason }}",
           "hide": false
         }
-      ]
+      ],
+      "id": 205
     }
   ]
 }

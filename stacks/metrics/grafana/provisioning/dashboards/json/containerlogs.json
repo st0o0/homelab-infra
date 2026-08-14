@@ -2,18 +2,28 @@
   "uid": "containerlogs",
   "title": "Container Logs",
   "description": "Docker container log analysis via VictoriaLogs.",
-  "tags": ["docker", "logs", "victorialogs"],
+  "tags": [
+    "docker",
+    "logs",
+    "victorialogs"
+  ],
   "editable": false,
   "graphTooltip": 1,
   "refresh": "30s",
-  "time": {"from": "now-1h", "to": "now"},
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
   "timezone": "browser",
   "schemaVersion": 42,
   "annotations": {
     "list": [
       {
         "builtIn": 1,
-        "datasource": {"type": "grafana", "uid": "-- Grafana --"},
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
@@ -27,13 +37,20 @@
       {
         "allValue": ".*",
         "current": {},
-        "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
+        "datasource": {
+          "type": "victoriametrics-logs-datasource",
+          "uid": "victorialogs"
+        },
         "includeAll": true,
         "label": "Host",
         "multi": true,
         "name": "host",
         "options": [],
-        "query": {"field": "host", "query": "{job=\"docker\"}", "type": "fieldValue"},
+        "query": {
+          "field": "host",
+          "query": "{job=\"docker\"}",
+          "type": "fieldValue"
+        },
         "refresh": 1,
         "sort": 1,
         "type": "query"
@@ -41,27 +58,58 @@
       {
         "allValue": ".*",
         "current": {},
-        "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
+        "datasource": {
+          "type": "victoriametrics-logs-datasource",
+          "uid": "victorialogs"
+        },
         "includeAll": true,
         "label": "Container",
         "multi": true,
         "name": "container",
         "options": [],
-        "query": {"field": "container", "query": "{job=\"docker\"}", "type": "fieldValue"},
+        "query": {
+          "field": "container",
+          "query": "{job=\"docker\"}",
+          "type": "fieldValue"
+        },
         "refresh": 1,
         "sort": 1,
         "type": "query"
       },
       {
-        "current": {"selected": false, "text": "All", "value": ""},
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": ""
+        },
         "label": "Level",
         "name": "level",
         "options": [
-          {"selected": true, "text": "All", "value": ""},
-          {"selected": false, "text": "Error", "value": "error"},
-          {"selected": false, "text": "Warning", "value": "warn"},
-          {"selected": false, "text": "Info", "value": "info"},
-          {"selected": false, "text": "Debug", "value": "debug"}
+          {
+            "selected": true,
+            "text": "All",
+            "value": ""
+          },
+          {
+            "selected": false,
+            "text": "Error",
+            "value": "error"
+          },
+          {
+            "selected": false,
+            "text": "Warning",
+            "value": "warn"
+          },
+          {
+            "selected": false,
+            "text": "Info",
+            "value": "info"
+          },
+          {
+            "selected": false,
+            "text": "Debug",
+            "value": "debug"
+          }
         ],
         "type": "custom"
       }
@@ -71,19 +119,39 @@
     {
       "type": "row",
       "title": "📊 Overview",
-      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 0}
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1
     },
     {
       "type": "stat",
       "title": "Total Logs",
-      "gridPos": {"h": 4, "w": 4, "x": 0, "y": 1},
-      "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 0,
+        "y": 1
+      },
+      "datasource": {
+        "type": "victoriametrics-logs-datasource",
+        "uid": "victorialogs"
+      },
       "fieldConfig": {
         "defaults": {
-          "color": {"mode": "thresholds"},
+          "color": {
+            "mode": "thresholds"
+          },
           "thresholds": {
             "mode": "absolute",
-            "steps": [{"color": "green"}]
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
           },
           "unit": "short"
         }
@@ -92,7 +160,9 @@
         "colorMode": "value",
         "graphMode": "none",
         "reduceOptions": {
-          "calcs": ["lastNotNull"],
+          "calcs": [
+            "lastNotNull"
+          ],
           "fields": "",
           "values": false
         },
@@ -104,19 +174,42 @@
           "expr": "{job=\"docker\", host=~\"$host\", container=~\"$container\"} | count()",
           "queryType": "stats"
         }
-      ]
+      ],
+      "id": 2
     },
     {
       "type": "stat",
       "title": "Errors",
-      "gridPos": {"h": 4, "w": 4, "x": 4, "y": 1},
-      "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 4,
+        "y": 1
+      },
+      "datasource": {
+        "type": "victoriametrics-logs-datasource",
+        "uid": "victorialogs"
+      },
       "fieldConfig": {
         "defaults": {
-          "color": {"mode": "thresholds"},
+          "color": {
+            "mode": "thresholds"
+          },
           "thresholds": {
             "mode": "absolute",
-            "steps": [{"color": "green"}, {"color": "yellow", "value": 100}, {"color": "red", "value": 1000}]
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "yellow",
+                "value": 100
+              },
+              {
+                "color": "red",
+                "value": 1000
+              }
+            ]
           },
           "unit": "short"
         }
@@ -125,7 +218,9 @@
         "colorMode": "value",
         "graphMode": "none",
         "reduceOptions": {
-          "calcs": ["lastNotNull"],
+          "calcs": [
+            "lastNotNull"
+          ],
           "fields": "",
           "values": false
         },
@@ -137,19 +232,42 @@
           "expr": "{job=\"docker\", host=~\"$host\", container=~\"$container\"} error | count()",
           "queryType": "stats"
         }
-      ]
+      ],
+      "id": 3
     },
     {
       "type": "stat",
       "title": "Warnings",
-      "gridPos": {"h": 4, "w": 4, "x": 8, "y": 1},
-      "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 8,
+        "y": 1
+      },
+      "datasource": {
+        "type": "victoriametrics-logs-datasource",
+        "uid": "victorialogs"
+      },
       "fieldConfig": {
         "defaults": {
-          "color": {"mode": "thresholds"},
+          "color": {
+            "mode": "thresholds"
+          },
           "thresholds": {
             "mode": "absolute",
-            "steps": [{"color": "green"}, {"color": "yellow", "value": 500}, {"color": "red", "value": 5000}]
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "yellow",
+                "value": 500
+              },
+              {
+                "color": "red",
+                "value": 5000
+              }
+            ]
           },
           "unit": "short"
         }
@@ -158,7 +276,9 @@
         "colorMode": "value",
         "graphMode": "none",
         "reduceOptions": {
-          "calcs": ["lastNotNull"],
+          "calcs": [
+            "lastNotNull"
+          ],
           "fields": "",
           "values": false
         },
@@ -170,21 +290,44 @@
           "expr": "{job=\"docker\", host=~\"$host\", container=~\"$container\"} warn | count()",
           "queryType": "stats"
         }
-      ]
+      ],
+      "id": 4
     },
     {
       "type": "gauge",
       "title": "Error Ratio",
-      "gridPos": {"h": 4, "w": 4, "x": 12, "y": 1},
-      "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 12,
+        "y": 1
+      },
+      "datasource": {
+        "type": "victoriametrics-logs-datasource",
+        "uid": "victorialogs"
+      },
       "fieldConfig": {
         "defaults": {
-          "color": {"mode": "thresholds"},
+          "color": {
+            "mode": "thresholds"
+          },
           "max": 100,
           "min": 0,
           "thresholds": {
             "mode": "absolute",
-            "steps": [{"color": "green"}, {"color": "yellow", "value": 5}, {"color": "red", "value": 10}]
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "yellow",
+                "value": 5
+              },
+              {
+                "color": "red",
+                "value": 10
+              }
+            ]
           },
           "unit": "percent"
         }
@@ -192,7 +335,9 @@
       "options": {
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": ["lastNotNull"],
+          "calcs": [
+            "lastNotNull"
+          ],
           "fields": "",
           "values": false
         },
@@ -206,21 +351,44 @@
           "expr": "{job=\"docker\", host=~\"$host\", container=~\"$container\"} | stats count() logs, count() if (error) errors | math round(errors / logs * 100, 0.01) as error_pct",
           "queryType": "stats"
         }
-      ]
+      ],
+      "id": 5
     },
     {
       "type": "gauge",
       "title": "Warn Ratio",
-      "gridPos": {"h": 4, "w": 4, "x": 16, "y": 1},
-      "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 16,
+        "y": 1
+      },
+      "datasource": {
+        "type": "victoriametrics-logs-datasource",
+        "uid": "victorialogs"
+      },
       "fieldConfig": {
         "defaults": {
-          "color": {"mode": "thresholds"},
+          "color": {
+            "mode": "thresholds"
+          },
           "max": 100,
           "min": 0,
           "thresholds": {
             "mode": "absolute",
-            "steps": [{"color": "green"}, {"color": "yellow", "value": 5}, {"color": "red", "value": 10}]
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "yellow",
+                "value": 5
+              },
+              {
+                "color": "red",
+                "value": 10
+              }
+            ]
           },
           "unit": "percent"
         }
@@ -228,7 +396,9 @@
       "options": {
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": ["lastNotNull"],
+          "calcs": [
+            "lastNotNull"
+          ],
           "fields": "",
           "values": false
         },
@@ -242,19 +412,34 @@
           "expr": "{job=\"docker\", host=~\"$host\", container=~\"$container\"} | stats count() logs, count() if (warn) warnings | math round(warnings / logs * 100, 0.01) as warn_pct",
           "queryType": "stats"
         }
-      ]
+      ],
+      "id": 6
     },
     {
       "type": "stat",
       "title": "Containers",
-      "gridPos": {"h": 4, "w": 4, "x": 20, "y": 1},
-      "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 20,
+        "y": 1
+      },
+      "datasource": {
+        "type": "victoriametrics-logs-datasource",
+        "uid": "victorialogs"
+      },
       "fieldConfig": {
         "defaults": {
-          "color": {"mode": "thresholds"},
+          "color": {
+            "mode": "thresholds"
+          },
           "thresholds": {
             "mode": "absolute",
-            "steps": [{"color": "blue"}]
+            "steps": [
+              {
+                "color": "blue"
+              }
+            ]
           },
           "unit": "short"
         }
@@ -263,7 +448,9 @@
         "colorMode": "value",
         "graphMode": "none",
         "reduceOptions": {
-          "calcs": ["lastNotNull"],
+          "calcs": [
+            "lastNotNull"
+          ],
           "fields": "",
           "values": false
         },
@@ -275,16 +462,27 @@
           "expr": "{job=\"docker\", host=~\"$host\", container=~\"$container\"} | stats count_uniq(container) containers",
           "queryType": "stats"
         }
-      ]
+      ],
+      "id": 7
     },
     {
       "type": "timeseries",
       "title": "Log Volume",
-      "gridPos": {"h": 8, "w": 24, "x": 0, "y": 5},
-      "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 5
+      },
+      "datasource": {
+        "type": "victoriametrics-logs-datasource",
+        "uid": "victorialogs"
+      },
       "fieldConfig": {
         "defaults": {
-          "color": {"mode": "palette-classic"},
+          "color": {
+            "mode": "palette-classic"
+          },
           "custom": {
             "fillOpacity": 20,
             "lineWidth": 2,
@@ -297,206 +495,25 @@
       },
       "options": {
         "legend": {
-          "calcs": ["mean", "max"],
+          "calcs": [
+            "mean",
+            "max"
+          ],
           "displayMode": "table",
           "placement": "bottom"
         },
-        "tooltip": {"mode": "multi", "sort": "desc"}
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
       },
       "transformations": [
         {
           "id": "extractFields",
-          "options": {"source": "labels", "format": "json"}
-        },
-        {
-          "id": "organize",
           "options": {
-            "excludeByName": {
-              "Line": true,
-              "id": true,
-              "labels": true,
-              "streams": true,
-              "streamId": true,
-              "detected_level": true
-            }
+            "source": "labels",
+            "format": "json"
           }
-        },
-        {
-          "id": "convertFieldType",
-          "options": {
-            "conversions": [{"targetField": "logs", "destinationType": "number"}]
-          }
-        }
-      ],
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "{job=\"docker\", host=~\"$host\", container=~\"$container\"} | stats by (_time:5m) count() as logs",
-          "queryType": "statsRange"
-        }
-      ]
-    },
-    {
-      "type": "row",
-      "title": "🔴 Errors & Warnings",
-      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 13}
-    },
-    {
-      "type": "bargauge",
-      "title": "Errors by Container",
-      "gridPos": {"h": 8, "w": 8, "x": 0, "y": 14},
-      "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
-      "fieldConfig": {
-        "defaults": {
-          "color": {"fixedColor": "red", "mode": "fixed"},
-          "displayName": "${__field.value}",
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [{"color": "green"}, {"color": "yellow", "value": 50}, {"color": "red", "value": 200}]
-          }
-        }
-      },
-      "options": {
-        "displayMode": "lcd",
-        "orientation": "horizontal",
-        "reduceOptions": {
-          "calcs": ["lastNotNull"],
-          "fields": "/^hits$/",
-          "values": true
-        },
-        "showUnfilled": true,
-        "text": {}
-      },
-      "transformations": [
-        {
-          "id": "extractFields",
-          "options": {"source": "labels"}
-        },
-        {
-          "id": "organize",
-          "options": {
-            "includeByName": {"container": true, "hits": true},
-            "indexByName": {"container": 0, "hits": 1}
-          }
-        },
-        {
-          "id": "convertFieldType",
-          "options": {
-            "conversions": [{"destinationType": "number", "targetField": "hits"}]
-          }
-        }
-      ],
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "{job=\"docker\", host=~\"$host\", container=~\"$container\"} error | top 10 by (container)",
-          "queryType": "instant"
-        }
-      ]
-    },
-    {
-      "type": "bargauge",
-      "title": "Warnings by Container",
-      "gridPos": {"h": 8, "w": 8, "x": 8, "y": 14},
-      "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
-      "fieldConfig": {
-        "defaults": {
-          "color": {"fixedColor": "orange", "mode": "fixed"},
-          "displayName": "${__field.value}",
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [{"color": "green"}, {"color": "orange", "value": 25}, {"color": "red", "value": 100}]
-          }
-        }
-      },
-      "options": {
-        "displayMode": "lcd",
-        "orientation": "horizontal",
-        "reduceOptions": {
-          "calcs": ["lastNotNull"],
-          "fields": "/^hits$/",
-          "values": true
-        },
-        "showUnfilled": true,
-        "text": {}
-      },
-      "transformations": [
-        {
-          "id": "extractFields",
-          "options": {"source": "labels"}
-        },
-        {
-          "id": "organize",
-          "options": {
-            "includeByName": {"container": true, "hits": true},
-            "indexByName": {"container": 0, "hits": 1}
-          }
-        },
-        {
-          "id": "convertFieldType",
-          "options": {
-            "conversions": [{"destinationType": "number", "targetField": "hits"}]
-          }
-        }
-      ],
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "{job=\"docker\", host=~\"$host\", container=~\"$container\"} warn | top 10 by (container)",
-          "queryType": "instant"
-        }
-      ]
-    },
-    {
-      "type": "timeseries",
-      "title": "Error & Warning Trend",
-      "gridPos": {"h": 8, "w": 8, "x": 16, "y": 14},
-      "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
-      "fieldConfig": {
-        "defaults": {
-          "color": {"mode": "palette-classic"},
-          "custom": {
-            "fillOpacity": 20,
-            "lineWidth": 2,
-            "lineInterpolation": "smooth",
-            "spanNulls": false,
-            "showPoints": "never"
-          },
-          "unit": "short"
-        },
-        "overrides": [
-          {
-            "matcher": {"id": "byName", "options": "errors"},
-            "properties": [
-              {
-                "id": "color",
-                "value": {"fixedColor": "red", "mode": "fixed"}
-              }
-            ]
-          },
-          {
-            "matcher": {"id": "byName", "options": "warnings"},
-            "properties": [
-              {
-                "id": "color",
-                "value": {"fixedColor": "orange", "mode": "fixed"}
-              }
-            ]
-          }
-        ]
-      },
-      "options": {
-        "legend": {
-          "calcs": ["mean", "max"],
-          "displayMode": "table",
-          "placement": "bottom"
-        },
-        "tooltip": {"mode": "multi", "sort": "desc"}
-      },
-      "transformations": [
-        {
-          "id": "extractFields",
-          "options": {"source": "labels", "format": "json"}
         },
         {
           "id": "organize",
@@ -515,8 +532,325 @@
           "id": "convertFieldType",
           "options": {
             "conversions": [
-              {"targetField": "errors", "destinationType": "number"},
-              {"targetField": "warnings", "destinationType": "number"}
+              {
+                "targetField": "logs",
+                "destinationType": "number"
+              }
+            ]
+          }
+        }
+      ],
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "{job=\"docker\", host=~\"$host\", container=~\"$container\"} | stats by (_time:5m) count() as logs",
+          "queryType": "statsRange"
+        }
+      ],
+      "id": 8
+    },
+    {
+      "type": "row",
+      "title": "🔴 Errors & Warnings",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 13
+      },
+      "id": 100
+    },
+    {
+      "type": "bargauge",
+      "title": "Errors by Container",
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 14
+      },
+      "datasource": {
+        "type": "victoriametrics-logs-datasource",
+        "uid": "victorialogs"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "red",
+            "mode": "fixed"
+          },
+          "displayName": "${__field.value}",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "yellow",
+                "value": 50
+              },
+              {
+                "color": "red",
+                "value": 200
+              }
+            ]
+          }
+        }
+      },
+      "options": {
+        "displayMode": "lcd",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^hits$/",
+          "values": true
+        },
+        "showUnfilled": true,
+        "text": {}
+      },
+      "transformations": [
+        {
+          "id": "extractFields",
+          "options": {
+            "source": "labels"
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "includeByName": {
+              "container": true,
+              "hits": true
+            },
+            "indexByName": {
+              "container": 0,
+              "hits": 1
+            }
+          }
+        },
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "destinationType": "number",
+                "targetField": "hits"
+              }
+            ]
+          }
+        }
+      ],
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "{job=\"docker\", host=~\"$host\", container=~\"$container\"} error | top 10 by (container)",
+          "queryType": "instant"
+        }
+      ],
+      "id": 101
+    },
+    {
+      "type": "bargauge",
+      "title": "Warnings by Container",
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 14
+      },
+      "datasource": {
+        "type": "victoriametrics-logs-datasource",
+        "uid": "victorialogs"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "orange",
+            "mode": "fixed"
+          },
+          "displayName": "${__field.value}",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "orange",
+                "value": 25
+              },
+              {
+                "color": "red",
+                "value": 100
+              }
+            ]
+          }
+        }
+      },
+      "options": {
+        "displayMode": "lcd",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^hits$/",
+          "values": true
+        },
+        "showUnfilled": true,
+        "text": {}
+      },
+      "transformations": [
+        {
+          "id": "extractFields",
+          "options": {
+            "source": "labels"
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "includeByName": {
+              "container": true,
+              "hits": true
+            },
+            "indexByName": {
+              "container": 0,
+              "hits": 1
+            }
+          }
+        },
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "destinationType": "number",
+                "targetField": "hits"
+              }
+            ]
+          }
+        }
+      ],
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "{job=\"docker\", host=~\"$host\", container=~\"$container\"} warn | top 10 by (container)",
+          "queryType": "instant"
+        }
+      ],
+      "id": 102
+    },
+    {
+      "type": "timeseries",
+      "title": "Error & Warning Trend",
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 14
+      },
+      "datasource": {
+        "type": "victoriametrics-logs-datasource",
+        "uid": "victorialogs"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "fillOpacity": 20,
+            "lineWidth": 2,
+            "lineInterpolation": "smooth",
+            "spanNulls": false,
+            "showPoints": "never"
+          },
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "errors"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "warnings"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "transformations": [
+        {
+          "id": "extractFields",
+          "options": {
+            "source": "labels",
+            "format": "json"
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Line": true,
+              "id": true,
+              "labels": true,
+              "streams": true,
+              "streamId": true,
+              "detected_level": true
+            }
+          }
+        },
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "targetField": "errors",
+                "destinationType": "number"
+              },
+              {
+                "targetField": "warnings",
+                "destinationType": "number"
+              }
             ]
           }
         }
@@ -532,18 +866,33 @@
           "expr": "{job=\"docker\", host=~\"$host\", container=~\"$container\"} warn | stats by (_time:5m) count() as warnings",
           "queryType": "statsRange"
         }
-      ]
+      ],
+      "id": 103
     },
     {
       "type": "row",
       "title": "🔍 Log Explorer",
-      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 22}
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 22
+      },
+      "id": 200
     },
     {
       "type": "logs",
       "title": "Logs",
-      "gridPos": {"h": 16, "w": 24, "x": 0, "y": 23},
-      "datasource": {"type": "victoriametrics-logs-datasource", "uid": "victorialogs"},
+      "gridPos": {
+        "h": 16,
+        "w": 24,
+        "x": 0,
+        "y": 23
+      },
+      "datasource": {
+        "type": "victoriametrics-logs-datasource",
+        "uid": "victorialogs"
+      },
       "options": {
         "showTime": true,
         "showLabels": true,
@@ -559,7 +908,8 @@
           "refId": "A",
           "expr": "{job=\"docker\", host=~\"$host\", container=~\"$container\"} $level"
         }
-      ]
+      ],
+      "id": 201
     }
   ]
 }

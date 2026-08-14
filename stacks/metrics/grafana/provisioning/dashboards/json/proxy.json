@@ -431,7 +431,7 @@
         "w": 24,
         "h": 1
       },
-      "id": 10
+      "id": 100
     },
     {
       "type": "stat",
@@ -481,7 +481,7 @@
           "expr": "sum(rate(caddy_http_requests_total{instance=~\"$instance\"}[5m]))"
         }
       ],
-      "id": 11
+      "id": 101
     },
     {
       "type": "stat",
@@ -540,7 +540,7 @@
           "expr": "sum(rate(caddy_http_request_errors_total{instance=~\"$instance\"}[5m])) / sum(rate(caddy_http_requests_total{instance=~\"$instance\"}[5m])) * 100"
         }
       ],
-      "id": 12
+      "id": 102
     },
     {
       "type": "stat",
@@ -598,7 +598,7 @@
           "expr": "sum(rate(caddy_http_request_duration_seconds_sum{instance=~\"$instance\"}[5m])) / sum(rate(caddy_http_request_duration_seconds_count{instance=~\"$instance\"}[5m]))"
         }
       ],
-      "id": 13
+      "id": 103
     },
     {
       "type": "stat",
@@ -656,7 +656,7 @@
           "expr": "histogram_quantile(0.95, sum by (le) (rate(caddy_http_request_duration_seconds_bucket{instance=~\"$instance\"}[5m])))"
         }
       ],
-      "id": 14
+      "id": 104
     },
     {
       "type": "stat",
@@ -706,7 +706,7 @@
           "expr": "sum(caddy_http_requests_in_flight{instance=~\"$instance\"})"
         }
       ],
-      "id": 15
+      "id": 105
     },
     {
       "type": "stat",
@@ -756,7 +756,7 @@
           "expr": "sum(increase(caddy_http_requests_total{instance=~\"$instance\"}[24h]))"
         }
       ],
-      "id": 16
+      "id": 106
     },
     {
       "type": "stat",
@@ -806,7 +806,7 @@
           "expr": "sum(rate(caddy_http_request_size_bytes_sum{instance=~\"$instance\"}[5m]))"
         }
       ],
-      "id": 17
+      "id": 107
     },
     {
       "type": "stat",
@@ -856,7 +856,7 @@
           "expr": "sum(rate(caddy_http_response_size_bytes_sum{instance=~\"$instance\"}[5m]))"
         }
       ],
-      "id": 18
+      "id": 108
     },
     {
       "type": "stat",
@@ -906,7 +906,7 @@
           "expr": "sum(increase(caddy_http_request_size_bytes_sum{instance=~\"$instance\"}[24h]))"
         }
       ],
-      "id": 19
+      "id": 109
     },
     {
       "type": "stat",
@@ -956,7 +956,7 @@
           "expr": "sum(increase(caddy_http_response_size_bytes_sum{instance=~\"$instance\"}[24h]))"
         }
       ],
-      "id": 20
+      "id": 110
     },
     {
       "type": "stat",
@@ -1006,7 +1006,7 @@
           "expr": "sum(cs_active_decisions{instance=~\"$instance\"})"
         }
       ],
-      "id": 21
+      "id": 111
     },
     {
       "type": "stat",
@@ -1056,7 +1056,7 @@
           "expr": "sum(increase(ran_connections_total{instance=~\"$instance\"}[24h]))"
         }
       ],
-      "id": 22
+      "id": 112
     },
     {
       "type": "row",
@@ -1067,7 +1067,7 @@
         "w": 24,
         "h": 1
       },
-      "id": 30
+      "id": 200
     },
     {
       "type": "timeseries",
@@ -1126,7 +1126,7 @@
           "legendFormat": "Transmit"
         }
       ],
-      "id": 31
+      "id": 201
     },
     {
       "type": "timeseries",
@@ -1180,7 +1180,7 @@
           "legendFormat": "Handshake Age"
         }
       ],
-      "id": 32
+      "id": 202
     },
     {
       "type": "row",
@@ -1194,7 +1194,7 @@
       "collapsed": true,
       "panels": [
         {
-          "id": 101,
+          "id": 301,
           "type": "stat",
           "title": "Total Requests",
           "gridPos": {
@@ -1248,7 +1248,7 @@
           ]
         },
         {
-          "id": 102,
+          "id": 302,
           "type": "stat",
           "title": "Request Rate",
           "gridPos": {
@@ -1302,7 +1302,7 @@
           ]
         },
         {
-          "id": 103,
+          "id": 303,
           "type": "stat",
           "title": "Error Rate",
           "gridPos": {
@@ -1365,7 +1365,7 @@
           ]
         },
         {
-          "id": 104,
+          "id": 304,
           "type": "stat",
           "title": "Avg Latency",
           "gridPos": {
@@ -1427,7 +1427,7 @@
           ]
         },
         {
-          "id": 105,
+          "id": 305,
           "type": "timeseries",
           "title": "Request Rate by Server",
           "gridPos": {
@@ -1488,7 +1488,7 @@
           ]
         },
         {
-          "id": 106,
+          "id": 306,
           "type": "timeseries",
           "title": "Requests by Domain",
           "gridPos": {
@@ -1546,7 +1546,7 @@
           ]
         },
         {
-          "id": 107,
+          "id": 307,
           "type": "timeseries",
           "title": "Latency Percentiles",
           "gridPos": {
@@ -1622,7 +1622,7 @@
           ]
         },
         {
-          "id": 108,
+          "id": 308,
           "type": "timeseries",
           "title": "Errors by Server",
           "gridPos": {
@@ -1680,7 +1680,7 @@
           ]
         },
         {
-          "id": 109,
+          "id": 309,
           "type": "timeseries",
           "title": "Bandwidth",
           "gridPos": {
@@ -1747,7 +1747,7 @@
           ]
         },
         {
-          "id": 110,
+          "id": 310,
           "type": "piechart",
           "title": "Status Codes",
           "gridPos": {
@@ -1829,7 +1829,7 @@
           ]
         },
         {
-          "id": 111,
+          "id": 311,
           "type": "piechart",
           "title": "HTTP Methods",
           "gridPos": {
@@ -1911,7 +1911,7 @@
           ]
         },
         {
-          "id": 112,
+          "id": 312,
           "type": "piechart",
           "title": "Countries",
           "gridPos": {
@@ -1993,7 +1993,7 @@
           ]
         },
         {
-          "id": 113,
+          "id": 313,
           "type": "table",
           "title": "Top Paths",
           "gridPos": {
@@ -2069,7 +2069,7 @@
           ]
         },
         {
-          "id": 114,
+          "id": 314,
           "type": "table",
           "title": "Top User Agents",
           "gridPos": {
@@ -2145,7 +2145,7 @@
           ]
         },
         {
-          "id": 115,
+          "id": 315,
           "type": "table",
           "title": "Slowest Requests",
           "gridPos": {
@@ -2221,7 +2221,7 @@
           ]
         },
         {
-          "id": 116,
+          "id": 316,
           "type": "table",
           "title": "Requests by Domain & Status",
           "gridPos": {
@@ -2297,7 +2297,7 @@
           ]
         }
       ],
-      "id": 100
+      "id": 300
     },
     {
       "type": "row",
@@ -2311,7 +2311,7 @@
       "collapsed": true,
       "panels": [
         {
-          "id": 201,
+          "id": 401,
           "type": "timeseries",
           "title": "WAF Events Timeline",
           "gridPos": {
@@ -2403,7 +2403,7 @@
           ]
         },
         {
-          "id": 202,
+          "id": 402,
           "type": "table",
           "title": "Top Rules",
           "gridPos": {
@@ -2449,7 +2449,7 @@
           ]
         },
         {
-          "id": 203,
+          "id": 403,
           "type": "piechart",
           "title": "By Method",
           "gridPos": {
@@ -2500,7 +2500,7 @@
           ]
         },
         {
-          "id": 204,
+          "id": 404,
           "type": "piechart",
           "title": "By Scenario",
           "gridPos": {
@@ -2551,7 +2551,7 @@
           ]
         },
         {
-          "id": 205,
+          "id": 405,
           "type": "table",
           "title": "Top Targeted Paths",
           "gridPos": {
@@ -2595,7 +2595,7 @@
           ]
         },
         {
-          "id": 206,
+          "id": 406,
           "type": "table",
           "title": "Top IPs",
           "gridPos": {
@@ -2639,7 +2639,7 @@
           ]
         },
         {
-          "id": 207,
+          "id": 407,
           "type": "table",
           "title": "Top Targeted Hosts",
           "gridPos": {
@@ -2683,7 +2683,7 @@
           ]
         },
         {
-          "id": 208,
+          "id": 408,
           "type": "timeseries",
           "title": "Active Decisions",
           "gridPos": {
@@ -2742,7 +2742,7 @@
           ]
         },
         {
-          "id": 209,
+          "id": 409,
           "type": "timeseries",
           "title": "Bouncer Requests",
           "gridPos": {
@@ -2800,7 +2800,7 @@
           ]
         }
       ],
-      "id": 200
+      "id": 400
     },
     {
       "type": "row",
@@ -2814,7 +2814,7 @@
       "collapsed": true,
       "panels": [
         {
-          "id": 301,
+          "id": 501,
           "type": "stat",
           "title": "Active Sessions",
           "gridPos": {
@@ -2869,7 +2869,7 @@
           ]
         },
         {
-          "id": 302,
+          "id": 502,
           "type": "stat",
           "title": "Connections (24h)",
           "gridPos": {
@@ -2924,7 +2924,7 @@
           ]
         },
         {
-          "id": 303,
+          "id": 503,
           "type": "stat",
           "title": "Credentials Captured (24h)",
           "gridPos": {
@@ -2979,7 +2979,7 @@
           ]
         },
         {
-          "id": 304,
+          "id": 504,
           "type": "timeseries",
           "title": "Connections by Protocol",
           "gridPos": {
@@ -3038,7 +3038,7 @@
           ]
         },
         {
-          "id": 305,
+          "id": 505,
           "type": "timeseries",
           "title": "Credentials by Protocol",
           "gridPos": {
@@ -3097,7 +3097,7 @@
           ]
         },
         {
-          "id": 306,
+          "id": 506,
           "type": "timeseries",
           "title": "Session Duration by Protocol",
           "gridPos": {
@@ -3165,7 +3165,7 @@
           ]
         },
         {
-          "id": 307,
+          "id": 507,
           "type": "timeseries",
           "title": "Active Sessions by Protocol",
           "gridPos": {
@@ -3224,7 +3224,7 @@
           ]
         },
         {
-          "id": 308,
+          "id": 508,
           "type": "table",
           "title": "Top Domains",
           "gridPos": {
@@ -3268,7 +3268,7 @@
           ]
         },
         {
-          "id": 309,
+          "id": 509,
           "type": "table",
           "title": "Top Paths",
           "gridPos": {
@@ -3312,7 +3312,7 @@
           ]
         },
         {
-          "id": 310,
+          "id": 510,
           "type": "table",
           "title": "Top IPs",
           "gridPos": {
@@ -3356,7 +3356,7 @@
           ]
         },
         {
-          "id": 311,
+          "id": 511,
           "type": "piechart",
           "title": "Status Distribution",
           "gridPos": {
@@ -3407,7 +3407,7 @@
           ]
         }
       ],
-      "id": 300
+      "id": 500
     },
     {
       "type": "row",
@@ -3421,7 +3421,7 @@
       "collapsed": true,
       "panels": [
         {
-          "id": 401,
+          "id": 601,
           "type": "logs",
           "title": "Caddy Logs",
           "gridPos": {
@@ -3460,7 +3460,7 @@
           ]
         },
         {
-          "id": 402,
+          "id": 602,
           "type": "logs",
           "title": "AppSec Logs",
           "gridPos": {
@@ -3499,7 +3499,7 @@
           ]
         },
         {
-          "id": 403,
+          "id": 603,
           "type": "logs",
           "title": "CrowdSec Logs",
           "gridPos": {
@@ -3538,7 +3538,7 @@
           ]
         },
         {
-          "id": 404,
+          "id": 604,
           "type": "logs",
           "title": "Honeypot Logs",
           "gridPos": {
@@ -3577,7 +3577,7 @@
           ]
         }
       ],
-      "id": 400
+      "id": 600
     }
   ]
 }

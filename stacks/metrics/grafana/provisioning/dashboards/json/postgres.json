@@ -2,11 +2,16 @@
   "uid": "postgres",
   "title": "PostgreSQL",
   "description": "PostgreSQL server activity, connections, and table statistics.",
-  "tags": ["postgres"],
+  "tags": [
+    "postgres"
+  ],
   "editable": true,
   "graphTooltip": 1,
   "refresh": "30s",
-  "time": {"from": "now-1h", "to": "now"},
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
   "timezone": "browser",
   "timepicker": {},
   "schemaVersion": 38,
@@ -27,8 +32,15 @@
     "list": [
       {
         "allValue": ".*",
-        "current": {"selected": false, "text": "All", "value": "$__all"},
-        "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": {
+          "type": "victoriametrics-metrics-datasource",
+          "uid": "victoriametrics"
+        },
         "definition": "",
         "hide": 0,
         "includeAll": true,
@@ -49,8 +61,15 @@
       },
       {
         "allValue": ".*",
-        "current": {"selected": false, "text": "All", "value": "$__all"},
-        "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": {
+          "type": "victoriametrics-metrics-datasource",
+          "uid": "victoriametrics"
+        },
         "definition": "label_values(pg_stat_database_tup_fetched{instance=~\"$instance\",datname!~\"template.*|postgres\"},datname)",
         "hide": 0,
         "includeAll": true,
@@ -71,15 +90,28 @@
       },
       {
         "allValue": null,
-        "current": {"selected": true, "text": "postgres", "value": "postgres"},
-        "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
+        "current": {
+          "selected": true,
+          "text": "postgres",
+          "value": "postgres"
+        },
+        "datasource": {
+          "type": "victoriametrics-metrics-datasource",
+          "uid": "victoriametrics"
+        },
         "definition": "label_values(pg_up, job)",
         "hide": 0,
         "includeAll": false,
         "label": "job",
         "multi": false,
         "name": "job",
-        "options": [{"selected": true, "text": "postgres", "value": "postgres"}],
+        "options": [
+          {
+            "selected": true,
+            "text": "postgres",
+            "value": "postgres"
+          }
+        ],
         "query": "label_values(pg_up, job)",
         "refresh": 0,
         "regex": "",
@@ -97,16 +129,32 @@
     {
       "type": "row",
       "title": "📊 Overview",
-      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 0}
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1
     },
     {
       "type": "timeseries",
       "title": "Rows",
-      "gridPos": {"h": 7, "w": 20, "x": 0, "y": 1},
-      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
+      "gridPos": {
+        "h": 7,
+        "w": 20,
+        "x": 0,
+        "y": 1
+      },
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "victoriametrics"
+      },
       "fieldConfig": {
         "defaults": {
-          "color": {"mode": "palette-classic"},
+          "color": {
+            "mode": "palette-classic"
+          },
           "custom": {
             "axisCenteredZero": false,
             "axisColorMode": "text",
@@ -115,31 +163,52 @@
             "drawStyle": "line",
             "fillOpacity": 20,
             "gradientMode": "none",
-            "hideFrom": {"legend": false, "tooltip": false, "viz": false},
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
             "lineInterpolation": "smooth",
             "lineWidth": 2,
             "pointSize": 5,
-            "scaleDistribution": {"type": "linear"},
+            "scaleDistribution": {
+              "type": "linear"
+            },
             "showPoints": "never",
             "spanNulls": false,
-            "stacking": {"group": "A", "mode": "none"},
-            "thresholdsStyle": {"mode": "off"}
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
           },
           "thresholds": {
             "mode": "absolute",
-            "steps": [{"color": "green"}]
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
           },
           "unit": "short"
         }
       },
       "options": {
         "legend": {
-          "calcs": ["mean", "max"],
+          "calcs": [
+            "mean",
+            "max"
+          ],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
         },
-        "tooltip": {"mode": "multi", "sort": "desc"}
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
       },
       "targets": [
         {
@@ -149,11 +218,15 @@
           "alias": "fetched",
           "groupBy": [
             {
-              "params": ["$interval"],
+              "params": [
+                "$interval"
+              ],
               "type": "time"
             },
             {
-              "params": ["null"],
+              "params": [
+                "null"
+              ],
               "type": "fill"
             }
           ],
@@ -163,7 +236,9 @@
           "select": [
             [
               {
-                "params": ["tup_fetched"],
+                "params": [
+                  "tup_fetched"
+                ],
                 "type": "field"
               },
               {
@@ -171,13 +246,21 @@
                 "type": "mean"
               },
               {
-                "params": ["10s"],
+                "params": [
+                  "10s"
+                ],
                 "type": "non_negative_derivative"
               }
             ]
           ],
           "step": 120,
-          "tags": [{"key": "instance", "operator": "=~", "value": "/^$instance$/"}]
+          "tags": [
+            {
+              "key": "instance",
+              "operator": "=~",
+              "value": "/^$instance$/"
+            }
+          ]
         },
         {
           "refId": "B",
@@ -186,11 +269,15 @@
           "alias": "fetched",
           "groupBy": [
             {
-              "params": ["$interval"],
+              "params": [
+                "$interval"
+              ],
               "type": "time"
             },
             {
-              "params": ["null"],
+              "params": [
+                "null"
+              ],
               "type": "fill"
             }
           ],
@@ -200,7 +287,9 @@
           "select": [
             [
               {
-                "params": ["tup_fetched"],
+                "params": [
+                  "tup_fetched"
+                ],
                 "type": "field"
               },
               {
@@ -208,13 +297,21 @@
                 "type": "mean"
               },
               {
-                "params": ["10s"],
+                "params": [
+                  "10s"
+                ],
                 "type": "non_negative_derivative"
               }
             ]
           ],
           "step": 120,
-          "tags": [{"key": "instance", "operator": "=~", "value": "/^$instance$/"}]
+          "tags": [
+            {
+              "key": "instance",
+              "operator": "=~",
+              "value": "/^$instance$/"
+            }
+          ]
         },
         {
           "refId": "C",
@@ -223,11 +320,15 @@
           "alias": "fetched",
           "groupBy": [
             {
-              "params": ["$interval"],
+              "params": [
+                "$interval"
+              ],
               "type": "time"
             },
             {
-              "params": ["null"],
+              "params": [
+                "null"
+              ],
               "type": "fill"
             }
           ],
@@ -237,7 +338,9 @@
           "select": [
             [
               {
-                "params": ["tup_fetched"],
+                "params": [
+                  "tup_fetched"
+                ],
                 "type": "field"
               },
               {
@@ -245,13 +348,21 @@
                 "type": "mean"
               },
               {
-                "params": ["10s"],
+                "params": [
+                  "10s"
+                ],
                 "type": "non_negative_derivative"
               }
             ]
           ],
           "step": 120,
-          "tags": [{"key": "instance", "operator": "=~", "value": "/^$instance$/"}]
+          "tags": [
+            {
+              "key": "instance",
+              "operator": "=~",
+              "value": "/^$instance$/"
+            }
+          ]
         },
         {
           "refId": "D",
@@ -260,11 +371,15 @@
           "alias": "fetched",
           "groupBy": [
             {
-              "params": ["$interval"],
+              "params": [
+                "$interval"
+              ],
               "type": "time"
             },
             {
-              "params": ["null"],
+              "params": [
+                "null"
+              ],
               "type": "fill"
             }
           ],
@@ -274,7 +389,9 @@
           "select": [
             [
               {
-                "params": ["tup_fetched"],
+                "params": [
+                  "tup_fetched"
+                ],
                 "type": "field"
               },
               {
@@ -282,13 +399,21 @@
                 "type": "mean"
               },
               {
-                "params": ["10s"],
+                "params": [
+                  "10s"
+                ],
                 "type": "non_negative_derivative"
               }
             ]
           ],
           "step": 120,
-          "tags": [{"key": "instance", "operator": "=~", "value": "/^$instance$/"}]
+          "tags": [
+            {
+              "key": "instance",
+              "operator": "=~",
+              "value": "/^$instance$/"
+            }
+          ]
         },
         {
           "refId": "E",
@@ -297,11 +422,15 @@
           "alias": "fetched",
           "groupBy": [
             {
-              "params": ["$interval"],
+              "params": [
+                "$interval"
+              ],
               "type": "time"
             },
             {
-              "params": ["null"],
+              "params": [
+                "null"
+              ],
               "type": "fill"
             }
           ],
@@ -311,7 +440,9 @@
           "select": [
             [
               {
-                "params": ["tup_fetched"],
+                "params": [
+                  "tup_fetched"
+                ],
                 "type": "field"
               },
               {
@@ -319,27 +450,50 @@
                 "type": "mean"
               },
               {
-                "params": ["10s"],
+                "params": [
+                  "10s"
+                ],
                 "type": "non_negative_derivative"
               }
             ]
           ],
           "step": 120,
-          "tags": [{"key": "instance", "operator": "=~", "value": "/^$instance$/"}]
+          "tags": [
+            {
+              "key": "instance",
+              "operator": "=~",
+              "value": "/^$instance$/"
+            }
+          ]
         }
-      ]
+      ],
+      "id": 2
     },
     {
       "type": "stat",
       "title": "QPS",
-      "gridPos": {"h": 3, "w": 4, "x": 20, "y": 1},
-      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 20,
+        "y": 1
+      },
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "victoriametrics"
+      },
       "fieldConfig": {
         "defaults": {
-          "color": {"mode": "thresholds"},
+          "color": {
+            "mode": "thresholds"
+          },
           "thresholds": {
             "mode": "absolute",
-            "steps": [{"color": "green"}]
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
           },
           "unit": "none"
         }
@@ -350,7 +504,9 @@
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": ["lastNotNull"],
+          "calcs": [
+            "lastNotNull"
+          ],
           "fields": "",
           "values": false
         },
@@ -362,11 +518,15 @@
           "expr": "sum(irate(pg_stat_database_xact_commit{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}[5m])) + sum(irate(pg_stat_database_xact_rollback{datname=~\"$db\",instance=~\"$instance\",job=~\"$job\"}[5m]))",
           "groupBy": [
             {
-              "params": ["$interval"],
+              "params": [
+                "$interval"
+              ],
               "type": "time"
             },
             {
-              "params": ["null"],
+              "params": [
+                "null"
+              ],
               "type": "fill"
             }
           ],
@@ -376,7 +536,9 @@
           "select": [
             [
               {
-                "params": ["xact_commit"],
+                "params": [
+                  "xact_commit"
+                ],
                 "type": "field"
               },
               {
@@ -384,24 +546,43 @@
                 "type": "mean"
               },
               {
-                "params": ["10s"],
+                "params": [
+                  "10s"
+                ],
                 "type": "non_negative_derivative"
               }
             ]
           ],
           "step": 1800,
-          "tags": [{"key": "instance", "operator": "=~", "value": "/^$instance$/"}]
+          "tags": [
+            {
+              "key": "instance",
+              "operator": "=~",
+              "value": "/^$instance$/"
+            }
+          ]
         }
-      ]
+      ],
+      "id": 3
     },
     {
       "type": "timeseries",
       "title": "Buffers",
-      "gridPos": {"h": 7, "w": 12, "x": 0, "y": 8},
-      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "victoriametrics"
+      },
       "fieldConfig": {
         "defaults": {
-          "color": {"mode": "palette-classic"},
+          "color": {
+            "mode": "palette-classic"
+          },
           "custom": {
             "axisCenteredZero": false,
             "axisColorMode": "text",
@@ -410,32 +591,53 @@
             "drawStyle": "line",
             "fillOpacity": 20,
             "gradientMode": "none",
-            "hideFrom": {"legend": false, "tooltip": false, "viz": false},
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
             "lineInterpolation": "smooth",
             "lineWidth": 2,
             "pointSize": 5,
-            "scaleDistribution": {"type": "linear"},
+            "scaleDistribution": {
+              "type": "linear"
+            },
             "showPoints": "never",
             "spanNulls": false,
-            "stacking": {"group": "A", "mode": "none"},
-            "thresholdsStyle": {"mode": "off"}
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
           },
           "min": 0,
           "thresholds": {
             "mode": "absolute",
-            "steps": [{"color": "green"}]
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
           },
           "unit": "short"
         }
       },
       "options": {
         "legend": {
-          "calcs": ["mean", "max"],
+          "calcs": [
+            "mean",
+            "max"
+          ],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
         },
-        "tooltip": {"mode": "multi", "sort": "desc"}
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
       },
       "targets": [
         {
@@ -445,11 +647,15 @@
           "alias": "Buffers Allocated",
           "groupBy": [
             {
-              "params": ["$interval"],
+              "params": [
+                "$interval"
+              ],
               "type": "time"
             },
             {
-              "params": ["null"],
+              "params": [
+                "null"
+              ],
               "type": "fill"
             }
           ],
@@ -459,7 +665,9 @@
           "select": [
             [
               {
-                "params": ["buffers_alloc"],
+                "params": [
+                  "buffers_alloc"
+                ],
                 "type": "field"
               },
               {
@@ -473,7 +681,13 @@
             ]
           ],
           "step": 240,
-          "tags": [{"key": "instance", "operator": "=~", "value": "/^$instance$/"}]
+          "tags": [
+            {
+              "key": "instance",
+              "operator": "=~",
+              "value": "/^$instance$/"
+            }
+          ]
         },
         {
           "refId": "B",
@@ -482,11 +696,15 @@
           "alias": "Buffers Allocated",
           "groupBy": [
             {
-              "params": ["$interval"],
+              "params": [
+                "$interval"
+              ],
               "type": "time"
             },
             {
-              "params": ["null"],
+              "params": [
+                "null"
+              ],
               "type": "fill"
             }
           ],
@@ -496,7 +714,9 @@
           "select": [
             [
               {
-                "params": ["buffers_alloc"],
+                "params": [
+                  "buffers_alloc"
+                ],
                 "type": "field"
               },
               {
@@ -510,7 +730,13 @@
             ]
           ],
           "step": 240,
-          "tags": [{"key": "instance", "operator": "=~", "value": "/^$instance$/"}]
+          "tags": [
+            {
+              "key": "instance",
+              "operator": "=~",
+              "value": "/^$instance$/"
+            }
+          ]
         },
         {
           "refId": "C",
@@ -519,11 +745,15 @@
           "alias": "Buffers Allocated",
           "groupBy": [
             {
-              "params": ["$interval"],
+              "params": [
+                "$interval"
+              ],
               "type": "time"
             },
             {
-              "params": ["null"],
+              "params": [
+                "null"
+              ],
               "type": "fill"
             }
           ],
@@ -533,7 +763,9 @@
           "select": [
             [
               {
-                "params": ["buffers_alloc"],
+                "params": [
+                  "buffers_alloc"
+                ],
                 "type": "field"
               },
               {
@@ -547,7 +779,13 @@
             ]
           ],
           "step": 240,
-          "tags": [{"key": "instance", "operator": "=~", "value": "/^$instance$/"}]
+          "tags": [
+            {
+              "key": "instance",
+              "operator": "=~",
+              "value": "/^$instance$/"
+            }
+          ]
         },
         {
           "refId": "D",
@@ -556,11 +794,15 @@
           "alias": "Buffers Allocated",
           "groupBy": [
             {
-              "params": ["$interval"],
+              "params": [
+                "$interval"
+              ],
               "type": "time"
             },
             {
-              "params": ["null"],
+              "params": [
+                "null"
+              ],
               "type": "fill"
             }
           ],
@@ -570,7 +812,9 @@
           "select": [
             [
               {
-                "params": ["buffers_alloc"],
+                "params": [
+                  "buffers_alloc"
+                ],
                 "type": "field"
               },
               {
@@ -584,7 +828,13 @@
             ]
           ],
           "step": 240,
-          "tags": [{"key": "instance", "operator": "=~", "value": "/^$instance$/"}]
+          "tags": [
+            {
+              "key": "instance",
+              "operator": "=~",
+              "value": "/^$instance$/"
+            }
+          ]
         },
         {
           "refId": "E",
@@ -593,11 +843,15 @@
           "alias": "Buffers Allocated",
           "groupBy": [
             {
-              "params": ["$interval"],
+              "params": [
+                "$interval"
+              ],
               "type": "time"
             },
             {
-              "params": ["null"],
+              "params": [
+                "null"
+              ],
               "type": "fill"
             }
           ],
@@ -607,7 +861,9 @@
           "select": [
             [
               {
-                "params": ["buffers_alloc"],
+                "params": [
+                  "buffers_alloc"
+                ],
                 "type": "field"
               },
               {
@@ -621,18 +877,35 @@
             ]
           ],
           "step": 240,
-          "tags": [{"key": "instance", "operator": "=~", "value": "/^$instance$/"}]
+          "tags": [
+            {
+              "key": "instance",
+              "operator": "=~",
+              "value": "/^$instance$/"
+            }
+          ]
         }
-      ]
+      ],
+      "id": 4
     },
     {
       "type": "timeseries",
       "title": "Conflicts/Deadlocks",
-      "gridPos": {"h": 7, "w": 12, "x": 12, "y": 8},
-      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "victoriametrics"
+      },
       "fieldConfig": {
         "defaults": {
-          "color": {"mode": "palette-classic"},
+          "color": {
+            "mode": "palette-classic"
+          },
           "custom": {
             "axisCenteredZero": false,
             "axisColorMode": "text",
@@ -641,32 +914,53 @@
             "drawStyle": "line",
             "fillOpacity": 20,
             "gradientMode": "none",
-            "hideFrom": {"legend": false, "tooltip": false, "viz": false},
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
             "lineInterpolation": "smooth",
             "lineWidth": 2,
             "pointSize": 5,
-            "scaleDistribution": {"type": "linear"},
+            "scaleDistribution": {
+              "type": "linear"
+            },
             "showPoints": "never",
             "spanNulls": false,
-            "stacking": {"group": "A", "mode": "none"},
-            "thresholdsStyle": {"mode": "off"}
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
           },
           "min": 0,
           "thresholds": {
             "mode": "absolute",
-            "steps": [{"color": "green"}]
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
           },
           "unit": "short"
         }
       },
       "options": {
         "legend": {
-          "calcs": ["mean", "max"],
+          "calcs": [
+            "mean",
+            "max"
+          ],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
         },
-        "tooltip": {"mode": "multi", "sort": "desc"}
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
       },
       "targets": [
         {
@@ -676,11 +970,15 @@
           "alias": "conflicts",
           "groupBy": [
             {
-              "params": ["$interval"],
+              "params": [
+                "$interval"
+              ],
               "type": "time"
             },
             {
-              "params": ["null"],
+              "params": [
+                "null"
+              ],
               "type": "fill"
             }
           ],
@@ -690,7 +988,9 @@
           "select": [
             [
               {
-                "params": ["conflicts"],
+                "params": [
+                  "conflicts"
+                ],
                 "type": "field"
               },
               {
@@ -704,7 +1004,13 @@
             ]
           ],
           "step": 240,
-          "tags": [{"key": "instance", "operator": "=~", "value": "/^$instance$/"}]
+          "tags": [
+            {
+              "key": "instance",
+              "operator": "=~",
+              "value": "/^$instance$/"
+            }
+          ]
         },
         {
           "refId": "B",
@@ -713,11 +1019,15 @@
           "alias": "deadlocks",
           "groupBy": [
             {
-              "params": ["$interval"],
+              "params": [
+                "$interval"
+              ],
               "type": "time"
             },
             {
-              "params": ["null"],
+              "params": [
+                "null"
+              ],
               "type": "fill"
             }
           ],
@@ -727,7 +1037,9 @@
           "select": [
             [
               {
-                "params": ["deadlocks"],
+                "params": [
+                  "deadlocks"
+                ],
                 "type": "field"
               },
               {
@@ -741,18 +1053,35 @@
             ]
           ],
           "step": 240,
-          "tags": [{"key": "instance", "operator": "=~", "value": "/^$instance$/"}]
+          "tags": [
+            {
+              "key": "instance",
+              "operator": "=~",
+              "value": "/^$instance$/"
+            }
+          ]
         }
-      ]
+      ],
+      "id": 5
     },
     {
       "type": "timeseries",
       "title": "Cache hit ratio",
-      "gridPos": {"h": 7, "w": 12, "x": 0, "y": 15},
-      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 15
+      },
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "victoriametrics"
+      },
       "fieldConfig": {
         "defaults": {
-          "color": {"mode": "palette-classic"},
+          "color": {
+            "mode": "palette-classic"
+          },
           "custom": {
             "axisCenteredZero": false,
             "axisColorMode": "text",
@@ -761,31 +1090,52 @@
             "drawStyle": "line",
             "fillOpacity": 20,
             "gradientMode": "none",
-            "hideFrom": {"legend": false, "tooltip": false, "viz": false},
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
             "lineInterpolation": "smooth",
             "lineWidth": 2,
             "pointSize": 5,
-            "scaleDistribution": {"type": "linear"},
+            "scaleDistribution": {
+              "type": "linear"
+            },
             "showPoints": "never",
             "spanNulls": false,
-            "stacking": {"group": "A", "mode": "none"},
-            "thresholdsStyle": {"mode": "off"}
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
           },
           "thresholds": {
             "mode": "absolute",
-            "steps": [{"color": "green"}]
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
           },
           "unit": "percentunit"
         }
       },
       "options": {
         "legend": {
-          "calcs": ["mean", "max"],
+          "calcs": [
+            "mean",
+            "max"
+          ],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
         },
-        "tooltip": {"mode": "multi", "sort": "desc"}
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
       },
       "targets": [
         {
@@ -795,16 +1145,27 @@
           "intervalFactor": 2,
           "step": 240
         }
-      ]
+      ],
+      "id": 6
     },
     {
       "type": "timeseries",
       "title": "Number of active connections",
-      "gridPos": {"h": 7, "w": 12, "x": 12, "y": 15},
-      "datasource": {"type": "victoriametrics-metrics-datasource", "uid": "victoriametrics"},
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 15
+      },
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "victoriametrics"
+      },
       "fieldConfig": {
         "defaults": {
-          "color": {"mode": "palette-classic"},
+          "color": {
+            "mode": "palette-classic"
+          },
           "custom": {
             "axisCenteredZero": false,
             "axisColorMode": "text",
@@ -813,31 +1174,52 @@
             "drawStyle": "line",
             "fillOpacity": 20,
             "gradientMode": "none",
-            "hideFrom": {"legend": false, "tooltip": false, "viz": false},
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
             "lineInterpolation": "smooth",
             "lineWidth": 2,
             "pointSize": 5,
-            "scaleDistribution": {"type": "linear"},
+            "scaleDistribution": {
+              "type": "linear"
+            },
             "showPoints": "never",
             "spanNulls": false,
-            "stacking": {"group": "A", "mode": "none"},
-            "thresholdsStyle": {"mode": "off"}
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
           },
           "thresholds": {
             "mode": "absolute",
-            "steps": [{"color": "green"}]
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
           },
           "unit": "short"
         }
       },
       "options": {
         "legend": {
-          "calcs": ["mean", "max"],
+          "calcs": [
+            "mean",
+            "max"
+          ],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
         },
-        "tooltip": {"mode": "multi", "sort": "desc"}
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
       },
       "targets": [
         {
@@ -847,7 +1229,8 @@
           "intervalFactor": 2,
           "step": 240
         }
-      ]
+      ],
+      "id": 7
     }
   ]
 }
