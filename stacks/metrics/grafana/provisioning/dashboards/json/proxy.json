@@ -34,7 +34,9 @@
         "spec": {
           "title": "Tunnel Up",
           "vizConfig": {
-            "kind": "stat",
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "",
             "spec": {
               "pluginVersion": "",
               "options": {
@@ -98,24 +100,28 @@
                   "spec": {
                     "refId": "A",
                     "datasource": {
-                      "type": "victoriametrics-metrics-datasource",
-                      "uid": "victoriametrics"
+                      "name": "victoriametrics"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-metrics-datasource",
-                        "uid": "victoriametrics"
+                        "name": "victoriametrics"
                       },
+                      "group": "victoriametrics-metrics-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "bifrost_tunnel_up"
-                    }
+                      "spec": {
+                        "expr": "bifrost_tunnel_up"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 }
               ],
               "transformations": []
             }
-          }
+          },
+          "description": "",
+          "links": []
         }
       },
       "panel-caddy-config": {
@@ -123,7 +129,9 @@
         "spec": {
           "title": "Caddy Config",
           "vizConfig": {
-            "kind": "stat",
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "",
             "spec": {
               "pluginVersion": "",
               "options": {
@@ -187,24 +195,28 @@
                   "spec": {
                     "refId": "A",
                     "datasource": {
-                      "type": "victoriametrics-metrics-datasource",
-                      "uid": "victoriametrics"
+                      "name": "victoriametrics"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-metrics-datasource",
-                        "uid": "victoriametrics"
+                        "name": "victoriametrics"
                       },
+                      "group": "victoriametrics-metrics-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "caddy_config_last_reload_successful"
-                    }
+                      "spec": {
+                        "expr": "caddy_config_last_reload_successful"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 }
               ],
               "transformations": []
             }
-          }
+          },
+          "description": "",
+          "links": []
         }
       },
       "panel-reconnects": {
@@ -212,7 +224,9 @@
         "spec": {
           "title": "Reconnects",
           "vizConfig": {
-            "kind": "stat",
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "",
             "spec": {
               "pluginVersion": "",
               "options": {
@@ -256,24 +270,28 @@
                   "spec": {
                     "refId": "A",
                     "datasource": {
-                      "type": "victoriametrics-metrics-datasource",
-                      "uid": "victoriametrics"
+                      "name": "victoriametrics"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-metrics-datasource",
-                        "uid": "victoriametrics"
+                        "name": "victoriametrics"
                       },
+                      "group": "victoriametrics-metrics-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "increase(bifrost_reconnects_total[$__range])"
-                    }
+                      "spec": {
+                        "expr": "increase(bifrost_reconnects_total[$__range])"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 }
               ],
               "transformations": []
             }
-          }
+          },
+          "description": "",
+          "links": []
         }
       },
       "panel-resolves": {
@@ -281,7 +299,9 @@
         "spec": {
           "title": "Resolves",
           "vizConfig": {
-            "kind": "stat",
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "",
             "spec": {
               "pluginVersion": "",
               "options": {
@@ -325,24 +345,28 @@
                   "spec": {
                     "refId": "A",
                     "datasource": {
-                      "type": "victoriametrics-metrics-datasource",
-                      "uid": "victoriametrics"
+                      "name": "victoriametrics"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-metrics-datasource",
-                        "uid": "victoriametrics"
+                        "name": "victoriametrics"
                       },
+                      "group": "victoriametrics-metrics-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "increase(bifrost_resolves_total[$__range])"
-                    }
+                      "spec": {
+                        "expr": "increase(bifrost_resolves_total[$__range])"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 }
               ],
               "transformations": []
             }
-          }
+          },
+          "description": "",
+          "links": []
         }
       },
       "panel-endpoint-changes": {
@@ -350,7 +374,9 @@
         "spec": {
           "title": "Endpoint Changes",
           "vizConfig": {
-            "kind": "stat",
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "",
             "spec": {
               "pluginVersion": "",
               "options": {
@@ -394,24 +420,28 @@
                   "spec": {
                     "refId": "A",
                     "datasource": {
-                      "type": "victoriametrics-metrics-datasource",
-                      "uid": "victoriametrics"
+                      "name": "victoriametrics"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-metrics-datasource",
-                        "uid": "victoriametrics"
+                        "name": "victoriametrics"
                       },
+                      "group": "victoriametrics-metrics-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "increase(bifrost_endpoint_changes_total[$__range])"
-                    }
+                      "spec": {
+                        "expr": "increase(bifrost_endpoint_changes_total[$__range])"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 }
               ],
               "transformations": []
             }
-          }
+          },
+          "description": "",
+          "links": []
         }
       },
       "panel-request-rate": {
@@ -419,7 +449,9 @@
         "spec": {
           "title": "Request Rate",
           "vizConfig": {
-            "kind": "stat",
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "",
             "spec": {
               "pluginVersion": "",
               "options": {
@@ -463,24 +495,28 @@
                   "spec": {
                     "refId": "A",
                     "datasource": {
-                      "type": "victoriametrics-metrics-datasource",
-                      "uid": "victoriametrics"
+                      "name": "victoriametrics"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-metrics-datasource",
-                        "uid": "victoriametrics"
+                        "name": "victoriametrics"
                       },
+                      "group": "victoriametrics-metrics-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "sum(rate(caddy_http_requests_total{instance=~\"$instance\"}[5m]))"
-                    }
+                      "spec": {
+                        "expr": "sum(rate(caddy_http_requests_total{instance=~\"$instance\"}[5m]))"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 }
               ],
               "transformations": []
             }
-          }
+          },
+          "description": "",
+          "links": []
         }
       },
       "panel-error-rate": {
@@ -488,7 +524,9 @@
         "spec": {
           "title": "Error Rate",
           "vizConfig": {
-            "kind": "stat",
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "",
             "spec": {
               "pluginVersion": "",
               "options": {
@@ -540,24 +578,28 @@
                   "spec": {
                     "refId": "A",
                     "datasource": {
-                      "type": "victoriametrics-metrics-datasource",
-                      "uid": "victoriametrics"
+                      "name": "victoriametrics"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-metrics-datasource",
-                        "uid": "victoriametrics"
+                        "name": "victoriametrics"
                       },
+                      "group": "victoriametrics-metrics-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "sum(rate(caddy_http_request_errors_total{instance=~\"$instance\"}[5m])) / sum(rate(caddy_http_requests_total{instance=~\"$instance\"}[5m])) * 100"
-                    }
+                      "spec": {
+                        "expr": "sum(rate(caddy_http_request_errors_total{instance=~\"$instance\"}[5m])) / sum(rate(caddy_http_requests_total{instance=~\"$instance\"}[5m])) * 100"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 }
               ],
               "transformations": []
             }
-          }
+          },
+          "description": "",
+          "links": []
         }
       },
       "panel-avg-duration": {
@@ -565,7 +607,9 @@
         "spec": {
           "title": "Avg Duration",
           "vizConfig": {
-            "kind": "stat",
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "",
             "spec": {
               "pluginVersion": "",
               "options": {
@@ -617,24 +661,28 @@
                   "spec": {
                     "refId": "A",
                     "datasource": {
-                      "type": "victoriametrics-metrics-datasource",
-                      "uid": "victoriametrics"
+                      "name": "victoriametrics"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-metrics-datasource",
-                        "uid": "victoriametrics"
+                        "name": "victoriametrics"
                       },
+                      "group": "victoriametrics-metrics-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "sum(rate(caddy_http_request_duration_seconds_sum{instance=~\"$instance\"}[5m])) / sum(rate(caddy_http_request_duration_seconds_count{instance=~\"$instance\"}[5m]))"
-                    }
+                      "spec": {
+                        "expr": "sum(rate(caddy_http_request_duration_seconds_sum{instance=~\"$instance\"}[5m])) / sum(rate(caddy_http_request_duration_seconds_count{instance=~\"$instance\"}[5m]))"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 }
               ],
               "transformations": []
             }
-          }
+          },
+          "description": "",
+          "links": []
         }
       },
       "panel-in-flight": {
@@ -642,7 +690,9 @@
         "spec": {
           "title": "In-Flight",
           "vizConfig": {
-            "kind": "stat",
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "",
             "spec": {
               "pluginVersion": "",
               "options": {
@@ -686,24 +736,28 @@
                   "spec": {
                     "refId": "A",
                     "datasource": {
-                      "type": "victoriametrics-metrics-datasource",
-                      "uid": "victoriametrics"
+                      "name": "victoriametrics"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-metrics-datasource",
-                        "uid": "victoriametrics"
+                        "name": "victoriametrics"
                       },
+                      "group": "victoriametrics-metrics-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "sum(caddy_http_requests_in_flight{instance=~\"$instance\"})"
-                    }
+                      "spec": {
+                        "expr": "sum(caddy_http_requests_in_flight{instance=~\"$instance\"})"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 }
               ],
               "transformations": []
             }
-          }
+          },
+          "description": "",
+          "links": []
         }
       },
       "panel-active-decisions": {
@@ -711,7 +765,9 @@
         "spec": {
           "title": "Active Decisions",
           "vizConfig": {
-            "kind": "stat",
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "",
             "spec": {
               "pluginVersion": "",
               "options": {
@@ -755,24 +811,28 @@
                   "spec": {
                     "refId": "A",
                     "datasource": {
-                      "type": "victoriametrics-metrics-datasource",
-                      "uid": "victoriametrics"
+                      "name": "victoriametrics"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-metrics-datasource",
-                        "uid": "victoriametrics"
+                        "name": "victoriametrics"
                       },
+                      "group": "victoriametrics-metrics-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "sum(cs_active_decisions{instance=~\"$instance\"})"
-                    }
+                      "spec": {
+                        "expr": "sum(cs_active_decisions{instance=~\"$instance\"})"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 }
               ],
               "transformations": []
             }
-          }
+          },
+          "description": "",
+          "links": []
         }
       },
       "panel-honeypot-traps-24h": {
@@ -780,7 +840,9 @@
         "spec": {
           "title": "Honeypot Traps (24h)",
           "vizConfig": {
-            "kind": "stat",
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "",
             "spec": {
               "pluginVersion": "",
               "options": {
@@ -824,24 +886,28 @@
                   "spec": {
                     "refId": "A",
                     "datasource": {
-                      "type": "victoriametrics-metrics-datasource",
-                      "uid": "victoriametrics"
+                      "name": "victoriametrics"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-metrics-datasource",
-                        "uid": "victoriametrics"
+                        "name": "victoriametrics"
                       },
+                      "group": "victoriametrics-metrics-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "sum(increase(ran_connections_total{instance=~\"$instance\"}[24h]))"
-                    }
+                      "spec": {
+                        "expr": "sum(increase(ran_connections_total{instance=~\"$instance\"}[24h]))"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 }
               ],
               "transformations": []
             }
-          }
+          },
+          "description": "",
+          "links": []
         }
       },
       "panel-total-requests-24h": {
@@ -849,7 +915,9 @@
         "spec": {
           "title": "Total Requests (24h)",
           "vizConfig": {
-            "kind": "stat",
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "",
             "spec": {
               "pluginVersion": "",
               "options": {
@@ -893,24 +961,28 @@
                   "spec": {
                     "refId": "A",
                     "datasource": {
-                      "type": "victoriametrics-metrics-datasource",
-                      "uid": "victoriametrics"
+                      "name": "victoriametrics"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-metrics-datasource",
-                        "uid": "victoriametrics"
+                        "name": "victoriametrics"
                       },
+                      "group": "victoriametrics-metrics-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "sum(increase(caddy_http_requests_total{instance=~\"$instance\"}[24h]))"
-                    }
+                      "spec": {
+                        "expr": "sum(increase(caddy_http_requests_total{instance=~\"$instance\"}[24h]))"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 }
               ],
               "transformations": []
             }
-          }
+          },
+          "description": "",
+          "links": []
         }
       },
       "panel-peer-bandwidth": {
@@ -918,7 +990,9 @@
         "spec": {
           "title": "Peer Bandwidth",
           "vizConfig": {
-            "kind": "timeseries",
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
             "spec": {
               "pluginVersion": "",
               "options": {
@@ -964,19 +1038,21 @@
                   "spec": {
                     "refId": "A",
                     "datasource": {
-                      "type": "victoriametrics-metrics-datasource",
-                      "uid": "victoriametrics"
+                      "name": "victoriametrics"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-metrics-datasource",
-                        "uid": "victoriametrics"
+                        "name": "victoriametrics"
                       },
+                      "group": "victoriametrics-metrics-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "rate(bifrost_peer_receive_bytes_total{instance=~\"$instance\"}[5m])",
-                      "legendFormat": "Receive"
-                    }
+                      "spec": {
+                        "expr": "rate(bifrost_peer_receive_bytes_total{instance=~\"$instance\"}[5m])",
+                        "legendFormat": "Receive"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 },
                 {
@@ -984,25 +1060,29 @@
                   "spec": {
                     "refId": "B",
                     "datasource": {
-                      "type": "victoriametrics-metrics-datasource",
-                      "uid": "victoriametrics"
+                      "name": "victoriametrics"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-metrics-datasource",
-                        "uid": "victoriametrics"
+                        "name": "victoriametrics"
                       },
+                      "group": "victoriametrics-metrics-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "rate(bifrost_peer_transmit_bytes_total{instance=~\"$instance\"}[5m])",
-                      "legendFormat": "Transmit"
-                    }
+                      "spec": {
+                        "expr": "rate(bifrost_peer_transmit_bytes_total{instance=~\"$instance\"}[5m])",
+                        "legendFormat": "Transmit"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 }
               ],
               "transformations": []
             }
-          }
+          },
+          "description": "",
+          "links": []
         }
       },
       "panel-peer-handshake-age": {
@@ -1010,7 +1090,9 @@
         "spec": {
           "title": "Peer Handshake Age",
           "vizConfig": {
-            "kind": "timeseries",
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
             "spec": {
               "pluginVersion": "",
               "options": {
@@ -1056,24 +1138,28 @@
                   "spec": {
                     "refId": "A",
                     "datasource": {
-                      "type": "victoriametrics-metrics-datasource",
-                      "uid": "victoriametrics"
+                      "name": "victoriametrics"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-metrics-datasource",
-                        "uid": "victoriametrics"
+                        "name": "victoriametrics"
                       },
+                      "group": "victoriametrics-metrics-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "bifrost_peer_last_handshake_age_seconds{instance=~\"$instance\"}"
-                    }
+                      "spec": {
+                        "expr": "bifrost_peer_last_handshake_age_seconds{instance=~\"$instance\"}"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 }
               ],
               "transformations": []
             }
-          }
+          },
+          "description": "",
+          "links": []
         }
       },
       "panel-total-requests": {
@@ -1081,7 +1167,9 @@
         "spec": {
           "title": "Total Requests",
           "vizConfig": {
-            "kind": "stat",
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "",
             "spec": {
               "pluginVersion": "",
               "options": {
@@ -1125,24 +1213,28 @@
                   "spec": {
                     "refId": "A",
                     "datasource": {
-                      "type": "victoriametrics-metrics-datasource",
-                      "uid": "victoriametrics"
+                      "name": "victoriametrics"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-metrics-datasource",
-                        "uid": "victoriametrics"
+                        "name": "victoriametrics"
                       },
+                      "group": "victoriametrics-metrics-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "sum(rate(caddy_http_requests_total{instance=~\"$instance\"}[5m]))"
-                    }
+                      "spec": {
+                        "expr": "sum(rate(caddy_http_requests_total{instance=~\"$instance\"}[5m]))"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 }
               ],
               "transformations": []
             }
-          }
+          },
+          "description": "",
+          "links": []
         }
       },
       "panel-served-proxy": {
@@ -1150,7 +1242,9 @@
         "spec": {
           "title": "Served (Proxy)",
           "vizConfig": {
-            "kind": "stat",
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "",
             "spec": {
               "pluginVersion": "",
               "options": {
@@ -1194,24 +1288,28 @@
                   "spec": {
                     "refId": "A",
                     "datasource": {
-                      "type": "victoriametrics-metrics-datasource",
-                      "uid": "victoriametrics"
+                      "name": "victoriametrics"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-metrics-datasource",
-                        "uid": "victoriametrics"
+                        "name": "victoriametrics"
                       },
+                      "group": "victoriametrics-metrics-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "sum(rate(caddy_http_requests_total{instance=~\"$instance\",server=\"proxy\"}[5m]))"
-                    }
+                      "spec": {
+                        "expr": "sum(rate(caddy_http_requests_total{instance=~\"$instance\",server=\"proxy\"}[5m]))"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 }
               ],
               "transformations": []
             }
-          }
+          },
+          "description": "",
+          "links": []
         }
       },
       "panel-honeypot": {
@@ -1219,7 +1317,9 @@
         "spec": {
           "title": "Honeypot",
           "vizConfig": {
-            "kind": "stat",
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "",
             "spec": {
               "pluginVersion": "",
               "options": {
@@ -1263,24 +1363,28 @@
                   "spec": {
                     "refId": "A",
                     "datasource": {
-                      "type": "victoriametrics-metrics-datasource",
-                      "uid": "victoriametrics"
+                      "name": "victoriametrics"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-metrics-datasource",
-                        "uid": "victoriametrics"
+                        "name": "victoriametrics"
                       },
+                      "group": "victoriametrics-metrics-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "sum(rate(caddy_http_requests_total{instance=~\"$instance\",server=\"honeypot\"}[5m]))"
-                    }
+                      "spec": {
+                        "expr": "sum(rate(caddy_http_requests_total{instance=~\"$instance\",server=\"honeypot\"}[5m]))"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 }
               ],
               "transformations": []
             }
-          }
+          },
+          "description": "",
+          "links": []
         }
       },
       "panel-request-flow": {
@@ -1288,7 +1392,9 @@
         "spec": {
           "title": "Request Flow",
           "vizConfig": {
-            "kind": "timeseries",
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
             "spec": {
               "pluginVersion": "",
               "options": {
@@ -1337,25 +1443,29 @@
                   "spec": {
                     "refId": "A",
                     "datasource": {
-                      "type": "victoriametrics-metrics-datasource",
-                      "uid": "victoriametrics"
+                      "name": "victoriametrics"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-metrics-datasource",
-                        "uid": "victoriametrics"
+                        "name": "victoriametrics"
                       },
+                      "group": "victoriametrics-metrics-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "sum by (server) (rate(caddy_http_requests_total{instance=~\"$instance\"}[5m]))",
-                      "legendFormat": "{{server}}"
-                    }
+                      "spec": {
+                        "expr": "sum by (server) (rate(caddy_http_requests_total{instance=~\"$instance\"}[5m]))",
+                        "legendFormat": "{{server}}"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 }
               ],
               "transformations": []
             }
-          }
+          },
+          "description": "",
+          "links": []
         }
       },
       "panel-requests-per-domain": {
@@ -1363,7 +1473,9 @@
         "spec": {
           "title": "Requests per Domain",
           "vizConfig": {
-            "kind": "timeseries",
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
             "spec": {
               "pluginVersion": "",
               "options": {
@@ -1409,25 +1521,29 @@
                   "spec": {
                     "refId": "A",
                     "datasource": {
-                      "type": "victoriametrics-metrics-datasource",
-                      "uid": "victoriametrics"
+                      "name": "victoriametrics"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-metrics-datasource",
-                        "uid": "victoriametrics"
+                        "name": "victoriametrics"
                       },
+                      "group": "victoriametrics-metrics-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "sum by (host) (rate(caddy_http_requests_total{instance=~\"$instance\",server=\"proxy\"}[5m]))",
-                      "legendFormat": "{{host}}"
-                    }
+                      "spec": {
+                        "expr": "sum by (host) (rate(caddy_http_requests_total{instance=~\"$instance\",server=\"proxy\"}[5m]))",
+                        "legendFormat": "{{host}}"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 }
               ],
               "transformations": []
             }
-          }
+          },
+          "description": "",
+          "links": []
         }
       },
       "panel-waf-analysis": {
@@ -1435,7 +1551,9 @@
         "spec": {
           "title": "WAF Analysis",
           "vizConfig": {
-            "kind": "timeseries",
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
             "spec": {
               "pluginVersion": "",
               "options": {
@@ -1481,24 +1599,28 @@
                   "spec": {
                     "refId": "A",
                     "datasource": {
-                      "type": "victoriametrics-metrics-datasource",
-                      "uid": "victoriametrics"
+                      "name": "victoriametrics"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-metrics-datasource",
-                        "uid": "victoriametrics"
+                        "name": "victoriametrics"
                       },
+                      "group": "victoriametrics-metrics-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "rate(cs_appsec_reqs_total{instance=~\"$instance\"}[5m])"
-                    }
+                      "spec": {
+                        "expr": "rate(cs_appsec_reqs_total{instance=~\"$instance\"}[5m])"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 }
               ],
               "transformations": []
             }
-          }
+          },
+          "description": "",
+          "links": []
         }
       },
       "panel-latency": {
@@ -1506,7 +1628,9 @@
         "spec": {
           "title": "Latency",
           "vizConfig": {
-            "kind": "timeseries",
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
             "spec": {
               "pluginVersion": "",
               "options": {
@@ -1552,19 +1676,21 @@
                   "spec": {
                     "refId": "A",
                     "datasource": {
-                      "type": "victoriametrics-metrics-datasource",
-                      "uid": "victoriametrics"
+                      "name": "victoriametrics"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-metrics-datasource",
-                        "uid": "victoriametrics"
+                        "name": "victoriametrics"
                       },
+                      "group": "victoriametrics-metrics-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "histogram_quantile(0.5, sum by (le,server) (rate(caddy_http_request_duration_seconds_bucket{instance=~\"$instance\"}[5m])))",
-                      "legendFormat": "p50 {{server}}"
-                    }
+                      "spec": {
+                        "expr": "histogram_quantile(0.5, sum by (le,server) (rate(caddy_http_request_duration_seconds_bucket{instance=~\"$instance\"}[5m])))",
+                        "legendFormat": "p50 {{server}}"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 },
                 {
@@ -1572,25 +1698,29 @@
                   "spec": {
                     "refId": "B",
                     "datasource": {
-                      "type": "victoriametrics-metrics-datasource",
-                      "uid": "victoriametrics"
+                      "name": "victoriametrics"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-metrics-datasource",
-                        "uid": "victoriametrics"
+                        "name": "victoriametrics"
                       },
+                      "group": "victoriametrics-metrics-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "histogram_quantile(0.95, sum by (le,server) (rate(caddy_http_request_duration_seconds_bucket{instance=~\"$instance\"}[5m])))",
-                      "legendFormat": "p95 {{server}}"
-                    }
+                      "spec": {
+                        "expr": "histogram_quantile(0.95, sum by (le,server) (rate(caddy_http_request_duration_seconds_bucket{instance=~\"$instance\"}[5m])))",
+                        "legendFormat": "p95 {{server}}"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 }
               ],
               "transformations": []
             }
-          }
+          },
+          "description": "",
+          "links": []
         }
       },
       "panel-errors": {
@@ -1598,7 +1728,9 @@
         "spec": {
           "title": "Errors",
           "vizConfig": {
-            "kind": "timeseries",
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
             "spec": {
               "pluginVersion": "",
               "options": {
@@ -1644,25 +1776,29 @@
                   "spec": {
                     "refId": "A",
                     "datasource": {
-                      "type": "victoriametrics-metrics-datasource",
-                      "uid": "victoriametrics"
+                      "name": "victoriametrics"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-metrics-datasource",
-                        "uid": "victoriametrics"
+                        "name": "victoriametrics"
                       },
+                      "group": "victoriametrics-metrics-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "sum by (server) (rate(caddy_http_request_errors_total{instance=~\"$instance\"}[5m]))",
-                      "legendFormat": "{{server}}"
-                    }
+                      "spec": {
+                        "expr": "sum by (server) (rate(caddy_http_request_errors_total{instance=~\"$instance\"}[5m]))",
+                        "legendFormat": "{{server}}"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 }
               ],
               "transformations": []
             }
-          }
+          },
+          "description": "",
+          "links": []
         }
       },
       "panel-top-paths": {
@@ -1670,7 +1806,9 @@
         "spec": {
           "title": "Top Paths",
           "vizConfig": {
-            "kind": "table",
+            "kind": "VizConfig",
+            "group": "table",
+            "version": "",
             "spec": {
               "pluginVersion": "",
               "options": {
@@ -1702,19 +1840,21 @@
                   "spec": {
                     "refId": "A",
                     "datasource": {
-                      "type": "victoriametrics-logs-datasource",
-                      "uid": "victorialogs"
+                      "name": "victorialogs"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-logs-datasource",
-                        "uid": "victorialogs"
+                        "name": "victorialogs"
                       },
+                      "group": "victoriametrics-logs-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "{job=\"caddy\",host=~\"$instance\"} | stats by (uri) count() as count | sort by (count) desc | limit 20",
-                      "queryType": "stats"
-                    }
+                      "spec": {
+                        "expr": "{job=\"caddy\",host=~\"$instance\"} | stats by (uri) count() as count | sort by (count) desc | limit 20",
+                        "queryType": "stats"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 }
               ],
@@ -1741,7 +1881,9 @@
                 }
               ]
             }
-          }
+          },
+          "description": "",
+          "links": []
         }
       },
       "panel-top-user-agents": {
@@ -1749,7 +1891,9 @@
         "spec": {
           "title": "Top User Agents",
           "vizConfig": {
-            "kind": "table",
+            "kind": "VizConfig",
+            "group": "table",
+            "version": "",
             "spec": {
               "pluginVersion": "",
               "options": {
@@ -1781,19 +1925,21 @@
                   "spec": {
                     "refId": "A",
                     "datasource": {
-                      "type": "victoriametrics-logs-datasource",
-                      "uid": "victorialogs"
+                      "name": "victorialogs"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-logs-datasource",
-                        "uid": "victorialogs"
+                        "name": "victorialogs"
                       },
+                      "group": "victoriametrics-logs-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "{job=\"caddy\",host=~\"$instance\"} | stats by (user_agent) count() as count | sort by (count) desc | limit 20",
-                      "queryType": "stats"
-                    }
+                      "spec": {
+                        "expr": "{job=\"caddy\",host=~\"$instance\"} | stats by (user_agent) count() as count | sort by (count) desc | limit 20",
+                        "queryType": "stats"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 }
               ],
@@ -1820,7 +1966,9 @@
                 }
               ]
             }
-          }
+          },
+          "description": "",
+          "links": []
         }
       },
       "panel-status-distribution": {
@@ -1828,7 +1976,9 @@
         "spec": {
           "title": "Status Distribution",
           "vizConfig": {
-            "kind": "piechart",
+            "kind": "VizConfig",
+            "group": "piechart",
+            "version": "",
             "spec": {
               "pluginVersion": "",
               "options": {
@@ -1867,19 +2017,21 @@
                   "spec": {
                     "refId": "A",
                     "datasource": {
-                      "type": "victoriametrics-logs-datasource",
-                      "uid": "victorialogs"
+                      "name": "victorialogs"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-logs-datasource",
-                        "uid": "victorialogs"
+                        "name": "victorialogs"
                       },
+                      "group": "victoriametrics-logs-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "{job=\"caddy\",host=~\"$instance\"} status:!=\"\" | stats by (status) count() as count",
-                      "queryType": "stats"
-                    }
+                      "spec": {
+                        "expr": "{job=\"caddy\",host=~\"$instance\"} status:!=\"\" | stats by (status) count() as count",
+                        "queryType": "stats"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 }
               ],
@@ -1906,7 +2058,9 @@
                 }
               ]
             }
-          }
+          },
+          "description": "",
+          "links": []
         }
       },
       "panel-slowest-requests": {
@@ -1914,7 +2068,9 @@
         "spec": {
           "title": "Slowest Requests",
           "vizConfig": {
-            "kind": "table",
+            "kind": "VizConfig",
+            "group": "table",
+            "version": "",
             "spec": {
               "pluginVersion": "",
               "options": {
@@ -1946,19 +2102,21 @@
                   "spec": {
                     "refId": "A",
                     "datasource": {
-                      "type": "victoriametrics-logs-datasource",
-                      "uid": "victorialogs"
+                      "name": "victorialogs"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-logs-datasource",
-                        "uid": "victorialogs"
+                        "name": "victorialogs"
                       },
+                      "group": "victoriametrics-logs-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "{job=\"caddy\",host=~\"$instance\"} | stats by (domain, uri, method) avg(duration) as avg_duration | sort by (avg_duration) desc | limit 20",
-                      "queryType": "stats"
-                    }
+                      "spec": {
+                        "expr": "{job=\"caddy\",host=~\"$instance\"} | stats by (domain, uri, method) avg(duration) as avg_duration | sort by (avg_duration) desc | limit 20",
+                        "queryType": "stats"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 }
               ],
@@ -1985,7 +2143,9 @@
                 }
               ]
             }
-          }
+          },
+          "description": "",
+          "links": []
         }
       },
       "panel-waf-events-timeline": {
@@ -1993,7 +2153,9 @@
         "spec": {
           "title": "WAF Events Timeline",
           "vizConfig": {
-            "kind": "timeseries",
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
             "spec": {
               "pluginVersion": "",
               "options": {
@@ -2039,19 +2201,21 @@
                   "spec": {
                     "refId": "A",
                     "datasource": {
-                      "type": "victoriametrics-logs-datasource",
-                      "uid": "victorialogs"
+                      "name": "victorialogs"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-logs-datasource",
-                        "uid": "victorialogs"
+                        "name": "victorialogs"
                       },
+                      "group": "victoriametrics-logs-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "{job=\"appsec\",host=~\"$instance\"} | stats by (_time:5m) count() as count",
-                      "queryType": "statsRange"
-                    }
+                      "spec": {
+                        "expr": "{job=\"appsec\",host=~\"$instance\"} | stats by (_time:5m) count() as count",
+                        "queryType": "statsRange"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 }
               ],
@@ -2089,7 +2253,9 @@
                 }
               ]
             }
-          }
+          },
+          "description": "",
+          "links": []
         }
       },
       "panel-top-rules": {
@@ -2097,7 +2263,9 @@
         "spec": {
           "title": "Top Rules",
           "vizConfig": {
-            "kind": "table",
+            "kind": "VizConfig",
+            "group": "table",
+            "version": "",
             "spec": {
               "pluginVersion": "",
               "options": {
@@ -2129,27 +2297,31 @@
                   "spec": {
                     "refId": "A",
                     "datasource": {
-                      "type": "victoriametrics-metrics-datasource",
-                      "uid": "victoriametrics"
+                      "name": "victoriametrics"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-metrics-datasource",
-                        "uid": "victoriametrics"
+                        "name": "victoriametrics"
                       },
+                      "group": "victoriametrics-metrics-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "topk(20, cs_appsec_rule_hits{instance=~\"$instance\"})",
-                      "legendFormat": "{{rule_name}}",
-                      "instant": true,
-                      "range": false
-                    }
+                      "spec": {
+                        "expr": "topk(20, cs_appsec_rule_hits{instance=~\"$instance\"})",
+                        "legendFormat": "{{rule_name}}",
+                        "instant": true,
+                        "range": false
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 }
               ],
               "transformations": []
             }
-          }
+          },
+          "description": "",
+          "links": []
         }
       },
       "panel-by-method": {
@@ -2157,7 +2329,9 @@
         "spec": {
           "title": "By Method",
           "vizConfig": {
-            "kind": "piechart",
+            "kind": "VizConfig",
+            "group": "piechart",
+            "version": "",
             "spec": {
               "pluginVersion": "",
               "options": {
@@ -2196,19 +2370,21 @@
                   "spec": {
                     "refId": "A",
                     "datasource": {
-                      "type": "victoriametrics-logs-datasource",
-                      "uid": "victorialogs"
+                      "name": "victorialogs"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-logs-datasource",
-                        "uid": "victorialogs"
+                        "name": "victorialogs"
                       },
+                      "group": "victoriametrics-logs-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "{job=\"appsec\",host=~\"$instance\"} method:!=\"\" | stats by (method) count() as count",
-                      "queryType": "stats"
-                    }
+                      "spec": {
+                        "expr": "{job=\"appsec\",host=~\"$instance\"} method:!=\"\" | stats by (method) count() as count",
+                        "queryType": "stats"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 }
               ],
@@ -2235,7 +2411,9 @@
                 }
               ]
             }
-          }
+          },
+          "description": "",
+          "links": []
         }
       },
       "panel-by-scenario": {
@@ -2243,7 +2421,9 @@
         "spec": {
           "title": "By Scenario",
           "vizConfig": {
-            "kind": "piechart",
+            "kind": "VizConfig",
+            "group": "piechart",
+            "version": "",
             "spec": {
               "pluginVersion": "",
               "options": {
@@ -2282,19 +2462,21 @@
                   "spec": {
                     "refId": "A",
                     "datasource": {
-                      "type": "victoriametrics-logs-datasource",
-                      "uid": "victorialogs"
+                      "name": "victorialogs"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-logs-datasource",
-                        "uid": "victorialogs"
+                        "name": "victorialogs"
                       },
+                      "group": "victoriametrics-logs-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "{job=\"appsec\",host=~\"$instance\"} | stats by (scenario) count() as count",
-                      "queryType": "stats"
-                    }
+                      "spec": {
+                        "expr": "{job=\"appsec\",host=~\"$instance\"} | stats by (scenario) count() as count",
+                        "queryType": "stats"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 }
               ],
@@ -2321,7 +2503,9 @@
                 }
               ]
             }
-          }
+          },
+          "description": "",
+          "links": []
         }
       },
       "panel-top-targeted-paths": {
@@ -2329,7 +2513,9 @@
         "spec": {
           "title": "Top Targeted Paths",
           "vizConfig": {
-            "kind": "table",
+            "kind": "VizConfig",
+            "group": "table",
+            "version": "",
             "spec": {
               "pluginVersion": "",
               "options": {
@@ -2361,19 +2547,21 @@
                   "spec": {
                     "refId": "A",
                     "datasource": {
-                      "type": "victoriametrics-logs-datasource",
-                      "uid": "victorialogs"
+                      "name": "victorialogs"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-logs-datasource",
-                        "uid": "victorialogs"
+                        "name": "victorialogs"
                       },
+                      "group": "victoriametrics-logs-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "{job=\"appsec\",host=~\"$instance\"} target_uri:!=\"\" | stats by (target_uri) count() as count | sort by (count) desc | limit 20",
-                      "queryType": "stats"
-                    }
+                      "spec": {
+                        "expr": "{job=\"appsec\",host=~\"$instance\"} target_uri:!=\"\" | stats by (target_uri) count() as count | sort by (count) desc | limit 20",
+                        "queryType": "stats"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 }
               ],
@@ -2400,7 +2588,9 @@
                 }
               ]
             }
-          }
+          },
+          "description": "",
+          "links": []
         }
       },
       "panel-top-ips": {
@@ -2408,7 +2598,9 @@
         "spec": {
           "title": "Top IPs",
           "vizConfig": {
-            "kind": "table",
+            "kind": "VizConfig",
+            "group": "table",
+            "version": "",
             "spec": {
               "pluginVersion": "",
               "options": {
@@ -2440,19 +2632,21 @@
                   "spec": {
                     "refId": "A",
                     "datasource": {
-                      "type": "victoriametrics-logs-datasource",
-                      "uid": "victorialogs"
+                      "name": "victorialogs"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-logs-datasource",
-                        "uid": "victorialogs"
+                        "name": "victorialogs"
                       },
+                      "group": "victoriametrics-logs-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "{job=\"appsec\",host=~\"$instance\"} | stats by (client_ip, geoip_country_name) count() as count | sort by (count) desc | limit 20",
-                      "queryType": "stats"
-                    }
+                      "spec": {
+                        "expr": "{job=\"appsec\",host=~\"$instance\"} | stats by (client_ip, geoip_country_name) count() as count | sort by (count) desc | limit 20",
+                        "queryType": "stats"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 }
               ],
@@ -2479,7 +2673,9 @@
                 }
               ]
             }
-          }
+          },
+          "description": "",
+          "links": []
         }
       },
       "panel-top-targeted-hosts": {
@@ -2487,7 +2683,9 @@
         "spec": {
           "title": "Top Targeted Hosts",
           "vizConfig": {
-            "kind": "table",
+            "kind": "VizConfig",
+            "group": "table",
+            "version": "",
             "spec": {
               "pluginVersion": "",
               "options": {
@@ -2519,19 +2717,21 @@
                   "spec": {
                     "refId": "A",
                     "datasource": {
-                      "type": "victoriametrics-logs-datasource",
-                      "uid": "victorialogs"
+                      "name": "victorialogs"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-logs-datasource",
-                        "uid": "victorialogs"
+                        "name": "victorialogs"
                       },
+                      "group": "victoriametrics-logs-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "{job=\"appsec\",host=~\"$instance\"} | stats by (target_host) count() as count | sort by (count) desc",
-                      "queryType": "stats"
-                    }
+                      "spec": {
+                        "expr": "{job=\"appsec\",host=~\"$instance\"} | stats by (target_host) count() as count | sort by (count) desc",
+                        "queryType": "stats"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 }
               ],
@@ -2558,7 +2758,9 @@
                 }
               ]
             }
-          }
+          },
+          "description": "",
+          "links": []
         }
       },
       "panel-active-decisions-2": {
@@ -2566,7 +2768,9 @@
         "spec": {
           "title": "Active Decisions",
           "vizConfig": {
-            "kind": "timeseries",
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
             "spec": {
               "pluginVersion": "",
               "options": {
@@ -2612,25 +2816,29 @@
                   "spec": {
                     "refId": "A",
                     "datasource": {
-                      "type": "victoriametrics-metrics-datasource",
-                      "uid": "victoriametrics"
+                      "name": "victoriametrics"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-metrics-datasource",
-                        "uid": "victoriametrics"
+                        "name": "victoriametrics"
                       },
+                      "group": "victoriametrics-metrics-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "cs_active_decisions{instance=~\"$instance\"}",
-                      "legendFormat": "{{reason}}"
-                    }
+                      "spec": {
+                        "expr": "cs_active_decisions{instance=~\"$instance\"}",
+                        "legendFormat": "{{reason}}"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 }
               ],
               "transformations": []
             }
-          }
+          },
+          "description": "",
+          "links": []
         }
       },
       "panel-bouncer-requests": {
@@ -2638,7 +2846,9 @@
         "spec": {
           "title": "Bouncer Requests",
           "vizConfig": {
-            "kind": "timeseries",
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
             "spec": {
               "pluginVersion": "",
               "options": {
@@ -2684,24 +2894,28 @@
                   "spec": {
                     "refId": "A",
                     "datasource": {
-                      "type": "victoriametrics-metrics-datasource",
-                      "uid": "victoriametrics"
+                      "name": "victoriametrics"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-metrics-datasource",
-                        "uid": "victoriametrics"
+                        "name": "victoriametrics"
                       },
+                      "group": "victoriametrics-metrics-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "rate(cs_bouncer_requests_total{instance=~\"$instance\"}[5m])"
-                    }
+                      "spec": {
+                        "expr": "rate(cs_bouncer_requests_total{instance=~\"$instance\"}[5m])"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 }
               ],
               "transformations": []
             }
-          }
+          },
+          "description": "",
+          "links": []
         }
       },
       "panel-active-sessions": {
@@ -2709,7 +2923,9 @@
         "spec": {
           "title": "Active Sessions",
           "vizConfig": {
-            "kind": "stat",
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "",
             "spec": {
               "pluginVersion": "",
               "options": {
@@ -2753,24 +2969,28 @@
                   "spec": {
                     "refId": "A",
                     "datasource": {
-                      "type": "victoriametrics-metrics-datasource",
-                      "uid": "victoriametrics"
+                      "name": "victoriametrics"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-metrics-datasource",
-                        "uid": "victoriametrics"
+                        "name": "victoriametrics"
                       },
+                      "group": "victoriametrics-metrics-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "sum(ran_active_sessions{instance=~\"$instance\"})"
-                    }
+                      "spec": {
+                        "expr": "sum(ran_active_sessions{instance=~\"$instance\"})"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 }
               ],
               "transformations": []
             }
-          }
+          },
+          "description": "",
+          "links": []
         }
       },
       "panel-connections-24h": {
@@ -2778,7 +2998,9 @@
         "spec": {
           "title": "Connections (24h)",
           "vizConfig": {
-            "kind": "stat",
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "",
             "spec": {
               "pluginVersion": "",
               "options": {
@@ -2822,24 +3044,28 @@
                   "spec": {
                     "refId": "A",
                     "datasource": {
-                      "type": "victoriametrics-metrics-datasource",
-                      "uid": "victoriametrics"
+                      "name": "victoriametrics"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-metrics-datasource",
-                        "uid": "victoriametrics"
+                        "name": "victoriametrics"
                       },
+                      "group": "victoriametrics-metrics-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "sum(increase(ran_connections_total{instance=~\"$instance\"}[24h]))"
-                    }
+                      "spec": {
+                        "expr": "sum(increase(ran_connections_total{instance=~\"$instance\"}[24h]))"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 }
               ],
               "transformations": []
             }
-          }
+          },
+          "description": "",
+          "links": []
         }
       },
       "panel-credentials-captured-24h": {
@@ -2847,7 +3073,9 @@
         "spec": {
           "title": "Credentials Captured (24h)",
           "vizConfig": {
-            "kind": "stat",
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "",
             "spec": {
               "pluginVersion": "",
               "options": {
@@ -2891,24 +3119,28 @@
                   "spec": {
                     "refId": "A",
                     "datasource": {
-                      "type": "victoriametrics-metrics-datasource",
-                      "uid": "victoriametrics"
+                      "name": "victoriametrics"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-metrics-datasource",
-                        "uid": "victoriametrics"
+                        "name": "victoriametrics"
                       },
+                      "group": "victoriametrics-metrics-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "sum(increase(ran_credentials_captured_total{instance=~\"$instance\"}[24h]))"
-                    }
+                      "spec": {
+                        "expr": "sum(increase(ran_credentials_captured_total{instance=~\"$instance\"}[24h]))"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 }
               ],
               "transformations": []
             }
-          }
+          },
+          "description": "",
+          "links": []
         }
       },
       "panel-connections-by-protocol": {
@@ -2916,7 +3148,9 @@
         "spec": {
           "title": "Connections by Protocol",
           "vizConfig": {
-            "kind": "timeseries",
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
             "spec": {
               "pluginVersion": "",
               "options": {
@@ -2962,25 +3196,29 @@
                   "spec": {
                     "refId": "A",
                     "datasource": {
-                      "type": "victoriametrics-metrics-datasource",
-                      "uid": "victoriametrics"
+                      "name": "victoriametrics"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-metrics-datasource",
-                        "uid": "victoriametrics"
+                        "name": "victoriametrics"
                       },
+                      "group": "victoriametrics-metrics-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "rate(ran_connections_total{instance=~\"$instance\"}[5m])",
-                      "legendFormat": "{{protocol}}"
-                    }
+                      "spec": {
+                        "expr": "rate(ran_connections_total{instance=~\"$instance\"}[5m])",
+                        "legendFormat": "{{protocol}}"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 }
               ],
               "transformations": []
             }
-          }
+          },
+          "description": "",
+          "links": []
         }
       },
       "panel-credentials-by-protocol": {
@@ -2988,7 +3226,9 @@
         "spec": {
           "title": "Credentials by Protocol",
           "vizConfig": {
-            "kind": "timeseries",
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
             "spec": {
               "pluginVersion": "",
               "options": {
@@ -3034,25 +3274,29 @@
                   "spec": {
                     "refId": "A",
                     "datasource": {
-                      "type": "victoriametrics-metrics-datasource",
-                      "uid": "victoriametrics"
+                      "name": "victoriametrics"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-metrics-datasource",
-                        "uid": "victoriametrics"
+                        "name": "victoriametrics"
                       },
+                      "group": "victoriametrics-metrics-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "rate(ran_credentials_captured_total{instance=~\"$instance\"}[5m])",
-                      "legendFormat": "{{protocol}}"
-                    }
+                      "spec": {
+                        "expr": "rate(ran_credentials_captured_total{instance=~\"$instance\"}[5m])",
+                        "legendFormat": "{{protocol}}"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 }
               ],
               "transformations": []
             }
-          }
+          },
+          "description": "",
+          "links": []
         }
       },
       "panel-session-duration-by-protocol": {
@@ -3060,7 +3304,9 @@
         "spec": {
           "title": "Session Duration by Protocol",
           "vizConfig": {
-            "kind": "timeseries",
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
             "spec": {
               "pluginVersion": "",
               "options": {
@@ -3106,19 +3352,21 @@
                   "spec": {
                     "refId": "A",
                     "datasource": {
-                      "type": "victoriametrics-metrics-datasource",
-                      "uid": "victoriametrics"
+                      "name": "victoriametrics"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-metrics-datasource",
-                        "uid": "victoriametrics"
+                        "name": "victoriametrics"
                       },
+                      "group": "victoriametrics-metrics-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "histogram_quantile(0.5, sum by (le,protocol) (rate(ran_session_duration_seconds_bucket{instance=~\"$instance\"}[5m])))",
-                      "legendFormat": "p50 {{protocol}}"
-                    }
+                      "spec": {
+                        "expr": "histogram_quantile(0.5, sum by (le,protocol) (rate(ran_session_duration_seconds_bucket{instance=~\"$instance\"}[5m])))",
+                        "legendFormat": "p50 {{protocol}}"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 },
                 {
@@ -3126,25 +3374,29 @@
                   "spec": {
                     "refId": "B",
                     "datasource": {
-                      "type": "victoriametrics-metrics-datasource",
-                      "uid": "victoriametrics"
+                      "name": "victoriametrics"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-metrics-datasource",
-                        "uid": "victoriametrics"
+                        "name": "victoriametrics"
                       },
+                      "group": "victoriametrics-metrics-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "histogram_quantile(0.95, sum by (le,protocol) (rate(ran_session_duration_seconds_bucket{instance=~\"$instance\"}[5m])))",
-                      "legendFormat": "p95 {{protocol}}"
-                    }
+                      "spec": {
+                        "expr": "histogram_quantile(0.95, sum by (le,protocol) (rate(ran_session_duration_seconds_bucket{instance=~\"$instance\"}[5m])))",
+                        "legendFormat": "p95 {{protocol}}"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 }
               ],
               "transformations": []
             }
-          }
+          },
+          "description": "",
+          "links": []
         }
       },
       "panel-active-sessions-by-protocol": {
@@ -3152,7 +3404,9 @@
         "spec": {
           "title": "Active Sessions by Protocol",
           "vizConfig": {
-            "kind": "timeseries",
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
             "spec": {
               "pluginVersion": "",
               "options": {
@@ -3198,25 +3452,29 @@
                   "spec": {
                     "refId": "A",
                     "datasource": {
-                      "type": "victoriametrics-metrics-datasource",
-                      "uid": "victoriametrics"
+                      "name": "victoriametrics"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-metrics-datasource",
-                        "uid": "victoriametrics"
+                        "name": "victoriametrics"
                       },
+                      "group": "victoriametrics-metrics-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "ran_active_sessions{instance=~\"$instance\"}",
-                      "legendFormat": "{{protocol}}"
-                    }
+                      "spec": {
+                        "expr": "ran_active_sessions{instance=~\"$instance\"}",
+                        "legendFormat": "{{protocol}}"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 }
               ],
               "transformations": []
             }
-          }
+          },
+          "description": "",
+          "links": []
         }
       },
       "panel-top-domains": {
@@ -3224,7 +3482,9 @@
         "spec": {
           "title": "Top Domains",
           "vizConfig": {
-            "kind": "table",
+            "kind": "VizConfig",
+            "group": "table",
+            "version": "",
             "spec": {
               "pluginVersion": "",
               "options": {
@@ -3256,19 +3516,21 @@
                   "spec": {
                     "refId": "A",
                     "datasource": {
-                      "type": "victoriametrics-logs-datasource",
-                      "uid": "victorialogs"
+                      "name": "victorialogs"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-logs-datasource",
-                        "uid": "victorialogs"
+                        "name": "victorialogs"
                       },
+                      "group": "victoriametrics-logs-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "{job=\"honeypot\",host=~\"$instance\"} | stats by (domain) count() as count | sort by (count) desc | limit 20",
-                      "queryType": "stats"
-                    }
+                      "spec": {
+                        "expr": "{job=\"honeypot\",host=~\"$instance\"} | stats by (domain) count() as count | sort by (count) desc | limit 20",
+                        "queryType": "stats"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 }
               ],
@@ -3295,7 +3557,9 @@
                 }
               ]
             }
-          }
+          },
+          "description": "",
+          "links": []
         }
       },
       "panel-top-paths-2": {
@@ -3303,7 +3567,9 @@
         "spec": {
           "title": "Top Paths",
           "vizConfig": {
-            "kind": "table",
+            "kind": "VizConfig",
+            "group": "table",
+            "version": "",
             "spec": {
               "pluginVersion": "",
               "options": {
@@ -3335,19 +3601,21 @@
                   "spec": {
                     "refId": "A",
                     "datasource": {
-                      "type": "victoriametrics-logs-datasource",
-                      "uid": "victorialogs"
+                      "name": "victorialogs"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-logs-datasource",
-                        "uid": "victorialogs"
+                        "name": "victorialogs"
                       },
+                      "group": "victoriametrics-logs-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "{job=\"honeypot\",host=~\"$instance\"} | stats by (uri) count() as count | sort by (count) desc | limit 20",
-                      "queryType": "stats"
-                    }
+                      "spec": {
+                        "expr": "{job=\"honeypot\",host=~\"$instance\"} | stats by (uri) count() as count | sort by (count) desc | limit 20",
+                        "queryType": "stats"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 }
               ],
@@ -3374,7 +3642,9 @@
                 }
               ]
             }
-          }
+          },
+          "description": "",
+          "links": []
         }
       },
       "panel-top-ips-2": {
@@ -3382,7 +3652,9 @@
         "spec": {
           "title": "Top IPs",
           "vizConfig": {
-            "kind": "table",
+            "kind": "VizConfig",
+            "group": "table",
+            "version": "",
             "spec": {
               "pluginVersion": "",
               "options": {
@@ -3414,19 +3686,21 @@
                   "spec": {
                     "refId": "A",
                     "datasource": {
-                      "type": "victoriametrics-logs-datasource",
-                      "uid": "victorialogs"
+                      "name": "victorialogs"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-logs-datasource",
-                        "uid": "victorialogs"
+                        "name": "victorialogs"
                       },
+                      "group": "victoriametrics-logs-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "{job=\"honeypot\",host=~\"$instance\"} | stats by (client_ip, geoip_country_name, geoip_city_name) count() as count | sort by (count) desc | limit 20",
-                      "queryType": "stats"
-                    }
+                      "spec": {
+                        "expr": "{job=\"honeypot\",host=~\"$instance\"} | stats by (client_ip, geoip_country_name, geoip_city_name) count() as count | sort by (count) desc | limit 20",
+                        "queryType": "stats"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 }
               ],
@@ -3453,7 +3727,9 @@
                 }
               ]
             }
-          }
+          },
+          "description": "",
+          "links": []
         }
       },
       "panel-status-distribution-2": {
@@ -3461,7 +3737,9 @@
         "spec": {
           "title": "Status Distribution",
           "vizConfig": {
-            "kind": "piechart",
+            "kind": "VizConfig",
+            "group": "piechart",
+            "version": "",
             "spec": {
               "pluginVersion": "",
               "options": {
@@ -3500,19 +3778,21 @@
                   "spec": {
                     "refId": "A",
                     "datasource": {
-                      "type": "victoriametrics-logs-datasource",
-                      "uid": "victorialogs"
+                      "name": "victorialogs"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-logs-datasource",
-                        "uid": "victorialogs"
+                        "name": "victorialogs"
                       },
+                      "group": "victoriametrics-logs-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "{job=\"honeypot\",host=~\"$instance\"} status:!=\"\" | stats by (status) count() as count",
-                      "queryType": "stats"
-                    }
+                      "spec": {
+                        "expr": "{job=\"honeypot\",host=~\"$instance\"} status:!=\"\" | stats by (status) count() as count",
+                        "queryType": "stats"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 }
               ],
@@ -3539,7 +3819,9 @@
                 }
               ]
             }
-          }
+          },
+          "description": "",
+          "links": []
         }
       },
       "panel-caddy-logs": {
@@ -3547,7 +3829,9 @@
         "spec": {
           "title": "Caddy Logs",
           "vizConfig": {
-            "kind": "logs",
+            "kind": "VizConfig",
+            "group": "logs",
+            "version": "",
             "spec": {
               "pluginVersion": "",
               "options": {
@@ -3575,24 +3859,28 @@
                   "spec": {
                     "refId": "A",
                     "datasource": {
-                      "type": "victoriametrics-logs-datasource",
-                      "uid": "victorialogs"
+                      "name": "victorialogs"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-logs-datasource",
-                        "uid": "victorialogs"
+                        "name": "victorialogs"
                       },
+                      "group": "victoriametrics-logs-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "{job=\"caddy\",host=~\"$instance\"}"
-                    }
+                      "spec": {
+                        "expr": "{job=\"caddy\",host=~\"$instance\"}"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 }
               ],
               "transformations": []
             }
-          }
+          },
+          "description": "",
+          "links": []
         }
       },
       "panel-appsec-logs": {
@@ -3600,7 +3888,9 @@
         "spec": {
           "title": "AppSec Logs",
           "vizConfig": {
-            "kind": "logs",
+            "kind": "VizConfig",
+            "group": "logs",
+            "version": "",
             "spec": {
               "pluginVersion": "",
               "options": {
@@ -3628,24 +3918,28 @@
                   "spec": {
                     "refId": "A",
                     "datasource": {
-                      "type": "victoriametrics-logs-datasource",
-                      "uid": "victorialogs"
+                      "name": "victorialogs"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-logs-datasource",
-                        "uid": "victorialogs"
+                        "name": "victorialogs"
                       },
+                      "group": "victoriametrics-logs-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "{job=\"appsec\",host=~\"$instance\"}"
-                    }
+                      "spec": {
+                        "expr": "{job=\"appsec\",host=~\"$instance\"}"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 }
               ],
               "transformations": []
             }
-          }
+          },
+          "description": "",
+          "links": []
         }
       },
       "panel-crowdsec-logs": {
@@ -3653,7 +3947,9 @@
         "spec": {
           "title": "CrowdSec Logs",
           "vizConfig": {
-            "kind": "logs",
+            "kind": "VizConfig",
+            "group": "logs",
+            "version": "",
             "spec": {
               "pluginVersion": "",
               "options": {
@@ -3681,24 +3977,28 @@
                   "spec": {
                     "refId": "A",
                     "datasource": {
-                      "type": "victoriametrics-logs-datasource",
-                      "uid": "victorialogs"
+                      "name": "victorialogs"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-logs-datasource",
-                        "uid": "victorialogs"
+                        "name": "victorialogs"
                       },
+                      "group": "victoriametrics-logs-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "{job=\"crowdsec\",host=~\"$instance\"}"
-                    }
+                      "spec": {
+                        "expr": "{job=\"crowdsec\",host=~\"$instance\"}"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 }
               ],
               "transformations": []
             }
-          }
+          },
+          "description": "",
+          "links": []
         }
       },
       "panel-honeypot-logs": {
@@ -3706,7 +4006,9 @@
         "spec": {
           "title": "Honeypot Logs",
           "vizConfig": {
-            "kind": "logs",
+            "kind": "VizConfig",
+            "group": "logs",
+            "version": "",
             "spec": {
               "pluginVersion": "",
               "options": {
@@ -3734,24 +4036,28 @@
                   "spec": {
                     "refId": "A",
                     "datasource": {
-                      "type": "victoriametrics-logs-datasource",
-                      "uid": "victorialogs"
+                      "name": "victorialogs"
                     },
                     "query": {
                       "datasource": {
-                        "type": "victoriametrics-logs-datasource",
-                        "uid": "victorialogs"
+                        "name": "victorialogs"
                       },
+                      "group": "victoriametrics-logs-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
-                      "expr": "{job=\"honeypot\",host=~\"$instance\"}"
-                    }
+                      "spec": {
+                        "expr": "{job=\"honeypot\",host=~\"$instance\"}"
+                      },
+                      "version": "v0"
+                    },
+                    "hidden": false
                   }
                 }
               ],
               "transformations": []
             }
-          }
+          },
+          "description": "",
+          "links": []
         }
       }
     },
