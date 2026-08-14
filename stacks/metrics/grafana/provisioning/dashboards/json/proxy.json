@@ -4070,230 +4070,188 @@
             "spec": {
               "title": "📊 Overview",
               "layout": {
-                "kind": "RowsLayout",
+                "kind": "GridLayout",
                 "spec": {
-                  "rows": [
+                  "items": [
                     {
-                      "kind": "RowsLayoutRow",
+                      "kind": "GridLayoutItem",
                       "spec": {
-                        "title": "Health",
-                        "collapse": false,
-                        "layout": {
-                          "kind": "GridLayout",
-                          "spec": {
-                            "items": [
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "x": 0,
-                                  "y": 0,
-                                  "width": 3,
-                                  "height": 4,
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-tunnel-up"
-                                  }
-                                }
-                              },
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "x": 3,
-                                  "y": 0,
-                                  "width": 3,
-                                  "height": 4,
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-caddy-config"
-                                  }
-                                }
-                              },
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "x": 6,
-                                  "y": 0,
-                                  "width": 3,
-                                  "height": 4,
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-reconnects"
-                                  }
-                                }
-                              },
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "x": 9,
-                                  "y": 0,
-                                  "width": 3,
-                                  "height": 4,
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-resolves"
-                                  }
-                                }
-                              },
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "x": 12,
-                                  "y": 0,
-                                  "width": 3,
-                                  "height": 4,
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-endpoint-changes"
-                                  }
-                                }
-                              }
-                            ]
-                          }
+                        "x": 0,
+                        "y": 0,
+                        "width": 3,
+                        "height": 4,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-tunnel-up"
                         }
                       }
                     },
                     {
-                      "kind": "RowsLayoutRow",
+                      "kind": "GridLayoutItem",
                       "spec": {
-                        "title": "Key Metrics",
-                        "collapse": false,
-                        "layout": {
-                          "kind": "GridLayout",
-                          "spec": {
-                            "items": [
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "x": 0,
-                                  "y": 0,
-                                  "width": 3,
-                                  "height": 4,
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-request-rate"
-                                  }
-                                }
-                              },
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "x": 3,
-                                  "y": 0,
-                                  "width": 3,
-                                  "height": 4,
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-error-rate"
-                                  }
-                                }
-                              },
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "x": 6,
-                                  "y": 0,
-                                  "width": 3,
-                                  "height": 4,
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-avg-duration"
-                                  }
-                                }
-                              },
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "x": 9,
-                                  "y": 0,
-                                  "width": 3,
-                                  "height": 4,
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-in-flight"
-                                  }
-                                }
-                              },
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "x": 12,
-                                  "y": 0,
-                                  "width": 3,
-                                  "height": 4,
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-active-decisions"
-                                  }
-                                }
-                              },
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "x": 15,
-                                  "y": 0,
-                                  "width": 3,
-                                  "height": 4,
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-honeypot-traps-24h"
-                                  }
-                                }
-                              },
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "x": 18,
-                                  "y": 0,
-                                  "width": 3,
-                                  "height": 4,
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-total-requests-24h"
-                                  }
-                                }
-                              }
-                            ]
-                          }
+                        "x": 3,
+                        "y": 0,
+                        "width": 3,
+                        "height": 4,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-caddy-config"
                         }
                       }
                     },
                     {
-                      "kind": "RowsLayoutRow",
+                      "kind": "GridLayoutItem",
                       "spec": {
-                        "title": "Tunnel",
-                        "collapse": false,
-                        "layout": {
-                          "kind": "GridLayout",
-                          "spec": {
-                            "items": [
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "x": 0,
-                                  "y": 0,
-                                  "width": 12,
-                                  "height": 8,
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-peer-bandwidth"
-                                  }
-                                }
-                              },
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "x": 12,
-                                  "y": 0,
-                                  "width": 12,
-                                  "height": 8,
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-peer-handshake-age"
-                                  }
-                                }
-                              }
-                            ]
-                          }
+                        "x": 6,
+                        "y": 0,
+                        "width": 3,
+                        "height": 4,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-reconnects"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 9,
+                        "y": 0,
+                        "width": 3,
+                        "height": 4,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-resolves"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 12,
+                        "y": 0,
+                        "width": 3,
+                        "height": 4,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-endpoint-changes"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 0,
+                        "y": 4,
+                        "width": 3,
+                        "height": 4,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-request-rate"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 3,
+                        "y": 4,
+                        "width": 3,
+                        "height": 4,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-error-rate"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 6,
+                        "y": 4,
+                        "width": 3,
+                        "height": 4,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-avg-duration"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 9,
+                        "y": 4,
+                        "width": 3,
+                        "height": 4,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-in-flight"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 12,
+                        "y": 4,
+                        "width": 3,
+                        "height": 4,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-active-decisions"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 15,
+                        "y": 4,
+                        "width": 3,
+                        "height": 4,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-honeypot-traps-24h"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 18,
+                        "y": 4,
+                        "width": 3,
+                        "height": 4,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-total-requests-24h"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 0,
+                        "y": 8,
+                        "width": 12,
+                        "height": 8,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-peer-bandwidth"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 12,
+                        "y": 8,
+                        "width": 12,
+                        "height": 8,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-peer-handshake-age"
                         }
                       }
                     }
@@ -4307,232 +4265,162 @@
             "spec": {
               "title": "🌐 Traffic",
               "layout": {
-                "kind": "RowsLayout",
+                "kind": "GridLayout",
                 "spec": {
-                  "rows": [
+                  "items": [
                     {
-                      "kind": "RowsLayoutRow",
+                      "kind": "GridLayoutItem",
                       "spec": {
-                        "title": "Request Flow",
-                        "collapse": false,
-                        "layout": {
-                          "kind": "GridLayout",
-                          "spec": {
-                            "items": [
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "x": 0,
-                                  "y": 0,
-                                  "width": 4,
-                                  "height": 4,
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-total-requests"
-                                  }
-                                }
-                              },
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "x": 4,
-                                  "y": 0,
-                                  "width": 4,
-                                  "height": 4,
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-served-proxy"
-                                  }
-                                }
-                              },
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "x": 8,
-                                  "y": 0,
-                                  "width": 4,
-                                  "height": 4,
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-honeypot"
-                                  }
-                                }
-                              }
-                            ]
-                          }
+                        "x": 0,
+                        "y": 0,
+                        "width": 4,
+                        "height": 4,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-total-requests"
                         }
                       }
                     },
                     {
-                      "kind": "RowsLayoutRow",
+                      "kind": "GridLayoutItem",
                       "spec": {
-                        "title": "Traffic Analysis",
-                        "collapse": false,
-                        "layout": {
-                          "kind": "GridLayout",
-                          "spec": {
-                            "items": [
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "x": 0,
-                                  "y": 0,
-                                  "width": 12,
-                                  "height": 8,
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-request-flow"
-                                  }
-                                }
-                              },
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "x": 12,
-                                  "y": 0,
-                                  "width": 12,
-                                  "height": 8,
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-requests-per-domain"
-                                  }
-                                }
-                              }
-                            ]
-                          }
+                        "x": 4,
+                        "y": 0,
+                        "width": 4,
+                        "height": 4,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-served-proxy"
                         }
                       }
                     },
                     {
-                      "kind": "RowsLayoutRow",
+                      "kind": "GridLayoutItem",
                       "spec": {
-                        "title": "WAF & Latency",
-                        "collapse": false,
-                        "layout": {
-                          "kind": "GridLayout",
-                          "spec": {
-                            "items": [
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "x": 0,
-                                  "y": 0,
-                                  "width": 8,
-                                  "height": 8,
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-waf-analysis"
-                                  }
-                                }
-                              },
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "x": 8,
-                                  "y": 0,
-                                  "width": 8,
-                                  "height": 8,
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-latency"
-                                  }
-                                }
-                              },
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "x": 16,
-                                  "y": 0,
-                                  "width": 8,
-                                  "height": 8,
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-errors"
-                                  }
-                                }
-                              }
-                            ]
-                          }
+                        "x": 8,
+                        "y": 0,
+                        "width": 4,
+                        "height": 4,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-honeypot"
                         }
                       }
                     },
                     {
-                      "kind": "RowsLayoutRow",
+                      "kind": "GridLayoutItem",
                       "spec": {
-                        "title": "Top Content",
-                        "collapse": false,
-                        "layout": {
-                          "kind": "GridLayout",
-                          "spec": {
-                            "items": [
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "x": 0,
-                                  "y": 0,
-                                  "width": 8,
-                                  "height": 8,
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-top-paths"
-                                  }
-                                }
-                              },
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "x": 8,
-                                  "y": 0,
-                                  "width": 8,
-                                  "height": 8,
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-top-user-agents"
-                                  }
-                                }
-                              },
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "x": 16,
-                                  "y": 0,
-                                  "width": 8,
-                                  "height": 8,
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-status-distribution"
-                                  }
-                                }
-                              }
-                            ]
-                          }
+                        "x": 0,
+                        "y": 4,
+                        "width": 12,
+                        "height": 8,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-request-flow"
                         }
                       }
                     },
                     {
-                      "kind": "RowsLayoutRow",
+                      "kind": "GridLayoutItem",
                       "spec": {
-                        "title": "Slowest Endpoints",
-                        "collapse": false,
-                        "layout": {
-                          "kind": "GridLayout",
-                          "spec": {
-                            "items": [
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "x": 0,
-                                  "y": 0,
-                                  "width": 24,
-                                  "height": 8,
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-slowest-requests"
-                                  }
-                                }
-                              }
-                            ]
-                          }
+                        "x": 12,
+                        "y": 4,
+                        "width": 12,
+                        "height": 8,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-requests-per-domain"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 0,
+                        "y": 12,
+                        "width": 8,
+                        "height": 8,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-waf-analysis"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 8,
+                        "y": 12,
+                        "width": 8,
+                        "height": 8,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-latency"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 16,
+                        "y": 12,
+                        "width": 8,
+                        "height": 8,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-errors"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 0,
+                        "y": 20,
+                        "width": 8,
+                        "height": 8,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-top-paths"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 8,
+                        "y": 20,
+                        "width": 8,
+                        "height": 8,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-top-user-agents"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 16,
+                        "y": 20,
+                        "width": 8,
+                        "height": 8,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-status-distribution"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 0,
+                        "y": 28,
+                        "width": 24,
+                        "height": 8,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-slowest-requests"
                         }
                       }
                     }
@@ -4546,179 +4434,123 @@
             "spec": {
               "title": "🛡️ Security",
               "layout": {
-                "kind": "RowsLayout",
+                "kind": "GridLayout",
                 "spec": {
-                  "rows": [
+                  "items": [
                     {
-                      "kind": "RowsLayoutRow",
+                      "kind": "GridLayoutItem",
                       "spec": {
-                        "title": "WAF Events",
-                        "collapse": false,
-                        "layout": {
-                          "kind": "GridLayout",
-                          "spec": {
-                            "items": [
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "x": 0,
-                                  "y": 0,
-                                  "width": 24,
-                                  "height": 8,
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-waf-events-timeline"
-                                  }
-                                }
-                              }
-                            ]
-                          }
+                        "x": 0,
+                        "y": 0,
+                        "width": 24,
+                        "height": 8,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-waf-events-timeline"
                         }
                       }
                     },
                     {
-                      "kind": "RowsLayoutRow",
+                      "kind": "GridLayoutItem",
                       "spec": {
-                        "title": "Rule Analysis",
-                        "collapse": false,
-                        "layout": {
-                          "kind": "GridLayout",
-                          "spec": {
-                            "items": [
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "x": 0,
-                                  "y": 0,
-                                  "width": 8,
-                                  "height": 8,
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-top-rules"
-                                  }
-                                }
-                              },
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "x": 8,
-                                  "y": 0,
-                                  "width": 8,
-                                  "height": 8,
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-by-method"
-                                  }
-                                }
-                              },
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "x": 16,
-                                  "y": 0,
-                                  "width": 8,
-                                  "height": 8,
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-by-scenario"
-                                  }
-                                }
-                              }
-                            ]
-                          }
+                        "x": 0,
+                        "y": 8,
+                        "width": 8,
+                        "height": 8,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-top-rules"
                         }
                       }
                     },
                     {
-                      "kind": "RowsLayoutRow",
+                      "kind": "GridLayoutItem",
                       "spec": {
-                        "title": "Targets",
-                        "collapse": false,
-                        "layout": {
-                          "kind": "GridLayout",
-                          "spec": {
-                            "items": [
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "x": 0,
-                                  "y": 0,
-                                  "width": 8,
-                                  "height": 8,
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-top-targeted-paths"
-                                  }
-                                }
-                              },
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "x": 8,
-                                  "y": 0,
-                                  "width": 8,
-                                  "height": 8,
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-top-ips"
-                                  }
-                                }
-                              },
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "x": 16,
-                                  "y": 0,
-                                  "width": 8,
-                                  "height": 8,
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-top-targeted-hosts"
-                                  }
-                                }
-                              }
-                            ]
-                          }
+                        "x": 8,
+                        "y": 8,
+                        "width": 8,
+                        "height": 8,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-by-method"
                         }
                       }
                     },
                     {
-                      "kind": "RowsLayoutRow",
+                      "kind": "GridLayoutItem",
                       "spec": {
-                        "title": "CrowdSec",
-                        "collapse": false,
-                        "layout": {
-                          "kind": "GridLayout",
-                          "spec": {
-                            "items": [
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "x": 0,
-                                  "y": 0,
-                                  "width": 12,
-                                  "height": 8,
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-active-decisions-2"
-                                  }
-                                }
-                              },
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "x": 12,
-                                  "y": 0,
-                                  "width": 12,
-                                  "height": 8,
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-bouncer-requests"
-                                  }
-                                }
-                              }
-                            ]
-                          }
+                        "x": 16,
+                        "y": 8,
+                        "width": 8,
+                        "height": 8,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-by-scenario"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 0,
+                        "y": 16,
+                        "width": 8,
+                        "height": 8,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-top-targeted-paths"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 8,
+                        "y": 16,
+                        "width": 8,
+                        "height": 8,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-top-ips"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 16,
+                        "y": 16,
+                        "width": 8,
+                        "height": 8,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-top-targeted-hosts"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 0,
+                        "y": 24,
+                        "width": 12,
+                        "height": 8,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-active-decisions-2"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 12,
+                        "y": 24,
+                        "width": 12,
+                        "height": 8,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-bouncer-requests"
                         }
                       }
                     }
@@ -4732,219 +4564,149 @@
             "spec": {
               "title": "🍯 Honeypot",
               "layout": {
-                "kind": "RowsLayout",
+                "kind": "GridLayout",
                 "spec": {
-                  "rows": [
+                  "items": [
                     {
-                      "kind": "RowsLayoutRow",
+                      "kind": "GridLayoutItem",
                       "spec": {
-                        "title": "Overview",
-                        "collapse": false,
-                        "layout": {
-                          "kind": "GridLayout",
-                          "spec": {
-                            "items": [
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "x": 0,
-                                  "y": 0,
-                                  "width": 4,
-                                  "height": 4,
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-active-sessions"
-                                  }
-                                }
-                              },
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "x": 4,
-                                  "y": 0,
-                                  "width": 4,
-                                  "height": 4,
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-connections-24h"
-                                  }
-                                }
-                              },
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "x": 8,
-                                  "y": 0,
-                                  "width": 4,
-                                  "height": 4,
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-credentials-captured-24h"
-                                  }
-                                }
-                              }
-                            ]
-                          }
+                        "x": 0,
+                        "y": 0,
+                        "width": 4,
+                        "height": 4,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-active-sessions"
                         }
                       }
                     },
                     {
-                      "kind": "RowsLayoutRow",
+                      "kind": "GridLayoutItem",
                       "spec": {
-                        "title": "Connections & Credentials",
-                        "collapse": false,
-                        "layout": {
-                          "kind": "GridLayout",
-                          "spec": {
-                            "items": [
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "x": 0,
-                                  "y": 0,
-                                  "width": 12,
-                                  "height": 8,
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-connections-by-protocol"
-                                  }
-                                }
-                              },
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "x": 12,
-                                  "y": 0,
-                                  "width": 12,
-                                  "height": 8,
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-credentials-by-protocol"
-                                  }
-                                }
-                              }
-                            ]
-                          }
+                        "x": 4,
+                        "y": 0,
+                        "width": 4,
+                        "height": 4,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-connections-24h"
                         }
                       }
                     },
                     {
-                      "kind": "RowsLayoutRow",
+                      "kind": "GridLayoutItem",
                       "spec": {
-                        "title": "Session Duration",
-                        "collapse": false,
-                        "layout": {
-                          "kind": "GridLayout",
-                          "spec": {
-                            "items": [
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "x": 0,
-                                  "y": 0,
-                                  "width": 12,
-                                  "height": 8,
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-session-duration-by-protocol"
-                                  }
-                                }
-                              },
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "x": 12,
-                                  "y": 0,
-                                  "width": 12,
-                                  "height": 8,
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-active-sessions-by-protocol"
-                                  }
-                                }
-                              }
-                            ]
-                          }
+                        "x": 8,
+                        "y": 0,
+                        "width": 4,
+                        "height": 4,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-credentials-captured-24h"
                         }
                       }
                     },
                     {
-                      "kind": "RowsLayoutRow",
+                      "kind": "GridLayoutItem",
                       "spec": {
-                        "title": "HTTP Traps",
-                        "collapse": false,
-                        "layout": {
-                          "kind": "GridLayout",
-                          "spec": {
-                            "items": [
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "x": 0,
-                                  "y": 0,
-                                  "width": 8,
-                                  "height": 8,
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-top-domains"
-                                  }
-                                }
-                              },
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "x": 8,
-                                  "y": 0,
-                                  "width": 8,
-                                  "height": 8,
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-top-paths-2"
-                                  }
-                                }
-                              },
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "x": 16,
-                                  "y": 0,
-                                  "width": 8,
-                                  "height": 8,
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-top-ips-2"
-                                  }
-                                }
-                              }
-                            ]
-                          }
+                        "x": 0,
+                        "y": 4,
+                        "width": 12,
+                        "height": 8,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-connections-by-protocol"
                         }
                       }
                     },
                     {
-                      "kind": "RowsLayoutRow",
+                      "kind": "GridLayoutItem",
                       "spec": {
-                        "title": "Status",
-                        "collapse": false,
-                        "layout": {
-                          "kind": "GridLayout",
-                          "spec": {
-                            "items": [
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "x": 0,
-                                  "y": 0,
-                                  "width": 24,
-                                  "height": 8,
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-status-distribution-2"
-                                  }
-                                }
-                              }
-                            ]
-                          }
+                        "x": 12,
+                        "y": 4,
+                        "width": 12,
+                        "height": 8,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-credentials-by-protocol"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 0,
+                        "y": 12,
+                        "width": 12,
+                        "height": 8,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-session-duration-by-protocol"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 12,
+                        "y": 12,
+                        "width": 12,
+                        "height": 8,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-active-sessions-by-protocol"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 0,
+                        "y": 20,
+                        "width": 8,
+                        "height": 8,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-top-domains"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 8,
+                        "y": 20,
+                        "width": 8,
+                        "height": 8,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-top-paths-2"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 16,
+                        "y": 20,
+                        "width": 8,
+                        "height": 8,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-top-ips-2"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 0,
+                        "y": 28,
+                        "width": 24,
+                        "height": 8,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-status-distribution-2"
                         }
                       }
                     }
@@ -4958,114 +4720,58 @@
             "spec": {
               "title": "📜 Logs",
               "layout": {
-                "kind": "RowsLayout",
+                "kind": "GridLayout",
                 "spec": {
-                  "rows": [
+                  "items": [
                     {
-                      "kind": "RowsLayoutRow",
+                      "kind": "GridLayoutItem",
                       "spec": {
-                        "title": "Caddy Access",
-                        "collapse": false,
-                        "layout": {
-                          "kind": "GridLayout",
-                          "spec": {
-                            "items": [
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "x": 0,
-                                  "y": 0,
-                                  "width": 24,
-                                  "height": 10,
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-caddy-logs"
-                                  }
-                                }
-                              }
-                            ]
-                          }
+                        "x": 0,
+                        "y": 0,
+                        "width": 24,
+                        "height": 10,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-caddy-logs"
                         }
                       }
                     },
                     {
-                      "kind": "RowsLayoutRow",
+                      "kind": "GridLayoutItem",
                       "spec": {
-                        "title": "AppSec WAF",
-                        "collapse": false,
-                        "layout": {
-                          "kind": "GridLayout",
-                          "spec": {
-                            "items": [
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "x": 0,
-                                  "y": 0,
-                                  "width": 24,
-                                  "height": 10,
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-appsec-logs"
-                                  }
-                                }
-                              }
-                            ]
-                          }
+                        "x": 0,
+                        "y": 10,
+                        "width": 24,
+                        "height": 10,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-appsec-logs"
                         }
                       }
                     },
                     {
-                      "kind": "RowsLayoutRow",
+                      "kind": "GridLayoutItem",
                       "spec": {
-                        "title": "CrowdSec",
-                        "collapse": false,
-                        "layout": {
-                          "kind": "GridLayout",
-                          "spec": {
-                            "items": [
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "x": 0,
-                                  "y": 0,
-                                  "width": 24,
-                                  "height": 10,
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-crowdsec-logs"
-                                  }
-                                }
-                              }
-                            ]
-                          }
+                        "x": 0,
+                        "y": 20,
+                        "width": 24,
+                        "height": 10,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-crowdsec-logs"
                         }
                       }
                     },
                     {
-                      "kind": "RowsLayoutRow",
+                      "kind": "GridLayoutItem",
                       "spec": {
-                        "title": "Honeypot",
-                        "collapse": false,
-                        "layout": {
-                          "kind": "GridLayout",
-                          "spec": {
-                            "items": [
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "x": 0,
-                                  "y": 0,
-                                  "width": 24,
-                                  "height": 10,
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-honeypot-logs"
-                                  }
-                                }
-                              }
-                            ]
-                          }
+                        "x": 0,
+                        "y": 30,
+                        "width": 24,
+                        "height": 10,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-honeypot-logs"
                         }
                       }
                     }
