@@ -408,7 +408,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 12,
+        "h": 18,
         "w": 14,
         "x": 0,
         "y": 6
@@ -557,14 +557,14 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 12,
+        "h": 18,
         "w": 10,
         "x": 14,
         "y": 6
       },
       "id": 11,
       "options": {
-        "barWidth": 0.97,
+        "barWidth": 0.8,
         "fullHighlight": false,
         "groupWidth": 0.7,
         "legend": {
@@ -629,7 +629,8 @@
           "id": "organize",
           "options": {
             "excludeByName": {
-              "Field": true
+              "Field": true,
+              "__name__": true
             },
             "renameByName": {
               "Last *": "Count"
@@ -883,7 +884,8 @@
           "id": "organize",
           "options": {
             "excludeByName": {
-              "Field": true
+              "Field": true,
+              "__name__": true
             },
             "renameByName": {
               "Last *": "Count"
@@ -994,10 +996,12 @@
           "id": "organize",
           "options": {
             "excludeByName": {
-              "Field": true
+              "Field": true,
+              "__name__": true
             },
             "renameByName": {
-              "Last *": "Count"
+              "Last *": "Count",
+              "geoip_country_name": "Country"
             }
           }
         }
@@ -1215,7 +1219,8 @@
               "id": "organize",
               "options": {
                 "excludeByName": {
-                  "Field": true
+                  "Field": true,
+                  "__name__": true
                 },
                 "renameByName": {
                   "Last *": "Count"
@@ -1533,7 +1538,8 @@
               "id": "organize",
               "options": {
                 "excludeByName": {
-                  "Field": true
+                  "Field": true,
+                  "__name__": true
                 },
                 "renameByName": {
                   "Last *": "Count"
@@ -1643,10 +1649,12 @@
               "id": "organize",
               "options": {
                 "excludeByName": {
-                  "Field": true
+                  "Field": true,
+                  "__name__": true
                 },
                 "renameByName": {
-                  "Last *": "Count"
+                  "Last *": "Count",
+                  "geoip_country_name": "Country"
                 }
               }
             }
@@ -1847,7 +1855,7 @@
             "sortBy": [
               {
                 "desc": true,
-                "displayName": "count"
+                "displayName": "Count"
               }
             ]
           },
@@ -1878,11 +1886,24 @@
               "id": "organize",
               "options": {
                 "excludeByName": {
-                  "Field": true
+                  "Field": true,
+                  "__name__": true
                 },
                 "renameByName": {
-                  "Last *": "Count"
+                  "Last *": "Count",
+                  "dst_port": "Port"
                 }
+              }
+            },
+            {
+              "id": "convertFieldType",
+              "options": {
+                "conversions": [
+                  {
+                    "targetField": "Port",
+                    "destinationType": "string"
+                  }
+                ]
               }
             }
           ],
@@ -1989,10 +2010,12 @@
               "id": "organize",
               "options": {
                 "excludeByName": {
-                  "Field": true
+                  "Field": true,
+                  "__name__": true
                 },
                 "renameByName": {
-                  "Last *": "Count"
+                  "Last *": "Count",
+                  "geoip_country_name": "Country"
                 }
               }
             }
