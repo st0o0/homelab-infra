@@ -1715,35 +1715,23 @@
             ],
             "transformations": [
               {
-                "id": "extractFields",
+                "id": "reduce",
                 "options": {
-                  "source": "labels",
-                  "format": "json"
+                  "reducers": [
+                    "lastNotNull"
+                  ],
+                  "labelsToFields": true
                 }
               },
               {
                 "id": "organize",
                 "options": {
                   "excludeByName": {
-                    "Line": true,
-                    "id": true,
-                    "labels": true,
-                    "streams": true,
-                    "streamId": true,
-                    "detected_level": true,
-                    "Time": true
+                    "Field": true
+                  },
+                  "renameByName": {
+                    "Last *": "Count"
                   }
-                }
-              },
-              {
-                "id": "convertFieldType",
-                "options": {
-                  "conversions": [
-                    {
-                      "targetField": "count",
-                      "destinationType": "number"
-                    }
-                  ]
                 }
               }
             ]
@@ -1806,35 +1794,23 @@
             ],
             "transformations": [
               {
-                "id": "extractFields",
+                "id": "reduce",
                 "options": {
-                  "source": "labels",
-                  "format": "json"
+                  "reducers": [
+                    "lastNotNull"
+                  ],
+                  "labelsToFields": true
                 }
               },
               {
                 "id": "organize",
                 "options": {
                   "excludeByName": {
-                    "Line": true,
-                    "id": true,
-                    "labels": true,
-                    "streams": true,
-                    "streamId": true,
-                    "detected_level": true,
-                    "Time": true
+                    "Field": true
+                  },
+                  "renameByName": {
+                    "Last *": "Count"
                   }
-                }
-              },
-              {
-                "id": "convertFieldType",
-                "options": {
-                  "conversions": [
-                    {
-                      "targetField": "count",
-                      "destinationType": "number"
-                    }
-                  ]
                 }
               }
             ]
@@ -1904,35 +1880,23 @@
             ],
             "transformations": [
               {
-                "id": "extractFields",
+                "id": "reduce",
                 "options": {
-                  "source": "labels",
-                  "format": "json"
+                  "reducers": [
+                    "lastNotNull"
+                  ],
+                  "labelsToFields": true
                 }
               },
               {
                 "id": "organize",
                 "options": {
                   "excludeByName": {
-                    "Line": true,
-                    "id": true,
-                    "labels": true,
-                    "streams": true,
-                    "streamId": true,
-                    "detected_level": true,
-                    "Time": true
+                    "Field": true
+                  },
+                  "renameByName": {
+                    "Last *": "Count"
                   }
-                }
-              },
-              {
-                "id": "convertFieldType",
-                "options": {
-                  "conversions": [
-                    {
-                      "targetField": "count",
-                      "destinationType": "number"
-                    }
-                  ]
                 }
               }
             ]
@@ -1995,35 +1959,23 @@
             ],
             "transformations": [
               {
-                "id": "extractFields",
+                "id": "reduce",
                 "options": {
-                  "source": "labels",
-                  "format": "json"
+                  "reducers": [
+                    "lastNotNull"
+                  ],
+                  "labelsToFields": true
                 }
               },
               {
                 "id": "organize",
                 "options": {
                   "excludeByName": {
-                    "Line": true,
-                    "id": true,
-                    "labels": true,
-                    "streams": true,
-                    "streamId": true,
-                    "detected_level": true,
-                    "Time": true
+                    "Field": true
+                  },
+                  "renameByName": {
+                    "Last *": "Count"
                   }
-                }
-              },
-              {
-                "id": "convertFieldType",
-                "options": {
-                  "conversions": [
-                    {
-                      "targetField": "avg_duration",
-                      "destinationType": "number"
-                    }
-                  ]
                 }
               }
             ]
@@ -2257,35 +2209,23 @@
             ],
             "transformations": [
               {
-                "id": "extractFields",
+                "id": "reduce",
                 "options": {
-                  "source": "labels",
-                  "format": "json"
+                  "reducers": [
+                    "lastNotNull"
+                  ],
+                  "labelsToFields": true
                 }
               },
               {
                 "id": "organize",
                 "options": {
                   "excludeByName": {
-                    "Line": true,
-                    "id": true,
-                    "labels": true,
-                    "streams": true,
-                    "streamId": true,
-                    "detected_level": true,
-                    "Time": true
+                    "Field": true
+                  },
+                  "renameByName": {
+                    "Last *": "Count"
                   }
-                }
-              },
-              {
-                "id": "convertFieldType",
-                "options": {
-                  "conversions": [
-                    {
-                      "targetField": "count",
-                      "destinationType": "number"
-                    }
-                  ]
                 }
               }
             ]
@@ -2355,35 +2295,23 @@
             ],
             "transformations": [
               {
-                "id": "extractFields",
+                "id": "reduce",
                 "options": {
-                  "source": "labels",
-                  "format": "json"
+                  "reducers": [
+                    "lastNotNull"
+                  ],
+                  "labelsToFields": true
                 }
               },
               {
                 "id": "organize",
                 "options": {
                   "excludeByName": {
-                    "Line": true,
-                    "id": true,
-                    "labels": true,
-                    "streams": true,
-                    "streamId": true,
-                    "detected_level": true,
-                    "Time": true
+                    "Field": true
+                  },
+                  "renameByName": {
+                    "Last *": "Count"
                   }
-                }
-              },
-              {
-                "id": "convertFieldType",
-                "options": {
-                  "conversions": [
-                    {
-                      "targetField": "count",
-                      "destinationType": "number"
-                    }
-                  ]
                 }
               }
             ]
@@ -2446,35 +2374,23 @@
             ],
             "transformations": [
               {
-                "id": "extractFields",
+                "id": "reduce",
                 "options": {
-                  "source": "labels",
-                  "format": "json"
+                  "reducers": [
+                    "lastNotNull"
+                  ],
+                  "labelsToFields": true
                 }
               },
               {
                 "id": "organize",
                 "options": {
                   "excludeByName": {
-                    "Line": true,
-                    "id": true,
-                    "labels": true,
-                    "streams": true,
-                    "streamId": true,
-                    "detected_level": true,
-                    "Time": true
+                    "Field": true
+                  },
+                  "renameByName": {
+                    "Last *": "Count"
                   }
-                }
-              },
-              {
-                "id": "convertFieldType",
-                "options": {
-                  "conversions": [
-                    {
-                      "targetField": "count",
-                      "destinationType": "number"
-                    }
-                  ]
                 }
               }
             ]
@@ -2537,35 +2453,23 @@
             ],
             "transformations": [
               {
-                "id": "extractFields",
+                "id": "reduce",
                 "options": {
-                  "source": "labels",
-                  "format": "json"
+                  "reducers": [
+                    "lastNotNull"
+                  ],
+                  "labelsToFields": true
                 }
               },
               {
                 "id": "organize",
                 "options": {
                   "excludeByName": {
-                    "Line": true,
-                    "id": true,
-                    "labels": true,
-                    "streams": true,
-                    "streamId": true,
-                    "detected_level": true,
-                    "Time": true
+                    "Field": true
+                  },
+                  "renameByName": {
+                    "Last *": "Count"
                   }
-                }
-              },
-              {
-                "id": "convertFieldType",
-                "options": {
-                  "conversions": [
-                    {
-                      "targetField": "count",
-                      "destinationType": "number"
-                    }
-                  ]
                 }
               }
             ]
@@ -2628,35 +2532,23 @@
             ],
             "transformations": [
               {
-                "id": "extractFields",
+                "id": "reduce",
                 "options": {
-                  "source": "labels",
-                  "format": "json"
+                  "reducers": [
+                    "lastNotNull"
+                  ],
+                  "labelsToFields": true
                 }
               },
               {
                 "id": "organize",
                 "options": {
                   "excludeByName": {
-                    "Line": true,
-                    "id": true,
-                    "labels": true,
-                    "streams": true,
-                    "streamId": true,
-                    "detected_level": true,
-                    "Time": true
+                    "Field": true
+                  },
+                  "renameByName": {
+                    "Last *": "Count"
                   }
-                }
-              },
-              {
-                "id": "convertFieldType",
-                "options": {
-                  "conversions": [
-                    {
-                      "targetField": "count",
-                      "destinationType": "number"
-                    }
-                  ]
                 }
               }
             ]
@@ -3377,35 +3269,23 @@
             ],
             "transformations": [
               {
-                "id": "extractFields",
+                "id": "reduce",
                 "options": {
-                  "source": "labels",
-                  "format": "json"
+                  "reducers": [
+                    "lastNotNull"
+                  ],
+                  "labelsToFields": true
                 }
               },
               {
                 "id": "organize",
                 "options": {
                   "excludeByName": {
-                    "Line": true,
-                    "id": true,
-                    "labels": true,
-                    "streams": true,
-                    "streamId": true,
-                    "detected_level": true,
-                    "Time": true
+                    "Field": true
+                  },
+                  "renameByName": {
+                    "Last *": "Count"
                   }
-                }
-              },
-              {
-                "id": "convertFieldType",
-                "options": {
-                  "conversions": [
-                    {
-                      "targetField": "count",
-                      "destinationType": "number"
-                    }
-                  ]
                 }
               }
             ]
@@ -3468,35 +3348,23 @@
             ],
             "transformations": [
               {
-                "id": "extractFields",
+                "id": "reduce",
                 "options": {
-                  "source": "labels",
-                  "format": "json"
+                  "reducers": [
+                    "lastNotNull"
+                  ],
+                  "labelsToFields": true
                 }
               },
               {
                 "id": "organize",
                 "options": {
                   "excludeByName": {
-                    "Line": true,
-                    "id": true,
-                    "labels": true,
-                    "streams": true,
-                    "streamId": true,
-                    "detected_level": true,
-                    "Time": true
+                    "Field": true
+                  },
+                  "renameByName": {
+                    "Last *": "Count"
                   }
-                }
-              },
-              {
-                "id": "convertFieldType",
-                "options": {
-                  "conversions": [
-                    {
-                      "targetField": "count",
-                      "destinationType": "number"
-                    }
-                  ]
                 }
               }
             ]
@@ -3559,35 +3427,23 @@
             ],
             "transformations": [
               {
-                "id": "extractFields",
+                "id": "reduce",
                 "options": {
-                  "source": "labels",
-                  "format": "json"
+                  "reducers": [
+                    "lastNotNull"
+                  ],
+                  "labelsToFields": true
                 }
               },
               {
                 "id": "organize",
                 "options": {
                   "excludeByName": {
-                    "Line": true,
-                    "id": true,
-                    "labels": true,
-                    "streams": true,
-                    "streamId": true,
-                    "detected_level": true,
-                    "Time": true
+                    "Field": true
+                  },
+                  "renameByName": {
+                    "Last *": "Count"
                   }
-                }
-              },
-              {
-                "id": "convertFieldType",
-                "options": {
-                  "conversions": [
-                    {
-                      "targetField": "count",
-                      "destinationType": "number"
-                    }
-                  ]
                 }
               }
             ]
@@ -3657,35 +3513,23 @@
             ],
             "transformations": [
               {
-                "id": "extractFields",
+                "id": "reduce",
                 "options": {
-                  "source": "labels",
-                  "format": "json"
+                  "reducers": [
+                    "lastNotNull"
+                  ],
+                  "labelsToFields": true
                 }
               },
               {
                 "id": "organize",
                 "options": {
                   "excludeByName": {
-                    "Line": true,
-                    "id": true,
-                    "labels": true,
-                    "streams": true,
-                    "streamId": true,
-                    "detected_level": true,
-                    "Time": true
+                    "Field": true
+                  },
+                  "renameByName": {
+                    "Last *": "Count"
                   }
-                }
-              },
-              {
-                "id": "convertFieldType",
-                "options": {
-                  "conversions": [
-                    {
-                      "targetField": "count",
-                      "destinationType": "number"
-                    }
-                  ]
                 }
               }
             ]
