@@ -25,7 +25,7 @@ loki.process "docker" {
   stage.decolorize {}
 
   stage.multiline {
-    firstline     = "^\\d{4}-\\d{2}-\\d{2}[T ]\\d{2}:\\d{2}:\\d{2}|^\\{\""
+    firstline     = "^\\d{4}-\\d{2}-\\d{2}[T ]\\d{2}:\\d{2}:\\d{2}|^\\{\"|^\\[\\w+\\]\\s+\\w+:"
     max_lines     = 50
     max_wait_time = "3s"
   }
@@ -35,7 +35,7 @@ loki.process "docker" {
   }
 
   stage.regex {
-    expression = "(?i)(?:level|lvl|severity)[=:]\\s*\"?(?P<level>\\w+)"
+    expression = "(?i)\"?(?:level|lvl|severity)\"?\\s*[=:]\\s*\"?(?P<level>\\w+)"
   }
 
   stage.regex {
