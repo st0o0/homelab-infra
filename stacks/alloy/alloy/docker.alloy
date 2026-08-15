@@ -42,9 +42,21 @@ loki.process "docker" {
     expression = "^(?P<level_fallback>Error|Warning|Fatal|Panic):"
   }
 
+  stage.regex {
+    expression = "\\[(?P<level_bracket>(?i)Info|Warn(?:ing)?|Err(?:or)?|Debug|Fatal|Trace|INF|WRN|ERR|DBG|FTL|TRC|CRIT(?:ICAL)?|Notice|fail|crit|dbug|trce)\\b"
+  }
+
+  stage.regex {
+    expression = "(?:^|\\s)(?P<level_bare>INFO|DEBUG|WARNING|ERROR|CRITICAL|FATAL|NOTICE)[:\\s(]"
+  }
+
+  stage.regex {
+    expression = "::(?P<level_delim>DEBUG|INFO|WARNING|ERROR|CRITICAL)::"
+  }
+
   stage.template {
     source   = "level"
-    template = "{{ or .level .level_fallback }}"
+    template = "{{ or .level .level_fallback .level_bracket .level_bare .level_delim }}"
   }
 
   stage.template {
