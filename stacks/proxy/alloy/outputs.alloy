@@ -19,22 +19,6 @@ prometheus.remote_write "central" {
 loki.secretfilter "redact" {
   forward_to    = [loki.write.central.receiver]
   redact_with   = "<REDACTED:$SECRET_NAME>"
-  types         = [
-    "generic-api-key",
-    "private-key",
-    "grafana-api-key",
-    "grafana-cloud-api-token",
-    "grafana-service-account-token",
-    "cloudflare-api-key",
-    "cloudflare-global-api-key",
-    "cloudflare-origin-ca-key",
-    "github-pat",
-    "github-fine-grained-pat",
-    "github-app-token",
-    "github-oauth",
-    "jwt",
-    "jwt-base64",
-  ]
 }
 
 loki.write "central" {
