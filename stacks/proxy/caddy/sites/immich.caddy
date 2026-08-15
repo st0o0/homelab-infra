@@ -1,0 +1,17 @@
+{$CADDY_DOMAIN_IMMICH} {
+	import defaults
+	import ratelimit-media immich
+	import access-geo-dach
+
+	request_body {
+		max_size 50GB
+	}
+
+	reverse_proxy {$CADDY_TARGET_IMMICH} {
+		header_up X-Real-IP {remote_host}
+		header_up X-Forwarded-For {remote_host}
+		transport http {
+			read_timeout 600s
+		}
+	}
+}
