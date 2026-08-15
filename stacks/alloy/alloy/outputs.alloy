@@ -17,8 +17,9 @@ prometheus.remote_write "central" {
 }
 
 loki.secretfilter "redact" {
-  forward_to    = [loki.write.central.receiver]
-  redact_with   = "<REDACTED:$SECRET_NAME>"
+  forward_to     = [loki.write.central.receiver]
+  redact_with    = "<REDACTED:$SECRET_NAME>"
+  gitleaks_config = "/etc/alloy/modules/gitleaks.toml"
 }
 
 loki.write "central" {
