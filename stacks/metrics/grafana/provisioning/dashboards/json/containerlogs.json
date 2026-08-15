@@ -129,7 +129,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "{job=\"docker\"} level:~\"^warn(ing)?$\" | stats count() as warnings",
+          "expr": "{job=\"docker\"} level:warning | stats count() as warnings",
           "queryType": "stats"
         }
       ],
@@ -231,7 +231,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "{job=\"docker\"} | replace (\"warning\", \"warn\") at level | replace (\"critical\", \"crit\") at level | stats by (_time:5m, level) count() as logs",
+          "expr": "{job=\"docker\"} | stats by (_time:5m, level) count() as logs",
           "queryType": "statsRange"
         }
       ],

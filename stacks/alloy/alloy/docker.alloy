@@ -39,15 +39,15 @@ loki.process "docker" {
   }
 
   stage.regex {
-    expression = "^(?P<level_fallback>Error|Warning|Fatal|Panic):"
+    expression = "^(?P<level_fallback>Error|Warning|Fatal|Panic|Notice):"
   }
 
   stage.regex {
-    expression = "\\[(?P<level_bracket>(?i)Info|Warn(?:ing)?|Err(?:or)?|Debug|Fatal|Trace|INF|WRN|ERR|DBG|FTL|TRC|CRIT(?:ICAL)?|Notice|fail|crit|dbug|trce)\\b"
+    expression = "\\[(?P<level_bracket>(?i)Info(?:rmation)?|Warn(?:ing)?|Err(?:or)?|Debug|Fatal|Trace|INF|WRN|ERR|DBG|FTL|TRC|VRB|CRIT(?:ICAL)?|Verbose|Notice|fail|crit|dbug|trce)\\b"
   }
 
   stage.regex {
-    expression = "(?:^|\\s)(?P<level_bare>INFO|DEBUG|WARNING|ERROR|CRITICAL|FATAL|NOTICE)[:\\s(]"
+    expression = "(?:^|\\s)(?P<level_bare>INFO|DEBUG|WARNING|ERROR|CRITICAL|FATAL|NOTICE|VERBOSE|LOG)[:\\s(]"
   }
 
   stage.regex {
@@ -62,6 +62,48 @@ loki.process "docker" {
   stage.template {
     source   = "level"
     template = "{{ .level | ToLower }}"
+  }
+
+  stage.replace {
+    source     = "level"
+    expression = "(?i)^(trace?|trc|trce)$"
+    replace    = "trace"
+  }
+
+  stage.replace {
+    source     = "level"
+    expression = "(?i)^(debug?|dbg|dbug|verbose|vrb|detail)$"
+    replace    = "debug"
+  }
+
+  stage.replace {
+    source     = "level"
+    expression = "(?i)^(info?(rmation(al)?)?|notice|log)$"
+    replace    = "info"
+  }
+
+  stage.replace {
+    source     = "level"
+    expression = "(?i)^(wa?rn(ing)?)$"
+    replace    = "warning"
+  }
+
+  stage.replace {
+    source     = "level"
+    expression = "(?i)^(err(or|o)?|fail)$"
+    replace    = "error"
+  }
+
+  stage.replace {
+    source     = "level"
+    expression = "(?i)^(fatal|ftl|fata)$"
+    replace    = "fatal"
+  }
+
+  stage.replace {
+    source     = "level"
+    expression = "(?i)^(crit(ical)?|panic|pnc|emerg(ency)?)$"
+    replace    = "critical"
   }
 
   stage.labels {
