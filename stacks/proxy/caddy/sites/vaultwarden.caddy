@@ -1,6 +1,5 @@
 {$CADDY_DOMAIN_VAULTWARDEN} {
 	import defaults
-	import ratelimit-strict vaultwarden
 	import access-geo-dach
 
 	header {
@@ -9,12 +8,16 @@
 	}
 
 	@api path /api/* /identity/* /icons/* /notifications/hub /alive
-	reverse_proxy @api {$CADDY_TARGET_VAULTWARDEN} {
-		header_up X-Real-IP {remote_host}
-		header_up X-Forwarded-For {remote_host}
+	route @api {
+		import ratelimit-default vaultwarden_api
+		reverse_proxy {$CADDY_TARGET_VAULTWARDEN} {
+			header_up X-Real-IP {remote_host}
+			header_up X-Forwarded-For {remote_host}
+		}
 	}
 
 	route {
+		import ratelimit-strict vaultwarden
 		import authentik
 
 		reverse_proxy {$CADDY_TARGET_VAULTWARDEN} {
