@@ -193,11 +193,7 @@
             "matcher": { "id": "byName", "options": "warn" },
             "properties": [{ "id": "color", "value": { "fixedColor": "orange", "mode": "fixed" } }]
           },
-          {
-            "matcher": { "id": "byName", "options": "warning" },
-            "properties": [{ "id": "color", "value": { "fixedColor": "orange", "mode": "fixed" } }]
-          },
-          {
+{
             "matcher": { "id": "byName", "options": "info" },
             "properties": [{ "id": "color", "value": { "fixedColor": "green", "mode": "fixed" } }]
           },
@@ -235,7 +231,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "{job=\"docker\"} | stats by (_time:5m, level) count() as logs",
+          "expr": "{job=\"docker\"} | replace (\"warning\", \"warn\") at level | replace (\"critical\", \"crit\") at level | stats by (_time:5m, level) count() as logs",
           "queryType": "statsRange"
         }
       ],
