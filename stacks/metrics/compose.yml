@@ -131,11 +131,6 @@ services:
       - --replay.timeTo=${BACKFILL_TO:-2026-08-16T00:00:00Z}
     volumes:
       - ./vmalert/rules:/etc/vmalert/rules:ro
-    depends_on:
-      victoriametrics:
-        condition: service_healthy
-      victorialogs:
-        condition: service_started
 
   victorialogs:
     image: victoriametrics/victoria-logs:v1.52.0
