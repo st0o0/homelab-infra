@@ -1972,27 +1972,27 @@
           "title": "Top Blocked Ports",
           "transformations": [
             {
-              "id": "reduce",
+              "id": "renameByRegex",
               "options": {
-                "reducers": [
-                  "lastNotNull"
-                ],
-                "labelsToFields": true
+                "regex": ".*=\"(.+)\".*",
+                "renamePattern": "$1"
               }
+            },
+            {
+              "id": "seriesToRows"
             },
             {
               "id": "organize",
               "options": {
                 "excludeByName": {
-                  "Field": true,
-                  "__name__": true
+                  "Time": true
                 },
                 "renameByName": {
-                  "Last *": "Count",
-                  "dst_port": "Port"
+                  "Metric": "Port",
+                  "Value": "Count"
                 }
               }
-            },
+            }
           ],
           "type": "table"
         },
