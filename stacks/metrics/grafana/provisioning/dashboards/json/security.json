@@ -1862,7 +1862,39 @@
               "color": {
                 "mode": "thresholds"
               },
-              "mappings": [],
+              "mappings": [
+                {
+                  "type": "value",
+                  "options": {
+                    "21": { "text": "FTP (21)", "index": 0 },
+                    "22": { "text": "SSH (22)", "index": 1 },
+                    "23": { "text": "Telnet (23)", "index": 2 },
+                    "25": { "text": "SMTP (25)", "index": 3 },
+                    "53": { "text": "DNS (53)", "index": 4 },
+                    "80": { "text": "HTTP (80)", "index": 5 },
+                    "110": { "text": "POP3 (110)", "index": 6 },
+                    "123": { "text": "NTP (123)", "index": 7 },
+                    "143": { "text": "IMAP (143)", "index": 8 },
+                    "443": { "text": "HTTPS (443)", "index": 9 },
+                    "445": { "text": "SMB (445)", "index": 10 },
+                    "465": { "text": "SMTPS (465)", "index": 11 },
+                    "587": { "text": "SMTP-Sub (587)", "index": 12 },
+                    "993": { "text": "IMAPS (993)", "index": 13 },
+                    "995": { "text": "POP3S (995)", "index": 14 },
+                    "1433": { "text": "MSSQL (1433)", "index": 15 },
+                    "1723": { "text": "PPTP (1723)", "index": 16 },
+                    "3306": { "text": "MySQL (3306)", "index": 17 },
+                    "3389": { "text": "RDP (3389)", "index": 18 },
+                    "5060": { "text": "SIP (5060)", "index": 19 },
+                    "5432": { "text": "PostgreSQL (5432)", "index": 20 },
+                    "5900": { "text": "VNC (5900)", "index": 21 },
+                    "6379": { "text": "Redis (6379)", "index": 22 },
+                    "8080": { "text": "HTTP-Alt (8080)", "index": 23 },
+                    "8443": { "text": "HTTPS-Alt (8443)", "index": 24 },
+                    "27017": { "text": "MongoDB (27017)", "index": 25 }
+                  }
+                }
+              ],
               "thresholds": {
                 "mode": "absolute",
                 "steps": [
@@ -1944,17 +1976,6 @@
                 }
               }
             },
-            {
-              "id": "convertFieldType",
-              "options": {
-                "conversions": [
-                  {
-                    "targetField": "Port",
-                    "destinationType": "number"
-                  }
-                ]
-              }
-            }
           ],
           "type": "table"
         },
