@@ -3053,7 +3053,7 @@
         {
           "id": 457,
           "type": "piechart",
-          "title": "By Method",
+          "title": "By Country",
           "gridPos": { "x": 12, "y": 45, "w": 12, "h": 8 },
           "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
           "options": {
@@ -3066,7 +3066,7 @@
             "defaults": { "color": { "mode": "palette-classic" } },
             "overrides": []
           },
-          "targets": [{ "refId": "A", "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"appsec\"} method:!\"\" | stats by (method) count() as hits", "queryType": "stats" }],
+          "targets": [{ "refId": "A", "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"appsec\"} geoip_country_name:!\"\" | stats by (geoip_country_name) count() as hits", "queryType": "stats" }],
           "transformations": [
             { "id": "renameByRegex", "options": { "regex": ".*=\"([^\"]+)\"}$", "renamePattern": "$1" } }
           ]
@@ -3074,7 +3074,7 @@
         {
           "id": 458,
           "type": "piechart",
-          "title": "By Scenario",
+          "title": "By Target Host",
           "gridPos": { "x": 0, "y": 53, "w": 12, "h": 8 },
           "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
           "options": {
@@ -3087,7 +3087,7 @@
             "defaults": { "color": { "mode": "palette-classic" } },
             "overrides": []
           },
-          "targets": [{ "refId": "A", "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"appsec\"} scenario:!\"\" | stats by (scenario) count() as hits", "queryType": "stats" }],
+          "targets": [{ "refId": "A", "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"appsec\"} target_host:!\"\" | stats by (target_host) count() as hits", "queryType": "stats" }],
           "transformations": [
             { "id": "renameByRegex", "options": { "regex": ".*=\"([^\"]+)\"}$", "renamePattern": "$1" } }
           ]
