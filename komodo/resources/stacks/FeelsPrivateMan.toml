@@ -13,6 +13,8 @@ extra_args = ["--remove-orphans", "--wait"]
 run_build = true
 auto_pull = true
 send_alerts = true
+poll_for_updates = true
+auto_update = false
 environment = """
 TZ=[[tz]]
 
