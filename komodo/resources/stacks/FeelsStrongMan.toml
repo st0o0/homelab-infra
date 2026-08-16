@@ -232,27 +232,27 @@ MEDIATHEKARR_PATH_TEMP=/docker/arr/mediathekarr/temp
 """
 
 [[stack.config.config_files]]
-path = "data/recyclarr/config/radarr-hd.yml"
+path = "recyclarr/config/radarr-hd.yml"
 requires = "Redeploy"
 
 [[stack.config.config_files]]
-path = "data/recyclarr/config/radarr-uhd.yml"
+path = "recyclarr/config/radarr-uhd.yml"
 requires = "Redeploy"
 
 [[stack.config.config_files]]
-path = "data/recyclarr/config/radarr-uhd-alt.yml"
+path = "recyclarr/config/radarr-uhd-alt.yml"
 requires = "Redeploy"
 
 [[stack.config.config_files]]
-path = "data/recyclarr/config/sonarr-hd.yml"
+path = "recyclarr/config/sonarr-hd.yml"
 requires = "Redeploy"
 
 [[stack.config.config_files]]
-path = "data/recyclarr/config/sonarr-uhd.yml"
+path = "recyclarr/config/sonarr-uhd.yml"
 requires = "Redeploy"
 
 [[stack.config.config_files]]
-path = "data/recyclarr/config/sonarr-uhd-alt.yml"
+path = "recyclarr/config/sonarr-uhd-alt.yml"
 requires = "Redeploy"
 
 [[stack.config.config_files]]
