@@ -35,7 +35,7 @@ services:
       - "${SONARR_PORT:-1089}:8989"
     volumes:
       - media_smb:${ARR_MEDIA_PATH:-/data/media}
-      - ${SONARR_PATH_CONFIG:-./data/sonarr/config}:/config
+      - ${SONARR_PATH_CONFIG:-./sonarr/config}:/config
     networks:
       - arr
       - media
@@ -64,7 +64,7 @@ services:
       - "${RADARR_PORT:-1078}:7878"
     volumes:
       - media_smb:${ARR_MEDIA_PATH:-/data/media}
-      - ${RADARR_PATH_CONFIG:-./data/radarr/config}:/config
+      - ${RADARR_PATH_CONFIG:-./radarr/config}:/config
     networks:
       - arr
       - media
@@ -92,7 +92,7 @@ services:
     ports:
       - "${PROWLARR_PORT:-1096}:9696"
     volumes:
-      - ${PROWLARR_PATH_CONFIG:-./data/prowlarr/config}:/config
+      - ${PROWLARR_PATH_CONFIG:-./prowlarr/config}:/config
     networks:
       - arr
       - media
@@ -120,7 +120,7 @@ services:
     ports:
       - "${SEERR_PORT:-1055}:5055"
     volumes:
-      - ${SEERR_PATH_CONFIG:-./data/seerr/config}:/app/config
+      - ${SEERR_PATH_CONFIG:-./seerr/config}:/app/config
     networks:
       - arr
 
@@ -134,8 +134,8 @@ services:
       radarr:
         condition: service_healthy
     volumes:
-      - ${SEEKARR_PATH_CONFIG:-./data/seekarr/config.yml}:/seekarr/config.yml:ro
-      - ${SEEKARR_PATH_DATA:-./data/seekarr/data}:/seekarr/data
+      - ${SEEKARR_PATH_CONFIG:-./seekarr/config.yml}:/seekarr/config.yml:ro
+      - ${SEEKARR_PATH_DATA:-./seekarr/data}:/seekarr/data
     networks:
       - arr
 
@@ -206,7 +206,7 @@ services:
       SONARR_API_KEY: ${SONARR_API_KEY:?SONARR_API_KEY is required}
       RADARR_API_KEY: ${RADARR_API_KEY:?RADARR_API_KEY is required}
     volumes:
-      - ${RECYCLARR_PATH_CONFIG:-./data/recyclarr/config}:/config
+      - ${RECYCLARR_PATH_CONFIG:-./recyclarr/config}:/config
     networks:
       - arr
 
