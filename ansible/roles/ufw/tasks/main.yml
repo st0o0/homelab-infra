@@ -24,6 +24,24 @@
     mode: "0644"
   notify: Restart rsyslog
 
+- name: Ensure logrotate reloads rsyslog after rotating ufw.log
+  ansible.builtin.copy:
+    dest: /etc/logrotate.d/ufw
+    content: |
+      /var/log/ufw.log {
+          daily
+          rotate 14
+          missingok
+          notifempty
+          compress
+          delaycompress
+          create 0640 syslog adm
+          postrotate
+              invoke-rc.d rsyslog rotate >/dev/null 2>&1 || true
+          endscript
+      }
+    mode: "0644"
+
 - name: Include LXC tasks
   ansible.builtin.include_tasks: lxc.yml
   when: ufw_disable_sysctl
