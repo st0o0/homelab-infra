@@ -11,6 +11,8 @@ file_paths = ["compose.yml"]
 linked_repo = "homelab-infra"
 extra_args = ["--remove-orphans", "--wait"]
 run_build = true
+auto_pull = true
+send_alerts = true
 environment = """
 TZ=[[tz]]
 
