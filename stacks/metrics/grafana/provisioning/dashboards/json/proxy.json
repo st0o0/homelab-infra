@@ -2837,7 +2837,7 @@
             "showHeader": true,
             "cellHeight": "sm",
             "footer": { "show": false },
-            "sortBy": [{ "desc": true, "displayName": "Value" }]
+            "sortBy": [{ "desc": true, "displayName": "Count" }]
           },
           "fieldConfig": {
             "defaults": {
@@ -3036,7 +3036,7 @@
             "showHeader": true,
             "cellHeight": "sm",
             "footer": { "show": false },
-            "sortBy": [{ "desc": true, "displayName": "Value" }]
+            "sortBy": [{ "desc": true, "displayName": "Hits" }]
           },
           "fieldConfig": {
             "defaults": {
