@@ -1,5 +1,6 @@
 appsec_configs:
   - custom/detection-only
+  - custom/blocking
   - crowdsecurity/crs
   - custom/whitelist-jellyfin
 labels:

@@ -1,0 +1,5 @@
+name: custom/blocking
+default_remediation: ban
+inband_rules:
+  - crowdsecurity/vpatch-env-access
+  - crowdsecurity/vpatch-git-config
