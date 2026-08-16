@@ -191,7 +191,7 @@ services:
           memory: 32M
 
   ran:
-    image: ghcr.io/st0o0/ran:0.3.0
+    image: ghcr.io/st0o0/ran:0.3.1
     container_name: ran
     restart: unless-stopped
     logging: *default-logging
@@ -223,12 +223,6 @@ services:
       - RAN_CROWDSEC_MACHINE_ID=${RAN_CROWDSEC_MACHINE_ID:?RAN_CROWDSEC_MACHINE_ID is required}
       - RAN_CROWDSEC_PASSWORD=${RAN_CROWDSEC_PASSWORD:?RAN_CROWDSEC_PASSWORD is required}
       - RAN_CROWDSEC_BAN_DURATION=${RAN_CROWDSEC_BAN_DURATION:-4h}
-    healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost:9550/metrics > /dev/null 2>&1"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
-      start_period: 10s
     deploy:
       resources:
         limits:
