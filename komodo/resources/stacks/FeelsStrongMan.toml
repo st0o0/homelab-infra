@@ -216,7 +216,7 @@ SEERR_DB_NAME=seerr
 # Recyclarr
 RECYCLARR_PORT=7879
 RECYCLARR_PATH_CONFIG=/docker/arr/recyclarr/config
-RECYCLARR_CRON_SCHEDULE=0 */6 * * *
+RECYCLARR_CRON_SCHEDULE="0 */6 * * *"
 # Seekarr
 SEEKARR_PATH_CONFIG=/docker/arr/seekarr/config.yml
 SEEKARR_PATH_DATA=/docker/arr/seekarr/data
