@@ -546,7 +546,8 @@
               "mode": "off"
             }
           },
-          "unit": "ops"
+          "unit": "ops",
+          "noValue": "0"
         }
       },
       "options": {
@@ -621,7 +622,8 @@
               "mode": "off"
             }
           },
-          "unit": "ops"
+          "unit": "ops",
+          "noValue": "0"
         }
       },
       "options": {
@@ -687,7 +689,7 @@
               "type": "linear"
             },
             "showPoints": "never",
-            "spanNulls": false,
+            "spanNulls": true,
             "stacking": {
               "group": "A",
               "mode": "none"
@@ -761,7 +763,7 @@
               "type": "linear"
             },
             "showPoints": "never",
-            "spanNulls": false,
+            "spanNulls": true,
             "stacking": {
               "group": "A",
               "mode": "none"
@@ -856,7 +858,8 @@
               "mode": "off"
             }
           },
-          "unit": "reqps"
+          "unit": "reqps",
+          "noValue": "0"
         }
       },
       "options": {
@@ -922,7 +925,7 @@
               "type": "linear"
             },
             "showPoints": "never",
-            "spanNulls": false,
+            "spanNulls": true,
             "stacking": {
               "group": "A",
               "mode": "none"
@@ -997,7 +1000,7 @@
               "type": "linear"
             },
             "showPoints": "never",
-            "spanNulls": false,
+            "spanNulls": true,
             "stacking": {
               "group": "A",
               "mode": "none"
@@ -1072,7 +1075,7 @@
               "type": "linear"
             },
             "showPoints": "never",
-            "spanNulls": false,
+            "spanNulls": true,
             "stacking": {
               "group": "A",
               "mode": "none"
@@ -1150,7 +1153,7 @@
                   "type": "linear"
                 },
                 "showPoints": "never",
-                "spanNulls": false,
+                "spanNulls": true,
                 "stacking": {
                   "group": "A",
                   "mode": "none"
@@ -1236,7 +1239,7 @@
                   "type": "linear"
                 },
                 "showPoints": "never",
-                "spanNulls": false,
+                "spanNulls": true,
                 "stacking": {
                   "group": "A",
                   "mode": "none"
@@ -1346,7 +1349,8 @@
                   }
                 ]
               },
-              "unit": "ops"
+              "unit": "ops",
+              "noValue": "0"
             },
             "overrides": []
           },
@@ -1432,7 +1436,8 @@
                   }
                 ]
               },
-              "unit": "ops"
+              "unit": "ops",
+              "noValue": "0"
             },
             "overrides": []
           },
@@ -1513,7 +1518,7 @@
                   "type": "linear"
                 },
                 "showPoints": "never",
-                "spanNulls": false,
+                "spanNulls": true,
                 "stacking": {
                   "group": "A",
                   "mode": "none"
@@ -1618,7 +1623,8 @@
                   }
                 ]
               },
-              "unit": "ops"
+              "unit": "ops",
+              "noValue": "0"
             },
             "overrides": []
           },
@@ -1704,7 +1710,8 @@
                   }
                 ]
               },
-              "unit": "Bps"
+              "unit": "Bps",
+              "noValue": "0"
             },
             "overrides": []
           },

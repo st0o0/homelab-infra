@@ -1,0 +1,49 @@
+groups:
+  - name: ssh
+    type: vlogs
+    interval: 1m
+    rules:
+      - record: vlogs:ssh_invalid_user_total
+        expr: '{job="ssh"} event_type:"invalid_user" | stats count() as requests'
+      - record: vlogs:ssh_preauth_total
+        expr: '{job="ssh"} event_type:"preauth" | stats count() as requests'
+      - record: vlogs:ssh_failed_total
+        expr: '{job="ssh"} event_type:"failed" | stats count() as requests'
+      - record: vlogs:ssh_accepted_total
+        expr: '{job="ssh"} event_type:"accepted" | stats count() as requests'
+
+  - name: fail2ban
+    type: vlogs
+    interval: 1m
+    rules:
+      - record: vlogs:fail2ban_ban_total
+        expr: '{job="fail2ban"} action:"Ban" | stats count() as requests'
+      - record: vlogs:fail2ban_unban_total
+        expr: '{job="fail2ban"} action:"Unban" | stats count() as requests'
+      - record: vlogs:fail2ban_found_total
+        expr: '{job="fail2ban"} action:"Found" | stats count() as requests'
+
+  - name: ufw
+    type: vlogs
+    interval: 1m
+    rules:
+      - record: vlogs:ufw_block_tcp_total
+        expr: '{job="ufw"} proto:"TCP" action:"BLOCK" | stats count() as requests'
+      - record: vlogs:ufw_block_udp_total
+        expr: '{job="ufw"} proto:"UDP" action:"BLOCK" | stats count() as requests'
+
+  - name: sudo
+    type: vlogs
+    interval: 1m
+    rules:
+      - record: vlogs:sudo_exec_total
+        expr: '{job="sudo"} event_type:"sudo" | stats count() as requests'
+      - record: vlogs:sudo_failed_total
+        expr: '{job="sudo"} event_type:"sudo_failed" | stats count() as requests'
+
+  - name: appsec
+    type: vlogs
+    interval: 1m
+    rules:
+      - record: vlogs:appsec_events_total
+        expr: '{job="appsec"} | stats count() as requests'

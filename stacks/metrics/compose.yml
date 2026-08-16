@@ -89,6 +89,54 @@ services:
         reservations:
           memory: 1.5G
 
+  vmalert:
+    image: victoriametrics/vmalert:v1.148.0
+    container_name: vmalert
+    restart: unless-stopped
+    logging: *default-logging
+    command:
+      - --datasource.url=http://victorialogs:9428
+      - --remoteWrite.url=http://victoriametrics:8428
+      - --remoteRead.url=http://victoriametrics:8428
+      - --rule=/etc/vmalert/rules/*.yml
+      - --rule.defaultRuleType=vlogs
+      - --httpListenAddr=:8880
+    volumes:
+      - ./vmalert/rules:/etc/vmalert/rules:ro
+    depends_on:
+      victoriametrics:
+        condition: service_healthy
+      victorialogs:
+        condition: service_started
+    deploy:
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: 128M
+        reservations:
+          memory: 64M
+
+  vmalert-backfill:
+    image: victoriametrics/vmalert:v1.148.0
+    container_name: vmalert-backfill
+    logging: *default-logging
+    profiles:
+      - backfill
+    command:
+      - --datasource.url=http://victorialogs:9428
+      - --remoteWrite.url=http://victoriametrics:8428
+      - --rule=/etc/vmalert/rules/*.yml
+      - --rule.defaultRuleType=vlogs
+      - --replay.timeFrom=${BACKFILL_FROM:-2026-07-01T00:00:00Z}
+      - --replay.timeTo=${BACKFILL_TO:-2026-08-16T00:00:00Z}
+    volumes:
+      - ./vmalert/rules:/etc/vmalert/rules:ro
+    depends_on:
+      victoriametrics:
+        condition: service_healthy
+      victorialogs:
+        condition: service_started
+
   victorialogs:
     image: victoriametrics/victoria-logs:v1.52.0
     container_name: victorialogs

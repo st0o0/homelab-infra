@@ -424,7 +424,7 @@
               "type": "linear"
             },
             "showPoints": "never",
-            "spanNulls": false,
+            "spanNulls": true,
             "stacking": {
               "group": "A",
               "mode": "none"
@@ -499,7 +499,7 @@
               "type": "linear"
             },
             "showPoints": "never",
-            "spanNulls": false,
+            "spanNulls": true,
             "stacking": {
               "group": "A",
               "mode": "none"
@@ -574,7 +574,7 @@
               "type": "linear"
             },
             "showPoints": "never",
-            "spanNulls": false,
+            "spanNulls": true,
             "stacking": {
               "group": "A",
               "mode": "normal"
@@ -660,7 +660,7 @@
               "type": "linear"
             },
             "showPoints": "never",
-            "spanNulls": false,
+            "spanNulls": true,
             "stacking": {
               "group": "A",
               "mode": "none"
@@ -735,7 +735,7 @@
               "type": "linear"
             },
             "showPoints": "never",
-            "spanNulls": false,
+            "spanNulls": true,
             "stacking": {
               "group": "A",
               "mode": "none"
@@ -810,7 +810,7 @@
               "type": "linear"
             },
             "showPoints": "never",
-            "spanNulls": false,
+            "spanNulls": true,
             "stacking": {
               "group": "A",
               "mode": "none"
@@ -950,7 +950,7 @@
                   "type": "linear"
                 },
                 "showPoints": "never",
-                "spanNulls": false,
+                "spanNulls": true,
                 "stacking": {
                   "group": "A",
                   "mode": "none"
@@ -1061,7 +1061,8 @@
                   }
                 ]
               },
-              "unit": "Bps"
+              "unit": "Bps",
+              "noValue": "0"
             },
             "overrides": []
           },
@@ -1153,7 +1154,8 @@
                   }
                 ]
               },
-              "unit": "Bps"
+              "unit": "Bps",
+              "noValue": "0"
             },
             "overrides": []
           },
@@ -1245,7 +1247,8 @@
                   }
                 ]
               },
-              "unit": "ops"
+              "unit": "ops",
+              "noValue": "0"
             },
             "overrides": []
           },
@@ -1348,7 +1351,8 @@
                   }
                 ]
               },
-              "unit": "percentunit"
+              "unit": "percentunit",
+              "noValue": "0"
             },
             "overrides": []
           },
@@ -1454,7 +1458,8 @@
                   }
                 ]
               },
-              "unit": "Bps"
+              "unit": "Bps",
+              "noValue": "0"
             },
             "overrides": []
           },
@@ -1546,7 +1551,8 @@
                   }
                 ]
               },
-              "unit": "Bps"
+              "unit": "Bps",
+              "noValue": "0"
             },
             "overrides": []
           },
@@ -1638,7 +1644,8 @@
                   }
                 ]
               },
-              "unit": "ops"
+              "unit": "ops",
+              "noValue": "0"
             },
             "overrides": []
           },
@@ -1741,7 +1748,8 @@
                   }
                 ]
               },
-              "unit": "pps"
+              "unit": "pps",
+              "noValue": "0"
             },
             "overrides": []
           },
@@ -1839,7 +1847,7 @@
                   "type": "linear"
                 },
                 "showPoints": "never",
-                "spanNulls": false,
+                "spanNulls": true,
                 "stacking": {
                   "group": "A",
                   "mode": "none"
@@ -1950,7 +1958,8 @@
                   }
                 ]
               },
-              "unit": "ops"
+              "unit": "ops",
+              "noValue": "0"
             },
             "overrides": []
           },
@@ -2023,7 +2032,7 @@
                   "type": "linear"
                 },
                 "showPoints": "never",
-                "spanNulls": false,
+                "spanNulls": true,
                 "stacking": {
                   "group": "A",
                   "mode": "none"
@@ -2115,7 +2124,7 @@
                   "type": "linear"
                 },
                 "showPoints": "never",
-                "spanNulls": false,
+                "spanNulls": true,
                 "stacking": {
                   "group": "A",
                   "mode": "none"

@@ -868,8 +868,8 @@
         "y": 35
       },
       "datasource": {
-        "type": "victoriametrics-logs-datasource",
-        "uid": "victorialogs"
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -882,17 +882,17 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
-            "drawStyle": "bars",
-            "fillOpacity": 40,
+            "drawStyle": "line",
+            "fillOpacity": 20,
             "gradientMode": "none",
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
             "pointSize": 5,
             "scaleDistribution": {
               "type": "linear"
             },
             "showPoints": "never",
-            "spanNulls": false,
+            "spanNulls": true,
             "stacking": {
               "group": "A",
               "mode": "normal"
@@ -919,57 +919,21 @@
           "sort": "desc"
         }
       },
-      "transformations": [
-        {
-          "id": "extractFields",
-          "options": {
-            "source": "labels",
-            "format": "json"
-          }
-        },
-        {
-          "id": "organize",
-          "options": {
-            "excludeByName": {
-              "Line": true,
-              "id": true,
-              "labels": true,
-              "streams": true,
-              "streamId": true,
-              "detected_level": true
-            }
-          }
-        },
-        {
-          "id": "convertFieldType",
-          "options": {
-            "conversions": [
-              {
-                "targetField": "count",
-                "destinationType": "number"
-              }
-            ]
-          }
-        }
-      ],
       "targets": [
         {
           "refId": "A",
-          "expr": "{job=\"ssh\",host=~\"$instance\"} event_type:\"invalid_user\" | stats by (_time:5m) count() as count",
-          "legendFormat": "Invalid User",
-          "queryType": "statsRange"
+          "expr": "rate(vlogs:ssh_invalid_user_total{instance=~\"$instance\"}[5m])",
+          "legendFormat": "Invalid User"
         },
         {
           "refId": "B",
-          "expr": "{job=\"ssh\",host=~\"$instance\"} event_type:\"preauth\" | stats by (_time:5m) count() as count",
-          "legendFormat": "Preauth",
-          "queryType": "statsRange"
+          "expr": "rate(vlogs:ssh_preauth_total{instance=~\"$instance\"}[5m])",
+          "legendFormat": "Preauth"
         },
         {
           "refId": "C",
-          "expr": "{job=\"ssh\",host=~\"$instance\"} event_type:\"failed\" | stats by (_time:5m) count() as count",
-          "legendFormat": "Failed",
-          "queryType": "statsRange"
+          "expr": "rate(vlogs:ssh_failed_total{instance=~\"$instance\"}[5m])",
+          "legendFormat": "Failed"
         }
       ],
       "id": 202
@@ -1318,8 +1282,8 @@
         },
         {
           "datasource": {
-            "type": "victoriametrics-logs-datasource",
-            "uid": "victorialogs"
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "victoriametrics"
           },
           "fieldConfig": {
             "defaults": {
@@ -1390,59 +1354,24 @@
           "targets": [
             {
               "datasource": {
-                "type": "victoriametrics-logs-datasource",
-                "uid": "victorialogs"
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
               },
-              "expr": "{job=\"sudo\",host=~\"$instance\"} event_type:\"sudo\" | stats by (_time:5m) count() as count",
-              "queryType": "statsRange",
-              "legendFormat": "Sudo",
-              "refId": "A"
+              "refId": "A",
+              "expr": "rate(vlogs:sudo_exec_total{instance=~\"$instance\"}[5m])",
+              "legendFormat": "Sudo"
             },
             {
               "datasource": {
-                "type": "victoriametrics-logs-datasource",
-                "uid": "victorialogs"
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
               },
-              "expr": "{job=\"sudo\",host=~\"$instance\"} event_type:\"sudo_failed\" | stats by (_time:5m) count() as count",
-              "queryType": "statsRange",
-              "legendFormat": "Failed",
-              "refId": "B"
+              "refId": "B",
+              "expr": "rate(vlogs:sudo_failed_total{instance=~\"$instance\"}[5m])",
+              "legendFormat": "Failed"
             }
           ],
           "title": "Sudo Events",
-          "transformations": [
-            {
-              "id": "extractFields",
-              "options": {
-                "source": "labels",
-                "format": "json"
-              }
-            },
-            {
-              "id": "organize",
-              "options": {
-                "excludeByName": {
-                  "Line": true,
-                  "id": true,
-                  "labels": true,
-                  "streams": true,
-                  "streamId": true,
-                  "detected_level": true
-                }
-              }
-            },
-            {
-              "id": "convertFieldType",
-              "options": {
-                "conversions": [
-                  {
-                    "targetField": "count",
-                    "destinationType": "number"
-                  }
-                ]
-              }
-            }
-          ],
           "type": "timeseries"
         },
         {
@@ -1531,8 +1460,8 @@
       "panels": [
         {
           "datasource": {
-            "type": "victoriametrics-logs-datasource",
-            "uid": "victorialogs"
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "victoriametrics"
           },
           "fieldConfig": {
             "defaults": {
@@ -1603,69 +1532,33 @@
           "targets": [
             {
               "datasource": {
-                "type": "victoriametrics-logs-datasource",
-                "uid": "victorialogs"
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
               },
-              "expr": "{job=\"fail2ban\",host=~\"$instance\"} action:\"Ban\" | stats by (_time:5m) count() as count",
-              "queryType": "statsRange",
-              "legendFormat": "Ban",
-              "refId": "A"
+              "refId": "A",
+              "expr": "rate(vlogs:fail2ban_ban_total{instance=~\"$instance\"}[5m])",
+              "legendFormat": "Ban"
             },
             {
               "datasource": {
-                "type": "victoriametrics-logs-datasource",
-                "uid": "victorialogs"
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
               },
-              "expr": "{job=\"fail2ban\",host=~\"$instance\"} action:\"Unban\" | stats by (_time:5m) count() as count",
-              "queryType": "statsRange",
-              "legendFormat": "Unban",
-              "refId": "B"
+              "refId": "B",
+              "expr": "rate(vlogs:fail2ban_unban_total{instance=~\"$instance\"}[5m])",
+              "legendFormat": "Unban"
             },
             {
               "datasource": {
-                "type": "victoriametrics-logs-datasource",
-                "uid": "victorialogs"
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
               },
-              "expr": "{job=\"fail2ban\",host=~\"$instance\"} action:\"Found\" | stats by (_time:5m) count() as count",
-              "queryType": "statsRange",
-              "legendFormat": "Found",
-              "refId": "C"
+              "refId": "C",
+              "expr": "rate(vlogs:fail2ban_found_total{instance=~\"$instance\"}[5m])",
+              "legendFormat": "Found"
             }
           ],
           "title": "Fail2ban Activity",
-          "transformations": [
-            {
-              "id": "extractFields",
-              "options": {
-                "source": "labels",
-                "format": "json"
-              }
-            },
-            {
-              "id": "organize",
-              "options": {
-                "excludeByName": {
-                  "Line": true,
-                  "id": true,
-                  "labels": true,
-                  "streams": true,
-                  "streamId": true,
-                  "detected_level": true
-                }
-              }
-            },
-            {
-              "id": "convertFieldType",
-              "options": {
-                "conversions": [
-                  {
-                    "targetField": "count",
-                    "destinationType": "number"
-                  }
-                ]
-              }
-            }
-          ],
           "type": "timeseries"
         },
         {
@@ -1867,8 +1760,8 @@
       "panels": [
         {
           "datasource": {
-            "type": "victoriametrics-logs-datasource",
-            "uid": "victorialogs"
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "victoriametrics"
           },
           "fieldConfig": {
             "defaults": {
@@ -1939,59 +1832,24 @@
           "targets": [
             {
               "datasource": {
-                "type": "victoriametrics-logs-datasource",
-                "uid": "victorialogs"
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
               },
-              "expr": "{job=\"ufw\",host=~\"$instance\"} proto:\"TCP\" action:\"BLOCK\" | stats by (_time:5m) count() as count",
-              "queryType": "statsRange",
-              "legendFormat": "TCP",
-              "refId": "A"
+              "refId": "A",
+              "expr": "rate(vlogs:ufw_block_tcp_total{instance=~\"$instance\"}[5m])",
+              "legendFormat": "TCP"
             },
             {
               "datasource": {
-                "type": "victoriametrics-logs-datasource",
-                "uid": "victorialogs"
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
               },
-              "expr": "{job=\"ufw\",host=~\"$instance\"} proto:\"UDP\" action:\"BLOCK\" | stats by (_time:5m) count() as count",
-              "queryType": "statsRange",
-              "legendFormat": "UDP",
-              "refId": "B"
+              "refId": "B",
+              "expr": "rate(vlogs:ufw_block_udp_total{instance=~\"$instance\"}[5m])",
+              "legendFormat": "UDP"
             }
           ],
           "title": "UFW Blocks",
-          "transformations": [
-            {
-              "id": "extractFields",
-              "options": {
-                "source": "labels",
-                "format": "json"
-              }
-            },
-            {
-              "id": "organize",
-              "options": {
-                "excludeByName": {
-                  "Line": true,
-                  "id": true,
-                  "labels": true,
-                  "streams": true,
-                  "streamId": true,
-                  "detected_level": true
-                }
-              }
-            },
-            {
-              "id": "convertFieldType",
-              "options": {
-                "conversions": [
-                  {
-                    "targetField": "count",
-                    "destinationType": "number"
-                  }
-                ]
-              }
-            }
-          ],
           "type": "timeseries"
         },
         {

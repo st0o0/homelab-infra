@@ -2233,8 +2233,8 @@
             "h": 8
           },
           "datasource": {
-            "type": "victoriametrics-logs-datasource",
-            "uid": "victorialogs"
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "victoriametrics"
           },
           "options": {
             "tooltip": {
@@ -2271,46 +2271,13 @@
           },
           "targets": [
             {
-              "refId": "A",
               "datasource": {
-                "type": "victoriametrics-logs-datasource",
-                "uid": "victorialogs"
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
               },
-              "expr": "{job=\"appsec\",host=~\"$instance\"} | stats by (_time:5m) count() as count",
-              "queryType": "statsRange"
-            }
-          ],
-          "transformations": [
-            {
-              "id": "extractFields",
-              "options": {
-                "source": "labels",
-                "format": "json"
-              }
-            },
-            {
-              "id": "organize",
-              "options": {
-                "excludeByName": {
-                  "Line": true,
-                  "id": true,
-                  "labels": true,
-                  "streams": true,
-                  "streamId": true,
-                  "detected_level": true
-                }
-              }
-            },
-            {
-              "id": "convertFieldType",
-              "options": {
-                "conversions": [
-                  {
-                    "targetField": "count",
-                    "destinationType": "number"
-                  }
-                ]
-              }
+              "refId": "A",
+              "expr": "rate(vlogs:appsec_events_total{instance=~\"$instance\"}[5m])",
+              "legendFormat": "AppSec Events"
             }
           ]
         },
