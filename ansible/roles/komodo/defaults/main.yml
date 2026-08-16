@@ -12,6 +12,9 @@ komodo_resource_poll_interval: "5-min"
 komodo_backups_path: /docker/komodo/backups
 komodo_periphery_root: /docker/komodo/data
 
+# -- OIDC --
+komodo_oidc_enabled: false
+
 # -- Secrets provisioning (core.secrets.toml, see tasks/secrets.yml) --
 
 # Path to the komodo/ subtree's secrets, relative to this role's playbook
