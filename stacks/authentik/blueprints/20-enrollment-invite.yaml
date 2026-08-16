@@ -1,6 +1,6 @@
 version: 1
 metadata:
-  name: Enrollment Homelab
+  name: Enrollment Invite
   labels:
     blueprints.goauthentik.io/instantiate: "true"
 
@@ -9,22 +9,12 @@ entries:
   - model: authentik_flows.flow
     id: flow
     identifiers:
-      slug: invite-homelab
+      slug: invite
     attrs:
-      name: Invite → Homelab
+      name: Invite
       title: Join Sloth Homelab
       designation: enrollment
       authentication: require_unauthenticated
-
-  # UserWriteStage for homelab group
-  - model: authentik_stages_user_write.userwritestage
-    id: user-write
-    identifiers:
-      name: enrollment-write-homelab
-    attrs:
-      user_creation_mode: always_create
-      create_users_group: !Find [authentik_core.group, [name, homelab]]
-      user_type: internal
 
   # Stage bindings
   - model: authentik_flows.flowstagebinding
@@ -48,7 +38,21 @@ entries:
       target: !KeyOf flow
       order: 30
     attrs:
-      stage: !KeyOf user-write
+      stage: !Find [authentik_stages_user_write.userwritestage, [name, enrollment-write]]
+      evaluate_on_plan: false
+      re_evaluate_policies: true
+      policy_engine_mode: any
+    state: present
+
+  - model: authentik_policies.policybinding
+    identifiers:
+      target: !Find [authentik_flows.flowstagebinding, [target, !KeyOf flow, order, 30]]
+      order: 0
+    attrs:
+      policy: !Find [authentik_policies_expression.expressionpolicy, [name, enrollment-groups-from-invitation]]
+      enabled: true
+      negate: false
+      timeout: 30
 
   - model: authentik_flows.flowstagebinding
     identifiers:

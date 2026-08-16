@@ -82,6 +82,34 @@ entries:
       validation_policies:
         - !Find [authentik_policies_password.passwordpolicy, [name, password-complexity]]
 
+  # Expression Policy: resolve group names from invitation attributes
+  - model: authentik_policies_expression.expressionpolicy
+    id: enrollment-groups-policy
+    identifiers:
+      name: enrollment-groups-from-invitation
+    attrs:
+      expression: |
+        from authentik.core.models import Group
+
+        group_names = request.context.get("prompt_data", {}).get("groups_to_add", [])
+        groups = []
+        for name in group_names:
+            try:
+                groups.append(Group.objects.get(name=name))
+            except Group.DoesNotExist:
+                ak_logger.warning(f"enrollment: group not found: {name}")
+
+        request.context["flow_plan"].context["groups"] = groups
+        return True
+
+  # User Write Stage (dynamic groups via Expression Policy)
+  - model: authentik_stages_user_write.userwritestage
+    identifiers:
+      name: enrollment-write
+    attrs:
+      user_creation_mode: always_create
+      user_type: internal
+
   # Login stage
   - model: authentik_stages_user_login.userloginstage
     identifiers:

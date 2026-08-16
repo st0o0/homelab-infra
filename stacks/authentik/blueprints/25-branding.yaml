@@ -15,7 +15,7 @@ entries:
       branding_favicon: https://raw.githubusercontent.com/st0o0/homelab-infra/main/stacks/authentik/media/branding/favicon.ico
       flow_authentication: !Find [authentik_flows.flow, [slug, default-authentication-flow]]
       flow_invalidation: !Find [authentik_flows.flow, [slug, default-invalidation-flow]]
-      flow_enrollment: !Find [authentik_flows.flow, [slug, invite-homelab]]
+      flow_enrollment: !Find [authentik_flows.flow, [slug, invite]]
       flow_recovery: !Find [authentik_flows.flow, [slug, password-recovery]]
       flow_user_settings: !Find [authentik_flows.flow, [slug, default-user-settings-flow]]
       branding_custom_css: |

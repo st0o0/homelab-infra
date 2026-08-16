@@ -47,7 +47,7 @@ entries:
       target: !KeyOf app
       order: 0
     attrs:
-      group: !Find [authentik_core.group, [name, homelab]]
+      group: !Find [authentik_core.group, [name, tier-homelab]]
       negate: false
       enabled: true
       timeout: 30
@@ -78,7 +78,7 @@ entries:
       target: !KeyOf proxy-app
       order: 0
     attrs:
-      group: !Find [authentik_core.group, [name, homelab]]
+      group: !Find [authentik_core.group, [name, tier-homelab]]
       negate: false
       enabled: true
       timeout: 30

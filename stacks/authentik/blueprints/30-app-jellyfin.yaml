@@ -48,17 +48,7 @@ entries:
       target: !KeyOf app
       order: 0
     attrs:
-      group: !Find [authentik_core.group, [name, media]]
-      negate: false
-      enabled: true
-      timeout: 30
-
-  - model: authentik_policies.policybinding
-    identifiers:
-      target: !KeyOf app
-      order: 1
-    attrs:
-      group: !Find [authentik_core.group, [name, homelab]]
+      group: !Find [authentik_core.group, [name, tier-guest]]
       negate: false
       enabled: true
       timeout: 30

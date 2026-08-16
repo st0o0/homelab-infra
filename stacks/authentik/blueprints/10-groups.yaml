@@ -6,15 +6,24 @@ metadata:
 
 entries:
   - model: authentik_core.group
-    id: group-homelab
+    id: group-tier-guest
     identifiers:
-      name: homelab
+      name: tier-guest
     attrs:
       is_superuser: false
 
   - model: authentik_core.group
-    id: group-media
+    id: group-tier-media
     identifiers:
-      name: media
+      name: tier-media
     attrs:
       is_superuser: false
+      parent: !KeyOf group-tier-guest
+
+  - model: authentik_core.group
+    id: group-tier-homelab
+    identifiers:
+      name: tier-homelab
+    attrs:
+      is_superuser: false
+      parent: !KeyOf group-tier-media
