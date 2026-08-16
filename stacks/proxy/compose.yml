@@ -6,7 +6,7 @@ x-logging: &default-logging
 
 services:
   bifrost:
-    image: ghcr.io/st0o0/bifrost:pr-24
+    image: ghcr.io/st0o0/bifrost:0.2.1
     container_name: bifrost
     restart: unless-stopped
     logging: *default-logging
