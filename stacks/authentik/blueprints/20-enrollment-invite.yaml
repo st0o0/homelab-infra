@@ -34,6 +34,7 @@ entries:
       stage: !Find [authentik_stages_prompt.promptstage, [name, enrollment-prompt]]
 
   - model: authentik_flows.flowstagebinding
+    id: write-binding
     identifiers:
       target: !KeyOf flow
       order: 30
@@ -41,12 +42,10 @@ entries:
       stage: !Find [authentik_stages_user_write.userwritestage, [name, enrollment-write]]
       evaluate_on_plan: false
       re_evaluate_policies: true
-      policy_engine_mode: any
-    state: present
 
   - model: authentik_policies.policybinding
     identifiers:
-      target: !Find [authentik_flows.flowstagebinding, [target, !KeyOf flow, order, 30]]
+      target: !KeyOf write-binding
       order: 0
     attrs:
       policy: !Find [authentik_policies_expression.expressionpolicy, [name, enrollment-groups-from-invitation]]
