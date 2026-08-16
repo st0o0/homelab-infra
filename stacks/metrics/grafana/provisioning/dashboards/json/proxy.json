@@ -2845,7 +2845,11 @@
             },
             "overrides": []
           },
-          "targets": [{ "refId": "A", "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "topk(20, cs_alerts{instance=~\"$instance\"})", "legendFormat": "{{reason}}", "instant": true, "range": false }]
+          "targets": [{ "refId": "A", "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "topk(20, cs_alerts{instance=~\"$instance\"})", "legendFormat": "{{reason}}", "instant": true, "range": false }],
+          "transformations": [
+            { "id": "reduce", "options": { "reducers": ["lastNotNull"], "mode": "seriesToRows", "includeTimeField": false } },
+            { "id": "organize", "options": { "renameByName": { "Field": "Scenario", "Last *": "Count" } } }
+          ]
         },
         {
           "id": 418,
@@ -3040,7 +3044,11 @@
             },
             "overrides": []
           },
-          "targets": [{ "refId": "A", "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "topk(20, cs_appsec_rule_hits{instance=~\"$instance\"})", "legendFormat": "{{rule_name}}", "instant": true, "range": false }]
+          "targets": [{ "refId": "A", "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "topk(20, cs_appsec_rule_hits{instance=~\"$instance\"})", "legendFormat": "{{rule_name}}", "instant": true, "range": false }],
+          "transformations": [
+            { "id": "reduce", "options": { "reducers": ["lastNotNull"], "mode": "seriesToRows", "includeTimeField": false } },
+            { "id": "organize", "options": { "renameByName": { "Field": "Rule", "Last *": "Hits" } } }
+          ]
         },
         {
           "id": 457,
