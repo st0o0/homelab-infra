@@ -882,17 +882,17 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 20,
+            "drawStyle": "bars",
+            "fillOpacity": 40,
             "gradientMode": "none",
-            "lineInterpolation": "smooth",
-            "lineWidth": 2,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
             "pointSize": 5,
             "scaleDistribution": {
               "type": "linear"
             },
             "showPoints": "never",
-            "spanNulls": true,
+            "spanNulls": false,
             "stacking": {
               "group": "A",
               "mode": "normal"
@@ -2092,7 +2092,7 @@
                 "conversions": [
                   {
                     "targetField": "Port",
-                    "destinationType": "string"
+                    "destinationType": "number"
                   }
                 ]
               }
@@ -2206,6 +2206,7 @@
                 },
                 "renameByName": {
                   "Last *": "Count",
+                  "client_ip": "Client IP",
                   "geoip_country_name": "Country"
                 }
               }
