@@ -40,6 +40,82 @@ VM_CACHE_TIMESTAMP_OFFSET=10m
 VM_MEMORY_ALLOWED_PERCENT=80
 """
 
+[[stack.config.config_files]]
+path = "grafana/provisioning/dashboards/dashboards.yml"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "grafana/provisioning/dashboards/json/alloy.json"
+requires = "Restart"
+
+[[stack.config.config_files]]
+path = "grafana/provisioning/dashboards/json/authentik.json"
+requires = "Restart"
+
+[[stack.config.config_files]]
+path = "grafana/provisioning/dashboards/json/containerlogs.json"
+requires = "Restart"
+
+[[stack.config.config_files]]
+path = "grafana/provisioning/dashboards/json/containers.json"
+requires = "Restart"
+
+[[stack.config.config_files]]
+path = "grafana/provisioning/dashboards/json/mongodb.json"
+requires = "Restart"
+
+[[stack.config.config_files]]
+path = "grafana/provisioning/dashboards/json/nodes.json"
+requires = "Restart"
+
+[[stack.config.config_files]]
+path = "grafana/provisioning/dashboards/json/nut.json"
+requires = "Restart"
+
+[[stack.config.config_files]]
+path = "grafana/provisioning/dashboards/json/pihole.json"
+requires = "Restart"
+
+[[stack.config.config_files]]
+path = "grafana/provisioning/dashboards/json/postgres.json"
+requires = "Restart"
+
+[[stack.config.config_files]]
+path = "grafana/provisioning/dashboards/json/proxmox.json"
+requires = "Restart"
+
+[[stack.config.config_files]]
+path = "grafana/provisioning/dashboards/json/proxy.json"
+requires = "Restart"
+
+[[stack.config.config_files]]
+path = "grafana/provisioning/dashboards/json/security.json"
+requires = "Restart"
+
+[[stack.config.config_files]]
+path = "grafana/provisioning/dashboards/json/victorialogs.json"
+requires = "Restart"
+
+[[stack.config.config_files]]
+path = "grafana/provisioning/dashboards/json/victoriametrics.json"
+requires = "Restart"
+
+[[stack.config.config_files]]
+path = "grafana/provisioning/datasources/datasources.yml"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "grafana/provisioning/alerting/alert-rules.yml"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "grafana/provisioning/alerting/contact-points.yml"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "grafana/provisioning/alerting/notification-policies.yml"
+requires = "Redeploy"
+
 [[stack]]
 name = "alloy-1"
 tags = ["monitoring"]
@@ -53,6 +129,8 @@ file_paths = [
   "compose.override.pihole.yaml",
   "compose.override.pve.yaml",
   "compose.override.nut.yaml",
+  "compose.override.speedtest.yaml",
+  "compose.override.blackbox.yaml",
 ]
 linked_repo = "homelab-infra"
 extra_args = ["--remove-orphans"]
@@ -79,6 +157,14 @@ ALLOY_NUT_EXP_SERVER=[[FeelsAlertsMan_nut_exp_server]]
 ALLOY_NUT_EXP_SERVER_PORT=3493
 ALLOY_NUT_EXP_USER=[[FeelsAlertsMan_nut_exp_user]]
 ALLOY_NUT_EXP_PASS=[[FeelsAlertsMan_nut_exp_password]]
+
+# ── Blackbox exporter (HTTP/DNS probes) ──────────────────
+ALLOY_BLACKBOX_HTTP_TARGET_1=[[FeelsAlertsMan_blackbox_http_target_1]]
+ALLOY_BLACKBOX_HTTP_TARGET_2=[[FeelsAlertsMan_blackbox_http_target_2]]
+ALLOY_BLACKBOX_HTTP_TARGET_3=[[FeelsAlertsMan_blackbox_http_target_3]]
+ALLOY_BLACKBOX_HTTP_TARGET_4=[[FeelsAlertsMan_blackbox_http_target_4]]
+ALLOY_BLACKBOX_HTTP_TARGET_5=[[FeelsAlertsMan_blackbox_http_target_5]]
+ALLOY_BLACKBOX_DNS_TARGET=[[FeelsAlertsMan_blackbox_dns_target]]
 """
 
 [[stack.config.config_files]]
@@ -131,4 +217,16 @@ requires = "Redeploy"
 
 [[stack.config.config_files]]
 path = "../../alloy/features/nut.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "../../alloy/features/speedtest.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "../../alloy/features/blackbox.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "../../stacks/alloy/blackbox/blackbox.yml"
 requires = "Redeploy"
