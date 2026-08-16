@@ -3066,7 +3066,10 @@
             "defaults": { "color": { "mode": "palette-classic" } },
             "overrides": []
           },
-          "targets": [{ "refId": "A", "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"appsec\"} method:!\"\" | stats by (method) count() as hits", "queryType": "stats" }]
+          "targets": [{ "refId": "A", "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"appsec\"} method:!\"\" | stats by (method) count() as hits", "queryType": "stats" }],
+          "transformations": [
+            { "id": "renameByRegex", "options": { "regex": ".*=\"([^\"]+)\"}$", "renamePattern": "$1" } }
+          ]
         },
         {
           "id": 458,
@@ -3084,7 +3087,10 @@
             "defaults": { "color": { "mode": "palette-classic" } },
             "overrides": []
           },
-          "targets": [{ "refId": "A", "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"appsec\"} scenario:!\"\" | stats by (scenario) count() as hits", "queryType": "stats" }]
+          "targets": [{ "refId": "A", "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"appsec\"} scenario:!\"\" | stats by (scenario) count() as hits", "queryType": "stats" }],
+          "transformations": [
+            { "id": "renameByRegex", "options": { "regex": ".*=\"([^\"]+)\"}$", "renamePattern": "$1" } }
+          ]
         },
         {
           "id": 459,
@@ -3103,7 +3109,12 @@
             },
             "overrides": []
           },
-          "targets": [{ "refId": "A", "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"appsec\"} target_uri:!\"\" | stats by (target_uri) count() as hits | sort by (hits) desc | limit 20", "queryType": "stats" }]
+          "targets": [{ "refId": "A", "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"appsec\"} target_uri:!\"\" | stats by (target_uri) count() as hits | sort by (hits) desc | limit 20", "queryType": "stats" }],
+          "transformations": [
+            { "id": "renameByRegex", "options": { "regex": ".*=\"([^\"]+)\"}$", "renamePattern": "$1" } },
+            { "id": "reduce", "options": { "reducers": ["lastNotNull"], "mode": "seriesToRows", "includeTimeField": false } },
+            { "id": "organize", "options": { "renameByName": { "Field": "Path", "Last *": "Hits" } } }
+          ]
         },
         {
           "id": 460,
@@ -3122,7 +3133,12 @@
             },
             "overrides": []
           },
-          "targets": [{ "refId": "A", "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"appsec\"} client_ip:!\"\" | stats by (client_ip, geoip_country_name) count() as hits | sort by (hits) desc | limit 20", "queryType": "stats" }]
+          "targets": [{ "refId": "A", "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"appsec\"} client_ip:!\"\" | stats by (client_ip, geoip_country_name) count() as hits | sort by (hits) desc | limit 20", "queryType": "stats" }],
+          "transformations": [
+            { "id": "renameByRegex", "options": { "regex": ".*client_ip=\"([^\"]+)\".*geoip_country_name=\"([^\"]+)\".*", "renamePattern": "$1 ($2)" } },
+            { "id": "reduce", "options": { "reducers": ["lastNotNull"], "mode": "seriesToRows", "includeTimeField": false } },
+            { "id": "organize", "options": { "renameByName": { "Field": "Client", "Last *": "Hits" } } }
+          ]
         },
         {
           "id": 461,
@@ -3141,7 +3157,12 @@
             },
             "overrides": []
           },
-          "targets": [{ "refId": "A", "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"appsec\"} target_host:!\"\" | stats by (target_host) count() as hits | sort by (hits) desc", "queryType": "stats" }]
+          "targets": [{ "refId": "A", "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"appsec\"} target_host:!\"\" | stats by (target_host) count() as hits | sort by (hits) desc", "queryType": "stats" }],
+          "transformations": [
+            { "id": "renameByRegex", "options": { "regex": ".*=\"([^\"]+)\"}$", "renamePattern": "$1" } },
+            { "id": "reduce", "options": { "reducers": ["lastNotNull"], "mode": "seriesToRows", "includeTimeField": false } },
+            { "id": "organize", "options": { "renameByName": { "Field": "Host", "Last *": "Hits" } } }
+          ]
         },
         {
           "id": 462,
