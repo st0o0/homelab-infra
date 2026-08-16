@@ -1070,115 +1070,225 @@
       "id": 200
     },
     {
-      "type": "timeseries",
-      "title": "Peer Bandwidth",
-      "gridPos": {
-        "x": 0,
-        "y": 12,
-        "w": 12,
-        "h": 8
-      },
-      "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
-      },
+      "type": "stat",
+      "title": "Uptime",
+      "gridPos": { "x": 0, "y": 12, "w": 4, "h": 3 },
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "fillOpacity": 20,
-            "lineWidth": 2,
-            "spanNulls": true,
-            "drawStyle": "line",
-            "lineInterpolation": "smooth",
-            "showPoints": "never"
-          },
+          "color": { "mode": "thresholds" },
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }] },
+          "unit": "s"
+        }
+      },
+      "options": {
+        "graphMode": "none",
+        "colorMode": "value",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "auto",
+        "justifyMode": "auto"
+      },
+      "targets": [{ "refId": "A", "expr": "time() - bifrost_tunnel_up_since_seconds" }],
+      "id": 210
+    },
+    {
+      "type": "stat",
+      "title": "Probe RTT",
+      "gridPos": { "x": 4, "y": 12, "w": 4, "h": 3 },
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }, { "color": "yellow", "value": 0.05 }, { "color": "red", "value": 0.2 }] },
+          "unit": "s"
+        }
+      },
+      "options": {
+        "graphMode": "none",
+        "colorMode": "value",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "auto",
+        "justifyMode": "auto"
+      },
+      "targets": [{ "refId": "A", "expr": "bifrost_probe_rtt_seconds" }],
+      "id": 211
+    },
+    {
+      "type": "stat",
+      "title": "Packets/s",
+      "gridPos": { "x": 8, "y": 12, "w": 4, "h": 3 },
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }] },
+          "unit": "pps"
+        }
+      },
+      "options": {
+        "graphMode": "none",
+        "colorMode": "value",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "auto",
+        "justifyMode": "auto"
+      },
+      "targets": [{ "refId": "A", "expr": "sum(rate(bifrost_interface_rx_packets_total[5m])) + sum(rate(bifrost_interface_tx_packets_total[5m]))" }],
+      "id": 212
+    },
+    {
+      "type": "stat",
+      "title": "Errors",
+      "gridPos": { "x": 12, "y": 12, "w": 4, "h": 3 },
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "noValue": "0",
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }, { "color": "red", "value": 1 }] },
+          "unit": "short"
+        }
+      },
+      "options": {
+        "graphMode": "none",
+        "colorMode": "value",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "auto",
+        "justifyMode": "auto"
+      },
+      "targets": [{ "refId": "A", "expr": "sum(increase(bifrost_interface_rx_errors_total[$__range])) + sum(increase(bifrost_interface_tx_errors_total[$__range]))" }],
+      "id": 213
+    },
+    {
+      "type": "stat",
+      "title": "Drops",
+      "gridPos": { "x": 16, "y": 12, "w": 4, "h": 3 },
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "noValue": "0",
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }, { "color": "red", "value": 1 }] },
+          "unit": "short"
+        }
+      },
+      "options": {
+        "graphMode": "none",
+        "colorMode": "value",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "auto",
+        "justifyMode": "auto"
+      },
+      "targets": [{ "refId": "A", "expr": "sum(increase(bifrost_interface_rx_dropped_total[$__range])) + sum(increase(bifrost_interface_tx_dropped_total[$__range]))" }],
+      "id": 214
+    },
+    {
+      "type": "stat",
+      "title": "Recovery",
+      "gridPos": { "x": 20, "y": 12, "w": 4, "h": 3 },
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "mappings": [{ "type": "value", "options": { "0": { "text": "Idle", "color": "green" }, "1": { "text": "Active", "color": "yellow" } } }],
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }] },
+          "unit": "short"
+        }
+      },
+      "options": {
+        "graphMode": "none",
+        "colorMode": "value",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "auto",
+        "justifyMode": "auto"
+      },
+      "targets": [{ "refId": "A", "expr": "bifrost_recovery_in_progress" }],
+      "id": 215
+    },
+    {
+      "type": "timeseries",
+      "title": "Probe RTT",
+      "gridPos": { "x": 0, "y": 15, "w": 12, "h": 8 },
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": { "fillOpacity": 20, "lineWidth": 2, "spanNulls": true, "drawStyle": "line", "lineInterpolation": "smooth", "showPoints": "never" },
+          "min": 0,
+          "unit": "s"
+        }
+      },
+      "options": {
+        "tooltip": { "mode": "multi", "sort": "desc" },
+        "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom", "showLegend": true }
+      },
+      "targets": [{ "refId": "A", "expr": "bifrost_probe_rtt_seconds", "legendFormat": "RTT" }],
+      "id": 203
+    },
+    {
+      "type": "timeseries",
+      "title": "Interface Packet Rate",
+      "gridPos": { "x": 12, "y": 15, "w": 12, "h": 8 },
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": { "fillOpacity": 20, "lineWidth": 2, "spanNulls": true, "drawStyle": "line", "lineInterpolation": "smooth", "showPoints": "never" },
+          "min": 0,
+          "unit": "pps"
+        }
+      },
+      "options": {
+        "tooltip": { "mode": "multi", "sort": "desc" },
+        "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom", "showLegend": true }
+      },
+      "targets": [
+        { "refId": "A", "expr": "rate(bifrost_interface_rx_packets_total[5m])", "legendFormat": "RX" },
+        { "refId": "B", "expr": "rate(bifrost_interface_tx_packets_total[5m])", "legendFormat": "TX" }
+      ],
+      "id": 204
+    },
+    {
+      "type": "timeseries",
+      "title": "Peer Bandwidth",
+      "gridPos": { "x": 0, "y": 23, "w": 12, "h": 8 },
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": { "fillOpacity": 20, "lineWidth": 2, "spanNulls": true, "drawStyle": "line", "lineInterpolation": "smooth", "showPoints": "never" },
           "min": 0,
           "unit": "Bps"
         }
       },
       "options": {
-        "tooltip": {
-          "mode": "multi",
-          "sort": "desc"
-        },
-        "legend": {
-          "calcs": [
-            "mean",
-            "max"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        }
+        "tooltip": { "mode": "multi", "sort": "desc" },
+        "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom", "showLegend": true }
       },
       "targets": [
-        {
-          "refId": "A",
-          "expr": "rate(bifrost_peer_receive_bytes_total{instance=~\"$instance\"}[5m])",
-          "legendFormat": "Receive"
-        },
-        {
-          "refId": "B",
-          "expr": "rate(bifrost_peer_transmit_bytes_total{instance=~\"$instance\"}[5m])",
-          "legendFormat": "Transmit"
-        }
+        { "refId": "A", "expr": "rate(bifrost_peer_receive_bytes_total{instance=~\"$instance\"}[5m])", "legendFormat": "Receive" },
+        { "refId": "B", "expr": "rate(bifrost_peer_transmit_bytes_total{instance=~\"$instance\"}[5m])", "legendFormat": "Transmit" }
       ],
       "id": 201
     },
     {
       "type": "timeseries",
       "title": "Peer Handshake Age",
-      "gridPos": {
-        "x": 12,
-        "y": 12,
-        "w": 12,
-        "h": 8
-      },
-      "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
-      },
+      "gridPos": { "x": 12, "y": 23, "w": 12, "h": 8 },
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "fillOpacity": 20,
-            "lineWidth": 2,
-            "spanNulls": true,
-            "drawStyle": "line",
-            "lineInterpolation": "smooth",
-            "showPoints": "never"
-          },
+          "color": { "mode": "palette-classic" },
+          "custom": { "fillOpacity": 20, "lineWidth": 2, "spanNulls": true, "drawStyle": "line", "lineInterpolation": "smooth", "showPoints": "never" },
           "min": 0,
           "unit": "s"
         }
       },
       "options": {
-        "tooltip": {
-          "mode": "multi",
-          "sort": "desc"
-        },
-        "legend": {
-          "calcs": [
-            "mean",
-            "max"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        }
+        "tooltip": { "mode": "multi", "sort": "desc" },
+        "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom", "showLegend": true }
       },
       "targets": [
-        {
-          "refId": "A",
-          "expr": "bifrost_peer_last_handshake_age_seconds{instance=~\"$instance\"}",
-          "legendFormat": "Handshake Age"
-        }
+        { "refId": "A", "expr": "bifrost_peer_last_handshake_age_seconds{instance=~\"$instance\"}", "legendFormat": "Handshake Age" }
       ],
       "id": 202
     },
@@ -1187,7 +1297,7 @@
       "title": "🌐 Traffic",
       "gridPos": {
         "x": 0,
-        "y": 20,
+        "y": 31,
         "w": 24,
         "h": 1
       },
@@ -2216,7 +2326,7 @@
       "title": "🛡️ Security",
       "gridPos": {
         "x": 0,
-        "y": 21,
+        "y": 32,
         "w": 24,
         "h": 1
       },
@@ -2686,7 +2796,7 @@
       "title": "🍯 Honeypot",
       "gridPos": {
         "x": 0,
-        "y": 22,
+        "y": 33,
         "w": 24,
         "h": 1
       },
@@ -3293,7 +3403,7 @@
       "title": "📜 Logs",
       "gridPos": {
         "x": 0,
-        "y": 23,
+        "y": 34,
         "w": 24,
         "h": 1
       },
