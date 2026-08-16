@@ -1972,11 +1972,13 @@
           "title": "Top Blocked Ports",
           "transformations": [
             {
-              "id": "renameByRegex",
+              "id": "labelsToFields",
               "options": {
-                "regex": ".*=\"(.+)\".*",
-                "renamePattern": "$1"
+                "valueLabel": "dst_port"
               }
+            },
+            {
+              "id": "merge"
             },
             {
               "id": "seriesToRows"
