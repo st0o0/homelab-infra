@@ -2845,7 +2845,7 @@
             },
             "overrides": []
           },
-          "targets": [{ "refId": "A", "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "topk(20, cs_alerts{instance=~\"$instance\", reason!~\"anomaly score.*|Enabling.*\"})", "legendFormat": "{{reason}}", "instant": true, "range": false }],
+          "targets": [{ "refId": "A", "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "topk(20, cs_alerts{instance=~\"$instance\", reason!~\"anomaly score.*|Enabling.*|crowdsecurity/crowdsec-appsec-outofband\"})", "legendFormat": "{{reason}}", "instant": true, "range": false }],
           "transformations": [
             { "id": "reduce", "options": { "reducers": ["lastNotNull"], "mode": "seriesToRows", "includeTimeField": false } },
             { "id": "organize", "options": { "renameByName": { "Field": "Scenario", "Last *": "Count" } } }
