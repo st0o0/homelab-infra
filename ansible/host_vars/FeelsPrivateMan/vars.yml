@@ -21,14 +21,29 @@ ufw_extra_rules:
   - { rule: allow, port: 8888, proto: tcp, comment: "Proxy health" }
   - { rule: allow, port: 51820, proto: udp, comment: "Pangolin WireGuard" }
   # ran honeypot traps
-  - { rule: allow, port: 23,   proto: tcp, comment: "ran Telnet" }
-  - { rule: allow, port: 445,  proto: tcp, comment: "ran SMB" }
-  - { rule: allow, port: 1883, proto: tcp, comment: "ran MQTT" }
-  - { rule: allow, port: 2222, proto: tcp, comment: "ran SSH" }
-  - { rule: allow, port: 3307, proto: tcp, comment: "ran MySQL" }
-  - { rule: allow, port: 3389, proto: tcp, comment: "ran RDP" }
-  - { rule: allow, port: 5900, proto: tcp, comment: "ran VNC" }
-  - { rule: allow, port: 6379, proto: tcp, comment: "ran Redis" }
+  - { rule: allow, port: 21,    proto: tcp, comment: "ran FTP" }
+  - { rule: allow, port: 23,    proto: tcp, comment: "ran Telnet" }
+  - { rule: allow, port: 25,    proto: tcp, comment: "ran SMTP" }
+  - { rule: allow, port: 445,   proto: tcp, comment: "ran SMB" }
+  - { rule: allow, port: 587,   proto: tcp, comment: "ran SMTP-Sub" }
+  - { rule: allow, port: 1433,  proto: tcp, comment: "ran MSSQL" }
+  - { rule: allow, port: 1883,  proto: tcp, comment: "ran MQTT" }
+  - { rule: allow, port: 2222,  proto: tcp, comment: "ran SSH" }
+  - { rule: allow, port: 3307,  proto: tcp, comment: "ran MySQL" }
+  - { rule: allow, port: 3389,  proto: tcp, comment: "ran RDP" }
+  - { rule: allow, port: 5060,  proto: udp, comment: "ran SIP" }
+  - { rule: allow, port: 5432,  proto: tcp, comment: "ran PostgreSQL" }
+  - { rule: allow, port: 5555,  proto: tcp, comment: "ran ADB" }
+  - { rule: allow, port: 5900,  proto: tcp, comment: "ran VNC" }
+  - { rule: allow, port: 6379,  proto: tcp, comment: "ran Redis" }
+  - { rule: allow, port: 8080,  proto: tcp, comment: "ran HTTP-Proxy" }
+  - { rule: allow, port: 9200,  proto: tcp, comment: "ran Elasticsearch" }
+  - { rule: allow, port: 25565, proto: tcp, comment: "ran Minecraft" }
+  - { rule: allow, port: 53,    proto: udp, comment: "ran DNS" }
+  - { rule: allow, port: 123,   proto: udp, comment: "ran NTP" }
+  - { rule: allow, port: 161,   proto: udp, comment: "ran SNMP" }
+  - { rule: allow, port: 1080,  proto: tcp, comment: "ran SOCKS5" }
+  - { rule: allow, port: 11211, proto: tcp, comment: "ran Memcached" }
 
 # LXC: chrony cannot set system clock or access /dev/rtc in containers
 ntp_enabled: false

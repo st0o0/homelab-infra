@@ -20,14 +20,29 @@ services:
       - "443:443/udp"
       - "8888:8888"
       # honeypot traps (ran)
+      - "21:21"
       - "23:23"
+      - "25:25"
       - "445:445"
+      - "587:587"
+      - "1433:1433"
       - "1883:1883"
       - "2222:2222"
       - "3307:3307"
       - "3389:3389"
+      - "5060:5060/udp"
+      - "5432:5432"
+      - "5555:5555"
       - "5900:5900"
       - "6379:6379"
+      - "8080:8080"
+      - "9200:9200"
+      - "25565:25565"
+      - "53:53/udp"
+      - "123:123/udp"
+      - "161:161/udp"
+      - "1080:1080"
+      - "11211:11211"
     environment:
       - BIFROST_PRIVATE_KEY=${BIFROST_PRIVATE_KEY:?BIFROST_PRIVATE_KEY is required}
       - BIFROST_ADDRESS=${BIFROST_ADDRESS:?BIFROST_ADDRESS is required}
@@ -191,7 +206,7 @@ services:
           memory: 32M
 
   ran:
-    image: ghcr.io/st0o0/ran:0.3.2
+    image: ghcr.io/st0o0/ran:0.3.4
     container_name: ran
     restart: unless-stopped
     logging: *default-logging
@@ -202,7 +217,7 @@ services:
       crowdsec:
         condition: service_healthy
     environment:
-      - RAN_TRAPS=ssh,http,rdp,redis,telnet,mysql,vnc,mqtt,smb
+      - RAN_TRAPS=ssh,http,rdp,redis,telnet,mysql,mssql,vnc,mqtt,smb,smtp,ftp,postgres,elasticsearch,httpproxy,sip,adb,minecraft,dns,ntp,snmp,socks5,memcached
       - RAN_LOG_LEVEL=${RAN_LOG_LEVEL:-info}
       - RAN_LOG_FORMAT=json
       - RAN_SESSION_TIMEOUT=${RAN_SESSION_TIMEOUT:-30s}
@@ -218,6 +233,20 @@ services:
       - RAN_VNC_ADDR=:5900
       - RAN_MQTT_ADDR=:1883
       - RAN_SMB_ADDR=:445
+      - RAN_FTP_ADDR=:21
+      - RAN_SMTP_ADDR=:25,:587
+      - RAN_MSSQL_ADDR=:1433
+      - RAN_POSTGRES_ADDR=:5432
+      - RAN_HTTPPROXY_ADDR=:8080
+      - RAN_ELASTICSEARCH_ADDR=:9200
+      - RAN_SIP_ADDR=:5060
+      - RAN_ADB_ADDR=:5555
+      - RAN_MINECRAFT_ADDR=:25565
+      - RAN_DNS_ADDR=:53
+      - RAN_NTP_ADDR=:123
+      - RAN_SNMP_ADDR=:161
+      - RAN_SOCKS5_ADDR=:1080
+      - RAN_MEMCACHED_ADDR=:11211
       - RAN_CROWDSEC=on
       - RAN_CROWDSEC_URL=http://localhost:8080
       - RAN_CROWDSEC_MACHINE_ID=${RAN_CROWDSEC_MACHINE_ID:?RAN_CROWDSEC_MACHINE_ID is required}
