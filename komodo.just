@@ -46,10 +46,14 @@ secrets TARGET="all":
         echo "host_ip: \"changeme\"" >> "$TMP_YAML"
     fi
 
+    BEFORE=$(sha256sum "$TMP_YAML" | cut -d' ' -f1)
+
     # Auto-scaffold missing keys from stacks
     required_keys=""
+    parser_cache=""
     if [ -f "$PARSER" ]; then
-        required_keys=$(bash "$PARSER" "$HOST" \
+        parser_cache=$(bash "$PARSER" "$HOST")
+        required_keys=$(echo "$parser_cache" \
             | awk -F'\t' '$4 == "per-host" {print $3}' | sort -u)
     fi
 
@@ -68,7 +72,7 @@ secrets TARGET="all":
         for key in $required_keys; do
             if ! echo "$existing_keys" | grep -qx "$key" && \
                ! echo "$var_keys" | grep -qx "$key"; then
-                stack=$(bash "$PARSER" "$HOST" \
+                stack=$(echo "$parser_cache" \
                     | awk -F'\t' -v k="$key" '$3 == k && $4 == "per-host" {print $2; exit}')
                 missing="$missing $key:$stack"
             fi
@@ -81,8 +85,13 @@ secrets TARGET="all":
             done
         fi
     fi
-
     "${EDITOR:-nano}" "$TMP_YAML"
+    AFTER=$(sha256sum "$TMP_YAML" | cut -d' ' -f1)
+
+    if [ "$BEFORE" = "$AFTER" ]; then
+        echo "No changes — $SECRET left unchanged"
+        exit 0
+    fi
 
     TMP_OUT=$(mktemp --suffix=.sops.yaml)
     chmod 600 "$TMP_OUT"
@@ -165,7 +174,14 @@ vars TARGET="all":
         TMP=$(toml_to_yaml "$TOML" "")
         trap 'rm -f "$TMP"' EXIT
 
+        BEFORE=$(sha256sum "$TMP" | cut -d' ' -f1)
         "${EDITOR:-nano}" "$TMP"
+        AFTER=$(sha256sum "$TMP" | cut -d' ' -f1)
+
+        if [ "$BEFORE" = "$AFTER" ]; then
+            echo "No changes — $TOML left unchanged"
+            exit 0
+        fi
         yaml_to_toml "$TMP" "$TOML" ""
         echo "Updated $TOML"
         exit 0
@@ -181,11 +197,14 @@ vars TARGET="all":
 
     TMP=$(toml_to_yaml "$TOML" "${HOST}_")
     trap 'rm -f "$TMP"' EXIT
+    BEFORE=$(sha256sum "$TMP" | cut -d' ' -f1)
 
     # Auto-scaffold missing keys from stacks
     required_keys=""
+    parser_cache=""
     if [ -f "$PARSER" ]; then
-        required_keys=$(bash "$PARSER" "$HOST" \
+        parser_cache=$(bash "$PARSER" "$HOST")
+        required_keys=$(echo "$parser_cache" \
             | awk -F'\t' '$4 == "per-host" {print $3}' | sort -u)
     fi
 
@@ -203,7 +222,7 @@ vars TARGET="all":
         for key in $required_keys; do
             if ! echo "$var_keys" | grep -qx "$key" && \
                ! echo "$secret_keys" | grep -qx "$key"; then
-                stack=$(bash "$PARSER" "$HOST" \
+                stack=$(echo "$parser_cache" \
                     | awk -F'\t' -v k="$key" '$3 == k && $4 == "per-host" {print $2; exit}')
                 missing="$missing $key:$stack"
             fi
@@ -216,8 +235,13 @@ vars TARGET="all":
             done
         fi
     fi
-
     "${EDITOR:-nano}" "$TMP"
+    AFTER=$(sha256sum "$TMP" | cut -d' ' -f1)
+
+    if [ "$BEFORE" = "$AFTER" ]; then
+        echo "No changes — $TOML left unchanged"
+        exit 0
+    fi
     yaml_to_toml "$TMP" "$TOML" "${HOST}_"
     echo "Updated $TOML"
 
@@ -382,7 +406,7 @@ update-secrets *ARGS:
 # --- Linting & Validation ---
 
 # Lint all compose files, env files, and YAML
-lint: lint-yaml lint-compose lint-env
+lint: lint-yaml lint-compose lint-env lint-alloy
 
 # YAML lint (all yml/yaml files)
 lint-yaml:
@@ -418,4 +442,67 @@ lint-compose:
 
 # Lint all .env files
 lint-env:
-    dotenv-linter --recursive --skip UnorderedKey --skip LowercaseKey stacks
+    dotenv-linter check --skip UnorderedKey --skip LowercaseKey stacks/
+
+# Validate Alloy config formatting
+lint-alloy:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    errors=0
+    while IFS= read -r file; do
+        if docker run --rm --entrypoint /bin/alloy -v "$PWD:/work" -w /work grafana/alloy:v1.17.1 fmt --test "$file" 2>/dev/null; then
+            echo "  ok  $file"
+        else
+            echo "  FAIL $file"
+            errors=$((errors + 1))
+        fi
+    done < <(find alloy stacks -name '*.alloy' | sort)
+    if [ "$errors" -gt 0 ]; then
+        echo ""
+        echo "$errors alloy file(s) failed formatting check"
+        exit 1
+    fi
+    echo ""
+    echo "All alloy files formatted"
+
+# --- Remote operations (km CLI) ---
+
+# Sync resource definitions from git into Komodo
+sync:
+    km x -y sync homelab-infra-sync
+
+# Run full deploy pipeline (sync resources, then redeploy changed stacks)
+pipeline:
+    km x -y procedure deploy-homelab-infra
+
+# Deploy a stack (docker compose up -d)
+deploy STACK:
+    km x -y stack {{STACK}}
+
+# Restart a running stack (docker compose restart)
+restart STACK:
+    km x -y restart-stack {{STACK}}
+
+# Stop a stack (docker compose stop)
+stop STACK:
+    km x -y stop-stack {{STACK}}
+
+# Destroy a stack (docker compose down) — prompts for confirmation
+destroy STACK:
+    km x destroy-stack {{STACK}}
+
+# Open a shell on a server via Periphery
+ssh SERVER:
+    km ssh {{SERVER}}
+
+# Shell into a running container (e.g. just k exec traefik sh)
+exec CONTAINER SHELL="sh" *ARGS="":
+    km exec {{CONTAINER}} {{SHELL}} {{ARGS}}
+
+# Docker system prune on a server (containers, images, networks, volumes)
+prune SERVER:
+    km x -y prune-system -s {{SERVER}}
+
+# Backup the Komodo database
+backup:
+    km x -y backup
