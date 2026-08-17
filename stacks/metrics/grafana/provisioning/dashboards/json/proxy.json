@@ -3209,8 +3209,8 @@
           "gridPos": {
             "x": 0,
             "y": 34,
-            "w": 8,
-            "h": 3
+            "w": 6,
+            "h": 4
           },
           "datasource": {
             "type": "victoriametrics-metrics-datasource",
@@ -3262,10 +3262,10 @@
           "type": "stat",
           "title": "Connections (24h)",
           "gridPos": {
-            "x": 8,
+            "x": 6,
             "y": 34,
-            "w": 8,
-            "h": 3
+            "w": 6,
+            "h": 4
           },
           "datasource": {
             "type": "victoriametrics-metrics-datasource",
@@ -3317,10 +3317,10 @@
           "type": "stat",
           "title": "Credentials Captured (24h)",
           "gridPos": {
-            "x": 16,
+            "x": 12,
             "y": 34,
-            "w": 8,
-            "h": 3
+            "w": 6,
+            "h": 4
           },
           "datasource": {
             "type": "victoriametrics-metrics-datasource",
@@ -3368,12 +3368,67 @@
           ]
         },
         {
+          "id": 512,
+          "type": "stat",
+          "title": "CrowdSec Alerts (24h)",
+          "gridPos": {
+            "x": 18,
+            "y": 34,
+            "w": 6,
+            "h": 4
+          },
+          "datasource": {
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "victoriametrics"
+          },
+          "options": {
+            "graphMode": "none",
+            "colorMode": "value",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto",
+            "justifyMode": "auto"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "unit": "short",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
+              },
+              "expr": "sum(increase(ran_crowdsec_alerts_total{instance=~\"$instance\"}[24h]))"
+            }
+          ]
+        },
+        {
           "id": 504,
           "type": "timeseries",
           "title": "Connections by Protocol",
           "gridPos": {
             "x": 0,
-            "y": 37,
+            "y": 38,
             "w": 12,
             "h": 8
           },
@@ -3432,7 +3487,7 @@
           "title": "Credentials by Protocol",
           "gridPos": {
             "x": 12,
-            "y": 37,
+            "y": 38,
             "w": 12,
             "h": 8
           },
@@ -3486,12 +3541,71 @@
           ]
         },
         {
+          "id": 507,
+          "type": "timeseries",
+          "title": "Active Sessions by Protocol",
+          "gridPos": {
+            "x": 0,
+            "y": 46,
+            "w": 12,
+            "h": 8
+          },
+          "datasource": {
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "victoriametrics"
+          },
+          "options": {
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            },
+            "legend": {
+              "calcs": [
+                "mean",
+                "max"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "showLegend": true
+            }
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "fillOpacity": 20,
+                "lineWidth": 2,
+                "spanNulls": true,
+                "drawStyle": "line",
+                "lineInterpolation": "smooth",
+                "showPoints": "never"
+              },
+              "unit": "short",
+              "min": 0
+            },
+            "overrides": []
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
+              },
+              "expr": "ran_active_sessions{instance=~\"$instance\"}",
+              "legendFormat": "{{protocol}}"
+            }
+          ]
+        },
+        {
           "id": 506,
           "type": "timeseries",
           "title": "Session Duration by Protocol",
           "gridPos": {
-            "x": 0,
-            "y": 45,
+            "x": 12,
+            "y": 46,
             "w": 12,
             "h": 8
           },
@@ -3554,49 +3668,92 @@
           ]
         },
         {
-          "id": 507,
-          "type": "timeseries",
-          "title": "Active Sessions by Protocol",
+          "id": 513,
+          "type": "piechart",
+          "title": "Countries",
           "gridPos": {
-            "x": 12,
-            "y": 45,
-            "w": 12,
+            "x": 0,
+            "y": 54,
+            "w": 8,
             "h": 8
           },
           "datasource": {
-            "type": "victoriametrics-metrics-datasource",
-            "uid": "victoriametrics"
+            "type": "victoriametrics-logs-datasource",
+            "uid": "victorialogs"
           },
           "options": {
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            },
+            "pieType": "pie",
+            "displayLabels": [
+              "percent"
+            ],
             "legend": {
-              "calcs": [
-                "mean",
-                "max"
-              ],
               "displayMode": "table",
               "placement": "bottom",
-              "showLegend": true
+              "calcs": [
+                "value"
+              ]
+            },
+            "tooltip": {
+              "mode": "single"
             }
           },
           "fieldConfig": {
             "defaults": {
               "color": {
                 "mode": "palette-classic"
+              }
+            }
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "victoriametrics-logs-datasource",
+                "uid": "victorialogs"
               },
+              "expr": "{job=\"honeypot\"} | stats by (geoip_country_name) count() as hits | sort by (hits) desc | limit 10",
+              "queryType": "stats"
+            }
+          ],
+          "transformations": [
+            {
+              "id": "renameByRegex",
+              "options": {
+                "regex": ".*=\"([^\"]+)\"}$",
+                "renamePattern": "$1"
+              }
+            }
+          ]
+        },
+        {
+          "id": 510,
+          "type": "table",
+          "title": "Top Attacker IPs",
+          "gridPos": {
+            "x": 8,
+            "y": 54,
+            "w": 16,
+            "h": 8
+          },
+          "datasource": {
+            "type": "victoriametrics-logs-datasource",
+            "uid": "victorialogs"
+          },
+          "options": {
+            "showHeader": true,
+            "cellHeight": "sm",
+            "footer": {
+              "show": false
+            }
+          },
+          "fieldConfig": {
+            "defaults": {
               "custom": {
-                "fillOpacity": 20,
-                "lineWidth": 2,
-                "spanNulls": true,
-                "drawStyle": "line",
-                "lineInterpolation": "smooth",
-                "showPoints": "never"
-              },
-              "unit": "short",
-              "min": 0
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                }
+              }
             },
             "overrides": []
           },
@@ -3604,11 +3761,39 @@
             {
               "refId": "A",
               "datasource": {
-                "type": "victoriametrics-metrics-datasource",
-                "uid": "victoriametrics"
+                "type": "victoriametrics-logs-datasource",
+                "uid": "victorialogs"
               },
-              "expr": "ran_active_sessions{instance=~\"$instance\"}",
-              "legendFormat": "{{protocol}}"
+              "expr": "{job=\"honeypot\"} client_ip:!\"\" | stats by (client_ip, geoip_country_name) count() as hits | sort by (hits) desc | limit 20",
+              "queryType": "stats"
+            }
+          ],
+          "transformations": [
+            {
+              "id": "renameByRegex",
+              "options": {
+                "regex": ".*client_ip=\"([^\"]+)\".*geoip_country_name=\"([^\"]+)\".*",
+                "renamePattern": "$1 ($2)"
+              }
+            },
+            {
+              "id": "reduce",
+              "options": {
+                "reducers": [
+                  "lastNotNull"
+                ],
+                "mode": "seriesToRows",
+                "includeTimeField": false
+              }
+            },
+            {
+              "id": "organize",
+              "options": {
+                "renameByName": {
+                  "Field": "IP (Country)",
+                  "Last *": "Hits"
+                }
+              }
             }
           ]
         },
@@ -3618,7 +3803,7 @@
           "title": "Top Domains",
           "gridPos": {
             "x": 0,
-            "y": 53,
+            "y": 62,
             "w": 12,
             "h": 8
           },
@@ -3651,8 +3836,36 @@
                 "type": "victoriametrics-logs-datasource",
                 "uid": "victorialogs"
               },
-              "expr": "{job=\"honeypot\",host=~\"\"} domain:!\"\" | stats by (domain) count() as hits | sort by (hits) desc | limit 20",
+              "expr": "{job=\"honeypot\"} domain:!\"\" | stats by (domain) count() as hits | sort by (hits) desc | limit 20",
               "queryType": "stats"
+            }
+          ],
+          "transformations": [
+            {
+              "id": "renameByRegex",
+              "options": {
+                "regex": ".*=\"([^\"]+)\"}$",
+                "renamePattern": "$1"
+              }
+            },
+            {
+              "id": "reduce",
+              "options": {
+                "reducers": [
+                  "lastNotNull"
+                ],
+                "mode": "seriesToRows",
+                "includeTimeField": false
+              }
+            },
+            {
+              "id": "organize",
+              "options": {
+                "renameByName": {
+                  "Field": "Domain",
+                  "Last *": "Hits"
+                }
+              }
             }
           ]
         },
@@ -3662,7 +3875,7 @@
           "title": "Top Paths",
           "gridPos": {
             "x": 12,
-            "y": 53,
+            "y": 62,
             "w": 12,
             "h": 8
           },
@@ -3695,62 +3908,46 @@
                 "type": "victoriametrics-logs-datasource",
                 "uid": "victorialogs"
               },
-              "expr": "{job=\"honeypot\",host=~\"\"} uri:!\"\" | stats by (uri) count() as hits | sort by (hits) desc | limit 20",
+              "expr": "{job=\"honeypot\"} uri:!\"\" | stats by (uri) count() as hits | sort by (hits) desc | limit 20",
               "queryType": "stats"
+            }
+          ],
+          "transformations": [
+            {
+              "id": "renameByRegex",
+              "options": {
+                "regex": ".*=\"([^\"]+)\"}$",
+                "renamePattern": "$1"
+              }
+            },
+            {
+              "id": "reduce",
+              "options": {
+                "reducers": [
+                  "lastNotNull"
+                ],
+                "mode": "seriesToRows",
+                "includeTimeField": false
+              }
+            },
+            {
+              "id": "organize",
+              "options": {
+                "renameByName": {
+                  "Field": "Path",
+                  "Last *": "Hits"
+                }
+              }
             }
           ]
         },
         {
-          "id": 510,
-          "type": "table",
-          "title": "Top IPs",
+          "id": 514,
+          "type": "piechart",
+          "title": "HTTP Methods",
           "gridPos": {
             "x": 0,
-            "y": 61,
-            "w": 12,
-            "h": 8
-          },
-          "datasource": {
-            "type": "victoriametrics-logs-datasource",
-            "uid": "victorialogs"
-          },
-          "options": {
-            "showHeader": true,
-            "cellHeight": "sm",
-            "footer": {
-              "show": false
-            }
-          },
-          "fieldConfig": {
-            "defaults": {
-              "custom": {
-                "align": "auto",
-                "cellOptions": {
-                  "type": "auto"
-                }
-              }
-            },
-            "overrides": []
-          },
-          "targets": [
-            {
-              "refId": "A",
-              "datasource": {
-                "type": "victoriametrics-logs-datasource",
-                "uid": "victorialogs"
-              },
-              "expr": "{job=\"honeypot\",host=~\"\"} client_ip:!\"\" | stats by (client_ip, geoip_country_name, geoip_city_name) count() as hits | sort by (hits) desc | limit 20",
-              "queryType": "stats"
-            }
-          ]
-        },
-        {
-          "id": 511,
-          "type": "piechart",
-          "title": "Status Distribution",
-          "gridPos": {
-            "x": 12,
-            "y": 61,
+            "y": 70,
             "w": 12,
             "h": 8
           },
@@ -3767,8 +3964,7 @@
               "displayMode": "table",
               "placement": "bottom",
               "calcs": [
-                "mean",
-                "max"
+                "value"
               ]
             },
             "tooltip": {
@@ -3780,8 +3976,7 @@
               "color": {
                 "mode": "palette-classic"
               }
-            },
-            "overrides": []
+            }
           },
           "targets": [
             {
@@ -3790,8 +3985,75 @@
                 "type": "victoriametrics-logs-datasource",
                 "uid": "victorialogs"
               },
-              "expr": "{job=\"honeypot\",host=~\"\"} status:!\"\" | stats by (status) count() as hits",
+              "expr": "{job=\"honeypot\"} method:!\"\" | stats by (method) count() as hits",
               "queryType": "stats"
+            }
+          ],
+          "transformations": [
+            {
+              "id": "renameByRegex",
+              "options": {
+                "regex": ".*=\"([^\"]+)\"}$",
+                "renamePattern": "$1"
+              }
+            }
+          ]
+        },
+        {
+          "id": 511,
+          "type": "piechart",
+          "title": "Status Distribution",
+          "gridPos": {
+            "x": 12,
+            "y": 70,
+            "w": 12,
+            "h": 8
+          },
+          "datasource": {
+            "type": "victoriametrics-logs-datasource",
+            "uid": "victorialogs"
+          },
+          "options": {
+            "pieType": "pie",
+            "displayLabels": [
+              "percent"
+            ],
+            "legend": {
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "value"
+              ]
+            },
+            "tooltip": {
+              "mode": "single"
+            }
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              }
+            }
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "victoriametrics-logs-datasource",
+                "uid": "victorialogs"
+              },
+              "expr": "{job=\"honeypot\"} status:!\"\" | stats by (status) count() as hits",
+              "queryType": "stats"
+            }
+          ],
+          "transformations": [
+            {
+              "id": "renameByRegex",
+              "options": {
+                "regex": ".*=\"([^\"]+)\"}$",
+                "renamePattern": "$1"
+              }
             }
           ]
         }
