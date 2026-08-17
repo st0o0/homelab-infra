@@ -31,6 +31,8 @@ services:
       - GF_DATABASE_PASSWORD=${GRAFANA_DB_PASS:-}
       - GF_DATABASE_SSL_MODE=${GRAFANA_DB_SSL_MODE:-disable}
       - GF_UNIFIED_ALERTING_ENABLED=${GRAFANA_UNIFIED_ALERTING_ENABLED:-}
+      - GF_DATAPROXY_TIMEOUT=${GRAFANA_DATAPROXY_TIMEOUT:-60}
+      - GF_DATAPROXY_MAX_CONC_HTTP_REQ=${GRAFANA_DATAPROXY_MAX_CONC_HTTP_REQ:-50}
       - DISCORD_WEBHOOK_URL=${GRAFANA_DISCORD_WEBHOOK_URL:-}
       - TZ=${TZ:-}
     volumes:
@@ -62,10 +64,10 @@ services:
       - --dedup.minScrapeInterval=${VM_SCRAPE_INTERVAL:-30s}
       - --search.cacheTimestampOffset=${VM_CACHE_TIMESTAMP_OFFSET:-10m}
       - --memory.allowedPercent=${VM_MEMORY_ALLOWED_PERCENT:-70}
-      - --search.maxConcurrentRequests=${VM_MAX_CONCURRENT_REQUESTS:-3}
+      - --search.maxConcurrentRequests=${VM_MAX_CONCURRENT_REQUESTS:-8}
       - --search.maxMemoryPerQuery=${VM_MAX_MEMORY_PER_QUERY:-256MB}
       - --search.maxUniqueTimeseries=${VM_MAX_UNIQUE_TIMESERIES:-50000}
-      - --search.maxQueryDuration=${VM_MAX_QUERY_DURATION:-30s}
+      - --search.maxQueryDuration=${VM_MAX_QUERY_DURATION:-60s}
       - --smallMergeConcurrency=${VM_SMALL_MERGE_CONCURRENCY:-1}
       - --maxLabelsPerTimeseries=${VM_MAX_LABELS_PER_TIMESERIES:-35}
       # VictoriaMetrics scrapes its own internals (vm_* metrics)
@@ -130,7 +132,7 @@ services:
       - --pushmetrics.interval=${VL_PUSH_METRICS_INTERVAL:-30s}
       - --pushmetrics.extraLabel=job="victoria-logs"
       - --memory.allowedPercent=${VL_MEMORY_ALLOWED_PERCENT:-60}
-      - --search.maxConcurrentRequests=${VL_MAX_CONCURRENT_REQUESTS:-2}
+      - --search.maxConcurrentRequests=${VL_MAX_CONCURRENT_REQUESTS:-6}
       - --maxConcurrentInserts=${VL_MAX_CONCURRENT_INSERTS:-3}
       - --storage.minFreeDiskSpaceBytes=${VL_MIN_FREE_DISK_SPACE:-100MB}
     ports:
