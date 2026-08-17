@@ -24,7 +24,7 @@ services:
           memory: 16M
 
   renovate:
-    image: renovate/renovate:40
+    image: renovate/renovate:43@sha256:3b72fc4274c56f65f53dcd4dcbed3143289358e0a2d96f7af215e6cf1923e5f6
     container_name: renovate
     restart: "no"
     logging: *default-logging
