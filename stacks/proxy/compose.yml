@@ -110,6 +110,7 @@ services:
       dockerfile: Dockerfile.caddy
     container_name: caddy
     restart: unless-stopped
+    command: ["caddy", "run", "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile", "--watch"]
     logging: *default-logging
     network_mode: service:bifrost
     depends_on:
