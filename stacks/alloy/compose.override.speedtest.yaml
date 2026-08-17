@@ -9,7 +9,7 @@ services:
       - SPEEDTEST_EXPORTER_TARGET=${ALLOY_SPEEDTEST_EXPORTER_TARGET:-speedtest-exporter:8080}
 
   speedtest-exporter:
-    image: ghcr.io/veerendra2/speedtest_exporter:v1.4.0
+    image: ghcr.io/veerendra2/speedtest_exporter:1.4.0
     container_name: speedtest-exporter
     restart: unless-stopped
     logging:
