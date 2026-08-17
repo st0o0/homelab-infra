@@ -1973,24 +1973,20 @@
           "transformations": [
             {
               "id": "labelsToFields",
-              "options": {
-                "valueLabel": "dst_port"
-              }
+              "options": {}
             },
             {
               "id": "merge"
             },
             {
-              "id": "seriesToRows"
-            },
-            {
               "id": "organize",
               "options": {
                 "excludeByName": {
-                  "Time": true
+                  "Time": true,
+                  "__name__": true
                 },
                 "renameByName": {
-                  "Metric": "Port",
+                  "dst_port": "Port",
                   "Value": "Count"
                 }
               }
