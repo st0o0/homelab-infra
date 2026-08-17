@@ -4,7 +4,7 @@
 	order rate_limit after appsec
 
 	crowdsec {
-		api_url http://localhost:8080
+		api_url http://localhost:8180
 		api_key {$CROWDSEC_BOUNCER_API_KEY}
 		appsec_url http://localhost:7422
 	}

@@ -174,7 +174,7 @@ services:
       - /var/log/caddy:/var/log/caddy:ro
       - /var/log/crowdsec:/var/log/crowdsec
     healthcheck:
-      test: ["CMD", "cscli", "version"]
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8180/health"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -256,7 +256,7 @@ services:
       - RAN_SOCKS5_ADDR=:1080
       - RAN_MEMCACHED_ADDR=:11211
       - RAN_CROWDSEC=on
-      - RAN_CROWDSEC_URL=http://localhost:8080
+      - RAN_CROWDSEC_URL=http://localhost:8180
       - RAN_CROWDSEC_MACHINE_ID=${RAN_CROWDSEC_MACHINE_ID:?RAN_CROWDSEC_MACHINE_ID is required}
       - RAN_CROWDSEC_PASSWORD=${RAN_CROWDSEC_PASSWORD:?RAN_CROWDSEC_PASSWORD is required}
       - RAN_CROWDSEC_BAN_DURATION=${RAN_CROWDSEC_BAN_DURATION:-4h}
