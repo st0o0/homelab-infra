@@ -9,9 +9,7 @@ project_name = "alloy-4"
 run_directory = "stacks/alloy"
 file_paths = [
   "compose.yml",
-  "compose.override.arr.yaml",
   "compose.override.authentik.yaml",
-  "compose.override.jellyfin.yaml",
 ]
 linked_repo = "homelab-infra"
 extra_args = ["--remove-orphans"]
@@ -107,7 +105,8 @@ AUTHENTIK_TRUSTED_PROXY_CIDRS=[[FeelsStrongMan_authentik_trusted_proxy_cidrs]]
 AUTHENTIK_GEOIP_ACCOUNT_ID=[[maxmind_account_id]]
 AUTHENTIK_GEOIP_LICENSE_KEY=[[maxmind_license_key]]
 # DB
-AUTHENTIK_DB_HOST=[[FeelsStrongMan_authentik_db_host]]
+AUTHENTIK_DB_HOST=[[FeelsStrongMan_postgres_host]]
+AUTHENTIK_DB_PORT=[[FeelsStrongMan_postgres_port]]
 AUTHENTIK_DB_NAME=[[FeelsStrongMan_authentik_db_name]]
 AUTHENTIK_DB_USER=[[FeelsStrongMan_authentik_db_user]]
 AUTHENTIK_DB_PASS=[[FeelsStrongMan_authentik_db_pass]]
@@ -156,112 +155,118 @@ AUTHENTIK_PROVIDER_KOMODO_CLIENT_SECRET=[[FeelsStrongMan_authentik_provider_komo
 AUTHENTIK_PROVIDER_KOMODO_REDIRECT_URI=[[FeelsStrongMan_authentik_provider_komodo_redirect_uri]]
 """
 
-# [[stack]]
-# name = "arr-1"
-# tags = ["media"]
-# after = ["media-1"]
-# [stack.config]
-# server = "FeelsStrongMan"
-# run_directory = "stacks/arr"
-# file_paths = ["compose.yml"]
-# linked_repo = "homelab-infra"
-# extra_args = ["--remove-orphans"]
-# environment = """
-# PUID=[[puid]]
-# PGID=[[pgid]]
-# TZ=[[tz]]
-# ARR_MEDIA_PATH=/data/media
-# # CIFS
-# CIFS_MEDIA_HOST=[[FeelsStrongMan_cifs_media_host]]
-# CIFS_MEDIA_SHARE=[[FeelsStrongMan_cifs_media_share]]
-# CIFS_MEDIA_USER=[[FeelsStrongMan_cifs_media_user]]
-# CIFS_MEDIA_PASS=[[FeelsStrongMan_cifs_media_password]]
-# CIFS_DOWNLOADS_HOST=[[FeelsStrongMan_cifs_downloads_host]]
-# CIFS_DOWNLOADS_SHARE=[[FeelsStrongMan_cifs_downloads_share]]
-# CIFS_DOWNLOADS_USER=[[FeelsStrongMan_cifs_downloads_user]]
-# CIFS_DOWNLOADS_PASS=[[FeelsStrongMan_cifs_downloads_password]]
-# # Sonarr
-# SONARR_API_KEY=[[FeelsStrongMan_arr_sonarr_api_key]]
-# SONARR_PORT=1089
-# SONARR_API_URL=http://sonarr:8989
-# SONARR_PATH_CONFIG=/docker/arr/sonarr/config
-# SONARR_POSTGRES_HOST=[[FeelsStrongMan_arr_postgres_host]]
-# SONARR_POSTGRES_USER=[[FeelsStrongMan_arr_sonarr_postgres_user]]
-# SONARR_POSTGRES_PASS=[[FeelsStrongMan_arr_sonarr_postgres_pass]]
-# # Radarr
-# RADARR_API_KEY=[[FeelsStrongMan_arr_radarr_api_key]]
-# RADARR_PORT=1078
-# RADARR_API_URL=http://radarr:7878
-# RADARR_PATH_CONFIG=/docker/arr/radarr/config
-# RADARR_POSTGRES_HOST=[[FeelsStrongMan_arr_postgres_host]]
-# RADARR_POSTGRES_USER=[[FeelsStrongMan_arr_radarr_postgres_user]]
-# RADARR_POSTGRES_PASS=[[FeelsStrongMan_arr_radarr_postgres_pass]]
-# # Prowlarr
-# PROWLARR_API_KEY=[[FeelsStrongMan_arr_prowlarr_api_key]]
-# PROWLARR_PORT=1096
-# PROWLARR_API_URL=http://prowlarr:9696
-# PROWLARR_PATH_CONFIG=/docker/arr/prowlarr/config
-# PROWLARR_POSTGRES_HOST=[[FeelsStrongMan_arr_postgres_host]]
-# PROWLARR_POSTGRES_USER=[[FeelsStrongMan_arr_prowlarr_postgres_user]]
-# PROWLARR_POSTGRES_PASS=[[FeelsStrongMan_arr_prowlarr_postgres_pass]]
-# # Seerr
-# SEERR_PORT=1055
-# SEERR_LOG_LEVEL=info
-# SEERR_PATH_CONFIG=/docker/arr/seerr/config
-# SEERR_DB_TYPE=postgres
-# SEERR_DB_HOST=[[FeelsStrongMan_arr_postgres_host]]
-# SEERR_DB_USER=[[FeelsStrongMan_arr_seerr_db_user]]
-# SEERR_DB_PASS=[[FeelsStrongMan_arr_seerr_db_pass]]
-# SEERR_DB_NAME=seerr
-# # Recyclarr
-# RECYCLARR_PORT=7879
-# RECYCLARR_PATH_CONFIG=/docker/arr/recyclarr/config
-# RECYCLARR_CRON_SCHEDULE="0 */6 * * *"
-# # Seekarr
-# SEEKARR_PATH_CONFIG=/docker/arr/seekarr/config.yml
-# SEEKARR_PATH_DATA=/docker/arr/seekarr/data
-# # Pinchflat
-# PINCHFLAT_PORT=8945
-# PINCHFLAT_PATH_CONFIG=/docker/arr/pinchflat/config
-# # Mediathekarr
-# MEDIATHEKARR_CATEGORIES=series,movies,custom
-# MEDIATHEKARR_API_BASE_URL=https://mediathekarr.pcjones.de/api/v1
-# MEDIATHEKARR_PORT=1007
-# MEDIATHEKARR_PATH_CONFIG=/docker/arr/mediathekarr/config
-# MEDIATHEKARR_PATH_TEMP=/docker/arr/mediathekarr/temp
-# """
-# 
-# [[stack.config.config_files]]
-# path = "recyclarr/config/radarr-hd.yml"
-# requires = "Redeploy"
-# 
-# [[stack.config.config_files]]
-# path = "recyclarr/config/radarr-uhd.yml"
-# requires = "Redeploy"
-# 
-# [[stack.config.config_files]]
-# path = "recyclarr/config/radarr-uhd-alt.yml"
-# requires = "Redeploy"
-# 
-# [[stack.config.config_files]]
-# path = "recyclarr/config/sonarr-hd.yml"
-# requires = "Redeploy"
-# 
-# [[stack.config.config_files]]
-# path = "recyclarr/config/sonarr-uhd.yml"
-# requires = "Redeploy"
-# 
-# [[stack.config.config_files]]
-# path = "recyclarr/config/sonarr-uhd-alt.yml"
-# requires = "Redeploy"
-# 
-# [[stack.config.config_files]]
-# path = "scripts/pre-deploy.sh"
-# requires = "Redeploy"
-# 
-# [stack.config.pre_deploy]
-# path = "."
-# command = "docker network create media-net 2>/dev/null || true && sh scripts/pre-deploy.sh"
+[[stack]]
+name = "arr-1"
+tags = ["media"]
+after = ["media-1"]
+[stack.config]
+server = "FeelsStrongMan"
+run_directory = "stacks/arr"
+file_paths = ["compose.yml"]
+linked_repo = "homelab-infra"
+extra_args = ["--remove-orphans"]
+environment = """
+PUID=[[puid]]
+PGID=[[pgid]]
+TZ=[[tz]]
+ARR_MEDIA_PATH=/data/media
+# CIFS
+CIFS_MEDIA_HOST=[[FeelsStrongMan_cifs_media_host]]
+CIFS_MEDIA_SHARE=[[FeelsStrongMan_cifs_media_share]]
+CIFS_MEDIA_USER=[[FeelsStrongMan_cifs_media_user]]
+CIFS_MEDIA_PASS=[[FeelsStrongMan_cifs_media_password]]
+CIFS_DOWNLOADS_HOST=[[FeelsStrongMan_cifs_downloads_host]]
+CIFS_DOWNLOADS_SHARE=[[FeelsStrongMan_cifs_downloads_share]]
+CIFS_DOWNLOADS_USER=[[FeelsStrongMan_cifs_downloads_user]]
+CIFS_DOWNLOADS_PASS=[[FeelsStrongMan_cifs_downloads_password]]
+# Sonarr
+SONARR_PORT=1089
+SONARR_PATH_CONFIG=/docker/arr/sonarr/config
+SONARR_API_KEY=[[FeelsStrongMan_sonarr_api_key]]
+SONARR_POSTGRES_HOST=[[FeelsStrongMan_postgres_host]]
+SONARR_POSTGRES_PORT=[[FeelsStrongMan_postgres_port]]
+SONARR_POSTGRES_USER=[[FeelsStrongMan_sonarr_postgres_user]]
+SONARR_POSTGRES_PASS=[[FeelsStrongMan_sonarr_postgres_pass]]
+SONARR_POSTGRES_MAINDB=[[FeelsStrongMan_sonarr_postgres_maindb]]
+SONARR_POSTGRES_LOGDB=[[FeelsStrongMan_sonarr_postgres_logdb]]
+# Radarr
+RADARR_PORT=1078
+RADARR_PATH_CONFIG=/docker/arr/radarr/config
+RADARR_API_KEY=[[FeelsStrongMan_radarr_api_key]]
+RADARR_POSTGRES_HOST=[[FeelsStrongMan_postgres_host]]
+RADARR_POSTGRES_PORT=[[FeelsStrongMan_postgres_port]]
+RADARR_POSTGRES_USER=[[FeelsStrongMan_radarr_postgres_user]]
+RADARR_POSTGRES_PASS=[[FeelsStrongMan_radarr_postgres_pass]]
+RADARR_POSTGRES_MAINDB=[[FeelsStrongMan_radarr_postgres_maindb]]
+RADARR_POSTGRES_LOGDB=[[FeelsStrongMan_radarr_postgres_logdb]]
+# Prowlarr
+PROWLARR_PORT=1096
+PROWLARR_PATH_CONFIG=/docker/arr/prowlarr/config
+PROWLARR_API_KEY=[[FeelsStrongMan_prowlarr_api_key]]
+PROWLARR_POSTGRES_HOST=[[FeelsStrongMan_postgres_host]]
+PROWLARR_POSTGRES_PORT=[[FeelsStrongMan_postgres_port]]
+PROWLARR_POSTGRES_USER=[[FeelsStrongMan_prowlarr_postgres_user]]
+PROWLARR_POSTGRES_PASS=[[FeelsStrongMan_prowlarr_postgres_pass]]
+PROWLARR_POSTGRES_MAINDB=[[FeelsStrongMan_prowlarr_postgres_maindb]]
+PROWLARR_POSTGRES_LOGDB=[[FeelsStrongMan_prowlarr_postgres_logdb]]
+# Seerr
+SEERR_PORT=1055
+SEERR_LOG_LEVEL=info
+SEERR_PATH_CONFIG=/docker/arr/seerr/config
+SEERR_DB_TYPE=postgres
+SEERR_DB_HOST=[[FeelsStrongMan_postgres_host]]
+SEERR_DB_PORT=[[FeelsStrongMan_postgres_port]]
+SEERR_DB_USER=[[FeelsStrongMan_seerr_db_user]]
+SEERR_DB_PASS=[[FeelsStrongMan_seerr_db_pass]]
+SEERR_DB_NAME=[[FeelsStrongMan_seerr_db_name]]
+# Recyclarr
+RECYCLARR_PORT=1079
+RECYCLARR_PATH_CONFIG=/docker/arr/recyclarr/config
+RECYCLARR_CRON_SCHEDULE="0 */6 * * *"
+# Seekarr
+SEEKARR_PATH_CONFIG=/docker/arr/seekarr/config.yml
+SEEKARR_PATH_DATA=/docker/arr/seekarr/data
+# Pinchflat
+PINCHFLAT_PORT=8945
+PINCHFLAT_PATH_CONFIG=/docker/arr/pinchflat/config
+# Mediathekarr
+MEDIATHEKARR_PORT=1007
+MEDIATHEKARR_CATEGORIES=series,movies,custom
+MEDIATHEKARR_PATH_CONFIG=/docker/arr/mediathekarr/config
+MEDIATHEKARR_PATH_TEMP=/mnt/ssd/mediathek_temp
+"""
+
+[[stack.config.config_files]]
+path = "recyclarr/config/radarr-hd.yml"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "recyclarr/config/radarr-uhd.yml"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "recyclarr/config/radarr-uhd-alt.yml"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "recyclarr/config/sonarr-hd.yml"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "recyclarr/config/sonarr-uhd.yml"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "recyclarr/config/sonarr-uhd-alt.yml"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "scripts/pre-deploy.sh"
+requires = "Redeploy"
+
+[stack.config.pre_deploy]
+path = "."
+command = "docker network create media-net 2>/dev/null || true && sh scripts/pre-deploy.sh"
 #
 # [[stack]]
 # name = "media-1"

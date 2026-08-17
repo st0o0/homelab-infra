@@ -3,9 +3,9 @@ services:
     volumes:
       - ../../alloy/features/arr.alloy:/etc/alloy/arr.alloy
     environment:
-      - SONARR_EXPORTER_TARGET=${ALLOY_SONARR_EXPORTER_TARGET:-arr-sonarr-exporter:9707}
-      - RADARR_EXPORTER_TARGET=${ALLOY_RADARR_EXPORTER_TARGET:-arr-radarr-exporter:9708}
-      - PROWLARR_EXPORTER_TARGET=${ALLOY_PROWLARR_EXPORTER_TARGET:-arr-prowlarr-exporter:9709}
+      - SONARR_EXPORTER_TARGET=${ALLOY_SONARR_EXPORTER_TARGET:-sonarr-exporter:9707}
+      - RADARR_EXPORTER_TARGET=${ALLOY_RADARR_EXPORTER_TARGET:-radarr-exporter:9708}
+      - PROWLARR_EXPORTER_TARGET=${ALLOY_PROWLARR_EXPORTER_TARGET:-prowlarr-exporter:9709}
     networks:
       - default
       - arr-net
