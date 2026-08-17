@@ -1985,6 +1985,10 @@
                   "Time": true,
                   "__name__": true
                 },
+                "indexByName": {
+                  "dst_port": 0,
+                  "Value": 1
+                },
                 "renameByName": {
                   "dst_port": "Port",
                   "Value": "Count"
