@@ -9,9 +9,11 @@ if [ -f .env ]; then
 fi
 
 # --- Seekarr config ---
-mkdir -p "$(dirname "${SEEKARR_PATH_CONFIG:-./data/seekarr/config.yml}")"
+SEEKARR_CFG="${SEEKARR_PATH_CONFIG:-./data/seekarr/config.yml}"
+rm -rf "${SEEKARR_CFG}"
+mkdir -p "$(dirname "${SEEKARR_CFG}")"
 
-cat > "${SEEKARR_PATH_CONFIG:-./data/seekarr/config.yml}" <<EOF
+cat > "${SEEKARR_CFG}" <<EOF
 instances:
   - name: sonarr
     type: sonarr
