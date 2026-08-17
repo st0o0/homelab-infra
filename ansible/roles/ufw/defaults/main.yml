@@ -3,6 +3,6 @@ ufw_default_incoming: deny
 ufw_default_outgoing: allow
 ufw_logging: low
 ufw_rules:
-  - { rule: allow, port: 22, proto: tcp, comment: "SSH" }
+  - {rule: allow, port: 22, proto: tcp, comment: "SSH"}
 ufw_extra_rules: []
 ufw_disable_sysctl: false

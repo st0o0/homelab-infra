@@ -13,3 +13,6 @@ ignore:
   - node_modules/
   - "**/*.sops.yaml"
   - "**/*.sops.yml"
+  - stacks/authentik/blueprints/25-branding.yaml
+  - stacks/proxy/crowdsec/notifications/file_appsec.yaml
+  - ansible/report/
