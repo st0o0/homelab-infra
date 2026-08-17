@@ -57,7 +57,7 @@ declare "caddy" {
 
     stage.template {
       source   = "uri"
-      template = "{{ regexReplaceAll \"\\?.*\" .uri \"\" }}"
+      template = "{{ regexReplaceAll \"[?].*\" .uri \"\" }}"
     }
 
     stage.template {
