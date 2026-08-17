@@ -90,9 +90,20 @@
 	appsec
 }
 
+(block-bots) {
+	@bot header_regexp User-Agent "(?i)(GPTBot|ChatGPT-User|ChatGPT|ClaudeBot|anthropic-ai|Bytespider|PerplexityBot|Cohere-ai|cohere-crawler|Google-Extended|Applebot-Extended|Meta-ExternalAgent|FacebookBot|Amazonbot|AI2Bot|Ai2Bot-Dolma|Googlebot|Bingbot|bingbot|Slurp|DuckDuckBot|Baiduspider|YandexBot|Sogou|Qwantify|SeznamBot|ia_archiver|AhrefsBot|SemrushBot|MJ12bot|DotBot|PetalBot)"
+	abort @bot
+}
+
 (defaults) {
 	import crowdsec
 	import appsec
+	import block-bots
+	handle /robots.txt {
+		header Content-Type "text/plain"
+		respond "User-agent: *
+Disallow: /" 200
+	}
 	encode zstd gzip
 	log {
 		output file /var/log/caddy/access.log {
