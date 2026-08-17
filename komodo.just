@@ -450,7 +450,7 @@ lint-alloy:
     set -euo pipefail
     errors=0
     while IFS= read -r file; do
-        if docker run --rm --entrypoint /bin/alloy -v "$PWD:/work" -w /work grafana/alloy:v1.17.1 fmt --test "$file" 2>/dev/null; then
+        if docker run --rm -v "$PWD:/work" -w /work grafana/alloy:v1.17.1 fmt --test "$file" 2>/dev/null; then
             echo "  ok  $file"
         else
             echo "  FAIL $file"

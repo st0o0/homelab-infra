@@ -76,7 +76,7 @@ jobs:
             | tar xz -C /usr/local/bin
 
       - name: Lint .env files
-        run: dotenv-linter --recursive --skip UnorderedKey --skip LowercaseKey stacks/
+        run: dotenv-linter check --skip UnorderedKey --skip LowercaseKey stacks/
 
   alloy-check:
     name: Alloy Lint & Validate
@@ -86,8 +86,9 @@ jobs:
 
       - name: Check alloy formatting
         run: |
-          docker run --rm -v "$PWD:/work" -w /work grafana/alloy:v1.17.1 fmt --test \
-            alloy/ stacks/alloy/alloy/ stacks/proxy/alloy/
+          for dir in alloy/ stacks/alloy/alloy/ stacks/proxy/alloy/; do
+            docker run --rm -v "$PWD:/work" -w /work grafana/alloy:v1.17.1 fmt --test "$dir"
+          done
 
       - name: Validate proxy stack config
         run: |
