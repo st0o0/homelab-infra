@@ -1,0 +1,18 @@
+discovery.relabel "speedtest" {
+  targets = [{
+    __address__ = coalesce(sys.env("SPEEDTEST_EXPORTER_TARGET"), "speedtest-exporter:8080"),
+  }]
+
+  rule {
+    replacement  = sys.env("HOST_HOSTNAME")
+    target_label = "instance"
+  }
+}
+
+prometheus.scrape "speedtest" {
+  targets         = discovery.relabel.speedtest.output
+  forward_to      = [prometheus.remote_write.central.receiver]
+  scrape_interval = "60m"
+  scrape_timeout  = "90s"
+  job_name        = "speedtest"
+}

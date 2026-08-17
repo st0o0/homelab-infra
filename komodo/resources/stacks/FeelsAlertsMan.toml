@@ -130,7 +130,6 @@ file_paths = [
   "compose.override.pve.yaml",
   "compose.override.nut.yaml",
   "compose.override.speedtest.yaml",
-  "compose.override.blackbox.yaml",
 ]
 linked_repo = "homelab-infra"
 extra_args = ["--remove-orphans"]
@@ -157,14 +156,6 @@ ALLOY_NUT_EXP_SERVER=[[FeelsAlertsMan_nut_exp_server]]
 ALLOY_NUT_EXP_SERVER_PORT=3493
 ALLOY_NUT_EXP_USER=[[FeelsAlertsMan_nut_exp_user]]
 ALLOY_NUT_EXP_PASS=[[FeelsAlertsMan_nut_exp_password]]
-
-# ── Blackbox exporter (HTTP/DNS probes) ──────────────────
-ALLOY_BLACKBOX_HTTP_TARGET_1=[[FeelsAlertsMan_blackbox_http_target_1]]
-ALLOY_BLACKBOX_HTTP_TARGET_2=[[FeelsAlertsMan_blackbox_http_target_2]]
-ALLOY_BLACKBOX_HTTP_TARGET_3=[[FeelsAlertsMan_blackbox_http_target_3]]
-ALLOY_BLACKBOX_HTTP_TARGET_4=[[FeelsAlertsMan_blackbox_http_target_4]]
-ALLOY_BLACKBOX_HTTP_TARGET_5=[[FeelsAlertsMan_blackbox_http_target_5]]
-ALLOY_BLACKBOX_DNS_TARGET=[[FeelsAlertsMan_blackbox_dns_target]]
 """
 
 [[stack.config.config_files]]
@@ -221,12 +212,4 @@ requires = "Redeploy"
 
 [[stack.config.config_files]]
 path = "../../alloy/features/speedtest.alloy"
-requires = "Redeploy"
-
-[[stack.config.config_files]]
-path = "../../alloy/features/blackbox.alloy"
-requires = "Redeploy"
-
-[[stack.config.config_files]]
-path = "../../stacks/alloy/blackbox/blackbox.yml"
 requires = "Redeploy"

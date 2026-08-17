@@ -1,0 +1,28 @@
+services:
+  alloy:
+    depends_on:
+      speedtest-exporter:
+        condition: service_started
+    volumes:
+      - ../../alloy/features/speedtest.alloy:/etc/alloy/speedtest.alloy
+    environment:
+      - SPEEDTEST_EXPORTER_TARGET=${ALLOY_SPEEDTEST_EXPORTER_TARGET:-speedtest-exporter:8080}
+
+  speedtest-exporter:
+    image: ghcr.io/veerendra2/speedtest_exporter:1.4.0
+    container_name: speedtest-exporter
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+    environment:
+      - TZ=${TZ:-Europe/Berlin}
+    deploy:
+      resources:
+        limits:
+          cpus: "0.15"
+          memory: 128M
+        reservations:
+          memory: 32M
