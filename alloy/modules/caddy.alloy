@@ -56,6 +56,11 @@ declare "caddy" {
     }
 
     stage.template {
+      source   = "uri"
+      template = "{{ regexReplaceAll \"\\?.*\" .uri \"\" }}"
+    }
+
+    stage.template {
       source   = "domain"
       template = "{{ regexReplaceAll \":443$\" .host \"\" }}"
     }
