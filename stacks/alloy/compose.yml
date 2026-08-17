@@ -6,7 +6,7 @@ x-logging: &default-logging
 
 services:
   geoipupdate:
-    image: maxmindinc/geoipupdate:v7
+    image: maxmindinc/geoipupdate:v8@sha256:51e70dd6f16cd3e4d845ac02d09940b10772a75b9d741427d235a78570923c1d
     container_name: geoipupdate
     restart: unless-stopped
     logging: *default-logging
