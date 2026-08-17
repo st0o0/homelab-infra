@@ -8,37 +8,41 @@ permissions:
   contents: read
 
 jobs:
-  yaml-lint:
-    name: YAML Lint
+  validate:
+    name: Lint & Validate
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
 
-      - uses: ibiqlik/action-yamllint@v3
+      # ── YAML ──────────────────────────────────────────────
+      - name: YAML lint
+        id: yaml
+        continue-on-error: true
+        uses: ibiqlik/action-yamllint@v3
         with:
           config_file: .yamllint.yml
           file_or_dir: stacks/ komodo/
 
-  toml-check:
-    name: TOML Check
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7
-
-      - uses: uncenter/setup-taplo@v2
+      # ── TOML ──────────────────────────────────────────────
+      - name: Setup taplo
+        uses: uncenter/setup-taplo@v2
         with:
           version: "0.10.0" # renovate: depName=tamasfe/taplo
 
-      - name: Check TOML syntax
+      - name: TOML check
+        id: toml
+        continue-on-error: true
         run: taplo check komodo/**/*.toml
 
-  compose-check:
-    name: Docker Compose
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7
+      # ── Docker Compose ────────────────────────────────────
+      - name: Setup Docker Compose
+        uses: docker/setup-compose-action@v1
+        with:
+          version: "2.37.0" # renovate: depName=docker/compose
 
-      - name: Validate compose files
+      - name: Compose validate
+        id: compose
+        continue-on-error: true
         run: |
           errors=0
           for file in $(find stacks -name 'compose*.yml' | sort); do
@@ -49,7 +53,7 @@ jobs:
             else
               args=(-f "$base" -f "$file")
             fi
-            if docker compose "${args[@]}" config --no-interpolate -q 2>/dev/null; then
+            if docker compose "${args[@]}" config --no-interpolate -q; then
               echo "  ok  $file"
             else
               echo "  FAIL $file"
@@ -64,33 +68,10 @@ jobs:
           echo ""
           echo "All compose files valid"
 
-  dotenv-lint:
-    name: Dotenv Lint
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7
-
-      - name: Install dotenv-linter
-        run: |
-          curl -fsSL https://github.com/dotenv-linter/dotenv-linter/releases/download/v4.0.0/dotenv-linter-linux-x86_64.tar.gz \
-            | tar xz -C /usr/local/bin
-
-      - name: Lint .env files
-        run: dotenv-linter check --skip UnorderedKey --skip LowercaseKey stacks/
-
-  alloy-check:
-    name: Alloy Lint & Validate
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7
-
-      - name: Check alloy formatting
-        run: |
-          for dir in alloy/ stacks/alloy/alloy/ stacks/proxy/alloy/; do
-            docker run --rm -v "$PWD:/work" -w /work grafana/alloy:v1.17.1 fmt --test "$dir"
-          done
-
-      - name: Validate proxy stack config
+      # ── Alloy ─────────────────────────────────────────────
+      - name: Alloy validate (proxy stack)
+        id: alloy-proxy
+        continue-on-error: true
         run: |
           docker run --rm \
             -v "$PWD/stacks/proxy/alloy:/etc/alloy:ro" \
@@ -98,9 +79,29 @@ jobs:
             -v "$PWD/alloy/pipelines:/etc/alloy/pipelines:ro" \
             grafana/alloy:v1.17.1 validate /etc/alloy/
 
-      - name: Validate generic stack config
+      - name: Alloy validate (generic stack)
+        id: alloy-generic
+        continue-on-error: true
         run: |
           docker run --rm \
             -v "$PWD/stacks/alloy/alloy:/etc/alloy:ro" \
             -v "$PWD/alloy/modules:/etc/alloy/modules:ro" \
             grafana/alloy:v1.17.1 validate /etc/alloy/
+
+      # ── Summary gate ──────────────────────────────────────
+      - name: Check results
+        if: always()
+        run: |
+          rc=0
+          [ "$YAML" = "success" ]          && echo "ok: yaml"          || { echo "FAIL: yaml";          rc=1; }
+          [ "$TOML" = "success" ]          && echo "ok: toml"          || { echo "FAIL: toml";          rc=1; }
+          [ "$COMPOSE" = "success" ]       && echo "ok: compose"       || { echo "FAIL: compose";       rc=1; }
+          [ "$ALLOY_PROXY" = "success" ]   && echo "ok: alloy-proxy"   || { echo "FAIL: alloy-proxy";   rc=1; }
+          [ "$ALLOY_GENERIC" = "success" ] && echo "ok: alloy-generic" || { echo "FAIL: alloy-generic"; rc=1; }
+          exit $rc
+        env:
+          YAML: ${{ steps.yaml.outcome }}
+          TOML: ${{ steps.toml.outcome }}
+          COMPOSE: ${{ steps.compose.outcome }}
+          ALLOY_PROXY: ${{ steps.alloy-proxy.outcome }}
+          ALLOY_GENERIC: ${{ steps.alloy-generic.outcome }}

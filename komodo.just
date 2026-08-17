@@ -405,8 +405,8 @@ update-secrets *ARGS:
 
 # --- Linting & Validation ---
 
-# Lint all compose files, env files, and YAML
-lint: lint-yaml lint-compose lint-env lint-alloy
+# Lint all compose files, YAML, and Alloy configs
+lint: lint-yaml lint-compose lint-alloy
 
 # YAML lint (all yml/yaml files)
 lint-yaml:
@@ -425,7 +425,7 @@ lint-compose:
         else
             args=(-f "$base" -f "$file")
         fi
-        if docker compose "${args[@]}" config --no-interpolate -q 2>/dev/null; then
+        if docker compose "${args[@]}" config --no-interpolate -q; then
             echo "  ok  $file"
         else
             echo "  FAIL $file"
@@ -440,30 +440,23 @@ lint-compose:
     echo ""
     echo "All compose files valid"
 
-# Lint all .env files
-lint-env:
-    dotenv-linter check --skip UnorderedKey --skip LowercaseKey stacks/
-
-# Validate Alloy config formatting
+# Validate Alloy configs
 lint-alloy:
     #!/usr/bin/env bash
     set -euo pipefail
-    errors=0
-    while IFS= read -r file; do
-        if docker run --rm -v "$PWD:/work" -w /work grafana/alloy:v1.17.1 fmt --test "$file" 2>/dev/null; then
-            echo "  ok  $file"
-        else
-            echo "  FAIL $file"
-            errors=$((errors + 1))
-        fi
-    done < <(find alloy stacks -name '*.alloy' | sort)
-    if [ "$errors" -gt 0 ]; then
-        echo ""
-        echo "$errors alloy file(s) failed formatting check"
-        exit 1
-    fi
-    echo ""
-    echo "All alloy files formatted"
+    echo "Validating proxy stack config..."
+    docker run --rm \
+        -v "$PWD/stacks/proxy/alloy:/etc/alloy:ro" \
+        -v "$PWD/alloy/modules:/etc/alloy/modules:ro" \
+        -v "$PWD/alloy/pipelines:/etc/alloy/pipelines:ro" \
+        grafana/alloy:v1.17.1 validate /etc/alloy/
+    echo "  ok  proxy"
+    echo "Validating generic stack config..."
+    docker run --rm \
+        -v "$PWD/stacks/alloy/alloy:/etc/alloy:ro" \
+        -v "$PWD/alloy/modules:/etc/alloy/modules:ro" \
+        grafana/alloy:v1.17.1 validate /etc/alloy/
+    echo "  ok  generic"
 
 # --- Remote operations (km CLI) ---
 

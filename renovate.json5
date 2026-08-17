@@ -45,17 +45,6 @@
         '/\\.github/workflows/.+\\.yml$/',
       ],
       matchStrings: [
-        'dotenv-linter/releases/download/v(?<currentValue>\\S+)/dotenv-linter',
-      ],
-      depNameTemplate: 'dotenv-linter/dotenv-linter',
-      datasourceTemplate: 'github-releases',
-    },
-    {
-      customType: 'regex',
-      managerFilePatterns: [
-        '/\\.github/workflows/.+\\.yml$/',
-      ],
-      matchStrings: [
         'version:\\s+"(?<currentValue>[^"]+)"\\s*\\n\\s*#\\s*renovate:\\s*depName=(?<depName>\\S+)',
       ],
       datasourceTemplate: 'github-releases',

@@ -30,11 +30,6 @@ pip install --break-system-packages -q ansible ansible-lint
 echo "==> Installing Ansible collections..."
 ansible-galaxy collection install -r ansible/requirements.yml --force-with-deps > /dev/null
 
-echo "==> Installing dotenv-linter..."
-DOTENV_VERSION="v3.3.0"
-curl -fsSL "https://github.com/dotenv-linter/dotenv-linter/releases/download/${DOTENV_VERSION}/dotenv-linter-linux-x86_64.tar.gz" \
-    | sudo tar -xz -C /usr/local/bin/
-
 echo "==> Installing just..."
 curl -fsSL https://just.systems/install.sh | sudo bash -s -- --to /usr/local/bin
 
@@ -228,7 +223,6 @@ echo "    Added aliases: unlock, km setup, km edit"
 echo "==> Verifying installations..."
 ansible --version | head -1
 yamllint --version
-dotenv-linter --version
 docker compose version
 just --version
 pwsh --version | head -1
