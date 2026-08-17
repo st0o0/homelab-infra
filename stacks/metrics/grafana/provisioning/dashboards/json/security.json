@@ -748,13 +748,196 @@
       "id": 200
     },
     {
+      "type": "stat",
+      "title": "Attacks 24h",
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 0,
+        "y": 29
+      },
+      "datasource": {
+        "type": "victoriametrics-logs-datasource",
+        "uid": "victorialogs"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 10 },
+              { "color": "orange", "value": 50 },
+              { "color": "red", "value": 100 }
+            ]
+          },
+          "unit": "short"
+        }
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "{job=\"ssh\",host=~\"$instance\"} event_type:~\"invalid_user|preauth|failed\" | stats count() as count",
+          "queryType": "stats"
+        }
+      ],
+      "timeFrom": "24h",
+      "id": 206
+    },
+    {
+      "type": "stat",
+      "title": "Unique Attacker IPs",
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 6,
+        "y": 29
+      },
+      "datasource": {
+        "type": "victoriametrics-logs-datasource",
+        "uid": "victorialogs"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "blue",
+            "mode": "fixed"
+          },
+          "unit": "short"
+        }
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "{job=\"ssh\",host=~\"$instance\"} event_type:~\"invalid_user|preauth|failed\" | stats by (client_ip) count() | stats count() as count",
+          "queryType": "stats"
+        }
+      ],
+      "timeFrom": "24h",
+      "id": 207
+    },
+    {
+      "type": "stat",
+      "title": "Attack Countries",
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 12,
+        "y": 29
+      },
+      "datasource": {
+        "type": "victoriametrics-logs-datasource",
+        "uid": "victorialogs"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "purple",
+            "mode": "fixed"
+          },
+          "unit": "short"
+        }
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "{job=\"ssh\",host=~\"$instance\"} event_type:~\"invalid_user|preauth|failed\" | stats by (geoip_country_name) count() | stats count() as count",
+          "queryType": "stats"
+        }
+      ],
+      "timeFrom": "24h",
+      "id": 208
+    },
+    {
+      "type": "stat",
+      "title": "Last Login",
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 18,
+        "y": 29
+      },
+      "datasource": {
+        "type": "victoriametrics-logs-datasource",
+        "uid": "victorialogs"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "green",
+            "mode": "fixed"
+          },
+          "unit": "short"
+        }
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "/username/",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "{job=\"ssh\",host=~\"$instance\"} event_type:\"accepted\" | sort by (_time) desc | limit 1",
+          "format": "table"
+        }
+      ],
+      "id": 209
+    },
+    {
       "type": "table",
       "title": "Successful Logins",
       "gridPos": {
-        "h": 6,
+        "h": 4,
         "w": 24,
         "x": 0,
-        "y": 29
+        "y": 47
       },
       "datasource": {
         "type": "victoriametrics-logs-datasource",
@@ -865,7 +1048,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 35
+        "y": 33
       },
       "datasource": {
         "type": "victoriametrics-metrics-datasource",
@@ -922,17 +1105,17 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "rate(vlogs:ssh_invalid_user_total{instance=~\"$instance\"}[5m])",
+          "expr": "increase(vlogs:ssh_invalid_user_total{host=~\"$instance\"}[5m])",
           "legendFormat": "Invalid User"
         },
         {
           "refId": "B",
-          "expr": "rate(vlogs:ssh_preauth_total{instance=~\"$instance\"}[5m])",
+          "expr": "increase(vlogs:ssh_preauth_total{host=~\"$instance\"}[5m])",
           "legendFormat": "Preauth"
         },
         {
           "refId": "C",
-          "expr": "rate(vlogs:ssh_failed_total{instance=~\"$instance\"}[5m])",
+          "expr": "increase(vlogs:ssh_failed_total{host=~\"$instance\"}[5m])",
           "legendFormat": "Failed"
         }
       ],
@@ -945,7 +1128,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 35
+        "y": 33
       },
       "datasource": {
         "type": "victoriametrics-logs-datasource",
@@ -1022,6 +1205,7 @@
             },
             "renameByName": {
               "Last *": "Count",
+              "client_ip": "Attacker IP",
               "geoip_country_name": "Country"
             }
           }
@@ -1044,7 +1228,7 @@
         "h": 6,
         "w": 12,
         "x": 0,
-        "y": 43
+        "y": 41
       },
       "datasource": {
         "type": "victoriametrics-logs-datasource",
@@ -1099,7 +1283,7 @@
         "h": 6,
         "w": 12,
         "x": 12,
-        "y": 43
+        "y": 41
       },
       "datasource": {
         "type": "victoriametrics-logs-datasource",
@@ -1154,7 +1338,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 49
+        "y": 51
       },
       "collapsed": true,
       "panels": [
@@ -1454,7 +1638,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 50
+        "y": 52
       },
       "collapsed": true,
       "panels": [
@@ -1754,7 +1938,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 51
+        "y": 53
       },
       "collapsed": true,
       "panels": [
@@ -2122,7 +2306,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 52
+        "y": 54
       },
       "collapsed": true,
       "panels": [

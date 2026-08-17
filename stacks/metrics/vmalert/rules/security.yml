@@ -4,13 +4,13 @@ groups:
     interval: 1m
     rules:
       - record: vlogs:ssh_invalid_user_total
-        expr: '{job="ssh"} event_type:"invalid_user" | stats count() as requests'
+        expr: '{job="ssh"} event_type:"invalid_user" | stats by (host) count() as requests'
       - record: vlogs:ssh_preauth_total
-        expr: '{job="ssh"} event_type:"preauth" | stats count() as requests'
+        expr: '{job="ssh"} event_type:"preauth" | stats by (host) count() as requests'
       - record: vlogs:ssh_failed_total
-        expr: '{job="ssh"} event_type:"failed" | stats count() as requests'
+        expr: '{job="ssh"} event_type:"failed" | stats by (host) count() as requests'
       - record: vlogs:ssh_accepted_total
-        expr: '{job="ssh"} event_type:"accepted" | stats count() as requests'
+        expr: '{job="ssh"} event_type:"accepted" | stats by (host) count() as requests'
 
   - name: fail2ban
     type: vlogs
