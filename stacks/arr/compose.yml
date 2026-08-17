@@ -134,8 +134,7 @@ services:
       radarr:
         condition: service_healthy
     volumes:
-      - ${SEEKARR_PATH_CONFIG:-./seekarr/config.yml}:/seekarr/config.yml:ro
-      - ${SEEKARR_PATH_DATA:-./seekarr/data}:/seekarr/data
+      - ${SEEKARR_PATH:-./seekarr}:/seekarr
     networks:
       - arr
 
