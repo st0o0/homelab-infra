@@ -13,8 +13,8 @@ x-common: &common
 services:
   sonarr:
     <<: *common
-    image: ghcr.io/sonarr/sonarr:4.0.19.2979
-    container_name: arr-sonarr
+    image: ghcr.io/home-operations/sonarr:4.0.19.3001
+    container_name: sonarr
     user: "${PUID}:${PGID}"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8989/ping"]
@@ -32,7 +32,7 @@ services:
       SONARR__POSTGRES__MAINDB: ${SONARR_POSTGRES_MAINDB:-sonarr-main}
       SONARR__POSTGRES__LOGDB: ${SONARR_POSTGRES_LOGDB:-sonarr-log}
     ports:
-      - "${SONARR_PORT:-1089}:8989"
+      - "${SONARR_PORT:-8989}:8989"
     volumes:
       - media_smb:${ARR_MEDIA_PATH:-/data/media}
       - ${SONARR_PATH_CONFIG:-./sonarr/config}:/config
@@ -42,8 +42,8 @@ services:
 
   radarr:
     <<: *common
-    image: ghcr.io/radarr/radarr:6.3.0.10514
-    container_name: arr-radarr
+    image: ghcr.io/home-operations/radarr:6.4.1.10545
+    container_name: radarr
     user: "${PUID}:${PGID}"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:7878/ping"]
@@ -61,7 +61,7 @@ services:
       RADARR__POSTGRES__MAINDB: ${RADARR_POSTGRES_MAINDB:-radarr-main}
       RADARR__POSTGRES__LOGDB: ${RADARR_POSTGRES_LOGDB:-radarr-log}
     ports:
-      - "${RADARR_PORT:-1078}:7878"
+      - "${RADARR_PORT:-7878}:7878"
     volumes:
       - media_smb:${ARR_MEDIA_PATH:-/data/media}
       - ${RADARR_PATH_CONFIG:-./radarr/config}:/config
@@ -71,8 +71,8 @@ services:
 
   prowlarr:
     <<: *common
-    image: ghcr.io/prowlarr/prowlarr:2.5.2.5491
-    container_name: arr-prowlarr
+    image: ghcr.io/home-operations/prowlarr:2.6.1.5509
+    container_name: prowlarr
     user: "${PUID}:${PGID}"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9696/ping"]
@@ -90,7 +90,7 @@ services:
       PROWLARR__POSTGRES__MAINDB: ${PROWLARR_POSTGRES_MAINDB:-prowlarr-main}
       PROWLARR__POSTGRES__LOGDB: ${PROWLARR_POSTGRES_LOGDB:-prowlarr-log}
     ports:
-      - "${PROWLARR_PORT:-1096}:9696"
+      - "${PROWLARR_PORT:-9696}:9696"
     volumes:
       - ${PROWLARR_PATH_CONFIG:-./prowlarr/config}:/config
     networks:
@@ -100,7 +100,7 @@ services:
   seerr:
     <<: *common
     image: ghcr.io/seerr-team/seerr:v3.4.0
-    container_name: arr-seerr
+    container_name: seerr
     init: true
     depends_on:
       sonarr:
@@ -118,7 +118,7 @@ services:
       DB_PASS: ${SEERR_DB_PASS:?SEERR_DB_PASS is required}
       DB_NAME: ${SEERR_DB_NAME:-seerr}
     ports:
-      - "${SEERR_PORT:-1055}:5055"
+      - "${SEERR_PORT:-5055}:5055"
     volumes:
       - ${SEERR_PATH_CONFIG:-./seerr/config}:/app/config
     networks:
@@ -127,7 +127,7 @@ services:
   seekarr:
     <<: *common
     image: ghcr.io/scottrobertson/seekarr:0.3.0
-    container_name: arr-seekarr
+    container_name: seekarr
     depends_on:
       sonarr:
         condition: service_healthy
@@ -142,7 +142,7 @@ services:
   sonarr-exporter:
     <<: *common
     image: ghcr.io/onedr0p/exportarr:v2.3.0
-    container_name: arr-sonarr-exporter
+    container_name: sonarr-exporter
     command: ["sonarr"]
     depends_on:
       sonarr:
@@ -150,7 +150,7 @@ services:
     environment:
       <<: *common-env
       PORT: "9707"
-      URL: ${SONARR_API_URL:-http://sonarr:8989}
+      URL: http://sonarr:8989
       API_KEY: ${SONARR_API_KEY:?SONARR_API_KEY is required}
     networks:
       - arr
@@ -158,7 +158,7 @@ services:
   radarr-exporter:
     <<: *common
     image: ghcr.io/onedr0p/exportarr:v2.3.0
-    container_name: arr-radarr-exporter
+    container_name: radarr-exporter
     command: ["radarr"]
     depends_on:
       radarr:
@@ -166,7 +166,7 @@ services:
     environment:
       <<: *common-env
       PORT: "9708"
-      URL: ${RADARR_API_URL:-http://radarr:7878}
+      URL: http://radarr:7878
       API_KEY: ${RADARR_API_KEY:?RADARR_API_KEY is required}
     networks:
       - arr
@@ -174,7 +174,7 @@ services:
   prowlarr-exporter:
     <<: *common
     image: ghcr.io/onedr0p/exportarr:v2.3.0
-    container_name: arr-prowlarr-exporter
+    container_name: prowlarr-exporter
     command: ["prowlarr"]
     depends_on:
       prowlarr:
@@ -182,7 +182,7 @@ services:
     environment:
       <<: *common-env
       PORT: "9709"
-      URL: ${PROWLARR_API_URL:-http://prowlarr:9696}
+      URL: http://prowlarr:9696
       API_KEY: ${PROWLARR_API_KEY:?PROWLARR_API_KEY is required}
     networks:
       - arr
@@ -190,7 +190,7 @@ services:
   recyclarr:
     <<: *common
     image: recyclarr/recyclarr:8.7.0
-    container_name: arr-recyclarr
+    container_name: recyclarr
     depends_on:
       sonarr:
         condition: service_healthy
@@ -216,16 +216,16 @@ services:
     container_name: arr-mediathekarr
     environment:
       <<: *common-env
-      DOWNLOAD_INCOMPLETE_PATH: /data/temp
+      DOWNLOAD_INCOMPLETE_PATH: /data/incomplete
       DOWNLOAD_COMPLETE_PATH: /data/complete/
       CATEGORIES: ${MEDIATHEKARR_CATEGORIES:-series,movies,custom}
-      MEDIATHEKARR_API_BASE_URL: ${MEDIATHEKARR_API_BASE_URL:-https://mediathekarr.pcjones.de/api/v1}
+      MEDIATHEKARR_API_BASE_URL: https://mediathekarr.pcjones.de/api/v1
     volumes:
-      - ${MEDIATHEKARR_PATH_CONFIG:-./data/mediathekarr/config}:/app/config
-      - ${MEDIATHEKARR_PATH_TEMP:-./data/mediathekarr/temp}:/data/temp
+      - ${MEDIATHEKARR_PATH_CONFIG:-./mediathekarr/config}:/app/config
+      - ${MEDIATHEKARR_PATH_TEMP:-./mediathekarr/temp}:/data/incomplete
       - mediathek_smb:/data/complete
     ports:
-      - "${MEDIATHEKARR_PORT:-1007}:5007"
+      - "${MEDIATHEKARR_PORT:-5007}:5007"
     networks:
       - arr
 
