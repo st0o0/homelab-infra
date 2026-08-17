@@ -231,7 +231,7 @@ services:
 
   pinchflat:
     <<: *common
-    image: ghcr.io/kieraneglin/pinchflat:v2025.9.26
+    image: ghcr.io/kieraneglin/pinchflat:latest@sha256:753a348c4189cab415077a0ba39e429f3a2d827ca9944482fba39e89d7670359
     container_name: arr-pinchflat
     ports:
       - "${PINCHFLAT_PORT:-8945}:8945"
