@@ -1,0 +1,53 @@
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: 10m
+    max-file: "3"
+
+services:
+  ofelia:
+    image: mcuadros/ofelia:latest
+    container_name: ofelia
+    restart: unless-stopped
+    logging: *default-logging
+    command: daemon --docker
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    labels:
+      ofelia.enabled: "true"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.10"
+          memory: 32M
+        reservations:
+          memory: 16M
+
+  renovate:
+    image: renovate/renovate:40
+    container_name: renovate
+    restart: "no"
+    logging: *default-logging
+    environment:
+      - RENOVATE_PLATFORM=github
+      - RENOVATE_REPOSITORIES=${RENOVATE_REPOSITORIES:?RENOVATE_REPOSITORIES is required}
+      - RENOVATE_TOKEN=${RENOVATE_TOKEN:?RENOVATE_TOKEN is required}
+      - RENOVATE_GIT_AUTHOR=${RENOVATE_GIT_AUTHOR:-Renovate Bot <bot@renovateapp.com>}
+      - RENOVATE_AUTODISCOVER=false
+      - LOG_LEVEL=${RENOVATE_LOG_LEVEL:-info}
+    volumes:
+      - renovate-cache:/tmp/renovate/cache
+    labels:
+      ofelia.enabled: "true"
+      ofelia.job-run.renovate.schedule: "0 0 */6 * * *"
+      ofelia.job-run.renovate.container: "renovate"
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: 1G
+        reservations:
+          memory: 256M
+
+volumes:
+  renovate-cache:

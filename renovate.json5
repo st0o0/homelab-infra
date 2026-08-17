@@ -1,0 +1,161 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    "docker:pinDigests",
+    ":dependencyDashboard"
+  ],
+
+  // --- Schedule & behavior ---
+  "timezone": "Europe/Berlin",
+  "schedule": ["after 6am and before 8am every weekday"],
+  "prConcurrentLimit": 5,
+  "prHourlyLimit": 2,
+  "minimumReleaseAge": "3 days",
+  "platformAutomerge": true,
+
+  "commitMessagePrefix": "chore(deps):",
+
+  // --- Docker Compose ---
+  // Renovate auto-discovers compose.yml but we also have compose.override.*.yaml
+  "docker-compose": {
+    "fileMatch": [
+      "(^|/)compose\\.ya?ml$",
+      "(^|/)compose\\.override\\.[\\w.-]+\\.ya?ml$"
+    ]
+  },
+
+  // --- Custom managers for versions Renovate can't auto-detect ---
+  "customManagers": [
+    // pip install packages in CI workflows
+    {
+      "customType": "regex",
+      "fileMatch": ["\\.github/workflows/.+\\.yml$"],
+      "matchStrings": [
+        "pip install (?<depName>\\S+)==(?<currentValue>\\S+)"
+      ],
+      "datasourceTemplate": "pypi"
+    },
+    // dotenv-linter binary downloaded via curl
+    {
+      "customType": "regex",
+      "fileMatch": ["\\.github/workflows/.+\\.yml$"],
+      "matchStrings": [
+        "dotenv-linter/releases/download/v(?<currentValue>\\S+)/dotenv-linter"
+      ],
+      "depNameTemplate": "dotenv-linter/dotenv-linter",
+      "datasourceTemplate": "github-releases"
+    },
+    // taplo version in CI
+    {
+      "customType": "regex",
+      "fileMatch": ["\\.github/workflows/.+\\.yml$"],
+      "matchStrings": [
+        "version:\\s+\"(?<currentValue>[^\"]+)\"\\s*\\n\\s*#\\s*renovate:\\s*depName=(?<depName>\\S+)"
+      ],
+      "datasourceTemplate": "github-releases"
+    },
+    // Docker images referenced in CI run commands (e.g. grafana/alloy:v1.17.1)
+    {
+      "customType": "regex",
+      "fileMatch": ["\\.github/workflows/.+\\.yml$"],
+      "matchStrings": [
+        "docker run[^\\n]*\\s(?<depName>[a-z0-9][a-z0-9._/-]+):(?<currentValue>v?[\\d][\\d.]+[^\\s\"']*)"
+      ],
+      "datasourceTemplate": "docker"
+    }
+  ],
+
+  // --- Package rules ---
+  "packageRules": [
+    // Automerge patch and digest updates
+    {
+      "matchUpdateTypes": ["patch", "pin", "digest"],
+      "automerge": true,
+      "automergeType": "pr"
+    },
+    // Automerge minor for non-database, non-critical services
+    {
+      "matchUpdateTypes": ["minor"],
+      "automerge": true,
+      "automergeType": "pr",
+      "excludePackagePatterns": [
+        "postgres",
+        "mongo",
+        "redis",
+        "valkey",
+        "immich",
+        "authentik",
+        "vaultwarden"
+      ]
+    },
+    // Major updates need dashboard approval
+    {
+      "matchUpdateTypes": ["major"],
+      "dependencyDashboardApproval": true
+    },
+    // Group monitoring stack together
+    {
+      "groupName": "monitoring",
+      "matchPackagePatterns": [
+        "grafana",
+        "victoriametrics",
+        "vmalert",
+        "victoria-logs",
+        "alloy"
+      ],
+      "matchUpdateTypes": ["minor", "patch"]
+    },
+    // Group arr stack together
+    {
+      "groupName": "arr-stack",
+      "matchPackagePatterns": [
+        "sonarr",
+        "radarr",
+        "prowlarr",
+        "seerr",
+        "seekarr",
+        "exportarr",
+        "recyclarr"
+      ],
+      "matchUpdateTypes": ["minor", "patch"]
+    },
+    // Group home automation
+    {
+      "groupName": "home-automation",
+      "matchPackagePatterns": [
+        "home-assistant",
+        "mosquitto",
+        "zigbee2mqtt",
+        "matterjs"
+      ],
+      "matchUpdateTypes": ["minor", "patch"]
+    },
+    // Group GitHub Actions
+    {
+      "groupName": "github-actions",
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["minor", "patch"]
+    },
+    // Pin nut-upsd which currently has no tag
+    {
+      "matchPackageNames": ["instantlinux/nut-upsd"],
+      "pinDigests": true
+    },
+    // Don't touch beta/pr tags
+    {
+      "matchPackagePatterns": ["njord", "mediathekarr"],
+      "enabled": false
+    },
+    // Images with major-only tags (redis:8-alpine, maxmindinc/geoipupdate:v7)
+    {
+      "matchPackageNames": ["redis", "maxmindinc/geoipupdate"],
+      "versioning": "docker"
+    }
+  ],
+
+  // --- Ansible Galaxy collections ---
+  "ansible-galaxy": {
+    "fileMatch": ["ansible/requirements\\.yml$"]
+  }
+}
