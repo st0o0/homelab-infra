@@ -44,6 +44,14 @@ ufw_extra_rules:
   - { rule: allow, port: 161,   proto: udp, comment: "ran SNMP" }
   - { rule: allow, port: 1080,  proto: tcp, comment: "ran SOCKS5" }
   - { rule: allow, port: 11211, proto: tcp, comment: "ran Memcached" }
+  # ran multi-port variants
+  - { rule: allow, port: 3000,  proto: tcp, comment: "ran HTTP" }
+  - { rule: allow, port: 3128,  proto: tcp, comment: "ran HTTP-Proxy" }
+  - { rule: allow, port: 3306,  proto: tcp, comment: "ran MySQL" }
+  - { rule: allow, port: 5901,  proto: tcp, comment: "ran VNC" }
+  - { rule: allow, port: 8081,  proto: tcp, comment: "ran HTTP" }
+  - { rule: allow, port: 8443,  proto: tcp, comment: "ran HTTPS" }
+  - { rule: allow, port: 9443,  proto: tcp, comment: "ran HTTPS" }
 
 # LXC: chrony cannot set system clock or access /dev/rtc in containers
 ntp_enabled: false

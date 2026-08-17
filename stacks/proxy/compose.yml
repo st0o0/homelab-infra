@@ -43,6 +43,14 @@ services:
       - "161:161/udp"
       - "1080:1080"
       - "11211:11211"
+      # multi-port honeypot variants
+      - "3000:3000"
+      - "3128:3128"
+      - "3306:3306"
+      - "5901:5901"
+      - "8081:8081"
+      - "8443:8443"
+      - "9443:9443"
     environment:
       - BIFROST_PRIVATE_KEY=${BIFROST_PRIVATE_KEY:?BIFROST_PRIVATE_KEY is required}
       - BIFROST_ADDRESS=${BIFROST_ADDRESS:?BIFROST_ADDRESS is required}
@@ -224,20 +232,20 @@ services:
       - RAN_MAX_SESSIONS=${RAN_MAX_SESSIONS:-500}
       - RAN_MAX_PER_IP=${RAN_MAX_PER_IP:-10}
       - RAN_METRICS_ADDR=:9550
-      - RAN_HTTP_ADDR=:8181
+      - RAN_HTTP_ADDR=:8181,:8443,:8081,:3000,:9443
       - RAN_SSH_ADDR=:2222
       - RAN_TELNET_ADDR=:23
       - RAN_RDP_ADDR=:3389
       - RAN_REDIS_ADDR=:6379
-      - RAN_MYSQL_ADDR=:3307
-      - RAN_VNC_ADDR=:5900
+      - RAN_MYSQL_ADDR=:3307,:3306
+      - RAN_VNC_ADDR=:5900,:5901
       - RAN_MQTT_ADDR=:1883
       - RAN_SMB_ADDR=:445
       - RAN_FTP_ADDR=:21
       - RAN_SMTP_ADDR=:25,:587
       - RAN_MSSQL_ADDR=:1433
       - RAN_POSTGRES_ADDR=:5432
-      - RAN_HTTPPROXY_ADDR=:8080
+      - RAN_HTTPPROXY_ADDR=:8080,:3128
       - RAN_ELASTICSEARCH_ADDR=:9200
       - RAN_SIP_ADDR=:5060
       - RAN_ADB_ADDR=:5555
