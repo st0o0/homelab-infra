@@ -12,8 +12,16 @@
   prConcurrentLimit: 5,
   prHourlyLimit: 2,
   minimumReleaseAge: '3 days',
+  rebaseWhen: 'behind-base-branch',
+  configMigration: true,
   platformAutomerge: true,
   commitMessagePrefix: 'chore(deps):',
+  commitBody: '',
+  assignees: ['st0o0'],
+  suppressNotifications: ['prEditedNotification'],
+  vulnerabilityAlerts: {
+    enabled: true,
+  },
   'docker-compose': {
     managerFilePatterns: [
       '/(^|/)compose\\.ya?ml$/',
@@ -94,49 +102,6 @@
         'major',
       ],
       dependencyDashboardApproval: true,
-    },
-    {
-      groupName: 'monitoring',
-      matchUpdateTypes: [
-        'minor',
-        'patch',
-      ],
-      matchPackageNames: [
-        '/grafana/',
-        '/victoriametrics/',
-        '/vmalert/',
-        '/victoria-logs/',
-        '/alloy/',
-      ],
-    },
-    {
-      groupName: 'arr-stack',
-      matchUpdateTypes: [
-        'minor',
-        'patch',
-      ],
-      matchPackageNames: [
-        '/sonarr/',
-        '/radarr/',
-        '/prowlarr/',
-        '/seerr/',
-        '/seekarr/',
-        '/exportarr/',
-        '/recyclarr/',
-      ],
-    },
-    {
-      groupName: 'home-automation',
-      matchUpdateTypes: [
-        'minor',
-        'patch',
-      ],
-      matchPackageNames: [
-        '/home-assistant/',
-        '/mosquitto/',
-        '/zigbee2mqtt/',
-        '/matterjs/',
-      ],
     },
     {
       groupName: 'github-actions',
