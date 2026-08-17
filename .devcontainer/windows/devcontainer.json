@@ -1,5 +1,5 @@
 {
-    "name": "Homelab Infra — Windows",
+    "name": "Homelab Infra - Windows",
     "image": "mcr.microsoft.com/devcontainers/base:bookworm",
 
     "features": {

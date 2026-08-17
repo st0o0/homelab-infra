@@ -1,5 +1,5 @@
 {
-    "name": "Homelab Infra — Linux",
+    "name": "Homelab Infra - Linux",
     "image": "mcr.microsoft.com/devcontainers/base:bookworm",
 
     "features": {
@@ -60,7 +60,8 @@
                     "*.yaml": "ansible",
                     "compose*.yml": "dockercompose"
                 },
-                "terminal.integrated.fontFamily": "'JetBrainsMono Nerd Font Mono', monospace"
+                "terminal.integrated.fontFamily": "'JetBrainsMono Nerd Font Mono', monospace",
+                "terminal.integrated.defaultProfile.linux": "zsh"
             }
         }
     }
