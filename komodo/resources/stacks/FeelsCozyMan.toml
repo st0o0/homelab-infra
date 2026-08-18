@@ -81,20 +81,6 @@ path = "../../alloy/modules/ufw.alloy"
 requires = "Redeploy"
 
 # [[stack]]
-# name = "renovate-1"
-# tags = ["infra"]
-# [stack.config]
-# server = "FeelsCozyMan"
-# run_directory = "stacks/renovate"
-# file_paths = ["compose.yml"]
-# linked_repo = "homelab-infra"
-# environment = """
-# RENOVATE_TOKEN=[[FeelsCozyMan_renovate_token]]
-# RENOVATE_REPOSITORIES=["st0o0/homelab-infra"]
-# RENOVATE_LOG_LEVEL=info
-# """
-# 
-# [[stack]]
 # name = "homeassistant-1"
 # tags = ["iot"]
 # [stack.config]
