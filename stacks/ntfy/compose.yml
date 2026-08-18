@@ -6,8 +6,8 @@ x-logging: &default-logging
 
 services:
   ntfy:
-    image: binwiederhier/ntfy:v2.27.0@sha256:47a51000dcd69b4ccd15d7f7b10ea410b9a065688bf64ab5f4861817a85b4813
-    platform: linux/amd64
+    image: binwiederhier/ntfy:v2.27.0@sha256:9dbcc3bf2d96889f2cf103b08ae7ea0a22e843c4bd54fd94c08c2e2e2364fb3c
+    platform: linux/arm64
     container_name: ntfy
     restart: unless-stopped
     logging: *default-logging
