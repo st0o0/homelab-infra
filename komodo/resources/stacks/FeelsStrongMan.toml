@@ -242,11 +242,7 @@ MEDIATHEKARR_PATH_TEMP=/mnt/ssd/mediathek_temp
 """
 
 [[stack.config.config_files]]
-path = "configarr/sonarr.yml"
-requires = "Redeploy"
-
-[[stack.config.config_files]]
-path = "configarr/radarr.yml"
+path = "configarr/config.yml"
 requires = "Redeploy"
 
 [[stack.config.config_files]]
