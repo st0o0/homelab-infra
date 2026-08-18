@@ -36,7 +36,7 @@ jobs:
 
       # ── Docker Compose ────────────────────────────────────
       - name: Setup Docker Compose
-        uses: docker/setup-compose-action@v1
+        uses: docker/setup-compose-action@v2
         with:
           version: "v5.5.0" # renovate: depName=docker/compose
 
