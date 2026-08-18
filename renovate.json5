@@ -6,17 +6,12 @@
     ':dependencyDashboard',
   ],
   timezone: 'Europe/Berlin',
-  schedule: [
-    'after 6am and before 8am every weekday',
-  ],
   prConcurrentLimit: 5,
   prHourlyLimit: 2,
   minimumReleaseAge: '3 days',
   rebaseWhen: 'conflicted',
   configMigration: true,
-  platformAutomerge: false,
   commitMessagePrefix: 'chore(deps):',
-  commitBody: '',
   assignees: ['st0o0'],
   suppressNotifications: ['prEditedNotification'],
   vulnerabilityAlerts: {
@@ -60,21 +55,8 @@
       datasourceTemplate: 'docker',
     },
   ],
+  dependencyDashboardApproval: true,
   packageRules: [
-    {
-      matchUpdateTypes: [
-        'patch',
-        'pin',
-        'digest',
-      ],
-      automerge: false,
-    },
-    {
-      matchUpdateTypes: [
-        'major',
-      ],
-      dependencyDashboardApproval: true,
-    },
     {
       groupName: 'github-actions',
       matchManagers: [
