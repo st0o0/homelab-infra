@@ -1,0 +1,18 @@
+{$CADDY_DOMAIN_KEYCLOAK} {
+	import defaults
+	import ratelimit-media keycloak
+	import access-geo-dach
+
+	tls {
+		client_auth {
+			mode verify_if_given
+			trust_pool file /etc/caddy/certs/keycloak-client-ca.crt
+		}
+	}
+
+	reverse_proxy {$CADDY_TARGET_KEYCLOAK} {
+		header_up X-Real-IP {remote_host}
+		header_up X-Forwarded-For {remote_host}
+		header_up X-SSL-Client-Cert {http.request.tls.client.certificate_der_base64}
+	}
+}
