@@ -219,8 +219,6 @@ SEERR_DB_PORT=[[FeelsStrongMan_postgres_port]]
 SEERR_DB_USER=[[FeelsStrongMan_seerr_db_user]]
 SEERR_DB_PASS=[[FeelsStrongMan_seerr_db_pass]]
 SEERR_DB_NAME=[[FeelsStrongMan_seerr_db_name]]
-# Configarr
-CONFIGARR_PATH_CONFIG=/docker/arr/configarr
 # Seekarr
 SEEKARR_PATH_CONFIG=/docker/arr/seekarr/config.yml
 SEEKARR_PATH_DATA=/docker/arr/seekarr/data
