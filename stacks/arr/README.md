@@ -14,7 +14,7 @@ Media automation stack with Sonarr, Radarr, Prowlarr, Seerr, Tracearr, and suppo
 │        └──────┬───────┘              │               │
 │               ▼                      ▼               │
 │  ┌──────────────────┐  ┌──────────────────┐          │
-│  │   Recyclarr       │  │  FlareSolverr     │         │
+│  │   Configarr       │  │  FlareSolverr     │         │
 │  │   (TRaSH sync)    │  │  (anti-captcha)   │         │
 │  └──────────────────┘  └──────────────────┘          │
 │                                                      │
@@ -49,8 +49,8 @@ docker compose up -d
 
 | Variable | Required | Default | Purpose |
 |---|---|---|---|
-| `SONARR_API_KEY` | yes | — | Sonarr API key for Recyclarr |
-| `RADARR_API_KEY` | yes | — | Radarr API key for Recyclarr |
+| `SONARR_API_KEY` | yes | — | Sonarr API key for Configarr |
+| `RADARR_API_KEY` | yes | — | Radarr API key for Configarr |
 | `TRACEARR_JWT_SECRET` | yes | — | JWT signing secret |
 | `TRACEARR_COOKIE_SECRET` | yes | — | Cookie encryption secret |
 | `*_PORT` | no | various | Published ports (see `.env`) |

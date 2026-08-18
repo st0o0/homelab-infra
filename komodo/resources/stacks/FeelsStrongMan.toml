@@ -219,10 +219,8 @@ SEERR_DB_PORT=[[FeelsStrongMan_postgres_port]]
 SEERR_DB_USER=[[FeelsStrongMan_seerr_db_user]]
 SEERR_DB_PASS=[[FeelsStrongMan_seerr_db_pass]]
 SEERR_DB_NAME=[[FeelsStrongMan_seerr_db_name]]
-# Recyclarr
-RECYCLARR_PORT=1079
-RECYCLARR_PATH_CONFIG=/docker/arr/recyclarr/config
-RECYCLARR_CRON_SCHEDULE="0 */6 * * *"
+# Configarr
+CONFIGARR_PATH_CONFIG=/docker/arr/configarr
 # Seekarr
 SEEKARR_PATH_CONFIG=/docker/arr/seekarr/config.yml
 SEEKARR_PATH_DATA=/docker/arr/seekarr/data
@@ -237,27 +235,11 @@ MEDIATHEKARR_PATH_TEMP=/mnt/ssd/mediathek_temp
 """
 
 [[stack.config.config_files]]
-path = "recyclarr/config/radarr-hd.yml"
+path = "configarr/sonarr.yml"
 requires = "Redeploy"
 
 [[stack.config.config_files]]
-path = "recyclarr/config/radarr-uhd.yml"
-requires = "Redeploy"
-
-[[stack.config.config_files]]
-path = "recyclarr/config/radarr-uhd-alt.yml"
-requires = "Redeploy"
-
-[[stack.config.config_files]]
-path = "recyclarr/config/sonarr-hd.yml"
-requires = "Redeploy"
-
-[[stack.config.config_files]]
-path = "recyclarr/config/sonarr-uhd.yml"
-requires = "Redeploy"
-
-[[stack.config.config_files]]
-path = "recyclarr/config/sonarr-uhd-alt.yml"
+path = "configarr/radarr.yml"
 requires = "Redeploy"
 
 [[stack.config.config_files]]
