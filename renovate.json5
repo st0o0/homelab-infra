@@ -55,8 +55,11 @@
       datasourceTemplate: 'docker',
     },
   ],
-  dependencyDashboardApproval: true,
   packageRules: [
+    {
+      matchUpdateTypes: ['major'],
+      dependencyDashboardApproval: true,
+    },
     {
       groupName: 'github-actions',
       matchManagers: [
