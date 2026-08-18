@@ -12,9 +12,9 @@
   prConcurrentLimit: 5,
   prHourlyLimit: 2,
   minimumReleaseAge: '3 days',
-  rebaseWhen: 'behind-base-branch',
+  rebaseWhen: 'conflicted',
   configMigration: true,
-  platformAutomerge: true,
+  platformAutomerge: false,
   commitMessagePrefix: 'chore(deps):',
   commitBody: '',
   assignees: ['st0o0'],
@@ -67,24 +67,7 @@
         'pin',
         'digest',
       ],
-      automerge: true,
-      automergeType: 'pr',
-    },
-    {
-      matchUpdateTypes: [
-        'minor',
-      ],
-      automerge: true,
-      automergeType: 'pr',
-      matchPackageNames: [
-        '!/postgres/',
-        '!/mongo/',
-        '!/redis/',
-        '!/valkey/',
-        '!/immich/',
-        '!/authentik/',
-        '!/vaultwarden/',
-      ],
+      automerge: false,
     },
     {
       matchUpdateTypes: [
