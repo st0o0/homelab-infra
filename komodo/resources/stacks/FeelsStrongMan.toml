@@ -165,6 +165,7 @@ run_directory = "stacks/arr"
 file_paths = ["compose.yml"]
 linked_repo = "homelab-infra"
 extra_args = ["--remove-orphans"]
+ignore_services = ["configarr"]
 environment = """
 PUID=[[puid]]
 PGID=[[pgid]]
