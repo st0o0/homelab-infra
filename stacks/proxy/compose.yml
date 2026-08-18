@@ -162,6 +162,9 @@ services:
         condition: service_healthy
     environment:
       - COLLECTIONS=crowdsecurity/caddy crowdsecurity/http-cve crowdsecurity/base-http-scenarios crowdsecurity/appsec-virtual-patching crowdsecurity/appsec-generic-rules crowdsecurity/appsec-crs
+      - ENROLL_KEY=${CROWDSEC_ENROLL_KEY:-}
+      - ENROLL_INSTANCE_NAME=${CROWDSEC_ENROLL_INSTANCE_NAME:-}
+      - ENROLL_TAGS=${CROWDSEC_ENROLL_TAGS:-}
       - GID=${PGID:-1000}
     volumes:
       - ./crowdsec/config.yaml.local:/etc/crowdsec/config.yaml.local:ro
