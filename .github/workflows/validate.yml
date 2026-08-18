@@ -11,6 +11,8 @@ jobs:
   validate:
     name: Lint & Validate
     runs-on: ubuntu-latest
+    env:
+      ALLOY_VERSION: v1.17.1 # renovate: datasource=docker depName=grafana/alloy
     steps:
       - uses: actions/checkout@v7
 
@@ -76,7 +78,7 @@ jobs:
           docker run --rm \
             -v "$PWD/stacks/proxy/alloy:/etc/alloy" \
             -v "$PWD/alloy/modules:/etc/alloy/modules:ro" \
-            grafana/alloy:v1.17.1 validate --stability.level=experimental /etc/alloy/
+            grafana/alloy:${{ env.ALLOY_VERSION }} validate --stability.level=experimental /etc/alloy/
 
       - name: Alloy validate (generic stack)
         id: alloy-generic
@@ -85,7 +87,7 @@ jobs:
           docker run --rm \
             -v "$PWD/stacks/alloy/alloy:/etc/alloy" \
             -v "$PWD/alloy/modules:/etc/alloy/modules:ro" \
-            grafana/alloy:v1.17.1 validate --stability.level=experimental /etc/alloy/
+            grafana/alloy:${{ env.ALLOY_VERSION }} validate --stability.level=experimental /etc/alloy/
 
       # ── Summary gate ──────────────────────────────────────
       - name: Check results

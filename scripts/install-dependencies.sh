@@ -75,7 +75,8 @@ sudo tar -xzf /tmp/age.tar.gz -C /usr/local/bin/ --strip-components=1 age/age ag
 rm /tmp/age.tar.gz
 
 echo "==> Installing glow (terminal markdown reader)..."
-GLOW_VERSION="2.0.0"
+# renovate: datasource=github-releases depName=charmbracelet/glow extractVersion=^v(?<version>.+)$
+GLOW_VERSION="3.0.0"
 curl -fsSL "https://github.com/charmbracelet/glow/releases/download/v${GLOW_VERSION}/glow_${GLOW_VERSION}_Linux_x86_64.tar.gz" \
     | sudo tar -xz -C /usr/local/bin/ --strip-components=1 "glow_${GLOW_VERSION}_Linux_x86_64/glow"
 
@@ -83,7 +84,8 @@ echo "==> Installing Komodo CLI..."
 curl -sSL https://raw.githubusercontent.com/moghtech/komodo/main/scripts/install-cli.py | sudo python3
 
 echo "==> Installing SOPS..."
-SOPS_VERSION="v3.9.4"
+# renovate: datasource=github-releases depName=getsops/sops
+SOPS_VERSION="v3.13.3"
 curl -fsSL "https://github.com/getsops/sops/releases/download/${SOPS_VERSION}/sops-${SOPS_VERSION}.linux.amd64" -o /tmp/sops
 sudo install -m 0755 /tmp/sops /usr/local/bin/sops
 rm /tmp/sops

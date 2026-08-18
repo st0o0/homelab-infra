@@ -46,13 +46,23 @@
     },
     {
       customType: 'regex',
+      description: 'Pinned versions in shell scripts with renovate comments',
+      managerFilePatterns: [
+        '/scripts/.+\\.sh$/',
+      ],
+      matchStrings: [
+        '#\\s*renovate:\\s*datasource=(?<datasource>\\S+)\\s+depName=(?<depName>\\S+)(?:\\s+extractVersion=(?<extractVersion>.+))?\\n\\w+="(?<currentValue>[^"]+)"',
+      ],
+    },
+    {
+      customType: 'regex',
+      description: 'Inline renovate comments in workflow files',
       managerFilePatterns: [
         '/\\.github/workflows/.+\\.yml$/',
       ],
       matchStrings: [
-        'docker run[^\\n]*\\s(?<depName>[a-z0-9][a-z0-9._/-]+):(?<currentValue>v?[\\d][\\d.]+[^\\s"\']*)',
+        ':\\s*"?(?<currentValue>v?\\d[\\d.]*[^\\s"\'#]*)"?\\s*#\\s*renovate:\\s*datasource=(?<datasource>\\S+)\\s+depName=(?<depName>\\S+)',
       ],
-      datasourceTemplate: 'docker',
     },
   ],
   packageRules: [
@@ -69,6 +79,12 @@
         'minor',
         'patch',
       ],
+    },
+    {
+      groupName: 'devcontainer-tooling',
+      matchManagers: ['custom.regex'],
+      matchManagerFilePatterns: ['/scripts/.+\\.sh$/'],
+      matchUpdateTypes: ['minor', 'patch'],
     },
     {
       matchPackageNames: [
