@@ -61,7 +61,7 @@ services:
       - ./realm-config/00-realm.yaml:/config/00-realm.yaml:ro
 
   step-ca:
-    image: smallstep/step-ca:0.28.6
+    image: smallstep/step-ca:0.30.2
     container_name: step-ca
     restart: unless-stopped
     logging: *default-logging
