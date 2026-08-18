@@ -15,7 +15,8 @@ filters:
 decisions:
   - type: ban
     scope: Ip
-    duration_expr: "Sprintf('%dh', 4 * (3 ^ GetDecisionsCount(Alert.GetValue())))"
+    duration: 4h
+duration_expr: "Sprintf('%dh', 4 * (3 ^ GetDecisionsCount(Alert.GetValue())))"
 notifications:
   - file_alerts
 on_success: break
