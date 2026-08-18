@@ -196,7 +196,7 @@ services:
 
   recyclarr:
     <<: *common
-    image: recyclarr/recyclarr:8.7.0
+    image: recyclarr/recyclarr:8.7.0@sha256:2d6107f758d882a59fe9d646aa54fa8a5a4fb7a40995125fade575652a3f7871
     container_name: recyclarr
     depends_on:
       sonarr:

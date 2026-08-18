@@ -1,4 +1,4 @@
-FROM caddy:builder AS builder
+FROM caddy:builder@sha256:522c540599fa8f6a340b18dea8ee12dfd9d8198347cefa2c4c54344159ae6c0b AS builder
 
 RUN xcaddy build \
     --with github.com/hslatman/caddy-crowdsec-bouncer/http@latest \
@@ -7,5 +7,5 @@ RUN xcaddy build \
     --with github.com/mholt/caddy-ratelimit@latest \
     --with github.com/mholt/caddy-l4@latest
 
-FROM caddy:latest
+FROM caddy:latest@sha256:df7f1c2fb114453b951de51a98efc010db1655a92c2e86be6706714e2417a78d
 COPY --from=builder /usr/bin/caddy /usr/bin/caddy

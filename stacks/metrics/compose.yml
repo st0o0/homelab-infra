@@ -52,7 +52,7 @@ services:
           memory: 256M
 
   victoriametrics:
-    image: victoriametrics/victoria-metrics:v1.148.0
+    image: victoriametrics/victoria-metrics:v1.148.0@sha256:407013e902f9a0ba1d4b2d4c077c47bbaf917c893c52ff39b19efe83a654afda
     container_name: victoriametrics
     restart: unless-stopped
     logging: *default-logging
@@ -92,7 +92,7 @@ services:
           memory: 1.5G
 
   vmalert:
-    image: victoriametrics/vmalert:v1.148.0
+    image: victoriametrics/vmalert:v1.148.0@sha256:268ab5df69360a236e1382db0dbde44d5c32362b85501f761d61fc25c76f05ce
     container_name: vmalert
     restart: unless-stopped
     logging: *default-logging
@@ -119,7 +119,7 @@ services:
           memory: 64M
 
   victorialogs:
-    image: victoriametrics/victoria-logs:v1.52.0
+    image: victoriametrics/victoria-logs:v1.52.0@sha256:47b820890d64c4575a2a0a46415dcd8a4fd59a0f1fcd6a377693d7aea639442e
     container_name: victorialogs
     restart: unless-stopped
     logging: *default-logging

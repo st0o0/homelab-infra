@@ -9,7 +9,7 @@ services:
       - MQTT_EXPORTER_TARGET=${ALLOY_MQTT_EXPORTER_TARGET:-mqtt-exporter:9234}
 
   mqtt-exporter:
-    image: sapcc/mosquitto-exporter:0.8.0
+    image: sapcc/mosquitto-exporter:0.8.0@sha256:241570341cd144c27ca0952255a2726a4964b7397bfed93a98707b32eb06858c
     container_name: mqtt-exporter
     restart: unless-stopped
     logging:
