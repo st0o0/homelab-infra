@@ -6,7 +6,7 @@ x-logging: &default-logging
 
 services:
   dbgate:
-    image: dbgate/dbgate:7.2.4
+    image: dbgate/dbgate:7.2.5@sha256:232dd7cb37706ef96bc41aae9ac8564cde2ebe4dc63ea72f70ebeb47383ee450
     container_name: dbgate
     restart: unless-stopped
     logging: *default-logging
