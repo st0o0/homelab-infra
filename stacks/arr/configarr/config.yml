@@ -45,12 +45,15 @@ sonarr:
 
     quality_profiles:
       - name: "[German] HD Bluray + WEB"
+        min_format_score: 10000
         reset_unmatched_scores:
           enabled: true
       - name: "[German] UHD Bluray + WEB"
+        min_format_score: 10000
         reset_unmatched_scores:
           enabled: true
       - name: "[German] UHD Bluray + WEB (Alternative)"
+        min_format_score: 10000
         reset_unmatched_scores:
           enabled: true
 
@@ -100,12 +103,15 @@ radarr:
 
     quality_profiles:
       - name: "[German] HD Bluray + WEB"
+        min_format_score: 10000
         reset_unmatched_scores:
           enabled: true
       - name: "[German] UHD Bluray + WEB"
+        min_format_score: 10000
         reset_unmatched_scores:
           enabled: true
       - name: "[German] UHD Bluray + WEB (Alternative)"
+        min_format_score: 10000
         reset_unmatched_scores:
           enabled: true
 
