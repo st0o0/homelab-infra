@@ -12,9 +12,9 @@ environment = """
 TZ=[[tz]]
 NTFY_BASE_URL=[[FeelsCozyMan_ntfy_base_url]]
 NTFY_PORT=8080
-NTFY_STEFAN_PASS=[[FeelsCozyMan_ntfy_stefan_pass]]
-NTFY_GRAFANA_PASS=[[FeelsCozyMan_ntfy_grafana_pass]]
-NTFY_GRAFANA_TOKEN=[[FeelsCozyMan_ntfy_grafana_token]]
+NTFY_AUTH_USERS=[[FeelsCozyMan_ntfy_auth_users]]
+NTFY_AUTH_ACCESS=[[FeelsCozyMan_ntfy_auth_access]]
+NTFY_AUTH_TOKENS=[[FeelsCozyMan_ntfy_auth_tokens]]
 """
 
 [[stack]]
