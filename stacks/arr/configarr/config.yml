@@ -1,0 +1,111 @@
+trashGuideUrl: https://github.com/TRaSH-Guides/Guides
+recyclarrConfigUrl: https://github.com/recyclarr/config-templates
+
+sonarr:
+  main:
+    base_url: !env SONARR_API_URL
+    api_key: !env SONARR_API_KEY
+
+    quality_definition:
+      type: series
+
+    media_naming:
+      series: default
+      season: default
+      episodes:
+        rename: true
+        standard: default
+        daily: default
+        anime: default
+
+    include:
+      - template: dca7e5e9e99c703bcbdaaa471dd40e98  # [German] HD Bluray + WEB
+        source: TRASH
+      - template: 3b0fa37fddaaefc931b75f2889d4b4f5  # [German] UHD Bluray + WEB
+        source: TRASH
+      - template: 7324309a7d1e10dc0dc2cea6c70ed852  # [German] UHD Bluray + WEB (Alternative)
+        source: TRASH
+
+    custom_formats:
+      - trash_ids:
+          - 158188097a58d7687dee647e04af0da3  # [Optional] Golden Rule HD
+        assign_scores_to:
+          - name: "[German] HD Bluray + WEB"
+      - trash_ids:
+          - e3f37512790f00d0e89e54fe5e790d1c  # [Optional] Golden Rule UHD
+        assign_scores_to:
+          - name: "[German] UHD Bluray + WEB"
+          - name: "[German] UHD Bluray + WEB (Alternative)"
+      - trash_ids:
+          - 6f0872eebfc95b1f93474b7ac866ced0  # [Unwanted] Unwanted Formats German
+        assign_scores_to:
+          - name: "[German] HD Bluray + WEB"
+          - name: "[German] UHD Bluray + WEB"
+          - name: "[German] UHD Bluray + WEB (Alternative)"
+
+    quality_profiles:
+      - name: "[German] HD Bluray + WEB"
+        reset_unmatched_scores:
+          enabled: true
+      - name: "[German] UHD Bluray + WEB"
+        reset_unmatched_scores:
+          enabled: true
+      - name: "[German] UHD Bluray + WEB (Alternative)"
+        reset_unmatched_scores:
+          enabled: true
+
+    delete_unmanaged_custom_formats:
+      enabled: true
+
+radarr:
+  main:
+    base_url: !env RADARR_API_URL
+    api_key: !env RADARR_API_KEY
+
+    quality_definition:
+      type: movie
+
+    media_naming:
+      folder: default
+      movie:
+        rename: true
+        standard: default
+
+    include:
+      - template: 2b90e905c99490edc7c7a5787443748b  # [German] HD Bluray + WEB
+        source: TRASH
+      - template: 27cc3d153c0a799fd139ef1ff4c4cc42  # [German] UHD Bluray + WEB
+        source: TRASH
+      - template: 425da1ba30711b55d2eb371437ec98d7  # [German] UHD Bluray + WEB (Alternative)
+        source: TRASH
+
+    custom_formats:
+      - trash_ids:
+          - f8bf8eab4617f12dfdbd16303d8da245  # [Optional] Golden Rule HD
+        assign_scores_to:
+          - name: "[German] HD Bluray + WEB"
+      - trash_ids:
+          - ff204bbcecdd487d1cefcefdbf0c278d  # [Optional] Golden Rule UHD
+        assign_scores_to:
+          - name: "[German] UHD Bluray + WEB"
+          - name: "[German] UHD Bluray + WEB (Alternative)"
+      - trash_ids:
+          - 0ca61b4b233178d07113082a7acff72d  # [Unwanted] Unwanted Formats German
+        assign_scores_to:
+          - name: "[German] HD Bluray + WEB"
+          - name: "[German] UHD Bluray + WEB"
+          - name: "[German] UHD Bluray + WEB (Alternative)"
+
+    quality_profiles:
+      - name: "[German] HD Bluray + WEB"
+        reset_unmatched_scores:
+          enabled: true
+      - name: "[German] UHD Bluray + WEB"
+        reset_unmatched_scores:
+          enabled: true
+      - name: "[German] UHD Bluray + WEB (Alternative)"
+        reset_unmatched_scores:
+          enabled: true
+
+    delete_unmanaged_custom_formats:
+      enabled: true
