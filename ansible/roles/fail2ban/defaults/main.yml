@@ -14,6 +14,6 @@ fail2ban_jails:
     filter: "sshd[mode=ddos]"
     logpath: /var/log/auth.log
     maxretry: 3
-    findtime: 30s
+    findtime: 10m
     bantime: 1h
 fail2ban_extra_jails: []

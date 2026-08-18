@@ -6,7 +6,7 @@ x-logging: &default-logging
 
 services:
   mjolnir:
-    image: ghcr.io/st0o0/mjolnir:0.1.1@sha256:3dff76887c5906ad4a30dc2cbb88f5d7718d5a1db04d64da03f697f9293c7960
+    image: ghcr.io/st0o0/mjolnir:0.1.3@sha256:a02a270a692f8fa1e410088ab6dbcf137be8a6f258aca76ce6dc35142e3d9b76
     container_name: mjolnir
     restart: unless-stopped
     logging: *default-logging
