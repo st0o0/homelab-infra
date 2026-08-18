@@ -1,5 +1,85 @@
 # ── FeelsCozyMan ──────────────────────────────────────────────────────────
 
+[[stack]]
+name = "ntfy-1"
+tags = ["infra"]
+[stack.config]
+server = "FeelsCozyMan"
+run_directory = "stacks/ntfy"
+file_paths = ["compose.yml"]
+linked_repo = "homelab-infra"
+environment = """
+TZ=[[tz]]
+NTFY_BASE_URL=[[FeelsCozyMan_ntfy_base_url]]
+NTFY_PORT=8080
+NTFY_STEFAN_PASS=[[FeelsCozyMan_ntfy_stefan_pass]]
+NTFY_GRAFANA_PASS=[[FeelsCozyMan_ntfy_grafana_pass]]
+NTFY_GRAFANA_TOKEN=[[FeelsCozyMan_ntfy_grafana_token]]
+"""
+
+[[stack]]
+name = "alloy-5"
+tags = ["monitoring"]
+[stack.config]
+server = "FeelsCozyMan"
+project_name = "alloy-5"
+run_directory = "stacks/alloy"
+file_paths = ["compose.yml"]
+linked_repo = "homelab-infra"
+extra_args = ["--remove-orphans"]
+environment = """
+TZ=[[tz]]
+ALLOY_REMOTE_WRITE_URL=[[metrics_remote_write_url]]
+ALLOY_LOGS_PUSH_URL=[[metrics_logs_push_url]]
+ALLOY_HOSTNAME=FeelsCozyMan
+ALLOY_SCRAPE_INTERVAL=30s
+GEOIPUPDATE_ACCOUNT_ID=[[maxmind_account_id]]
+GEOIPUPDATE_LICENSE_KEY=[[maxmind_license_key]]
+CADVISOR_HOUSEKEEPING_INTERVAL=30s
+CADVISOR_DOCKER_ONLY=true
+CADVISOR_DISABLE_METRICS=advtcp,cpu_topology,cpuset,hugetlb,memory_numa,process,referenced_memory,resctrl,sched,tcp,udp
+"""
+
+[[stack.config.config_files]]
+path = "../../alloy/modules/appsec.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "../../alloy/modules/caddy.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "../../alloy/modules/crowdsec.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "../../alloy/modules/fail2ban.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "../../alloy/modules/honeypot.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "../../alloy/modules/security.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "../../alloy/modules/ssh.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "../../alloy/modules/sudo.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "../../alloy/modules/syslog.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "../../alloy/modules/ufw.alloy"
+requires = "Redeploy"
+
 # [[stack]]
 # name = "renovate-1"
 # tags = ["infra"]

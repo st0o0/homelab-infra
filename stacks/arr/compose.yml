@@ -234,15 +234,48 @@ services:
     networks:
       - arr
 
-  pinchflat:
+  youtarr-db:
     <<: *common
-    image: ghcr.io/kieraneglin/pinchflat:latest@sha256:01b4f98aabaf3f5fe394213f7a32578c9e84e42080f52e2f8334021a4473b202
-    container_name: arr-pinchflat
-    ports:
-      - "${PINCHFLAT_PORT:-8945}:8945"
+    image: mariadb:10.11
+    container_name: arr-youtarr-db
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    environment:
+      MARIADB_ROOT_PASSWORD: ${YOUTARR_DB_ROOT_PASSWORD:?YOUTARR_DB_ROOT_PASSWORD is required}
+      MARIADB_DATABASE: ${YOUTARR_DB_NAME:-youtarr}
+      MARIADB_USER: ${YOUTARR_DB_USER:-youtarr}
+      MARIADB_PASSWORD: ${YOUTARR_DB_PASSWORD:?YOUTARR_DB_PASSWORD is required}
     volumes:
-      - ${PINCHFLAT_PATH_CONFIG:-./data/pinchflat/config}:/config
-      - media_smb:${ARR_MEDIA_PATH:-/data/media}
+      - ${YOUTARR_DB_PATH:-./data/youtarr/db}:/var/lib/mysql
+    networks:
+      - arr
+
+  youtarr:
+    <<: *common
+    image: dialmaster/youtarr:latest
+    container_name: arr-youtarr
+    depends_on:
+      youtarr-db:
+        condition: service_healthy
+    environment:
+      <<: *common-env
+      DB_HOST: youtarr-db
+      DB_PORT: "3306"
+      DB_USER: ${YOUTARR_DB_USER:-youtarr}
+      DB_PASSWORD: ${YOUTARR_DB_PASSWORD:?YOUTARR_DB_PASSWORD is required}
+      DB_NAME: ${YOUTARR_DB_NAME:-youtarr}
+      YOUTARR_UID: ${PUID:-1000}
+      YOUTARR_GID: ${PGID:-1000}
+    ports:
+      - "${YOUTARR_PORT:-3087}:3011"
+    volumes:
+      - ${YOUTARR_PATH_CONFIG:-./data/youtarr/config}:/app/config
+      - ${YOUTARR_PATH_JOBS:-./data/youtarr/jobs}:/app/jobs
+      - ${YOUTARR_PATH_DOWNLOADS:-/mnt/ssd/Videos}:/usr/src/app/data
     networks:
       - arr
       - media

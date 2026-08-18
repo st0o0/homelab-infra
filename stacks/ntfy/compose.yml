@@ -13,7 +13,6 @@ services:
     command: serve
     environment:
       - TZ=${TZ:-Europe/Berlin}
-      - NTFY_DATABASE_URL=${NTFY_DATABASE_URL:?NTFY_DATABASE_URL is required}
       - NTFY_STEFAN_PASS=${NTFY_STEFAN_PASS:?NTFY_STEFAN_PASS is required}
       - NTFY_GRAFANA_PASS=${NTFY_GRAFANA_PASS:?NTFY_GRAFANA_PASS is required}
       - NTFY_GRAFANA_TOKEN=${NTFY_GRAFANA_TOKEN:?NTFY_GRAFANA_TOKEN is required}
@@ -22,9 +21,6 @@ services:
       - ntfy-cache:/var/lib/ntfy/cache
     ports:
       - "${NTFY_PORT:-8080}:80"
-    networks:
-      - default
-      - db-net
     deploy:
       resources:
         limits:
@@ -35,7 +31,3 @@ services:
 
 volumes:
   ntfy-cache:
-
-networks:
-  db-net:
-    external: true

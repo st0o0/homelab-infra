@@ -224,9 +224,16 @@ CONFIGARR_PATH_CONFIG=/docker/arr/configarr
 # Seekarr
 SEEKARR_PATH_CONFIG=/docker/arr/seekarr/config.yml
 SEEKARR_PATH_DATA=/docker/arr/seekarr/data
-# Pinchflat
-PINCHFLAT_PORT=8945
-PINCHFLAT_PATH_CONFIG=/docker/arr/pinchflat/config
+# Youtarr
+YOUTARR_PORT=3087
+YOUTARR_PATH_CONFIG=/docker/arr/youtarr/config
+YOUTARR_PATH_JOBS=/docker/arr/youtarr/jobs
+YOUTARR_DB_PATH=/docker/arr/youtarr/db
+YOUTARR_DB_ROOT_PASSWORD=[[FeelsStrongMan_youtarr_db_root_pass]]
+YOUTARR_DB_PASSWORD=[[FeelsStrongMan_youtarr_db_pass]]
+YOUTARR_DB_USER=youtarr
+YOUTARR_DB_NAME=youtarr
+YOUTARR_PATH_DOWNLOADS=/mnt/ssd/Videos
 # Mediathekarr
 MEDIATHEKARR_PORT=1007
 MEDIATHEKARR_CATEGORIES=series,movies,custom
