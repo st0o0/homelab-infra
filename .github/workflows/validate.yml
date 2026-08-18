@@ -38,7 +38,7 @@ jobs:
       - name: Setup Docker Compose
         uses: docker/setup-compose-action@v1
         with:
-          version: "2.37.0" # renovate: depName=docker/compose
+          version: "5.4.0" # renovate: depName=docker/compose
 
       - name: Compose validate
         id: compose
