@@ -232,6 +232,7 @@ YOUTARR_DB_PASSWORD=[[FeelsStrongMan_youtarr_db_pass]]
 YOUTARR_DB_USER=youtarr
 YOUTARR_DB_NAME=youtarr
 YOUTARR_PATH_DOWNLOADS=/mnt/ssd/Videos
+YOUTARR_PATH_IMAGES=/docker/arr/youtarr/images
 # Mediathekarr
 MEDIATHEKARR_PORT=1007
 MEDIATHEKARR_CATEGORIES=series,movies,custom

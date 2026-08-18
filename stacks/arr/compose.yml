@@ -276,6 +276,7 @@ services:
       - ${YOUTARR_PATH_CONFIG:-./data/youtarr/config}:/app/config
       - ${YOUTARR_PATH_JOBS:-./data/youtarr/jobs}:/app/jobs
       - ${YOUTARR_PATH_DOWNLOADS:-/mnt/ssd/Videos}:/usr/src/app/data
+      - ${YOUTARR_PATH_IMAGES:-./data/youtarr/images}:/app/server/images
     networks:
       - arr
       - media
