@@ -458,6 +458,17 @@ lint-alloy:
         grafana/alloy:v1.17.1 validate /etc/alloy/
     echo "  ok  generic"
 
+# --- Utilities ---
+
+# Generate a bcrypt hash for a password (e.g. for ntfy auth-users)
+[no-exit-message, unix]
+hash PASSWORD:
+    printf '%s\n%s\n' '{{PASSWORD}}' '{{PASSWORD}}' | docker run --rm -i binwiederhier/ntfy:v2.27.0 user hash
+
+[no-exit-message, windows]
+hash PASSWORD:
+    @("{{PASSWORD}}","{{PASSWORD}}") -join "`n" | docker run --rm -i binwiederhier/ntfy:v2.27.0 user hash
+
 # --- Remote operations (km CLI) ---
 
 # Sync resource definitions from git into Komodo

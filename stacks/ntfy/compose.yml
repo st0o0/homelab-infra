@@ -14,9 +14,9 @@ services:
     command: serve
     environment:
       - TZ=${TZ:-Europe/Berlin}
-      - NTFY_STEFAN_PASS=${NTFY_STEFAN_PASS:?NTFY_STEFAN_PASS is required}
-      - NTFY_GRAFANA_PASS=${NTFY_GRAFANA_PASS:?NTFY_GRAFANA_PASS is required}
-      - NTFY_GRAFANA_TOKEN=${NTFY_GRAFANA_TOKEN:?NTFY_GRAFANA_TOKEN is required}
+      - NTFY_AUTH_USERS=${NTFY_AUTH_USERS:?NTFY_AUTH_USERS is required}
+      - NTFY_AUTH_ACCESS=${NTFY_AUTH_ACCESS:?NTFY_AUTH_ACCESS is required}
+      - NTFY_AUTH_TOKENS=${NTFY_AUTH_TOKENS:?NTFY_AUTH_TOKENS is required}
     volumes:
       - ./server.yml:/etc/ntfy/server.yml:ro
       - ntfy-cache:/var/lib/ntfy/cache

@@ -6,26 +6,3 @@ cache-file: "/var/lib/ntfy/cache/cache.db"
 auth-file: "/var/lib/ntfy/cache/auth.db"
 
 auth-default-access: "deny-all"
-
-auth-users:
-  - username: stefan
-    password: "${NTFY_STEFAN_PASS}"
-    role: admin
-
-  - username: grafana
-    password: "${NTFY_GRAFANA_PASS}"
-    role: user
-
-auth-access:
-  - username: grafana
-    topic: "alerts-*"
-    permission: write-only
-
-  - username: grafana
-    topic: "backup-*"
-    permission: write-only
-
-auth-tokens:
-  - username: grafana
-    label: grafana-contact-point
-    token: "${NTFY_GRAFANA_TOKEN}"
