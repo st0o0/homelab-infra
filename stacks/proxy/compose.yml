@@ -130,6 +130,8 @@ services:
       - CADDY_TARGET_IMMICH=${CADDY_TARGET_IMMICH:?CADDY_TARGET_IMMICH is required}
       - CADDY_DOMAIN_VAULTWARDEN=${CADDY_DOMAIN_VAULTWARDEN:?CADDY_DOMAIN_VAULTWARDEN is required}
       - CADDY_TARGET_VAULTWARDEN=${CADDY_TARGET_VAULTWARDEN:?CADDY_TARGET_VAULTWARDEN is required}
+      - CADDY_DOMAIN_KEYCLOAK=${CADDY_DOMAIN_KEYCLOAK:?CADDY_DOMAIN_KEYCLOAK is required}
+      - CADDY_TARGET_KEYCLOAK=${CADDY_TARGET_KEYCLOAK:?CADDY_TARGET_KEYCLOAK is required}
     healthcheck:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:2019/config/"]
       interval: 10s
@@ -139,6 +141,7 @@ services:
     volumes:
       - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
       - ./caddy/sites:/etc/caddy/sites:ro
+      - ./caddy/certs:/etc/caddy/certs:ro
       - /docker/proxy/caddy/data:/data
       - /docker/proxy/caddy/config:/config
       - /var/log/caddy:/var/log/caddy
