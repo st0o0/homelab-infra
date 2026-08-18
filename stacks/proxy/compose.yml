@@ -161,10 +161,7 @@ services:
       bifrost:
         condition: service_healthy
     environment:
-      - COLLECTIONS=crowdsecurity/caddy crowdsecurity/http-cve crowdsecurity/base-http-scenarios crowdsecurity/appsec-virtual-patching crowdsecurity/appsec-generic-rules crowdsecurity/appsec-crs
-      - ENROLL_KEY=${CROWDSEC_ENROLL_KEY:-}
-      - ENROLL_INSTANCE_NAME=${CROWDSEC_ENROLL_INSTANCE_NAME:-}
-      - ENROLL_TAGS=${CROWDSEC_ENROLL_TAGS:-}
+      - COLLECTIONS=crowdsecurity/caddy crowdsecurity/http-cve crowdsecurity/base-http-scenarios crowdsecurity/appsec-virtual-patching crowdsecurity/appsec-generic-rules crowdsecurity/appsec-crs crowdsecurity/linux crowdsecurity/whitelist-good-actors crowdsecurity/http-dos
       - GID=${PGID:-1000}
     volumes:
       - ./crowdsec/config.yaml.local:/etc/crowdsec/config.yaml.local:ro
@@ -176,6 +173,7 @@ services:
       - /docker/proxy/crowdsec/data:/var/lib/crowdsec/data
       - /docker/proxy/crowdsec/config:/etc/crowdsec
       - /var/log/caddy:/var/log/caddy:ro
+      - /var/log:/var/log/host:ro
       - /var/log/crowdsec:/var/log/crowdsec
     healthcheck:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8180/health"]

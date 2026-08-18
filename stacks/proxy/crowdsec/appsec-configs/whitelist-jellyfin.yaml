@@ -14,3 +14,10 @@ pre_eval:
       req.URL.Path startsWith "/Sessions/"
     apply:
       - RemoveOutBandRuleByID(932370)
+  # PlayingItems position reports trigger 901340 (anomaly score out-of-band)
+  - filter: >-
+      IsOutBand == true &&
+      req.Host contains "media." &&
+      req.URL.Path startsWith "/PlayingItems/"
+    apply:
+      - RemoveOutBandRuleByID(901340)

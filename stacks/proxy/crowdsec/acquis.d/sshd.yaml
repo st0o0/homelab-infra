@@ -1,0 +1,5 @@
+filenames:
+  - /var/log/host/auth.log
+labels:
+  type: syslog
+poll_without_inotify: true
