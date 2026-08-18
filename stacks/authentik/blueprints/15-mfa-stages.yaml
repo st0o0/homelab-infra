@@ -44,7 +44,7 @@ entries:
         - totp
         - webauthn
         - static
-      not_configured_action: skip
+      not_configured_action: force_configure
       configuration_stages:
         - !KeyOf totp-setup
         - !KeyOf webauthn-setup

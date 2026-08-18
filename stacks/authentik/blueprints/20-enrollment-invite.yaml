@@ -58,4 +58,11 @@ entries:
       target: !KeyOf flow
       order: 40
     attrs:
+      stage: !Find [authentik_stages_authenticator_webauthn.authenticatorwebauthnstage, [name, mfa-webauthn-setup]]
+
+  - model: authentik_flows.flowstagebinding
+    identifiers:
+      target: !KeyOf flow
+      order: 50
+    attrs:
       stage: !Find [authentik_stages_user_login.userloginstage, [name, enrollment-login]]
