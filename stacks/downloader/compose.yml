@@ -35,7 +35,7 @@ services:
           - nzbget
 
   nzbget:
-    image: nzbgetcom/nzbget:v24.8
+    image: nzbgetcom/nzbget:v24.8@sha256:c21a1dc5592aa20b3467b97e728bf16fa1a79f1081041ec1774e9b282fae3fb8
     container_name: nzbget
     restart: unless-stopped
     logging: *default-logging

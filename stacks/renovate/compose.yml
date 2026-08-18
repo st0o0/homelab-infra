@@ -6,7 +6,7 @@ x-logging: &default-logging
 
 services:
   ofelia:
-    image: mcuadros/ofelia:latest
+    image: mcuadros/ofelia:latest@sha256:efcbe2c5cf658a25de6443c1462d653f9cc03791d642e01fc6c638a00f97e492
     container_name: ofelia
     restart: unless-stopped
     logging: *default-logging
