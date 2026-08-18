@@ -56,6 +56,8 @@ sonarr:
 
     delete_unmanaged_custom_formats:
       enabled: true
+    delete_unmanaged_quality_profiles:
+      enabled: true
 
 radarr:
   main:
@@ -108,4 +110,6 @@ radarr:
           enabled: true
 
     delete_unmanaged_custom_formats:
+      enabled: true
+    delete_unmanaged_quality_profiles:
       enabled: true
