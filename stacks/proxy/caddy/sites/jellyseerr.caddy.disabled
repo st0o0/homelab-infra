@@ -8,7 +8,6 @@
 
 		reverse_proxy {$CADDY_TARGET_JELLYSEERR} {
 			header_up X-Real-IP {remote_host}
-			header_up X-Forwarded-For {remote_host}
 		}
 	}
 }
