@@ -1,0 +1,30 @@
+base-url: "${NTFY_BASE_URL:-http://localhost:8080}"
+listen-http: ":80"
+behind-proxy: true
+
+database-url: "${NTFY_DATABASE_URL}"
+
+auth-default-access: "deny-all"
+
+auth-users:
+  - username: stefan
+    password: "${NTFY_STEFAN_PASS}"
+    role: admin
+
+  - username: grafana
+    password: "${NTFY_GRAFANA_PASS}"
+    role: user
+
+auth-access:
+  - username: grafana
+    topic: "alerts-*"
+    permission: write-only
+
+  - username: grafana
+    topic: "backup-*"
+    permission: write-only
+
+auth-tokens:
+  - username: grafana
+    label: grafana-contact-point
+    token: "${NTFY_GRAFANA_TOKEN}"

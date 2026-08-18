@@ -11,6 +11,8 @@ deleteRules:
     uid: container-unhealthy
   - orgId: 1
     uid: vm-not-backed-up
+  - orgId: 1
+    uid: pihole-down
 
 groups:
   - orgId: 1
@@ -463,45 +465,6 @@ groups:
                     type: last
               refId: C
 
-      - uid: pihole-down
-        title: PiholeDown
-        condition: C
-        for: 2m
-        is_paused: true
-        labels:
-          severity: critical
-        annotations:
-          summary: "Pi-hole exporter scrape failed — DNS may be down"
-        data:
-          - refId: A
-            relativeTimeRange:
-              from: 300
-              to: 0
-            datasourceUid: victoriametrics
-            model:
-              expr: up{job="pihole"}
-              instant: true
-              refId: A
-          - refId: C
-            relativeTimeRange:
-              from: 0
-              to: 0
-            datasourceUid: "-100"
-            model:
-              type: threshold
-              expression: "A"
-              conditions:
-                - evaluator:
-                    type: lt
-                    params: [1]
-                  operator:
-                    type: and
-                  query:
-                    params: [A]
-                  reducer:
-                    type: last
-              refId: C
-
   - orgId: 1
     name: proxmox
     folder: Homelab Alerts
@@ -696,6 +659,260 @@ groups:
                 - evaluator:
                     type: gt
                     params: [95]
+                  operator:
+                    type: and
+                  query:
+                    params: [A]
+                  reducer:
+                    type: last
+              refId: C
+
+  - orgId: 1
+    name: ups
+    folder: Homelab Alerts
+    interval: 1m
+    rules:
+      - uid: ups-on-battery
+        title: UpsOnBattery
+        condition: C
+        for: 30s
+        is_paused: true
+        labels:
+          severity: critical
+        annotations:
+          summary: "UPS is on battery power"
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: victoriametrics
+            model:
+              expr: network_ups_tools_ups_status{job="prometheus.scrape.nut", flag="OL"}
+              instant: true
+              refId: A
+          - refId: C
+            relativeTimeRange:
+              from: 0
+              to: 0
+            datasourceUid: "-100"
+            model:
+              type: threshold
+              expression: "A"
+              conditions:
+                - evaluator:
+                    type: lt
+                    params: [1]
+                  operator:
+                    type: and
+                  query:
+                    params: [A]
+                  reducer:
+                    type: last
+              refId: C
+
+      - uid: ups-low-battery
+        title: UpsLowBattery
+        condition: C
+        for: 1m
+        is_paused: true
+        labels:
+          severity: critical
+        annotations:
+          summary: "UPS battery charge at {{ $value }}%"
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: victoriametrics
+            model:
+              expr: network_ups_tools_battery_charge{job="prometheus.scrape.nut"}
+              instant: true
+              refId: A
+          - refId: C
+            relativeTimeRange:
+              from: 0
+              to: 0
+            datasourceUid: "-100"
+            model:
+              type: threshold
+              expression: "A"
+              conditions:
+                - evaluator:
+                    type: lt
+                    params: [30]
+                  operator:
+                    type: and
+                  query:
+                    params: [A]
+                  reducer:
+                    type: last
+              refId: C
+
+  - orgId: 1
+    name: tunnel
+    folder: Homelab Alerts
+    interval: 1m
+    rules:
+      - uid: tunnel-down
+        title: TunnelDown
+        condition: C
+        for: 2m
+        is_paused: true
+        labels:
+          severity: critical
+        annotations:
+          summary: "WireGuard tunnel (Bifrost) is down"
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: victoriametrics
+            model:
+              expr: bifrost_tunnel_up
+              instant: true
+              refId: A
+          - refId: C
+            relativeTimeRange:
+              from: 0
+              to: 0
+            datasourceUid: "-100"
+            model:
+              type: threshold
+              expression: "A"
+              conditions:
+                - evaluator:
+                    type: lt
+                    params: [1]
+                  operator:
+                    type: and
+                  query:
+                    params: [A]
+                  reducer:
+                    type: last
+              refId: C
+
+      - uid: tunnel-handshake-stale
+        title: TunnelHandshakeStale
+        condition: C
+        for: 2m
+        is_paused: true
+        labels:
+          severity: critical
+        annotations:
+          summary: "WireGuard peer handshake is {{ $value }}s old — tunnel may be dead"
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: victoriametrics
+            model:
+              expr: bifrost_peer_last_handshake_age_seconds
+              instant: true
+              refId: A
+          - refId: C
+            relativeTimeRange:
+              from: 0
+              to: 0
+            datasourceUid: "-100"
+            model:
+              type: threshold
+              expression: "A"
+              conditions:
+                - evaluator:
+                    type: gt
+                    params: [300]
+                  operator:
+                    type: and
+                  query:
+                    params: [A]
+                  reducer:
+                    type: last
+              refId: C
+
+  - orgId: 1
+    name: observability
+    folder: Homelab Alerts
+    interval: 1m
+    rules:
+      - uid: vm-storage-full
+        title: VmStorageFull
+        condition: C
+        for: 5m
+        is_paused: true
+        labels:
+          severity: critical
+        annotations:
+          summary: "VictoriaMetrics storage is {{ $value }}% full"
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: victoriametrics
+            model:
+              expr: (1 - vm_free_disk_space_bytes / vm_total_disk_space_bytes) * 100
+              instant: true
+              refId: A
+          - refId: C
+            relativeTimeRange:
+              from: 0
+              to: 0
+            datasourceUid: "-100"
+            model:
+              type: threshold
+              expression: "A"
+              conditions:
+                - evaluator:
+                    type: gt
+                    params: [90]
+                  operator:
+                    type: and
+                  query:
+                    params: [A]
+                  reducer:
+                    type: last
+              refId: C
+
+  - orgId: 1
+    name: dns
+    folder: Homelab Alerts
+    interval: 1m
+    rules:
+      - uid: pihole-all-down
+        title: PiholeAllDown
+        condition: C
+        for: 2m
+        is_paused: true
+        labels:
+          severity: critical
+        annotations:
+          summary: "All Pi-hole instances are down — DNS is unavailable"
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: victoriametrics
+            model:
+              expr: count(pihole_status == 1) or vector(0)
+              instant: true
+              refId: A
+          - refId: C
+            relativeTimeRange:
+              from: 0
+              to: 0
+            datasourceUid: "-100"
+            model:
+              type: threshold
+              expression: "A"
+              conditions:
+                - evaluator:
+                    type: lt
+                    params: [1]
                   operator:
                     type: and
                   query:

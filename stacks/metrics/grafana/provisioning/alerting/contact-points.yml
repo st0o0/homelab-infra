@@ -1,17 +1,17 @@
 apiVersion: 1
 
+deleteContactPoints:
+  - orgId: 1
+    uid: discord-homelab
+
 contactPoints:
   - orgId: 1
-    name: discord
+    name: ntfy
     receivers:
-      - uid: discord-homelab
-        type: discord
+      - uid: ntfy-homelab
+        type: webhook
         settings:
-          url: $DISCORD_WEBHOOK_URL
-          use_discord_username: true
-          message: |
-            {{ range .Alerts }}
-            **{{ .Status | toUpper }}** {{ if eq .Status "firing" }}🔥{{ else }}✅{{ end }}
-            **{{ .Labels.alertname }}** on `{{ .Labels.host }}`
-            {{ .Annotations.summary }}
-            {{ end }}
+          url: $NTFY_WEBHOOK_URL
+          httpMethod: POST
+          authorization_scheme: Bearer
+          authorization_credentials: $NTFY_WEBHOOK_TOKEN

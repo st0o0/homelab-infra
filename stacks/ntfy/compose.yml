@@ -1,0 +1,41 @@
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: 10m
+    max-file: "3"
+
+services:
+  ntfy:
+    image: binwiederhier/ntfy:v2.27.0@sha256:47a51000dcd69b4ccd15d7f7b10ea410b9a065688bf64ab5f4861817a85b4813
+    container_name: ntfy
+    restart: unless-stopped
+    logging: *default-logging
+    command: serve
+    environment:
+      - TZ=${TZ:-Europe/Berlin}
+      - NTFY_DATABASE_URL=${NTFY_DATABASE_URL:?NTFY_DATABASE_URL is required}
+      - NTFY_STEFAN_PASS=${NTFY_STEFAN_PASS:?NTFY_STEFAN_PASS is required}
+      - NTFY_GRAFANA_PASS=${NTFY_GRAFANA_PASS:?NTFY_GRAFANA_PASS is required}
+      - NTFY_GRAFANA_TOKEN=${NTFY_GRAFANA_TOKEN:?NTFY_GRAFANA_TOKEN is required}
+    volumes:
+      - ./server.yml:/etc/ntfy/server.yml:ro
+      - ntfy-cache:/var/lib/ntfy/cache
+    ports:
+      - "${NTFY_PORT:-8080}:80"
+    networks:
+      - default
+      - db-net
+    deploy:
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: 128M
+        reservations:
+          memory: 64M
+
+volumes:
+  ntfy-cache:
+
+networks:
+  db-net:
+    external: true
