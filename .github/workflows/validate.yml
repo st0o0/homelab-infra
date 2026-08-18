@@ -74,9 +74,8 @@ jobs:
         continue-on-error: true
         run: |
           docker run --rm \
-            -v "$PWD/stacks/proxy/alloy:/etc/alloy:ro" \
+            -v "$PWD/stacks/proxy/alloy:/etc/alloy" \
             -v "$PWD/alloy/modules:/etc/alloy/modules:ro" \
-            -v "$PWD/alloy/pipelines:/etc/alloy/pipelines:ro" \
             grafana/alloy:v1.17.1 validate /etc/alloy/
 
       - name: Alloy validate (generic stack)
@@ -84,7 +83,7 @@ jobs:
         continue-on-error: true
         run: |
           docker run --rm \
-            -v "$PWD/stacks/alloy/alloy:/etc/alloy:ro" \
+            -v "$PWD/stacks/alloy/alloy:/etc/alloy" \
             -v "$PWD/alloy/modules:/etc/alloy/modules:ro" \
             grafana/alloy:v1.17.1 validate /etc/alloy/
 
