@@ -1,0 +1,33 @@
+{$CADDY_DOMAIN_VAULTWARDEN} {
+	import defaults
+	import access-geo-dach
+
+	header {
+		Permissions-Policy "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()"
+		X-Robots-Tag "noindex, nofollow"
+	}
+
+	tls {
+		client_auth {
+			mode require_and_verify
+			trust_pool file /etc/caddy/certs/keycloak-client-ca.crt
+		}
+	}
+
+	@api path /api/* /identity/* /icons/* /notifications/hub /alive
+	route @api {
+		import ratelimit-default vaultwarden_api
+		reverse_proxy {$CADDY_TARGET_VAULTWARDEN} {
+			header_up X-Real-IP {remote_host}
+			header_up X-Forwarded-For {remote_host}
+		}
+	}
+
+	route {
+		import ratelimit-strict vaultwarden
+		reverse_proxy {$CADDY_TARGET_VAULTWARDEN} {
+			header_up X-Real-IP {remote_host}
+			header_up X-Forwarded-For {remote_host}
+		}
+	}
+}

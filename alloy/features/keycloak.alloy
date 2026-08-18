@@ -1,0 +1,16 @@
+discovery.relabel "keycloak" {
+  targets = [{
+    __address__ = coalesce(sys.env("KEYCLOAK_METRICS_TARGET"), "keycloak:9000"),
+  }]
+  rule {
+    replacement  = sys.env("HOST_HOSTNAME")
+    target_label = "instance"
+  }
+}
+
+prometheus.scrape "keycloak" {
+  targets         = discovery.relabel.keycloak.output
+  forward_to      = [prometheus.remote_write.central.receiver]
+  scrape_interval = coalesce(sys.env("SCRAPE_INTERVAL"), "30s")
+  job_name        = "keycloak"
+}

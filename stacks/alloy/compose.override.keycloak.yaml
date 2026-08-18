@@ -1,0 +1,13 @@
+services:
+  alloy:
+    volumes:
+      - ../../alloy/features/keycloak.alloy:/etc/alloy/keycloak.alloy
+    environment:
+      - KEYCLOAK_METRICS_TARGET=${ALLOY_KEYCLOAK_METRICS_TARGET:-keycloak:9000}
+    networks:
+      - default
+      - keycloak-net
+
+networks:
+  keycloak-net:
+    external: true

@@ -1,0 +1,85 @@
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: 10m
+    max-file: "3"
+
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.7.0
+    container_name: keycloak
+    restart: unless-stopped
+    logging: *default-logging
+    command: start --http-enabled=true --hostname-strict=false --proxy-headers=xforwarded
+    environment:
+      - KC_DB=postgres
+      - KC_DB_URL=${KC_DB_URL:?KC_DB_URL is required}
+      - KC_DB_USERNAME=${KC_DB_USERNAME:?KC_DB_USERNAME is required}
+      - KC_DB_PASSWORD=${KC_DB_PASSWORD:?KC_DB_PASSWORD is required}
+      - KC_HEALTH_ENABLED=true
+      - KC_METRICS_ENABLED=true
+      - KC_HTTP_PORT=8080
+      - KC_LOG_LEVEL=${KC_LOG_LEVEL:-warn}
+      - KC_SPI_X509CERT_LOOKUP_PROVIDER=haproxy
+      - KC_SPI_X509CERT_LOOKUP_HAPROXY_SSL_CLIENT_CERT=X-SSL-Client-Cert
+      - KC_SPI_X509CERT_LOOKUP_HAPROXY_SSL_CERT_CHAIN_PREFIX=
+      - KC_SPI_X509CERT_LOOKUP_HAPROXY_CERTIFICATE_CHAIN_LENGTH=0
+      - KEYCLOAK_ADMIN=${KC_ADMIN_USER:?KC_ADMIN_USER is required}
+      - KEYCLOAK_ADMIN_PASSWORD=${KC_ADMIN_PASSWORD:?KC_ADMIN_PASSWORD is required}
+    ports:
+      - "${KC_PORT:-8080}:8080"
+    networks:
+      - default
+    healthcheck:
+      test: ["CMD-SHELL", "exec 3<>/dev/tcp/localhost/9000 && echo -e 'GET /health/ready HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n' >&3 && cat <&3 | grep -q '\"status\":\"UP\"'"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: "1.00"
+          memory: 1024M
+        reservations:
+          memory: 512M
+
+  config-cli:
+    image: adorsys/keycloak-config-cli:latest-26
+    container_name: keycloak-config-cli
+    logging: *default-logging
+    depends_on:
+      keycloak:
+        condition: service_healthy
+    environment:
+      - KEYCLOAK_URL=http://keycloak:8080
+      - KEYCLOAK_USER=${KC_ADMIN_USER:?KC_ADMIN_USER is required}
+      - KEYCLOAK_PASSWORD=${KC_ADMIN_PASSWORD:?KC_ADMIN_PASSWORD is required}
+      - KEYCLOAK_AVAILABILITYCHECK_ENABLED=true
+      - IMPORT_FILES_LOCATIONS=/config/*
+    volumes:
+      - ./realm-config/00-realm.yaml:/config/00-realm.yaml:ro
+
+  step-ca:
+    image: smallstep/step-ca:0.28.6
+    container_name: step-ca
+    restart: unless-stopped
+    logging: *default-logging
+    environment:
+      - TZ=${TZ:-Europe/Berlin}
+      - DOCKER_STEPCA_INIT_NAME=${STEPCA_NAME:-Sloth Homelab CA}
+      - DOCKER_STEPCA_INIT_DNS_NAMES=${STEPCA_DNS_NAMES:?STEPCA_DNS_NAMES is required}
+      - DOCKER_STEPCA_INIT_PROVISIONER_NAME=${STEPCA_PROVISIONER_NAME:-admin}
+      - DOCKER_STEPCA_INIT_PASSWORD=${STEPCA_PASSWORD:?STEPCA_PASSWORD is required}
+    volumes:
+      - /docker/keycloak/step-ca:/home/step
+    ports:
+      - "${STEPCA_PORT:-9000}:9000"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: 128M
+        reservations:
+          memory: 64M
+

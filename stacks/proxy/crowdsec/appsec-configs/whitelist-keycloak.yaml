@@ -1,0 +1,17 @@
+name: custom/whitelist-keycloak
+
+pre_eval:
+  - filter: >-
+      IsInBand == true &&
+      req.Host contains "keycloak." &&
+      req.URL.Path startsWith "/admin/realms/"
+    apply:
+      - RemoveInBandRuleByID(911100)
+      - RemoveInBandRuleByID(901340)
+  - filter: >-
+      IsOutBand == true &&
+      req.Host contains "keycloak." &&
+      req.URL.Path startsWith "/admin/realms/"
+    apply:
+      - RemoveOutBandRuleByID(911100)
+      - RemoveOutBandRuleByID(901340)

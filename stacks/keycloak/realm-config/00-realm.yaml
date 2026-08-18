@@ -1,0 +1,178 @@
+realm: homelab
+enabled: true
+displayName: Sloth Homelab
+
+# Login settings
+registrationAllowed: false
+verifyEmail: true
+registrationEmailAsUsername: false
+loginWithEmailAllowed: true
+duplicateEmailsAllowed: false
+resetPasswordAllowed: true
+editUsernameAllowed: false
+rememberMe: true
+
+# Session timeouts
+ssoSessionIdleTimeout: 28800       # 8 hours
+ssoSessionMaxLifespan: 2592000     # 30 days
+accessTokenLifespan: 300           # 5 minutes
+accessCodeLifespan: 60             # 1 minute
+
+# Brute force protection
+bruteForceProtected: true
+permanentLockout: true
+maxFailureWaitSeconds: 900
+minimumQuickLoginWaitSeconds: 60
+waitIncrementSeconds: 60
+quickLoginCheckMilliSeconds: 1000
+maxDeltaTimeSeconds: 43200
+failureFactor: 5
+
+# Password policy
+passwordPolicy: "length(12) and upperCase(1) and lowerCase(1) and digits(1) and notUsername and passwordHistory(3)"
+
+# OTP policy
+otpPolicyType: totp
+otpPolicyAlgorithm: HmacSHA1
+otpPolicyDigits: 6
+otpPolicyPeriod: 30
+otpPolicyInitialCounter: 0
+otpPolicyLookAheadWindow: 1
+
+# WebAuthn policy
+webAuthnPolicyRpEntityName: Sloth Homelab
+webAuthnPolicySignatureAlgorithms:
+  - ES256
+webAuthnPolicyAttestationConveyancePreference: not specified
+webAuthnPolicyAuthenticatorAttachment: not specified
+webAuthnPolicyRequireResidentKey: not specified
+webAuthnPolicyUserVerificationRequirement: preferred
+
+# Groups
+groups:
+  - name: tier-guest
+    subGroups:
+      - name: tier-media
+        subGroups:
+          - name: tier-homelab
+
+# Realm roles
+roles:
+  realm:
+    - name: tier-guest
+      description: Guest access tier
+    - name: tier-media
+      description: Media access tier
+      composite: true
+      composites:
+        realm:
+          - tier-guest
+    - name: tier-homelab
+      description: Homelab admin access tier
+      composite: true
+      composites:
+        realm:
+          - tier-media
+
+# Default group role mappings
+defaultGroups:
+  - tier-guest
+
+# Scope mappings
+clientScopes:
+  - name: groups
+    description: Group memberships
+    protocol: openid-connect
+    attributes:
+      include.in.token.scope: "true"
+      display.on.consent.screen: "false"
+    protocolMappers:
+      - name: groups
+        protocol: openid-connect
+        protocolMapper: oidc-group-membership-mapper
+        config:
+          full.path: "false"
+          id.token.claim: "true"
+          access.token.claim: "true"
+          claim.name: groups
+          userinfo.token.claim: "true"
+
+# Authentication flows
+authenticationFlows:
+  - alias: browser-with-x509
+    description: Browser flow with optional X.509 client certificate authentication
+    providerId: basic-flow
+    topLevel: true
+    builtIn: false
+    authenticationExecutions:
+      - authenticator: auth-cookie
+        requirement: ALTERNATIVE
+        priority: 10
+        authenticatorFlow: false
+      - authenticator: auth-x509-client-username-form
+        requirement: ALTERNATIVE
+        priority: 20
+        authenticatorFlow: false
+        authenticatorConfig: x509-config
+      - flowAlias: browser-with-x509-forms
+        requirement: ALTERNATIVE
+        priority: 30
+        authenticatorFlow: true
+
+  - alias: browser-with-x509-forms
+    description: Username/password and MFA subflow
+    providerId: basic-flow
+    topLevel: false
+    builtIn: false
+    authenticationExecutions:
+      - authenticator: auth-username-password-form
+        requirement: REQUIRED
+        priority: 10
+        authenticatorFlow: false
+      - flowAlias: browser-with-x509-mfa
+        requirement: CONDITIONAL
+        priority: 20
+        authenticatorFlow: true
+
+  - alias: browser-with-x509-mfa
+    description: MFA conditional subflow
+    providerId: basic-flow
+    topLevel: false
+    builtIn: false
+    authenticationExecutions:
+      - authenticator: conditional-user-configured
+        requirement: REQUIRED
+        priority: 10
+        authenticatorFlow: false
+      - authenticator: auth-otp-form
+        requirement: ALTERNATIVE
+        priority: 20
+        authenticatorFlow: false
+      - authenticator: webauthn-authenticator
+        requirement: ALTERNATIVE
+        priority: 30
+        authenticatorFlow: false
+
+authenticatorConfig:
+  - alias: x509-config
+    config:
+      x509-cert-auth.canonical-dn-enabled: "false"
+      x509-cert-auth.serialnumber-hex-enabled: "false"
+      x509-cert-auth.regular-expression: "(.*?)(?:$)"
+      x509-cert-auth.mapper-selection: "Username or Email"
+      x509-cert-auth.mapper-selection.user-attribute-name: "usercertificate"
+      x509-cert-auth.mapping-source-selection: "Subject's Common Name"
+      x509-cert-auth.crl-checking-enabled: "false"
+      x509-cert-auth.crldp-checking-enabled: "false"
+      x509-cert-auth.ocsp-checking-enabled: "false"
+      x509-cert-auth.ocsp-fail-open: "false"
+      x509-cert-auth.timestamp-validation-enabled: "true"
+      x509-cert-auth.confirmation-page-disallowed: "true"
+      x509-cert-auth.revalidate-certificate-enabled: "true"
+
+# Bind custom browser flow
+browserFlow: browser-with-x509
+
+# Events
+eventsEnabled: false
+adminEventsEnabled: false

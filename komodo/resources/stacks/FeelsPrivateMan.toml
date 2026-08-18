@@ -68,6 +68,8 @@ CADDY_DOMAIN_VAULTWARDEN=[[FeelsPrivateMan_caddy_domain_vaultwarden]]
 CADDY_TARGET_VAULTWARDEN=[[FeelsPrivateMan_caddy_target_vaultwarden]]
 CADDY_DOMAIN_AUTHENTIK=[[FeelsPrivateMan_caddy_domain_authentik]]
 CADDY_TARGET_AUTHENTIK=[[FeelsPrivateMan_caddy_target_authentik]]
+CADDY_DOMAIN_KEYCLOAK=[[FeelsPrivateMan_caddy_domain_keycloak]]
+CADDY_TARGET_KEYCLOAK=[[FeelsPrivateMan_caddy_target_keycloak]]
 """
 
 [[stack.config.config_files]]

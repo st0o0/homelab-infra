@@ -1,0 +1,30 @@
+realm: homelab
+
+smtpServer:
+  host: "${KC_SMTP_HOST}"
+  port: "${KC_SMTP_PORT}"
+  from: "${KC_SMTP_FROM}"
+  fromDisplayName: Sloth Homelab
+  auth: "true"
+  user: "${KC_SMTP_USER}"
+  password: "${KC_SMTP_PASSWORD}"
+  ssl: "false"
+  starttls: "true"
+
+requiredActions:
+  - alias: UPDATE_PASSWORD
+    name: Update Password
+    enabled: true
+    defaultAction: false
+  - alias: CONFIGURE_TOTP
+    name: Configure OTP
+    enabled: true
+    defaultAction: false
+  - alias: VERIFY_EMAIL
+    name: Verify Email
+    enabled: true
+    defaultAction: false
+  - alias: webauthn-register
+    name: WebAuthn Register
+    enabled: true
+    defaultAction: false

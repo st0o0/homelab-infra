@@ -1,0 +1,10 @@
+services:
+  config-cli:
+    environment:
+      - KC_SMTP_HOST=${KC_SMTP_HOST}
+      - KC_SMTP_PORT=${KC_SMTP_PORT}
+      - KC_SMTP_FROM=${KC_SMTP_FROM}
+      - KC_SMTP_USER=${KC_SMTP_USER}
+      - KC_SMTP_PASSWORD=${KC_SMTP_PASSWORD}
+    volumes:
+      - ./realm-config/10-smtp.yaml:/config/10-smtp.yaml:ro

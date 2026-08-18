@@ -10,6 +10,7 @@ run_directory = "stacks/alloy"
 file_paths = [
   "compose.yml",
   "compose.override.authentik.yaml",
+  "compose.override.keycloak.yaml",
 ]
 linked_repo = "homelab-infra"
 extra_args = ["--remove-orphans"]
@@ -72,12 +73,16 @@ path = "../../alloy/features/authentik.alloy"
 requires = "Redeploy"
 
 [[stack.config.config_files]]
+path = "../../alloy/features/keycloak.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
 path = "../../alloy/features/jellyfin.alloy"
 requires = "Redeploy"
 
 [stack.config.pre_deploy]
 path = "."
-command = "for net in authentik-net media-net arr-net immich-net; do docker network create $net 2>/dev/null || true; done"
+command = "for net in authentik-net keycloak-net media-net arr-net immich-net; do docker network create $net 2>/dev/null || true; done"
 
 [[stack]]
 name = "authentik-1"
@@ -154,6 +159,38 @@ AUTHENTIK_PROVIDER_KOMODO_CLIENT_ID=[[FeelsStrongMan_authentik_provider_komodo_c
 AUTHENTIK_PROVIDER_KOMODO_CLIENT_SECRET=[[FeelsStrongMan_authentik_provider_komodo_client_secret]]
 AUTHENTIK_PROVIDER_KOMODO_REDIRECT_URI=[[FeelsStrongMan_authentik_provider_komodo_redirect_uri]]
 """
+
+[[stack]]
+name = "keycloak-1"
+tags = ["infra"]
+[stack.config]
+server = "FeelsStrongMan"
+run_directory = "stacks/keycloak"
+# Base: just Keycloak + step-ca + realm config (groups, auth flows, policies)
+# Add "compose.override.smtp.yaml" when SMTP secrets are ready
+# Add "compose.override.clients.yaml" when OIDC client secrets are ready
+file_paths = ["compose.yml"]
+linked_repo = "homelab-infra"
+extra_args = ["--remove-orphans"]
+environment = """
+TZ=[[tz]]
+KC_LOG_LEVEL=info
+KC_PORT=8080
+# Admin
+KC_ADMIN_USER=[[FeelsStrongMan_kc_admin_user]]
+KC_ADMIN_PASSWORD=[[FeelsStrongMan_kc_admin_password]]
+# DB (JDBC URL, e.g. jdbc:postgresql://10.0.0.5:5432/keycloak)
+KC_DB_URL=[[FeelsStrongMan_kc_db_url]]
+KC_DB_USERNAME=[[FeelsStrongMan_kc_db_username]]
+KC_DB_PASSWORD=[[FeelsStrongMan_kc_db_password]]
+# step-ca
+STEPCA_DNS_NAMES=[[FeelsStrongMan_stepca_dns_names]]
+STEPCA_PASSWORD=[[FeelsStrongMan_stepca_password]]
+"""
+
+[stack.config.pre_deploy]
+path = "."
+command = "docker network create keycloak-net 2>/dev/null || true"
 
 [[stack]]
 name = "arr-1"

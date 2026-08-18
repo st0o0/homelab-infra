@@ -1,0 +1,188 @@
+realm: homelab
+
+clients:
+  - clientId: "${KC_CLIENT_JELLYFIN_ID}"
+    name: Jellyfin
+    protocol: openid-connect
+    enabled: true
+    clientAuthenticatorType: client-secret
+    secret: "${KC_CLIENT_JELLYFIN_SECRET}"
+    standardFlowEnabled: true
+    directAccessGrantsEnabled: false
+    publicClient: false
+    consentRequired: false
+    redirectUris:
+      - "${KC_CLIENT_JELLYFIN_REDIRECT_URI}"
+    defaultClientScopes:
+      - openid
+      - email
+      - profile
+      - groups
+    attributes:
+      access.token.lifespan: "3600"
+      client.offline.session.max.lifespan: "2592000"
+
+  - clientId: "${KC_CLIENT_AUDIOBOOKSHELF_ID}"
+    name: Audiobookshelf
+    protocol: openid-connect
+    enabled: true
+    clientAuthenticatorType: client-secret
+    secret: "${KC_CLIENT_AUDIOBOOKSHELF_SECRET}"
+    standardFlowEnabled: true
+    directAccessGrantsEnabled: false
+    publicClient: false
+    consentRequired: false
+    redirectUris:
+      - "${KC_CLIENT_AUDIOBOOKSHELF_REDIRECT_URI}"
+    defaultClientScopes:
+      - openid
+      - email
+      - profile
+      - groups
+    attributes:
+      access.token.lifespan: "86400"
+      client.offline.session.max.lifespan: "7776000"
+
+  - clientId: "${KC_CLIENT_IMMICH_ID}"
+    name: Immich
+    protocol: openid-connect
+    enabled: true
+    clientAuthenticatorType: client-secret
+    secret: "${KC_CLIENT_IMMICH_SECRET}"
+    standardFlowEnabled: true
+    directAccessGrantsEnabled: false
+    publicClient: false
+    consentRequired: false
+    redirectUris:
+      - "${KC_CLIENT_IMMICH_REDIRECT_URI_1}"
+      - "${KC_CLIENT_IMMICH_REDIRECT_URI_2}"
+      - "${KC_CLIENT_IMMICH_REDIRECT_URI_3}"
+    defaultClientScopes:
+      - openid
+      - email
+      - profile
+      - groups
+    attributes:
+      access.token.lifespan: "86400"
+      client.offline.session.max.lifespan: "7776000"
+
+  - clientId: "${KC_CLIENT_MEALIE_ID}"
+    name: Mealie
+    protocol: openid-connect
+    enabled: true
+    clientAuthenticatorType: client-secret
+    secret: "${KC_CLIENT_MEALIE_SECRET}"
+    standardFlowEnabled: true
+    directAccessGrantsEnabled: false
+    publicClient: false
+    consentRequired: false
+    redirectUris:
+      - "${KC_CLIENT_MEALIE_REDIRECT_URI}"
+    defaultClientScopes:
+      - openid
+      - email
+      - profile
+      - groups
+    attributes:
+      access.token.lifespan: "3600"
+      client.offline.session.max.lifespan: "2592000"
+
+  - clientId: "${KC_CLIENT_PAPERLESS_ID}"
+    name: Paperless
+    protocol: openid-connect
+    enabled: true
+    clientAuthenticatorType: client-secret
+    secret: "${KC_CLIENT_PAPERLESS_SECRET}"
+    standardFlowEnabled: true
+    directAccessGrantsEnabled: false
+    publicClient: false
+    consentRequired: false
+    redirectUris:
+      - "${KC_CLIENT_PAPERLESS_REDIRECT_URI}"
+    defaultClientScopes:
+      - openid
+      - email
+      - profile
+      - groups
+    attributes:
+      access.token.lifespan: "3600"
+      client.offline.session.max.lifespan: "2592000"
+
+  - clientId: "${KC_CLIENT_VAULTWARDEN_ID}"
+    name: Vaultwarden
+    protocol: openid-connect
+    enabled: true
+    clientAuthenticatorType: client-secret
+    secret: "${KC_CLIENT_VAULTWARDEN_SECRET}"
+    standardFlowEnabled: true
+    directAccessGrantsEnabled: false
+    publicClient: false
+    consentRequired: false
+    redirectUris:
+      - "${KC_CLIENT_VAULTWARDEN_REDIRECT_URI}"
+    defaultClientScopes:
+      - openid
+      - email
+      - profile
+      - groups
+    attributes:
+      access.token.lifespan: "86400"
+      client.offline.session.max.lifespan: "7776000"
+
+  - clientId: "${KC_CLIENT_PANGOLIN_ID}"
+    name: Pangolin
+    protocol: openid-connect
+    enabled: true
+    clientAuthenticatorType: client-secret
+    secret: "${KC_CLIENT_PANGOLIN_SECRET}"
+    standardFlowEnabled: true
+    directAccessGrantsEnabled: false
+    publicClient: false
+    consentRequired: false
+    redirectUris:
+      - "${KC_CLIENT_PANGOLIN_REDIRECT_URI}"
+    defaultClientScopes:
+      - openid
+      - email
+      - profile
+      - groups
+    attributes:
+      access.token.lifespan: "3600"
+      client.offline.session.max.lifespan: "2592000"
+
+  - clientId: "${KC_CLIENT_KOMODO_ID}"
+    name: Komodo
+    protocol: openid-connect
+    enabled: true
+    clientAuthenticatorType: client-secret
+    secret: "${KC_CLIENT_KOMODO_SECRET}"
+    standardFlowEnabled: true
+    directAccessGrantsEnabled: false
+    publicClient: false
+    consentRequired: false
+    redirectUris:
+      - "${KC_CLIENT_KOMODO_REDIRECT_URI}"
+    defaultClientScopes:
+      - openid
+      - email
+      - profile
+    attributes:
+      access.token.lifespan: "3600"
+      client.offline.session.max.lifespan: "2592000"
+
+  - clientId: step-ca
+    name: step-ca
+    protocol: openid-connect
+    enabled: true
+    clientAuthenticatorType: client-secret
+    secret: "${KC_CLIENT_STEPCA_SECRET}"
+    standardFlowEnabled: true
+    directAccessGrantsEnabled: false
+    publicClient: false
+    consentRequired: false
+    redirectUris:
+      - "http://127.0.0.1:10000/*"
+    defaultClientScopes:
+      - openid
+      - email
+      - profile
