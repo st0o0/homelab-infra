@@ -14,7 +14,6 @@ WireGuard tunnel sidecar. Other containers can route their traffic through the t
 │  container:bifrost       │
 │  ┌──────────┐            │
 │  │ Alloy    │            │
-│  │ Backrest │            │
 │  └──────────┘            │
 │                          │
 │  ┌──────────┐            │

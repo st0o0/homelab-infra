@@ -1,0 +1,40 @@
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: 10m
+    max-file: "3"
+
+services:
+  kopiaclient:
+    image: kopia/kopia:latest
+    container_name: kopiaclient
+    hostname: ${KOPIA_HOSTNAME:?KOPIA_HOSTNAME is required}
+    restart: unless-stopped
+    logging: *default-logging
+    command:
+      - server
+      - start
+      - --address=0.0.0.0:51515
+      - --server-control-username=${KOPIA_CLIENT_USER:?KOPIA_CLIENT_USER is required}
+      - --server-control-password=${KOPIA_CLIENT_PASS:?KOPIA_CLIENT_PASS is required}
+      - --readonly
+      - --insecure
+    environment:
+      - KOPIA_PASSWORD=${KOPIA_REPO_PASSWORD:?KOPIA_REPO_PASSWORD is required}
+      - TZ=${TZ:-}
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
+        reservations:
+          memory: 64M
+    volumes:
+      - kopia-client-config:/app/config
+      - kopia-client-cache:/app/cache
+      - /docker:/docker:ro
+      - /restore:/restore
+
+volumes:
+  kopia-client-config:
+  kopia-client-cache:

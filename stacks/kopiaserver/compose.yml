@@ -1,0 +1,43 @@
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: 10m
+    max-file: "3"
+
+services:
+  kopiaserver:
+    image: kopia/kopia:latest
+    container_name: kopiaserver
+    restart: unless-stopped
+    logging: *default-logging
+    command:
+      - server
+      - start
+      - --address=0.0.0.0:51515
+      - --server-control-username=${KOPIA_SERVER_USER:?KOPIA_SERVER_USER is required}
+      - --server-control-password=${KOPIA_SERVER_PASS:?KOPIA_SERVER_PASS is required}
+      - --tls-generate-cert
+      - --insecure
+    environment:
+      - KOPIA_PASSWORD=${KOPIA_REPO_PASSWORD:?KOPIA_REPO_PASSWORD is required}
+      - TZ=${TZ:-}
+    deploy:
+      resources:
+        limits:
+          cpus: "1.00"
+          memory: 1G
+        reservations:
+          memory: 64M
+    ports:
+      - "${KOPIA_PORT:-51515}:51515"
+    volumes:
+      - kopia-config:/app/config
+      - kopia-cache:/app/cache
+      - kopia-logs:/app/logs
+      - kopia-repository:/repository
+
+volumes:
+  kopia-config:
+  kopia-cache:
+  kopia-logs:
+  kopia-repository:
