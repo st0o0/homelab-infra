@@ -1,6 +1,4 @@
-base-url: "${NTFY_BASE_URL:-http://localhost:8080}"
 listen-http: ":80"
-behind-proxy: true
 
 cache-file: "/var/lib/ntfy/cache/cache.db"
 auth-file: "/var/lib/ntfy/cache/auth.db"
