@@ -1,27 +1,24 @@
 # ── FeelsUPSMan ───────────────────────────────────────────────────────────
 
 [[stack]]
-name = "nut-upsd-1"
+name = "mjolnir-1"
 tags = ["infra"]
 [stack.config]
 server = "FeelsUPSMan"
-run_directory = "stacks/nut-upsd"
+run_directory = "stacks/mjolnir"
 file_paths = ["compose.yml"]
-project_name = "nut-upsd-1"
+project_name = "mjolnir-1"
 linked_repo = "homelab-infra"
 extra_args = ["--remove-orphans"]
 environment = """
 TZ=[[tz]]
-PUID=[[puid]]
-PGID=[[pgid]]
-NUT_DRIVER=[[FeelsUPSMan_nut_driver]]
-NUT_API_USER=[[FeelsUPSMan_nut_api_user]]
-NUT_API_PASS=[[FeelsUPSMan_nut_api_password]]
-NUT_NAME=ups
-NUT_DRIVER_PORT=auto
-NUT_POLL_INTERVAL=15
-NUT_PORT=3493
-NUT_PATH_CONFIG=/docker/nut-upsd/nut
+NUT_UPS_1_NAME=ups
+NUT_UPS_1_DRIVER=[[FeelsUPSMan_nut_driver]]
+NUT_UPS_1_PORT=auto
+NUT_UPS_1_DESC=UPS
+NUT_USER_1_NAME=[[FeelsUPSMan_nut_user_name]]
+NUT_USER_1_PASSWORD=[[FeelsUPSMan_nut_user_password]]
+NUT_USER_1_UPSMON=primary
 """
 
 [[stack]]
@@ -34,6 +31,7 @@ run_directory = "stacks/alloy"
 file_paths = [
   "compose.yml",
   "compose.override.low-power.yaml",
+  "compose.override.nut.yaml",
 ]
 linked_repo = "homelab-infra"
 extra_args = ["--remove-orphans"]
@@ -91,4 +89,8 @@ requires = "Redeploy"
 
 [[stack.config.config_files]]
 path = "../../alloy/modules/ufw.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "../../alloy/features/nut.alloy"
 requires = "Redeploy"

@@ -119,7 +119,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "network_ups_tools_ups_status{job=~\".*nut.*\", flag=\"OL\"}"
+          "expr": "mjolnir_ups_status{job=\"mjolnir\", flag=\"OL\"}"
         }
       ],
       "id": 2
@@ -181,7 +181,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "network_ups_tools_battery_charge{job=~\".*nut.*\"}"
+          "expr": "mjolnir_battery_charge{job=\"mjolnir\"}"
         }
       ],
       "id": 3
@@ -243,7 +243,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "network_ups_tools_ups_load{job=~\".*nut.*\"}"
+          "expr": "mjolnir_ups_load{job=\"mjolnir\"}"
         }
       ],
       "id": 4
@@ -295,7 +295,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "network_ups_tools_input_voltage{job=~\".*nut.*\"}"
+          "expr": "mjolnir_input_voltage{job=\"mjolnir\"}"
         }
       ],
       "id": 5
@@ -347,7 +347,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "network_ups_tools_battery_voltage{job=~\".*nut.*\"}"
+          "expr": "mjolnir_battery_voltage{job=\"mjolnir\"}"
         }
       ],
       "id": 6
@@ -399,7 +399,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "network_ups_tools_device_info{job=~\".*nut.*\"}",
+          "expr": "mjolnir_device_info{job=\"mjolnir\"}",
           "legendFormat": "{{model}}"
         }
       ],
@@ -487,7 +487,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "network_ups_tools_battery_charge{job=~\".*nut.*\"}",
+          "expr": "mjolnir_battery_charge{job=\"mjolnir\"}",
           "legendFormat": "charge"
         }
       ],
@@ -564,7 +564,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "network_ups_tools_ups_load{job=~\".*nut.*\"}",
+          "expr": "mjolnir_ups_load{job=\"mjolnir\"}",
           "legendFormat": "load"
         }
       ],
@@ -639,12 +639,12 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "network_ups_tools_input_voltage{job=~\".*nut.*\"}",
+          "expr": "mjolnir_input_voltage{job=\"mjolnir\"}",
           "legendFormat": "input"
         },
         {
           "refId": "B",
-          "expr": "network_ups_tools_input_voltage_nominal{job=~\".*nut.*\"}",
+          "expr": "mjolnir_input_voltage_nominal{job=\"mjolnir\"}",
           "legendFormat": "nominal"
         }
       ],
@@ -719,12 +719,12 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "network_ups_tools_battery_voltage{job=~\".*nut.*\"}",
+          "expr": "mjolnir_battery_voltage{job=\"mjolnir\"}",
           "legendFormat": "actual"
         },
         {
           "refId": "B",
-          "expr": "network_ups_tools_battery_voltage_nominal{job=~\".*nut.*\"}",
+          "expr": "mjolnir_battery_voltage_nominal{job=\"mjolnir\"}",
           "legendFormat": "nominal"
         }
       ],
@@ -983,7 +983,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "network_ups_tools_ups_status{job=~\".*nut.*\"}",
+          "expr": "mjolnir_ups_status{job=\"mjolnir\"}",
           "legendFormat": "{{flag}}"
         }
       ],

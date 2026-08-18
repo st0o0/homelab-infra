@@ -72,7 +72,7 @@
     },
     {
       matchPackageNames: [
-        'instantlinux/nut-upsd',
+        'ghcr.io/st0o0/mjolnir',
       ],
       pinDigests: true,
     },

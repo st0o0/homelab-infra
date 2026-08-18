@@ -1,33 +1,10 @@
 services:
   alloy:
-    depends_on:
-      nut-exporter:
-        condition: service_started
     volumes:
       - ../../alloy/features/nut.alloy:/etc/alloy/nut.alloy
-    environment:
-      - NUT_EXPORTER_TARGET=${ALLOY_NUT_EXPORTER_TARGET:-nut-exporter:9199}
+    networks:
+      - nut-net
 
-  nut-exporter:
-    image: druggeri/nut_exporter:3.3.0@sha256:276460d141c732772f8b1fcd785a7de272473e6d39fd85c32b163efc2999cb9a
-    container_name: nut-exporter
-    restart: unless-stopped
-    logging:
-      driver: json-file
-      options:
-        max-size: 10m
-        max-file: "3"
-    environment:
-      - TZ=${TZ:-Europe/Berlin}
-      - NUT_EXPORTER_PASSWORD=${ALLOY_NUT_EXP_PASS:?ALLOY_NUT_EXP_PASS is required}
-    command:
-      - --nut.server=${ALLOY_NUT_EXP_SERVER:?ALLOY_NUT_EXP_SERVER is required}
-      - --nut.serverport=${ALLOY_NUT_EXP_SERVER_PORT:-3493}
-      - --nut.username=${ALLOY_NUT_EXP_USER:?ALLOY_NUT_EXP_USER is required}
-    deploy:
-      resources:
-        limits:
-          cpus: 0.10
-          memory: 64M
-        reservations:
-          memory: 32M
+networks:
+  nut-net:
+    external: true

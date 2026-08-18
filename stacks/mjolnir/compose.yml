@@ -1,0 +1,42 @@
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: 10m
+    max-file: "3"
+
+services:
+  mjolnir:
+    image: ghcr.io/st0o0/mjolnir:0.1.1@sha256:3dff76887c5906ad4a30dc2cbb88f5d7718d5a1db04d64da03f697f9293c7960
+    container_name: mjolnir
+    restart: unless-stopped
+    logging: *default-logging
+    environment:
+      - TZ=${TZ:-Europe/Berlin}
+      - NUT_UPS_1_NAME=${NUT_UPS_1_NAME:-ups}
+      - NUT_UPS_1_DRIVER=${NUT_UPS_1_DRIVER:-usbhid-ups}
+      - NUT_UPS_1_PORT=${NUT_UPS_1_PORT:-auto}
+      - NUT_UPS_1_DESC=${NUT_UPS_1_DESC:-UPS}
+      - NUT_UPS_1_POLLINTERVAL=${NUT_UPS_1_POLLINTERVAL:-}
+      - NUT_USER_1_NAME=${NUT_USER_1_NAME:?NUT_USER_1_NAME is required}
+      - NUT_USER_1_PASSWORD=${NUT_USER_1_PASSWORD:?NUT_USER_1_PASSWORD is required}
+      - NUT_USER_1_UPSMON=${NUT_USER_1_UPSMON:-primary}
+      - NUT_LISTEN=${NUT_LISTEN:-0.0.0.0}
+      - NUT_MAXAGE=${NUT_MAXAGE:-15}
+    devices:
+      - /dev/bus/usb:/dev/bus/usb
+    ports:
+      - "${NUT_PORT:-3493}:3493"
+      - "${METRICS_PORT:-9550}:9550"
+    networks:
+      - nut-net
+    deploy:
+      resources:
+        limits:
+          cpus: 0.1
+          memory: 64M
+        reservations:
+          memory: 32M
+
+networks:
+  nut-net:
+    name: nut-net
