@@ -276,7 +276,7 @@
       "type": "stat",
       "title": "Device",
       "id": 9,
-      "gridPos": { "h": 4, "w": 6, "x": 21, "y": 1 },
+      "gridPos": { "h": 4, "w": 3, "x": 21, "y": 1 },
       "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
       "fieldConfig": {
         "defaults": {
@@ -763,14 +763,23 @@
           "fieldConfig": {
             "defaults": {
               "color": { "mode": "thresholds" },
+              "mappings": [
+                {
+                  "options": {
+                    "0": { "color": "text", "text": "Not Run" },
+                    "1": { "color": "green", "text": "Passed" }
+                  },
+                  "type": "value"
+                }
+              ],
               "thresholds": {
                 "mode": "absolute",
                 "steps": [
-                  { "color": "text", "value": null }
+                  { "color": "text", "value": null },
+                  { "color": "green", "value": 1 }
                 ]
               },
-              "unit": "none",
-              "noValue": "No Test"
+              "unit": "none"
             }
           },
           "options": {
@@ -779,10 +788,10 @@
             "justifyMode": "auto",
             "orientation": "auto",
             "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-            "textMode": "name"
+            "textMode": "auto"
           },
           "targets": [
-            { "refId": "A", "expr": "mjolnir_ups_test_result{job=\"mjolnir\"} == 1", "legendFormat": "{{result}}" }
+            { "refId": "A", "expr": "mjolnir_ups_test_result{job=\"mjolnir\", result=\"OK\"}", "legendFormat": "Self-Test" }
           ]
         },
         {
@@ -872,7 +881,7 @@
             "textMode": "name"
           },
           "targets": [
-            { "refId": "A", "expr": "mjolnir_battery_type_info{job=\"mjolnir\"}", "legendFormat": "{{battery_type}}" }
+            { "refId": "A", "expr": "mjolnir_battery_type_info{job=\"mjolnir\"}", "legendFormat": "{{type}}" }
           ]
         },
         {
@@ -902,7 +911,7 @@
             "textMode": "name"
           },
           "targets": [
-            { "refId": "A", "expr": "mjolnir_ups_firmware_info{job=\"mjolnir\"}", "legendFormat": "{{firmware}}" }
+            { "refId": "A", "expr": "mjolnir_ups_firmware_info{job=\"mjolnir\"}", "legendFormat": "{{version}}" }
           ]
         },
         {
