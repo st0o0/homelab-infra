@@ -47,7 +47,7 @@
       "type": "stat",
       "title": "Status",
       "id": 2,
-      "gridPos": { "h": 4, "w": 2, "x": 0, "y": 1 },
+      "gridPos": { "h": 4, "w": 3, "x": 0, "y": 1 },
       "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
       "fieldConfig": {
         "defaults": {
@@ -82,7 +82,7 @@
       "type": "stat",
       "title": "Battery Charge",
       "id": 3,
-      "gridPos": { "h": 4, "w": 3, "x": 2, "y": 1 },
+      "gridPos": { "h": 4, "w": 3, "x": 3, "y": 1 },
       "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
       "fieldConfig": {
         "defaults": {
@@ -116,7 +116,7 @@
       "type": "stat",
       "title": "UPS Load",
       "id": 4,
-      "gridPos": { "h": 4, "w": 3, "x": 5, "y": 1 },
+      "gridPos": { "h": 4, "w": 3, "x": 6, "y": 1 },
       "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
       "fieldConfig": {
         "defaults": {
@@ -150,7 +150,7 @@
       "type": "stat",
       "title": "Runtime",
       "id": 5,
-      "gridPos": { "h": 4, "w": 3, "x": 8, "y": 1 },
+      "gridPos": { "h": 4, "w": 3, "x": 9, "y": 1 },
       "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
       "fieldConfig": {
         "defaults": {
@@ -182,7 +182,7 @@
       "type": "stat",
       "title": "Power Draw",
       "id": 6,
-      "gridPos": { "h": 4, "w": 3, "x": 11, "y": 1 },
+      "gridPos": { "h": 4, "w": 3, "x": 12, "y": 1 },
       "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
       "fieldConfig": {
         "defaults": {
@@ -214,7 +214,7 @@
       "type": "stat",
       "title": "Input Voltage",
       "id": 7,
-      "gridPos": { "h": 4, "w": 3, "x": 14, "y": 1 },
+      "gridPos": { "h": 4, "w": 3, "x": 15, "y": 1 },
       "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
       "fieldConfig": {
         "defaults": {
@@ -246,7 +246,7 @@
       "type": "stat",
       "title": "Battery Voltage",
       "id": 8,
-      "gridPos": { "h": 4, "w": 2, "x": 17, "y": 1 },
+      "gridPos": { "h": 4, "w": 3, "x": 18, "y": 1 },
       "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
       "fieldConfig": {
         "defaults": {
@@ -270,46 +270,6 @@
       },
       "targets": [
         { "refId": "A", "expr": "mjolnir_battery_voltage{job=\"mjolnir\"}" }
-      ]
-    },
-    {
-      "type": "stat",
-      "title": "Self-Test",
-      "id": 10,
-      "gridPos": { "h": 4, "w": 2, "x": 19, "y": 1 },
-      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "mappings": [
-            {
-              "options": {
-                "0": { "color": "text", "text": "Not Run" },
-                "1": { "color": "green", "text": "Passed" }
-              },
-              "type": "value"
-            }
-          ],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              { "color": "text", "value": null },
-              { "color": "green", "value": 1 }
-            ]
-          },
-          "unit": "none"
-        }
-      },
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "textMode": "auto"
-      },
-      "targets": [
-        { "refId": "A", "expr": "mjolnir_ups_test_result{job=\"mjolnir\", result=\"OK\"}", "legendFormat": "Self-Test" }
       ]
     },
     {
@@ -796,9 +756,49 @@
       "panels": [
         {
           "type": "stat",
+          "title": "Self-Test",
+          "id": 401,
+          "gridPos": { "h": 4, "w": 4, "x": 0, "y": 33 },
+          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+          "fieldConfig": {
+            "defaults": {
+              "color": { "mode": "thresholds" },
+              "mappings": [
+                {
+                  "options": {
+                    "0": { "color": "text", "text": "Not Run" },
+                    "1": { "color": "green", "text": "Passed" }
+                  },
+                  "type": "value"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  { "color": "text", "value": null },
+                  { "color": "green", "value": 1 }
+                ]
+              },
+              "unit": "none"
+            }
+          },
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+            "textMode": "auto"
+          },
+          "targets": [
+            { "refId": "A", "expr": "mjolnir_ups_test_result{job=\"mjolnir\", result=\"OK\"}", "legendFormat": "Self-Test" }
+          ]
+        },
+        {
+          "type": "stat",
           "title": "Battery Date",
           "id": 402,
-          "gridPos": { "h": 4, "w": 5, "x": 0, "y": 33 },
+          "gridPos": { "h": 4, "w": 4, "x": 4, "y": 33 },
           "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
           "fieldConfig": {
             "defaults": {
@@ -828,7 +828,7 @@
           "type": "stat",
           "title": "Nominal Power",
           "id": 403,
-          "gridPos": { "h": 4, "w": 5, "x": 5, "y": 33 },
+          "gridPos": { "h": 4, "w": 4, "x": 8, "y": 33 },
           "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
           "fieldConfig": {
             "defaults": {
@@ -858,7 +858,7 @@
           "type": "stat",
           "title": "Battery Type",
           "id": 404,
-          "gridPos": { "h": 4, "w": 5, "x": 10, "y": 33 },
+          "gridPos": { "h": 4, "w": 4, "x": 12, "y": 33 },
           "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
           "fieldConfig": {
             "defaults": {
@@ -888,7 +888,7 @@
           "type": "stat",
           "title": "Firmware",
           "id": 405,
-          "gridPos": { "h": 4, "w": 5, "x": 15, "y": 33 },
+          "gridPos": { "h": 4, "w": 4, "x": 16, "y": 33 },
           "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
           "fieldConfig": {
             "defaults": {
