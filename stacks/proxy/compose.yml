@@ -162,7 +162,6 @@ services:
         condition: service_healthy
     environment:
       - COLLECTIONS=crowdsecurity/caddy crowdsecurity/http-cve crowdsecurity/base-http-scenarios crowdsecurity/appsec-virtual-patching crowdsecurity/appsec-generic-rules crowdsecurity/appsec-crs crowdsecurity/linux crowdsecurity/whitelist-good-actors crowdsecurity/http-dos
-      - DISABLE_HUB_UPGRADE=true
       - GID=${PGID:-1000}
     volumes:
       - ./crowdsec/config.yaml.local:/etc/crowdsec/config.yaml.local:ro
@@ -217,7 +216,7 @@ services:
           memory: 32M
 
   ran:
-    image: ghcr.io/st0o0/ran:0.3.4
+    image: ghcr.io/st0o0/ran:0.3.5
     container_name: ran
     restart: unless-stopped
     logging: *default-logging
@@ -263,6 +262,10 @@ services:
       - RAN_CROWDSEC_MACHINE_ID=${RAN_CROWDSEC_MACHINE_ID:?RAN_CROWDSEC_MACHINE_ID is required}
       - RAN_CROWDSEC_PASSWORD=${RAN_CROWDSEC_PASSWORD:?RAN_CROWDSEC_PASSWORD is required}
       - RAN_CROWDSEC_BAN_DURATION=${RAN_CROWDSEC_BAN_DURATION:-4h}
+      - RAN_CROWDSEC_DEDUP_WINDOW=${RAN_CROWDSEC_DEDUP_WINDOW:-5m}
+      - RAN_CROWDSEC_BATCH_INTERVAL=${RAN_CROWDSEC_BATCH_INTERVAL:-10s}
+      - RAN_CROWDSEC_BATCH_SIZE=${RAN_CROWDSEC_BATCH_SIZE:-50}
+      - RAN_CROWDSEC_DECISION_CACHE=${RAN_CROWDSEC_DECISION_CACHE:-on}
     deploy:
       resources:
         limits:

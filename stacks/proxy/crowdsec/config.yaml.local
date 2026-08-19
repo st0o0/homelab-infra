@@ -2,6 +2,11 @@ api:
   server:
     listen_uri: 0.0.0.0:8180
 
+db_config:
+  flush:
+    max_items: 5000
+    max_age: 2h
+
 prometheus:
   enabled: true
   level: full
