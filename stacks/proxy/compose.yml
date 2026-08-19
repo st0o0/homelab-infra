@@ -162,6 +162,7 @@ services:
         condition: service_healthy
     environment:
       - COLLECTIONS=crowdsecurity/caddy crowdsecurity/http-cve crowdsecurity/base-http-scenarios crowdsecurity/appsec-virtual-patching crowdsecurity/appsec-generic-rules crowdsecurity/appsec-crs crowdsecurity/linux crowdsecurity/whitelist-good-actors crowdsecurity/http-dos
+      - NO_HUB_UPGRADE=true
       - GID=${PGID:-1000}
     volumes:
       - ./crowdsec/config.yaml.local:/etc/crowdsec/config.yaml.local:ro
