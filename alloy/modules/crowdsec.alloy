@@ -44,10 +44,13 @@ declare "crowdsec" {
       format = "2006-01-02T15:04:05Z"
     }
 
-    stage.geoip {
-      source  = "client_ip"
-      db      = "/geoip/GeoLite2-City.mmdb"
-      db_type = "city"
+    stage.match {
+      selector = "{job=\"crowdsec\"} |~ \"\\\"ip\\\":\\\\s*\\\"\\\\d\""
+      stage.geoip {
+        source  = "client_ip"
+        db      = "/geoip/GeoLite2-City.mmdb"
+        db_type = "city"
+      }
     }
 
     stage.static_labels {
