@@ -215,25 +215,6 @@ services:
     networks:
       - arr
 
-  mediathekarr:
-    <<: *common
-    image: pcjones/mediathekarr:beta
-    container_name: mediathekarr
-    environment:
-      <<: *common-env
-      DOWNLOAD_INCOMPLETE_PATH: /data/incomplete
-      DOWNLOAD_COMPLETE_PATH: /data/complete/
-      CATEGORIES: ${MEDIATHEKARR_CATEGORIES:-series,movies,custom,tv,mediathek}
-      MEDIATHEKARR_API_BASE_URL: https://mediathekarr.pcjones.de/api/v1
-    volumes:
-      - ${MEDIATHEKARR_PATH_CONFIG:-./mediathekarr/config}:/app/config
-      - ${MEDIATHEKARR_PATH_TEMP:-./mediathekarr/temp}:/data/incomplete
-      - mediathek_smb:/data/complete
-    ports:
-      - "${MEDIATHEKARR_PORT:-5007}:5007"
-    networks:
-      - arr
-
   youtarr-db:
     <<: *common
     image: mariadb:10.11
@@ -295,9 +276,3 @@ volumes:
       type: cifs
       device: "//${CIFS_MEDIA_HOST:?CIFS_MEDIA_HOST is required}/${CIFS_MEDIA_SHARE:?CIFS_MEDIA_SHARE is required}"
       o: "username=${CIFS_MEDIA_USER:?CIFS_MEDIA_USER is required},password=${CIFS_MEDIA_PASS:?CIFS_MEDIA_PASS is required},vers=3.0,uid=${PUID:-1000},gid=${PGID:-1000}"
-  mediathek_smb:
-    driver: local
-    driver_opts:
-      type: cifs
-      device: "//${CIFS_DOWNLOADS_HOST:?CIFS_DOWNLOADS_HOST is required}/${CIFS_DOWNLOADS_SHARE:?CIFS_DOWNLOADS_SHARE is required}"
-      o: "username=${CIFS_DOWNLOADS_USER:?CIFS_DOWNLOADS_USER is required},password=${CIFS_DOWNLOADS_PASS:?CIFS_DOWNLOADS_PASS is required},vers=3.0,uid=${PUID:-1000},gid=${PGID:-1000}"
