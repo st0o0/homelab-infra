@@ -40,63 +40,27 @@
     {
       "type": "row",
       "title": "🔋 Overview",
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 0
-      },
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 },
       "id": 1
     },
     {
       "type": "stat",
       "title": "Status",
-      "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 0,
-        "y": 1
-      },
-      "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
-      },
+      "id": 2,
+      "gridPos": { "h": 4, "w": 3, "x": 0, "y": 1 },
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
+          "color": { "mode": "thresholds" },
           "mappings": [
-            {
-              "options": {
-                "1": {
-                  "color": "green",
-                  "text": "Online"
-                }
-              },
-              "type": "value"
-            },
-            {
-              "options": {
-                "0": {
-                  "color": "red",
-                  "text": "Offline"
-                }
-              },
-              "type": "value"
-            }
+            { "options": { "1": { "color": "green", "text": "Online" } }, "type": "value" },
+            { "options": { "0": { "color": "red", "text": "Offline" } }, "type": "value" }
           ],
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              {
-                "color": "red",
-                "value": null
-              },
-              {
-                "color": "green",
-                "value": 1
-              }
+              { "color": "red", "value": null },
+              { "color": "green", "value": 1 }
             ]
           },
           "unit": "none"
@@ -107,58 +71,30 @@
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
         "textMode": "auto"
       },
       "targets": [
-        {
-          "refId": "A",
-          "expr": "mjolnir_ups_status{job=\"mjolnir\", flag=\"OL\"}"
-        }
-      ],
-      "id": 2
+        { "refId": "A", "expr": "mjolnir_ups_status{job=\"mjolnir\", flag=\"OL\"}" }
+      ]
     },
     {
       "type": "stat",
       "title": "Battery Charge",
-      "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 4,
-        "y": 1
-      },
-      "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
-      },
+      "id": 3,
+      "gridPos": { "h": 4, "w": 3, "x": 3, "y": 1 },
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
+          "color": { "mode": "thresholds" },
           "max": 100,
           "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              {
-                "color": "red",
-                "value": null
-              },
-              {
-                "color": "yellow",
-                "value": 20
-              },
-              {
-                "color": "green",
-                "value": 50
-              }
+              { "color": "red", "value": null },
+              { "color": "yellow", "value": 20 },
+              { "color": "green", "value": 50 }
             ]
           },
           "unit": "percent"
@@ -169,58 +105,30 @@
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
         "textMode": "auto"
       },
       "targets": [
-        {
-          "refId": "A",
-          "expr": "mjolnir_battery_charge{job=\"mjolnir\"}"
-        }
-      ],
-      "id": 3
+        { "refId": "A", "expr": "mjolnir_battery_charge{job=\"mjolnir\"}" }
+      ]
     },
     {
       "type": "stat",
       "title": "UPS Load",
-      "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 8,
-        "y": 1
-      },
-      "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
-      },
+      "id": 4,
+      "gridPos": { "h": 4, "w": 3, "x": 6, "y": 1 },
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
+          "color": { "mode": "thresholds" },
           "max": 100,
           "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "yellow",
-                "value": 70
-              },
-              {
-                "color": "red",
-                "value": 90
-              }
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 70 },
+              { "color": "red", "value": 90 }
             ]
           },
           "unit": "percent"
@@ -231,48 +139,92 @@
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
         "textMode": "auto"
       },
       "targets": [
-        {
-          "refId": "A",
-          "expr": "mjolnir_ups_load{job=\"mjolnir\"}"
+        { "refId": "A", "expr": "mjolnir_ups_load{job=\"mjolnir\"}" }
+      ]
+    },
+    {
+      "type": "stat",
+      "title": "Runtime",
+      "id": 5,
+      "gridPos": { "h": 4, "w": 3, "x": 9, "y": 1 },
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "red", "value": null },
+              { "color": "yellow", "value": 300 },
+              { "color": "green", "value": 900 }
+            ]
+          },
+          "unit": "s"
         }
-      ],
-      "id": 4
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "auto"
+      },
+      "targets": [
+        { "refId": "A", "expr": "mjolnir_battery_runtime{job=\"mjolnir\"}" }
+      ]
+    },
+    {
+      "type": "stat",
+      "title": "Power Draw",
+      "id": 6,
+      "gridPos": { "h": 4, "w": 3, "x": 12, "y": 1 },
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 400 },
+              { "color": "red", "value": 500 }
+            ]
+          },
+          "unit": "watt"
+        }
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "auto"
+      },
+      "targets": [
+        { "refId": "A", "expr": "mjolnir_ups_load{job=\"mjolnir\"} / 100 * mjolnir_ups_realpower_nominal{job=\"mjolnir\"}" }
+      ]
     },
     {
       "type": "stat",
       "title": "Input Voltage",
-      "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 12,
-        "y": 1
-      },
-      "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
-      },
+      "id": 7,
+      "gridPos": { "h": 4, "w": 3, "x": 15, "y": 1 },
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
+          "color": { "mode": "thresholds" },
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              {
-                "color": "blue",
-                "value": null
-              }
+              { "color": "red", "value": null },
+              { "color": "green", "value": 200 },
+              { "color": "red", "value": 260 }
             ]
           },
           "unit": "volt"
@@ -283,48 +235,26 @@
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
         "textMode": "auto"
       },
       "targets": [
-        {
-          "refId": "A",
-          "expr": "mjolnir_input_voltage{job=\"mjolnir\"}"
-        }
-      ],
-      "id": 5
+        { "refId": "A", "expr": "mjolnir_input_voltage{job=\"mjolnir\"}" }
+      ]
     },
     {
       "type": "stat",
       "title": "Battery Voltage",
-      "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 16,
-        "y": 1
-      },
-      "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
-      },
+      "id": 8,
+      "gridPos": { "h": 4, "w": 3, "x": 18, "y": 1 },
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
+          "color": { "mode": "thresholds" },
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              {
-                "color": "blue",
-                "value": null
-              }
+              { "color": "blue", "value": null }
             ]
           },
           "unit": "volt"
@@ -335,48 +265,26 @@
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
         "textMode": "auto"
       },
       "targets": [
-        {
-          "refId": "A",
-          "expr": "mjolnir_battery_voltage{job=\"mjolnir\"}"
-        }
-      ],
-      "id": 6
+        { "refId": "A", "expr": "mjolnir_battery_voltage{job=\"mjolnir\"}" }
+      ]
     },
     {
       "type": "stat",
       "title": "Device",
-      "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 20,
-        "y": 1
-      },
-      "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
-      },
+      "id": 9,
+      "gridPos": { "h": 4, "w": 6, "x": 21, "y": 1 },
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
+          "color": { "mode": "thresholds" },
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              {
-                "color": "text",
-                "value": null
-              }
+              { "color": "text", "value": null }
             ]
           },
           "unit": "none"
@@ -387,53 +295,29 @@
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
         "textMode": "name"
       },
       "targets": [
-        {
-          "refId": "A",
-          "expr": "mjolnir_device_info{job=\"mjolnir\"}",
-          "legendFormat": "{{model}}"
-        }
-      ],
-      "id": 7
+        { "refId": "A", "expr": "mjolnir_device_info{job=\"mjolnir\"}", "legendFormat": "{{model}}" }
+      ]
     },
+
     {
       "type": "row",
       "title": "📈 History",
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 5
-      },
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 5 },
       "id": 100
     },
     {
       "type": "timeseries",
       "title": "Battery Charge",
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 6
-      },
-      "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
-      },
+      "id": 101,
+      "gridPos": { "h": 8, "w": 8, "x": 0, "y": 6 },
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
+          "color": { "mode": "palette-classic" },
           "custom": {
             "axisCenteredZero": false,
             "axisColorMode": "text",
@@ -443,74 +327,65 @@
             "drawStyle": "line",
             "fillOpacity": 20,
             "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
+            "hideFrom": { "legend": false, "tooltip": false, "viz": false },
             "lineInterpolation": "smooth",
             "lineWidth": 2,
             "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
+            "scaleDistribution": { "type": "linear" },
             "showPoints": "never",
             "spanNulls": true,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
+            "stacking": { "group": "A", "mode": "none" },
+            "thresholdsStyle": { "mode": "off" }
           },
           "max": 100,
           "min": 0,
           "unit": "percent"
-        }
+        },
+        "overrides": [
+          {
+            "matcher": { "id": "byName", "options": "warning" },
+            "properties": [
+              { "id": "custom.lineStyle", "value": { "fill": "dash", "dash": [10, 10] } },
+              { "id": "custom.fillOpacity", "value": 0 },
+              { "id": "custom.lineWidth", "value": 1 },
+              { "id": "color", "value": { "mode": "fixed", "fixedColor": "yellow" } }
+            ]
+          },
+          {
+            "matcher": { "id": "byName", "options": "low" },
+            "properties": [
+              { "id": "custom.lineStyle", "value": { "fill": "dash", "dash": [10, 10] } },
+              { "id": "custom.fillOpacity", "value": 0 },
+              { "id": "custom.lineWidth", "value": 1 },
+              { "id": "color", "value": { "mode": "fixed", "fixedColor": "red" } }
+            ]
+          }
+        ]
       },
       "options": {
         "legend": {
-          "calcs": [
-            "mean",
-            "max"
-          ],
+          "calcs": ["mean", "max"],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
         },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "desc"
-        }
+        "tooltip": { "mode": "multi", "sort": "desc" }
       },
       "targets": [
-        {
-          "refId": "A",
-          "expr": "mjolnir_battery_charge{job=\"mjolnir\"}",
-          "legendFormat": "charge"
-        }
-      ],
-      "id": 101
+        { "refId": "A", "expr": "mjolnir_battery_charge{job=\"mjolnir\"}", "legendFormat": "charge" },
+        { "refId": "B", "expr": "mjolnir_battery_charge_warning{job=\"mjolnir\"}", "legendFormat": "warning" },
+        { "refId": "C", "expr": "mjolnir_battery_charge_low{job=\"mjolnir\"}", "legendFormat": "low" }
+      ]
     },
     {
       "type": "timeseries",
       "title": "UPS Load",
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 6
-      },
-      "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
-      },
+      "id": 102,
+      "gridPos": { "h": 8, "w": 8, "x": 8, "y": 6 },
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
+          "color": { "mode": "palette-classic" },
           "custom": {
             "axisCenteredZero": false,
             "axisColorMode": "text",
@@ -520,26 +395,15 @@
             "drawStyle": "line",
             "fillOpacity": 20,
             "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
+            "hideFrom": { "legend": false, "tooltip": false, "viz": false },
             "lineInterpolation": "smooth",
             "lineWidth": 2,
             "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
+            "scaleDistribution": { "type": "linear" },
             "showPoints": "never",
             "spanNulls": true,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
+            "stacking": { "group": "A", "mode": "none" },
+            "thresholdsStyle": { "mode": "off" }
           },
           "max": 100,
           "min": 0,
@@ -548,46 +412,90 @@
       },
       "options": {
         "legend": {
-          "calcs": [
-            "mean",
-            "max"
-          ],
+          "calcs": ["mean", "max"],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
         },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "desc"
-        }
+        "tooltip": { "mode": "multi", "sort": "desc" }
       },
       "targets": [
-        {
-          "refId": "A",
-          "expr": "mjolnir_ups_load{job=\"mjolnir\"}",
-          "legendFormat": "load"
-        }
-      ],
-      "id": 102
+        { "refId": "A", "expr": "mjolnir_ups_load{job=\"mjolnir\"}", "legendFormat": "load" }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Runtime",
+      "id": 103,
+      "gridPos": { "h": 8, "w": 8, "x": 16, "y": 6 },
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 20,
+            "gradientMode": "none",
+            "hideFrom": { "legend": false, "tooltip": false, "viz": false },
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": { "type": "linear" },
+            "showPoints": "never",
+            "spanNulls": true,
+            "stacking": { "group": "A", "mode": "none" },
+            "thresholdsStyle": { "mode": "off" }
+          },
+          "min": 0,
+          "unit": "s"
+        },
+        "overrides": [
+          {
+            "matcher": { "id": "byName", "options": "low" },
+            "properties": [
+              { "id": "custom.lineStyle", "value": { "fill": "dash", "dash": [10, 10] } },
+              { "id": "custom.fillOpacity", "value": 0 },
+              { "id": "custom.lineWidth", "value": 1 },
+              { "id": "color", "value": { "mode": "fixed", "fixedColor": "red" } }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "legend": {
+          "calcs": ["mean", "min"],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        { "refId": "A", "expr": "mjolnir_battery_runtime{job=\"mjolnir\"}", "legendFormat": "runtime" },
+        { "refId": "B", "expr": "mjolnir_battery_runtime_low{job=\"mjolnir\"}", "legendFormat": "low" }
+      ]
+    },
+
+    {
+      "type": "row",
+      "title": "⚡ Voltage",
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 14 },
+      "id": 200
     },
     {
       "type": "timeseries",
       "title": "Input Voltage",
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 14
-      },
-      "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
-      },
+      "id": 201,
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 15 },
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
+          "color": { "mode": "palette-classic" },
           "custom": {
             "axisCenteredZero": false,
             "axisColorMode": "text",
@@ -597,77 +505,73 @@
             "drawStyle": "line",
             "fillOpacity": 20,
             "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
+            "hideFrom": { "legend": false, "tooltip": false, "viz": false },
             "lineInterpolation": "smooth",
             "lineWidth": 2,
             "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
+            "scaleDistribution": { "type": "linear" },
             "showPoints": "never",
             "spanNulls": true,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
+            "stacking": { "group": "A", "mode": "none" },
+            "thresholdsStyle": { "mode": "off" }
           },
           "unit": "volt"
-        }
+        },
+        "overrides": [
+          {
+            "matcher": { "id": "byName", "options": "nominal" },
+            "properties": [
+              { "id": "custom.lineStyle", "value": { "fill": "dash", "dash": [10, 10] } },
+              { "id": "custom.fillOpacity", "value": 0 },
+              { "id": "custom.lineWidth", "value": 1 },
+              { "id": "color", "value": { "mode": "fixed", "fixedColor": "text" } }
+            ]
+          },
+          {
+            "matcher": { "id": "byName", "options": "transfer high" },
+            "properties": [
+              { "id": "custom.lineStyle", "value": { "fill": "dash", "dash": [10, 10] } },
+              { "id": "custom.fillOpacity", "value": 0 },
+              { "id": "custom.lineWidth", "value": 1 },
+              { "id": "color", "value": { "mode": "fixed", "fixedColor": "red" } }
+            ]
+          },
+          {
+            "matcher": { "id": "byName", "options": "transfer low" },
+            "properties": [
+              { "id": "custom.lineStyle", "value": { "fill": "dash", "dash": [10, 10] } },
+              { "id": "custom.fillOpacity", "value": 0 },
+              { "id": "custom.lineWidth", "value": 1 },
+              { "id": "color", "value": { "mode": "fixed", "fixedColor": "red" } }
+            ]
+          }
+        ]
       },
       "options": {
         "legend": {
-          "calcs": [
-            "mean",
-            "max"
-          ],
+          "calcs": ["mean", "max"],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
         },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "desc"
-        }
+        "tooltip": { "mode": "multi", "sort": "desc" }
       },
       "targets": [
-        {
-          "refId": "A",
-          "expr": "mjolnir_input_voltage{job=\"mjolnir\"}",
-          "legendFormat": "input"
-        },
-        {
-          "refId": "B",
-          "expr": "mjolnir_input_voltage_nominal{job=\"mjolnir\"}",
-          "legendFormat": "nominal"
-        }
-      ],
-      "id": 103
+        { "refId": "A", "expr": "mjolnir_input_voltage{job=\"mjolnir\"}", "legendFormat": "input" },
+        { "refId": "B", "expr": "mjolnir_input_voltage_nominal{job=\"mjolnir\"}", "legendFormat": "nominal" },
+        { "refId": "C", "expr": "mjolnir_input_transfer_high{job=\"mjolnir\"}", "legendFormat": "transfer high" },
+        { "refId": "D", "expr": "mjolnir_input_transfer_low{job=\"mjolnir\"}", "legendFormat": "transfer low" }
+      ]
     },
     {
       "type": "timeseries",
       "title": "Battery Voltage",
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 14
-      },
-      "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
-      },
+      "id": 202,
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 15 },
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
+          "color": { "mode": "palette-classic" },
           "custom": {
             "axisCenteredZero": false,
             "axisColorMode": "text",
@@ -677,88 +581,60 @@
             "drawStyle": "line",
             "fillOpacity": 20,
             "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
+            "hideFrom": { "legend": false, "tooltip": false, "viz": false },
             "lineInterpolation": "smooth",
             "lineWidth": 2,
             "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
+            "scaleDistribution": { "type": "linear" },
             "showPoints": "never",
             "spanNulls": true,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
+            "stacking": { "group": "A", "mode": "none" },
+            "thresholdsStyle": { "mode": "off" }
           },
           "unit": "volt"
-        }
+        },
+        "overrides": [
+          {
+            "matcher": { "id": "byName", "options": "nominal" },
+            "properties": [
+              { "id": "custom.lineStyle", "value": { "fill": "dash", "dash": [10, 10] } },
+              { "id": "custom.fillOpacity", "value": 0 },
+              { "id": "custom.lineWidth", "value": 1 },
+              { "id": "color", "value": { "mode": "fixed", "fixedColor": "text" } }
+            ]
+          }
+        ]
       },
       "options": {
         "legend": {
-          "calcs": [
-            "mean",
-            "max"
-          ],
+          "calcs": ["mean", "max"],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
         },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "desc"
-        }
+        "tooltip": { "mode": "multi", "sort": "desc" }
       },
       "targets": [
-        {
-          "refId": "A",
-          "expr": "mjolnir_battery_voltage{job=\"mjolnir\"}",
-          "legendFormat": "actual"
-        },
-        {
-          "refId": "B",
-          "expr": "mjolnir_battery_voltage_nominal{job=\"mjolnir\"}",
-          "legendFormat": "nominal"
-        }
-      ],
-      "id": 104
+        { "refId": "A", "expr": "mjolnir_battery_voltage{job=\"mjolnir\"}", "legendFormat": "actual" },
+        { "refId": "B", "expr": "mjolnir_battery_voltage_nominal{job=\"mjolnir\"}", "legendFormat": "nominal" }
+      ]
     },
+
     {
       "type": "row",
-      "title": "⚡ Status Flags",
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 22
-      },
-      "id": 200
+      "title": "🚦 Status Flags",
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 23 },
+      "id": 300
     },
     {
       "type": "state-timeline",
       "title": "UPS Status Flags",
-      "gridPos": {
-        "h": 8,
-        "w": 24,
-        "x": 0,
-        "y": 23
-      },
-      "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
-      },
+      "id": 301,
+      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 24 },
+      "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
+          "color": { "mode": "thresholds" },
           "custom": {
             "fillOpacity": 80,
             "lineWidth": 0,
@@ -767,14 +643,8 @@
           "mappings": [
             {
               "options": {
-                "0": {
-                  "color": "transparent",
-                  "text": "—"
-                },
-                "1": {
-                  "color": "orange",
-                  "text": "Active"
-                }
+                "0": { "color": "transparent", "text": "—" },
+                "1": { "color": "orange", "text": "Active" }
               },
               "type": "value"
             }
@@ -783,183 +653,78 @@
         },
         "overrides": [
           {
-            "matcher": {
-              "id": "byName",
-              "options": "OL"
-            },
+            "matcher": { "id": "byName", "options": "OL" },
             "properties": [
               {
                 "id": "mappings",
                 "value": [
-                  {
-                    "options": {
-                      "0": {
-                        "color": "red",
-                        "text": "Offline"
-                      },
-                      "1": {
-                        "color": "green",
-                        "text": "Online"
-                      }
-                    },
-                    "type": "value"
-                  }
+                  { "options": { "0": { "color": "red", "text": "Offline" }, "1": { "color": "green", "text": "Online" } }, "type": "value" }
                 ]
               }
             ]
           },
           {
-            "matcher": {
-              "id": "byName",
-              "options": "OB"
-            },
+            "matcher": { "id": "byName", "options": "OB" },
             "properties": [
               {
                 "id": "mappings",
                 "value": [
-                  {
-                    "options": {
-                      "0": {
-                        "color": "transparent",
-                        "text": "—"
-                      },
-                      "1": {
-                        "color": "red",
-                        "text": "On Battery"
-                      }
-                    },
-                    "type": "value"
-                  }
+                  { "options": { "0": { "color": "transparent", "text": "—" }, "1": { "color": "red", "text": "On Battery" } }, "type": "value" }
                 ]
               }
             ]
           },
           {
-            "matcher": {
-              "id": "byName",
-              "options": "LB"
-            },
+            "matcher": { "id": "byName", "options": "LB" },
             "properties": [
               {
                 "id": "mappings",
                 "value": [
-                  {
-                    "options": {
-                      "0": {
-                        "color": "transparent",
-                        "text": "—"
-                      },
-                      "1": {
-                        "color": "red",
-                        "text": "Low Battery"
-                      }
-                    },
-                    "type": "value"
-                  }
+                  { "options": { "0": { "color": "transparent", "text": "—" }, "1": { "color": "red", "text": "Low Battery" } }, "type": "value" }
                 ]
               }
             ]
           },
           {
-            "matcher": {
-              "id": "byName",
-              "options": "CHRG"
-            },
+            "matcher": { "id": "byName", "options": "CHRG" },
             "properties": [
               {
                 "id": "mappings",
                 "value": [
-                  {
-                    "options": {
-                      "0": {
-                        "color": "transparent",
-                        "text": "—"
-                      },
-                      "1": {
-                        "color": "blue",
-                        "text": "Charging"
-                      }
-                    },
-                    "type": "value"
-                  }
+                  { "options": { "0": { "color": "transparent", "text": "—" }, "1": { "color": "blue", "text": "Charging" } }, "type": "value" }
                 ]
               }
             ]
           },
           {
-            "matcher": {
-              "id": "byName",
-              "options": "DISCHRG"
-            },
+            "matcher": { "id": "byName", "options": "DISCHRG" },
             "properties": [
               {
                 "id": "mappings",
                 "value": [
-                  {
-                    "options": {
-                      "0": {
-                        "color": "transparent",
-                        "text": "—"
-                      },
-                      "1": {
-                        "color": "orange",
-                        "text": "Discharging"
-                      }
-                    },
-                    "type": "value"
-                  }
+                  { "options": { "0": { "color": "transparent", "text": "—" }, "1": { "color": "orange", "text": "Discharging" } }, "type": "value" }
                 ]
               }
             ]
           },
           {
-            "matcher": {
-              "id": "byName",
-              "options": "RB"
-            },
+            "matcher": { "id": "byName", "options": "RB" },
             "properties": [
               {
                 "id": "mappings",
                 "value": [
-                  {
-                    "options": {
-                      "0": {
-                        "color": "transparent",
-                        "text": "—"
-                      },
-                      "1": {
-                        "color": "red",
-                        "text": "Replace Battery"
-                      }
-                    },
-                    "type": "value"
-                  }
+                  { "options": { "0": { "color": "transparent", "text": "—" }, "1": { "color": "red", "text": "Replace Battery" } }, "type": "value" }
                 ]
               }
             ]
           },
           {
-            "matcher": {
-              "id": "byName",
-              "options": "FSD"
-            },
+            "matcher": { "id": "byName", "options": "FSD" },
             "properties": [
               {
                 "id": "mappings",
                 "value": [
-                  {
-                    "options": {
-                      "0": {
-                        "color": "transparent",
-                        "text": "—"
-                      },
-                      "1": {
-                        "color": "red",
-                        "text": "Forced Shutdown"
-                      }
-                    },
-                    "type": "value"
-                  }
+                  { "options": { "0": { "color": "transparent", "text": "—" }, "1": { "color": "red", "text": "Forced Shutdown" } }, "type": "value" }
                 ]
               }
             ]
@@ -975,19 +740,202 @@
           "placement": "bottom",
           "showLegend": true
         },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "desc"
-        }
+        "tooltip": { "mode": "multi", "sort": "desc" }
       },
       "targets": [
+        { "refId": "A", "expr": "mjolnir_ups_status{job=\"mjolnir\"}", "legendFormat": "{{flag}}" }
+      ]
+    },
+
+    {
+      "type": "row",
+      "title": "🔧 Device Info",
+      "collapsed": true,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 32 },
+      "id": 400,
+      "panels": [
         {
-          "refId": "A",
-          "expr": "mjolnir_ups_status{job=\"mjolnir\"}",
-          "legendFormat": "{{flag}}"
+          "type": "stat",
+          "title": "Self-Test",
+          "id": 401,
+          "gridPos": { "h": 4, "w": 4, "x": 0, "y": 33 },
+          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+          "fieldConfig": {
+            "defaults": {
+              "color": { "mode": "thresholds" },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  { "color": "text", "value": null }
+                ]
+              },
+              "unit": "none",
+              "noValue": "No Test"
+            }
+          },
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+            "textMode": "name"
+          },
+          "targets": [
+            { "refId": "A", "expr": "mjolnir_ups_test_result{job=\"mjolnir\"} == 1", "legendFormat": "{{result}}" }
+          ]
+        },
+        {
+          "type": "stat",
+          "title": "Battery Date",
+          "id": 402,
+          "gridPos": { "h": 4, "w": 4, "x": 4, "y": 33 },
+          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+          "fieldConfig": {
+            "defaults": {
+              "color": { "mode": "thresholds" },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  { "color": "text", "value": null }
+                ]
+              },
+              "unit": "dateTimeAsIso"
+            }
+          },
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+            "textMode": "auto"
+          },
+          "targets": [
+            { "refId": "A", "expr": "mjolnir_battery_date_seconds{job=\"mjolnir\"} * 1000" }
+          ]
+        },
+        {
+          "type": "stat",
+          "title": "Nominal Power",
+          "id": 403,
+          "gridPos": { "h": 4, "w": 4, "x": 8, "y": 33 },
+          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+          "fieldConfig": {
+            "defaults": {
+              "color": { "mode": "thresholds" },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  { "color": "text", "value": null }
+                ]
+              },
+              "unit": "watt"
+            }
+          },
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+            "textMode": "auto"
+          },
+          "targets": [
+            { "refId": "A", "expr": "mjolnir_ups_realpower_nominal{job=\"mjolnir\"}" }
+          ]
+        },
+        {
+          "type": "stat",
+          "title": "Battery Type",
+          "id": 404,
+          "gridPos": { "h": 4, "w": 4, "x": 12, "y": 33 },
+          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+          "fieldConfig": {
+            "defaults": {
+              "color": { "mode": "thresholds" },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  { "color": "text", "value": null }
+                ]
+              },
+              "unit": "none"
+            }
+          },
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+            "textMode": "name"
+          },
+          "targets": [
+            { "refId": "A", "expr": "mjolnir_battery_type_info{job=\"mjolnir\"}", "legendFormat": "{{battery_type}}" }
+          ]
+        },
+        {
+          "type": "stat",
+          "title": "Firmware",
+          "id": 405,
+          "gridPos": { "h": 4, "w": 4, "x": 16, "y": 33 },
+          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+          "fieldConfig": {
+            "defaults": {
+              "color": { "mode": "thresholds" },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  { "color": "text", "value": null }
+                ]
+              },
+              "unit": "none"
+            }
+          },
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+            "textMode": "name"
+          },
+          "targets": [
+            { "refId": "A", "expr": "mjolnir_ups_firmware_info{job=\"mjolnir\"}", "legendFormat": "{{firmware}}" }
+          ]
+        },
+        {
+          "type": "stat",
+          "title": "UPS Manufacture Date",
+          "id": 406,
+          "gridPos": { "h": 4, "w": 4, "x": 20, "y": 33 },
+          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+          "fieldConfig": {
+            "defaults": {
+              "color": { "mode": "thresholds" },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  { "color": "text", "value": null }
+                ]
+              },
+              "unit": "dateTimeAsIso"
+            }
+          },
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+            "textMode": "auto"
+          },
+          "targets": [
+            { "refId": "A", "expr": "mjolnir_ups_mfr_date_seconds{job=\"mjolnir\"} * 1000" }
+          ]
         }
-      ],
-      "id": 201
+      ]
     }
   ],
   "weekStyle": "monday"
