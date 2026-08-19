@@ -9,6 +9,7 @@ project_name = "alloy-4"
 run_directory = "stacks/alloy"
 file_paths = [
   "compose.yml",
+  "compose.override.arr.yml"
   "compose.override.authentik.yaml",
 ]
 linked_repo = "homelab-infra"
