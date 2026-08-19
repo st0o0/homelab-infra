@@ -218,12 +218,12 @@ services:
   mediathekarr:
     <<: *common
     image: pcjones/mediathekarr:beta
-    container_name: arr-mediathekarr
+    container_name: mediathekarr
     environment:
       <<: *common-env
       DOWNLOAD_INCOMPLETE_PATH: /data/incomplete
       DOWNLOAD_COMPLETE_PATH: /data/complete/
-      CATEGORIES: ${MEDIATHEKARR_CATEGORIES:-series,movies,custom}
+      CATEGORIES: ${MEDIATHEKARR_CATEGORIES:-series,movies,custom,tv,mediathek}
       MEDIATHEKARR_API_BASE_URL: https://mediathekarr.pcjones.de/api/v1
     volumes:
       - ${MEDIATHEKARR_PATH_CONFIG:-./mediathekarr/config}:/app/config
@@ -237,7 +237,7 @@ services:
   youtarr-db:
     <<: *common
     image: mariadb:10.11
-    container_name: arr-youtarr-db
+    container_name: youtarr-db
     healthcheck:
       test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
       interval: 10s
@@ -257,7 +257,7 @@ services:
   youtarr:
     <<: *common
     image: dialmaster/youtarr:latest
-    container_name: arr-youtarr
+    container_name: youtarr
     depends_on:
       youtarr-db:
         condition: service_healthy

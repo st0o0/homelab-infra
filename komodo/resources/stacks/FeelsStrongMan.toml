@@ -9,8 +9,9 @@ project_name = "alloy-4"
 run_directory = "stacks/alloy"
 file_paths = [
   "compose.yml",
-  "compose.override.arr.yml"
+  "compose.override.arr.yaml",
   "compose.override.authentik.yaml",
+  "compose.override.jellyfin.yaml",
 ]
 linked_repo = "homelab-infra"
 extra_args = ["--remove-orphans"]
@@ -237,7 +238,6 @@ YOUTARR_PATH_DOWNLOADS=/mnt/ssd/Videos
 YOUTARR_PATH_IMAGES=/docker/arr/youtarr/images
 # Mediathekarr
 MEDIATHEKARR_PORT=1007
-MEDIATHEKARR_CATEGORIES=series,movies,custom
 MEDIATHEKARR_PATH_CONFIG=/docker/arr/mediathekarr/config
 MEDIATHEKARR_PATH_TEMP=/mnt/ssd/mediathek_temp
 """
@@ -253,6 +253,57 @@ requires = "Redeploy"
 [stack.config.pre_deploy]
 path = "."
 command = "docker network create media-net 2>/dev/null || true && sh scripts/pre-deploy.sh"
+
+# [[stack]]
+# name = "downloader-1"
+# tags = ["media"]
+# after = ["arr-1"]
+# [stack.config]
+# server = "FeelsStrongMan"
+# run_directory = "stacks/downloader"
+# file_paths = ["compose.yml"]
+# linked_repo = "homelab-infra"
+# extra_args = ["--remove-orphans"]
+# environment = """
+# TZ=[[tz]]
+# PUID=[[puid]]
+# PGID=[[pgid]]
+# # Gluetun
+# GLUETUN_WG_PRIVATE_KEY=[[FeelsStrongMan_gluetun_wireguard_private_key]]
+# GLUETUN_WG_PRESHARED_KEY=[[FeelsStrongMan_gluetun_wireguard_preshared_key]]
+# GLUETUN_WG_ADDRESSES=[[FeelsStrongMan_gluetun_wireguard_addresses]]
+# GLUETUN_VPN_PROVIDER=[[FeelsStrongMan_gluetun_vpn_provider]]
+# GLUETUN_VPN_TYPE=[[FeelsStrongMan_gluetun_vpn_type]]
+# GLUETUN_SERVER_CITIES=[[FeelsStrongMan_gluetun_server_cities]]
+# GLUETUN_DOT_PROVIDERS=[[FeelsStrongMan_gluetun_dot_providers]]
+# GLUETUN_WG_MTU=1380
+# GLUETUN_PORT=8079
+# # SABnzbd
+# SABNZBD_PORT=8078
+# SABNZBD_PATH_CONFIG=/docker/downloader/sabnzbd/config
+# SABNZBD_PATH_INCOMPLETE=/mnt/ssd/usenet/incomplete
+# SABNZBD_API_KEY=[[FeelsStrongMan_sabnzbd_api_key]]
+# SABNZBD_NZB_KEY=[[FeelsStrongMan_sabnzbd_nzb_key]]
+# SABNZBD_SERVER1_HOST=[[FeelsStrongMan_sabnzbd_server1_host]]
+# SABNZBD_SERVER1_USERNAME=[[FeelsStrongMan_sabnzbd_server1_username]]
+# SABNZBD_SERVER1_PASSWORD=[[FeelsStrongMan_sabnzbd_server1_password]]
+# SABNZBD_SERVER1_CONNECTIONS=24
+# SABNZBD_HOST_WHITELIST=sabnzbd,localhost
+# # CIFS
+# CIFS_DOWNLOADS_HOST=[[FeelsStrongMan_cifs_downloads_host]]
+# CIFS_DOWNLOADS_SHARE=[[FeelsStrongMan_cifs_downloads_share]]
+# CIFS_DOWNLOADS_USER=[[FeelsStrongMan_cifs_downloads_user]]
+# CIFS_DOWNLOADS_PASS=[[FeelsStrongMan_cifs_downloads_password]]
+# """
+# 
+# [[stack.config.config_files]]
+# path = "scripts/pre-deploy.sh"
+# requires = "Redeploy"
+# 
+# [stack.config.pre_deploy]
+# path = "."
+# command = "docker network create media-net 2>/dev/null || true && sh scripts/pre-deploy.sh"
+# 
 #
 # [[stack]]
 # name = "media-1"
@@ -354,45 +405,6 @@ command = "docker network create media-net 2>/dev/null || true && sh scripts/pre
 # MEALIE_DB_NAME=
 # MEALIE_PATH_DATA=/docker/mealie/data
 # """
-#
-# [[stack]]
-# name = "downloader-1"
-# tags = ["media"]
-# after = ["media-1"]
-# [stack.config]
-# server = "FeelsStrongMan"
-# run_directory = "stacks/downloader"
-# file_paths = ["compose.yml"]
-# linked_repo = "homelab-infra"
-# extra_args = ["--remove-orphans"]
-# environment = """
-# TZ=[[tz]]
-# PUID=[[puid]]
-# PGID=[[pgid]]
-# GLUETUN_WG_PRIVATE_KEY=[[FeelsStrongMan_downloader_wireguard_private_key]]
-# GLUETUN_WG_ADDRESSES=[[FeelsStrongMan_downloader_wireguard_addresses]]
-# GLUETUN_WG_PRESHARED_KEY=[[FeelsStrongMan_downloader_wireguard_preshared_key]]
-# GLUETUN_PORT=8079
-# GLUETUN_VPN_PROVIDER=airvpn
-# GLUETUN_VPN_TYPE=wireguard
-# GLUETUN_WG_MTU=1380
-# GLUETUN_SERVER_CITIES=Alblasserdam
-# GLUETUN_DOT_PROVIDERS=quad9
-# CIFS_DOWNLOADS_HOST=[[FeelsStrongMan_cifs_downloads_host]]
-# CIFS_DOWNLOADS_SHARE=[[FeelsStrongMan_cifs_downloads_share]]
-# CIFS_DOWNLOADS_USER=[[FeelsStrongMan_cifs_downloads_user]]
-# CIFS_DOWNLOADS_PASS=[[FeelsStrongMan_cifs_downloads_password]]
-# NZBGET_PORT=6789
-# NZBGET_PATH_SSD=/docker/downloader/nzbget/ssd
-# NZBOP_SERVER1_HOST=[[FeelsStrongMan_nzbget_server1_host]]
-# NZBOP_SERVER1_USERNAME=[[FeelsStrongMan_nzbget_server1_username]]
-# NZBOP_SERVER1_PASSWORD=[[FeelsStrongMan_nzbget_server1_password]]
-# NZBOP_SERVER1_CONNECTIONS=10
-# """
-#
-# [stack.config.pre_deploy]
-# path = "."
-# command = "docker network create media-net 2>/dev/null || true"
 #
 # [[stack]]
 # name = "paperless-1"
