@@ -918,7 +918,7 @@
           "type": "stat",
           "title": "UPS Manufacture Date",
           "id": 406,
-          "gridPos": { "h": 4, "w": 4, "x": 20, "y": 33 }
+          "gridPos": { "h": 4, "w": 4, "x": 20, "y": 33 },
           "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
           "fieldConfig": {
             "defaults": {
