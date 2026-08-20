@@ -79,7 +79,7 @@
     },
     {
       "type": "stat",
-      "title": "SSH Accepted 24h",
+      "title": "SSH Accepted",
       "gridPos": {
         "h": 4,
         "w": 4,
@@ -129,11 +129,12 @@
           "queryType": "stats"
         }
       ],
+      "timeFrom": "24h",
       "id": 2
     },
     {
       "type": "stat",
-      "title": "SSH Attacks 24h",
+      "title": "SSH Attacks",
       "gridPos": {
         "h": 4,
         "w": 4,
@@ -190,15 +191,16 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "{job=\"ssh\",host=~\"$instance\"} event_type:\"invalid_user\" | count()",
+          "expr": "{job=\"ssh\",host=~\"$instance\"} event_type:~\"invalid_user|preauth|failed\" | count()",
           "queryType": "stats"
         }
       ],
+      "timeFrom": "24h",
       "id": 3
     },
     {
       "type": "stat",
-      "title": "Fail2ban Bans 24h",
+      "title": "Fail2ban Bans",
       "gridPos": {
         "h": 4,
         "w": 4,
@@ -259,11 +261,12 @@
           "queryType": "stats"
         }
       ],
+      "timeFrom": "24h",
       "id": 4
     },
     {
       "type": "stat",
-      "title": "UFW Blocks 24h",
+      "title": "UFW Blocks",
       "gridPos": {
         "h": 4,
         "w": 4,
@@ -324,11 +327,12 @@
           "queryType": "stats"
         }
       ],
+      "timeFrom": "24h",
       "id": 5
     },
     {
       "type": "stat",
-      "title": "Unique Attacker IPs 24h",
+      "title": "Unique Attacker IPs",
       "gridPos": {
         "h": 4,
         "w": 4,
@@ -389,11 +393,12 @@
           "queryType": "stats"
         }
       ],
+      "timeFrom": "24h",
       "id": 6
     },
     {
       "type": "stat",
-      "title": "Attack Countries 24h",
+      "title": "Attack Countries",
       "gridPos": {
         "h": 4,
         "w": 4,
@@ -443,6 +448,7 @@
           "queryType": "stats"
         }
       ],
+      "timeFrom": "24h",
       "id": 7
     },
     {
@@ -749,7 +755,7 @@
     },
     {
       "type": "stat",
-      "title": "Attacks 24h",
+      "title": "Attacks",
       "gridPos": {
         "h": 4,
         "w": 6,
@@ -1399,7 +1405,8 @@
               "refId": "A"
             }
           ],
-          "title": "Sudo Total 24h",
+          "timeFrom": "24h",
+          "title": "Sudo Total",
           "transformations": [],
           "type": "stat"
         },
@@ -1460,7 +1467,8 @@
               "refId": "A"
             }
           ],
-          "title": "Sudo Failed 24h",
+          "timeFrom": "24h",
+          "title": "Sudo Failed",
           "transformations": [],
           "type": "stat"
         },

@@ -710,7 +710,7 @@
     },
     {
       "type": "stat",
-      "title": "Total Requests (24h)",
+      "title": "Total Requests",
       "gridPos": {
         "x": 20,
         "y": 5,
@@ -753,7 +753,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(increase(caddy_http_requests_total{instance=~\"$instance\"}[24h]))"
+          "expr": "sum(increase(caddy_http_requests_total{instance=~\"$instance\"}[$__range]))"
         }
       ],
       "id": 106
@@ -860,7 +860,7 @@
     },
     {
       "type": "stat",
-      "title": "Caddy RX (24h)",
+      "title": "Caddy RX",
       "gridPos": {
         "x": 8,
         "y": 8,
@@ -903,14 +903,14 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(increase(caddy_http_request_size_bytes_sum{instance=~\"$instance\"}[24h]))"
+          "expr": "sum(increase(caddy_http_request_size_bytes_sum{instance=~\"$instance\"}[$__range]))"
         }
       ],
       "id": 109
     },
     {
       "type": "stat",
-      "title": "Caddy TX (24h)",
+      "title": "Caddy TX",
       "gridPos": {
         "x": 12,
         "y": 8,
@@ -953,7 +953,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(increase(caddy_http_response_size_bytes_sum{instance=~\"$instance\"}[24h]))"
+          "expr": "sum(increase(caddy_http_response_size_bytes_sum{instance=~\"$instance\"}[$__range]))"
         }
       ],
       "id": 110
@@ -1010,7 +1010,7 @@
     },
     {
       "type": "stat",
-      "title": "Honeypot Traps (24h)",
+      "title": "Honeypot Traps",
       "gridPos": {
         "x": 20,
         "y": 8,
@@ -1053,7 +1053,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(increase(ran_connections_total{instance=~\"$instance\"}[24h]))"
+          "expr": "sum(increase(ran_connections_total{instance=~\"$instance\"}[$__range]))"
         }
       ],
       "id": 112
@@ -3260,7 +3260,7 @@
         {
           "id": 502,
           "type": "stat",
-          "title": "Connections (24h)",
+          "title": "Connections ($__range)",
           "gridPos": {
             "x": 6,
             "y": 34,
@@ -3308,14 +3308,14 @@
                 "type": "victoriametrics-metrics-datasource",
                 "uid": "victoriametrics"
               },
-              "expr": "sum(increase(ran_connections_total{instance=~\"$instance\"}[24h]))"
+              "expr": "sum(increase(ran_connections_total{instance=~\"$instance\"}[$__range]))"
             }
           ]
         },
         {
           "id": 503,
           "type": "stat",
-          "title": "Credentials Captured (24h)",
+          "title": "Credentials Captured ($__range)",
           "gridPos": {
             "x": 12,
             "y": 34,
@@ -3363,14 +3363,14 @@
                 "type": "victoriametrics-metrics-datasource",
                 "uid": "victoriametrics"
               },
-              "expr": "sum(increase(ran_credentials_captured_total{instance=~\"$instance\"}[24h]))"
+              "expr": "sum(increase(ran_credentials_captured_total{instance=~\"$instance\"}[$__range]))"
             }
           ]
         },
         {
           "id": 512,
           "type": "stat",
-          "title": "CrowdSec Alerts (24h)",
+          "title": "CrowdSec Alerts ($__range)",
           "gridPos": {
             "x": 18,
             "y": 34,
@@ -3418,7 +3418,7 @@
                 "type": "victoriametrics-metrics-datasource",
                 "uid": "victoriametrics"
               },
-              "expr": "sum(increase(ran_crowdsec_alerts_total{instance=~\"$instance\"}[24h]))"
+              "expr": "sum(increase(ran_crowdsec_alerts_total{instance=~\"$instance\"}[$__range]))"
             }
           ]
         },
