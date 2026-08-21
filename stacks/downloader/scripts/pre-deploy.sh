@@ -11,7 +11,7 @@ if [ -f .env ]; then
 fi
 
 SABNZBD_DIR="${SABNZBD_PATH_CONFIG:-./sabnzbd/config}"
-mkdir -p "${SABNZBD_DIR}"
+mkdir -p "${SABNZBD_DIR}/sabnzbd"
 
 INI="${SABNZBD_DIR}/sabnzbd.ini"
 
