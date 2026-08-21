@@ -243,4 +243,6 @@ EOF
   IDX=$((IDX + 1))
 done
 
+chown -R "${PUID:-1000}:${PGID:-1000}" "${SABNZBD_DIR}"
+
 echo "[pre-deploy] sabnzbd.ini created"
