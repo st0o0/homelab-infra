@@ -1,6 +1,6 @@
 # Downloader
 
-SABnzbd Usenet downloader routed through a Gluetun VPN tunnel (AirVPN/WireGuard).
+SABnzbd Usenet downloader and Firefox browser routed through a Gluetun VPN tunnel (AirVPN/WireGuard).
 
 ```
  host
@@ -8,10 +8,12 @@ SABnzbd Usenet downloader routed through a Gluetun VPN tunnel (AirVPN/WireGuard)
 |  +----------+     +----------+       |
 |  | SABnzbd  |----►| Gluetun  |=======|==> VPN tunnel
 |  |          |     | :8079    |       |
-|  | network_ |     | :8078    |       |
-|  | mode:    |     |          |       |
-|  | service: |     | AirVPN   |       |
-|  | gluetun  |     | WireGuard|       |
+|  | Firefox  |----►| :8080    |       |
+|  |          |     | :5800    |       |
+|  | network_ |     |          |       |
+|  | mode:    |     | AirVPN   |       |
+|  | service: |     | WireGuard|       |
+|  | gluetun  |     |          |       |
 |  +----------+     +----------+       |
 |                                      |
 |  Network: media-net (external)       |
@@ -30,7 +32,8 @@ cp .env.example .env   # set WireGuard keys + news server credentials
 docker compose up -d
 ```
 
-SABnzbd UI: `http://localhost:8078`
+SABnzbd UI: `http://localhost:8080`
+Firefox UI: `http://localhost:5800`
 
 ## Categories
 
@@ -71,6 +74,10 @@ SABNZBD_CAT_2_PP=1
 | `SABNZBD_PORT` | no | `8080` | SABnzbd web UI port (on gluetun) |
 | `GLUETUN_PORT` | no | `8079` | Gluetun control port |
 | `SABNZBD_SERVER1_CONNECTIONS` | no | `20` | Number of connections |
+| `FIREFOX_PORT` | no | `5800` | Firefox web UI port (on gluetun) |
+| `FIREFOX_MEMORY` | no | `512MB` | Firefox memory limit |
+| `FIREFOX_LANG` | no | `de_DE.UTF-8` | Firefox locale |
+
 | `TZ` | no | `Europe/Berlin` | Timezone |
 
 ## Verify
