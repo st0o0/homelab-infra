@@ -178,10 +178,6 @@ CIFS_MEDIA_HOST=[[FeelsStrongMan_cifs_media_host]]
 CIFS_MEDIA_SHARE=[[FeelsStrongMan_cifs_media_share]]
 CIFS_MEDIA_USER=[[FeelsStrongMan_cifs_media_user]]
 CIFS_MEDIA_PASS=[[FeelsStrongMan_cifs_media_password]]
-CIFS_DOWNLOADS_HOST=[[FeelsStrongMan_cifs_downloads_host]]
-CIFS_DOWNLOADS_SHARE=[[FeelsStrongMan_cifs_downloads_share]]
-CIFS_DOWNLOADS_USER=[[FeelsStrongMan_cifs_downloads_user]]
-CIFS_DOWNLOADS_PASS=[[FeelsStrongMan_cifs_downloads_password]]
 # Sonarr
 SONARR_PORT=1089
 SONARR_PATH_CONFIG=/docker/arr/sonarr/config
@@ -236,10 +232,6 @@ YOUTARR_DB_USER=youtarr
 YOUTARR_DB_NAME=youtarr
 YOUTARR_PATH_DOWNLOADS=/mnt/ssd/Videos
 YOUTARR_PATH_IMAGES=/docker/arr/youtarr/images
-# Mediathekarr
-MEDIATHEKARR_PORT=1007
-MEDIATHEKARR_PATH_CONFIG=/docker/arr/mediathekarr/config
-MEDIATHEKARR_PATH_TEMP=/mnt/ssd/mediathek_temp
 """
 
 [[stack.config.config_files]]
@@ -254,57 +246,65 @@ requires = "Redeploy"
 path = "."
 command = "docker network create media-net 2>/dev/null || true && sh scripts/pre-deploy.sh"
 
-# [[stack]]
-# name = "downloader-1"
-# tags = ["media"]
-# after = ["arr-1"]
-# [stack.config]
-# server = "FeelsStrongMan"
-# run_directory = "stacks/downloader"
-# file_paths = ["compose.yml"]
-# linked_repo = "homelab-infra"
-# extra_args = ["--remove-orphans"]
-# environment = """
-# TZ=[[tz]]
-# PUID=[[puid]]
-# PGID=[[pgid]]
-# # Gluetun
-# GLUETUN_WG_PRIVATE_KEY=[[FeelsStrongMan_gluetun_wireguard_private_key]]
-# GLUETUN_WG_PRESHARED_KEY=[[FeelsStrongMan_gluetun_wireguard_preshared_key]]
-# GLUETUN_WG_ADDRESSES=[[FeelsStrongMan_gluetun_wireguard_addresses]]
-# GLUETUN_VPN_PROVIDER=[[FeelsStrongMan_gluetun_vpn_provider]]
-# GLUETUN_VPN_TYPE=[[FeelsStrongMan_gluetun_vpn_type]]
-# GLUETUN_SERVER_CITIES=[[FeelsStrongMan_gluetun_server_cities]]
-# GLUETUN_DOT_PROVIDERS=[[FeelsStrongMan_gluetun_dot_providers]]
-# GLUETUN_WG_MTU=1380
-# GLUETUN_PORT=8079
-# # SABnzbd
-# SABNZBD_PORT=8078
-# SABNZBD_PATH_CONFIG=/docker/downloader/sabnzbd/config
-# SABNZBD_PATH_INCOMPLETE=/mnt/ssd/usenet/incomplete
-# SABNZBD_API_KEY=[[FeelsStrongMan_sabnzbd_api_key]]
-# SABNZBD_NZB_KEY=[[FeelsStrongMan_sabnzbd_nzb_key]]
-# SABNZBD_SERVER1_HOST=[[FeelsStrongMan_sabnzbd_server1_host]]
-# SABNZBD_SERVER1_USERNAME=[[FeelsStrongMan_sabnzbd_server1_username]]
-# SABNZBD_SERVER1_PASSWORD=[[FeelsStrongMan_sabnzbd_server1_password]]
-# SABNZBD_SERVER1_CONNECTIONS=24
-# SABNZBD_HOST_WHITELIST=sabnzbd,localhost
-# # CIFS
-# CIFS_DOWNLOADS_HOST=[[FeelsStrongMan_cifs_downloads_host]]
-# CIFS_DOWNLOADS_SHARE=[[FeelsStrongMan_cifs_downloads_share]]
-# CIFS_DOWNLOADS_USER=[[FeelsStrongMan_cifs_downloads_user]]
-# CIFS_DOWNLOADS_PASS=[[FeelsStrongMan_cifs_downloads_password]]
-# """
-# 
-# [[stack.config.config_files]]
-# path = "scripts/pre-deploy.sh"
-# requires = "Redeploy"
-# 
-# [stack.config.pre_deploy]
-# path = "."
-# command = "docker network create media-net 2>/dev/null || true && sh scripts/pre-deploy.sh"
-# 
-#
+[[stack]]
+name = "downloader-1"
+tags = ["media"]
+after = ["arr-1"]
+[stack.config]
+server = "FeelsStrongMan"
+run_directory = "stacks/downloader"
+file_paths = ["compose.yml"]
+linked_repo = "homelab-infra"
+extra_args = ["--remove-orphans"]
+environment = """
+TZ=[[tz]]
+PUID=[[puid]]
+PGID=[[pgid]]
+# Gluetun
+GLUETUN_WG_PRIVATE_KEY=[[FeelsStrongMan_gluetun_wireguard_private_key]]
+GLUETUN_WG_PRESHARED_KEY=[[FeelsStrongMan_gluetun_wireguard_preshared_key]]
+GLUETUN_WG_ADDRESSES=[[FeelsStrongMan_gluetun_wireguard_addresses]]
+GLUETUN_VPN_PROVIDER=[[FeelsStrongMan_gluetun_vpn_provider]]
+GLUETUN_VPN_TYPE=[[FeelsStrongMan_gluetun_vpn_type]]
+GLUETUN_SERVER_CITIES=[[FeelsStrongMan_gluetun_server_cities]]
+GLUETUN_DOT_PROVIDERS=[[FeelsStrongMan_gluetun_dot_providers]]
+GLUETUN_WG_MTU=1380
+GLUETUN_PORT=8079
+# SABnzbd
+SABNZBD_PORT=8080
+SABNZBD_PATH_CONFIG=/docker/downloader/sabnzbd/config
+SABNZBD_PATH_INCOMPLETE=/mnt/ssd/usenet/incomplete
+SABNZBD_API_KEY=[[FeelsStrongMan_sabnzbd_api_key]]
+SABNZBD_NZB_KEY=[[FeelsStrongMan_sabnzbd_nzb_key]]
+SABNZBD_BANDWIDTH_MAX=40M
+SABNZBD_SCHEDLINES="1 30 23 1234567 pause_all ", "1 0 2 1234567 resume "
+SABNZBD_ENABLE_SEASON_SORTING=1
+SABNZBD_SERVER1_HOST=[[FeelsStrongMan_sabnzbd_server1_host]]
+SABNZBD_SERVER1_USERNAME=[[FeelsStrongMan_sabnzbd_server1_username]]
+SABNZBD_SERVER1_PASSWORD=[[FeelsStrongMan_sabnzbd_server1_password]]
+SABNZBD_SERVER1_CONNECTIONS=24
+# Categories
+SABNZBD_CAT_1_NAME=sonarr
+SABNZBD_CAT_1_DIR=series
+SABNZBD_CAT_2_NAME=radarr
+SABNZBD_CAT_2_DIR=movies
+SABNZBD_CAT_3_NAME=prowlarr
+SABNZBD_CAT_3_DIR=custom
+# CIFS
+CIFS_DOWNLOADS_HOST=[[FeelsStrongMan_cifs_downloads_host]]
+CIFS_DOWNLOADS_SHARE=[[FeelsStrongMan_cifs_downloads_share]]
+CIFS_DOWNLOADS_USER=[[FeelsStrongMan_cifs_downloads_user]]
+CIFS_DOWNLOADS_PASS=[[FeelsStrongMan_cifs_downloads_password]]
+"""
+
+[[stack.config.config_files]]
+path = "scripts/pre-deploy.sh"
+requires = "Redeploy"
+
+[stack.config.pre_deploy]
+path = "."
+command = "docker network create media-net 2>/dev/null || true && sh scripts/pre-deploy.sh"
+
 # [[stack]]
 # name = "media-1"
 # tags = ["media"]
@@ -322,20 +322,19 @@ command = "docker network create media-net 2>/dev/null || true && sh scripts/pre
 # CIFS_MEDIA_SHARE=[[FeelsStrongMan_cifs_media_share]]
 # CIFS_MEDIA_USER=[[FeelsStrongMan_cifs_media_user]]
 # CIFS_MEDIA_PASS=[[FeelsStrongMan_cifs_media_password]]
-# CIFS_AUDIOS_HOST=[[FeelsStrongMan_cifs_audios_host]]
-# CIFS_AUDIOS_SHARE=[[FeelsStrongMan_cifs_audios_share]]
-# CIFS_AUDIOS_USER=[[FeelsStrongMan_cifs_audios_user]]
-# CIFS_AUDIOS_PASS=[[FeelsStrongMan_cifs_audios_password]]
+# CIFS_AUDIO_HOST=[[FeelsStrongMan_cifs_audio_host]]
+# CIFS_AUDIO_SHARE=[[FeelsStrongMan_cifs_audio_share]]
+# CIFS_AUDIO_USER=[[FeelsStrongMan_cifs_audio_user]]
+# CIFS_AUDIO_PASS=[[FeelsStrongMan_cifs_audio_password]]
 # JELLYFIN_PORT=8096
 # JELLYFIN_PATH_CONFIG=/docker/media/jellyfin/config
 # JELLYFIN_PATH_CACHE=/docker/media/jellyfin/cache
 # JELLYFIN_PATH_PREVIEW=/docker/media/jellyfin/preview
-# JELLYFIN_PATH_VIDEO=/docker/media/jellyfin/video
+# JELLYFIN_PATH_VIDEO=/mnt/ssd/Videos
 # AUDIOBOOKSHELF_PORT=13378
 # AUDIOBOOKSHELF_PATH_CONFIG=/docker/media/audiobookshelf/config
 # AUDIOBOOKSHELF_PATH_METADATA=/docker/media/audiobookshelf/metadata
 # """
-#
 # [stack.config.pre_deploy]
 # path = "."
 # command = "docker network create media-net 2>/dev/null || true"
