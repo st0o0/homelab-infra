@@ -1,62 +1,77 @@
 # Downloader
 
-NZBGet Usenet downloader routed through a Gluetun VPN tunnel (AirVPN/WireGuard).
+SABnzbd Usenet downloader routed through a Gluetun VPN tunnel (AirVPN/WireGuard).
 
 ```
  host
-┌──────────────────────────────────────┐
-│  ┌──────────┐     ┌──────────┐      │
-│  │ NZBGet   │────►│ Gluetun  │══════│══► VPN tunnel
-│  │          │     │ :8079    │      │
-│  │ network_ │     │ :6789    │      │
-│  │ mode:    │     │          │      │
-│  │ service: │     │ AirVPN   │      │
-│  │ gluetun  │     │ WireGuard│      │
-│  └──────────┘     └──────────┘      │
-│                                      │
-│  Network: media-net (external)       │
-└──────────────────────────────────────┘
++--------------------------------------+
+|  +----------+     +----------+       |
+|  | SABnzbd  |----►| Gluetun  |=======|==> VPN tunnel
+|  |          |     | :8079    |       |
+|  | network_ |     | :8078    |       |
+|  | mode:    |     |          |       |
+|  | service: |     | AirVPN   |       |
+|  | gluetun  |     | WireGuard|       |
+|  +----------+     +----------+       |
+|                                      |
+|  Network: media-net (external)       |
++--------------------------------------+
 ```
 
 ## Prerequisites
 
-- `media-net` Docker network, created by the `media` stack (deployed first via Komodo `after` ordering — see `komodo/resources/stacks.toml`)
-- CIFS volume mount configured for `nzbget_smb` (completed downloads, shared with the arr stack)
+- `media-net` Docker network, created by the `media` stack (deployed first via Komodo `after` ordering)
+- CIFS volume mount configured for `sabnzbd_smb_downloads` (completed downloads, shared with the arr stack)
 
 ## Quick start
 
 ```bash
-cp .env .env.local   # set WireGuard keys + news server credentials
+cp .env.example .env   # set WireGuard keys + news server credentials
 docker compose up -d
 ```
 
-NZBGet UI: `http://localhost:6789`
+SABnzbd UI: `http://localhost:8078`
 
 ## Categories
 
-Pre-configured categories for Sonarr/Radarr/Mediathekarr integration:
+Categories are configured dynamically via numbered `SABNZBD_CAT_<N>_*` environment variables.
+The `pre-deploy.sh` script seeds them into `sabnzbd.ini` on first deploy.
 
-| Category | Destination | Used by |
-|---|---|---|
-| `sonarr` | `/data/complete/sonarr` | Sonarr |
-| `radarr` | `/data/complete/radarr` | Radarr |
-| `mediathek` | `/data/complete/mediathek` | Mediathekarr |
+| Variable | Required | Default | Purpose |
+|---|---|---|---|
+| `SABNZBD_CAT_<N>_NAME` | yes | - | Category name (also stops iteration when missing) |
+| `SABNZBD_CAT_<N>_DIR` | no | `NAME` | Download subdirectory |
+| `SABNZBD_CAT_<N>_PP` | no | `3` | Post-processing (0=none, 1=repair, 2=+unpack, 3=+delete) |
+| `SABNZBD_CAT_<N>_SCRIPT` | no | `Default` | Post-processing script |
+| `SABNZBD_CAT_<N>_PRIORITY` | no | `-100` | Priority (-100=default, -2=paused, -1=low, 0=normal, 1=high, 2=force) |
+
+Example:
+
+```
+SABNZBD_CAT_1_NAME=sonarr
+SABNZBD_CAT_2_NAME=radarr
+SABNZBD_CAT_2_PP=1
+```
 
 ## Environment variables
 
 | Variable | Required | Default | Purpose |
 |---|---|---|---|
-| `GLUETUN_WG_PRIVATE_KEY` | yes | — | WireGuard private key |
-| `GLUETUN_WG_ADDRESSES` | yes | — | WireGuard tunnel addresses |
-| `NZBOP_SERVER1_HOST` | yes | — | Usenet server hostname |
-| `NZBOP_SERVER1_USERNAME` | yes | — | Usenet server username |
-| `NZBOP_SERVER1_PASSWORD` | yes | — | Usenet server password |
-| `NZBGET_PORT` | no | `6789` | NZBGet web UI port |
+| `GLUETUN_WG_PRIVATE_KEY` | yes | - | WireGuard private key |
+| `GLUETUN_WG_ADDRESSES` | yes | - | WireGuard tunnel addresses |
+| `SABNZBD_API_KEY` | yes | - | SABnzbd API key |
+| `SABNZBD_NZB_KEY` | yes | - | SABnzbd NZB key |
+| `SABNZBD_SERVER1_HOST` | yes | - | Usenet server hostname |
+| `SABNZBD_SERVER1_USERNAME` | yes | - | Usenet server username |
+| `SABNZBD_SERVER1_PASSWORD` | yes | - | Usenet server password |
+| `CIFS_DOWNLOADS_HOST` | yes | - | CIFS/SMB server for downloads |
+| `CIFS_DOWNLOADS_SHARE` | yes | - | CIFS share name |
+| `CIFS_DOWNLOADS_USER` | yes | - | CIFS username |
+| `CIFS_DOWNLOADS_PASS` | yes | - | CIFS password |
+| `SABNZBD_PORT` | no | `8080` | SABnzbd web UI port (on gluetun) |
 | `GLUETUN_PORT` | no | `8079` | Gluetun control port |
-| `NZBOP_SERVER1_CONNECTIONS` | no | `10` | Number of connections |
+| `SABNZBD_SERVER1_CONNECTIONS` | no | `20` | Number of connections |
 | `TZ` | no | `Europe/Berlin` | Timezone |
-
-All NZBGet config options can be set via `NZBOP_*` environment variables.
 
 ## Verify
 

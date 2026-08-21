@@ -16,55 +16,39 @@ services:
       - /dev/net/tun:/dev/net/tun
     ports:
       - "${GLUETUN_PORT:-8079}:8000"
-      - "${NZBGET_PORT:-6789}:6789"
+      - "${SABNZBD_PORT:-8080}:8080"
     environment:
-      - VPN_SERVICE_PROVIDER=${GLUETUN_VPN_PROVIDER:-airvpn}
+      - TZ=${TZ:-}
+      - VPN_SERVICE_PROVIDER=${GLUETUN_VPN_PROVIDER:?GLUETUN_VPN_PROVIDER is required}
       - VPN_TYPE=${GLUETUN_VPN_TYPE:-wireguard}
       - WIREGUARD_MTU=${GLUETUN_WG_MTU:-1380}
       - WIREGUARD_PRIVATE_KEY=${GLUETUN_WG_PRIVATE_KEY:?GLUETUN_WG_PRIVATE_KEY is required}
-      - WIREGUARD_PRESHARED_KEY=${GLUETUN_WG_PRESHARED_KEY:-}
+      - WIREGUARD_PRESHARED_KEY=${GLUETUN_WG_PRESHARED_KEY:?GLUETUN_WG_PRESHARED_KEY is required}
       - WIREGUARD_ADDRESSES=${GLUETUN_WG_ADDRESSES:?GLUETUN_WG_ADDRESSES is required}
-      - SERVER_CITIES=${GLUETUN_SERVER_CITIES:-Alblasserdam}
+      - SERVER_CITIES=${GLUETUN_SERVER_CITIES:?GLUETUN_SERVER_CITIES is required}
       - DOT_PROVIDERS=${GLUETUN_DOT_PROVIDERS:-quad9}
-      - TZ=${TZ:-}
     volumes:
       - ./gluetun/config:/gluetun
     networks:
       media:
         aliases:
-          - nzbget
+          - sabnzbd
 
-  nzbget:
-    image: nzbgetcom/nzbget:v24.8@sha256:c21a1dc5592aa20b3467b97e728bf16fa1a79f1081041ec1774e9b282fae3fb8
-    container_name: nzbget
+  sabnzbd:
+    image: ghcr.io/home-operations/sabnzbd:5.1.1
+    container_name: sabnzbd
     restart: unless-stopped
     logging: *default-logging
+    user: "${PUID:-1000}:${PGID:-1000}"
     environment:
-      - PUID=${PUID:-}
-      - PGID=${PGID:-}
       - TZ=${TZ:-}
-      - NZBGET_USER=${NZBGET_USER:-}
-      - NZBGET_PASS=${NZBGET_PASS:-}
-      - NZBOP_MAINDIR=/data
-      - NZBOP_DESTDIR=/data/complete
-      - NZBOP_INTERDIR=/data/ssd/inter
-      - NZBOP_TEMPDIR=/data/ssd/tmp
-      - NZBOP_SERVER1_HOST=${NZBOP_SERVER1_HOST:-}
-      - NZBOP_SERVER1_PORT=${NZBOP_SERVER1_PORT:-563}
-      - NZBOP_SERVER1_USERNAME=${NZBOP_SERVER1_USERNAME:-}
-      - NZBOP_SERVER1_PASSWORD=${NZBOP_SERVER1_PASSWORD:-}
-      - NZBOP_SERVER1_CONNECTIONS=${NZBOP_SERVER1_CONNECTIONS:-10}
-      - NZBOP_SERVER1_ENCRYPTION=${NZBOP_SERVER1_ENCRYPTION:-yes}
-      - NZBOP_CATEGORY1_NAME=sonarr
-      - NZBOP_CATEGORY1_DESTDIR=/data/complete/sonarr
-      - NZBOP_CATEGORY2_NAME=radarr
-      - NZBOP_CATEGORY2_DESTDIR=/data/complete/radarr
-      - NZBOP_CATEGORY3_NAME=mediathek
-      - NZBOP_CATEGORY3_DESTDIR=/data/complete/mediathek
+      - SABNZBD__PORT=8080
+      - SABNZBD__API_KEY=${SABNZBD_API_KEY:?SABNZBD_API_KEY is required}
+      - SABNZBD__NZB_KEY=${SABNZBD_NZB_KEY:?SABNZBD_NZB_KEY is required}
     volumes:
-      - ./nzbget/config:/config
-      - nzbget_smb:/data/complete
-      - ${NZBGET_PATH_SSD:-./nzbget/ssd}:/data/ssd
+      - ${SABNZBD_PATH_CONFIG:-./sabnzbd/config}:/config
+      - ${SABNZBD_PATH_INCOMPLETE:-./sabnzbd/incomplete}:/data/incomplete
+      - sabnzbd_smb_downloads:/data/downloads
     network_mode: service:gluetun
     depends_on:
       gluetun:
@@ -72,7 +56,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 512M
+          memory: 1GB
           cpus: "1"
 
 networks:
@@ -81,7 +65,7 @@ networks:
     external: true
 
 volumes:
-  nzbget_smb:
+  sabnzbd_smb_downloads:
     driver: local
     driver_opts:
       type: cifs
