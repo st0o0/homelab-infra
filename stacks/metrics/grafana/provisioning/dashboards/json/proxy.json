@@ -3260,7 +3260,8 @@
         {
           "id": 502,
           "type": "stat",
-          "title": "Connections ($__range)",
+          "title": "Connections",
+          "timeFrom": "24h",
           "gridPos": {
             "x": 6,
             "y": 34,
@@ -3315,7 +3316,8 @@
         {
           "id": 503,
           "type": "stat",
-          "title": "Credentials Captured ($__range)",
+          "title": "Credentials Captured",
+          "timeFrom": "24h",
           "gridPos": {
             "x": 12,
             "y": 34,
@@ -3370,7 +3372,8 @@
         {
           "id": 512,
           "type": "stat",
-          "title": "CrowdSec Alerts ($__range)",
+          "title": "CrowdSec Alerts",
+          "timeFrom": "24h",
           "gridPos": {
             "x": 18,
             "y": 34,

@@ -13,7 +13,7 @@
   "graphTooltip": 1,
   "refresh": "30s",
   "time": {
-    "from": "now-6h",
+    "from": "now-24h",
     "to": "now"
   },
   "timezone": "browser",
@@ -129,7 +129,6 @@
           "queryType": "stats"
         }
       ],
-      "timeFrom": "24h",
       "id": 2
     },
     {
@@ -195,7 +194,6 @@
           "queryType": "stats"
         }
       ],
-      "timeFrom": "24h",
       "id": 3
     },
     {
@@ -261,7 +259,6 @@
           "queryType": "stats"
         }
       ],
-      "timeFrom": "24h",
       "id": 4
     },
     {
@@ -327,7 +324,6 @@
           "queryType": "stats"
         }
       ],
-      "timeFrom": "24h",
       "id": 5
     },
     {
@@ -393,7 +389,6 @@
           "queryType": "stats"
         }
       ],
-      "timeFrom": "24h",
       "id": 6
     },
     {
@@ -448,7 +443,6 @@
           "queryType": "stats"
         }
       ],
-      "timeFrom": "24h",
       "id": 7
     },
     {
