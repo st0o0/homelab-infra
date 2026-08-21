@@ -2,9 +2,12 @@
 set -e
 
 if [ -f .env ]; then
-  set -a
-  . ./.env
-  set +a
+  while IFS= read -r line || [ -n "$line" ]; do
+    case "$line" in \#*|'') continue ;; esac
+    key="${line%%=*}"
+    value="${line#*=}"
+    export "$key=$value"
+  done < .env
 fi
 
 SABNZBD_DIR="${SABNZBD_PATH_CONFIG:-./sabnzbd/config}"
