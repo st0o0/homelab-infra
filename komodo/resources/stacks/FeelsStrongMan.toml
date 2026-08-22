@@ -255,7 +255,7 @@ server = "FeelsStrongMan"
 run_directory = "stacks/downloader"
 file_paths = ["compose.yml"]
 linked_repo = "homelab-infra"
-extra_args = ["--remove-orphans", "--force-recreate"]
+extra_args = ["--remove-orphans"]
 environment = """
 TZ=[[tz]]
 PUID=[[puid]]
@@ -277,36 +277,9 @@ NZBGET_PATH_TMP=/mnt/ssd/usenet/tmp
 NZBGET_PATH_INTERMEDIATE=/mnt/ssd/usenet/intermediate
 NZBGET_USER=[[FeelsStrongMan_nzbget_user]]
 NZBGET_PASS=[[FeelsStrongMan_nzbget_pass]]
-NZBGET_DOWNLOAD_RATE=40000
-NZBGET_MAIN_DIR=/config
-NZBGET_DEST_DIR=/data/completed
-NZBGET_INTER_DIR=/data/intermediate
-NZBGET_TEMP_DIR=/data/tmp
-NZBGET_NZB_DIR=/config/nzb
-NZBGET_QUEUE_DIR=/config/queue
-# Servers
-NZBGET_SERVER1_HOST=[[FeelsStrongMan_nzbget_server1_host]]
-NZBGET_SERVER1_USERNAME=[[FeelsStrongMan_nzbget_server1_username]]
-NZBGET_SERVER1_PASSWORD=[[FeelsStrongMan_nzbget_server1_password]]
-NZBGET_SERVER1_CONNECTIONS=24
-# Categories
-NZBGET_CAT_1_NAME=series
-NZBGET_CAT_1_DIR=series
-NZBGET_CAT_2_NAME=movies
-NZBGET_CAT_2_DIR=movies
-NZBGET_CAT_3_NAME=audios
-NZBGET_CAT_3_DIR=audios
-NZBGET_CAT_4_NAME=custom
-NZBGET_CAT_4_DIR=custom
-# Schedule
-NZBGET_TASK_1_TIME=23:30
-NZBGET_TASK_1_WEEKDAYS=1-7
-NZBGET_TASK_1_COMMAND=PauseDownload
-NZBGET_TASK_2_TIME=02:00
-NZBGET_TASK_2_WEEKDAYS=1-7
-NZBGET_TASK_2_COMMAND=UnpauseDownload
 # Firefox
 FIREFOX_PORT=8081
+FIREFOX_PATH_CONFIG=/docker/downloader/firefox/config
 FIREFOX_MEMORY=512MB
 FIREFOX_LANG=de_DE.UTF-8
 # CIFS

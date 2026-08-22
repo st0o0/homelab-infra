@@ -76,7 +76,7 @@ services:
       - WEB_AUDIO=0
 
     volumes:
-      - ./firefox/config:/config
+      - ${FIREFOX_PATH_CONFIG:-./firefox/config}:/config
     network_mode: service:gluetun
     depends_on:
       gluetun:
