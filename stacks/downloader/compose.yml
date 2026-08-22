@@ -35,6 +35,15 @@ services:
         aliases:
           - sabnzbd
 
+  sabnzbd-init:
+    image: alpine:3
+    container_name: sabnzbd-init
+    command: ["sh", "-c", "chown -R ${PUID:-1000}:${PGID:-1000} /config"]
+    volumes:
+      - ${SABNZBD_PATH_CONFIG:-./sabnzbd/config}:/config
+    network_mode: none
+    restart: "no"
+
   sabnzbd:
     image: ghcr.io/home-operations/sabnzbd:5.1.1
     container_name: sabnzbd
@@ -54,6 +63,8 @@ services:
     depends_on:
       gluetun:
         condition: service_healthy
+      sabnzbd-init:
+        condition: service_completed_successfully
     deploy:
       resources:
         limits:

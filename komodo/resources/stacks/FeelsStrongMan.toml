@@ -256,6 +256,7 @@ run_directory = "stacks/downloader"
 file_paths = ["compose.yml"]
 linked_repo = "homelab-infra"
 extra_args = ["--remove-orphans"]
+ignore_services = ["sabnzbd-init"]
 environment = """
 TZ=[[tz]]
 PUID=[[puid]]
