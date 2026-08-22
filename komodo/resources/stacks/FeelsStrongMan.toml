@@ -256,7 +256,6 @@ run_directory = "stacks/downloader"
 file_paths = ["compose.yml"]
 linked_repo = "homelab-infra"
 extra_args = ["--remove-orphans"]
-ignore_services = ["sabnzbd-init"]
 environment = """
 TZ=[[tz]]
 PUID=[[puid]]
@@ -292,7 +291,7 @@ CIFS_DOWNLOADS_PASS=[[FeelsStrongMan_cifs_downloads_password]]
 
 [stack.config.pre_deploy]
 path = "."
-command = "docker network create media-net 2>/dev/null || true"
+command = "docker network create media-net 2>/dev/null || true && mkdir -p /docker/downloader/sabnzbd/config /mnt/ssd/usenet/incomplete && chown -R 568:568 /docker/downloader/sabnzbd/config /mnt/ssd/usenet/incomplete"
 
 # [[stack]]
 # name = "media-1"

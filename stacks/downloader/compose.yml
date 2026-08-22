@@ -34,14 +34,6 @@ services:
         aliases:
           - sabnzbd
 
-  sabnzbd-init:
-    image: busybox
-    container_name: sabnzbd-init
-    entrypoint: sh -c "chown -R 568:568 /config /incomplete"
-    volumes:
-      - ${SABNZBD_PATH_CONFIG:-./sabnzbd/config}:/config
-      - ${SABNZBD_PATH_INCOMPLETE:-./sabnzbd/incomplete}:/incomplete
-
   sabnzbd:
     image: ghcr.io/home-operations/sabnzbd:5.1.1
     container_name: sabnzbd
@@ -56,8 +48,6 @@ services:
       - smb_downloads:/config/Downloads/complete
     network_mode: service:gluetun
     depends_on:
-      sabnzbd-init:
-        condition: service_completed_successfully
       gluetun:
         condition: service_healthy
     deploy:
