@@ -16,7 +16,7 @@ services:
       - /dev/net/tun:/dev/net/tun
     ports:
       - "${GLUETUN_PORT:-8079}:8000"
-      - "${SABNZBD_PORT:-8080}:8080"
+      - "${NZBGET_PORT:-6789}:6789"
       - "${FIREFOX_PORT:-5800}:5800"
     environment:
       - TZ=${TZ:-}
@@ -33,38 +33,28 @@ services:
     networks:
       media:
         aliases:
-          - sabnzbd
+          - nzbget
 
-  sabnzbd-init:
-    image: alpine:3
-    container_name: sabnzbd-init
-    command: ["sh", "-c", "chown -R ${PUID:-1000}:${PGID:-1000} /config"]
-    volumes:
-      - ${SABNZBD_PATH_CONFIG:-./sabnzbd/config}:/config
-    network_mode: none
-    restart: "no"
-
-  sabnzbd:
-    image: ghcr.io/home-operations/sabnzbd:5.1.1
-    container_name: sabnzbd
+  nzbget:
+    image: ghcr.io/nzbgetcom/nzbget:v26.2
+    container_name: nzbget
     restart: unless-stopped
     logging: *default-logging
-    user: "${PUID:-1000}:${PGID:-1000}"
     environment:
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
       - TZ=${TZ:-}
-      - SABNZBD__PORT=8080
-      - SABNZBD__API_KEY=${SABNZBD_API_KEY:?SABNZBD_API_KEY is required}
-      - SABNZBD__NZB_KEY=${SABNZBD_NZB_KEY:?SABNZBD_NZB_KEY is required}
+      - NZBGET_USER=${NZBGET_USER:-}
+      - NZBGET_PASS=${NZBGET_PASS:-}
     volumes:
-      - ${SABNZBD_PATH_CONFIG:-./sabnzbd/config}:/config
-      - ${SABNZBD_PATH_INCOMPLETE:-./sabnzbd/incomplete}:/data/incomplete
-      - sabnzbd_smb_downloads:/data/downloads
+      - ${NZBGET_PATH_CONFIG:-./nzbget/config}:/config
+      - ${NZBGET_PATH_TMP:-./nzbget/tmp}:/data/tmp
+      - ${NZBGET_PATH_INTERMEDIATE:-./nzbget/intermediate}:/data/intermediate
+      - nzbget_smb_downloads:/data/completed
     network_mode: service:gluetun
     depends_on:
       gluetun:
         condition: service_healthy
-      sabnzbd-init:
-        condition: service_completed_successfully
     deploy:
       resources:
         limits:
@@ -103,7 +93,7 @@ networks:
     external: true
 
 volumes:
-  sabnzbd_smb_downloads:
+  nzbget_smb_downloads:
     driver: local
     driver_opts:
       type: cifs

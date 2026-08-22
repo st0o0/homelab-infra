@@ -1,14 +1,14 @@
 # Downloader
 
-SABnzbd Usenet downloader and Firefox browser routed through a Gluetun VPN tunnel (AirVPN/WireGuard).
+NZBGet Usenet downloader and Firefox browser routed through a Gluetun VPN tunnel (AirVPN/WireGuard).
 
 ```
  host
 +--------------------------------------+
 |  +----------+     +----------+       |
-|  | SABnzbd  |----►| Gluetun  |=======|==> VPN tunnel
+|  | NZBGet   |----►| Gluetun  |=======|==> VPN tunnel
 |  |          |     | :8079    |       |
-|  | Firefox  |----►| :8080    |       |
+|  | Firefox  |----►| :6789    |       |
 |  |          |     | :5800    |       |
 |  | network_ |     |          |       |
 |  | mode:    |     | AirVPN   |       |
@@ -23,7 +23,7 @@ SABnzbd Usenet downloader and Firefox browser routed through a Gluetun VPN tunne
 ## Prerequisites
 
 - `media-net` Docker network, created by the `media` stack (deployed first via Komodo `after` ordering)
-- CIFS volume mount configured for `sabnzbd_smb_downloads` (completed downloads, shared with the arr stack)
+- CIFS volume mount configured for `nzbget_smb_downloads` (completed downloads, shared with the arr stack)
 
 ## Quick start
 
@@ -32,28 +32,59 @@ cp .env.example .env   # set WireGuard keys + news server credentials
 docker compose up -d
 ```
 
-SABnzbd UI: `http://localhost:8080`
+NZBGet UI: `http://localhost:6789`
 Firefox UI: `http://localhost:5800`
+
+## Volume layout
+
+| NZBGet path | Container mount | Storage | Purpose |
+|---|---|---|---|
+| MainDir | /config | Host bind | Config, logs, nzb backups, queue |
+| DestDir | /data/completed | CIFS/NAS | Completed downloads (arr import source) |
+| InterDir | /data/intermediate | SSD bind | Unpack workspace |
+| TempDir | /data/tmp | SSD bind | Download article chunks |
+| NzbDir | /config/nzb | Host bind | NZB file backups |
+| QueueDir | /config/queue | Host bind | Queue state persistence |
 
 ## Categories
 
-Categories are configured dynamically via numbered `SABNZBD_CAT_<N>_*` environment variables.
-The `pre-deploy.sh` script seeds them into `sabnzbd.ini` on first deploy.
+Categories are configured dynamically via numbered `NZBGET_CAT_<N>_*` environment variables.
+The `pre-deploy.sh` script seeds them into `nzbget.conf` on first deploy.
 
 | Variable | Required | Default | Purpose |
 |---|---|---|---|
-| `SABNZBD_CAT_<N>_NAME` | yes | - | Category name (also stops iteration when missing) |
-| `SABNZBD_CAT_<N>_DIR` | no | `NAME` | Download subdirectory |
-| `SABNZBD_CAT_<N>_PP` | no | `3` | Post-processing (0=none, 1=repair, 2=+unpack, 3=+delete) |
-| `SABNZBD_CAT_<N>_SCRIPT` | no | `Default` | Post-processing script |
-| `SABNZBD_CAT_<N>_PRIORITY` | no | `-100` | Priority (-100=default, -2=paused, -1=low, 0=normal, 1=high, 2=force) |
+| `NZBGET_CAT_<N>_NAME` | yes | - | Category name (also stops iteration when missing) |
+| `NZBGET_CAT_<N>_DIR` | no | - | Download subdirectory under DestDir |
+| `NZBGET_CAT_<N>_UNPACK` | no | `yes` | Unpack after download |
+| `NZBGET_CAT_<N>_ALIASES` | no | - | Alternative category names |
 
 Example:
 
 ```
-SABNZBD_CAT_1_NAME=sonarr
-SABNZBD_CAT_2_NAME=radarr
-SABNZBD_CAT_2_PP=1
+NZBGET_CAT_1_NAME=sonarr
+NZBGET_CAT_1_DIR=series
+NZBGET_CAT_2_NAME=radarr
+NZBGET_CAT_2_DIR=movies
+```
+
+## Schedule
+
+Tasks are configured via `NZBGET_TASK_<N>_*` environment variables.
+
+| Variable | Required | Default | Purpose |
+|---|---|---|---|
+| `NZBGET_TASK_<N>_TIME` | yes | - | Time in HH:MM format |
+| `NZBGET_TASK_<N>_WEEKDAYS` | no | `1-7` | Days (1=Mon, 7=Sun) |
+| `NZBGET_TASK_<N>_COMMAND` | no | `PauseDownload` | NZBGet command |
+| `NZBGET_TASK_<N>_PARAM` | no | - | Command parameter |
+
+Example (pause at 23:30, resume at 02:00):
+
+```
+NZBGET_TASK_1_TIME=23:30
+NZBGET_TASK_1_COMMAND=PauseDownload
+NZBGET_TASK_2_TIME=02:00
+NZBGET_TASK_2_COMMAND=UnpauseDownload
 ```
 
 ## Environment variables
@@ -62,22 +93,21 @@ SABNZBD_CAT_2_PP=1
 |---|---|---|---|
 | `GLUETUN_WG_PRIVATE_KEY` | yes | - | WireGuard private key |
 | `GLUETUN_WG_ADDRESSES` | yes | - | WireGuard tunnel addresses |
-| `SABNZBD_API_KEY` | yes | - | SABnzbd API key |
-| `SABNZBD_NZB_KEY` | yes | - | SABnzbd NZB key |
-| `SABNZBD_SERVER1_HOST` | yes | - | Usenet server hostname |
-| `SABNZBD_SERVER1_USERNAME` | yes | - | Usenet server username |
-| `SABNZBD_SERVER1_PASSWORD` | yes | - | Usenet server password |
+| `NZBGET_SERVER1_HOST` | yes | - | Usenet server hostname |
+| `NZBGET_SERVER1_USERNAME` | yes | - | Usenet server username |
+| `NZBGET_SERVER1_PASSWORD` | yes | - | Usenet server password |
 | `CIFS_DOWNLOADS_HOST` | yes | - | CIFS/SMB server for downloads |
 | `CIFS_DOWNLOADS_SHARE` | yes | - | CIFS share name |
 | `CIFS_DOWNLOADS_USER` | yes | - | CIFS username |
 | `CIFS_DOWNLOADS_PASS` | yes | - | CIFS password |
-| `SABNZBD_PORT` | no | `8080` | SABnzbd web UI port (on gluetun) |
+| `NZBGET_PORT` | no | `6789` | NZBGet web UI port (on gluetun) |
+| `NZBGET_USER` | no | `nzbget` | Web UI username |
+| `NZBGET_PASS` | no | - | Web UI password |
+| `NZBGET_SERVER1_CONNECTIONS` | no | `20` | Number of connections |
 | `GLUETUN_PORT` | no | `8079` | Gluetun control port |
-| `SABNZBD_SERVER1_CONNECTIONS` | no | `20` | Number of connections |
 | `FIREFOX_PORT` | no | `5800` | Firefox web UI port (on gluetun) |
 | `FIREFOX_MEMORY` | no | `512MB` | Firefox memory limit |
 | `FIREFOX_LANG` | no | `de_DE.UTF-8` | Firefox locale |
-
 | `TZ` | no | `Europe/Berlin` | Timezone |
 
 ## Verify
