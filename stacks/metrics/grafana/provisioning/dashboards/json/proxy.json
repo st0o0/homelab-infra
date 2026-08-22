@@ -2672,231 +2672,599 @@
           "id": 410,
           "type": "stat",
           "title": "Version",
-          "gridPos": { "x": 0, "y": 33, "w": 4, "h": 3 },
-          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+          "gridPos": {
+            "x": 0,
+            "y": 33,
+            "w": 4,
+            "h": 3
+          },
+          "datasource": {
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "victoriametrics"
+          },
           "options": {
             "colorMode": "value",
             "graphMode": "none",
             "justifyMode": "auto",
-            "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
             "textMode": "name"
           },
           "fieldConfig": {
             "defaults": {
-              "color": { "mode": "thresholds" },
-              "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }] },
+              "color": {
+                "mode": "thresholds"
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
               "unit": "short"
             },
             "overrides": []
           },
-          "targets": [{ "refId": "A", "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "cs_info{instance=~\"$instance\"}", "legendFormat": "{{version}}" }]
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
+              },
+              "expr": "cs_info{instance=~\"$instance\"}",
+              "legendFormat": "{{version}}"
+            }
+          ]
         },
         {
           "id": 411,
           "type": "stat",
           "title": "Active Bans",
-          "gridPos": { "x": 4, "y": 33, "w": 4, "h": 3 },
-          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+          "gridPos": {
+            "x": 4,
+            "y": 33,
+            "w": 4,
+            "h": 3
+          },
+          "datasource": {
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "victoriametrics"
+          },
           "options": {
             "colorMode": "value",
             "graphMode": "none",
             "justifyMode": "auto",
-            "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
             "textMode": "auto"
           },
           "fieldConfig": {
             "defaults": {
-              "color": { "mode": "thresholds" },
-              "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }] },
+              "color": {
+                "mode": "thresholds"
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
               "unit": "short"
             },
             "overrides": []
           },
-          "targets": [{ "refId": "A", "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(cs_active_decisions{instance=~\"$instance\"})" }]
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
+              },
+              "expr": "sum(cs_active_decisions{instance=~\"$instance\"})"
+            }
+          ]
         },
         {
           "id": 412,
           "type": "stat",
           "title": "Local Alerts",
-          "gridPos": { "x": 8, "y": 33, "w": 4, "h": 3 },
-          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+          "gridPos": {
+            "x": 8,
+            "y": 33,
+            "w": 4,
+            "h": 3
+          },
+          "datasource": {
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "victoriametrics"
+          },
           "options": {
             "colorMode": "value",
             "graphMode": "none",
             "justifyMode": "auto",
-            "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
             "textMode": "auto"
           },
           "fieldConfig": {
             "defaults": {
-              "color": { "mode": "thresholds" },
-              "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }] },
+              "color": {
+                "mode": "thresholds"
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
               "unit": "short"
             },
             "overrides": []
           },
-          "targets": [{ "refId": "A", "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(cs_alerts{instance=~\"$instance\"})" }]
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
+              },
+              "expr": "sum(cs_alerts{instance=~\"$instance\"})"
+            }
+          ]
         },
         {
           "id": 413,
           "type": "stat",
           "title": "Parser Rate",
-          "gridPos": { "x": 12, "y": 33, "w": 4, "h": 3 },
-          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+          "gridPos": {
+            "x": 12,
+            "y": 33,
+            "w": 4,
+            "h": 3
+          },
+          "datasource": {
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "victoriametrics"
+          },
           "options": {
             "colorMode": "value",
             "graphMode": "none",
             "justifyMode": "auto",
-            "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
             "textMode": "auto"
           },
           "fieldConfig": {
             "defaults": {
-              "color": { "mode": "thresholds" },
-              "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }] },
+              "color": {
+                "mode": "thresholds"
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
               "unit": "ops"
             },
             "overrides": []
           },
-          "targets": [{ "refId": "A", "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(rate(cs_parser_hits_ok_total{instance=~\"$instance\"}[5m]))" }]
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
+              },
+              "expr": "sum(rate(cs_parser_hits_ok_total{instance=~\"$instance\"}[5m]))"
+            }
+          ]
         },
         {
           "id": 414,
           "type": "stat",
           "title": "Bucket Overflows",
-          "gridPos": { "x": 16, "y": 33, "w": 4, "h": 3 },
-          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+          "gridPos": {
+            "x": 16,
+            "y": 33,
+            "w": 4,
+            "h": 3
+          },
+          "datasource": {
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "victoriametrics"
+          },
           "options": {
             "colorMode": "value",
             "graphMode": "none",
             "justifyMode": "auto",
-            "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
             "textMode": "auto"
           },
           "fieldConfig": {
             "defaults": {
-              "color": { "mode": "thresholds" },
-              "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }] },
+              "color": {
+                "mode": "thresholds"
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
               "unit": "ops"
             },
             "overrides": []
           },
-          "targets": [{ "refId": "A", "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(rate(cs_bucket_overflowed_total{instance=~\"$instance\"}[5m]))" }]
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
+              },
+              "expr": "sum(rate(cs_bucket_overflowed_total{instance=~\"$instance\"}[5m]))"
+            }
+          ]
         },
         {
           "id": 415,
           "type": "stat",
           "title": "Bouncer Rate",
-          "gridPos": { "x": 20, "y": 33, "w": 4, "h": 3 },
-          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+          "gridPos": {
+            "x": 20,
+            "y": 33,
+            "w": 4,
+            "h": 3
+          },
+          "datasource": {
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "victoriametrics"
+          },
           "options": {
             "colorMode": "value",
             "graphMode": "none",
             "justifyMode": "auto",
-            "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
             "textMode": "auto"
           },
           "fieldConfig": {
             "defaults": {
-              "color": { "mode": "thresholds" },
-              "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }] },
+              "color": {
+                "mode": "thresholds"
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
               "unit": "reqps"
             },
             "overrides": []
           },
-          "targets": [{ "refId": "A", "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(rate(cs_lapi_bouncer_requests_total{instance=~\"$instance\"}[5m]))" }]
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
+              },
+              "expr": "sum(rate(cs_lapi_bouncer_requests_total{instance=~\"$instance\"}[5m]))"
+            }
+          ]
         },
         {
           "id": 416,
           "type": "timeseries",
           "title": "Active Decisions",
-          "gridPos": { "x": 0, "y": 36, "w": 12, "h": 8 },
-          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+          "gridPos": {
+            "x": 0,
+            "y": 36,
+            "w": 12,
+            "h": 8
+          },
+          "datasource": {
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "victoriametrics"
+          },
           "options": {
-            "tooltip": { "mode": "multi", "sort": "desc" },
-            "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom", "showLegend": true }
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            },
+            "legend": {
+              "calcs": [
+                "mean",
+                "max"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "showLegend": true
+            }
           },
           "fieldConfig": {
             "defaults": {
-              "color": { "mode": "palette-classic" },
-              "custom": { "fillOpacity": 20, "lineWidth": 2, "spanNulls": true, "drawStyle": "line", "lineInterpolation": "smooth", "showPoints": "never" },
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "fillOpacity": 20,
+                "lineWidth": 2,
+                "spanNulls": true,
+                "drawStyle": "line",
+                "lineInterpolation": "smooth",
+                "showPoints": "never"
+              },
               "unit": "short",
               "min": 0
             },
             "overrides": []
           },
-          "targets": [{ "refId": "A", "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "cs_active_decisions{instance=~\"$instance\"}", "legendFormat": "{{reason}}" }]
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
+              },
+              "expr": "cs_active_decisions{instance=~\"$instance\"}",
+              "legendFormat": "{{reason}}"
+            }
+          ]
         },
         {
           "id": 417,
           "type": "table",
           "title": "Alerts by Scenario",
-          "gridPos": { "x": 12, "y": 36, "w": 12, "h": 8 },
-          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+          "gridPos": {
+            "x": 12,
+            "y": 36,
+            "w": 12,
+            "h": 8
+          },
+          "datasource": {
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "victoriametrics"
+          },
           "options": {
             "showHeader": true,
             "cellHeight": "sm",
-            "footer": { "show": false },
-            "sortBy": [{ "desc": true, "displayName": "Count" }]
+            "footer": {
+              "show": false
+            },
+            "sortBy": [
+              {
+                "desc": true,
+                "displayName": "Count"
+              }
+            ]
           },
           "fieldConfig": {
             "defaults": {
-              "custom": { "align": "auto", "cellOptions": { "type": "auto" } }
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                }
+              }
             },
             "overrides": []
           },
-          "targets": [{ "refId": "A", "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "topk(20, cs_alerts{instance=~\"$instance\", reason!~\"anomaly score.*|Enabling.*|crowdsecurity/crowdsec-appsec-outofband\"})", "legendFormat": "{{reason}}", "instant": true, "range": false }],
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
+              },
+              "expr": "topk(20, cs_alerts{instance=~\"$instance\", reason!~\"anomaly score.*|Enabling.*|crowdsecurity/crowdsec-appsec-outofband\"})",
+              "legendFormat": "{{reason}}",
+              "instant": true,
+              "range": false
+            }
+          ],
           "transformations": [
-            { "id": "reduce", "options": { "reducers": ["lastNotNull"], "mode": "seriesToRows", "includeTimeField": false } },
-            { "id": "organize", "options": { "renameByName": { "Field": "Scenario", "Last *": "Count" } } }
+            {
+              "id": "reduce",
+              "options": {
+                "reducers": [
+                  "lastNotNull"
+                ],
+                "mode": "seriesToRows",
+                "includeTimeField": false
+              }
+            },
+            {
+              "id": "organize",
+              "options": {
+                "renameByName": {
+                  "Field": "Scenario",
+                  "Last *": "Count"
+                }
+              }
+            }
           ]
         },
         {
           "id": 418,
           "type": "timeseries",
           "title": "LAPI Requests",
-          "gridPos": { "x": 0, "y": 44, "w": 12, "h": 8 },
-          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+          "gridPos": {
+            "x": 0,
+            "y": 44,
+            "w": 12,
+            "h": 8
+          },
+          "datasource": {
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "victoriametrics"
+          },
           "options": {
-            "tooltip": { "mode": "multi", "sort": "desc" },
-            "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom", "showLegend": true }
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            },
+            "legend": {
+              "calcs": [
+                "mean",
+                "max"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "showLegend": true
+            }
           },
           "fieldConfig": {
             "defaults": {
-              "color": { "mode": "palette-classic" },
-              "custom": { "fillOpacity": 20, "lineWidth": 2, "spanNulls": true, "drawStyle": "line", "lineInterpolation": "smooth", "showPoints": "never" },
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "fillOpacity": 20,
+                "lineWidth": 2,
+                "spanNulls": true,
+                "drawStyle": "line",
+                "lineInterpolation": "smooth",
+                "showPoints": "never"
+              },
               "unit": "reqps",
               "min": 0
             },
             "overrides": []
           },
           "targets": [
-            { "refId": "A", "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "rate(cs_lapi_bouncer_requests_total{instance=~\"$instance\"}[5m])", "legendFormat": "Bouncer" },
-            { "refId": "B", "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "rate(cs_lapi_machine_requests_total{instance=~\"$instance\"}[5m])", "legendFormat": "Machine" }
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
+              },
+              "expr": "rate(cs_lapi_bouncer_requests_total{instance=~\"$instance\"}[5m])",
+              "legendFormat": "Bouncer"
+            },
+            {
+              "refId": "B",
+              "datasource": {
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
+              },
+              "expr": "rate(cs_lapi_machine_requests_total{instance=~\"$instance\"}[5m])",
+              "legendFormat": "Machine"
+            }
           ]
         },
         {
           "id": 419,
           "type": "timeseries",
           "title": "LAPI Duration",
-          "gridPos": { "x": 12, "y": 44, "w": 12, "h": 8 },
-          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+          "gridPos": {
+            "x": 12,
+            "y": 44,
+            "w": 12,
+            "h": 8
+          },
+          "datasource": {
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "victoriametrics"
+          },
           "options": {
-            "tooltip": { "mode": "multi", "sort": "desc" },
-            "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom", "showLegend": true }
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            },
+            "legend": {
+              "calcs": [
+                "mean",
+                "max"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "showLegend": true
+            }
           },
           "fieldConfig": {
             "defaults": {
-              "color": { "mode": "palette-classic" },
-              "custom": { "fillOpacity": 20, "lineWidth": 2, "spanNulls": true, "drawStyle": "line", "lineInterpolation": "smooth", "showPoints": "never" },
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "fillOpacity": 20,
+                "lineWidth": 2,
+                "spanNulls": true,
+                "drawStyle": "line",
+                "lineInterpolation": "smooth",
+                "showPoints": "never"
+              },
               "unit": "s",
               "min": 0
             },
             "overrides": []
           },
           "targets": [
-            { "refId": "A", "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "histogram_quantile(0.5, sum by (le) (rate(cs_lapi_request_duration_seconds_bucket{instance=~\"$instance\"}[5m])))", "legendFormat": "p50" },
-            { "refId": "B", "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "histogram_quantile(0.95, sum by (le) (rate(cs_lapi_request_duration_seconds_bucket{instance=~\"$instance\"}[5m])))", "legendFormat": "p95" }
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
+              },
+              "expr": "histogram_quantile(0.5, sum by (le) (rate(cs_lapi_request_duration_seconds_bucket{instance=~\"$instance\"}[5m])))",
+              "legendFormat": "p50"
+            },
+            {
+              "refId": "B",
+              "datasource": {
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
+              },
+              "expr": "histogram_quantile(0.95, sum by (le) (rate(cs_lapi_request_duration_seconds_bucket{instance=~\"$instance\"}[5m])))",
+              "legendFormat": "p95"
+            }
           ]
         }
       ],
@@ -2917,275 +3285,760 @@
           "id": 451,
           "type": "stat",
           "title": "WAF Rate",
-          "gridPos": { "x": 0, "y": 34, "w": 6, "h": 3 },
-          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+          "gridPos": {
+            "x": 0,
+            "y": 34,
+            "w": 6,
+            "h": 3
+          },
+          "datasource": {
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "victoriametrics"
+          },
           "options": {
             "colorMode": "value",
             "graphMode": "none",
             "justifyMode": "auto",
-            "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
             "textMode": "auto"
           },
           "fieldConfig": {
             "defaults": {
-              "color": { "mode": "thresholds" },
-              "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }] },
+              "color": {
+                "mode": "thresholds"
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
               "unit": "reqps"
             },
             "overrides": []
           },
-          "targets": [{ "refId": "A", "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(rate(cs_appsec_reqs_total{instance=~\"$instance\"}[5m]))" }]
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
+              },
+              "expr": "sum(rate(cs_appsec_reqs_total{instance=~\"$instance\"}[5m]))"
+            }
+          ]
         },
         {
           "id": 452,
           "type": "stat",
           "title": "WAF Events",
-          "gridPos": { "x": 6, "y": 34, "w": 6, "h": 3 },
-          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+          "gridPos": {
+            "x": 6,
+            "y": 34,
+            "w": 6,
+            "h": 3
+          },
+          "datasource": {
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "victoriametrics"
+          },
           "options": {
             "colorMode": "value",
             "graphMode": "none",
             "justifyMode": "auto",
-            "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
             "textMode": "auto"
           },
           "fieldConfig": {
             "defaults": {
-              "color": { "mode": "thresholds" },
-              "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }] },
+              "color": {
+                "mode": "thresholds"
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
               "unit": "short"
             },
             "overrides": []
           },
-          "targets": [{ "refId": "A", "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(rate(vlogs:appsec_events_total{instance=~\"$instance\"}[5m]))" }]
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
+              },
+              "expr": "sum(rate(vlogs:appsec_events_total{instance=~\"$instance\"}[5m]))"
+            }
+          ]
         },
         {
           "id": 453,
           "type": "stat",
           "title": "Rule Hits",
-          "gridPos": { "x": 12, "y": 34, "w": 6, "h": 3 },
-          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+          "gridPos": {
+            "x": 12,
+            "y": 34,
+            "w": 6,
+            "h": 3
+          },
+          "datasource": {
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "victoriametrics"
+          },
           "options": {
             "colorMode": "value",
             "graphMode": "none",
             "justifyMode": "auto",
-            "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
             "textMode": "auto"
           },
           "fieldConfig": {
             "defaults": {
-              "color": { "mode": "thresholds" },
-              "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }] },
+              "color": {
+                "mode": "thresholds"
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
               "unit": "short"
             },
             "overrides": []
           },
-          "targets": [{ "refId": "A", "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "sum(cs_appsec_rule_hits{instance=~\"$instance\"})" }]
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
+              },
+              "expr": "sum(cs_appsec_rule_hits{instance=~\"$instance\"})"
+            }
+          ]
         },
         {
           "id": 454,
           "type": "stat",
           "title": "Avg Parse Time",
-          "gridPos": { "x": 18, "y": 34, "w": 6, "h": 3 },
-          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+          "gridPos": {
+            "x": 18,
+            "y": 34,
+            "w": 6,
+            "h": 3
+          },
+          "datasource": {
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "victoriametrics"
+          },
           "options": {
             "colorMode": "value",
             "graphMode": "none",
             "justifyMode": "auto",
-            "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
             "textMode": "auto"
           },
           "fieldConfig": {
             "defaults": {
-              "color": { "mode": "thresholds" },
-              "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }, { "color": "yellow", "value": 0.01 }, { "color": "red", "value": 0.05 }] },
+              "color": {
+                "mode": "thresholds"
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 0.01
+                  },
+                  {
+                    "color": "red",
+                    "value": 0.05
+                  }
+                ]
+              },
               "unit": "s"
             },
             "overrides": []
           },
-          "targets": [{ "refId": "A", "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "rate(cs_appsec_parsing_time_seconds_sum{instance=~\"$instance\"}[5m]) / rate(cs_appsec_parsing_time_seconds_count{instance=~\"$instance\"}[5m])" }]
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
+              },
+              "expr": "rate(cs_appsec_parsing_time_seconds_sum{instance=~\"$instance\"}[5m]) / rate(cs_appsec_parsing_time_seconds_count{instance=~\"$instance\"}[5m])"
+            }
+          ]
         },
         {
           "id": 455,
           "type": "timeseries",
           "title": "WAF Events Timeline",
-          "gridPos": { "x": 0, "y": 37, "w": 24, "h": 8 },
-          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+          "gridPos": {
+            "x": 0,
+            "y": 37,
+            "w": 24,
+            "h": 8
+          },
+          "datasource": {
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "victoriametrics"
+          },
           "options": {
-            "tooltip": { "mode": "multi", "sort": "desc" },
-            "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom", "showLegend": true }
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            },
+            "legend": {
+              "calcs": [
+                "mean",
+                "max"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "showLegend": true
+            }
           },
           "fieldConfig": {
             "defaults": {
-              "color": { "mode": "palette-classic" },
-              "custom": { "fillOpacity": 20, "lineWidth": 2, "spanNulls": true, "drawStyle": "line", "lineInterpolation": "smooth", "showPoints": "never" },
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "fillOpacity": 20,
+                "lineWidth": 2,
+                "spanNulls": true,
+                "drawStyle": "line",
+                "lineInterpolation": "smooth",
+                "showPoints": "never"
+              },
               "unit": "short",
               "min": 0
             },
             "overrides": []
           },
-          "targets": [{ "refId": "A", "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "rate(vlogs:appsec_events_total{instance=~\"$instance\"}[5m])", "legendFormat": "AppSec Events" }]
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
+              },
+              "expr": "rate(vlogs:appsec_events_total{instance=~\"$instance\"}[5m])",
+              "legendFormat": "AppSec Events"
+            }
+          ]
         },
         {
           "id": 456,
           "type": "table",
           "title": "Top Rules",
-          "gridPos": { "x": 0, "y": 45, "w": 12, "h": 8 },
-          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+          "gridPos": {
+            "x": 0,
+            "y": 45,
+            "w": 12,
+            "h": 8
+          },
+          "datasource": {
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "victoriametrics"
+          },
           "options": {
             "showHeader": true,
             "cellHeight": "sm",
-            "footer": { "show": false },
-            "sortBy": [{ "desc": true, "displayName": "Hits" }]
+            "footer": {
+              "show": false
+            },
+            "sortBy": [
+              {
+                "desc": true,
+                "displayName": "Hits"
+              }
+            ]
           },
           "fieldConfig": {
             "defaults": {
-              "custom": { "align": "auto", "cellOptions": { "type": "auto" } }
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                }
+              }
             },
             "overrides": []
           },
-          "targets": [{ "refId": "A", "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "topk(20, cs_appsec_rule_hits{instance=~\"$instance\"})", "legendFormat": "{{rule_name}}" }],
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
+              },
+              "expr": "topk(20, cs_appsec_rule_hits{instance=~\"$instance\"})",
+              "legendFormat": "{{rule_name}}"
+            }
+          ],
           "transformations": [
-            { "id": "reduce", "options": { "reducers": ["lastNotNull"], "mode": "seriesToRows", "includeTimeField": false } },
-            { "id": "organize", "options": { "renameByName": { "Field": "Rule", "Last *": "Hits" } } }
+            {
+              "id": "reduce",
+              "options": {
+                "reducers": [
+                  "lastNotNull"
+                ],
+                "mode": "seriesToRows",
+                "includeTimeField": false
+              }
+            },
+            {
+              "id": "organize",
+              "options": {
+                "renameByName": {
+                  "Field": "Rule",
+                  "Last *": "Hits"
+                }
+              }
+            }
           ]
         },
         {
           "id": 457,
           "type": "piechart",
           "title": "By Country",
-          "gridPos": { "x": 12, "y": 45, "w": 12, "h": 8 },
-          "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
+          "gridPos": {
+            "x": 12,
+            "y": 45,
+            "w": 12,
+            "h": 8
+          },
+          "datasource": {
+            "type": "victoriametrics-logs-datasource",
+            "uid": "victorialogs"
+          },
           "options": {
             "pieType": "pie",
-            "displayLabels": ["percent"],
-            "legend": { "calcs": ["value"], "displayMode": "table", "placement": "bottom" },
-            "tooltip": { "mode": "single" }
+            "displayLabels": [
+              "percent"
+            ],
+            "legend": {
+              "calcs": [
+                "value"
+              ],
+              "displayMode": "table",
+              "placement": "bottom"
+            },
+            "tooltip": {
+              "mode": "single"
+            }
           },
           "fieldConfig": {
-            "defaults": { "color": { "mode": "palette-classic" } },
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              }
+            },
             "overrides": []
           },
-          "targets": [{ "refId": "A", "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"appsec\"} geoip_country_name:!\"\" | stats by (geoip_country_name) count() as hits", "queryType": "stats" }],
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "victoriametrics-logs-datasource",
+                "uid": "victorialogs"
+              },
+              "expr": "{job=\"appsec\"} geoip_country_name:!\"\" | stats by (geoip_country_name) count() as hits",
+              "queryType": "stats"
+            }
+          ],
           "transformations": [
-            { "id": "renameByRegex", "options": { "regex": ".*=\"([^\"]+)\"}$", "renamePattern": "$1" } }
+            {
+              "id": "renameByRegex",
+              "options": {
+                "regex": ".*=\"([^\"]+)\"}$",
+                "renamePattern": "$1"
+              }
+            }
           ]
         },
         {
           "id": 458,
           "type": "piechart",
           "title": "By Target Host",
-          "gridPos": { "x": 0, "y": 53, "w": 12, "h": 8 },
-          "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
+          "gridPos": {
+            "x": 0,
+            "y": 53,
+            "w": 12,
+            "h": 8
+          },
+          "datasource": {
+            "type": "victoriametrics-logs-datasource",
+            "uid": "victorialogs"
+          },
           "options": {
             "pieType": "pie",
-            "displayLabels": ["percent"],
-            "legend": { "calcs": ["value"], "displayMode": "table", "placement": "bottom" },
-            "tooltip": { "mode": "single" }
+            "displayLabels": [
+              "percent"
+            ],
+            "legend": {
+              "calcs": [
+                "value"
+              ],
+              "displayMode": "table",
+              "placement": "bottom"
+            },
+            "tooltip": {
+              "mode": "single"
+            }
           },
           "fieldConfig": {
-            "defaults": { "color": { "mode": "palette-classic" } },
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              }
+            },
             "overrides": []
           },
-          "targets": [{ "refId": "A", "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"appsec\"} target_host:!\"\" | stats by (target_host) count() as hits", "queryType": "stats" }],
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "victoriametrics-logs-datasource",
+                "uid": "victorialogs"
+              },
+              "expr": "{job=\"appsec\"} target_host:!\"\" | stats by (target_host) count() as hits",
+              "queryType": "stats"
+            }
+          ],
           "transformations": [
-            { "id": "renameByRegex", "options": { "regex": ".*=\"([^\"]+)\"}$", "renamePattern": "$1" } }
+            {
+              "id": "renameByRegex",
+              "options": {
+                "regex": ".*=\"([^\"]+)\"}$",
+                "renamePattern": "$1"
+              }
+            }
           ]
         },
         {
           "id": 459,
           "type": "table",
           "title": "Top Targeted Paths",
-          "gridPos": { "x": 12, "y": 53, "w": 12, "h": 8 },
-          "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
+          "gridPos": {
+            "x": 12,
+            "y": 53,
+            "w": 12,
+            "h": 8
+          },
+          "datasource": {
+            "type": "victoriametrics-logs-datasource",
+            "uid": "victorialogs"
+          },
           "options": {
             "showHeader": true,
             "cellHeight": "sm",
-            "footer": { "show": false }
+            "footer": {
+              "show": false
+            }
           },
           "fieldConfig": {
             "defaults": {
-              "custom": { "align": "auto", "cellOptions": { "type": "auto" } }
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                }
+              }
             },
             "overrides": []
           },
-          "targets": [{ "refId": "A", "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"appsec\"} target_uri:!\"\" | stats by (target_uri) count() as hits | sort by (hits) desc | limit 20", "queryType": "stats" }],
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "victoriametrics-logs-datasource",
+                "uid": "victorialogs"
+              },
+              "expr": "{job=\"appsec\"} target_uri:!\"\" | stats by (target_uri) count() as hits | sort by (hits) desc | limit 20",
+              "queryType": "stats"
+            }
+          ],
           "transformations": [
-            { "id": "renameByRegex", "options": { "regex": ".*=\"([^\"]+)\"}$", "renamePattern": "$1" } },
-            { "id": "reduce", "options": { "reducers": ["lastNotNull"], "mode": "seriesToRows", "includeTimeField": false } },
-            { "id": "organize", "options": { "renameByName": { "Field": "Path", "Last *": "Hits" } } }
+            {
+              "id": "renameByRegex",
+              "options": {
+                "regex": ".*=\"([^\"]+)\"}$",
+                "renamePattern": "$1"
+              }
+            },
+            {
+              "id": "reduce",
+              "options": {
+                "reducers": [
+                  "lastNotNull"
+                ],
+                "mode": "seriesToRows",
+                "includeTimeField": false
+              }
+            },
+            {
+              "id": "organize",
+              "options": {
+                "renameByName": {
+                  "Field": "Path",
+                  "Last *": "Hits"
+                }
+              }
+            }
           ]
         },
         {
           "id": 460,
           "type": "table",
           "title": "Top IPs",
-          "gridPos": { "x": 0, "y": 61, "w": 12, "h": 8 },
-          "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
+          "gridPos": {
+            "x": 0,
+            "y": 61,
+            "w": 12,
+            "h": 8
+          },
+          "datasource": {
+            "type": "victoriametrics-logs-datasource",
+            "uid": "victorialogs"
+          },
           "options": {
             "showHeader": true,
             "cellHeight": "sm",
-            "footer": { "show": false }
+            "footer": {
+              "show": false
+            }
           },
           "fieldConfig": {
             "defaults": {
-              "custom": { "align": "auto", "cellOptions": { "type": "auto" } }
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                }
+              }
             },
             "overrides": []
           },
-          "targets": [{ "refId": "A", "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"appsec\"} client_ip:!\"\" | stats by (client_ip, geoip_country_name) count() as hits | sort by (hits) desc | limit 20", "queryType": "stats" }],
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "victoriametrics-logs-datasource",
+                "uid": "victorialogs"
+              },
+              "expr": "{job=\"appsec\"} client_ip:!\"\" | stats by (client_ip, geoip_country_name) count() as hits | sort by (hits) desc | limit 20",
+              "queryType": "stats"
+            }
+          ],
           "transformations": [
-            { "id": "renameByRegex", "options": { "regex": ".*client_ip=\"([^\"]+)\".*geoip_country_name=\"([^\"]+)\".*", "renamePattern": "$1 ($2)" } },
-            { "id": "reduce", "options": { "reducers": ["lastNotNull"], "mode": "seriesToRows", "includeTimeField": false } },
-            { "id": "organize", "options": { "renameByName": { "Field": "Client", "Last *": "Hits" } } }
+            {
+              "id": "renameByRegex",
+              "options": {
+                "regex": ".*client_ip=\"([^\"]+)\".*geoip_country_name=\"([^\"]+)\".*",
+                "renamePattern": "$1 ($2)"
+              }
+            },
+            {
+              "id": "reduce",
+              "options": {
+                "reducers": [
+                  "lastNotNull"
+                ],
+                "mode": "seriesToRows",
+                "includeTimeField": false
+              }
+            },
+            {
+              "id": "organize",
+              "options": {
+                "renameByName": {
+                  "Field": "Client",
+                  "Last *": "Hits"
+                }
+              }
+            }
           ]
         },
         {
           "id": 461,
           "type": "table",
           "title": "Top Targeted Hosts",
-          "gridPos": { "x": 12, "y": 61, "w": 12, "h": 8 },
-          "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" },
+          "gridPos": {
+            "x": 12,
+            "y": 61,
+            "w": 12,
+            "h": 8
+          },
+          "datasource": {
+            "type": "victoriametrics-logs-datasource",
+            "uid": "victorialogs"
+          },
           "options": {
             "showHeader": true,
             "cellHeight": "sm",
-            "footer": { "show": false }
+            "footer": {
+              "show": false
+            }
           },
           "fieldConfig": {
             "defaults": {
-              "custom": { "align": "auto", "cellOptions": { "type": "auto" } }
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                }
+              }
             },
             "overrides": []
           },
-          "targets": [{ "refId": "A", "datasource": { "type": "victoriametrics-logs-datasource", "uid": "victorialogs" }, "expr": "{job=\"appsec\"} target_host:!\"\" | stats by (target_host) count() as hits | sort by (hits) desc", "queryType": "stats" }],
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "victoriametrics-logs-datasource",
+                "uid": "victorialogs"
+              },
+              "expr": "{job=\"appsec\"} target_host:!\"\" | stats by (target_host) count() as hits | sort by (hits) desc",
+              "queryType": "stats"
+            }
+          ],
           "transformations": [
-            { "id": "renameByRegex", "options": { "regex": ".*=\"([^\"]+)\"}$", "renamePattern": "$1" } },
-            { "id": "reduce", "options": { "reducers": ["lastNotNull"], "mode": "seriesToRows", "includeTimeField": false } },
-            { "id": "organize", "options": { "renameByName": { "Field": "Host", "Last *": "Hits" } } }
+            {
+              "id": "renameByRegex",
+              "options": {
+                "regex": ".*=\"([^\"]+)\"}$",
+                "renamePattern": "$1"
+              }
+            },
+            {
+              "id": "reduce",
+              "options": {
+                "reducers": [
+                  "lastNotNull"
+                ],
+                "mode": "seriesToRows",
+                "includeTimeField": false
+              }
+            },
+            {
+              "id": "organize",
+              "options": {
+                "renameByName": {
+                  "Field": "Host",
+                  "Last *": "Hits"
+                }
+              }
+            }
           ]
         },
         {
           "id": 462,
           "type": "timeseries",
           "title": "Parse Time (p95)",
-          "gridPos": { "x": 0, "y": 69, "w": 24, "h": 8 },
-          "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
+          "gridPos": {
+            "x": 0,
+            "y": 69,
+            "w": 24,
+            "h": 8
+          },
+          "datasource": {
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "victoriametrics"
+          },
           "options": {
-            "tooltip": { "mode": "multi", "sort": "desc" },
-            "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom", "showLegend": true }
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            },
+            "legend": {
+              "calcs": [
+                "mean",
+                "max"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "showLegend": true
+            }
           },
           "fieldConfig": {
             "defaults": {
-              "color": { "mode": "palette-classic" },
-              "custom": { "fillOpacity": 20, "lineWidth": 2, "spanNulls": true, "drawStyle": "line", "lineInterpolation": "smooth", "showPoints": "never" },
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "fillOpacity": 20,
+                "lineWidth": 2,
+                "spanNulls": true,
+                "drawStyle": "line",
+                "lineInterpolation": "smooth",
+                "showPoints": "never"
+              },
               "unit": "s",
               "min": 0
             },
             "overrides": []
           },
           "targets": [
-            { "refId": "A", "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "histogram_quantile(0.95, sum by (le) (rate(cs_appsec_inband_parsing_time_seconds_bucket{instance=~\"$instance\"}[5m])))", "legendFormat": "Inband p95" },
-            { "refId": "B", "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" }, "expr": "histogram_quantile(0.95, sum by (le) (rate(cs_appsec_outband_parsing_time_seconds_bucket{instance=~\"$instance\"}[5m])))", "legendFormat": "Outband p95" }
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
+              },
+              "expr": "histogram_quantile(0.95, sum by (le) (rate(cs_appsec_inband_parsing_time_seconds_bucket{instance=~\"$instance\"}[5m])))",
+              "legendFormat": "Inband p95"
+            },
+            {
+              "refId": "B",
+              "datasource": {
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
+              },
+              "expr": "histogram_quantile(0.95, sum by (le) (rate(cs_appsec_outband_parsing_time_seconds_bucket{instance=~\"$instance\"}[5m])))",
+              "legendFormat": "Outband p95"
+            }
           ]
         }
       ],
@@ -3203,14 +4056,127 @@
       "collapsed": true,
       "panels": [
         {
-          "id": 501,
+          "id": 515,
           "type": "stat",
-          "title": "Active Sessions",
+          "title": "Version",
           "gridPos": {
             "x": 0,
             "y": 34,
-            "w": 6,
-            "h": 4
+            "w": 4,
+            "h": 3
+          },
+          "datasource": {
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "victoriametrics"
+          },
+          "options": {
+            "graphMode": "none",
+            "colorMode": "none",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "name",
+            "justifyMode": "auto"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "unit": "short",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
+              },
+              "expr": "ran_build_info{instance=~\"$instance\"}",
+              "legendFormat": "v{{version}}"
+            }
+          ]
+        },
+        {
+          "id": 516,
+          "type": "stat",
+          "title": "Uptime",
+          "gridPos": {
+            "x": 4,
+            "y": 34,
+            "w": 4,
+            "h": 3
+          },
+          "datasource": {
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "victoriametrics"
+          },
+          "options": {
+            "graphMode": "none",
+            "colorMode": "value",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto",
+            "justifyMode": "auto"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "unit": "s",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
+              },
+              "expr": "time() - process_start_time_seconds{job=\"ran\",instance=~\"$instance\"}"
+            }
+          ]
+        },
+        {
+          "id": 517,
+          "type": "stat",
+          "title": "Goroutines",
+          "gridPos": {
+            "x": 8,
+            "y": 34,
+            "w": 4,
+            "h": 3
           },
           "datasource": {
             "type": "victoriametrics-metrics-datasource",
@@ -3239,7 +4205,64 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
+              },
+              "expr": "go_goroutines{job=\"ran\",instance=~\"$instance\"}"
+            }
+          ]
+        },
+        {
+          "id": 501,
+          "type": "stat",
+          "title": "Active Sessions",
+          "gridPos": {
+            "x": 12,
+            "y": 34,
+            "w": 4,
+            "h": 3
+          },
+          "datasource": {
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "victoriametrics"
+          },
+          "options": {
+            "graphMode": "none",
+            "colorMode": "value",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto",
+            "justifyMode": "auto"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "unit": "short",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
                   }
                 ]
               }
@@ -3261,12 +4284,11 @@
           "id": 502,
           "type": "stat",
           "title": "Connections",
-          "timeFrom": "24h",
           "gridPos": {
-            "x": 6,
+            "x": 16,
             "y": 34,
-            "w": 6,
-            "h": 4
+            "w": 4,
+            "h": 3
           },
           "datasource": {
             "type": "victoriametrics-metrics-datasource",
@@ -3295,7 +4317,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   }
                 ]
               }
@@ -3316,13 +4339,12 @@
         {
           "id": 503,
           "type": "stat",
-          "title": "Credentials Captured",
-          "timeFrom": "24h",
+          "title": "Credentials",
           "gridPos": {
-            "x": 12,
+            "x": 20,
             "y": 34,
-            "w": 6,
-            "h": 4
+            "w": 4,
+            "h": 3
           },
           "datasource": {
             "type": "victoriametrics-metrics-datasource",
@@ -3351,7 +4373,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   }
                 ]
               }
@@ -3370,15 +4393,14 @@
           ]
         },
         {
-          "id": 512,
+          "id": 518,
           "type": "stat",
-          "title": "CrowdSec Alerts",
-          "timeFrom": "24h",
+          "title": "Completed",
           "gridPos": {
-            "x": 18,
-            "y": 34,
+            "x": 0,
+            "y": 37,
             "w": 6,
-            "h": 4
+            "h": 3
           },
           "datasource": {
             "type": "victoriametrics-metrics-datasource",
@@ -3407,7 +4429,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   }
                 ]
               }
@@ -3421,17 +4444,248 @@
                 "type": "victoriametrics-metrics-datasource",
                 "uid": "victoriametrics"
               },
-              "expr": "sum(increase(ran_crowdsec_alerts_total{instance=~\"$instance\"}[$__range]))"
+              "expr": "sum(increase(ran_connections_total{instance=~\"$instance\",outcome=\"completed\"}[$__range]))"
             }
           ]
         },
         {
-          "id": 504,
+          "id": 519,
+          "type": "stat",
+          "title": "Errors",
+          "gridPos": {
+            "x": 6,
+            "y": 37,
+            "w": 6,
+            "h": 3
+          },
+          "datasource": {
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "victoriametrics"
+          },
+          "options": {
+            "graphMode": "none",
+            "colorMode": "value",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto",
+            "justifyMode": "auto"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "unit": "short",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "orange",
+                    "value": null
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
+              },
+              "expr": "sum(increase(ran_connections_total{instance=~\"$instance\",outcome=\"error\"}[$__range]))"
+            }
+          ]
+        },
+        {
+          "id": 520,
+          "type": "stat",
+          "title": "Timeouts",
+          "gridPos": {
+            "x": 12,
+            "y": 37,
+            "w": 6,
+            "h": 3
+          },
+          "datasource": {
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "victoriametrics"
+          },
+          "options": {
+            "graphMode": "none",
+            "colorMode": "value",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto",
+            "justifyMode": "auto"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "unit": "short",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "yellow",
+                    "value": null
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
+              },
+              "expr": "sum(increase(ran_connections_total{instance=~\"$instance\",outcome=\"timeout\"}[$__range]))"
+            }
+          ]
+        },
+        {
+          "id": 521,
+          "type": "stat",
+          "title": "Alerts Sent",
+          "gridPos": {
+            "x": 18,
+            "y": 37,
+            "w": 6,
+            "h": 3
+          },
+          "datasource": {
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "victoriametrics"
+          },
+          "options": {
+            "graphMode": "none",
+            "colorMode": "value",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto",
+            "justifyMode": "auto"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "unit": "short",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "blue",
+                    "value": null
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
+              },
+              "expr": "sum(increase(ran_crowdsec_pipeline_total{instance=~\"$instance\",stage=\"sent\"}[$__range]))"
+            }
+          ]
+        },
+        {
+          "id": 522,
+          "type": "timeseries",
+          "title": "Connections by Outcome",
+          "gridPos": {
+            "x": 0,
+            "y": 40,
+            "w": 12,
+            "h": 8
+          },
+          "datasource": {
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "victoriametrics"
+          },
+          "options": {
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            },
+            "legend": {
+              "calcs": [
+                "mean",
+                "max"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "showLegend": true
+            }
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "fillOpacity": 20,
+                "lineWidth": 2,
+                "spanNulls": true,
+                "drawStyle": "line",
+                "lineInterpolation": "smooth",
+                "showPoints": "never",
+                "stacking": {
+                  "mode": "normal",
+                  "group": "A"
+                }
+              },
+              "unit": "cps",
+              "min": 0
+            },
+            "overrides": []
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
+              },
+              "expr": "sum by (outcome) (rate(ran_connections_total{instance=~\"$instance\"}[5m]))",
+              "legendFormat": "{{outcome}}"
+            }
+          ]
+        },
+        {
+          "id": 523,
           "type": "timeseries",
           "title": "Connections by Protocol",
           "gridPos": {
-            "x": 0,
-            "y": 38,
+            "x": 12,
+            "y": 40,
             "w": 12,
             "h": 8
           },
@@ -3479,7 +4733,7 @@
                 "type": "victoriametrics-metrics-datasource",
                 "uid": "victoriametrics"
               },
-              "expr": "rate(ran_connections_total{instance=~\"$instance\"}[5m])",
+              "expr": "sum by (protocol) (rate(ran_connections_total{instance=~\"$instance\",outcome=\"completed\"}[5m]))",
               "legendFormat": "{{protocol}}"
             }
           ]
@@ -3489,8 +4743,8 @@
           "type": "timeseries",
           "title": "Credentials by Protocol",
           "gridPos": {
-            "x": 12,
-            "y": 38,
+            "x": 0,
+            "y": 48,
             "w": 12,
             "h": 8
           },
@@ -3544,71 +4798,12 @@
           ]
         },
         {
-          "id": 507,
-          "type": "timeseries",
-          "title": "Active Sessions by Protocol",
-          "gridPos": {
-            "x": 0,
-            "y": 46,
-            "w": 12,
-            "h": 8
-          },
-          "datasource": {
-            "type": "victoriametrics-metrics-datasource",
-            "uid": "victoriametrics"
-          },
-          "options": {
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            },
-            "legend": {
-              "calcs": [
-                "mean",
-                "max"
-              ],
-              "displayMode": "table",
-              "placement": "bottom",
-              "showLegend": true
-            }
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "fillOpacity": 20,
-                "lineWidth": 2,
-                "spanNulls": true,
-                "drawStyle": "line",
-                "lineInterpolation": "smooth",
-                "showPoints": "never"
-              },
-              "unit": "short",
-              "min": 0
-            },
-            "overrides": []
-          },
-          "targets": [
-            {
-              "refId": "A",
-              "datasource": {
-                "type": "victoriametrics-metrics-datasource",
-                "uid": "victoriametrics"
-              },
-              "expr": "ran_active_sessions{instance=~\"$instance\"}",
-              "legendFormat": "{{protocol}}"
-            }
-          ]
-        },
-        {
           "id": 506,
           "type": "timeseries",
           "title": "Session Duration by Protocol",
           "gridPos": {
             "x": 12,
-            "y": 46,
+            "y": 48,
             "w": 12,
             "h": 8
           },
@@ -3671,13 +4866,233 @@
           ]
         },
         {
+          "id": 524,
+          "type": "timeseries",
+          "title": "Pipeline Stages",
+          "gridPos": {
+            "x": 0,
+            "y": 56,
+            "w": 12,
+            "h": 8
+          },
+          "datasource": {
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "victoriametrics"
+          },
+          "options": {
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            },
+            "legend": {
+              "calcs": [
+                "mean",
+                "max"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "showLegend": true
+            }
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "fillOpacity": 20,
+                "lineWidth": 2,
+                "spanNulls": true,
+                "drawStyle": "line",
+                "lineInterpolation": "smooth",
+                "showPoints": "never",
+                "stacking": {
+                  "mode": "normal",
+                  "group": "A"
+                }
+              },
+              "unit": "cps",
+              "min": 0
+            },
+            "overrides": []
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
+              },
+              "expr": "sum by (stage) (rate(ran_crowdsec_pipeline_total{instance=~\"$instance\"}[5m]))",
+              "legendFormat": "{{stage}}"
+            }
+          ]
+        },
+        {
+          "id": 525,
+          "type": "table",
+          "title": "Pipeline by Protocol",
+          "gridPos": {
+            "x": 12,
+            "y": 56,
+            "w": 12,
+            "h": 8
+          },
+          "datasource": {
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "victoriametrics"
+          },
+          "options": {
+            "showHeader": true,
+            "cellHeight": "sm",
+            "footer": {
+              "show": false
+            }
+          },
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                }
+              },
+              "unit": "short",
+              "decimals": 0
+            },
+            "overrides": []
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
+              },
+              "instant": true,
+              "expr": "sum by (protocol) (increase(ran_crowdsec_pipeline_total{instance=~\"$instance\",stage=\"received\"}[$__range]))",
+              "legendFormat": "received"
+            },
+            {
+              "refId": "B",
+              "datasource": {
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
+              },
+              "instant": true,
+              "expr": "sum by (protocol) (increase(ran_crowdsec_pipeline_total{instance=~\"$instance\",stage=\"cached\"}[$__range]))",
+              "legendFormat": "cached"
+            },
+            {
+              "refId": "C",
+              "datasource": {
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
+              },
+              "instant": true,
+              "expr": "sum by (protocol) (increase(ran_crowdsec_pipeline_total{instance=~\"$instance\",stage=\"deduplicated\"}[$__range]))",
+              "legendFormat": "deduplicated"
+            },
+            {
+              "refId": "D",
+              "datasource": {
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
+              },
+              "instant": true,
+              "expr": "sum by (protocol) (increase(ran_crowdsec_pipeline_total{instance=~\"$instance\",stage=\"sent\"}[$__range]))",
+              "legendFormat": "sent"
+            }
+          ],
+          "transformations": [
+            {
+              "id": "merge",
+              "options": {}
+            },
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {
+                  "Time": true
+                },
+                "renameByName": {
+                  "protocol": "Protocol",
+                  "Value #A": "Received",
+                  "Value #B": "Cached",
+                  "Value #C": "Deduplicated",
+                  "Value #D": "Sent"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": 507,
+          "type": "timeseries",
+          "title": "Active Sessions by Protocol",
+          "gridPos": {
+            "x": 0,
+            "y": 64,
+            "w": 12,
+            "h": 8
+          },
+          "datasource": {
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "victoriametrics"
+          },
+          "options": {
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            },
+            "legend": {
+              "calcs": [
+                "mean",
+                "max"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "showLegend": true
+            }
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "fillOpacity": 20,
+                "lineWidth": 2,
+                "spanNulls": true,
+                "drawStyle": "line",
+                "lineInterpolation": "smooth",
+                "showPoints": "never"
+              },
+              "unit": "short",
+              "min": 0
+            },
+            "overrides": []
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
+              },
+              "expr": "ran_active_sessions{instance=~\"$instance\"}",
+              "legendFormat": "{{protocol}}"
+            }
+          ]
+        },
+        {
           "id": 513,
           "type": "piechart",
           "title": "Countries",
           "gridPos": {
-            "x": 0,
-            "y": 54,
-            "w": 8,
+            "x": 12,
+            "y": 64,
+            "w": 12,
             "h": 8
           },
           "datasource": {
@@ -3733,9 +5148,9 @@
           "type": "table",
           "title": "Top Attacker IPs",
           "gridPos": {
-            "x": 8,
-            "y": 54,
-            "w": 16,
+            "x": 0,
+            "y": 72,
+            "w": 12,
             "h": 8
           },
           "datasource": {
@@ -3801,12 +5216,84 @@
           ]
         },
         {
+          "id": 526,
+          "type": "table",
+          "title": "Top Credentials",
+          "gridPos": {
+            "x": 12,
+            "y": 72,
+            "w": 12,
+            "h": 8
+          },
+          "datasource": {
+            "type": "victoriametrics-logs-datasource",
+            "uid": "victorialogs"
+          },
+          "options": {
+            "showHeader": true,
+            "cellHeight": "sm",
+            "footer": {
+              "show": false
+            }
+          },
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                }
+              }
+            },
+            "overrides": []
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "victoriametrics-logs-datasource",
+                "uid": "victorialogs"
+              },
+              "expr": "{job=\"honeypot\"} _msg:\"credentials captured\" | stats by (username, password) count() as hits | sort by (hits) desc | limit 20",
+              "queryType": "stats"
+            }
+          ],
+          "transformations": [
+            {
+              "id": "renameByRegex",
+              "options": {
+                "regex": ".*username=\"([^\"]*)\".*password=\"([^\"]*)\".*",
+                "renamePattern": "$1 | $2"
+              }
+            },
+            {
+              "id": "reduce",
+              "options": {
+                "reducers": [
+                  "lastNotNull"
+                ],
+                "mode": "seriesToRows",
+                "includeTimeField": false
+              }
+            },
+            {
+              "id": "organize",
+              "options": {
+                "renameByName": {
+                  "Field": "Username | Password",
+                  "Last *": "Hits"
+                }
+              }
+            }
+          ]
+        },
+        {
           "id": 508,
           "type": "table",
           "title": "Top Domains",
           "gridPos": {
             "x": 0,
-            "y": 62,
+            "y": 80,
             "w": 12,
             "h": 8
           },
@@ -3878,7 +5365,7 @@
           "title": "Top Paths",
           "gridPos": {
             "x": 12,
-            "y": 62,
+            "y": 80,
             "w": 12,
             "h": 8
           },
@@ -3940,122 +5427,6 @@
                   "Field": "Path",
                   "Last *": "Hits"
                 }
-              }
-            }
-          ]
-        },
-        {
-          "id": 514,
-          "type": "piechart",
-          "title": "HTTP Methods",
-          "gridPos": {
-            "x": 0,
-            "y": 70,
-            "w": 12,
-            "h": 8
-          },
-          "datasource": {
-            "type": "victoriametrics-logs-datasource",
-            "uid": "victorialogs"
-          },
-          "options": {
-            "pieType": "pie",
-            "displayLabels": [
-              "percent"
-            ],
-            "legend": {
-              "displayMode": "table",
-              "placement": "bottom",
-              "calcs": [
-                "value"
-              ]
-            },
-            "tooltip": {
-              "mode": "single"
-            }
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              }
-            }
-          },
-          "targets": [
-            {
-              "refId": "A",
-              "datasource": {
-                "type": "victoriametrics-logs-datasource",
-                "uid": "victorialogs"
-              },
-              "expr": "{job=\"honeypot\"} method:!\"\" | stats by (method) count() as hits",
-              "queryType": "stats"
-            }
-          ],
-          "transformations": [
-            {
-              "id": "renameByRegex",
-              "options": {
-                "regex": ".*=\"([^\"]+)\"}$",
-                "renamePattern": "$1"
-              }
-            }
-          ]
-        },
-        {
-          "id": 511,
-          "type": "piechart",
-          "title": "Status Distribution",
-          "gridPos": {
-            "x": 12,
-            "y": 70,
-            "w": 12,
-            "h": 8
-          },
-          "datasource": {
-            "type": "victoriametrics-logs-datasource",
-            "uid": "victorialogs"
-          },
-          "options": {
-            "pieType": "pie",
-            "displayLabels": [
-              "percent"
-            ],
-            "legend": {
-              "displayMode": "table",
-              "placement": "bottom",
-              "calcs": [
-                "value"
-              ]
-            },
-            "tooltip": {
-              "mode": "single"
-            }
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              }
-            }
-          },
-          "targets": [
-            {
-              "refId": "A",
-              "datasource": {
-                "type": "victoriametrics-logs-datasource",
-                "uid": "victorialogs"
-              },
-              "expr": "{job=\"honeypot\"} status:!\"\" | stats by (status) count() as hits",
-              "queryType": "stats"
-            }
-          ],
-          "transformations": [
-            {
-              "id": "renameByRegex",
-              "options": {
-                "regex": ".*=\"([^\"]+)\"}$",
-                "renamePattern": "$1"
               }
             }
           ]
