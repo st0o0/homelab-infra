@@ -48,9 +48,11 @@ services:
       - NZBGET_PASS=${NZBGET_PASS:-}
     volumes:
       - ${NZBGET_PATH_CONFIG:-./nzbget/config}:/config
-      - ${NZBGET_PATH_TMP:-./nzbget/tmp}:/data/tmp
-      - ${NZBGET_PATH_INTERMEDIATE:-./nzbget/intermediate}:/data/intermediate
-      - nzbget_smb_downloads:/data/completed
+      - ${NZBGET_PATH_QUEUE:-./nzbget/queue}:/downloads/queue
+      - ${NZBGET_PATH_TMP:-./nzbget/tmp}:/downloads/tmp
+      - ${NZBGET_PATH_NZBDIR:-./nzbget/nzb}:/downloads/nzb
+      - ${NZBGET_PATH_INTERMEDIATE:-./nzbget/intermediate}:/downloads/intermediate
+      - nzbget_smb_downloads:/downloads/completed
     network_mode: service:gluetun
     depends_on:
       gluetun:
@@ -60,6 +62,18 @@ services:
         limits:
           memory: 1GB
           cpus: "1"
+
+  filestash:
+    image: machines/filestash
+    container_name: filestash
+    restart: unless-stopped
+    logging: *default-logging
+    ports:
+      - "${FILESTASH_PORT:-8082}:8334"
+    volumes:
+      - filestash_config:/app/state/config
+    networks:
+      - media
 
   firefox:
     image: jlesage/firefox:v25.07.1
@@ -74,7 +88,6 @@ services:
       - DARK_MODE=1
       - KEEP_APP_RUNNING=1
       - WEB_AUDIO=0
-
     volumes:
       - ${FIREFOX_PATH_CONFIG:-./firefox/config}:/config
     network_mode: service:gluetun
@@ -93,6 +106,8 @@ networks:
     external: true
 
 volumes:
+  filestash_config:
+    name: filestash_config
   nzbget_smb_downloads:
     driver: local
     driver_opts:

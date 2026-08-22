@@ -273,7 +273,9 @@ GLUETUN_PORT=8079
 # NZBGet
 NZBGET_PORT=8080
 NZBGET_PATH_CONFIG=/docker/downloader/nzbget/config
+NZBGET_PATH_QUEUE=/docker/downloader/nzbget/queue
 NZBGET_PATH_TMP=/mnt/ssd/usenet/tmp
+NZBGET_PATH_NZBDIR=/docker/downloader/nzbget/nzb
 NZBGET_PATH_INTERMEDIATE=/mnt/ssd/usenet/intermediate
 NZBGET_USER=[[FeelsStrongMan_nzbget_user]]
 NZBGET_PASS=[[FeelsStrongMan_nzbget_pass]]
