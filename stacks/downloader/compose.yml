@@ -15,8 +15,7 @@ services:
     devices:
       - /dev/net/tun:/dev/net/tun
     ports:
-      - "${GLUETUN_PORT:-8079}:8000"
-      - "${NZBGET_PORT:-6789}:6789"
+      - "${SABNZBD_PORT:-8080}:8080"
       - "${FIREFOX_PORT:-5800}:5800"
     environment:
       - TZ=${TZ:-}
@@ -33,26 +32,20 @@ services:
     networks:
       media:
         aliases:
-          - nzbget
+          - sabnzbd
 
-  nzbget:
-    image: ghcr.io/nzbgetcom/nzbget:v26.2
-    container_name: nzbget
+  sabnzbd:
+    image: ghcr.io/home-operations/sabnzbd:5.1.1
+    container_name: sabnzbd
     restart: unless-stopped
     logging: *default-logging
     environment:
-      - PUID=${PUID:-1000}
-      - PGID=${PGID:-1000}
-      - TZ=${TZ:-}
-      - NZBGET_USER=${NZBGET_USER:-}
-      - NZBGET_PASS=${NZBGET_PASS:-}
+      - SABNZBD__API_KEY=${SABNZBD_API_KEY:-}
+      - SABNZBD__NZB_KEY=${SABNZBD_NZB_KEY:-}
     volumes:
-      - ${NZBGET_PATH_CONFIG:-./nzbget/config}:/config
-      - ${NZBGET_PATH_QUEUE:-./nzbget/queue}:/downloads/queue
-      - ${NZBGET_PATH_TMP:-./nzbget/tmp}:/downloads/tmp
-      - ${NZBGET_PATH_NZBDIR:-./nzbget/nzb}:/downloads/nzb
-      - ${NZBGET_PATH_INTERMEDIATE:-./nzbget/intermediate}:/downloads/intermediate
-      - nzbget_smb_downloads:/downloads/completed
+      - ${SABNZBD_PATH_CONFIG:-./sabnzbd/config}:/config
+      - ${SABNZBD_PATH_INCOMPLETE:-./sabnzbd/incomplete}:/config/Downloads/incomplete
+      - smb_downloads:/config/Downloads/complete
     network_mode: service:gluetun
     depends_on:
       gluetun:
@@ -108,7 +101,7 @@ networks:
 volumes:
   filestash_config:
     name: filestash_config
-  nzbget_smb_downloads:
+  smb_downloads:
     driver: local
     driver_opts:
       type: cifs

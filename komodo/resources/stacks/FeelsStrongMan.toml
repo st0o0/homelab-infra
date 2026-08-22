@@ -269,16 +269,14 @@ GLUETUN_VPN_TYPE=[[FeelsStrongMan_gluetun_vpn_type]]
 GLUETUN_SERVER_CITIES=[[FeelsStrongMan_gluetun_server_cities]]
 GLUETUN_DOT_PROVIDERS=[[FeelsStrongMan_gluetun_dot_providers]]
 GLUETUN_WG_MTU=1380
-GLUETUN_PORT=8079
-# NZBGet
-NZBGET_PORT=8080
-NZBGET_PATH_CONFIG=/docker/downloader/nzbget/config
-NZBGET_PATH_QUEUE=/docker/downloader/nzbget/queue
-NZBGET_PATH_TMP=/mnt/ssd/usenet/tmp
-NZBGET_PATH_NZBDIR=/docker/downloader/nzbget/nzb
-NZBGET_PATH_INTERMEDIATE=/mnt/ssd/usenet/intermediate
-NZBGET_USER=[[FeelsStrongMan_nzbget_user]]
-NZBGET_PASS=[[FeelsStrongMan_nzbget_pass]]
+# SABnzbd
+SABNZBD_PORT=8080
+SABNZBD_API_KEY=[[FeelsStrongMan_sabnzbd_api_key]]
+SABNZBD_NZB_KEY=[[FeelsStrongMan_sabnzbd_nzb_key]]
+SABNZBD_PATH_CONFIG=/docker/downloader/sabnzbd/config
+SABNZBD_PATH_INCOMPLETE=/mnt/ssd/usenet/sabnzbd/incomplete
+# Filestash
+FILESTASH_PORT=8082
 # Firefox
 FIREFOX_PORT=8081
 FIREFOX_PATH_CONFIG=/docker/downloader/firefox/config
