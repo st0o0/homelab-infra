@@ -39,6 +39,7 @@ services:
     container_name: sabnzbd
     restart: unless-stopped
     logging: *default-logging
+    user: "${PUID:-1000}:${PGID:-1000}"
     environment:
       - SABNZBD__API_KEY=${SABNZBD_API_KEY:-}
       - SABNZBD__NZB_KEY=${SABNZBD_NZB_KEY:-}
