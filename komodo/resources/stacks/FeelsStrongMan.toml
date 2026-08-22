@@ -289,13 +289,9 @@ CIFS_DOWNLOADS_USER=[[FeelsStrongMan_cifs_downloads_user]]
 CIFS_DOWNLOADS_PASS=[[FeelsStrongMan_cifs_downloads_password]]
 """
 
-[[stack.config.config_files]]
-path = "scripts/pre-deploy.sh"
-requires = "Redeploy"
-
 [stack.config.pre_deploy]
 path = "."
-command = "docker network create media-net 2>/dev/null || true && sh scripts/pre-deploy.sh"
+command = "docker network create media-net 2>/dev/null || true"
 
 # [[stack]]
 # name = "media-1"
