@@ -43,9 +43,14 @@ patch_key() {
 }
 
 # --- First run: extract full default config from image ---
-if [ ! -f "$CONF" ]; then
-  mkdir -p "${NZBGET_DIR}"
-  echo "[pre-deploy] extracting default nzbget.conf from image"
+mkdir -p "${NZBGET_DIR}"
+LINES=0
+if [ -f "$CONF" ]; then
+  LINES="$(wc -l < "$CONF")"
+fi
+
+if [ "$LINES" -lt 200 ]; then
+  echo "[pre-deploy] config missing or incomplete (${LINES} lines), extracting default from image"
   docker run --rm "${IMAGE}" cat /app/nzbget/share/nzbget/nzbget.conf > "$CONF"
 fi
 
