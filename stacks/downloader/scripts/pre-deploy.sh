@@ -1,17 +1,29 @@
 #!/bin/sh
 set -e
 
-if [ -f .env ]; then
+ENV_FILE=""
+for f in .env .env.stack compose.env; do
+  [ -f "$f" ] && ENV_FILE="$f" && break
+done
+
+if [ -n "$ENV_FILE" ]; then
+  echo "[pre-deploy] sourcing $ENV_FILE"
   while IFS= read -r line || [ -n "$line" ]; do
+    line="$(printf '%s' "$line" | tr -d '\r')"
     case "$line" in \#*|'') continue ;; esac
     key="${line%%=*}"
     value="${line#*=}"
     export "$key=$value"
-  done < .env
+  done < "$ENV_FILE"
+else
+  echo "[pre-deploy] no .env file found, using shell environment"
 fi
 
 NZBGET_DIR="${NZBGET_PATH_CONFIG:-./nzbget/config}"
 CONF="${NZBGET_DIR}/nzbget.conf"
+
+echo "[pre-deploy] NZBGET_PATH_CONFIG=${NZBGET_PATH_CONFIG:-<unset>}"
+echo "[pre-deploy] resolved config dir: ${NZBGET_DIR}"
 
 if [ -f "$CONF" ]; then
   echo "[pre-deploy] nzbget.conf already exists, skipping generation"
