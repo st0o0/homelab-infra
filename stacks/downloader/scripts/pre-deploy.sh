@@ -29,17 +29,17 @@ echo "[pre-deploy] config dir: ${NZBGET_DIR}"
 set_key() {
   key="$1"
   value="$2"
-  if grep -q "^${key} *=" "$CONF"; then
-    old="$(grep "^${key} *=" "$CONF" | head -1)"
-    old_val="${old#*=}"
-    old_val="$(printf '%s' "$old_val" | sed 's/^ *//')"
+  match="$(grep "^${key} *=" "$CONF" 2>/dev/null | head -1 || true)"
+  if [ -n "$match" ]; then
+    old_val="${match#*=}"
+    old_val="$(printf '%s' "$old_val" | sed 's/^ *//' | tr -d '\r')"
     if [ "$old_val" != "$value" ]; then
       sed -i "s|^${key} *=.*|${key}=${value}|" "$CONF"
-      echo "[pre-deploy]   ${key}: ${old_val} -> ${value}"
+      echo "[pre-deploy]   ${key}: '${old_val}' -> '${value}'"
     fi
   else
     printf '%s=%s\n' "$key" "$value" >> "$CONF"
-    echo "[pre-deploy]   ${key}: <added> ${value}"
+    echo "[pre-deploy]   ${key}: <added> '${value}'"
   fi
 }
 
@@ -155,9 +155,9 @@ EOF
 fi
 
 # --- Update existing config: only sync env-driven keys ---
-echo "[pre-deploy] updating existing nzbget.conf"
-CHANGES=0
-count_before="$(cat "$CONF" | wc -l)"
+echo "[pre-deploy] updating existing nzbget.conf ($(wc -l < "$CONF") lines)"
+echo "[pre-deploy] first 5 non-comment lines:"
+grep -v '^\s*#' "$CONF" | grep -v '^\s*$' | head -5 | while read -r l; do echo "[pre-deploy]   $l"; done
 
 # Paths
 set_key "MainDir"    "${NZBGET_MAIN_DIR:-/config}"
@@ -169,12 +169,12 @@ set_key "QueueDir"   "${NZBGET_QUEUE_DIR:-/config/queue}"
 
 # Auth
 set_key "ControlUsername" "${NZBGET_USER:-nzbget}"
-[ -n "${NZBGET_PASS}" ] && set_key "ControlPassword" "${NZBGET_PASS}"
+if [ -n "${NZBGET_PASS:-}" ]; then set_key "ControlPassword" "${NZBGET_PASS}"; fi
 
 # Server
-[ -n "${NZBGET_SERVER1_HOST}" ]     && set_key "Server1.Host"        "${NZBGET_SERVER1_HOST}"
-[ -n "${NZBGET_SERVER1_USERNAME}" ] && set_key "Server1.Username"    "${NZBGET_SERVER1_USERNAME}"
-[ -n "${NZBGET_SERVER1_PASSWORD}" ] && set_key "Server1.Password"    "${NZBGET_SERVER1_PASSWORD}"
+if [ -n "${NZBGET_SERVER1_HOST:-}" ]; then set_key "Server1.Host" "${NZBGET_SERVER1_HOST}"; fi
+if [ -n "${NZBGET_SERVER1_USERNAME:-}" ]; then set_key "Server1.Username" "${NZBGET_SERVER1_USERNAME}"; fi
+if [ -n "${NZBGET_SERVER1_PASSWORD:-}" ]; then set_key "Server1.Password" "${NZBGET_SERVER1_PASSWORD}"; fi
 set_key "Server1.Port"        "${NZBGET_SERVER1_PORT:-563}"
 set_key "Server1.Connections" "${NZBGET_SERVER1_CONNECTIONS:-20}"
 
