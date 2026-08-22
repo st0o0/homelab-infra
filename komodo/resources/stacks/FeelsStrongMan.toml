@@ -291,7 +291,7 @@ CIFS_DOWNLOADS_PASS=[[FeelsStrongMan_cifs_downloads_password]]
 
 [stack.config.pre_deploy]
 path = "."
-command = "docker network create media-net 2>/dev/null || true && mkdir -p /docker/downloader/sabnzbd/config /mnt/ssd/usenet/incomplete"
+command = "docker network create media-net 2>/dev/null || true"
 
 # [[stack]]
 # name = "media-1"
