@@ -63,7 +63,7 @@ services:
 
   jellyfin-exporter:
     <<: *common
-    image: rebelcore/jellyfin-exporter:v1.5.1@sha256:8cce84da3ae704b03fd0d886cb583250913c77125cd4c7eef44ec4a28fa3d362
+    image: rebelcore/jellyfin-exporter:v1.5.2@sha256:8759fdd5826c92c3827229d547f4d80e1b3991de6889047b63ce55d4593df440
     container_name: jellyfin-exporter
     command:
       - --jellyfin.address=http://jellyfin:8096
