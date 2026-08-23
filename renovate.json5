@@ -83,7 +83,7 @@
     {
       groupName: 'devcontainer-tooling',
       matchManagers: ['custom.regex'],
-      matchManagerFilePatterns: ['/scripts/.+\\.sh$/'],
+      matchFileNames: ['scripts/**/*.sh'],
       matchUpdateTypes: ['minor', 'patch'],
     },
     {
