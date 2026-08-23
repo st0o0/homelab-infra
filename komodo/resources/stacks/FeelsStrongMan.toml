@@ -11,7 +11,7 @@ file_paths = [
   "compose.yml",
   "compose.override.arr.yaml",
   "compose.override.authentik.yaml",
-  "compose.override.jellyfin.yaml",
+  "compose.override.media.yaml",
 ]
 linked_repo = "homelab-infra"
 extra_args = ["--remove-orphans"]
@@ -74,7 +74,7 @@ path = "../../alloy/features/authentik.alloy"
 requires = "Redeploy"
 
 [[stack.config.config_files]]
-path = "../../alloy/features/jellyfin.alloy"
+path = "../../alloy/features/media.alloy"
 requires = "Redeploy"
 
 [stack.config.pre_deploy]
@@ -281,7 +281,6 @@ DUFS_PORT=8082
 # Firefox
 FIREFOX_PORT=8081
 FIREFOX_PATH_CONFIG=/docker/downloader/firefox/config
-FIREFOX_MEMORY=512MB
 FIREFOX_LANG=de_DE.UTF-8
 # CIFS
 CIFS_DOWNLOADS_HOST=[[FeelsStrongMan_cifs_downloads_host]]
@@ -294,39 +293,40 @@ CIFS_DOWNLOADS_PASS=[[FeelsStrongMan_cifs_downloads_password]]
 path = "."
 command = "docker network create media-net 2>/dev/null || true"
 
-# [[stack]]
-# name = "media-1"
-# tags = ["media"]
-# [stack.config]
-# server = "FeelsStrongMan"
-# run_directory = "stacks/media"
-# file_paths = ["compose.yml"]
-# linked_repo = "homelab-infra"
-# extra_args = ["--remove-orphans"]
-# environment = """
-# PUID=[[puid]]
-# PGID=[[pgid]]
-# TZ=[[tz]]
-# CIFS_MEDIA_HOST=[[FeelsStrongMan_cifs_media_host]]
-# CIFS_MEDIA_SHARE=[[FeelsStrongMan_cifs_media_share]]
-# CIFS_MEDIA_USER=[[FeelsStrongMan_cifs_media_user]]
-# CIFS_MEDIA_PASS=[[FeelsStrongMan_cifs_media_password]]
-# CIFS_AUDIO_HOST=[[FeelsStrongMan_cifs_audio_host]]
-# CIFS_AUDIO_SHARE=[[FeelsStrongMan_cifs_audio_share]]
-# CIFS_AUDIO_USER=[[FeelsStrongMan_cifs_audio_user]]
-# CIFS_AUDIO_PASS=[[FeelsStrongMan_cifs_audio_password]]
-# JELLYFIN_PORT=8096
-# JELLYFIN_PATH_CONFIG=/docker/media/jellyfin/config
-# JELLYFIN_PATH_CACHE=/docker/media/jellyfin/cache
-# JELLYFIN_PATH_PREVIEW=/docker/media/jellyfin/preview
-# JELLYFIN_PATH_VIDEO=/mnt/ssd/Videos
-# AUDIOBOOKSHELF_PORT=13378
-# AUDIOBOOKSHELF_PATH_CONFIG=/docker/media/audiobookshelf/config
-# AUDIOBOOKSHELF_PATH_METADATA=/docker/media/audiobookshelf/metadata
-# """
-# [stack.config.pre_deploy]
-# path = "."
-# command = "docker network create media-net 2>/dev/null || true"
+[[stack]]
+name = "media-1"
+tags = ["media"]
+[stack.config]
+server = "FeelsStrongMan"
+run_directory = "stacks/media"
+file_paths = ["compose.yml"]
+linked_repo = "homelab-infra"
+extra_args = ["--remove-orphans"]
+environment = """
+PUID=[[puid]]
+PGID=[[pgid]]
+TZ=[[tz]]
+CIFS_MEDIA_HOST=[[FeelsStrongMan_cifs_media_host]]
+CIFS_MEDIA_SHARE=[[FeelsStrongMan_cifs_media_share]]
+CIFS_MEDIA_USER=[[FeelsStrongMan_cifs_media_user]]
+CIFS_MEDIA_PASS=[[FeelsStrongMan_cifs_media_password]]
+CIFS_AUDIO_HOST=[[FeelsStrongMan_cifs_audio_host]]
+CIFS_AUDIO_SHARE=[[FeelsStrongMan_cifs_audio_share]]
+CIFS_AUDIO_USER=[[FeelsStrongMan_cifs_audio_user]]
+CIFS_AUDIO_PASS=[[FeelsStrongMan_cifs_audio_password]]
+JELLYFIN_PORT=8096
+JELLYFIN_PATH_CONFIG=/docker/media/jellyfin/config
+JELLYFIN_PATH_CACHE=/docker/media/jellyfin/cache
+JELLYFIN_PATH_PREVIEW=/docker/media/jellyfin/preview
+JELLYFIN_PATH_VIDEO=/mnt/ssd/Videos
+AUDIOBOOKSHELF_PORT=13378
+AUDIOBOOKSHELF_PATH_CONFIG=/docker/media/audiobookshelf/config
+AUDIOBOOKSHELF_PATH_METADATA=/docker/media/audiobookshelf/metadata
+JELLYFIN_API_KEY=[[FeelsStrongMan_jellyfin_api_key]]
+"""
+[stack.config.pre_deploy]
+path = "."
+command = "docker network create media-net 2>/dev/null || true"
 #
 # [[stack]]
 # name = "immich-1"

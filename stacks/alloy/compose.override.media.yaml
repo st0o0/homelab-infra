@@ -1,0 +1,11 @@
+services:
+  alloy:
+    volumes:
+      - ../../alloy/features/media.alloy:/etc/alloy/media.alloy
+    networks:
+      - default
+      - media-net
+
+networks:
+  media-net:
+    external: true

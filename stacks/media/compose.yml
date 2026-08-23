@@ -4,12 +4,15 @@ x-logging: &default-logging
     max-size: 10m
     max-file: "3"
 
+x-common: &common
+  restart: always
+  logging: *default-logging
+
 services:
   jellyfin:
+    <<: *common
     image: jellyfin/jellyfin:10.11.11@sha256:aefb67e6a7ff1debdd154a78a7bbb780fd0c873d8639210a7f6a2016ad2b35db
     container_name: jellyfin
-    restart: always
-    logging: *default-logging
     devices:
       - /dev/dri:/dev/dri
     ports:
@@ -35,10 +38,9 @@ services:
           memory: 1GB
 
   audiobookshelf:
+    <<: *common
     image: ghcr.io/advplyr/audiobookshelf:v2.36.0
     container_name: audiobookshelf
-    restart: always
-    logging: *default-logging
     environment:
       - PUID=${PUID:-1000}
       - PGID=${PGID:-1000}
@@ -59,6 +61,21 @@ services:
         reservations:
           memory: 256M
 
+  jellyfin-exporter:
+    <<: *common
+    image: rebelcore/jellyfin-exporter:v1.5.1@sha256:8cce84da3ae704b03fd0d886cb583250913c77125cd4c7eef44ec4a28fa3d362
+    container_name: jellyfin-exporter
+    command:
+      - --jellyfin.address=http://jellyfin:8096
+      - --jellyfin.token=${JELLYFIN_API_KEY:?JELLYFIN_API_KEY is required}
+    networks:
+      - media
+    deploy:
+      resources:
+        limits:
+          cpus: 0.25
+          memory: 64M
+
 networks:
   media:
     name: media-net
@@ -75,5 +92,5 @@ volumes:
     driver: local
     driver_opts:
       type: cifs
-      device: "//${CIFS_AUDIOS_HOST:?CIFS_AUDIOS_HOST is required}/${CIFS_AUDIOS_SHARE:?CIFS_AUDIOS_SHARE is required}"
-      o: "username=${CIFS_AUDIOS_USER:?CIFS_AUDIOS_USER is required},password=${CIFS_AUDIOS_PASS:?CIFS_AUDIOS_PASS is required},vers=3.0,uid=${PUID:-1000},gid=${PGID:-1000}"
+      device: "//${CIFS_AUDIO_HOST:?CIFS_AUDIO_HOST is required}/${CIFS_AUDIO_SHARE:?CIFS_AUDIO_SHARE is required}"
+      o: "username=${CIFS_AUDIO_USER:?CIFS_AUDIO_USER is required},password=${CIFS_AUDIO_PASS:?CIFS_AUDIO_PASS is required},vers=3.0,uid=${PUID:-1000},gid=${PGID:-1000}"

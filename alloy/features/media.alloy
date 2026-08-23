@@ -1,6 +1,6 @@
 discovery.relabel "jellyfin" {
   targets = [{
-    __address__ = coalesce(sys.env("JELLYFIN_METRICS_TARGET"), "jellyfin:8096"),
+    __address__ = coalesce(sys.env("JELLYFIN_EXPORTER_TARGET"), "media-jellyfin-exporter:9594"),
   }]
   rule {
     replacement  = sys.env("HOST_HOSTNAME")
