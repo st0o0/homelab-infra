@@ -161,7 +161,11 @@ services:
       bifrost:
         condition: service_healthy
     environment:
-      - COLLECTIONS=crowdsecurity/caddy crowdsecurity/sshd crowdsecurity/http-cve crowdsecurity/base-http-scenarios crowdsecurity/appsec-virtual-patching crowdsecurity/appsec-generic-rules crowdsecurity/appsec-crs crowdsecurity/linux crowdsecurity/http-dos
+      - >-
+        COLLECTIONS=crowdsecurity/caddy crowdsecurity/sshd crowdsecurity/http-cve
+        crowdsecurity/base-http-scenarios crowdsecurity/appsec-virtual-patching
+        crowdsecurity/appsec-generic-rules crowdsecurity/appsec-crs
+        crowdsecurity/linux crowdsecurity/http-dos
       - GID=${PGID:-1000}
     volumes:
       - ./crowdsec/config.yaml.local:/etc/crowdsec/config.yaml.local:ro
