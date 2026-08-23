@@ -75,6 +75,8 @@ services:
         limits:
           cpus: 0.25
           memory: 64M
+        reservations:
+          memory: 32M
 
 networks:
   media:

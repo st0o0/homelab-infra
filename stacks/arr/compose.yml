@@ -41,6 +41,13 @@ services:
     networks:
       - arr
       - media
+    deploy:
+      resources:
+        limits:
+          cpus: 0.5
+          memory: 512M
+        reservations:
+          memory: 256M
 
   radarr:
     <<: *common
@@ -72,6 +79,13 @@ services:
     networks:
       - arr
       - media
+    deploy:
+      resources:
+        limits:
+          cpus: 0.5
+          memory: 512M
+        reservations:
+          memory: 256M
 
   prowlarr:
     <<: *common
@@ -102,6 +116,13 @@ services:
     networks:
       - arr
       - media
+    deploy:
+      resources:
+        limits:
+          cpus: 0.25
+          memory: 256M
+        reservations:
+          memory: 128M
 
   seerr:
     <<: *common
@@ -130,6 +151,13 @@ services:
       - ${SEERR_PATH_CONFIG:-./seerr/config}:/app/config
     networks:
       - arr
+    deploy:
+      resources:
+        limits:
+          cpus: 0.5
+          memory: 512M
+        reservations:
+          memory: 256M
 
   seekarr:
     <<: *common
@@ -145,6 +173,13 @@ services:
       - ${SEEKARR_PATH:-./seekarr}:/seekarr
     networks:
       - arr
+    deploy:
+      resources:
+        limits:
+          cpus: 0.1
+          memory: 128M
+        reservations:
+          memory: 64M
 
   sonarr-exporter:
     <<: *common
@@ -161,6 +196,13 @@ services:
       API_KEY: ${SONARR_API_KEY:?SONARR_API_KEY is required}
     networks:
       - arr
+    deploy:
+      resources:
+        limits:
+          cpus: 0.1
+          memory: 64M
+        reservations:
+          memory: 32M
 
   radarr-exporter:
     <<: *common
@@ -177,6 +219,13 @@ services:
       API_KEY: ${RADARR_API_KEY:?RADARR_API_KEY is required}
     networks:
       - arr
+    deploy:
+      resources:
+        limits:
+          cpus: 0.1
+          memory: 64M
+        reservations:
+          memory: 32M
 
   prowlarr-exporter:
     <<: *common
@@ -193,6 +242,13 @@ services:
       API_KEY: ${PROWLARR_API_KEY:?PROWLARR_API_KEY is required}
     networks:
       - arr
+    deploy:
+      resources:
+        limits:
+          cpus: 0.1
+          memory: 64M
+        reservations:
+          memory: 32M
 
   configarr:
     image: ghcr.io/raydak-labs/configarr:1.30.2
@@ -214,6 +270,13 @@ services:
       - ${CONFIGARR_PATH_CONFIG:-./configarr}:/app/config
     networks:
       - arr
+    deploy:
+      resources:
+        limits:
+          cpus: 0.25
+          memory: 256M
+        reservations:
+          memory: 128M
 
   youtarr-db:
     <<: *common
@@ -234,6 +297,13 @@ services:
       - ${YOUTARR_DB_PATH:-./data/youtarr/db}:/var/lib/mysql
     networks:
       - arr
+    deploy:
+      resources:
+        limits:
+          cpus: 0.5
+          memory: 512M
+        reservations:
+          memory: 256M
 
   youtarr:
     <<: *common
@@ -261,6 +331,13 @@ services:
     networks:
       - arr
       - media
+    deploy:
+      resources:
+        limits:
+          cpus: 0.5
+          memory: 512M
+        reservations:
+          memory: 256M
 
 networks:
   arr:

@@ -88,6 +88,13 @@ services:
     networks:
       - default
       - authentik-net
+    deploy:
+      resources:
+        limits:
+          cpus: 1
+          memory: 1536M
+        reservations:
+          memory: 768M
 
   worker:
     image: ghcr.io/goauthentik/server:2026.5.6
@@ -176,6 +183,13 @@ services:
       - ${AUTHENTIK_PATH_CERTS:-./certs}:/certs
       - ${AUTHENTIK_PATH_TEMPLATES:-./custom-templates}:/templates
       - ./blueprints:/blueprints/custom
+    deploy:
+      resources:
+        limits:
+          cpus: 0.5
+          memory: 1GB
+        reservations:
+          memory: 512M
 
 networks:
   authentik-net:

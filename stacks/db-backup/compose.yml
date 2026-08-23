@@ -1,0 +1,63 @@
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: 10m
+    max-file: "3"
+
+services:
+  db-backup:
+    image: docker.io/nfrastack/db-backup:latest
+    container_name: db-backup
+    restart: always
+    logging: *default-logging
+    volumes:
+      - backup_smb:/backup
+    environment:
+      - TIMEZONE=${TZ:-}
+      - BACKUP_JOB_CONCURRENCY=1
+      - DEFAULT_COMPRESSION=ZSTD
+      - DEFAULT_COMPRESSION_LEVEL=3
+      - DEFAULT_CHECKSUM=SHA1
+      - DEFAULT_BACKUP_BEGIN=0200
+      - DEFAULT_BACKUP_INTERVAL=1440
+      - DEFAULT_CLEANUP_TIME=10080
+      - DEFAULT_LOG_LEVEL=NOTICE
+      # PostgreSQL (main)
+      - DB01_TYPE=pgsql
+      - DB01_HOST=postgres
+      - DB01_USER=${DB_BACKUP_PG_USER:?DB_BACKUP_PG_USER is required}
+      - DB01_PASS=${DB_BACKUP_PG_PASS:?DB_BACKUP_PG_PASS is required}
+      - DB01_NAME=ALL
+      # PostgreSQL (Immich)
+      - DB02_TYPE=pgsql
+      - DB02_HOST=immich-postgres
+      - DB02_USER=${DB_BACKUP_IMMICH_PG_USER:?DB_BACKUP_IMMICH_PG_USER is required}
+      - DB02_PASS=${DB_BACKUP_IMMICH_PG_PASS:?DB_BACKUP_IMMICH_PG_PASS is required}
+      - DB02_NAME=ALL
+      # MongoDB
+      - DB03_TYPE=mongo
+      - DB03_HOST=mongodb
+      - DB03_USER=${DB_BACKUP_MONGO_USER:?DB_BACKUP_MONGO_USER is required}
+      - DB03_PASS=${DB_BACKUP_MONGO_PASS:?DB_BACKUP_MONGO_PASS is required}
+      - DB03_NAME=ALL
+    networks:
+      - db-net
+    deploy:
+      resources:
+        limits:
+          cpus: 0.5
+          memory: 512M
+        reservations:
+          memory: 64M
+
+networks:
+  db-net:
+    external: true
+
+volumes:
+  backup_smb:
+    driver: local
+    driver_opts:
+      type: cifs
+      device: "//${CIFS_BACKUP_HOST:?CIFS_BACKUP_HOST is required}/${CIFS_BACKUP_SHARE:?CIFS_BACKUP_SHARE is required}"
+      o: "username=${CIFS_BACKUP_USER:?CIFS_BACKUP_USER is required},password=${CIFS_BACKUP_PASS:?CIFS_BACKUP_PASS is required},vers=3.0,uid=${PUID:-},gid=${PGID:-}"

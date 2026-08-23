@@ -109,3 +109,32 @@
 # [stack.config.pre_deploy]
 # path = "."
 # command = "docker network create db-net 2>/dev/null || true"
+
+[[stack]]
+name = "db-backup-1"
+tags = ["database", "backup"]
+[stack.config]
+server = "FeelsDataMan"
+run_directory = "stacks/db-backup"
+file_paths = ["compose.yml"]
+linked_repo = "homelab-infra"
+extra_args = ["--remove-orphans"]
+environment = """
+TZ=[[tz]]
+PUID=[[puid]]
+PGID=[[pgid]]
+DB_BACKUP_PG_USER=[[FeelsDataMan_db_backup_pg_user]]
+DB_BACKUP_PG_PASS=[[FeelsDataMan_db_backup_pg_pass]]
+DB_BACKUP_IMMICH_PG_USER=[[FeelsDataMan_db_backup_immich_pg_user]]
+DB_BACKUP_IMMICH_PG_PASS=[[FeelsDataMan_db_backup_immich_pg_pass]]
+DB_BACKUP_MONGO_USER=[[FeelsDataMan_db_backup_mongo_user]]
+DB_BACKUP_MONGO_PASS=[[FeelsDataMan_db_backup_mongo_pass]]
+CIFS_BACKUP_HOST=[[FeelsDataMan_cifs_backup_host]]
+CIFS_BACKUP_SHARE=[[FeelsDataMan_cifs_backup_share]]
+CIFS_BACKUP_USER=[[FeelsDataMan_cifs_backup_user]]
+CIFS_BACKUP_PASS=[[FeelsDataMan_cifs_backup_pass]]
+"""
+
+[stack.config.pre_deploy]
+path = "."
+command = "docker network create db-net 2>/dev/null || true"
