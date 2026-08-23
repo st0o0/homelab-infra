@@ -1444,7 +1444,9 @@
           ],
           "displayMode": "table",
           "placement": "bottom",
-          "showLegend": true
+          "showLegend": true,
+          "sortBy": "Max",
+          "sortDesc": true
         }
       },
       "targets": [
@@ -1498,7 +1500,9 @@
           ],
           "displayMode": "table",
           "placement": "bottom",
-          "showLegend": true
+          "showLegend": true,
+          "sortBy": "Max",
+          "sortDesc": true
         }
       },
       "targets": [
@@ -1557,7 +1561,9 @@
           ],
           "displayMode": "table",
           "placement": "bottom",
-          "showLegend": true
+          "showLegend": true,
+          "sortBy": "Max",
+          "sortDesc": true
         }
       },
       "targets": [
@@ -1616,7 +1622,9 @@
           ],
           "displayMode": "table",
           "placement": "bottom",
-          "showLegend": true
+          "showLegend": true,
+          "sortBy": "Max",
+          "sortDesc": true
         }
       },
       "targets": [
@@ -1918,7 +1926,9 @@
               ],
               "displayMode": "table",
               "placement": "bottom",
-              "showLegend": true
+              "showLegend": true,
+              "sortBy": "Max",
+              "sortDesc": true
             }
           },
           "targets": [
@@ -1976,7 +1986,9 @@
               ],
               "displayMode": "table",
               "placement": "bottom",
-              "showLegend": true
+              "showLegend": true,
+              "sortBy": "Max",
+              "sortDesc": true
             }
           },
           "targets": [
@@ -2034,7 +2046,9 @@
               ],
               "displayMode": "table",
               "placement": "bottom",
-              "showLegend": true
+              "showLegend": true,
+              "sortBy": "Max",
+              "sortDesc": true
             }
           },
           "targets": [
@@ -2110,7 +2124,9 @@
               ],
               "displayMode": "table",
               "placement": "bottom",
-              "showLegend": true
+              "showLegend": true,
+              "sortBy": "Max",
+              "sortDesc": true
             }
           },
           "targets": [
@@ -2168,7 +2184,9 @@
               ],
               "displayMode": "table",
               "placement": "bottom",
-              "showLegend": true
+              "showLegend": true,
+              "sortBy": "Max",
+              "sortDesc": true
             }
           },
           "targets": [
@@ -3025,7 +3043,9 @@
               ],
               "displayMode": "table",
               "placement": "bottom",
-              "showLegend": true
+              "showLegend": true,
+              "sortBy": "Max",
+              "sortDesc": true
             }
           },
           "fieldConfig": {
@@ -3157,7 +3177,9 @@
               ],
               "displayMode": "table",
               "placement": "bottom",
-              "showLegend": true
+              "showLegend": true,
+              "sortBy": "Max",
+              "sortDesc": true
             }
           },
           "fieldConfig": {
@@ -3225,7 +3247,9 @@
               ],
               "displayMode": "table",
               "placement": "bottom",
-              "showLegend": true
+              "showLegend": true,
+              "sortBy": "Max",
+              "sortDesc": true
             }
           },
           "fieldConfig": {
@@ -3535,7 +3559,9 @@
               ],
               "displayMode": "table",
               "placement": "bottom",
-              "showLegend": true
+              "showLegend": true,
+              "sortBy": "Max",
+              "sortDesc": true
             }
           },
           "fieldConfig": {
@@ -3999,7 +4025,9 @@
               ],
               "displayMode": "table",
               "placement": "bottom",
-              "showLegend": true
+              "showLegend": true,
+              "sortBy": "Max",
+              "sortDesc": true
             }
           },
           "fieldConfig": {
@@ -4642,7 +4670,9 @@
               ],
               "displayMode": "table",
               "placement": "bottom",
-              "showLegend": true
+              "showLegend": true,
+              "sortBy": "Max",
+              "sortDesc": true
             }
           },
           "fieldConfig": {
@@ -4705,7 +4735,9 @@
               ],
               "displayMode": "table",
               "placement": "bottom",
-              "showLegend": true
+              "showLegend": true,
+              "sortBy": "Max",
+              "sortDesc": true
             }
           },
           "fieldConfig": {
@@ -4764,7 +4796,9 @@
               ],
               "displayMode": "table",
               "placement": "bottom",
-              "showLegend": true
+              "showLegend": true,
+              "sortBy": "Max",
+              "sortDesc": true
             }
           },
           "fieldConfig": {
@@ -4823,7 +4857,9 @@
               ],
               "displayMode": "table",
               "placement": "bottom",
-              "showLegend": true
+              "showLegend": true,
+              "sortBy": "Max",
+              "sortDesc": true
             }
           },
           "fieldConfig": {
@@ -4891,7 +4927,9 @@
               ],
               "displayMode": "table",
               "placement": "bottom",
-              "showLegend": true
+              "showLegend": true,
+              "sortBy": "Max",
+              "sortDesc": true
             }
           },
           "fieldConfig": {
@@ -4970,8 +5008,7 @@
                 "uid": "victoriametrics"
               },
               "instant": true,
-              "expr": "sum by (protocol) (increase(ran_crowdsec_pipeline_total{instance=~\"$instance\",stage=\"received\"}[$__range]))",
-              "legendFormat": "received"
+              "expr": "sum by (protocol) (increase(ran_crowdsec_pipeline_total{instance=~\"$instance\",stage=\"received\"}[$__range]))"
             },
             {
               "refId": "B",
@@ -4980,8 +5017,7 @@
                 "uid": "victoriametrics"
               },
               "instant": true,
-              "expr": "sum by (protocol) (increase(ran_crowdsec_pipeline_total{instance=~\"$instance\",stage=\"cached\"}[$__range]))",
-              "legendFormat": "cached"
+              "expr": "sum by (protocol) (increase(ran_crowdsec_pipeline_total{instance=~\"$instance\",stage=\"cached\"}[$__range]))"
             },
             {
               "refId": "C",
@@ -4990,8 +5026,7 @@
                 "uid": "victoriametrics"
               },
               "instant": true,
-              "expr": "sum by (protocol) (increase(ran_crowdsec_pipeline_total{instance=~\"$instance\",stage=\"deduplicated\"}[$__range]))",
-              "legendFormat": "deduplicated"
+              "expr": "sum by (protocol) (increase(ran_crowdsec_pipeline_total{instance=~\"$instance\",stage=\"deduplicated\"}[$__range]))"
             },
             {
               "refId": "D",
@@ -5000,8 +5035,7 @@
                 "uid": "victoriametrics"
               },
               "instant": true,
-              "expr": "sum by (protocol) (increase(ran_crowdsec_pipeline_total{instance=~\"$instance\",stage=\"sent\"}[$__range]))",
-              "legendFormat": "sent"
+              "expr": "sum by (protocol) (increase(ran_crowdsec_pipeline_total{instance=~\"$instance\",stage=\"sent\"}[$__range]))"
             }
           ],
           "transformations": [
@@ -5052,7 +5086,9 @@
               ],
               "displayMode": "table",
               "placement": "bottom",
-              "showLegend": true
+              "showLegend": true,
+              "sortBy": "Max",
+              "sortDesc": true
             }
           },
           "fieldConfig": {
@@ -5226,8 +5262,8 @@
             "h": 8
           },
           "datasource": {
-            "type": "victoriametrics-logs-datasource",
-            "uid": "victorialogs"
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "victoriametrics"
           },
           "options": {
             "showHeader": true,
@@ -5251,21 +5287,15 @@
             {
               "refId": "A",
               "datasource": {
-                "type": "victoriametrics-logs-datasource",
-                "uid": "victorialogs"
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
               },
-              "expr": "{job=\"honeypot\"} _msg:\"credentials captured\" | stats by (username, password) count() as hits | sort by (hits) desc | limit 20",
-              "queryType": "stats"
+              "expr": "sort_desc(sum by (protocol) (increase(ran_credentials_captured_total{instance=~\"$instance\"}[$__range])))",
+              "instant": true,
+              "legendFormat": "{{protocol}}"
             }
           ],
           "transformations": [
-            {
-              "id": "renameByRegex",
-              "options": {
-                "regex": ".*username=\"([^\"]*)\".*password=\"([^\"]*)\".*",
-                "renamePattern": "$1 | $2"
-              }
-            },
             {
               "id": "reduce",
               "options": {
@@ -5280,8 +5310,8 @@
               "id": "organize",
               "options": {
                 "renameByName": {
-                  "Field": "Username | Password",
-                  "Last *": "Hits"
+                  "Field": "Protocol",
+                  "Last *": "Credentials"
                 }
               }
             }
