@@ -6,7 +6,7 @@ x-logging: &default-logging
 
 services:
   db-backup:
-    image: docker.io/nfrastack/db-backup:latest
+    image: ghcr.io/nfrastack/container-db-backup:4.9.1
     container_name: db-backup
     restart: always
     logging: *default-logging
