@@ -23,7 +23,7 @@ jobs:
           python-version: "3.x"
 
       - name: Install Ansible and ansible-lint
-        run: pip install ansible==14.2.0 ansible-lint==26.6.0
+        run: pip install ansible==14.3.1 ansible-lint==26.6.0
 
       - name: Install collections
         run: ansible-galaxy collection install -r requirements.yml
@@ -46,7 +46,7 @@ jobs:
           python-version: "3.x"
 
       - name: Install Ansible
-        run: pip install ansible==14.2.0
+        run: pip install ansible==14.3.1
 
       - name: Install collections
         run: ansible-galaxy collection install -r requirements.yml
