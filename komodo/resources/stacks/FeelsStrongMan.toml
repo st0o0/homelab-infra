@@ -276,7 +276,7 @@ SABNZBD_NZB_KEY=[[FeelsStrongMan_sabnzbd_nzb_key]]
 SABNZBD_HOST_WHITELIST=sabnzbd, FeelsStrongMan
 SABNZBD_PATH_CONFIG=/docker/downloader/sabnzbd/config
 SABNZBD_PATH_INCOMPLETE=/mnt/ssd/usenet/incomplete
-# Filestash
+# DUFS
 DUFS_PORT=8082
 # Firefox
 FIREFOX_PORT=8081
@@ -417,5 +417,5 @@ command = "docker network create media-net 2>/dev/null || true"
 # PAPERLESS_PATH_MEDIA=/docker/paperless/media
 # PAPERLESS_PATH_CONSUME=/docker/paperless/consume
 # PAPERLESS_PATH_EXPORT=/docker/paperless/export
-# PAPERLESS_PATH_REDIS=/docker/paperless/redis
+# PAPERLESS_PATH_VALKEY=/docker/paperless/valkey
 # """

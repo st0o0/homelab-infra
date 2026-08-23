@@ -89,7 +89,7 @@
 # command = "docker network create db-net 2>/dev/null || true"
 #
 # [[stack]]
-# name = "redis-1"
+# name = "valkey-1"
 # tags = ["database"]
 # [stack.config]
 # server = "FeelsDataMan"
@@ -99,11 +99,11 @@
 # extra_args = ["--remove-orphans"]
 # environment = """
 # TZ=[[tz]]
-# REDIS_PASS=[[FeelsDataMan_redis_password]]
-# REDIS_PORT=[[FeelsDataMan_redis_port]]
-# REDIS_PATH_DATA=[[FeelsDataMan_redis_path_data]]
-# REDIS_MAXMEMORY=256mb
-# REDIS_MAXMEMORY_POLICY=allkeys-lru
+# VALKEY_PASS=[[FeelsDataMan_valkey_password]]
+# VALKEY_PORT=[[FeelsDataMan_valkey_port]]
+# VALKEY_PATH_DATA=[[FeelsDataMan_valkey_path_data]]
+# VALKEY_MAXMEMORY=256mb
+# VALKEY_MAXMEMORY_POLICY=allkeys-lru
 # """
 #
 # [stack.config.pre_deploy]

@@ -8,6 +8,7 @@ server = "FeelsCozyMan"
 run_directory = "stacks/ntfy"
 file_paths = ["compose.yml"]
 linked_repo = "homelab-infra"
+extra_args = ["--remove-orphans"]
 environment = """
 TZ=[[tz]]
 NTFY_BASE_URL=[[FeelsCozyMan_ntfy_base_url]]
