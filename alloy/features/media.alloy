@@ -1,6 +1,6 @@
 discovery.relabel "jellyfin" {
   targets = [{
-    __address__ = coalesce(sys.env("JELLYFIN_EXPORTER_TARGET"), "jellyfin-exporter:9594"),
+    __address__ = coalesce(sys.env("JELLYFIN_METRICS_TARGET"), "jellyfin:8096"),
   }]
   rule {
     replacement  = sys.env("HOST_HOSTNAME")
@@ -12,5 +12,6 @@ prometheus.scrape "jellyfin" {
   targets         = discovery.relabel.jellyfin.output
   forward_to      = [prometheus.remote_write.central.receiver]
   scrape_interval = coalesce(sys.env("SCRAPE_INTERVAL"), "30s")
+  metrics_path    = "/metrics"
   job_name        = "jellyfin"
 }
