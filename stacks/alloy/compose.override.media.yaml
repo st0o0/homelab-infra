@@ -2,6 +2,8 @@ services:
   alloy:
     volumes:
       - ../../alloy/features/media.alloy:/etc/alloy/media.alloy
+    environment:
+      - JELLYFIN_EXPORTER_TARGET=${ALLOY_JELLYFIN_EXPORTER_TARGET:-jellyfin-exporter:9594}
     networks:
       - default
       - media-net
