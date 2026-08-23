@@ -14,10 +14,27 @@ pre_eval:
       req.URL.Path startsWith "/Sessions/"
     apply:
       - RemoveOutBandRuleByID(932370)
-  # PlayingItems position reports trigger 901340 (anomaly score out-of-band)
+  # Jellyfin API requests trigger 901340 (anomaly score) due to large query strings,
+  # DELETE methods, and rapid polling from clients like Streamyfin
   - filter: >-
       IsOutBand == true &&
       req.Host contains "media." &&
-      req.URL.Path startsWith "/PlayingItems/"
+      (req.URL.Path startsWith "/PlayingItems/" ||
+       req.URL.Path startsWith "/Items" ||
+       req.URL.Path startsWith "/Shows/" ||
+       req.URL.Path startsWith "/UserItems/" ||
+       req.URL.Path startsWith "/UserViews" ||
+       req.URL.Path startsWith "/Streamyfin/")
     apply:
       - RemoveOutBandRuleByID(901340)
+  - filter: >-
+      IsInBand == true &&
+      req.Host contains "media." &&
+      (req.URL.Path startsWith "/PlayingItems/" ||
+       req.URL.Path startsWith "/Items" ||
+       req.URL.Path startsWith "/Shows/" ||
+       req.URL.Path startsWith "/UserItems/" ||
+       req.URL.Path startsWith "/UserViews" ||
+       req.URL.Path startsWith "/Streamyfin/")
+    apply:
+      - RemoveInBandRuleByID(901340)
