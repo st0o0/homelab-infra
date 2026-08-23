@@ -125,4 +125,4 @@ volumes:
     driver_opts:
       type: cifs
       device: "//${CIFS_DOWNLOADS_HOST:?CIFS_DOWNLOADS_HOST is required}/${CIFS_DOWNLOADS_SHARE:?CIFS_DOWNLOADS_SHARE is required}"
-      o: "username=${CIFS_DOWNLOADS_USER:?CIFS_DOWNLOADS_USER is required},password=${CIFS_DOWNLOADS_PASS:?CIFS_DOWNLOADS_PASS is required},vers=3.0,uid=${PUID:-1000},gid=${PGID:-1000},iocharset=utf8,mapposix"
+      o: "username=${CIFS_DOWNLOADS_USER:?CIFS_DOWNLOADS_USER is required},password=${CIFS_DOWNLOADS_PASS:?CIFS_DOWNLOADS_PASS is required},vers=3.0,uid=${PUID:-1000},gid=${PGID:-1000},iocharset=utf8"
