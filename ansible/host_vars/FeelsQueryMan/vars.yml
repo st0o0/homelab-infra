@@ -1,9 +1,9 @@
 # Bootstrap
-# bootstrap_hostname_enabled: true
+bootstrap_hostname_enabled: true
 
 # Shell
-# shell_motd_enabled: true
-# shell_dotfiles_enabled: true
+shell_motd_enabled: true
+shell_dotfiles_enabled: true
 
 # Unattended upgrades
 unattended_upgrades_enabled: true
@@ -40,13 +40,13 @@ unattended_upgrades_enabled: true
 # pam_pwquality_enabled: true
 
 # Docker
-# docker_enabled: true
+docker_enabled: true
 
 # UPS
 # ups_client_enabled: false
 
 # Cron
-# cron_docker_prune: true
+cron_docker_prune: true
 # cron_extra_jobs:
 #   - { name: "cleanup-logs", job: "find /var/log -name '*.gz' -mtime +30 -delete", schedule: "0 4 * * 0" }
 
@@ -64,5 +64,5 @@ unattended_upgrades_enabled: true
 
 # Komodo
 komodo_enabled: false
-agent_enabled: false
+agent_enabled: true
 agent_bifrost: false
