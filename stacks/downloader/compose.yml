@@ -43,6 +43,7 @@ services:
     environment:
       - SABNZBD__API_KEY=${SABNZBD_API_KEY:-}
       - SABNZBD__NZB_KEY=${SABNZBD_NZB_KEY:-}
+      - SABNZBD__HOST_WHITELIST_ENTRIES=${SABNZBD_HOST_WHITELIST:-}
     volumes:
       - ${SABNZBD_PATH_CONFIG:-./sabnzbd/config}:/config
       - ${SABNZBD_PATH_INCOMPLETE:-./sabnzbd/incomplete}:/config/Downloads/incomplete
@@ -57,15 +58,16 @@ services:
           memory: 1GB
           cpus: "1"
 
-  filestash:
-    image: machines/filestash
-    container_name: filestash
+  dufs:
+    image: sigoden/dufs:v0.46.0
+    container_name: dufs
     restart: unless-stopped
     logging: *default-logging
+    command: /data --allow-all --port 5000
     ports:
-      - "${FILESTASH_PORT:-8082}:8334"
+      - "${DUFS_PORT:-8082}:5000"
     volumes:
-      - filestash_config:/app/state/config
+      - smb_downloads:/data
     networks:
       - media
 
@@ -100,8 +102,6 @@ networks:
     external: true
 
 volumes:
-  filestash_config:
-    name: filestash_config
   smb_downloads:
     driver: local
     driver_opts:
