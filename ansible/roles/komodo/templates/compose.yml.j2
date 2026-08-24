@@ -1,3 +1,4 @@
+# Managed by Ansible -- do not edit manually.
 x-logging: &default-logging
   driver: json-file
   options:
@@ -66,6 +67,9 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /proc:/proc
       - ${PERIPHERY_ROOT_DIRECTORY:-/etc/komodo}:${PERIPHERY_ROOT_DIRECTORY:-/etc/komodo}
+{% for mount in komodo_extra_disk_mounts %}
+      - {{ mount }}:{{ mount }}:ro
+{% endfor %}
     deploy:
       resources:
         limits:
