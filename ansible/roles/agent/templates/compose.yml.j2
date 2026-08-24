@@ -95,6 +95,9 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /proc:/proc
       - ${PERIPHERY_ROOT_DIRECTORY:-./data}:${PERIPHERY_ROOT_DIRECTORY:-/etc/komodo}
+{% for mount in agent_extra_disk_mounts %}
+      - {{ mount }}:{{ mount }}:ro
+{% endfor %}
     deploy:
       resources:
         limits:
