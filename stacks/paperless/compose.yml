@@ -18,13 +18,20 @@ services:
       - ${PAPERLESS_PATH_CONSUME:-/docker/paperless/consume}:/usr/src/paperless/consume
       - ${PAPERLESS_PATH_EXPORT:-/docker/paperless/export}:/usr/src/paperless/export
     environment:
-      - PAPERLESS_REDIS=redis://paperless-valkey:6379
-      - PAPERLESS_TIME_ZONE=${TZ:-}
+      - PAPERLESS_REDIS=${PAPERLESS_REDIS_URL:?PAPERLESS_REDIS_URL is required}
+      - PAPERLESS_REDIS_PREFIX=${PAPERLESS_REDIS_PREFIX:-PAPERLESS}
+      - PAPERLESS_DBENGINE=${PAPERLESS_DB_ENGINE:?PAPERLESS_DB_ENGINE is required}
+      - PAPERLESS_DBHOST=${PAPERLESS_DB_HOST:?PAPERLESS_DB_HOST is required}
+      - PAPERLESS_DBPORT=${PAPERLESS_DB_PORT:?PAPERLESS_DB_PORT is required}
+      - PAPERLESS_DBNAME=${PAPERLESS_DB_NAME:?PAPERLESS_DB_NAME is required}
+      - PAPERLESS_DBUSER=${PAPERLESS_DB_USER:?PAPERLESS_DB_USER is required}
+      - PAPERLESS_DBPASS=${PAPERLESS_DB_PASS:?PAPERLESS_DB_PASS is required}
       - PAPERLESS_SECRET_KEY=${PAPERLESS_SECRET_KEY:?PAPERLESS_SECRET_KEY is required}
       - PAPERLESS_URL=${PAPERLESS_URL:-}
       - PAPERLESS_ADMIN_USER=${PAPERLESS_ADMIN_USER:-}
       - PAPERLESS_ADMIN_PASSWORD=${PAPERLESS_ADMIN_PASS:-}
       - PAPERLESS_OCR_LANGUAGE=${PAPERLESS_OCR_LANGUAGE:-deu+eng}
+      - PAPERLESS_TIME_ZONE=${TZ:-}
       - USERMAP_UID=${PUID:-}
       - USERMAP_GID=${PGID:-}
     depends_on:
@@ -34,21 +41,6 @@ services:
       test: ["CMD", "curl", "-f", "http://localhost:8000"]
       interval: 30s
       timeout: 10s
-      retries: 5
-    networks:
-      - paperless
-
-  paperless-valkey:
-    image: docker.io/valkey/valkey:9-alpine
-    container_name: paperless-valkey
-    restart: unless-stopped
-    logging: *default-logging
-    volumes:
-      - ${PAPERLESS_PATH_VALKEY:-/docker/paperless/valkey}:/data
-    healthcheck:
-      test: ["CMD", "valkey-cli", "ping"]
-      interval: 10s
-      timeout: 5s
       retries: 5
     networks:
       - paperless

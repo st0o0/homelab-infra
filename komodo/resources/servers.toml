@@ -25,6 +25,12 @@ tags = ["database"]
 enabled = true
 
 [[server]]
+name = "FeelsQueryMan"
+tags = ["database"]
+[server.config]
+enabled = true
+
+[[server]]
 name = "FeelsNoSponsorMan"
 tags = ["infra"]
 [server.config]
