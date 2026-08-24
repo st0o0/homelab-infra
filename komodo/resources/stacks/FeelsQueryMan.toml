@@ -9,6 +9,7 @@ run_directory = "stacks/postgres"
 file_paths = ["compose.yml"]
 linked_repo = "homelab-infra"
 extra_args = ["--remove-orphans"]
+destroy_before_deploy = true
 environment = """
 TZ=[[tz]]
 PG_USER=[[FeelsQueryMan_postgres_user]]
