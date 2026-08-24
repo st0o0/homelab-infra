@@ -28,12 +28,11 @@ notifications:
   - file_appsec
 on_success: break
 ---
-name: long_ban
+name: skip_feedback_loop
 filters:
-  - Alert.Remediation == true && Alert.GetScope() == "Ip" && Alert.GetScenario() contains "geo-violation"
-decisions:
-  - type: ban
-    duration: 24h
+  - >-
+    Alert.GetScenario() == "crowdsecurity/http-probing" &&
+    GetDecisionsCount(Alert.GetValue()) > 0
 notifications:
   - file_alerts
 on_success: break
