@@ -20,10 +20,6 @@ PG_PORT=[[FeelsQueryMan_postgres_port]]
 PG_PATH_DATA=/docker/postgres/data
 """
 
-[[stack.config.config_files]]
-path = "pg_hba.conf"
-requires = "Redeploy"
-
 [stack.config.pre_deploy]
 path = "."
 command = "docker network create db-net 2>/dev/null || true"

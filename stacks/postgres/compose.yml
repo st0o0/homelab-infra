@@ -19,11 +19,8 @@ services:
       - "${PG_PORT:-5432}:5432"
     volumes:
       - ${PG_PATH_DATA:?PG_PATH_DATA is required}:/var/lib/postgresql/data
-      - ./pg_hba.conf:/etc/postgresql/pg_hba.conf:ro
     command:
       - "postgres"
-      - "-c"
-      - "hba_file=/etc/postgresql/pg_hba.conf"
       - "-c"
       - "listen_addresses=*"
       - "-c"
