@@ -14,8 +14,8 @@ pre_eval:
       req.URL.Path startsWith "/Sessions/"
     apply:
       - RemoveOutBandRuleByID(932370)
-  # Jellyfin API requests trigger 901340 (anomaly score) due to large query strings,
-  # DELETE methods, and rapid polling from clients like Streamyfin
+  # Jellyfin API requests trigger 901340 (anomaly score) and 911100 (method enforcement)
+  # due to large query strings, DELETE methods, and rapid polling from clients like Streamyfin
   - filter: >-
       IsOutBand == true &&
       req.Host contains "media." &&
@@ -27,6 +27,7 @@ pre_eval:
        req.URL.Path startsWith "/Streamyfin/")
     apply:
       - RemoveOutBandRuleByID(901340)
+      - RemoveOutBandRuleByID(911100)
   - filter: >-
       IsInBand == true &&
       req.Host contains "media." &&
@@ -38,3 +39,4 @@ pre_eval:
        req.URL.Path startsWith "/Streamyfin/")
     apply:
       - RemoveInBandRuleByID(901340)
+      - RemoveInBandRuleByID(911100)
