@@ -476,8 +476,15 @@ sync:
     km x -y sync homelab-infra-sync
 
 # Run full deploy pipeline (sync resources, then redeploy changed stacks)
-pipeline:
-    km x -y procedure deploy-homelab-infra
+# Use 'all' to force-redeploy every stack regardless of changes
+pipeline TARGET="":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    if [ "{{TARGET}}" = "all" ]; then
+        km x -y procedure deploy-all-stacks
+    else
+        km x -y procedure deploy-homelab-infra
+    fi
 
 # Deploy a stack (docker compose up -d)
 deploy STACK:

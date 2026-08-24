@@ -24,3 +24,19 @@ name = "Deploy changed stacks"
 executions = [
   { execution.type = "BatchDeployStackIfChanged", execution.params.pattern = "*" }
 ]
+
+[[procedure]]
+name = "deploy-all-stacks"
+description = "Sync resources, then force-redeploy ALL stacks regardless of changes"
+
+[[procedure.config.stage]]
+name = "Sync"
+executions = [
+  { execution.type = "RunSync", execution.params.sync = "homelab-infra-sync" }
+]
+
+[[procedure.config.stage]]
+name = "Deploy all stacks"
+executions = [
+  { execution.type = "BatchDeployStack", execution.params.pattern = "*" }
+]
