@@ -32,9 +32,9 @@ services:
       resources:
         limits:
           cpus: 0.5
-          memory: 1GB
-        reservations:
           memory: 512M
+        reservations:
+          memory: 256M
 
 networks:
   db-net:
