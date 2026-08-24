@@ -1,0 +1,57 @@
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: 10m
+    max-file: "3"
+
+services:
+  dbgate:
+    image: dbgate/dbgate:alpine
+    container_name: dbgate
+    restart: always
+    logging: *default-logging
+    environment:
+      - TZ=${TZ:-}
+      - LOGINS=${DBGATE_LOGINS:-}
+      - LOGIN_PERMISSIONS=${DBGATE_LOGIN_PERMISSIONS:-}
+      - CONNECTIONS=${DBGATE_CONNECTIONS:-}
+      - LABEL_POSTGRES=${DBGATE_LABEL_POSTGRES:-}
+      - ENGINE_POSTGRES=${DBGATE_ENGINE_POSTGRES:-}
+      - SERVER_POSTGRES=${DBGATE_SERVER_POSTGRES:-}
+      - PORT_POSTGRES=${DBGATE_PORT_POSTGRES:-}
+      - USER_POSTGRES=${DBGATE_USER_POSTGRES:-}
+      - PASSWORD_POSTGRES=${DBGATE_PASSWORD_POSTGRES:-}
+      - LABEL_IMMICH=${DBGATE_LABEL_IMMICH:-}
+      - ENGINE_IMMICH=${DBGATE_ENGINE_IMMICH:-}
+      - SERVER_IMMICH=${DBGATE_SERVER_IMMICH:-}
+      - PORT_IMMICH=${DBGATE_PORT_IMMICH:-}
+      - USER_IMMICH=${DBGATE_USER_IMMICH:-}
+      - PASSWORD_IMMICH=${DBGATE_PASSWORD_IMMICH:-}
+      - LABEL_MONGO=${DBGATE_LABEL_MONGO:-}
+      - ENGINE_MONGO=${DBGATE_ENGINE_MONGO:-}
+      - SERVER_MONGO=${DBGATE_SERVER_MONGO:-}
+      - PORT_MONGO=${DBGATE_PORT_MONGO:-}
+      - USER_MONGO=${DBGATE_USER_MONGO:-}
+      - PASSWORD_MONGO=${DBGATE_PASSWORD_MONGO:-}
+      - LABEL_VALKEY=${DBGATE_LABEL_VALKEY:-}
+      - ENGINE_VALKEY=${DBGATE_ENGINE_VALKEY:-}
+      - SERVER_VALKEY=${DBGATE_SERVER_VALKEY:-}
+      - PORT_VALKEY=${DBGATE_PORT_VALKEY:-}
+      - PASSWORD_VALKEY=${DBGATE_PASSWORD_VALKEY:-}
+    ports:
+      - "${DBGATE_PORT:-3100}:3000"
+    volumes:
+      - ${DBGATE_PATH_DATA:?DBGATE_PATH_DATA is required}:/root/.dbgate
+    networks:
+      - db-net
+    deploy:
+      resources:
+        limits:
+          cpus: 0.25
+          memory: 256M
+        reservations:
+          memory: 128M
+
+networks:
+  db-net:
+    external: true

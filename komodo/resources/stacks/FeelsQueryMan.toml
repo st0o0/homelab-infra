@@ -1,0 +1,208 @@
+# ── FeelsQueryMan ──────────────────────────────────────────────────────────
+
+[[stack]]
+name = "postgres-1"
+tags = ["database"]
+[stack.config]
+server = "FeelsQueryMan"
+run_directory = "stacks/postgres"
+file_paths = ["compose.yml"]
+linked_repo = "homelab-infra"
+extra_args = ["--remove-orphans"]
+environment = """
+TZ=[[tz]]
+PG_USER=[[FeelsQueryMan_postgres_username]]
+PG_PASS=[[FeelsQueryMan_postgres_password]]
+PG_DB=[[FeelsQueryMan_postgres_db]]
+PG_PORT=[[FeelsQueryMan_postgres_port]]
+PG_PATH_DATA=/docker/postgres/data
+"""
+
+[stack.config.pre_deploy]
+path = "."
+command = "docker network create db-net 2>/dev/null || true"
+
+[[stack]]
+name = "immich-postgres-1"
+tags = ["database"]
+[stack.config]
+server = "FeelsQueryMan"
+run_directory = "stacks/immich-postgres"
+file_paths = ["compose.yml"]
+linked_repo = "homelab-infra"
+extra_args = ["--remove-orphans"]
+environment = """
+TZ=[[tz]]
+IMMICH_PG_USER=[[FeelsQueryMan_immich_postgres_username]]
+IMMICH_PG_PASS=[[FeelsQueryMan_immich_postgres_password]]
+IMMICH_PG_DB=[[FeelsQueryMan_immich_postgres_db]]
+IMMICH_PG_PORT=[[FeelsQueryMan_immich_postgres_port]]
+IMMICH_PG_PATH_DATA=/docker/immich-postgres/data
+"""
+
+[stack.config.pre_deploy]
+path = "."
+command = "docker network create db-net 2>/dev/null || true"
+
+[[stack]]
+name = "mongodb-1"
+tags = ["database"]
+[stack.config]
+server = "FeelsQueryMan"
+run_directory = "stacks/mongodb"
+file_paths = ["compose.yml"]
+linked_repo = "homelab-infra"
+extra_args = ["--remove-orphans"]
+environment = """
+TZ=[[tz]]
+MONGO_ROOT_USER=[[FeelsQueryMan_mongo_root_username]]
+MONGO_ROOT_PASS=[[FeelsQueryMan_mongo_root_password]]
+MONGO_PORT=[[FeelsQueryMan_mongo_port]]
+MONGO_PATH_DATA=/docker/mongodb/data
+"""
+
+[stack.config.pre_deploy]
+path = "."
+command = "docker network create db-net 2>/dev/null || true"
+
+[[stack]]
+name = "valkey-1"
+tags = ["database"]
+[stack.config]
+server = "FeelsQueryMan"
+run_directory = "stacks/valkey"
+file_paths = ["compose.yml"]
+linked_repo = "homelab-infra"
+extra_args = ["--remove-orphans"]
+environment = """
+TZ=[[tz]]
+VALKEY_PASS=[[FeelsQueryMan_valkey_password]]
+VALKEY_PORT=[[FeelsQueryMan_valkey_port]]
+VALKEY_PATH_DATA=/docker/valkey/data
+VALKEY_MAXMEMORY=256mb
+VALKEY_MAXMEMORY_POLICY=allkeys-lru
+"""
+
+[stack.config.pre_deploy]
+path = "."
+command = "docker network create db-net 2>/dev/null || true"
+
+[[stack]]
+name = "dbgate-1"
+tags = ["database"]
+after = ["postgres-1", "mongodb-1"]
+[stack.config]
+server = "FeelsQueryMan"
+run_directory = "stacks/dbgate"
+file_paths = ["compose.yml"]
+linked_repo = "homelab-infra"
+extra_args = ["--remove-orphans"]
+environment = """
+TZ=[[tz]]
+DBGATE_LOGINS=[[FeelsQueryMan_dbgate_logins]]
+DBGATE_LOGIN_PERMISSIONS=[[FeelsQueryMan_dbgate_login_permissions]]
+DBGATE_CONNECTIONS=POSTGRES,IMMICH,MONGO,VALKEY
+DBGATE_LABEL_POSTGRES=postgres
+DBGATE_ENGINE_POSTGRES=postgres@dbgate-plugin-postgres
+DBGATE_SERVER_POSTGRES=postgres
+DBGATE_PORT_POSTGRES=5432
+DBGATE_USER_POSTGRES=[[FeelsQueryMan_dbgate_user_postgres]]
+DBGATE_PASSWORD_POSTGRES=[[FeelsQueryMan_dbgate_pass_postgres]]
+DBGATE_LABEL_IMMICH=immich-postgres
+DBGATE_ENGINE_IMMICH=postgres@dbgate-plugin-postgres
+DBGATE_SERVER_IMMICH=immich-postgres
+DBGATE_PORT_IMMICH=5432
+DBGATE_USER_IMMICH=[[FeelsQueryMan_dbgate_user_immich]]
+DBGATE_PASSWORD_IMMICH=[[FeelsQueryMan_dbgate_pass_immich]]
+DBGATE_LABEL_MONGO=mongodb
+DBGATE_ENGINE_MONGO=mongo@dbgate-plugin-mongo
+DBGATE_SERVER_MONGO=mongodb
+DBGATE_PORT_MONGO=27017
+DBGATE_USER_MONGO=[[FeelsQueryMan_dbgate_user_mongo]]
+DBGATE_PASSWORD_MONGO=[[FeelsQueryMan_dbgate_pass_mongo]]
+DBGATE_LABEL_VALKEY=valkey
+DBGATE_ENGINE_VALKEY=redis@dbgate-plugin-redis
+DBGATE_SERVER_VALKEY=valkey
+DBGATE_PORT_VALKEY=6379
+DBGATE_PASSWORD_VALKEY=[[FeelsQueryMan_dbgate_pass_valkey]]
+DBGATE_PORT=3100
+DBGATE_PATH_DATA=/docker/dbgate/data
+"""
+
+[stack.config.pre_deploy]
+path = "."
+command = "docker network create db-net 2>/dev/null || true"
+
+[[stack]]
+name = "alloy-6"
+tags = ["monitoring"]
+after = ["postgres-1", "immich-postgres-1", "mongodb-1", "valkey-1"]
+[stack.config]
+server = "FeelsQueryMan"
+project_name = "alloy-6"
+run_directory = "stacks/alloy"
+file_paths = [
+  "compose.yml",
+  "compose.override.databases.yaml",
+]
+linked_repo = "homelab-infra"
+extra_args = ["--remove-orphans"]
+environment = """
+TZ=[[tz]]
+ALLOY_REMOTE_WRITE_URL=[[metrics_remote_write_url]]
+ALLOY_LOGS_PUSH_URL=[[metrics_logs_push_url]]
+ALLOY_HOSTNAME=FeelsQueryMan
+ALLOY_SCRAPE_INTERVAL=30s
+GEOIPUPDATE_ACCOUNT_ID=[[maxmind_account_id]]
+GEOIPUPDATE_LICENSE_KEY=[[maxmind_license_key]]
+ALLOY_POSTGRES_DSN=[[FeelsQueryMan_alloy_postgres_dsn]]
+ALLOY_IMMICH_POSTGRES_DSN=[[FeelsQueryMan_alloy_immich_postgres_dsn]]
+ALLOY_IMMICH_POSTGRES_ENABLED=true
+ALLOY_REDIS_ADDR=valkey:6379
+ALLOY_REDIS_PASSWORD=[[FeelsQueryMan_alloy_redis_password]]
+ALLOY_MONGODB_URI=[[FeelsQueryMan_alloy_mongodb_uri]]
+"""
+
+[[stack.config.config_files]]
+path = "../../alloy/modules/appsec.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "../../alloy/modules/caddy.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "../../alloy/modules/crowdsec.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "../../alloy/modules/fail2ban.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "../../alloy/modules/honeypot.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "../../alloy/modules/security.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "../../alloy/modules/ssh.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "../../alloy/modules/sudo.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "../../alloy/modules/syslog.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "../../alloy/modules/ufw.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "../../alloy/features/databases.alloy"
+requires = "Redeploy"
