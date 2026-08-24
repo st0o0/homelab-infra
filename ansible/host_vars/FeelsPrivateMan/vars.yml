@@ -123,3 +123,5 @@ proxy_enabled: true
 komodo_enabled: false
 agent_enabled: true
 agent_bifrost: true
+# agent_extra_disk_mounts:
+#   - /mnt/data

@@ -65,4 +65,6 @@ cron_docker_prune: true
 # Komodo
 komodo_enabled: false
 agent_enabled: true
+# agent_extra_disk_mounts:
+#   - /mnt/data
 agent_bifrost: false

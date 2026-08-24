@@ -11,6 +11,7 @@ komodo_monitoring_interval: "15-sec"
 komodo_resource_poll_interval: "5-min"
 komodo_backups_path: /docker/komodo/backups
 komodo_periphery_root: /docker/komodo/data
+komodo_extra_disk_mounts: []
 
 # -- OIDC --
 komodo_oidc_enabled: false

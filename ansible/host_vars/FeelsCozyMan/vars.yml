@@ -72,3 +72,5 @@ cron_docker_prune: true
 # Komodo (Core host — Core + bundled local Periphery; Mongo runs on FeelsDataMan)
 komodo_enabled: true
 agent_enabled: false
+# komodo_extra_disk_mounts:
+#   - /mnt/data
