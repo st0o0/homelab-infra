@@ -476,15 +476,29 @@ sync:
     km x -y sync homelab-infra-sync
 
 # Run full deploy pipeline (sync resources, then redeploy changed stacks)
-# Use 'all' to force-redeploy every stack regardless of changes
+# Use 'all' to force-redeploy every stack (skips stacks tagged 'database')
 pipeline TARGET="":
     #!/usr/bin/env bash
     set -euo pipefail
-    if [ "{{TARGET}}" = "all" ]; then
-        km x -y procedure deploy-all-stacks
-    else
+    if [ "{{TARGET}}" != "all" ]; then
         km x -y procedure deploy-homelab-infra
+        exit 0
     fi
+    km x -y sync homelab-infra-sync
+    for toml in komodo/resources/stacks/*.toml; do
+        awk '
+            /^\[\[stack\]\]/ {
+                if (name != "" && !skip) print name
+                name=""; skip=0
+            }
+            /^name = "/ { gsub(/"/, "", $3); name=$3 }
+            /^tags = / && /database/ { skip=1 }
+            END { if (name != "" && !skip) print name }
+        ' "$toml"
+    done | while read -r stack; do
+        echo ">>> Deploying $stack"
+        km x -y stack "$stack"
+    done
 
 # Deploy a stack (docker compose up -d)
 deploy STACK:

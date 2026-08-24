@@ -40,3 +40,4 @@ name = "Deploy all stacks"
 executions = [
   { execution.type = "BatchDeployStack", execution.params.pattern = "*" }
 ]
+
