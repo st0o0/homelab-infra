@@ -66,29 +66,6 @@
 # command = "docker network create db-net 2>/dev/null || true"
 #
 # [[stack]]
-# name = "dbgate-1"
-# tags = ["database"]
-# after = ["postgres-1", "mongodb-1"]
-# [stack.config]
-# server = "FeelsDataMan"
-# run_directory = "stacks/dbgate"
-# file_paths = ["compose.yml"]
-# linked_repo = "homelab-infra"
-# extra_args = ["--remove-orphans"]
-# environment = """
-# DBGATE_LOGIN=[[FeelsDataMan_dbgate_login]]
-# DBGATE_PASSWORD=[[FeelsDataMan_dbgate_password]]
-# DBGATE_CONNECTIONS=[[FeelsDataMan_dbgate_connections]]
-# TZ=[[tz]]
-# DBGATE_PORT=3100
-# DBGATE_PATH_DATA=/docker/dbgate/data
-# """
-#
-# [stack.config.pre_deploy]
-# path = "."
-# command = "docker network create db-net 2>/dev/null || true"
-#
-# [[stack]]
 # name = "valkey-1"
 # tags = ["database"]
 # [stack.config]
