@@ -12,8 +12,8 @@ services:
     logging: *default-logging
     environment:
       - TZ=${TZ:-}
-      - LOGINS=${DBGATE_LOGINS:-}
-      - LOGIN_PERMISSIONS=${DBGATE_LOGIN_PERMISSIONS:-}
+      - LOGIN=${DBGATE_LOGIN:-}
+      - PASSWORD=${DBGATE_PASSWORD:-}
       - CONNECTIONS=${DBGATE_CONNECTIONS:-}
       - LABEL_POSTGRES=${DBGATE_LABEL_POSTGRES:-}
       - ENGINE_POSTGRES=${DBGATE_ENGINE_POSTGRES:-}

@@ -76,8 +76,8 @@
 # linked_repo = "homelab-infra"
 # extra_args = ["--remove-orphans"]
 # environment = """
-# DBGATE_LOGINS=[[FeelsDataMan_dbgate_logins]]
-# DBGATE_LOGIN_PERMISSIONS=[[FeelsDataMan_dbgate_login_permissions]]
+# DBGATE_LOGIN=[[FeelsDataMan_dbgate_login]]
+# DBGATE_PASSWORD=[[FeelsDataMan_dbgate_password]]
 # DBGATE_CONNECTIONS=[[FeelsDataMan_dbgate_connections]]
 # TZ=[[tz]]
 # DBGATE_PORT=3100
