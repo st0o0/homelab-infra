@@ -5,6 +5,7 @@ name = "postgres-1"
 tags = ["database"]
 [stack.config]
 server = "FeelsQueryMan"
+project_name = "postgres-1"
 run_directory = "stacks/postgres"
 file_paths = ["compose.yml"]
 linked_repo = "homelab-infra"
@@ -19,6 +20,10 @@ PG_PORT=[[FeelsQueryMan_postgres_port]]
 PG_PATH_DATA=/docker/postgres/data
 """
 
+[[stack.config.config_files]]
+path = "pg_hba.conf"
+requires = "Redeploy"
+
 [stack.config.pre_deploy]
 path = "."
 command = "docker network create db-net 2>/dev/null || true"
@@ -28,6 +33,7 @@ name = "immich-postgres-1"
 tags = ["database"]
 [stack.config]
 server = "FeelsQueryMan"
+project_name = "immich-postgres-1"
 run_directory = "stacks/immich-postgres"
 file_paths = ["compose.yml"]
 linked_repo = "homelab-infra"
@@ -50,6 +56,7 @@ name = "mongodb-1"
 tags = ["database"]
 [stack.config]
 server = "FeelsQueryMan"
+project_name = "mongodb-1"
 run_directory = "stacks/mongodb"
 file_paths = ["compose.yml"]
 linked_repo = "homelab-infra"
@@ -71,6 +78,7 @@ name = "valkey-1"
 tags = ["database"]
 [stack.config]
 server = "FeelsQueryMan"
+project_name = "valkey-1"
 run_directory = "stacks/valkey"
 file_paths = ["compose.yml"]
 linked_repo = "homelab-infra"
@@ -94,6 +102,7 @@ tags = ["database"]
 after = ["postgres-1", "mongodb-1"]
 [stack.config]
 server = "FeelsQueryMan"
+project_name = "dbgate-1"
 run_directory = "stacks/dbgate"
 file_paths = ["compose.yml"]
 linked_repo = "homelab-infra"
