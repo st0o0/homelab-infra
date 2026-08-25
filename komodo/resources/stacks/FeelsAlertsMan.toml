@@ -61,7 +61,7 @@ path = "grafana/provisioning/dashboards/json/containers.json"
 requires = "Restart"
 
 [[stack.config.config_files]]
-path = "grafana/provisioning/dashboards/json/mongodb.json"
+path = "grafana/provisioning/dashboards/json/databases.json"
 requires = "Restart"
 
 [[stack.config.config_files]]
@@ -74,10 +74,6 @@ requires = "Restart"
 
 [[stack.config.config_files]]
 path = "grafana/provisioning/dashboards/json/pihole.json"
-requires = "Restart"
-
-[[stack.config.config_files]]
-path = "grafana/provisioning/dashboards/json/postgres.json"
 requires = "Restart"
 
 [[stack.config.config_files]]
