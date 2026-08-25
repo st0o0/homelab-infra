@@ -157,6 +157,86 @@ AUTHENTIK_PROVIDER_PANGOLIN_REDIRECT_URI=[[FeelsStrongMan_authentik_provider_pan
 AUTHENTIK_PROVIDER_SEERR_EXTERNAL_HOST=[[FeelsStrongMan_authentik_provider_seerr_external_host]]
 """
 
+[[stack.config.config_files]]
+path = "blueprints/10-groups.yaml"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "blueprints/15-mfa-stages.yaml"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "blueprints/15-password-change-flow.yaml"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "blueprints/15-password-policy.yaml"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "blueprints/15-passwordless-flow.yaml"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "blueprints/15-recovery-flow.yaml"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "blueprints/15-reputation-policy.yaml"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "blueprints/15-scope-groups.yaml"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "blueprints/15-session-settings.yaml"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "blueprints/19-enrollment-stages.yaml"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "blueprints/20-enrollment-invite.yaml"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "blueprints/25-branding.yaml"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "blueprints/30-app-audiobookshelf.yaml"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "blueprints/30-app-immich.yaml"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "blueprints/30-app-jellyfin.yaml"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "blueprints/30-app-mealie.yaml"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "blueprints/30-app-pangolin.yaml"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "blueprints/30-app-paperless.yaml"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "blueprints/30-app-seerr.yaml"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "blueprints/30-app-vaultwarden.yaml"
+requires = "Redeploy"
+
 [[stack]]
 name = "arr-1"
 tags = ["media"]
