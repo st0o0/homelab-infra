@@ -3,10 +3,37 @@ services:
     volumes:
       - ../../alloy/features/media.alloy:/etc/alloy/media.alloy
     environment:
-      - JELLYFIN_METRICS_TARGET=${ALLOY_JELLYFIN_METRICS_TARGET:-jellyfin:8096}
+      - TENTACLE_TARGET=${ALLOY_TENTACLE_TARGET:-tentacle:9594}
     networks:
       - default
       - media-net
+
+  tentacle:
+    image: ghcr.io/st0o0/tentacle:latest
+    container_name: tentacle
+    restart: always
+    environment:
+      - TENTACLE_SONARR_ADDRESS=http://sonarr:8989
+      - TENTACLE_SONARR_TOKEN=${TENTACLE_SONARR_TOKEN}
+      - TENTACLE_RADARR_ADDRESS=http://radarr:7878
+      - TENTACLE_RADARR_TOKEN=${TENTACLE_RADARR_TOKEN}
+      - TENTACLE_PROWLARR_ADDRESS=http://prowlarr:9696
+      - TENTACLE_PROWLARR_TOKEN=${TENTACLE_PROWLARR_TOKEN}
+      - TENTACLE_SEERR_ADDRESS=http://seerr:5055
+      - TENTACLE_SEERR_TOKEN=${TENTACLE_SEERR_TOKEN}
+      - TENTACLE_JELLYFIN_ADDRESS=http://jellyfin:8096
+      - TENTACLE_JELLYFIN_TOKEN=${TENTACLE_JELLYFIN_TOKEN}
+      - TENTACLE_AUDIOBOOKSHELF_ADDRESS=http://audiobookshelf:80
+      - TENTACLE_AUDIOBOOKSHELF_TOKEN=${TENTACLE_AUDIOBOOKSHELF_TOKEN}
+    networks:
+      - media-net
+    deploy:
+      resources:
+        limits:
+          cpus: 0.25
+          memory: 128M
+        reservations:
+          memory: 64M
 
 networks:
   media-net:

@@ -34,13 +34,13 @@ discovery.relabel "postgres_immich" {
   targets = prometheus.exporter.postgres.immich.targets
 
   rule {
+    replacement  = coalesce(sys.env("IMMICH_POSTGRES_ENABLED"), "false")
+    target_label = "__tmp_enabled"
+  }
+  rule {
     source_labels = ["__tmp_enabled"]
     regex         = "true"
     action        = "keep"
-  }
-  rule {
-    replacement  = coalesce(sys.env("IMMICH_POSTGRES_ENABLED"), "false")
-    target_label = "__tmp_enabled"
   }
   rule {
     replacement  = sys.env("HOST_HOSTNAME")

@@ -1,6 +1,6 @@
-discovery.relabel "jellyfin" {
+discovery.relabel "media" {
   targets = [{
-    __address__ = coalesce(sys.env("JELLYFIN_METRICS_TARGET"), "jellyfin:8096"),
+    __address__ = coalesce(sys.env("TENTACLE_TARGET"), "tentacle:9594"),
   }]
   rule {
     replacement  = sys.env("HOST_HOSTNAME")
@@ -8,10 +8,10 @@ discovery.relabel "jellyfin" {
   }
 }
 
-prometheus.scrape "jellyfin" {
-  targets         = discovery.relabel.jellyfin.output
+prometheus.scrape "media" {
+  targets         = discovery.relabel.media.output
   forward_to      = [prometheus.remote_write.central.receiver]
   scrape_interval = coalesce(sys.env("SCRAPE_INTERVAL"), "30s")
   metrics_path    = "/metrics"
-  job_name        = "jellyfin"
+  job_name        = "media"
 }
