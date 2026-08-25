@@ -4,17 +4,11 @@ default:
 
 # --- Secrets management ---
 
-# Komodo's AGE key (Key B) lives at a different path than the container-wide
-# SOPS_AGE_KEY_FILE default (which points at the ansible key, Key A) — every
-# recipe below overrides it explicitly rather than relying on the ambient env.
-komodo_age_key_file := if os() == "windows" { env_var('USERPROFILE') / ".config/sops/komodo/age/keys.txt" } else { env_var('HOME') / ".config/sops/komodo/age/keys.txt" }
-
 # Edit encrypted secrets ('all' for shared, or a hostname for host-specific)
 # For host-specific targets, auto-scaffolds missing keys from stacks/*.toml.
 secrets TARGET="all":
     #!/usr/bin/env bash
     set -euo pipefail
-    export SOPS_AGE_KEY_FILE="{{komodo_age_key_file}}"
     SOPS_CONFIG="komodo/.sops.yaml"
     PARSER="scripts/parse-stack-placeholders.sh"
 
@@ -102,7 +96,6 @@ secrets TARGET="all":
 # Show decrypted secrets (stdout only, does not write files)
 show-secrets TARGET="all":
     #!/usr/bin/env bash
-    export SOPS_AGE_KEY_FILE="{{komodo_age_key_file}}"
     if [ "{{TARGET}}" = "all" ]; then
         sops -d --config komodo/.sops.yaml komodo/secrets.sops.yaml
     else
@@ -116,7 +109,6 @@ show-secrets TARGET="all":
 vars TARGET="all":
     #!/usr/bin/env bash
     set -euo pipefail
-    export SOPS_AGE_KEY_FILE="{{komodo_age_key_file}}"
     SOPS_CONFIG="komodo/.sops.yaml"
     PARSER="scripts/parse-stack-placeholders.sh"
 
@@ -251,7 +243,6 @@ vars TARGET="all":
 check HOST="":
     #!/usr/bin/env bash
     set -euo pipefail
-    export SOPS_AGE_KEY_FILE="{{komodo_age_key_file}}"
     SOPS_CONFIG="komodo/.sops.yaml"
     PARSER="scripts/parse-stack-placeholders.sh"
 

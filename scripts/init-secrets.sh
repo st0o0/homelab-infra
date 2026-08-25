@@ -6,12 +6,14 @@ set -euo pipefail
 # each up to its own Bitwarden secure note, configures the matching
 # .sops.yaml, and scaffolds per-host ansible secrets. Safe to re-run — skips
 # steps that are already done.
+#
+# Both private keys are stored in a single combined file so SOPS_AGE_KEY_FILE
+# can point at one path and decrypt secrets from either trust boundary.
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/lib/bw-item-names.sh"
 
-ANSIBLE_AGE_KEY_FILE="$HOME/.config/sops/ansible/age/keys.txt"
-KOMODO_AGE_KEY_FILE="$HOME/.config/sops/komodo/age/keys.txt"
+COMBINED_AGE_KEY_FILE="$HOME/.config/sops/age/keys.txt"
 ANSIBLE_SOPS_CONFIG="ansible/.sops.yaml"
 KOMODO_SOPS_CONFIG="komodo/.sops.yaml"
 ANSIBLE_HOSTS_FILE="ansible/hosts.yml"
@@ -64,69 +66,81 @@ bw_find_item() {
     fi
 }
 
-# Restores or generates an age keypair, backs it up to Bitwarden, and writes
-# its public key into a creation_rules-style .sops.yaml.
+# Resolves a single age key from local combined file, Bitwarden, or generation.
+# Returns the public key on stdout. Appends the private key to the combined file.
 init_age_key() {
-    local key_file="$1" sops_config="$2" bw_item_name="$3"
-    local public_key restored=false
+    local sops_config="$1" bw_item_name="$2"
+    local public_key key_content restored=false
 
-    if [ -f "$key_file" ]; then
-        echo "==> Age key already exists at $key_file"
-    else
-        if [ -n "${BW_SESSION:-}" ]; then
-            echo "==> No local age key found. Checking Bitwarden for an existing key..."
-            local bw_item notes
-            bw_item=$(bw_find_item "$bw_item_name")
-            notes=$(echo "$bw_item" | jq -r '.notes // empty' 2>/dev/null || true)
-            if [ -n "$notes" ]; then
-                echo "==> Restoring age key from Bitwarden..."
-                mkdir -p "$(dirname "$key_file")"
-                echo "$notes" > "$key_file"
-                chmod 600 "$key_file"
-                restored=true
-                echo "    Restored: $key_file"
-            else
-                echo "==> No age key found in Bitwarden ($bw_item_name)"
-            fi
-        else
-            echo "==> BW_SESSION not set — cannot check Bitwarden for an existing key."
-            echo "    export BW_SESSION=\$(bw unlock --raw)"
-        fi
-
-        if [ "$restored" = false ]; then
-            read -rp "No age key found locally or in Bitwarden for '$bw_item_name'. Generate a new one? [y/N] " REPLY
-            if [[ "$REPLY" =~ ^[Yy]$ ]]; then
-                echo "==> Generating age keypair..."
-                mkdir -p "$(dirname "$key_file")"
-                age-keygen -o "$key_file" 2>&1
-                chmod 600 "$key_file"
-            else
-                echo "Aborting. Restore your key manually, or set BW_SESSION and re-run."
-                exit 1
-            fi
+    # Check if the combined file already has a key matching this .sops.yaml recipient
+    local expected_recipient
+    expected_recipient=$(grep -oP 'age1[a-z0-9]+' "$sops_config" 2>/dev/null || true)
+    if [ -n "$expected_recipient" ] && [ -f "$COMBINED_AGE_KEY_FILE" ]; then
+        local actual_keys
+        actual_keys=$(age-keygen -y "$COMBINED_AGE_KEY_FILE" 2>/dev/null || true)
+        if echo "$actual_keys" | grep -qF "$expected_recipient"; then
+            echo "==> Age key for $bw_item_name already in combined key file"
+            echo "    Public key: $expected_recipient"
+            printf '%s' "$expected_recipient"
+            return
         fi
     fi
 
-    public_key=$(grep "public key:" "$key_file" | sed 's/.*public key: //')
+    # Try Bitwarden restore
+    if [ -n "${BW_SESSION:-}" ]; then
+        echo "==> Checking Bitwarden for $bw_item_name..."
+        local bw_item notes
+        bw_item=$(bw_find_item "$bw_item_name")
+        notes=$(echo "$bw_item" | jq -r '.notes // empty' 2>/dev/null || true)
+        if [ -n "$notes" ]; then
+            echo "==> Restoring $bw_item_name from Bitwarden..."
+            key_content="$notes"
+            restored=true
+        else
+            echo "==> $bw_item_name not found in Bitwarden"
+        fi
+    else
+        echo "==> BW_SESSION not set — cannot check Bitwarden."
+        echo "    export BW_SESSION=\$(bw unlock --raw)"
+    fi
+
+    # Generate new key if not restored
+    if [ "$restored" = false ]; then
+        read -rp "No age key found for '$bw_item_name'. Generate a new one? [y/N] " REPLY
+        if [[ "$REPLY" =~ ^[Yy]$ ]]; then
+            echo "==> Generating age keypair..."
+            key_content=$(age-keygen 2>&1)
+        else
+            echo "Aborting. Restore your key manually, or set BW_SESSION and re-run."
+            exit 1
+        fi
+    fi
+
+    # Append to combined file
+    mkdir -p "$(dirname "$COMBINED_AGE_KEY_FILE")"
+    if [ -f "$COMBINED_AGE_KEY_FILE" ] && [ -s "$COMBINED_AGE_KEY_FILE" ]; then
+        echo "" >> "$COMBINED_AGE_KEY_FILE"
+    fi
+    echo "$key_content" >> "$COMBINED_AGE_KEY_FILE"
+    chmod 600 "$COMBINED_AGE_KEY_FILE"
+
+    public_key=$(echo "$key_content" | grep "public key:" | sed 's/.*public key: //')
     echo "    Public key: $public_key"
 
+    # Back up to Bitwarden
     if [ -z "${BW_SESSION:-}" ]; then
         echo ""
         echo "==> BW_SESSION not set. To back up the age key to Bitwarden, run:"
         echo "    export BW_SESSION=\$(bw unlock --raw)"
         echo "    Then re-run this script."
         echo ""
-        echo "    Continuing without Bitwarden backup..."
-        echo ""
     else
         local existing
         existing=$(bw_find_item "$bw_item_name" | jq -r '.id // empty' 2>/dev/null || true)
         if [ -n "$existing" ]; then
-            echo "==> Age key already in Bitwarden ($bw_item_name)"
+            echo "==> $bw_item_name already in Bitwarden"
         else
-            echo "==> Backing up age key to Bitwarden..."
-            local key_content
-            key_content=$(cat "$key_file")
+            echo "==> Backing up $bw_item_name to Bitwarden..."
             bw get template item | \
                 jq --arg name "$bw_item_name" \
                    --arg notes "$key_content" \
@@ -136,6 +150,7 @@ init_age_key() {
         fi
     fi
 
+    # Update .sops.yaml if needed
     local current_key
     current_key=$(grep -oP 'age1[a-z0-9]+' "$sops_config" 2>/dev/null || true)
     if [ "$current_key" = "$public_key" ]; then
@@ -161,11 +176,10 @@ EOF
 # ── Ansible (Key A) ──────────────────────────────────────────────────
 
 echo "=== Ansible age key (Key A) ==="
-ANSIBLE_PUBLIC_KEY=$(init_age_key "$ANSIBLE_AGE_KEY_FILE" "$ANSIBLE_SOPS_CONFIG" "$ANSIBLE_BW_ITEM_NAME")
+ANSIBLE_PUBLIC_KEY=$(init_age_key "$ANSIBLE_SOPS_CONFIG" "$ANSIBLE_BW_ITEM_NAME")
 
 echo ""
 echo "=== Scaffolding ansible host secrets ==="
-export SOPS_AGE_KEY_FILE="$ANSIBLE_AGE_KEY_FILE"
 ANSIBLE_HOSTS=$(grep -oP '^\s{4}\S+(?=:)' "$ANSIBLE_HOSTS_FILE" | sed 's/^ *//' || true)
 
 if [ -z "$ANSIBLE_HOSTS" ]; then
@@ -191,7 +205,7 @@ fi
 
 echo ""
 echo "=== Komodo age key (Key B) ==="
-init_age_key "$KOMODO_AGE_KEY_FILE" "$KOMODO_SOPS_CONFIG" "$KOMODO_BW_ITEM_NAME" > /dev/null
+init_age_key "$KOMODO_SOPS_CONFIG" "$KOMODO_BW_ITEM_NAME" > /dev/null
 
 # ── Done ──────────────────────────────────────────────────────────────
 
@@ -203,7 +217,7 @@ echo "    Next steps:"
 NEEDS_EDIT=false
 for HOST in $ANSIBLE_HOSTS; do
     SECRET_FILE="ansible/host_vars/$HOST/secrets.sops.yaml"
-    if SOPS_AGE_KEY_FILE="$ANSIBLE_AGE_KEY_FILE" sops -d "$SECRET_FILE" 2>/dev/null | grep -q "CHANGEME"; then
+    if sops -d "$SECRET_FILE" 2>/dev/null | grep -q "CHANGEME"; then
         NEEDS_EDIT=true
         break
     fi

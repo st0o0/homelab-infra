@@ -31,7 +31,7 @@
 
     "containerEnv": {
         "ANSIBLE_CONFIG": "${containerWorkspaceFolder}/ansible/ansible.cfg",
-        "SOPS_AGE_KEY_FILE": "/home/vscode/.config/sops/ansible/age/keys.txt",
+        "SOPS_AGE_KEY_FILE": "/home/vscode/.config/sops/age/keys.txt",
         "LANG": "C.UTF-8",
         "LC_ALL": "C.UTF-8",
         "TZ": "${localEnv:TZ:Europe/Berlin}",

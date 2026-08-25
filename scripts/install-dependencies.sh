@@ -104,21 +104,33 @@ fi
 echo "==> Restoring SOPS age keys from Bitwarden (if not present)..."
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/lib/bw-item-names.sh"
-ANSIBLE_AGE_KEY_FILE="$HOME/.config/sops/ansible/age/keys.txt"
-KOMODO_AGE_KEY_FILE="$HOME/.config/sops/komodo/age/keys.txt"
+COMBINED_AGE_KEY_FILE="$HOME/.config/sops/age/keys.txt"
 restore_age_key() {
-    local key_file="$1" bw_item_name="$2"
-    if [ -f "$key_file" ]; then
-        echo "    $bw_item_name: age key already exists"
+    local bw_item_name="$1" sops_config="$2"
+    local expected_recipient
+    expected_recipient=$(grep -oP 'age1[a-z0-9]+' "$sops_config" 2>/dev/null || true)
+    if [ -z "$expected_recipient" ]; then
+        echo "    $bw_item_name: no recipient in $sops_config — skipping"
         return
+    fi
+    if [ -f "$COMBINED_AGE_KEY_FILE" ]; then
+        local existing_pubkeys
+        existing_pubkeys=$(age-keygen -y "$COMBINED_AGE_KEY_FILE" 2>/dev/null || true)
+        if echo "$existing_pubkeys" | grep -qF "$expected_recipient"; then
+            echo "    $bw_item_name: already in combined key file"
+            return
+        fi
     fi
     if [ -n "${BW_SESSION:-}" ]; then
         local age_key
         age_key=$(bw get item "$bw_item_name" 2>/dev/null | jq -r '.notes // empty' 2>/dev/null || true)
         if [ -n "$age_key" ]; then
-            mkdir -p "$(dirname "$key_file")"
-            printf '%s' "$age_key" > "$key_file"
-            chmod 600 "$key_file"
+            mkdir -p "$(dirname "$COMBINED_AGE_KEY_FILE")"
+            if [ -f "$COMBINED_AGE_KEY_FILE" ] && [ -s "$COMBINED_AGE_KEY_FILE" ]; then
+                echo "" >> "$COMBINED_AGE_KEY_FILE"
+            fi
+            printf '%s\n' "$age_key" >> "$COMBINED_AGE_KEY_FILE"
+            chmod 600 "$COMBINED_AGE_KEY_FILE"
             echo "    $bw_item_name: restored from Bitwarden"
         else
             echo "    $bw_item_name: not found in Bitwarden — run 'just setup' to create one"
@@ -127,8 +139,8 @@ restore_age_key() {
         echo "    $bw_item_name: no BW_SESSION — set it to auto-restore, or run 'just setup'"
     fi
 }
-restore_age_key "$ANSIBLE_AGE_KEY_FILE" "$HOMELAB_ANSIBLE_AGE_KEY_BW_ITEM"
-restore_age_key "$KOMODO_AGE_KEY_FILE" "$HOMELAB_KOMODO_AGE_KEY_BW_ITEM"
+restore_age_key "$HOMELAB_ANSIBLE_AGE_KEY_BW_ITEM" "ansible/.sops.yaml"
+restore_age_key "$HOMELAB_KOMODO_AGE_KEY_BW_ITEM" "komodo/.sops.yaml"
 
 # --------------------------------------------------------------------------
 # Layer 3: DevContainer shell customizations
@@ -189,7 +201,6 @@ km() {
     local sops_config="$repo_root/komodo/.sops.yaml"
     local src="$repo_root/komodo/cli.sops.toml"
     local example="$repo_root/komodo/cli.example.toml"
-    export SOPS_AGE_KEY_FILE="${SOPS_AGE_KEY_FILE_KOMODO:-$HOME/.config/sops/komodo/age/keys.txt}"
     case "${1:-}" in
         setup)
             if [ ! -f "$src" ]; then
@@ -239,7 +250,6 @@ fzf --version
 starship --version | head -1
 chezmoi --version | head -1
 echo "    SSH key:      $([ -f "$HOME/.ssh/id_ansible" ] && echo 'present' || echo 'missing')"
-echo "    Ansible key:  $([ -f "$ANSIBLE_AGE_KEY_FILE" ] && echo 'present' || echo 'missing')"
-echo "    Komodo key:   $([ -f "$KOMODO_AGE_KEY_FILE" ] && echo 'present' || echo 'missing')"
+echo "    AGE keys:     $([ -f "$COMBINED_AGE_KEY_FILE" ] && echo "present ($(grep -c 'AGE-SECRET-KEY' "$COMBINED_AGE_KEY_FILE") key(s))" || echo 'missing')"
 
 echo "==> Done."

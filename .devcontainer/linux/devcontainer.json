@@ -32,7 +32,7 @@
 
     "containerEnv": {
         "ANSIBLE_CONFIG": "${containerWorkspaceFolder}/ansible/ansible.cfg",
-        "SOPS_AGE_KEY_FILE": "/home/vscode/.config/sops/ansible/age/keys.txt",
+        "SOPS_AGE_KEY_FILE": "/home/vscode/.config/sops/age/keys.txt",
         "SSH_AUTH_SOCK": "/run/user/1000/gnupg/S.gpg-agent.ssh",
         "LANG": "C.UTF-8",
         "LC_ALL": "C.UTF-8",

@@ -39,7 +39,7 @@ just setup
 This runs `scripts/init-secrets.sh`, which:
 
 1. Restores the age key from Bitwarden if one exists there, otherwise
-   generates a new one at `~/.config/sops/komodo/age/keys.txt`
+   generates a new one — both keys are stored in `~/.config/sops/age/keys.txt`
 2. Backs the key up to Bitwarden (secure note "Homelab Komodo SOPS Age
    Key") if not already there
 3. Writes the age public key into `komodo/.sops.yaml`

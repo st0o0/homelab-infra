@@ -61,6 +61,11 @@ lint:
     just a lint
     just k lint
 
+# Validate SOPS age keys match their expected recipients, re-fetch from Bitwarden on mismatch
+[unix]
+validate-keys:
+    bash scripts/lib/validate-sops-keys.sh
+
 # First-time setup: both AGE keys, SSH backup keys, and host secrets scaffolding
 [working-directory: 'ansible']
 setup:
