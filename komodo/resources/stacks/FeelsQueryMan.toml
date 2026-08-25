@@ -93,32 +93,6 @@ path = "."
 command = "docker network create db-net 2>/dev/null || true"
 
 [[stack]]
-name = "dbmanagement-1"
-tags = ["database"]
-[stack.config]
-server = "FeelsQueryMan"
-project_name = "dbmanagement-1"
-run_directory = "stacks/dbmanagement"
-file_paths = ["compose.yml"]
-linked_repo = "homelab-infra"
-extra_args = ["--remove-orphans"]
-environment = """
-TZ=[[tz]]
-PGADMIN_DEFAULT_EMAIL=[[FeelsQueryMan_pgadmin_email]]
-PGADMIN_DEFAULT_PASSWORD=[[FeelsQueryMan_pgadmin_password]]
-PGADMIN_PATH_DATA=/docker/pgadmin/data
-PGADMIN_PORT=5000
-MONGO_CONNECTION_URL=[[FeelsQueryMan_mongonaut_connection_url]]
-MONGONAUT_AUTH_SECRET=[[FeelsQueryMan_mongonaut_auth_secret]]
-MONGONAUT_AUTH_PASSWORD=[[FeelsQueryMan_mongonaut_auth_password]]
-MONGONAUT_PORT=5001
-"""
-
-[stack.config.pre_deploy]
-path = "."
-command = "docker network create db-net 2>/dev/null || true"
-
-[[stack]]
 name = "alloy-6"
 tags = ["monitoring"]
 after = ["postgres-1", "immich-postgres-1", "mongodb-1", "valkey-1"]
