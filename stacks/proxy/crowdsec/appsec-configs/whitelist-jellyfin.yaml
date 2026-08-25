@@ -24,6 +24,7 @@ pre_eval:
        req.URL.Path startsWith "/Shows/" ||
        req.URL.Path startsWith "/UserItems/" ||
        req.URL.Path startsWith "/UserViews" ||
+       req.URL.Path startsWith "/Auth/" ||
        req.URL.Path startsWith "/Streamyfin/")
     apply:
       - RemoveOutBandRuleByID(901340)
@@ -36,6 +37,7 @@ pre_eval:
        req.URL.Path startsWith "/Shows/" ||
        req.URL.Path startsWith "/UserItems/" ||
        req.URL.Path startsWith "/UserViews" ||
+       req.URL.Path startsWith "/Auth/" ||
        req.URL.Path startsWith "/Streamyfin/")
     apply:
       - RemoveInBandRuleByID(901340)

@@ -5,12 +5,16 @@ pre_eval:
   - filter: >-
       IsInBand == true &&
       req.Host contains "immich." &&
-      (req.URL.Path startsWith "/api/sync/" || req.URL.Path startsWith "/api/assets")
+      (req.URL.Path startsWith "/api/sync/" ||
+       req.URL.Path startsWith "/api/assets" ||
+       req.URL.Path startsWith "/api/albums")
     apply:
       - RemoveInBandRuleByID(911100)
   - filter: >-
       IsOutBand == true &&
       req.Host contains "immich." &&
-      (req.URL.Path startsWith "/api/sync/" || req.URL.Path startsWith "/api/assets")
+      (req.URL.Path startsWith "/api/sync/" ||
+       req.URL.Path startsWith "/api/assets" ||
+       req.URL.Path startsWith "/api/albums")
     apply:
       - RemoveOutBandRuleByID(911100)
