@@ -24,7 +24,8 @@ groups:
         title: HostDown
         condition: C
         for: 2m
-        is_paused: true
+        is_paused: false
+        execErrState: Error
         labels:
           severity: critical
         annotations:
@@ -36,7 +37,7 @@ groups:
               to: 0
             datasourceUid: victoriametrics
             model:
-              expr: up{host!=""}
+              expr: max by(host) (up{host!=""})
               instant: true
               refId: A
           - refId: C
@@ -63,7 +64,8 @@ groups:
         title: HighCPU
         condition: C
         for: 5m
-        is_paused: true
+        is_paused: false
+        execErrState: Error
         labels:
           severity: warning
         annotations:
@@ -102,7 +104,8 @@ groups:
         title: HighMemory
         condition: C
         for: 5m
-        is_paused: true
+        is_paused: false
+        execErrState: Error
         labels:
           severity: warning
         annotations:
@@ -141,7 +144,8 @@ groups:
         title: DiskAlmostFull
         condition: C
         for: 10m
-        is_paused: true
+        is_paused: false
+        execErrState: Error
         labels:
           severity: warning
         annotations:
@@ -153,7 +157,7 @@ groups:
               to: 0
             datasourceUid: victoriametrics
             model:
-              expr: (1 - node_filesystem_avail_bytes{fstype!~"tmpfs|overlay"} / node_filesystem_size_bytes{fstype!~"tmpfs|overlay"}) * 100
+              expr: (1 - node_filesystem_avail_bytes{fstype!~"tmpfs|overlay", mountpoint!~"/boot.*"} / node_filesystem_size_bytes{fstype!~"tmpfs|overlay", mountpoint!~"/boot.*"}) * 100
               instant: true
               refId: A
           - refId: C
@@ -180,7 +184,8 @@ groups:
         title: DiskCritical
         condition: C
         for: 5m
-        is_paused: true
+        is_paused: false
+        execErrState: Error
         labels:
           severity: critical
         annotations:
@@ -192,7 +197,7 @@ groups:
               to: 0
             datasourceUid: victoriametrics
             model:
-              expr: (1 - node_filesystem_avail_bytes{fstype!~"tmpfs|overlay"} / node_filesystem_size_bytes{fstype!~"tmpfs|overlay"}) * 100
+              expr: (1 - node_filesystem_avail_bytes{fstype!~"tmpfs|overlay", mountpoint!~"/boot.*"} / node_filesystem_size_bytes{fstype!~"tmpfs|overlay", mountpoint!~"/boot.*"}) * 100
               instant: true
               refId: A
           - refId: C
@@ -223,8 +228,9 @@ groups:
       - uid: container-restarting
         title: ContainerRestarting
         condition: C
-        for: 0s
-        is_paused: true
+        for: 2m
+        is_paused: false
+        execErrState: Error
         labels:
           severity: warning
         annotations:
@@ -259,12 +265,12 @@ groups:
                     type: last
               refId: C
 
-
       - uid: container-memory-limit
         title: ContainerMemoryLimit
         condition: C
         for: 5m
-        is_paused: true
+        is_paused: false
+        execErrState: Error
         labels:
           severity: warning
         annotations:
@@ -276,7 +282,7 @@ groups:
               to: 0
             datasourceUid: victoriametrics
             model:
-              expr: (container_memory_usage_bytes{name!=""} / container_spec_memory_limit_bytes{name!=""}) * 100 and container_spec_memory_limit_bytes{name!=""} > 0
+              expr: (container_memory_usage_bytes{name!~"|geoipupdate"} / container_spec_memory_limit_bytes{name!~"|geoipupdate"}) * 100 and container_spec_memory_limit_bytes{name!~"|geoipupdate"} > 0
               instant: true
               refId: A
           - refId: C
@@ -299,7 +305,6 @@ groups:
                     type: last
               refId: C
 
-
   - orgId: 1
     name: databases
     folder: Homelab Alerts
@@ -309,8 +314,9 @@ groups:
         title: PostgresConnectionsHigh
         condition: C
         for: 5m
+        is_paused: false
         noDataState: OK
-        is_paused: true
+        execErrState: Error
         labels:
           severity: warning
         annotations:
@@ -349,8 +355,9 @@ groups:
         title: RedisMemoryHigh
         condition: C
         for: 5m
+        is_paused: false
         noDataState: OK
-        is_paused: true
+        execErrState: Error
         labels:
           severity: warning
         annotations:
@@ -389,8 +396,9 @@ groups:
         title: RedisEvictions
         condition: C
         for: 5m
+        is_paused: false
         noDataState: OK
-        is_paused: true
+        execErrState: Error
         labels:
           severity: warning
         annotations:
@@ -429,8 +437,9 @@ groups:
         title: MongoConnectionsHigh
         condition: C
         for: 5m
+        is_paused: false
         noDataState: OK
-        is_paused: true
+        execErrState: Error
         labels:
           severity: warning
         annotations:
@@ -474,7 +483,8 @@ groups:
         title: PveNodeDown
         condition: C
         for: 2m
-        is_paused: true
+        is_paused: false
+        execErrState: Error
         labels:
           severity: critical
         annotations:
@@ -513,8 +523,9 @@ groups:
         title: VmUnexpectedlyStopped
         condition: C
         for: 0s
-        is_paused: true
+        is_paused: false
         noDataState: OK
+        execErrState: Error
         labels:
           severity: critical
         annotations:
@@ -553,8 +564,9 @@ groups:
         title: LxcUnexpectedlyStopped
         condition: C
         for: 0s
-        is_paused: true
+        is_paused: false
         noDataState: OK
+        execErrState: Error
         labels:
           severity: critical
         annotations:
@@ -593,7 +605,8 @@ groups:
         title: PveStorageAlmostFull
         condition: C
         for: 10m
-        is_paused: true
+        is_paused: false
+        execErrState: Error
         labels:
           severity: warning
         annotations:
@@ -632,7 +645,8 @@ groups:
         title: PveStorageCritical
         condition: C
         for: 5m
-        is_paused: true
+        is_paused: false
+        execErrState: Error
         labels:
           severity: critical
         annotations:
@@ -676,7 +690,9 @@ groups:
         title: UpsOnBattery
         condition: C
         for: 30s
-        is_paused: true
+        is_paused: false
+        noDataState: OK
+        execErrState: Error
         labels:
           severity: critical
         annotations:
@@ -688,7 +704,7 @@ groups:
               to: 0
             datasourceUid: victoriametrics
             model:
-              expr: network_ups_tools_ups_status{job="prometheus.scrape.nut", flag="OL"}
+              expr: mjolnir_ups_status{job="mjolnir", flag="OL"}
               instant: true
               refId: A
           - refId: C
@@ -715,7 +731,9 @@ groups:
         title: UpsLowBattery
         condition: C
         for: 1m
-        is_paused: true
+        is_paused: false
+        noDataState: OK
+        execErrState: Error
         labels:
           severity: critical
         annotations:
@@ -727,7 +745,7 @@ groups:
               to: 0
             datasourceUid: victoriametrics
             model:
-              expr: network_ups_tools_battery_charge{job="prometheus.scrape.nut"}
+              expr: mjolnir_battery_charge{job="mjolnir"}
               instant: true
               refId: A
           - refId: C
@@ -759,7 +777,8 @@ groups:
         title: TunnelDown
         condition: C
         for: 2m
-        is_paused: true
+        is_paused: false
+        execErrState: Error
         labels:
           severity: critical
         annotations:
@@ -798,7 +817,8 @@ groups:
         title: TunnelHandshakeStale
         condition: C
         for: 2m
-        is_paused: true
+        is_paused: false
+        execErrState: Error
         labels:
           severity: critical
         annotations:
@@ -842,7 +862,8 @@ groups:
         title: VmStorageFull
         condition: C
         for: 5m
-        is_paused: true
+        is_paused: false
+        execErrState: Error
         labels:
           severity: critical
         annotations:
@@ -886,7 +907,8 @@ groups:
         title: PiholeAllDown
         condition: C
         for: 2m
-        is_paused: true
+        is_paused: false
+        execErrState: Error
         labels:
           severity: critical
         annotations:
