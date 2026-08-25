@@ -1,0 +1,18 @@
+apiVersion: 1
+
+templates:
+  - orgId: 1
+    name: discord
+    template: |
+      {{ define "discord.title" -}}
+      {{ if eq .Status "firing" }}🔥{{ else }}✅{{ end }} {{ .GroupLabels.alertname }}
+      {{- end }}
+
+      {{ define "discord.message" -}}
+      {{ range .Alerts -}}
+      {{ if eq .Labels.severity "critical" }}🚨{{ else }}⚠️{{ end }} **{{ .Labels.severity }}** {{ if .Labels.host }}· {{ .Labels.host }}{{ end }}
+      {{ .Annotations.summary }}
+      [View]({{ .GeneratorURL }}) · [Silence]({{ .SilenceURL }})
+
+      {{ end -}}
+      {{- end }}

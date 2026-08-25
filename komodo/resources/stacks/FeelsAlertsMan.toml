@@ -12,6 +12,7 @@ linked_repo = "homelab-infra"
 extra_args = ["--remove-orphans"]
 environment = """
 TZ=[[tz]]
+GRAFANA_ROOT_URL=[[FeelsAlertsMan_grafana_root_url]]
 GRAFANA_DISCORD_WEBHOOK_URL=[[FeelsAlertsMan_grafana_discord_webhook_url]]
 GRAFANA_UNIFIED_ALERTING_ENABLED=[[FeelsAlertsMan_grafana_unified_alerting_enabled]]
 GRAFANA_PORT=[[FeelsAlertsMan_grafana_port]]
@@ -110,6 +111,10 @@ requires = "Redeploy"
 
 [[stack.config.config_files]]
 path = "grafana/provisioning/alerting/notification-policies.yml"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "grafana/provisioning/alerting/templates.yml"
 requires = "Redeploy"
 
 [[stack]]

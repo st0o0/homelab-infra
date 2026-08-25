@@ -13,3 +13,5 @@ contactPoints:
         settings:
           url: $DISCORD_WEBHOOK_URL
           use_discord_username: true
+          title: '{{ template "discord.title" . }}'
+          message: '{{ template "discord.message" . }}'

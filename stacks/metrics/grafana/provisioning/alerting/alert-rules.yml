@@ -24,6 +24,7 @@ groups:
         title: HostDown
         condition: C
         for: 2m
+        keep_firing_for: 5m
         is_paused: false
         execErrState: Error
         labels:
@@ -64,12 +65,13 @@ groups:
         title: HighCPU
         condition: C
         for: 5m
+        keep_firing_for: 10m
         is_paused: false
         execErrState: Error
         labels:
           severity: warning
         annotations:
-          summary: "Host {{ $labels.host }} CPU usage above 90% for 5 minutes"
+          summary: "{{ $labels.host }} CPU at {{ printf \"%.0f\" $values.A.Value }}%"
         data:
           - refId: A
             relativeTimeRange:
@@ -104,12 +106,13 @@ groups:
         title: HighMemory
         condition: C
         for: 5m
+        keep_firing_for: 10m
         is_paused: false
         execErrState: Error
         labels:
           severity: warning
         annotations:
-          summary: "Host {{ $labels.host }} memory usage above 90% for 5 minutes"
+          summary: "{{ $labels.host }} memory at {{ printf \"%.0f\" $values.A.Value }}%"
         data:
           - refId: A
             relativeTimeRange:
@@ -131,7 +134,49 @@ groups:
               conditions:
                 - evaluator:
                     type: gt
-                    params: [90]
+                    params: [85]
+                  operator:
+                    type: and
+                  query:
+                    params: [A]
+                  reducer:
+                    type: last
+              refId: C
+
+      - uid: high-swap
+        title: HighSwap
+        condition: C
+        for: 5m
+        keep_firing_for: 10m
+        is_paused: false
+        noDataState: OK
+        execErrState: Error
+        labels:
+          severity: warning
+        annotations:
+          summary: "{{ $labels.host }} swap at {{ printf \"%.0f\" $values.A.Value }}%"
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: victoriametrics
+            model:
+              expr: (1 - node_memory_SwapFree_bytes / node_memory_SwapTotal_bytes) * 100 and node_memory_SwapTotal_bytes > 0
+              instant: true
+              refId: A
+          - refId: C
+            relativeTimeRange:
+              from: 0
+              to: 0
+            datasourceUid: "-100"
+            model:
+              type: threshold
+              expression: "A"
+              conditions:
+                - evaluator:
+                    type: gt
+                    params: [50]
                   operator:
                     type: and
                   query:
@@ -144,12 +189,13 @@ groups:
         title: DiskAlmostFull
         condition: C
         for: 10m
+        keep_firing_for: 10m
         is_paused: false
         execErrState: Error
         labels:
           severity: warning
         annotations:
-          summary: "Host {{ $labels.host }} filesystem {{ $labels.mountpoint }} is {{ $value }}% full"
+          summary: "{{ $labels.host }} {{ $labels.mountpoint }} at {{ printf \"%.0f\" $values.A.Value }}%"
         data:
           - refId: A
             relativeTimeRange:
@@ -184,12 +230,13 @@ groups:
         title: DiskCritical
         condition: C
         for: 5m
+        keep_firing_for: 5m
         is_paused: false
         execErrState: Error
         labels:
           severity: critical
         annotations:
-          summary: "CRITICAL: Host {{ $labels.host }} filesystem {{ $labels.mountpoint }} is {{ $value }}% full"
+          summary: "{{ $labels.host }} {{ $labels.mountpoint }} at {{ printf \"%.0f\" $values.A.Value }}%"
         data:
           - refId: A
             relativeTimeRange:
@@ -229,12 +276,13 @@ groups:
         title: ContainerRestarting
         condition: C
         for: 2m
+        keep_firing_for: 10m
         is_paused: false
         execErrState: Error
         labels:
           severity: warning
         annotations:
-          summary: "Container {{ $labels.name }} on {{ $labels.host }} has restarted more than 3 times in 10 minutes"
+          summary: "{{ $labels.name }} ({{ $labels.host }}) restarted >3 times in 10m"
         data:
           - refId: A
             relativeTimeRange:
@@ -242,7 +290,7 @@ groups:
               to: 0
             datasourceUid: victoriametrics
             model:
-              expr: changes(container_start_time_seconds{name!=""}[10m])
+              expr: max by(name, host) (changes(container_start_time_seconds{name!=""}[10m]))
               instant: true
               refId: A
           - refId: C
@@ -269,12 +317,13 @@ groups:
         title: ContainerMemoryLimit
         condition: C
         for: 5m
+        keep_firing_for: 10m
         is_paused: false
         execErrState: Error
         labels:
           severity: warning
         annotations:
-          summary: "{{ $labels.name }} ({{ $labels.host }}) at {{ $value }}% mem limit"
+          summary: "{{ $labels.name }} ({{ $labels.host }}) at {{ printf \"%.0f\" $values.A.Value }}% mem limit"
         data:
           - refId: A
             relativeTimeRange:
@@ -282,7 +331,7 @@ groups:
               to: 0
             datasourceUid: victoriametrics
             model:
-              expr: (container_memory_usage_bytes{name!~"|geoipupdate"} / container_spec_memory_limit_bytes{name!~"|geoipupdate"}) * 100 and container_spec_memory_limit_bytes{name!~"|geoipupdate"} > 0
+              expr: max by(name, host) (container_memory_usage_bytes{name!~"|geoipupdate"} / container_spec_memory_limit_bytes{name!~"|geoipupdate"}) * 100 and max by(name, host) (container_spec_memory_limit_bytes{name!~"|geoipupdate"}) > 0
               instant: true
               refId: A
           - refId: C
@@ -305,6 +354,48 @@ groups:
                     type: last
               refId: C
 
+      - uid: container-disappeared
+        title: ContainerDisappeared
+        condition: C
+        for: 5m
+        keep_firing_for: 10m
+        is_paused: false
+        noDataState: OK
+        execErrState: Error
+        labels:
+          severity: critical
+        annotations:
+          summary: "{{ $labels.name }} ({{ $labels.host }}) has stopped"
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 3600
+              to: 0
+            datasourceUid: victoriametrics
+            model:
+              expr: max by(name, host) (last_over_time(container_memory_usage_bytes{name!~"|geoipupdate"}[1h])) unless max by(name, host) (container_memory_usage_bytes{name!~"|geoipupdate"})
+              instant: true
+              refId: A
+          - refId: C
+            relativeTimeRange:
+              from: 0
+              to: 0
+            datasourceUid: "-100"
+            model:
+              type: threshold
+              expression: "A"
+              conditions:
+                - evaluator:
+                    type: gt
+                    params: [0]
+                  operator:
+                    type: and
+                  query:
+                    params: [A]
+                  reducer:
+                    type: last
+              refId: C
+
   - orgId: 1
     name: databases
     folder: Homelab Alerts
@@ -314,13 +405,14 @@ groups:
         title: PostgresConnectionsHigh
         condition: C
         for: 5m
+        keep_firing_for: 10m
         is_paused: false
         noDataState: OK
         execErrState: Error
         labels:
           severity: warning
         annotations:
-          summary: "Postgres {{ $labels.server }} active connections at {{ $value }}% of max"
+          summary: "Postgres {{ $labels.server }} connections at {{ printf \"%.0f\" $values.A.Value }}%"
         data:
           - refId: A
             relativeTimeRange:
@@ -355,13 +447,14 @@ groups:
         title: RedisMemoryHigh
         condition: C
         for: 5m
+        keep_firing_for: 10m
         is_paused: false
         noDataState: OK
         execErrState: Error
         labels:
           severity: warning
         annotations:
-          summary: "Redis memory usage at {{ $value }}% of maxmemory"
+          summary: "Redis memory at {{ printf \"%.0f\" $values.A.Value }}%"
         data:
           - refId: A
             relativeTimeRange:
@@ -396,6 +489,7 @@ groups:
         title: RedisEvictions
         condition: C
         for: 5m
+        keep_firing_for: 10m
         is_paused: false
         noDataState: OK
         execErrState: Error
@@ -437,13 +531,14 @@ groups:
         title: MongoConnectionsHigh
         condition: C
         for: 5m
+        keep_firing_for: 10m
         is_paused: false
         noDataState: OK
         execErrState: Error
         labels:
           severity: warning
         annotations:
-          summary: "MongoDB connections at {{ $value }}% of limit"
+          summary: "MongoDB connections at {{ printf \"%.0f\" $values.A.Value }}%"
         data:
           - refId: A
             relativeTimeRange:
@@ -483,6 +578,7 @@ groups:
         title: PveNodeDown
         condition: C
         for: 2m
+        keep_firing_for: 5m
         is_paused: false
         execErrState: Error
         labels:
@@ -523,6 +619,7 @@ groups:
         title: VmUnexpectedlyStopped
         condition: C
         for: 0s
+        keep_firing_for: 5m
         is_paused: false
         noDataState: OK
         execErrState: Error
@@ -564,6 +661,7 @@ groups:
         title: LxcUnexpectedlyStopped
         condition: C
         for: 0s
+        keep_firing_for: 5m
         is_paused: false
         noDataState: OK
         execErrState: Error
@@ -605,12 +703,13 @@ groups:
         title: PveStorageAlmostFull
         condition: C
         for: 10m
+        keep_firing_for: 10m
         is_paused: false
         execErrState: Error
         labels:
           severity: warning
         annotations:
-          summary: "PVE storage {{ $labels.storage }} on {{ $labels.node }} is {{ $value }}% full"
+          summary: "PVE storage {{ $labels.storage }} ({{ $labels.node }}) at {{ printf \"%.0f\" $values.A.Value }}%"
         data:
           - refId: A
             relativeTimeRange:
@@ -645,12 +744,13 @@ groups:
         title: PveStorageCritical
         condition: C
         for: 5m
+        keep_firing_for: 5m
         is_paused: false
         execErrState: Error
         labels:
           severity: critical
         annotations:
-          summary: "CRITICAL: PVE storage {{ $labels.storage }} on {{ $labels.node }} is {{ $value }}% full"
+          summary: "PVE storage {{ $labels.storage }} ({{ $labels.node }}) at {{ printf \"%.0f\" $values.A.Value }}%"
         data:
           - refId: A
             relativeTimeRange:
@@ -690,6 +790,7 @@ groups:
         title: UpsOnBattery
         condition: C
         for: 30s
+        keep_firing_for: 5m
         is_paused: false
         noDataState: OK
         execErrState: Error
@@ -731,13 +832,14 @@ groups:
         title: UpsLowBattery
         condition: C
         for: 1m
+        keep_firing_for: 5m
         is_paused: false
         noDataState: OK
         execErrState: Error
         labels:
           severity: critical
         annotations:
-          summary: "UPS battery charge at {{ $value }}%"
+          summary: "UPS battery at {{ printf \"%.0f\" $values.A.Value }}%"
         data:
           - refId: A
             relativeTimeRange:
@@ -777,6 +879,7 @@ groups:
         title: TunnelDown
         condition: C
         for: 2m
+        keep_firing_for: 5m
         is_paused: false
         execErrState: Error
         labels:
@@ -817,12 +920,13 @@ groups:
         title: TunnelHandshakeStale
         condition: C
         for: 2m
+        keep_firing_for: 5m
         is_paused: false
         execErrState: Error
         labels:
           severity: critical
         annotations:
-          summary: "WireGuard peer handshake is {{ $value }}s old — tunnel may be dead"
+          summary: "WireGuard handshake {{ printf \"%.0f\" $values.A.Value }}s old — tunnel may be dead"
         data:
           - refId: A
             relativeTimeRange:
@@ -862,12 +966,13 @@ groups:
         title: VmStorageFull
         condition: C
         for: 5m
+        keep_firing_for: 5m
         is_paused: false
         execErrState: Error
         labels:
           severity: critical
         annotations:
-          summary: "VictoriaMetrics storage is {{ $value }}% full"
+          summary: "VictoriaMetrics storage at {{ printf \"%.0f\" $values.A.Value }}%"
         data:
           - refId: A
             relativeTimeRange:
@@ -898,6 +1003,47 @@ groups:
                     type: last
               refId: C
 
+      - uid: scrape-target-down
+        title: ScrapeTargetDown
+        condition: C
+        for: 5m
+        keep_firing_for: 5m
+        is_paused: false
+        execErrState: Error
+        labels:
+          severity: critical
+        annotations:
+          summary: "{{ $labels.job }} on {{ $labels.host }} is not reachable"
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: victoriametrics
+            model:
+              expr: up{job!="prometheus.scrape.alloy"} == 0
+              instant: true
+              refId: A
+          - refId: C
+            relativeTimeRange:
+              from: 0
+              to: 0
+            datasourceUid: "-100"
+            model:
+              type: threshold
+              expression: "A"
+              conditions:
+                - evaluator:
+                    type: lt
+                    params: [1]
+                  operator:
+                    type: and
+                  query:
+                    params: [A]
+                  reducer:
+                    type: last
+              refId: C
+
   - orgId: 1
     name: dns
     folder: Homelab Alerts
@@ -907,6 +1053,7 @@ groups:
         title: PiholeAllDown
         condition: C
         for: 2m
+        keep_firing_for: 5m
         is_paused: false
         execErrState: Error
         labels:
