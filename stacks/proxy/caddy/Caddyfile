@@ -7,6 +7,7 @@
 		api_url http://localhost:8180
 		api_key {$CROWDSEC_BOUNCER_API_KEY}
 		appsec_url http://localhost:7422
+		enable_caddy_error
 	}
 
 	metrics {
@@ -99,6 +100,12 @@
 	import crowdsec
 	import appsec
 	import block-bots
+	handle_errors {
+		@bouncer expression `{err.status_code} == 403`
+		handle @bouncer {
+			abort
+		}
+	}
 	handle /robots.txt {
 		header Content-Type "text/plain"
 		respond "User-agent: *

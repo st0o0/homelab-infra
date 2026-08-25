@@ -175,7 +175,6 @@ services:
       - ./crowdsec/acquis.d:/etc/crowdsec/acquis.d:ro
       - ./crowdsec/notifications:/etc/crowdsec/notifications:ro
       - ./crowdsec/scenarios:/etc/crowdsec/scenarios/custom:ro
-      - ./crowdsec/postoverflows:/etc/crowdsec/postoverflows/custom:ro
       - ./crowdsec/appsec-configs:/etc/crowdsec/appsec-configs/custom:ro
       - /docker/proxy/crowdsec/data:/var/lib/crowdsec/data
       - /docker/proxy/crowdsec/config:/etc/crowdsec
