@@ -334,7 +334,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "pg_database_size_bytes{datname!~\"template.*|postgres\"}",
+          "expr": "sort_desc(pg_database_size_bytes{datname!~\"template.*|postgres\"})",
           "legendFormat": "{{datname}}"
         }
       ]
@@ -382,7 +382,9 @@
           "calcs": ["mean", "max"],
           "displayMode": "table",
           "placement": "bottom",
-          "showLegend": true
+          "showLegend": true,
+          "sortBy": "Max",
+          "sortDesc": true
         },
         "tooltip": { "mode": "multi", "sort": "desc" }
       },
@@ -456,7 +458,9 @@
           "calcs": ["mean", "max"],
           "displayMode": "table",
           "placement": "bottom",
-          "showLegend": true
+          "showLegend": true,
+          "sortBy": "Max",
+          "sortDesc": true
         },
         "tooltip": { "mode": "multi", "sort": "desc" }
       },
@@ -510,7 +514,9 @@
           "calcs": ["mean", "max"],
           "displayMode": "table",
           "placement": "bottom",
-          "showLegend": true
+          "showLegend": true,
+          "sortBy": "Max",
+          "sortDesc": true
         },
         "tooltip": { "mode": "multi", "sort": "desc" }
       },
@@ -566,7 +572,9 @@
           "calcs": ["mean", "max"],
           "displayMode": "table",
           "placement": "bottom",
-          "showLegend": true
+          "showLegend": true,
+          "sortBy": "Max",
+          "sortDesc": true
         },
         "tooltip": { "mode": "multi", "sort": "desc" }
       },
@@ -642,7 +650,9 @@
           "calcs": ["mean", "max"],
           "displayMode": "table",
           "placement": "bottom",
-          "showLegend": true
+          "showLegend": true,
+          "sortBy": "Max",
+          "sortDesc": true
         },
         "tooltip": { "mode": "multi", "sort": "desc" }
       },
@@ -744,7 +754,9 @@
           "calcs": ["mean", "max"],
           "displayMode": "table",
           "placement": "bottom",
-          "showLegend": true
+          "showLegend": true,
+          "sortBy": "Max",
+          "sortDesc": true
         },
         "tooltip": { "mode": "multi", "sort": "desc" }
       },
@@ -823,7 +835,9 @@
           "calcs": ["mean", "max"],
           "displayMode": "table",
           "placement": "bottom",
-          "showLegend": true
+          "showLegend": true,
+          "sortBy": "Max",
+          "sortDesc": true
         },
         "tooltip": { "mode": "multi", "sort": "desc" }
       },
@@ -892,7 +906,9 @@
           "calcs": ["mean", "max"],
           "displayMode": "table",
           "placement": "bottom",
-          "showLegend": true
+          "showLegend": true,
+          "sortBy": "Max",
+          "sortDesc": true
         },
         "tooltip": { "mode": "multi", "sort": "desc" }
       },
@@ -946,7 +962,9 @@
           "calcs": ["mean", "max"],
           "displayMode": "table",
           "placement": "bottom",
-          "showLegend": true
+          "showLegend": true,
+          "sortBy": "Max",
+          "sortDesc": true
         },
         "tooltip": { "mode": "multi", "sort": "desc" }
       },
@@ -1000,7 +1018,9 @@
           "calcs": ["mean", "max"],
           "displayMode": "table",
           "placement": "bottom",
-          "showLegend": true
+          "showLegend": true,
+          "sortBy": "Max",
+          "sortDesc": true
         },
         "tooltip": { "mode": "multi", "sort": "desc" }
       },
@@ -1054,7 +1074,9 @@
           "calcs": ["mean", "max"],
           "displayMode": "table",
           "placement": "bottom",
-          "showLegend": true
+          "showLegend": true,
+          "sortBy": "Max",
+          "sortDesc": true
         },
         "tooltip": { "mode": "multi", "sort": "desc" }
       },
@@ -1144,7 +1166,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "mongodb_dbstats_dataSize{database!~\"admin|config|local\"}",
+          "expr": "sort_desc(mongodb_dbstats_dataSize{database!~\"admin|config|local\"})",
           "legendFormat": "{{database}}"
         }
       ]
@@ -1191,7 +1213,9 @@
           "calcs": ["mean", "max"],
           "displayMode": "table",
           "placement": "bottom",
-          "showLegend": true
+          "showLegend": true,
+          "sortBy": "Max",
+          "sortDesc": true
         },
         "tooltip": { "mode": "multi", "sort": "desc" }
       },
@@ -1258,7 +1282,9 @@
               "calcs": ["mean", "max"],
               "displayMode": "table",
               "placement": "bottom",
-              "showLegend": true
+              "showLegend": true,
+              "sortBy": "Max",
+              "sortDesc": true
             },
             "tooltip": { "mode": "multi", "sort": "desc" }
           },
@@ -1317,7 +1343,9 @@
               "calcs": ["mean", "max"],
               "displayMode": "table",
               "placement": "bottom",
-              "showLegend": true
+              "showLegend": true,
+              "sortBy": "Max",
+              "sortDesc": true
             },
             "tooltip": { "mode": "multi", "sort": "desc" }
           },
@@ -1376,7 +1404,9 @@
               "calcs": ["mean", "max"],
               "displayMode": "table",
               "placement": "bottom",
-              "showLegend": true
+              "showLegend": true,
+              "sortBy": "Max",
+              "sortDesc": true
             },
             "tooltip": { "mode": "multi", "sort": "desc" }
           },
@@ -1433,7 +1463,9 @@
               "calcs": ["mean", "max"],
               "displayMode": "table",
               "placement": "bottom",
-              "showLegend": true
+              "showLegend": true,
+              "sortBy": "Max",
+              "sortDesc": true
             },
             "tooltip": { "mode": "multi", "sort": "desc" }
           },
@@ -1487,7 +1519,9 @@
               "calcs": ["mean", "max"],
               "displayMode": "table",
               "placement": "bottom",
-              "showLegend": true
+              "showLegend": true,
+              "sortBy": "Max",
+              "sortDesc": true
             },
             "tooltip": { "mode": "multi", "sort": "desc" }
           },
@@ -1541,7 +1575,9 @@
               "calcs": ["mean", "max"],
               "displayMode": "table",
               "placement": "bottom",
-              "showLegend": true
+              "showLegend": true,
+              "sortBy": "Max",
+              "sortDesc": true
             },
             "tooltip": { "mode": "multi", "sort": "desc" }
           },
@@ -1595,7 +1631,9 @@
               "calcs": ["mean", "max"],
               "displayMode": "table",
               "placement": "bottom",
-              "showLegend": true
+              "showLegend": true,
+              "sortBy": "Max",
+              "sortDesc": true
             },
             "tooltip": { "mode": "multi", "sort": "desc" }
           },
