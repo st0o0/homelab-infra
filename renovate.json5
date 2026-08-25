@@ -106,6 +106,12 @@
       ],
       versioning: 'docker',
     },
+    {
+      description: 'Authentik requires sequential minor upgrades (no skipping)',
+      matchPackageNames: ['ghcr.io/goauthentik/server'],
+      matchUpdateTypes: ['minor'],
+      dependencyDashboardApproval: true,
+    },
   ],
   'ansible-galaxy': {
     managerFilePatterns: [
