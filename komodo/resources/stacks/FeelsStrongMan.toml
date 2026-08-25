@@ -9,7 +9,6 @@ project_name = "alloy-4"
 run_directory = "stacks/alloy"
 file_paths = [
   "compose.yml",
-  "compose.override.arr.yaml",
   "compose.override.authentik.yaml",
   "compose.override.media.yaml",
 ]
@@ -21,6 +20,13 @@ ALLOY_REMOTE_WRITE_URL=[[metrics_remote_write_url]]
 ALLOY_LOGS_PUSH_URL=[[metrics_logs_push_url]]
 ALLOY_HOSTNAME=FeelsStrongMan
 ALLOY_SCRAPE_INTERVAL=30s
+# Tentacle
+TENTACLE_SONARR_TOKEN=[[FeelsStrongMan_sonarr_api_key]]
+TENTACLE_RADARR_TOKEN=[[FeelsStrongMan_radarr_api_key]]
+TENTACLE_PROWLARR_TOKEN=[[FeelsStrongMan_prowlarr_api_key]]
+TENTACLE_JELLYFIN_TOKEN=[[FeelsStrongMan_jellyfin_api_key]]
+TENTACLE_SEERR_TOKEN=[[FeelsStrongMan_seerr_api_key]]
+TENTACLE_AUDIOBOOKSHELF_TOKEN=[[FeelsStrongMan_audiobookshelf_api_key]]
 GEOIPUPDATE_ACCOUNT_ID=[[maxmind_account_id]]
 GEOIPUPDATE_LICENSE_KEY=[[maxmind_license_key]]
 """
@@ -66,10 +72,6 @@ path = "../../alloy/modules/ufw.alloy"
 requires = "Redeploy"
 
 [[stack.config.config_files]]
-path = "../../alloy/features/arr.alloy"
-requires = "Redeploy"
-
-[[stack.config.config_files]]
 path = "../../alloy/features/authentik.alloy"
 requires = "Redeploy"
 
@@ -79,7 +81,7 @@ requires = "Redeploy"
 
 [stack.config.pre_deploy]
 path = "."
-command = "for net in authentik-net media-net arr-net immich-net; do docker network create $net 2>/dev/null || true; done"
+command = "for net in authentik-net media-net immich-net; do docker network create $net 2>/dev/null || true; done"
 
 [[stack]]
 name = "authentik-1"
@@ -322,7 +324,6 @@ JELLYFIN_PATH_VIDEO=/mnt/ssd/Videos
 AUDIOBOOKSHELF_PORT=13378
 AUDIOBOOKSHELF_PATH_CONFIG=/docker/media/audiobookshelf/config
 AUDIOBOOKSHELF_PATH_METADATA=/docker/media/audiobookshelf/metadata
-JELLYFIN_API_KEY=[[FeelsStrongMan_jellyfin_api_key]]
 """
 [stack.config.pre_deploy]
 path = "."
