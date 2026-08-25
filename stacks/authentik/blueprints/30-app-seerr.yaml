@@ -1,0 +1,38 @@
+version: 1
+metadata:
+  name: Seerr
+  labels:
+    blueprints.goauthentik.io/instantiate: "true"
+
+entries:
+  - model: authentik_providers_proxy.proxyprovider
+    id: proxy-provider
+    identifiers:
+      name: Forward Auth for Seerr
+    attrs:
+      authorization_flow: !Find [authentik_flows.flow, [slug, default-provider-authorization-implicit-consent]]
+      invalidation_flow: !Find [authentik_flows.flow, [slug, default-provider-invalidation-flow]]
+      mode: forward_single
+      external_host: !Env AUTHENTIK_PROVIDER_SEERR_EXTERNAL_HOST
+      access_token_validity: days=1
+
+  - model: authentik_core.application
+    id: app
+    identifiers:
+      slug: seerr
+    attrs:
+      name: Seerr
+      provider: !KeyOf proxy-provider
+      group: Media
+      open_in_new_tab: true
+      policy_engine_mode: any
+
+  - model: authentik_policies.policybinding
+    identifiers:
+      target: !KeyOf app
+      order: 0
+    attrs:
+      group: !Find [authentik_core.group, [name, tier-media]]
+      negate: false
+      enabled: true
+      timeout: 30

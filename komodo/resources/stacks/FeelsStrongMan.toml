@@ -153,10 +153,8 @@ AUTHENTIK_PROVIDER_VAULTWARDEN_EXTERNAL_HOST=[[FeelsStrongMan_authentik_provider
 AUTHENTIK_PROVIDER_PANGOLIN_CLIENT_ID=[[FeelsStrongMan_authentik_provider_pangolin_client_id]]
 AUTHENTIK_PROVIDER_PANGOLIN_CLIENT_SECRET=[[FeelsStrongMan_authentik_provider_pangolin_client_secret]]
 AUTHENTIK_PROVIDER_PANGOLIN_REDIRECT_URI=[[FeelsStrongMan_authentik_provider_pangolin_redirect_uri]]
-# Komodo
-AUTHENTIK_PROVIDER_KOMODO_CLIENT_ID=[[FeelsStrongMan_authentik_provider_komodo_client_id]]
-AUTHENTIK_PROVIDER_KOMODO_CLIENT_SECRET=[[FeelsStrongMan_authentik_provider_komodo_client_secret]]
-AUTHENTIK_PROVIDER_KOMODO_REDIRECT_URI=[[FeelsStrongMan_authentik_provider_komodo_redirect_uri]]
+# Seerr
+AUTHENTIK_PROVIDER_SEERR_EXTERNAL_HOST=[[FeelsStrongMan_authentik_provider_seerr_external_host]]
 """
 
 [[stack]]
