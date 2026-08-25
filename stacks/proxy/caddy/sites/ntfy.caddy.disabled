@@ -1,9 +1,0 @@
-{$CADDY_DOMAIN_NTFY} {
-	import defaults
-	import ratelimit-default ntfy
-	import access-geo-dach
-
-	reverse_proxy {$CADDY_TARGET_NTFY} {
-		header_up X-Real-IP {remote_host}
-	}
-}

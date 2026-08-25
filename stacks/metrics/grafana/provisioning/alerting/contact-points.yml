@@ -2,16 +2,14 @@ apiVersion: 1
 
 deleteContactPoints:
   - orgId: 1
-    uid: discord-homelab
+    uid: ntfy-homelab
 
 contactPoints:
   - orgId: 1
-    name: ntfy
+    name: discord
     receivers:
-      - uid: ntfy-homelab
-        type: webhook
+      - uid: discord-homelab
+        type: discord
         settings:
-          url: $NTFY_WEBHOOK_URL
-          httpMethod: POST
-          authorization_scheme: Bearer
-          authorization_credentials: $NTFY_WEBHOOK_TOKEN
+          url: $DISCORD_WEBHOOK_URL
+          use_discord_username: true

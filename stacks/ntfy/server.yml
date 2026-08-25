@@ -1,6 +1,0 @@
-listen-http: ":80"
-
-cache-file: "/var/lib/ntfy/cache/cache.db"
-auth-file: "/var/lib/ntfy/cache/auth.db"
-
-auth-default-access: "deny-all"
