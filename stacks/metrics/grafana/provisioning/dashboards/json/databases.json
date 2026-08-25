@@ -334,17 +334,10 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "pg_database_size_bytes{datname!~\"template.*|postgres\"}",
-          "legendFormat": "{{datname}}"
-        }
-      ],
-      "transformations": [
-        {
-          "id": "sortBy",
-          "options": {
-            "fields": {},
-            "sort": [{ "field": "Value", "desc": true }]
-          }
+          "expr": "sort_desc(pg_database_size_bytes{datname!~\"template.*|postgres\"})",
+          "legendFormat": "{{datname}}",
+          "instant": true,
+          "range": false
         }
       ]
     },
@@ -1175,17 +1168,10 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "mongodb_dbstats_dataSize{database!~\"admin|config|local\"}",
-          "legendFormat": "{{database}}"
-        }
-      ],
-      "transformations": [
-        {
-          "id": "sortBy",
-          "options": {
-            "fields": {},
-            "sort": [{ "field": "Value", "desc": true }]
-          }
+          "expr": "sort_desc(mongodb_dbstats_dataSize{database!~\"admin|config|local\"})",
+          "legendFormat": "{{database}}",
+          "instant": true,
+          "range": false
         }
       ]
     },
