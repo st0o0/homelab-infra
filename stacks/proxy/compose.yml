@@ -164,15 +164,18 @@ services:
       - >-
         COLLECTIONS=crowdsecurity/caddy crowdsecurity/sshd crowdsecurity/http-cve
         crowdsecurity/base-http-scenarios crowdsecurity/appsec-virtual-patching
-        crowdsecurity/appsec-generic-rules crowdsecurity/appsec-crs
         crowdsecurity/linux crowdsecurity/http-dos
+      - POSTOVERFLOWS=crowdsecurity/jellyfin-whitelist
       - GID=${PGID:-1000}
+      # bump to force CrowdSec recreate on config changes (profiles/scenarios/appsec)
+      - CONFIG_VERSION=1
     volumes:
       - ./crowdsec/config.yaml.local:/etc/crowdsec/config.yaml.local:ro
       - ./crowdsec/profiles.yaml:/etc/crowdsec/profiles.yaml:ro
       - ./crowdsec/acquis.d:/etc/crowdsec/acquis.d:ro
       - ./crowdsec/notifications:/etc/crowdsec/notifications:ro
       - ./crowdsec/scenarios:/etc/crowdsec/scenarios/custom:ro
+      - ./crowdsec/postoverflows:/etc/crowdsec/postoverflows/custom:ro
       - ./crowdsec/appsec-configs:/etc/crowdsec/appsec-configs/custom:ro
       - /docker/proxy/crowdsec/data:/var/lib/crowdsec/data
       - /docker/proxy/crowdsec/config:/etc/crowdsec

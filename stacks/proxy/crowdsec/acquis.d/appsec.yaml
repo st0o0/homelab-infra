@@ -1,12 +1,6 @@
 appsec_configs:
   - custom/detection-only
   - custom/blocking
-  - crowdsecurity/crs
-  - custom/whitelist-jellyfin
-  - custom/whitelist-audiobookshelf
-  - custom/whitelist-immich
-  - custom/whitelist-authentik
-  - custom/whitelist-vaultwarden
 labels:
   type: appsec
 listen_addr: 127.0.0.1:7422
