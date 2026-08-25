@@ -334,8 +334,17 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sort_desc(pg_database_size_bytes{datname!~\"template.*|postgres\"})",
+          "expr": "pg_database_size_bytes{datname!~\"template.*|postgres\"}",
           "legendFormat": "{{datname}}"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [{ "field": "Value", "desc": true }]
+          }
         }
       ]
     },
@@ -915,7 +924,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "rate(mongodb_mongod_op_latencies_latency_total{type=\"reads\"}[5m]) / rate(mongodb_mongod_op_latencies_ops_total{type=\"reads\"}[5m])",
+          "expr": "rate(mongodb_mongod_op_latencies_latency_total{type=\"read\"}[5m]) / rate(mongodb_mongod_op_latencies_ops_total{type=\"read\"}[5m])",
           "legendFormat": "read latency"
         }
       ]
@@ -971,7 +980,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "rate(mongodb_mongod_op_latencies_latency_total{type=\"writes\"}[5m]) / rate(mongodb_mongod_op_latencies_ops_total{type=\"writes\"}[5m])",
+          "expr": "rate(mongodb_mongod_op_latencies_latency_total{type=\"write\"}[5m]) / rate(mongodb_mongod_op_latencies_ops_total{type=\"write\"}[5m])",
           "legendFormat": "write latency"
         }
       ]
@@ -1027,7 +1036,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "rate(mongodb_mongod_op_latencies_latency_total{type=\"commands\"}[5m]) / rate(mongodb_mongod_op_latencies_ops_total{type=\"commands\"}[5m])",
+          "expr": "rate(mongodb_mongod_op_latencies_latency_total{type=\"command\"}[5m]) / rate(mongodb_mongod_op_latencies_ops_total{type=\"command\"}[5m])",
           "legendFormat": "command latency"
         }
       ]
@@ -1131,7 +1140,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "mongodb_mongod_wiredtiger_cache_bytes{type=\"total\"} / mongodb_mongod_wiredtiger_cache_max_bytes * 100",
+          "expr": "mongodb_mongod_wiredtiger_cache_bytes{type=\"total\"} / ignoring(type) mongodb_mongod_wiredtiger_cache_max_bytes * 100",
           "legendFormat": ""
         }
       ]
@@ -1166,8 +1175,17 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sort_desc(mongodb_dbstats_dataSize{database!~\"admin|config|local\"})",
+          "expr": "mongodb_dbstats_dataSize{database!~\"admin|config|local\"}",
           "legendFormat": "{{database}}"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [{ "field": "Value", "desc": true }]
+          }
         }
       ]
     },
