@@ -1,7 +1,7 @@
 {$CADDY_DOMAIN_JELLYSEERR} {
 	import defaults
 	import ratelimit-default jellyseerr
-	import access-geo-dach
+	import access-geo
 
 	route {
 		import authentik

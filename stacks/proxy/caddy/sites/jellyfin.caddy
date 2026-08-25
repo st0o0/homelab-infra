@@ -1,7 +1,7 @@
 {$CADDY_DOMAIN_JELLYFIN} {
 	import defaults
 	import ratelimit-media jellyfin
-	import access-geo-dach
+	import access-geo
 
 	reverse_proxy {$CADDY_TARGET_JELLYFIN} {
 		header_up X-Real-IP {remote_host}

@@ -1,7 +1,7 @@
 {$CADDY_DOMAIN_AUDIOBOOKSHELF} {
 	import defaults
 	import ratelimit-media audiobookshelf
-	import access-geo-dach
+	import access-geo
 
 	reverse_proxy {$CADDY_TARGET_AUDIOBOOKSHELF} {
 		header_up X-Real-IP {remote_host}

@@ -1,7 +1,7 @@
 {$CADDY_DOMAIN_AUTHENTIK} {
 	import defaults
 	import ratelimit-media authentik
-	import access-geo-dach
+	import access-geo
 
 	@staticAssets path /static/dist/*.js /static/dist/chunks/*.js
 	header @staticAssets Content-Type "application/javascript"

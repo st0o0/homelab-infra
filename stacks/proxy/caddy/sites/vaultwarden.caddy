@@ -1,6 +1,6 @@
 {$CADDY_DOMAIN_VAULTWARDEN} {
 	import defaults
-	import access-geo-dach
+	import access-geo
 
 	header {
 		Permissions-Policy "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()"

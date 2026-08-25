@@ -40,10 +40,10 @@
 	crowdsec
 }
 
-(access-geo-dach) {
+(access-geo) {
 	@geo-blocked not maxmind_geolocation {
 		db_path /geoip/GeoLite2-City.mmdb
-		allow_countries DE AT CH
+		allow_countries DE AT CH NL
 	}
 	abort @geo-blocked
 }
