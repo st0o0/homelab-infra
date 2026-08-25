@@ -1,24 +1,6 @@
 # ── FeelsCozyMan ──────────────────────────────────────────────────────────
 
 [[stack]]
-name = "ntfy-1"
-tags = ["infra"]
-[stack.config]
-server = "FeelsCozyMan"
-run_directory = "stacks/ntfy"
-file_paths = ["compose.yml"]
-linked_repo = "homelab-infra"
-extra_args = ["--remove-orphans"]
-environment = """
-TZ=[[tz]]
-NTFY_BASE_URL=[[FeelsCozyMan_ntfy_base_url]]
-NTFY_PORT=8080
-NTFY_AUTH_USERS=[[FeelsCozyMan_ntfy_auth_users]]
-NTFY_AUTH_ACCESS=[[FeelsCozyMan_ntfy_auth_access]]
-NTFY_AUTH_TOKENS=[[FeelsCozyMan_ntfy_auth_tokens]]
-"""
-
-[[stack]]
 name = "alloy-5"
 tags = ["monitoring"]
 [stack.config]
