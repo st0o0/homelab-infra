@@ -1009,6 +1009,7 @@ groups:
         for: 5m
         keep_firing_for: 5m
         is_paused: false
+        noDataState: OK
         execErrState: Error
         labels:
           severity: critical
@@ -1021,7 +1022,7 @@ groups:
               to: 0
             datasourceUid: victoriametrics
             model:
-              expr: up{job!="prometheus.scrape.alloy"} == 0
+              expr: up{job!="prometheus.scrape.alloy"}
               instant: true
               refId: A
           - refId: C
