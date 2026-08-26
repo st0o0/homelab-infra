@@ -12,7 +12,7 @@
   prHourlyLimit: 2,
   minimumReleaseAge: '3 days',
   prCreation: 'not-pending',
-  rebaseWhen: 'conflicted',
+  rebaseWhen: 'behind-base-branch',
   configMigration: true,
   commitMessagePrefix: 'chore(deps):',
   assignees: ['st0o0'],
