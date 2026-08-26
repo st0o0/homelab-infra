@@ -331,7 +331,7 @@ groups:
               to: 0
             datasourceUid: victoriametrics
             model:
-              expr: max by(name, host) (container_memory_usage_bytes{name!~"|geoipupdate"} / container_spec_memory_limit_bytes{name!~"|geoipupdate"}) * 100 and max by(name, host) (container_spec_memory_limit_bytes{name!~"|geoipupdate"}) > 0
+              expr: max by(name, host) (container_memory_working_set_bytes{name!~"|geoipupdate"} / container_spec_memory_limit_bytes{name!~"|geoipupdate"}) * 100 and max by(name, host) (container_spec_memory_limit_bytes{name!~"|geoipupdate"}) > 0
               instant: true
               refId: A
           - refId: C
@@ -373,7 +373,7 @@ groups:
               to: 0
             datasourceUid: victoriametrics
             model:
-              expr: max by(name, host) (last_over_time(container_memory_usage_bytes{name!~"|geoipupdate"}[1h])) unless max by(name, host) (container_memory_usage_bytes{name!~"|geoipupdate"})
+              expr: max by(name, host) (last_over_time(container_memory_working_set_bytes{name!~"|geoipupdate"}[1h])) unless max by(name, host) (container_memory_working_set_bytes{name!~"|geoipupdate"})
               instant: true
               refId: A
           - refId: C
