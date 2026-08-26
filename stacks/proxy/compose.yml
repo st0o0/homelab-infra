@@ -6,7 +6,7 @@ x-logging: &default-logging
 
 services:
   bifrost:
-    image: ghcr.io/st0o0/bifrost:0.2.1
+    image: ghcr.io/st0o0/bifrost:0.2.1@sha256:a3e6e4008a9f3c53e5f79771674113c4873349e47d8b5855e35fcfcfe0e6a7bf
     container_name: bifrost
     restart: unless-stopped
     logging: *default-logging
@@ -79,7 +79,7 @@ services:
           memory: 128M
 
   eir:
-    image: ghcr.io/st0o0/eir:0.1.2
+    image: ghcr.io/st0o0/eir:0.1.2@sha256:7c955987e9472bea02ee4243fb28ede32ad122a3898b23657511772c876da7bf
     container_name: eir
     restart: unless-stopped
     logging: *default-logging
@@ -223,7 +223,7 @@ services:
           memory: 32M
 
   ran:
-    image: ghcr.io/st0o0/ran:0.3.7
+    image: ghcr.io/st0o0/ran:0.3.7@sha256:317fb62f1ea4a16bf697316a452e6bc20d281aef757853f0415d0e2929976bb2
     container_name: ran
     restart: unless-stopped
     logging: *default-logging

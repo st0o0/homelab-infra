@@ -6,7 +6,7 @@ x-logging: &default-logging
 
 services:
   homeassistant:
-    image: ghcr.io/home-assistant/home-assistant:2026.7.4
+    image: ghcr.io/home-assistant/home-assistant:2026.7.4@sha256:5a531753cea96444200158fc2b0ac7ccd739291ec50414877b396de6e0bb29b3
     container_name: homeassistant
     restart: always
     logging: *default-logging
@@ -48,7 +48,7 @@ services:
       - "${MQTT_PORT:-8124}:1883"
 
   zigbee2mqtt:
-    image: ghcr.io/koenkk/zigbee2mqtt:2.12.1
+    image: ghcr.io/koenkk/zigbee2mqtt:2.12.1@sha256:80f7f04f72a99e4c4ef51ef7e98ee736edba6db0ecbb7abc626d0c4b0f1871f1
     container_name: zigbee2mqtt
     restart: always
     logging: *default-logging
@@ -62,7 +62,7 @@ services:
       - "${Z2M_PORT:-8125}:8080"
 
   matterjs-server:
-    image: ghcr.io/matter-js/matterjs-server:1.2.8
+    image: ghcr.io/matter-js/matterjs-server:1.2.8@sha256:cb5696f5d5584d63bcc22eea1565e21d0de9c41e86f212bf2fe5bce21f95897d
     container_name: matterjs-server
     restart: unless-stopped
     logging: *default-logging
