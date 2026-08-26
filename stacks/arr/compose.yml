@@ -51,7 +51,7 @@ services:
 
   radarr:
     <<: *common
-    image: ghcr.io/home-operations/radarr:6.4.1.10545
+    image: ghcr.io/home-operations/radarr:6.4.2.10590@sha256:01ab4edc881b117e30972482ae4362c13ca76ee73c891a7581cffe597d43ca31
     container_name: radarr
     user: "${PUID}:${PGID}"
     healthcheck:
