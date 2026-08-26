@@ -42,7 +42,7 @@ services:
           memory: 128M
 
   sabnzbd:
-    image: ghcr.io/home-operations/sabnzbd:5.1.1
+    image: ghcr.io/home-operations/sabnzbd:5.1.2@sha256:8172dc78c4e70baf88b18afca851bf77487e2e22802a6bd3502d7ef211dfb8fd
     container_name: sabnzbd
     restart: unless-stopped
     logging: *default-logging
