@@ -12,6 +12,7 @@ prometheus.scrape "media" {
   targets         = discovery.relabel.media.output
   forward_to      = [prometheus.remote_write.central.receiver]
   scrape_interval = coalesce(sys.env("SCRAPE_INTERVAL"), "30s")
+  scrape_timeout  = "30s"
   metrics_path    = "/metrics"
   job_name        = "media"
 }

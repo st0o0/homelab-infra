@@ -1,9 +1,8 @@
-# Komodo Procedure resources — single Git webhook triggers the full
-# deploy pipeline: sync TOML definitions, then redeploy only stacks
-# whose compose actually changed.
+# Komodo Procedure resources
 #
-# GitHub webhook (push events on main):
-#   https://<KOMODO_HOST>/listener/github/procedure/deploy-homelab-infra/main
+# deploy-homelab-infra runs on a 5-minute schedule: sync TOML
+# definitions, then redeploy only stacks whose compose changed.
+# No webhook exposure needed — Komodo triggers it internally.
 #
 # PullRepo is NOT needed — stacks use linked_repo, so
 # BatchDeployStackIfChanged pulls the repo implicitly per server.
@@ -11,7 +10,11 @@
 [[procedure]]
 name = "deploy-homelab-infra"
 description = "Sync resources, then redeploy changed stacks"
-webhook_enabled = true
+schedule_enabled = true
+schedule_format = "Cron"
+schedule = "0 */5 * * * *"
+schedule_timezone = "Europe/Berlin"
+failure_alert = true
 
 [[procedure.config.stage]]
 name = "Sync"
