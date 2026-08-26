@@ -164,7 +164,6 @@
     {
       description: 'Authentik requires sequential minor upgrades (no skipping)',
       matchPackageNames: ['ghcr.io/goauthentik/server'],
-      matchUpdateTypes: ['minor'],
       separateMultipleMinor: true,
       dependencyDashboardApproval: true,
     },
