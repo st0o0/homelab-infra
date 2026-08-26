@@ -7,6 +7,10 @@
 - name: Converge Komodo config
   hosts: all
   become: true
+  pre_tasks:
+    - name: Skip disabled host
+      ansible.builtin.meta: end_host
+      when: not host_enabled
   roles:
     - role: komodo
       tags: [update_komodo]
@@ -17,6 +21,10 @@
   hosts: all
   become: true
   any_errors_fatal: true
+  pre_tasks:
+    - name: Skip disabled host
+      ansible.builtin.meta: end_host
+      when: not host_enabled
   roles:
     - role: update_komodo
       tags: [update_komodo]
@@ -26,6 +34,10 @@
 - name: Update Komodo Agent
   hosts: all
   become: true
+  pre_tasks:
+    - name: Skip disabled host
+      ansible.builtin.meta: end_host
+      when: not host_enabled
   roles:
     - role: update_komodo
       tags: [update_komodo]

@@ -1,6 +1,10 @@
 - name: Converge all hosts
   hosts: all
   become: true
+  pre_tasks:
+    - name: Skip disabled host
+      ansible.builtin.meta: end_host
+      when: not host_enabled
   roles:
     # ── Manual (never runs without explicit tag) ──────────────
     - role: bootstrap

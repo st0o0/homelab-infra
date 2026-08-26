@@ -1,3 +1,6 @@
+# Host toggle
+host_enabled: false
+
 # Bootstrap
 # bootstrap_hostname_enabled: true
 
