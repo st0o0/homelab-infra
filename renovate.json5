@@ -11,7 +11,7 @@
   prConcurrentLimit: 5,
   prHourlyLimit: 2,
   minimumReleaseAge: '3 days',
-  prCreation: 'not-pending',
+  minimumReleaseAgeBehaviour: 'timestamp-optional',
   rebaseWhen: 'behind-base-branch',
   configMigration: true,
   commitMessagePrefix: 'chore(deps):',
@@ -74,12 +74,17 @@
       dependencyDashboardApproval: true,
     },
     {
+      description: 'Pin/pinDigest updates do not support minimumReleaseAge',
+      matchUpdateTypes: ['pin', 'pinDigest'],
+      minimumReleaseAge: null,
+    },
+    {
       description: 'Automerge digest-only updates nightly',
       matchUpdateTypes: ['digest'],
       automerge: true,
       automergeType: 'pr',
-      schedule: ['after 2am and before 5am'],
-      minimumReleaseAge: '0 days',
+      automergeSchedule: ['after 2am and before 5am'],
+      minimumReleaseAge: null,
     },
     {
       groupName: 'github-actions',
