@@ -197,6 +197,87 @@
       ],
       schedule: ['on monday'],
     },
+    // sourceUrl overrides for correct release notes
+    {
+      matchPackageNames: ['ghcr.io/veerendra2/speedtest_exporter'],
+      sourceUrl: 'https://github.com/veerendra2/speedtest_exporter',
+    },
+    {
+      matchPackageNames: ['ekofr/pihole-exporter'],
+      sourceUrl: 'https://github.com/eko/pihole-exporter',
+    },
+    {
+      matchPackageNames: ['jlesage/firefox'],
+      sourceUrl: 'https://github.com/jlesage/docker-firefox',
+    },
+    {
+      matchPackageNames: [
+        'ghcr.io/home-operations/sonarr',
+        'ghcr.io/home-operations/radarr',
+        'ghcr.io/home-operations/prowlarr',
+        'ghcr.io/home-operations/sabnzbd',
+      ],
+      sourceUrl: 'https://github.com/home-operations/containers',
+    },
+    {
+      matchPackageNames: [
+        'ghcr.io/moghtech/komodo-core',
+        'ghcr.io/moghtech/komodo-periphery',
+      ],
+      sourceUrl: 'https://github.com/moghtech/komodo',
+    },
+    {
+      matchPackageNames: ['maxmindinc/geoipupdate'],
+      sourceUrl: 'https://github.com/maxmind/geoipupdate',
+    },
+    {
+      matchPackageNames: ['pihole/pihole'],
+      sourceUrl: 'https://github.com/pi-hole/docker-pi-hole',
+    },
+    {
+      matchPackageNames: ['vaultwarden/server'],
+      sourceUrl: 'https://github.com/dani-garcia/vaultwarden',
+    },
+    {
+      matchPackageNames: [
+        'ghcr.io/immich-app/immich-server',
+        'ghcr.io/immich-app/immich-machine-learning',
+        'ghcr.io/immich-app/postgres',
+      ],
+      sourceUrl: 'https://github.com/immich-app/immich',
+    },
+    {
+      matchPackageNames: ['ghcr.io/goauthentik/server'],
+      sourceUrl: 'https://github.com/goauthentik/authentik',
+    },
+    {
+      matchPackageNames: ['ghcr.io/home-assistant/home-assistant'],
+      sourceUrl: 'https://github.com/home-assistant/core',
+    },
+    {
+      matchPackageNames: [
+        'victoriametrics/victoria-metrics',
+        'victoriametrics/vmalert',
+        'victoriametrics/victoria-logs',
+      ],
+      sourceUrl: 'https://github.com/VictoriaMetrics/VictoriaMetrics',
+    },
+    {
+      matchPackageNames: ['docker.io/valkey/valkey'],
+      sourceUrl: 'https://github.com/valkey-io/valkey',
+    },
+    {
+      matchPackageNames: ['sapcc/mosquitto-exporter'],
+      sourceUrl: 'https://github.com/sapcc/mosquitto-exporter',
+    },
+    {
+      matchPackageNames: ['sigoden/dufs'],
+      sourceUrl: 'https://github.com/sigoden/dufs',
+    },
+    {
+      matchPackageNames: ['dialmaster/youtarr'],
+      sourceUrl: 'https://github.com/dialmaster/youtarr',
+    },
   ],
   'ansible-galaxy': {
     managerFilePatterns: [
