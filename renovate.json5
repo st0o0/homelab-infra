@@ -5,6 +5,7 @@
     'docker:pinDigests',
     'helpers:pinGitHubActionDigests',
     'helpers:githubDigestChangelogs',
+    'workarounds:doNotUpgradeFromAlpineStableToEdge',
     ':dependencyDashboard',
   ],
   timezone: 'Europe/Berlin',
@@ -15,11 +16,22 @@
   rebaseWhen: 'behind-base-branch',
   configMigration: true,
   commitMessagePrefix: 'chore(deps):',
+  commitMessageExtra: '({{packageFileDir}})',
   assignees: ['st0o0'],
   suppressNotifications: ['prEditedNotification'],
   vulnerabilityAlerts: {
     enabled: true,
   },
+  hostRules: [
+    {
+      matchHost: 'docker.io',
+      concurrentRequestLimit: 2,
+    },
+    {
+      matchHost: 'ghcr.io',
+      concurrentRequestLimit: 2,
+    },
+  ],
   'docker-compose': {
     managerFilePatterns: [
       '/(^|/)compose\\.ya?ml$/',
@@ -83,8 +95,17 @@
       matchUpdateTypes: ['digest'],
       automerge: true,
       automergeType: 'pr',
+      platformAutomerge: false,
       automergeSchedule: ['after 2am and before 5am'],
       minimumReleaseAge: null,
+    },
+    {
+      description: 'Group Immich components together (must stay version-aligned)',
+      groupName: 'immich',
+      matchPackageNames: [
+        'ghcr.io/immich-app/immich-server',
+        'ghcr.io/immich-app/immich-machine-learning',
+      ],
     },
     {
       groupName: 'github-actions',
@@ -129,11 +150,18 @@
       dependencyDashboardApproval: true,
     },
     {
-      description: 'Databases need manual migration for major upgrades',
+      description: 'Stateful databases can break on minor/major upgrades',
       matchPackageNames: [
-        'postgres',
         'mongo',
         'mariadb',
+      ],
+      matchUpdateTypes: ['major', 'minor'],
+      dependencyDashboardApproval: true,
+    },
+    {
+      description: 'Postgres needs manual dump/restore for major upgrades',
+      matchPackageNames: [
+        'postgres',
         'ghcr.io/immich-app/postgres',
       ],
       matchUpdateTypes: ['major'],
