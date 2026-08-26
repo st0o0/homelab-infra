@@ -237,6 +237,10 @@ requires = "Redeploy"
 path = "blueprints/30-app-vaultwarden.yaml"
 requires = "Redeploy"
 
+[[stack.config.config_files]]
+path = "blueprints/35-outpost.yaml"
+requires = "Redeploy"
+
 [[stack]]
 name = "arr-1"
 tags = ["media"]

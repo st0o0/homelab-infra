@@ -18,7 +18,8 @@ entries:
       name: tier-media
     attrs:
       is_superuser: false
-      parent: !KeyOf group-tier-guest
+      parents:
+        - !KeyOf group-tier-guest
 
   - model: authentik_core.group
     id: group-tier-homelab
@@ -26,4 +27,5 @@ entries:
       name: tier-homelab
     attrs:
       is_superuser: false
-      parent: !KeyOf group-tier-media
+      parents:
+        - !KeyOf group-tier-media
