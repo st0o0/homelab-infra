@@ -93,12 +93,12 @@ path = "."
 command = "docker network create db-net 2>/dev/null || true"
 
 [[stack]]
-name = "alloy-6"
+name = "alloy-5"
 tags = ["monitoring"]
 after = ["postgres-1", "immich-postgres-1", "mongodb-1", "valkey-1"]
 [stack.config]
 server = "FeelsQueryMan"
-project_name = "alloy-6"
+project_name = "alloy-5"
 run_directory = "stacks/alloy"
 file_paths = [
   "compose.yml",

@@ -1,11 +1,11 @@
 # ── FeelsCozyMan ──────────────────────────────────────────────────────────
 
 [[stack]]
-name = "alloy-5"
+name = "alloy-4"
 tags = ["monitoring"]
 [stack.config]
 server = "FeelsCozyMan"
-project_name = "alloy-5"
+project_name = "alloy-4"
 run_directory = "stacks/alloy"
 file_paths = ["compose.yml"]
 linked_repo = "homelab-infra"

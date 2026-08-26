@@ -22,11 +22,11 @@ NUT_USER_1_UPSMON=primary
 """
 
 [[stack]]
-name = "alloy-3"
+name = "alloy-2"
 tags = ["monitoring"]
 [stack.config]
 server = "FeelsUPSMan"
-project_name = "alloy-3"
+project_name = "alloy-2"
 run_directory = "stacks/alloy"
 file_paths = [
   "compose.yml",

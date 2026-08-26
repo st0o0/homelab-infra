@@ -1,11 +1,11 @@
 # ── FeelsStrongMan ────────────────────────────────────────────────────────
 
 [[stack]]
-name = "alloy-4"
+name = "alloy-3"
 tags = ["monitoring"]
 [stack.config]
 server = "FeelsStrongMan"
-project_name = "alloy-4"
+project_name = "alloy-3"
 run_directory = "stacks/alloy"
 file_paths = [
   "compose.yml",
