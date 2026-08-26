@@ -6,7 +6,7 @@ x-logging: &default-logging
 
 services:
   kopiaserver:
-    image: kopia/kopia:latest
+    image: kopia/kopia:latest@sha256:89fd95ee2942880ca00eae964266958a394421ddbdf69bca62e38afc55f5900e
     container_name: kopiaserver
     restart: unless-stopped
     logging: *default-logging
