@@ -19,12 +19,6 @@ tags = ["iot", "infra"]
 enabled = true
 
 [[server]]
-name = "FeelsDataMan"
-tags = ["database"]
-[server.config]
-enabled = true
-
-[[server]]
 name = "FeelsQueryMan"
 tags = ["database"]
 [server.config]
@@ -60,19 +54,25 @@ tags = ["monitoring"]
 [server.config]
 enabled = true
 
+[[server]]
+name = "FeelsDataMan"
+tags = ["database"]
+[server.config]
+enabled = false
+
 # Reserve hosts — declared but not currently running any assigned stacks.
 # Left disabled so Komodo doesn't try to poll a Periphery that may not be
 # registered yet; flip `enabled = true` once each host is actually in service.
 
-[[server]]
-name = "FeelsAmazingMan"
-description = "Reserve host — no stacks assigned yet"
-[server.config]
-enabled = false
+#[[server]]
+#name = "FeelsAmazingMan"
+#description = "Reserve host — no stacks assigned yet"
+#[server.config]
+#enabled = false
 
-[[server]]
-name = "FeelsDevMan"
-description = "Staging/test host"
-tags = ["testing"]
-[server.config]
-enabled = true
+# [[server]]
+# name = "FeelsDevMan"
+# description = "Staging/test host"
+# tags = ["testing"]
+# [server.config]
+# enabled = true
