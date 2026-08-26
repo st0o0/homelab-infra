@@ -68,7 +68,7 @@ services:
           memory: 256M
 
   dufs:
-    image: sigoden/dufs:v0.46.0
+    image: sigoden/dufs:v0.46.0@sha256:8dd3b750015734703e64b55641fb7d2254c112e0ff3967074766177dc15dc982
     container_name: dufs
     restart: unless-stopped
     logging: *default-logging
@@ -88,7 +88,7 @@ services:
           memory: 32M
 
   firefox:
-    image: jlesage/firefox:v25.07.1
+    image: jlesage/firefox:v25.07.1@sha256:07d3c31db833dac9a959ebd749495a37ce52dcd2a2f28402e4b8515cb672ae72
     container_name: firefox
     restart: unless-stopped
     logging: *default-logging
