@@ -98,6 +98,10 @@ path = "grafana/provisioning/dashboards/json/victoriametrics.json"
 requires = "Restart"
 
 [[stack.config.config_files]]
+path = "grafana/provisioning/dashboards/json/media-overview.json"
+requires = "Restart"
+
+[[stack.config.config_files]]
 path = "grafana/provisioning/datasources/datasources.yml"
 requires = "Redeploy"
 
