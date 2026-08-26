@@ -88,7 +88,7 @@ services:
           memory: 32M
 
   firefox:
-    image: jlesage/firefox:v25.07.1@sha256:07d3c31db833dac9a959ebd749495a37ce52dcd2a2f28402e4b8515cb672ae72
+    image: jlesage/firefox:v25.12.5@sha256:be27cc07895da6e094d072ccdc29a33749277a57cd67cdeac7cbd34e48351114
     container_name: firefox
     restart: unless-stopped
     logging: *default-logging
