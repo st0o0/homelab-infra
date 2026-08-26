@@ -165,6 +165,7 @@
       description: 'Authentik requires sequential minor upgrades (no skipping)',
       matchPackageNames: ['ghcr.io/goauthentik/server'],
       matchUpdateTypes: ['minor'],
+      separateMultipleMinor: true,
       dependencyDashboardApproval: true,
     },
     {
@@ -249,6 +250,7 @@
     {
       matchPackageNames: ['ghcr.io/goauthentik/server'],
       sourceUrl: 'https://github.com/goauthentik/authentik',
+      extractVersion: '^version/(?<version>.+)$',
     },
     {
       matchPackageNames: ['ghcr.io/home-assistant/home-assistant'],
