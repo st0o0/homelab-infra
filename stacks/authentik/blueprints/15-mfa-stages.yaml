@@ -11,7 +11,7 @@ entries:
     identifiers:
       name: mfa-totp-setup
     attrs:
-      digits: 6
+      digits: "6"
       friendly_name: "Authenticator App"
 
   # WebAuthn / Passkey setup stage
@@ -44,7 +44,7 @@ entries:
         - totp
         - webauthn
         - static
-      not_configured_action: force_configure
+      not_configured_action: configure
       configuration_stages:
         - !KeyOf totp-setup
         - !KeyOf webauthn-setup
