@@ -51,7 +51,7 @@ services:
           memory: 256M
 
   victoriametrics:
-    image: victoriametrics/victoria-metrics:v1.148.0@sha256:407013e902f9a0ba1d4b2d4c077c47bbaf917c893c52ff39b19efe83a654afda
+    image: victoriametrics/victoria-metrics:v1.150.0@sha256:54467c7764a3e6579199af1914bb779f01ce32265cd552eb5ae0d4f8a2b80a97
     container_name: victoriametrics
     restart: unless-stopped
     logging: *default-logging
