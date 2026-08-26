@@ -3,13 +3,14 @@
   extends: [
     'config:recommended',
     'docker:pinDigests',
+    'helpers:pinGitHubActionDigests',
     ':dependencyDashboard',
   ],
   timezone: 'Europe/Berlin',
   prConcurrentLimit: 5,
   prHourlyLimit: 2,
   minimumReleaseAge: '3 days',
-  internalChecksFilter: 'strict',
+  prCreation: 'not-pending',
   rebaseWhen: 'conflicted',
   configMigration: true,
   commitMessagePrefix: 'chore(deps):',
@@ -72,6 +73,14 @@
       dependencyDashboardApproval: true,
     },
     {
+      description: 'Automerge digest-only updates nightly',
+      matchUpdateTypes: ['digest'],
+      automerge: true,
+      automergeType: 'pr',
+      schedule: ['after 2am and before 5am'],
+      minimumReleaseAge: '0 days',
+    },
+    {
       groupName: 'github-actions',
       matchManagers: [
         'github-actions',
@@ -112,6 +121,29 @@
       matchPackageNames: ['ghcr.io/goauthentik/server'],
       matchUpdateTypes: ['minor'],
       dependencyDashboardApproval: true,
+    },
+    {
+      description: 'Databases need manual migration for major upgrades',
+      matchPackageNames: [
+        'postgres',
+        'mongo',
+        'mariadb',
+        'ghcr.io/immich-app/postgres',
+      ],
+      matchUpdateTypes: ['major'],
+      dependencyDashboardApproval: true,
+    },
+    {
+      description: 'Throttle frequently releasing images to weekly',
+      matchPackageNames: [
+        'ghcr.io/home-assistant/home-assistant',
+        'ghcr.io/home-operations/sonarr',
+        'ghcr.io/home-operations/radarr',
+        'ghcr.io/home-operations/prowlarr',
+        'ghcr.io/home-operations/sabnzbd',
+        'ghcr.io/paperless-ngx/paperless-ngx',
+      ],
+      schedule: ['on monday'],
     },
   ],
   'ansible-galaxy': {
