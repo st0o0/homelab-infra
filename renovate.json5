@@ -9,6 +9,7 @@
   prConcurrentLimit: 5,
   prHourlyLimit: 2,
   minimumReleaseAge: '3 days',
+  internalChecksFilter: 'strict',
   rebaseWhen: 'conflicted',
   configMigration: true,
   commitMessagePrefix: 'chore(deps):',
