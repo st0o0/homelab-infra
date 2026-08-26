@@ -89,7 +89,7 @@ services:
 
   prowlarr:
     <<: *common
-    image: ghcr.io/home-operations/prowlarr:2.6.1.5509
+    image: ghcr.io/home-operations/prowlarr:2.6.2.5562@sha256:13c576d2ad93764ab78d4e75c80447bc5489a06a15fd39e89c0be0be01e2ba3a
     container_name: prowlarr
     user: "${PUID}:${PGID}"
     healthcheck:
