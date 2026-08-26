@@ -162,7 +162,7 @@ services:
 
   seekarr:
     <<: *common
-    image: ghcr.io/scottrobertson/seekarr:0.3.0
+    image: ghcr.io/scottrobertson/seekarr:0.3.0@sha256:d729081a2e5d2b5f8b048a6f524b493404caa8fbc58ba2c2f59559061803655c
     container_name: seekarr
     user: "${PUID}:${PGID}"
     depends_on:
@@ -183,7 +183,7 @@ services:
           memory: 64M
 
   configarr:
-    image: ghcr.io/raydak-labs/configarr:1.30.2
+    image: ghcr.io/raydak-labs/configarr:1.30.2@sha256:ec585b6d2530f6090ee26fdcc9701f279666c24dc96c9087208e88ec867c2416
     container_name: configarr
     restart: "no"
     logging: *default-logging
