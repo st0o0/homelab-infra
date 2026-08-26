@@ -1,6 +1,6 @@
 {$CADDY_DOMAIN_SEERR} {
 	import defaults
-	import ratelimit-default jellyseerr
+	import ratelimit-media seerr
 	import access-geo
 
 	route {
