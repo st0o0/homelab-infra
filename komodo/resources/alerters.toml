@@ -1,13 +1,22 @@
 # Komodo Alerters — route alerts to external services.
 
-# [[alerter]]
-# name = "discord"
-# description = "Homelab alerts to Discord"
-# tags = ["notifications"]
-# 
-# [alerter.config]
-# enabled = true
-# 
-# [alerter.config.endpoint]
-# type = "Discord"
-# params.url = "[[FeelsWatchMan_discord_webhook_url]]"
+[[alerter]]
+name = "discord"
+description = "Homelab alerts to Discord"
+tags = ["notifications"]
+
+[alerter.config]
+enabled = true
+alert_types = [
+  "ServerUnreachable",
+  "StackStateChange",
+  "ContainerStateChange",
+  "ProcedureFailed",
+  "ActionFailed",
+  "BuildFailed",
+  "ResourceSyncPendingUpdates",
+]
+
+[alerter.config.endpoint]
+type = "Discord"
+params.url = "[[discord_webhook_url]]"
