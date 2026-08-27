@@ -23,6 +23,9 @@ services:
       - DB_PASSWORD=${IMMICH_DB_PASS:?IMMICH_DB_PASS is required}
       - DB_DATABASE_NAME=${IMMICH_DB_NAME:-}
       - REDIS_HOSTNAME=${IMMICH_REDIS_HOSTNAME:-valkey}
+      - REDIS_PORT=${IMMICH_REDIS_PORT:-6379}
+      - REDIS_PASSWORD=${IMMICH_REDIS_PASSWORD:-}
+      - REDIS_DBINDEX=${IMMICH_REDIS_DBINDEX:-0}
     depends_on:
       valkey:
         condition: service_healthy
@@ -46,24 +49,6 @@ services:
       - ${IMMICH_PATH_CACHE:?IMMICH_PATH_CACHE is required}:/cache
     environment:
       - TZ=${TZ:-}
-    deploy:
-      resources:
-        limits:
-          cpus: 0.5
-          memory: 1GB
-        reservations:
-          memory: 512M
-
-  valkey:
-    image: docker.io/valkey/valkey:9-alpine@sha256:de31910896150d5e754a07d57d227cfdde4e258ddd0d1aa4607f2d2f95843715
-    container_name: valkey
-    restart: unless-stopped
-    logging: *default-logging
-    healthcheck:
-      test: valkey-cli ping || exit 1
-      interval: 10s
-      timeout: 5s
-      retries: 5
     deploy:
       resources:
         limits:
