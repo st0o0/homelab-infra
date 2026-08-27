@@ -521,6 +521,9 @@ command = "docker network create immich-net 2>/dev/null || true"
 # PAPERLESS_DB_PASS=[[FeelsStrongMan_paperless_db_pass]]
 # PAPERLESS_DB_NAME=[[FeelsStrongMan_paperless_db_name]]
 # # Redis (central Valkey, DB index 1)
-# PAPERLESS_REDIS_URL=redis://:[[FeelsStrongMan_paperless_redis_password]]@[[FeelsStrongMan_paperless_redis_host]]:[[FeelsStrongMan_paperless_redis_port]]/1
+# PAPERLESS_REDIS_HOST=[[FeelsStrongMan_paperless_redis_host]]
+# PAPERLESS_REDIS_PORT=[[FeelsStrongMan_paperless_redis_port]]
+# PAPERLESS_REDIS_PASSWORD=[[FeelsStrongMan_paperless_redis_password]]
+# PAPERLESS_REDIS_DBINDEX=1
 # PAPERLESS_REDIS_PREFIX=PAPERLESS
 # """
