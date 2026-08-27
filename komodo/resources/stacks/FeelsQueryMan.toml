@@ -85,7 +85,6 @@ VALKEY_PASS=[[FeelsQueryMan_valkey_pass]]
 VALKEY_PORT=[[FeelsQueryMan_valkey_port]]
 VALKEY_PATH_DATA=/docker/valkey/data
 VALKEY_MAXMEMORY=256mb
-VALKEY_MAXMEMORY_POLICY=allkeys-lru
 """
 
 [stack.config.pre_deploy]

@@ -14,7 +14,7 @@ services:
       valkey-server
       --requirepass ${VALKEY_PASS:?VALKEY_PASS is required}
       --maxmemory ${VALKEY_MAXMEMORY:-64mb}
-      --maxmemory-policy ${VALKEY_MAXMEMORY_POLICY:-allkeys-lru}
+      --maxmemory-policy ${VALKEY_MAXMEMORY_POLICY:-noeviction}
       --appendonly yes
     ports:
       - "${VALKEY_PORT:-6379}:6379"
