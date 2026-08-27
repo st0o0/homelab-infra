@@ -444,6 +444,10 @@ IMMICH_REDIS_HOST=[[FeelsStrongMan_immich_redis_host]]
 IMMICH_REDIS_PORT=[[FeelsStrongMan_immich_redis_port]]
 IMMICH_REDIS_PASSWORD=[[FeelsStrongMan_immich_redis_password]]
 IMMICH_REDIS_DBINDEX=0
+# Security
+IMMICH_TRUSTED_PROXIES=[[FeelsStrongMan_immich_trusted_proxies]]
+# Telemetry
+IMMICH_TELEMETRY_INCLUDE=all
 # CIFS
 CIFS_IMMICH_MEDIA_HOST=[[FeelsStrongMan_cifs_immich_media_host]]
 CIFS_IMMICH_MEDIA_SHARE=[[FeelsStrongMan_cifs_immich_media_share]]
