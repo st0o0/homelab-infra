@@ -1,0 +1,7 @@
+name: custom/whitelist-immich
+description: Whitelist immich from HTTP behavior scenarios
+filter: "evt.Line.Src contains '/services/immich.'"
+whitelist:
+  reason: "Immich mobile clients trigger false positives"
+  expression:
+    - "true"

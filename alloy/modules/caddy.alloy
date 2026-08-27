@@ -5,7 +5,7 @@ declare "caddy" {
 
   local.file_match "caddy" {
     path_targets = [
-      {__path__ = "/var/log/host/caddy/access.log", job = "caddy"},
+      {__path__ = "/var/log/host/caddy/services/*.log", job = "caddy"},
     ]
   }
 
@@ -65,10 +65,16 @@ declare "caddy" {
       template = "{{ regexReplaceAll \":443$\" .host \"\" }}"
     }
 
+    stage.template {
+      source   = "service"
+      template = "{{ regexReplaceAll \".*/services/(.*)\\.log\" .filename \"$1\" }}"
+    }
+
     stage.labels {
       values = {
         level              = "",
         client_ip          = "",
+        service            = "",
         domain             = "",
         uri                = "",
         method             = "",

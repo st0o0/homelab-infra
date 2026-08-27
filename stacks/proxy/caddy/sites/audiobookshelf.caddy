@@ -1,5 +1,6 @@
 {$CADDY_DOMAIN_AUDIOBOOKSHELF} {
 	import defaults
+	import log-service audiobookshelf
 	import ratelimit-media audiobookshelf
 	import access-geo
 

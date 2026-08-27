@@ -1,5 +1,6 @@
 {$CADDY_DOMAIN_VAULTWARDEN} {
 	import defaults
+	import log-service vaultwarden
 	import access-geo
 
 	header {

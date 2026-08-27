@@ -1,0 +1,7 @@
+name: custom/whitelist-audiobookshelf
+description: Whitelist audiobookshelf from HTTP behavior scenarios
+filter: "evt.Line.Src contains '/services/audiobookshelf.'"
+whitelist:
+  reason: "Audiobookshelf mobile clients trigger false positives"
+  expression:
+    - "true"

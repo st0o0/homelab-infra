@@ -1,5 +1,5 @@
 filenames:
-  - /var/log/caddy/access.log
+  - /var/log/caddy/services/*.log
 labels:
   type: caddy
 poll_without_inotify: true

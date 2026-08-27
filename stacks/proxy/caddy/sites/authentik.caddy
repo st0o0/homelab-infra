@@ -1,5 +1,6 @@
 {$CADDY_DOMAIN_AUTHENTIK} {
 	import defaults
+	import log-service authentik
 	import ratelimit-media authentik
 	import access-geo
 

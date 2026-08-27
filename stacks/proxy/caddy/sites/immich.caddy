@@ -1,5 +1,6 @@
 {$CADDY_DOMAIN_IMMICH} {
 	import defaults
+	import log-service immich
 	import ratelimit-media immich
 	import access-geo
 
