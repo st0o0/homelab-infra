@@ -20,7 +20,7 @@ services:
       - "${IMMICH_PG_PORT:-5433}:5432"
     volumes:
       - ${IMMICH_PG_PATH_DATA:?IMMICH_PG_PATH_DATA is required}:/var/lib/postgresql/data
-    shm_size: 128mb
+    shm_size: 256mb
     networks:
       - db-net
     healthcheck:
@@ -32,9 +32,9 @@ services:
       resources:
         limits:
           cpus: 0.5
-          memory: 512M
+          memory: 1GB
         reservations:
-          memory: 256M
+          memory: 512M
 
 networks:
   db-net:
