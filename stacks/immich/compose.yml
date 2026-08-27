@@ -65,6 +65,7 @@ services:
 networks:
   immich-net:
     name: immich-net
+    external: true
 
 volumes:
   media_smb:
