@@ -11,6 +11,7 @@ file_paths = [
   "compose.yml",
   "compose.override.authentik.yaml",
   "compose.override.media.yaml",
+  "compose.override.immich.yaml",
 ]
 linked_repo = "homelab-infra"
 extra_args = ["--remove-orphans"]
@@ -77,6 +78,10 @@ requires = "Redeploy"
 
 [[stack.config.config_files]]
 path = "../../alloy/features/media.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "../../alloy/features/immich.alloy"
 requires = "Redeploy"
 
 [stack.config.pre_deploy]
@@ -410,38 +415,41 @@ AUDIOBOOKSHELF_PATH_METADATA=/docker/media/audiobookshelf/metadata
 [stack.config.pre_deploy]
 path = "."
 command = "docker network create media-net 2>/dev/null || true"
-#
-# [[stack]]
-# name = "immich-1"
-# tags = ["media", "apps"]
-# after = ["immich-postgres-1"]
-# [stack.config]
-# server = "FeelsStrongMan"
-# run_directory = "stacks/immich"
-# file_paths = ["compose.yml"]
-# linked_repo = "homelab-infra"
-# extra_args = ["--remove-orphans"]
-# environment = """
-# IMMICH_DB_HOST=[[FeelsStrongMan_immich_db_host]]
-# IMMICH_DB_PASS=[[immich_postgres_password]]
-# CIFS_IMMICH_MEDIA_HOST=[[FeelsStrongMan_cifs_immich_media_host]]
-# CIFS_IMMICH_MEDIA_SHARE=[[FeelsStrongMan_cifs_immich_media_share]]
-# CIFS_IMMICH_MEDIA_USER=[[FeelsStrongMan_cifs_immich_media_user]]
-# CIFS_IMMICH_MEDIA_PASS=[[FeelsStrongMan_cifs_immich_media_password]]
-# PUID=[[puid]]
-# PGID=[[pgid]]
-# TZ=[[tz]]
-# IMMICH_PORT=2283
-# IMMICH_DB_USER=
-# IMMICH_DB_NAME=
-# IMMICH_PATH_UPLOAD=/docker/immich/upload
-# IMMICH_PATH_CACHE=/docker/immich/cache
-# """
-#
-# [stack.config.pre_deploy]
-# path = "."
-# command = "docker network create immich-net 2>/dev/null || true"
-#
+
+[[stack]]
+name = "immich-1"
+tags = ["media", "apps"]
+after = ["immich-postgres-1"]
+[stack.config]
+server = "FeelsStrongMan"
+run_directory = "stacks/immich"
+file_paths = ["compose.yml"]
+linked_repo = "homelab-infra"
+extra_args = ["--remove-orphans"]
+environment = """
+TZ=[[tz]]
+PUID=[[puid]]
+PGID=[[pgid]]
+IMMICH_PORT=2283
+IMMICH_PATH_UPLOAD=/docker/immich/upload
+IMMICH_PATH_CACHE=/docker/immich/cache
+# DB
+IMMICH_DB_HOST=[[FeelsStrongMan_immich_db_host]]
+IMMICH_DB_PORT=[[FeelsStrongMan_immich_db_port]]
+IMMICH_DB_USER=[[FeelsStrongMan_immich_db_user]]
+IMMICH_DB_PASS=[[FeelsStrongMan_immich_db_pass]]
+IMMICH_DB_NAME=[[FeelsStrongMan_immich_db_name]]
+# CIFS
+CIFS_IMMICH_MEDIA_HOST=[[FeelsStrongMan_cifs_immich_media_host]]
+CIFS_IMMICH_MEDIA_SHARE=[[FeelsStrongMan_cifs_immich_media_share]]
+CIFS_IMMICH_MEDIA_USER=[[FeelsStrongMan_cifs_immich_media_user]]
+CIFS_IMMICH_MEDIA_PASS=[[FeelsStrongMan_cifs_immich_media_password]]
+"""
+
+[stack.config.pre_deploy]
+path = "."
+command = "docker network create immich-net 2>/dev/null || true"
+
 # [[stack]]
 # name = "mealie-1"
 # tags = ["apps"]

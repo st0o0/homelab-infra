@@ -14,17 +14,18 @@ services:
       - "${IMMICH_PORT:-2283}:2283"
     volumes:
       - ${IMMICH_PATH_UPLOAD:?IMMICH_PATH_UPLOAD is required}:/usr/src/app/upload
+      - media_smb:/usr/src/app/upload/library
       - /etc/localtime:/etc/localtime:ro
     environment:
       - DB_HOSTNAME=${IMMICH_DB_HOST:?IMMICH_DB_HOST is required}
+      - DB_PORT=${IMMICH_DB_PORT:-5432}
       - DB_USERNAME=${IMMICH_DB_USER:-}
       - DB_PASSWORD=${IMMICH_DB_PASS:?IMMICH_DB_PASS is required}
       - DB_DATABASE_NAME=${IMMICH_DB_NAME:-}
+      - REDIS_HOSTNAME=${IMMICH_REDIS_HOSTNAME:-valkey}
     depends_on:
-      database:
+      valkey:
         condition: service_healthy
-      cache:
-        condition: service_started
     networks:
       - default
       - immich-net
