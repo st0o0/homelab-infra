@@ -1,0 +1,16 @@
+{
+  "oauth": {
+    "enabled": true,
+    "autoRegister": true,
+    "autoLaunch": true,
+    "buttonText": "Login with Authentik",
+    "clientId": "${IMMICH_OAUTH_CLIENT_ID}",
+    "clientSecret": "${IMMICH_OAUTH_CLIENT_SECRET}",
+    "issuerUrl": "${IMMICH_OAUTH_ISSUER_URL}",
+    "scope": "openid email profile",
+    "signingAlgorithm": "RS256",
+    "profileSigningAlgorithm": "none",
+    "storageLabelClaim": "preferred_username",
+    "tokenEndpointAuthMethod": "client_secret_post"
+  }
+}

@@ -15,8 +15,10 @@ services:
     volumes:
       - ${IMMICH_PATH_UPLOAD:?IMMICH_PATH_UPLOAD is required}:/usr/src/app/upload
       - media_smb:/usr/src/app/upload/library
+      - ${IMMICH_PATH_CONFIG:?IMMICH_PATH_CONFIG is required}/immich.config.json:/config/immich.config.json:ro
       - /etc/localtime:/etc/localtime:ro
     environment:
+      - IMMICH_CONFIG_FILE=/config/immich.config.json
       - DB_HOSTNAME=${IMMICH_DB_HOST:?IMMICH_DB_HOST is required}
       - DB_PORT=${IMMICH_DB_PORT:-5432}
       - DB_USERNAME=${IMMICH_DB_USER:-}
@@ -24,7 +26,7 @@ services:
       - DB_DATABASE_NAME=${IMMICH_DB_NAME:-}
       - REDIS_HOSTNAME=${IMMICH_REDIS_HOST:?IMMICH_REDIS_HOST is required}
       - REDIS_PORT=${IMMICH_REDIS_PORT:-6379}
-      - REDIS_PASSWORD=${IMMICH_REDIS_PASSWORD:-}
+      - REDIS_PASSWORD=${IMMICH_REDIS_PASS:-}
       - REDIS_DBINDEX=${IMMICH_REDIS_DBINDEX:-0}
       - IMMICH_TRUSTED_PROXIES=${IMMICH_TRUSTED_PROXIES:-}
       - IMMICH_TELEMETRY_INCLUDE=${IMMICH_TELEMETRY_INCLUDE:-all}
