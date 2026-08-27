@@ -431,7 +431,6 @@ TZ=[[tz]]
 PUID=[[puid]]
 PGID=[[pgid]]
 IMMICH_PORT=2283
-IMMICH_PATH_UPLOAD=/docker/immich/upload
 IMMICH_PATH_CACHE=/docker/immich/cache
 IMMICH_PATH_CONFIG=/docker/immich/config
 # DB
