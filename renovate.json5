@@ -6,12 +6,10 @@
     'helpers:pinGitHubActionDigests',
     'helpers:githubDigestChangelogs',
     'workarounds:doNotUpgradeFromAlpineStableToEdge',
-    ':dependencyDashboard',
   ],
   timezone: 'Europe/Berlin',
-  prConcurrentLimit: 5,
-  prHourlyLimit: 2,
-  minimumReleaseAge: null,
+  prConcurrentLimit: 0,
+  prHourlyLimit: 0,
   rebaseWhen: 'behind-base-branch',
   configMigration: true,
   commitMessagePrefix: 'chore(deps):',
@@ -82,7 +80,7 @@
   packageRules: [
     {
       matchUpdateTypes: ['major'],
-      dependencyDashboardApproval: true,
+      minimumReleaseAge: '7 days',
     },
     {
       description: 'Docker Hub has release timestamps, enforce 3-day age',
@@ -108,14 +106,6 @@
         'jlesage/firefox',
       ],
       minimumReleaseAge: '3 days',
-    },
-    {
-      description: 'Automerge digest-only updates nightly',
-      matchUpdateTypes: ['digest'],
-      automerge: true,
-      automergeType: 'pr',
-      platformAutomerge: false,
-      automergeSchedule: ['after 2am and before 5am'],
     },
     {
       description: 'Group Immich components together (must stay version-aligned)',
@@ -165,25 +155,6 @@
       description: 'Authentik requires sequential minor upgrades (no skipping)',
       matchPackageNames: ['ghcr.io/goauthentik/server'],
       separateMultipleMinor: true,
-      dependencyDashboardApproval: true,
-    },
-    {
-      description: 'Stateful databases can break on minor/major upgrades',
-      matchPackageNames: [
-        'mongo',
-        'mariadb',
-      ],
-      matchUpdateTypes: ['major', 'minor'],
-      dependencyDashboardApproval: true,
-    },
-    {
-      description: 'Postgres needs manual dump/restore for major upgrades',
-      matchPackageNames: [
-        'postgres',
-        'ghcr.io/immich-app/postgres',
-      ],
-      matchUpdateTypes: ['major'],
-      dependencyDashboardApproval: true,
     },
     {
       description: 'Throttle frequently releasing images to weekly',
