@@ -13,8 +13,8 @@ services:
     ports:
       - "${IMMICH_PORT:-2283}:2283"
     volumes:
+      - immich_smb:/usr/src/app/upload/library
       - ${IMMICH_PATH_UPLOAD:?IMMICH_PATH_UPLOAD is required}:/usr/src/app/upload
-      - media_smb:/usr/src/app/upload/library
       - ${IMMICH_PATH_CONFIG:?IMMICH_PATH_CONFIG is required}/immich.config.json:/config/immich.config.json:ro
       - /etc/localtime:/etc/localtime:ro
     environment:
@@ -33,7 +33,6 @@ services:
       - IMMICH_API_METRICS_PORT=${IMMICH_API_METRICS_PORT:-8081}
       - IMMICH_MICROSERVICES_METRICS_PORT=${IMMICH_MICROSERVICES_METRICS_PORT:-8082}
     networks:
-      - default
       - immich-net
     deploy:
       resources:
@@ -54,6 +53,8 @@ services:
       - TZ=${TZ:-}
       - MACHINE_LEARNING_WORKERS=${IMMICH_ML_WORKERS:-1}
       - MACHINE_LEARNING_MODEL_TTL=${IMMICH_ML_MODEL_TTL:-600}
+    networks:
+      - immich-net
     deploy:
       resources:
         limits:
@@ -68,7 +69,7 @@ networks:
     external: true
 
 volumes:
-  media_smb:
+  immich_smb:
     driver: local
     driver_opts:
       type: cifs
