@@ -13,7 +13,7 @@ services:
     ports:
       - "${IMMICH_PORT:-2283}:2283"
     volumes:
-      - immich_smb:/usr/src/app/upload/library
+      - immich_smb:/data
       - ${IMMICH_PATH_UPLOAD:?IMMICH_PATH_UPLOAD is required}:/usr/src/app/upload
       - ${IMMICH_PATH_CONFIG:?IMMICH_PATH_CONFIG is required}/immich.config.json:/config/immich.config.json:ro
       - /etc/localtime:/etc/localtime:ro
