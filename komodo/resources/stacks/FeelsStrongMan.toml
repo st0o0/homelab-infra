@@ -514,7 +514,6 @@ command = "docker network create immich-net 2>/dev/null || true"
 # PAPERLESS_PATH_CONSUME=/docker/paperless/consume
 # PAPERLESS_PATH_EXPORT=/docker/paperless/export
 # # DB
-# PAPERLESS_DB_ENGINE=postgresql
 # PAPERLESS_DB_HOST=[[FeelsStrongMan_postgres_host]]
 # PAPERLESS_DB_PORT=[[FeelsStrongMan_postgres_port]]
 # PAPERLESS_DB_USER=[[FeelsStrongMan_paperless_db_user]]
