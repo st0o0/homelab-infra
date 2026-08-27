@@ -432,7 +432,6 @@ PUID=[[puid]]
 PGID=[[pgid]]
 IMMICH_PORT=2283
 IMMICH_PATH_CACHE=/docker/immich/cache
-IMMICH_PATH_CONFIG=/docker/immich/config
 # DB
 IMMICH_DB_HOST=[[FeelsStrongMan_immich_db_host]]
 IMMICH_DB_PORT=[[FeelsStrongMan_immich_db_port]]
@@ -448,10 +447,6 @@ IMMICH_REDIS_DBINDEX=0
 IMMICH_TRUSTED_PROXIES=[[FeelsStrongMan_immich_trusted_proxies]]
 # Telemetry
 IMMICH_TELEMETRY_INCLUDE=all
-# OAuth (envsubst in pre_deploy)
-IMMICH_OAUTH_CLIENT_ID=[[FeelsStrongMan_authentik_provider_immich_client_id]]
-IMMICH_OAUTH_CLIENT_SECRET=[[FeelsStrongMan_authentik_provider_immich_client_secret]]
-IMMICH_OAUTH_ISSUER_URL=[[FeelsStrongMan_immich_oauth_issuer_url]]
 # CIFS
 CIFS_IMMICH_MEDIA_HOST=[[FeelsStrongMan_cifs_immich_media_host]]
 CIFS_IMMICH_MEDIA_SHARE=[[FeelsStrongMan_cifs_immich_media_share]]
@@ -459,13 +454,9 @@ CIFS_IMMICH_MEDIA_USER=[[FeelsStrongMan_cifs_immich_media_user]]
 CIFS_IMMICH_MEDIA_PASS=[[FeelsStrongMan_cifs_immich_media_password]]
 """
 
-[[stack.config.config_files]]
-path = "immich.config.json.tmpl"
-requires = "Redeploy"
-
 [stack.config.pre_deploy]
 path = "."
-command = "mkdir -p /docker/immich/config && envsubst < immich.config.json.tmpl > /docker/immich/config/immich.config.json && docker network create immich-net 2>/dev/null || true"
+command = "docker network create immich-net 2>/dev/null || true"
 
 # [[stack]]
 # name = "mealie-1"

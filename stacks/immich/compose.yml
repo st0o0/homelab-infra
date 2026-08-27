@@ -14,10 +14,8 @@ services:
       - "${IMMICH_PORT:-2283}:2283"
     volumes:
       - immich_smb:/data
-      - ${IMMICH_PATH_CONFIG:?IMMICH_PATH_CONFIG is required}:/config:ro
       - /etc/localtime:/etc/localtime:ro
     environment:
-      - IMMICH_CONFIG_FILE=/config/immich.config.json
       - DB_HOSTNAME=${IMMICH_DB_HOST:?IMMICH_DB_HOST is required}
       - DB_PORT=${IMMICH_DB_PORT:-5432}
       - DB_USERNAME=${IMMICH_DB_USER:-}
