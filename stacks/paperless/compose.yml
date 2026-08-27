@@ -34,9 +34,6 @@ services:
       - PAPERLESS_TIME_ZONE=${TZ:-}
       - USERMAP_UID=${PUID:-}
       - USERMAP_GID=${PGID:-}
-    depends_on:
-      paperless-valkey:
-        condition: service_healthy
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000"]
       interval: 30s

@@ -22,13 +22,10 @@ services:
       - DB_USERNAME=${IMMICH_DB_USER:-}
       - DB_PASSWORD=${IMMICH_DB_PASS:?IMMICH_DB_PASS is required}
       - DB_DATABASE_NAME=${IMMICH_DB_NAME:-}
-      - REDIS_HOSTNAME=${IMMICH_REDIS_HOSTNAME:-valkey}
+      - REDIS_HOSTNAME=${IMMICH_REDIS_HOST:?IMMICH_REDIS_HOST is required}
       - REDIS_PORT=${IMMICH_REDIS_PORT:-6379}
       - REDIS_PASSWORD=${IMMICH_REDIS_PASSWORD:-}
       - REDIS_DBINDEX=${IMMICH_REDIS_DBINDEX:-0}
-    depends_on:
-      valkey:
-        condition: service_healthy
     networks:
       - default
       - immich-net

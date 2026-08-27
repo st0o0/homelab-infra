@@ -439,6 +439,11 @@ IMMICH_DB_PORT=[[FeelsStrongMan_immich_db_port]]
 IMMICH_DB_USER=[[FeelsStrongMan_immich_db_user]]
 IMMICH_DB_PASS=[[FeelsStrongMan_immich_db_pass]]
 IMMICH_DB_NAME=[[FeelsStrongMan_immich_db_name]]
+# Redis
+IMMICH_REDIS_HOST=[[FeelsStrongMan_immich_redis_host]]
+IMMICH_REDIS_PORT=[[FeelsStrongMan_immich_redis_port]]
+IMMICH_REDIS_PASSWORD=[[FeelsStrongMan_immich_redis_password]]
+IMMICH_REDIS_DBINDEX=0
 # CIFS
 CIFS_IMMICH_MEDIA_HOST=[[FeelsStrongMan_cifs_immich_media_host]]
 CIFS_IMMICH_MEDIA_SHARE=[[FeelsStrongMan_cifs_immich_media_share]]
@@ -495,18 +500,27 @@ command = "docker network create immich-net 2>/dev/null || true"
 # linked_repo = "homelab-infra"
 # extra_args = ["--remove-orphans"]
 # environment = """
+# TZ=[[tz]]
+# PUID=[[puid]]
+# PGID=[[pgid]]
+# PAPERLESS_PORT=8000
 # PAPERLESS_SECRET_KEY=[[FeelsStrongMan_paperless_secret_key]]
 # PAPERLESS_URL=[[FeelsStrongMan_paperless_url]]
 # PAPERLESS_ADMIN_USER=[[FeelsStrongMan_paperless_admin_user]]
 # PAPERLESS_ADMIN_PASS=[[FeelsStrongMan_paperless_admin_password]]
-# PUID=[[puid]]
-# PGID=[[pgid]]
-# TZ=[[tz]]
 # PAPERLESS_OCR_LANGUAGE=deu+eng
-# PAPERLESS_PORT=8000
 # PAPERLESS_PATH_DATA=/docker/paperless/data
 # PAPERLESS_PATH_MEDIA=/docker/paperless/media
 # PAPERLESS_PATH_CONSUME=/docker/paperless/consume
 # PAPERLESS_PATH_EXPORT=/docker/paperless/export
-# PAPERLESS_PATH_VALKEY=/docker/paperless/valkey
+# # DB
+# PAPERLESS_DB_ENGINE=postgresql
+# PAPERLESS_DB_HOST=[[FeelsStrongMan_postgres_host]]
+# PAPERLESS_DB_PORT=[[FeelsStrongMan_postgres_port]]
+# PAPERLESS_DB_USER=[[FeelsStrongMan_paperless_db_user]]
+# PAPERLESS_DB_PASS=[[FeelsStrongMan_paperless_db_pass]]
+# PAPERLESS_DB_NAME=[[FeelsStrongMan_paperless_db_name]]
+# # Redis (central Valkey, DB index 1)
+# PAPERLESS_REDIS_URL=redis://:[[FeelsStrongMan_paperless_redis_password]]@[[FeelsStrongMan_paperless_redis_host]]:[[FeelsStrongMan_paperless_redis_port]]/1
+# PAPERLESS_REDIS_PREFIX=PAPERLESS
 # """
