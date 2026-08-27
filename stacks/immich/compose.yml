@@ -14,7 +14,7 @@ services:
       - "${IMMICH_PORT:-2283}:2283"
     volumes:
       - immich_smb:/data
-      - ${IMMICH_PATH_CONFIG:?IMMICH_PATH_CONFIG is required}/immich.config.json:/config/immich.config.json:ro
+      - ${IMMICH_PATH_CONFIG:?IMMICH_PATH_CONFIG is required}:/config:ro
       - /etc/localtime:/etc/localtime:ro
     environment:
       - IMMICH_CONFIG_FILE=/config/immich.config.json
