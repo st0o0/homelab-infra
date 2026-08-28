@@ -6,7 +6,7 @@ x-logging: &default-logging
 
 services:
   homeassistant:
-    image: ghcr.io/home-assistant/home-assistant:2026.7.4
+    image: ghcr.io/home-assistant/home-assistant:2026.8.3
     container_name: homeassistant
     restart: always
     logging: *default-logging
@@ -27,7 +27,7 @@ services:
     environment:
       - TZ=${TZ:-}
     volumes:
-      - ${HA_PATH_CONFIG:-./data}:/config
+      - ${HA_PATH_CONFIG:-./homeassistant/data}:/config
       - /run/dbus:/run/dbus:ro
     deploy:
       resources:
@@ -74,7 +74,7 @@ services:
       - ${MATTER_PATH_DATA:-./matter/data}:/data
 
   njord:
-    image: ghcr.io/st0o0/njord:pr-34
+    image: ghcr.io/st0o0/njord:0.3.0
     container_name: njord
     restart: unless-stopped
     logging: *default-logging
@@ -117,9 +117,9 @@ services:
       - Njord__Models__5=gfs_seamless
       - Njord__Models__6=dmi_harmonie_arome_europe
       - Njord__Models__7=knmi_harmonie_arome_europe
-      - Njord__Locations__0__Name=${NJORD_LOCATION_NAME:-vreden}
-      - Njord__Locations__0__Latitude=${NJORD_LOCATION_LAT:-52.0379}
-      - Njord__Locations__0__Longitude=${NJORD_LOCATION_LON:-6.828}
+      - Njord__Locations__0__Name=${NJORD_LOCATION_NAME:?NJORD_LOCATION_NAME is required}
+      - Njord__Locations__0__Latitude=${NJORD_LOCATION_LAT:?NJORD_LOCATION_LAT is required}
+      - Njord__Locations__0__Longitude=${NJORD_LOCATION_LON:?NJORD_LOCATION_LON is required}
       - Njord__Locations__0__Models__0=knmi_harmonie_arome_netherlands
       - Njord__Locations__0__Models__1=icon_d2
       - Njord__Parameters__Groups__0=Weather
