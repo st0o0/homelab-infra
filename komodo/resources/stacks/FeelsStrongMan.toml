@@ -154,10 +154,6 @@ AUTHENTIK_PROVIDER_VAULTWARDEN_CLIENT_ID=[[FeelsStrongMan_authentik_provider_vau
 AUTHENTIK_PROVIDER_VAULTWARDEN_CLIENT_SECRET=[[FeelsStrongMan_authentik_provider_vaultwarden_client_secret]]
 AUTHENTIK_PROVIDER_VAULTWARDEN_REDIRECT_URI=[[FeelsStrongMan_authentik_provider_vaultwarden_redirect_uri]]
 AUTHENTIK_PROVIDER_VAULTWARDEN_EXTERNAL_HOST=[[FeelsStrongMan_authentik_provider_vaultwarden_external_host]]
-# Pangolin
-AUTHENTIK_PROVIDER_PANGOLIN_CLIENT_ID=[[FeelsStrongMan_authentik_provider_pangolin_client_id]]
-AUTHENTIK_PROVIDER_PANGOLIN_CLIENT_SECRET=[[FeelsStrongMan_authentik_provider_pangolin_client_secret]]
-AUTHENTIK_PROVIDER_PANGOLIN_REDIRECT_URI=[[FeelsStrongMan_authentik_provider_pangolin_redirect_uri]]
 # Seerr
 AUTHENTIK_PROVIDER_SEERR_EXTERNAL_HOST=[[FeelsStrongMan_authentik_provider_seerr_external_host]]
 """
@@ -458,74 +454,96 @@ CIFS_IMMICH_MEDIA_PASS=[[FeelsStrongMan_cifs_immich_media_password]]
 path = "."
 command = "docker network create immich-net 2>/dev/null || true"
 
-# [[stack]]
-# name = "mealie-1"
-# tags = ["apps"]
-# [stack.config]
-# server = "FeelsStrongMan"
-# run_directory = "stacks/mealie"
-# file_paths = ["compose.yml"]
-# linked_repo = "homelab-infra"
-# extra_args = ["--remove-orphans"]
-# environment = """
-# TZ=[[tz]]
-# PUID=[[puid]]
-# PGID=[[pgid]]
-# MEALIE_DB_PASS=[[FeelsStrongMan_mealie_postgres_password]]
-# MEALIE_DB_HOST=[[FeelsStrongMan_mealie_postgres_server]]
-# MEALIE_BASE_URL=[[FeelsStrongMan_mealie_base_url]]
-# MEALIE_OIDC_CONFIG_URL=[[FeelsStrongMan_mealie_oidc_configuration_url]]
-# MEALIE_OIDC_CLIENT_ID=[[FeelsStrongMan_mealie_oidc_client_id]]
-# MEALIE_OIDC_CLIENT_SECRET=[[FeelsStrongMan_mealie_oidc_client_secret]]
-# MEALIE_PORT=9925
-# MEALIE_ALLOW_SIGNUP=false
-# MEALIE_ALLOW_PASSWORD_LOGIN=false
-# MEALIE_OIDC_ENABLED=
-# MEALIE_OIDC_PROVIDER_NAME=
-# MEALIE_OIDC_SIGNUP_ENABLED=
-# MEALIE_OIDC_USER_GROUP=
-# MEALIE_OIDC_ADMIN_GROUP=
-# MEALIE_OIDC_AUTO_REDIRECT=
-# MEALIE_OIDC_REMEMBER_ME=
-# MEALIE_DB_USER=
-# MEALIE_DB_PORT=
-# MEALIE_DB_NAME=
-# MEALIE_PATH_DATA=/docker/mealie/data
-# """
-#
-# [[stack]]
-# name = "paperless-1"
-# tags = ["apps"]
-# [stack.config]
-# server = "FeelsStrongMan"
-# run_directory = "stacks/paperless"
-# file_paths = ["compose.yml"]
-# linked_repo = "homelab-infra"
-# extra_args = ["--remove-orphans"]
-# environment = """
-# TZ=[[tz]]
-# PUID=[[puid]]
-# PGID=[[pgid]]
-# PAPERLESS_PORT=8000
-# PAPERLESS_SECRET_KEY=[[FeelsStrongMan_paperless_secret_key]]
-# PAPERLESS_URL=[[FeelsStrongMan_paperless_url]]
-# PAPERLESS_ADMIN_USER=[[FeelsStrongMan_paperless_admin_user]]
-# PAPERLESS_ADMIN_PASS=[[FeelsStrongMan_paperless_admin_password]]
-# PAPERLESS_OCR_LANGUAGE=deu+eng
-# PAPERLESS_PATH_DATA=/docker/paperless/data
-# PAPERLESS_PATH_MEDIA=/docker/paperless/media
-# PAPERLESS_PATH_CONSUME=/docker/paperless/consume
-# PAPERLESS_PATH_EXPORT=/docker/paperless/export
-# # DB
-# PAPERLESS_DB_HOST=[[FeelsStrongMan_postgres_host]]
-# PAPERLESS_DB_PORT=[[FeelsStrongMan_postgres_port]]
-# PAPERLESS_DB_USER=[[FeelsStrongMan_paperless_db_user]]
-# PAPERLESS_DB_PASS=[[FeelsStrongMan_paperless_db_pass]]
-# PAPERLESS_DB_NAME=[[FeelsStrongMan_paperless_db_name]]
-# # Redis (central Valkey, DB index 1)
-# PAPERLESS_REDIS_HOST=[[FeelsStrongMan_paperless_redis_host]]
-# PAPERLESS_REDIS_PORT=[[FeelsStrongMan_paperless_redis_port]]
-# PAPERLESS_REDIS_PASSWORD=[[FeelsStrongMan_paperless_redis_password]]
-# PAPERLESS_REDIS_DBINDEX=1
-# PAPERLESS_REDIS_PREFIX=PAPERLESS
-# """
+[[stack]]
+name = "mealie-1"
+tags = ["apps"]
+[stack.config]
+server = "FeelsStrongMan"
+run_directory = "stacks/mealie"
+file_paths = ["compose.yml"]
+linked_repo = "homelab-infra"
+extra_args = ["--remove-orphans"]
+environment = """
+TZ=[[tz]]
+PUID=[[puid]]
+PGID=[[pgid]]
+MEALIE_PORT=9925
+MEALIE_BASE_URL=[[FeelsStrongMan_mealie_base_url]]
+MEALIE_PATH_DATA=/docker/mealie/data
+MEALIE_ALLOW_SIGNUP=false
+MEALIE_ALLOW_PASSWORD_LOGIN=false
+# EMAIL
+MEALIE_EMAIL_HOST=[[FeelsStrongMan_mealie_email_host]]
+MEALIE_EMAIL_PORT=[[FeelsStrongMan_mealie_email_port]]
+MEALIE_EMAIL_USER=[[FeelsStrongMan_mealie_email_user]]
+MEALIE_EMAIL_PASS=[[FeelsStrongMan_mealie_email_pass]]
+MEALIE_EMAIL_FROM=[[FeelsStrongMan_mealie_email_from]]
+# Database
+MEALIE_DB_HOST=[[FeelsStrongMan_postgres_host]]
+MEALIE_DB_PORT=[[FeelsStrongMan_postgres_port]]
+MEALIE_DB_USER=[[FeelsStrongMan_mealie_db_user]]
+MEALIE_DB_PASS=[[FeelsStrongMan_mealie_db_pass]]
+MEALIE_DB_NAME=[[FeelsStrongMan_mealie_db_name]]
+# OIDC
+MEALIE_OIDC_ENABLED=true
+MEALIE_OIDC_PROVIDER_NAME=Authentik
+MEALIE_OIDC_CONFIG_URL=[[FeelsStrongMan_mealie_oidc_configuration_url]]
+MEALIE_OIDC_CLIENT_ID=[[FeelsStrongMan_mealie_oidc_client_id]]
+MEALIE_OIDC_CLIENT_SECRET=[[FeelsStrongMan_mealie_oidc_client_secret]]
+MEALIE_OIDC_SIGNUP_ENABLED=true
+MEALIE_OIDC_AUTO_REDIRECT=false
+MEALIE_OIDC_REMEMBER_ME=true
+MEALIE_OIDC_USER_GROUP=tier-homelab
+MEALIE_OIDC_ADMIN_GROUP=tier-admin
+MEALIE_OIDC_GROUPS_CLAIM=groups
+MEALIE_OIDC_USER_CLAIM=email
+"""
+
+[[stack]]
+name = "paperless-1"
+tags = ["apps"]
+[stack.config]
+server = "FeelsStrongMan"
+run_directory = "stacks/paperless"
+file_paths = ["compose.yml"]
+linked_repo = "homelab-infra"
+extra_args = ["--remove-orphans"]
+environment = """
+TZ=[[tz]]
+PUID=[[puid]]
+PGID=[[pgid]]
+PAPERLESS_PORT=8000
+PAPERLESS_URL=[[FeelsStrongMan_paperless_url]]
+PAPERLESS_SECRET_KEY=[[FeelsStrongMan_paperless_secret_key]]
+PAPERLESS_ADMIN_USER=[[FeelsStrongMan_paperless_admin_user]]
+PAPERLESS_ADMIN_PASS=[[FeelsStrongMan_paperless_admin_pass]]
+PAPERLESS_OCR_LANGUAGE=deu+eng
+PAPERLESS_PATH_DATA=/docker/paperless/data
+PAPERLESS_PATH_MEDIA=/docker/paperless/media
+PAPERLESS_PATH_CONSUME=/docker/paperless/consume
+PAPERLESS_PATH_EXPORT=/docker/paperless/export
+# EMAIL
+PAPERLESS_EMAIL_HOST=[[FeelsStrongMan_paperless_email_host]]
+PAPERLESS_EMAIL_PORT=[[FeelsStrongMan_paperless_email_port]]
+PAPERLESS_EMAIL_USER=[[FeelsStrongMan_paperless_email_user]]
+PAPERLESS_EMAIL_PASS=[[FeelsStrongMan_paperless_email_pass]]
+PAPERLESS_EMAIL_FROM=[[FeelsStrongMan_paperless_email_from]]
+# DB
+PAPERLESS_DB_HOST=[[FeelsStrongMan_postgres_host]]
+PAPERLESS_DB_PORT=[[FeelsStrongMan_postgres_port]]
+PAPERLESS_DB_USER=[[FeelsStrongMan_paperless_db_user]]
+PAPERLESS_DB_PASS=[[FeelsStrongMan_paperless_db_pass]]
+PAPERLESS_DB_NAME=[[FeelsStrongMan_paperless_db_name]]
+# Redis
+PAPERLESS_REDIS_HOST=[[FeelsStrongMan_paperless_redis_host]]
+PAPERLESS_REDIS_PORT=[[FeelsStrongMan_paperless_redis_port]]
+PAPERLESS_REDIS_PASS=[[FeelsStrongMan_paperless_redis_pass]]
+PAPERLESS_REDIS_DBINDEX=1
+PAPERLESS_REDIS_PREFIX=PAPERLESS
+# OIDC
+PAPERLESS_OIDC_SERVER_URL=[[FeelsStrongMan_paperless_oidc_server_url]]
+PAPERLESS_OIDC_CLIENT_ID=[[FeelsStrongMan_authentik_provider_paperless_client_id]]
+PAPERLESS_OIDC_CLIENT_SECRET=[[FeelsStrongMan_authentik_provider_paperless_client_secret]]
+PAPERLESS_DISABLE_REGULAR_LOGIN=false
+PAPERLESS_REDIRECT_LOGIN_TO_SSO=false
+"""

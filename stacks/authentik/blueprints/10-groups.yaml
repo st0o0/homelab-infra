@@ -29,3 +29,12 @@ entries:
       is_superuser: false
       parents:
         - !KeyOf group-tier-media
+
+  - model: authentik_core.group
+    id: group-tier-admin
+    identifiers:
+      name: tier-admin
+    attrs:
+      is_superuser: false
+      parents:
+        - !KeyOf group-tier-homelab

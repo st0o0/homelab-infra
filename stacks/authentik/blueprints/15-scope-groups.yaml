@@ -13,5 +13,5 @@ entries:
       description: "Group memberships"
       expression: |
         return {
-            "groups": [group.name for group in request.user.groups.all()],
+            "groups": [group.name for group in request.user.all_groups()],
         }

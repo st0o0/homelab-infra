@@ -29,7 +29,7 @@ BIFROST_LISTEN_PORT=0
 BIFROST_INTERFACE=wg0
 
 # ── CrowdSec ────────────────────────────────────────────────
-CROWDSEC_BOUNCER_API_KEY=[[FeelsPrivateMan_crowdsec_bouncer_api_key]]
+CROWDSEC_CADDY_BOUNCER_API_KEY=[[FeelsPrivateMan_crowdsec_caddy_bouncer_api_key]]
 
 # ── ran (honeypot) ──────────────────────────────────────────
 RAN_CROWDSEC_MACHINE_ID=[[FeelsPrivateMan_ran_crowdsec_machine_id]]
@@ -68,6 +68,9 @@ CADDY_DOMAIN_VAULTWARDEN=[[FeelsPrivateMan_caddy_domain_vaultwarden]]
 CADDY_TARGET_VAULTWARDEN=[[FeelsPrivateMan_caddy_target_vaultwarden]]
 CADDY_DOMAIN_AUTHENTIK=[[FeelsPrivateMan_caddy_domain_authentik]]
 CADDY_TARGET_AUTHENTIK=[[FeelsPrivateMan_caddy_target_authentik]]
+
+# ── CrowdSec firewall bouncer ──────────────────────────────────
+CROWDSEC_FIREWALL_BOUNCER_API_KEY=[[FeelsPrivateMan_crowdsec_firewall_bouncer_api_key]]
 """
 
 [[stack.config.config_files]]
