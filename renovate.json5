@@ -11,7 +11,6 @@
   prConcurrentLimit: 0,
   prHourlyLimit: 0,
   dependencyDashboard: false,
-  recreateWhen: 'always',
   rebaseWhen: 'behind-base-branch',
   configMigration: true,
   commitMessagePrefix: 'chore(deps):',
