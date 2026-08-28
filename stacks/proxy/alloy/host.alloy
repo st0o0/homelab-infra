@@ -54,9 +54,34 @@ discovery.relabel "cadvisor" {
   }
 }
 
+prometheus.relabel "cadvisor" {
+  forward_to = [prometheus.remote_write.central.receiver]
+
+  rule {
+    action       = "labeldrop"
+    regex        = "container_label_com_docker_compose_.*"
+  }
+
+  rule {
+    action       = "labeldrop"
+    regex        = "container_label_org_opencontainers_.*"
+  }
+
+  rule {
+    action       = "labeldrop"
+    regex        = "container_label_restartcount"
+  }
+
+  rule {
+    action        = "keep"
+    source_labels = ["__name__"]
+    regex         = "container_(cpu_(usage_seconds_total|cfs_(throttled_)?periods_total|system_seconds_total|user_seconds_total)|memory_(working_set_bytes|rss|cache|swap|max_usage_bytes)|spec_memory_limit_bytes|fs_(usage_bytes|reads_bytes_total|writes_bytes_total)|network_(receive|transmit)_(bytes_total|errors_total|packets_dropped_total)|start_time_seconds|last_seen|oom_events_total|health_state|pressure_(cpu|memory|io)_waiting_seconds_total)|machine_memory_bytes"
+  }
+}
+
 prometheus.scrape "cadvisor" {
   targets         = discovery.relabel.cadvisor.output
-  forward_to      = [prometheus.remote_write.central.receiver]
+  forward_to      = [prometheus.relabel.cadvisor.receiver]
   scrape_interval = "30s"
 }
 
@@ -64,6 +89,32 @@ prometheus.scrape "cadvisor" {
 
 prometheus.scrape "alloy" {
   targets         = [{ __address__ = "localhost:12345" }]
-  forward_to      = [prometheus.remote_write.central.receiver]
+  forward_to      = [prometheus.relabel.alloy.receiver]
   scrape_interval = "60s"
+}
+
+prometheus.relabel "alloy" {
+  forward_to = [prometheus.remote_write.central.receiver]
+
+  rule {
+    source_labels = ["host"]
+    target_label  = "endpoint"
+  }
+
+  rule {
+    regex        = "host"
+    action       = "labeldrop"
+  }
+
+  rule {
+    action        = "drop"
+    source_labels = ["__name__"]
+    regex         = "(alloy_component_(evaluation_seconds|dependencies_wait_seconds)|prometheus_(fanout_latency|target_interval_length_histogram_seconds|target_sync_length_histogram_seconds|remote_storage_sent_batch_duration_seconds)|remotecfg_request_duration_seconds|loki_write_request_duration_seconds)_(bucket|sum|count)"
+  }
+
+  rule {
+    action        = "drop"
+    source_labels = ["__name__"]
+    regex         = "alloy_component_graph_connection|net_conntrack_dialer_conn_failed_total|alloy_fanout_mapping_store_mappings_total"
+  }
 }

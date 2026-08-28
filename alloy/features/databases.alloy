@@ -72,9 +72,19 @@ discovery.relabel "redis" {
 
 prometheus.scrape "redis" {
   targets         = discovery.relabel.redis.output
-  forward_to      = [prometheus.remote_write.central.receiver]
+  forward_to      = [prometheus.relabel.redis.receiver]
   scrape_interval = coalesce(sys.env("SCRAPE_INTERVAL"), "30s")
   job_name        = "redis"
+}
+
+prometheus.relabel "redis" {
+  forward_to = [prometheus.remote_write.central.receiver]
+
+  rule {
+    action        = "drop"
+    source_labels = ["__name__"]
+    regex         = "redis_commands_latencies_usec_bucket"
+  }
 }
 
 // MongoDB

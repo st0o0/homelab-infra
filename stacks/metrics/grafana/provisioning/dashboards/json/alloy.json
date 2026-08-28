@@ -1032,13 +1032,13 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (host) (rate(loki_write_sent_entries_total{host=~\"$alloy_host\"}[$__rate_interval]))",
-          "legendFormat": "{{host}} sent"
+          "expr": "sum by (endpoint) (rate(loki_write_sent_entries_total{host=~\"$alloy_host\"}[$__rate_interval]))",
+          "legendFormat": "{{endpoint}} sent"
         },
         {
           "refId": "B",
-          "expr": "sum by (host, reason) (rate(loki_write_dropped_entries_total{host=~\"$alloy_host\"}[$__rate_interval]))",
-          "legendFormat": "{{host}} dropped ({{reason}})"
+          "expr": "sum by (endpoint, reason) (rate(loki_write_dropped_entries_total{host=~\"$alloy_host\"}[$__rate_interval]))",
+          "legendFormat": "{{endpoint}} dropped ({{reason}})"
         }
       ],
       "id": 201
@@ -1130,13 +1130,13 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (host) (rate(loki_write_sent_bytes_total{host=~\"$alloy_host\"}[$__rate_interval]))",
-          "legendFormat": "{{host}} sent"
+          "expr": "sum by (endpoint) (rate(loki_write_sent_bytes_total{host=~\"$alloy_host\"}[$__rate_interval]))",
+          "legendFormat": "{{endpoint}} sent"
         },
         {
           "refId": "B",
-          "expr": "sum by (host, reason) (rate(loki_write_dropped_bytes_total{host=~\"$alloy_host\"}[$__rate_interval]))",
-          "legendFormat": "{{host}} dropped ({{reason}})"
+          "expr": "sum by (endpoint, reason) (rate(loki_write_dropped_bytes_total{host=~\"$alloy_host\"}[$__rate_interval]))",
+          "legendFormat": "{{endpoint}} dropped ({{reason}})"
         }
       ],
       "id": 202
@@ -1210,8 +1210,8 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (host) (rate(loki_write_request_duration_seconds_sum{host=~\"$alloy_host\"}[$__rate_interval])) / sum by (host) (rate(loki_write_request_duration_seconds_count{host=~\"$alloy_host\"}[$__rate_interval]))",
-          "legendFormat": "{{host}}"
+          "expr": "sum by (endpoint) (rate(loki_write_request_duration_seconds_sum{host=~\"$alloy_host\"}[$__rate_interval])) / sum by (endpoint) (rate(loki_write_request_duration_seconds_count{host=~\"$alloy_host\"}[$__rate_interval]))",
+          "legendFormat": "{{endpoint}}"
         }
       ],
       "id": 203

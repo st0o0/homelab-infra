@@ -10,7 +10,7 @@ discovery.relabel "immich_server" {
 
 prometheus.scrape "immich_server" {
   targets         = discovery.relabel.immich_server.output
-  forward_to      = [prometheus.remote_write.central.receiver]
+  forward_to      = [prometheus.relabel.immich.receiver]
   scrape_interval = coalesce(sys.env("SCRAPE_INTERVAL"), "30s")
   job_name        = "immich-server"
 }
@@ -27,7 +27,17 @@ discovery.relabel "immich_microservices" {
 
 prometheus.scrape "immich_microservices" {
   targets         = discovery.relabel.immich_microservices.output
-  forward_to      = [prometheus.remote_write.central.receiver]
+  forward_to      = [prometheus.relabel.immich.receiver]
   scrape_interval = coalesce(sys.env("SCRAPE_INTERVAL"), "30s")
   job_name        = "immich-microservices"
+}
+
+prometheus.relabel "immich" {
+  forward_to = [prometheus.remote_write.central.receiver]
+
+  rule {
+    action        = "drop"
+    source_labels = ["__name__"]
+    regex         = "django_http_requests_latency_seconds_by_view_method_bucket"
+  }
 }

@@ -924,6 +924,88 @@
       "id": 202
     },
     {
+      "type": "timeseries",
+      "title": "CPU User vs System",
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 35
+      },
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "victoriametrics"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 20,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": true,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "unit": "percent"
+        }
+      },
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true,
+          "sortBy": "Mean",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "topk(10, sum(rate(container_cpu_user_seconds_total{instance=~\"$docker_host\",name=~\"$container_name\",name=~\".+\"}[10m])) by (instance, name) * 100)",
+          "legendFormat": "user: {{instance}} / {{name}}"
+        },
+        {
+          "refId": "B",
+          "expr": "topk(10, sum(rate(container_cpu_system_seconds_total{instance=~\"$docker_host\",name=~\"$container_name\",name=~\".+\"}[10m])) by (instance, name) * 100)",
+          "legendFormat": "sys: {{instance}} / {{name}}"
+        }
+      ],
+      "id": 203
+    },
+    {
       "type": "row",
       "title": "🔥 Pressure (PSI)",
       "gridPos": {
@@ -1005,7 +1087,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "topk(15, rate(container_pressure_cpu_waiting_seconds_total{instance=~\"$docker_host\",name=~\"$container_name\",name=~\".+\"}[10m]) * 100)",
+          "expr": "topk(15, sum(rate(container_pressure_cpu_waiting_seconds_total{instance=~\"$docker_host\",name=~\"$container_name\",name=~\".+\"}[10m])) by (instance, name) * 100)",
           "legendFormat": "{{instance}} / {{name}}"
         }
       ],
@@ -1082,7 +1164,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "topk(15, rate(container_pressure_memory_waiting_seconds_total{instance=~\"$docker_host\",name=~\"$container_name\",name=~\".+\"}[10m]) * 100)",
+          "expr": "topk(15, sum(rate(container_pressure_memory_waiting_seconds_total{instance=~\"$docker_host\",name=~\"$container_name\",name=~\".+\"}[10m])) by (instance, name) * 100)",
           "legendFormat": "{{instance}} / {{name}}"
         }
       ],
@@ -1159,7 +1241,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "topk(15, rate(container_pressure_io_waiting_seconds_total{instance=~\"$docker_host\",name=~\"$container_name\",name=~\".+\"}[10m]) * 100)",
+          "expr": "topk(15, sum(rate(container_pressure_io_waiting_seconds_total{instance=~\"$docker_host\",name=~\"$container_name\",name=~\".+\"}[10m])) by (instance, name) * 100)",
           "legendFormat": "{{instance}} / {{name}}"
         }
       ],
@@ -1341,6 +1423,150 @@
         }
       ],
       "id": 402
+    },
+    {
+      "type": "timeseries",
+      "title": "Memory Swap",
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 54
+      },
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "victoriametrics"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 20,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": true,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "unit": "decbytes"
+        }
+      },
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true,
+          "sortBy": "Mean",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "topk(15, sum(container_memory_swap{instance=~\"$docker_host\",name=~\"$container_name\",name=~\".+\"} > 0) by (instance, name))",
+          "legendFormat": "{{instance}} / {{name}}"
+        }
+      ],
+      "id": 403
+    },
+    {
+      "type": "bargauge",
+      "title": "Peak Memory Usage",
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 54
+      },
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "victoriametrics"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 536870912
+              },
+              {
+                "color": "red",
+                "value": 2147483648
+              }
+            ]
+          },
+          "unit": "decbytes"
+        }
+      },
+      "options": {
+        "displayMode": "gradient",
+        "maxVizHeight": 300,
+        "minVizHeight": 16,
+        "minVizWidth": 8,
+        "namePlacement": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": true,
+        "sizing": "auto",
+        "valueMode": "color"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sort_desc(sum(container_memory_max_usage_bytes{instance=~\"$docker_host\",name=~\"$container_name\",name=~\".+\"}) by (instance, name))",
+          "legendFormat": "{{instance}} / {{name}}",
+          "instant": true,
+          "range": false
+        }
+      ],
+      "id": 404
     },
     {
       "type": "row",
@@ -1740,6 +1966,98 @@
       "id": 602
     },
     {
+      "type": "timeseries",
+      "title": "Network Errors & Drops",
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 82
+      },
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "victoriametrics"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 20,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": true,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "unit": "pps"
+        }
+      },
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true,
+          "sortBy": "Mean",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "topk(10, sum(rate(container_network_receive_errors_total{instance=~\"$docker_host\",name=~\"$container_name\",name=~\".+\"}[10m])) by (instance, name))",
+          "legendFormat": "RX err: {{instance}} / {{name}}"
+        },
+        {
+          "refId": "B",
+          "expr": "topk(10, sum(rate(container_network_transmit_errors_total{instance=~\"$docker_host\",name=~\"$container_name\",name=~\".+\"}[10m])) by (instance, name))",
+          "legendFormat": "TX err: {{instance}} / {{name}}"
+        },
+        {
+          "refId": "C",
+          "expr": "topk(10, sum(rate(container_network_receive_packets_dropped_total{instance=~\"$docker_host\",name=~\"$container_name\",name=~\".+\"}[10m])) by (instance, name))",
+          "legendFormat": "RX drop: {{instance}} / {{name}}"
+        },
+        {
+          "refId": "D",
+          "expr": "topk(10, sum(rate(container_network_transmit_packets_dropped_total{instance=~\"$docker_host\",name=~\"$container_name\",name=~\".+\"}[10m])) by (instance, name))",
+          "legendFormat": "TX drop: {{instance}} / {{name}}"
+        }
+      ],
+      "id": 603
+    },
+    {
       "type": "row",
       "title": "🔍 Restart Timeline",
       "gridPos": {
@@ -1826,7 +2144,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "changes(container_start_time_seconds{instance=~\"$docker_host\",name=~\"$container_name\",name=~\".+\"}[5m]) > 0",
+          "expr": "sum by (instance, name) (changes(container_start_time_seconds{instance=~\"$docker_host\",name=~\"$container_name\",name=~\".+\"}[5m])) > 0",
           "legendFormat": "{{instance}} / {{name}}"
         }
       ],

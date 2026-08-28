@@ -2671,6 +2671,204 @@
               }
             }
           ]
+        },
+        {
+          "id": 317,
+          "type": "timeseries",
+          "title": "Upstream Latency Percentiles",
+          "gridPos": {
+            "x": 0,
+            "y": 75,
+            "w": 8,
+            "h": 8
+          },
+          "datasource": {
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "victoriametrics"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "fillOpacity": 20,
+                "lineWidth": 2,
+                "spanNulls": true,
+                "drawStyle": "line",
+                "lineInterpolation": "smooth",
+                "showPoints": "never"
+              },
+              "unit": "s",
+              "min": 0
+            }
+          },
+          "options": {
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            },
+            "legend": {
+              "calcs": [
+                "mean",
+                "max"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "showLegend": true,
+              "sortBy": "Max",
+              "sortDesc": true
+            }
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
+              },
+              "expr": "histogram_quantile(0.5, sum by (le) (rate(caddy_http_response_duration_seconds_bucket{instance=~\"$instance\",server=\"proxy\"}[5m])))",
+              "legendFormat": "p50"
+            },
+            {
+              "refId": "B",
+              "datasource": {
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
+              },
+              "expr": "histogram_quantile(0.95, sum by (le) (rate(caddy_http_response_duration_seconds_bucket{instance=~\"$instance\",server=\"proxy\"}[5m])))",
+              "legendFormat": "p95"
+            },
+            {
+              "refId": "C",
+              "datasource": {
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
+              },
+              "expr": "histogram_quantile(0.99, sum by (le) (rate(caddy_http_response_duration_seconds_bucket{instance=~\"$instance\",server=\"proxy\"}[5m])))",
+              "legendFormat": "p99"
+            }
+          ]
+        },
+        {
+          "id": 318,
+          "type": "timeseries",
+          "title": "Avg Request Size by Domain",
+          "gridPos": {
+            "x": 8,
+            "y": 75,
+            "w": 8,
+            "h": 8
+          },
+          "datasource": {
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "victoriametrics"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "fillOpacity": 20,
+                "lineWidth": 2,
+                "spanNulls": true,
+                "drawStyle": "line",
+                "lineInterpolation": "smooth",
+                "showPoints": "never"
+              },
+              "unit": "decbytes",
+              "min": 0
+            }
+          },
+          "options": {
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            },
+            "legend": {
+              "calcs": [
+                "mean",
+                "max"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "showLegend": true,
+              "sortBy": "Mean",
+              "sortDesc": true
+            }
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
+              },
+              "expr": "sum by (host) (rate(caddy_http_request_size_bytes_sum{instance=~\"$instance\",server=\"proxy\"}[5m])) / sum by (host) (rate(caddy_http_request_size_bytes_count{instance=~\"$instance\",server=\"proxy\"}[5m]))",
+              "legendFormat": "{{host}}"
+            }
+          ]
+        },
+        {
+          "id": 319,
+          "type": "timeseries",
+          "title": "Avg Response Size by Domain",
+          "gridPos": {
+            "x": 16,
+            "y": 75,
+            "w": 8,
+            "h": 8
+          },
+          "datasource": {
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "victoriametrics"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "fillOpacity": 20,
+                "lineWidth": 2,
+                "spanNulls": true,
+                "drawStyle": "line",
+                "lineInterpolation": "smooth",
+                "showPoints": "never"
+              },
+              "unit": "decbytes",
+              "min": 0
+            }
+          },
+          "options": {
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            },
+            "legend": {
+              "calcs": [
+                "mean",
+                "max"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "showLegend": true,
+              "sortBy": "Mean",
+              "sortDesc": true
+            }
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
+              },
+              "expr": "sum by (host) (rate(caddy_http_response_size_bytes_sum{instance=~\"$instance\",server=\"proxy\"}[5m])) / sum by (host) (rate(caddy_http_response_size_bytes_count{instance=~\"$instance\",server=\"proxy\"}[5m]))",
+              "legendFormat": "{{host}}"
+            }
+          ]
         }
       ],
       "id": 300
