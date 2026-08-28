@@ -63,6 +63,21 @@ requires = "Redeploy"
 path = "../../alloy/modules/ufw.alloy"
 requires = "Redeploy"
 
+# --- Metrics for the homeassistant-1 stack below (enable together with it) ---
+# Uncomment once homeassistant-1 is deployed: adds file_paths entries
+# ["compose.override.homeassistant.yaml", "compose.override.mqtt.yaml"],
+# the env vars below, and these config_files:
+#   { path = "../../alloy/features/homeassistant.alloy", requires = "Redeploy" }
+#   { path = "../../alloy/features/mqtt.alloy", requires = "Redeploy" }
+#   { path = "../../alloy/features/njord.alloy", requires = "Redeploy" }
+# ALLOY_HOMEASSISTANT_METRICS_TARGET=homeassistant:8123
+# ALLOY_HOMEASSISTANT_METRICS_TOKEN=[[FeelsCozyMan_ha_metrics_token]]
+# ALLOY_MQTT_EXPORTER_TARGET=mqtt-exporter:9234
+# ALLOY_MQTT_BROKER_ADDRESS=tcp://mosquitto:1883
+# ALLOY_NJORD_METRICS_TARGET=njord:9090
+# Note: Zigbee2MQTT has no Prometheus endpoint and no exporter is wired in
+# this repo yet — its bridge stats are only available over MQTT topics.
+
 # [[stack]]
 # name = "homeassistant-1"
 # tags = ["iot"]

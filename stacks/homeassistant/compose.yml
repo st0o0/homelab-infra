@@ -32,8 +32,11 @@ services:
     deploy:
       resources:
         limits:
-          memory: 1500M
           cpus: "2"
+          memory: 1500M
+        reservations:
+          cpus: "0.5"
+          memory: 512M
 
   mqtt:
     image: eclipse-mosquitto:2.1.2
@@ -46,6 +49,14 @@ services:
       - ${MQTT_PATH_LOG:-./mosquitto/log}:/mosquitto/log
     ports:
       - "${MQTT_PORT:-8124}:1883"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 128M
+        reservations:
+          cpus: "0.1"
+          memory: 32M
 
   zigbee2mqtt:
     image: ghcr.io/koenkk/zigbee2mqtt:2.12.1
@@ -60,6 +71,14 @@ services:
       - TZ=${TZ:-}
     ports:
       - "${Z2M_PORT:-8125}:8080"
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: 512M
+        reservations:
+          cpus: "0.25"
+          memory: 256M
 
   matterjs-server:
     image: ghcr.io/matter-js/matterjs-server:1.2.8
@@ -72,6 +91,14 @@ services:
       - BLE_PROXY=${MATTER_BLE_PROXY:-true}
     volumes:
       - ${MATTER_PATH_DATA:-./matter/data}:/data
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: 512M
+        reservations:
+          cpus: "0.25"
+          memory: 256M
 
   njord:
     image: ghcr.io/st0o0/njord:0.3.0
@@ -84,6 +111,9 @@ services:
         limits:
           cpus: "1.5"
           memory: 1G
+        reservations:
+          cpus: "0.5"
+          memory: 512M
     volumes:
       - njord-data:/app/data
     environment:
