@@ -6,7 +6,7 @@ x-logging: &default-logging
 
 services:
   paperless:
-    image: ghcr.io/paperless-ngx/paperless-ngx:2.16.3
+    image: ghcr.io/paperless-ngx/paperless-ngx:2.16.3@sha256:5622c95b4e22c6b95d4791563d8ace03ae16e3147e2cdf2016b938dc9341d30a
     container_name: paperless
     restart: unless-stopped
     logging: *default-logging
@@ -72,7 +72,7 @@ services:
           memory: 512M
 
   tika:
-    image: apache/tika:latest
+    image: apache/tika:latest@sha256:a8b442501f601fb15015de974f9afe13dd242b0f14e49a2b144fadcb214a555b
     container_name: paperless-tika
     restart: unless-stopped
     logging: *default-logging
@@ -90,7 +90,7 @@ services:
           memory: 128M
 
   gotenberg:
-    image: gotenberg/gotenberg:8
+    image: gotenberg/gotenberg:8@sha256:87c16b9f364279d321bc9772d31fa58aa6abe036423c270698bd636c3a8e9466
     container_name: paperless-gotenberg
     restart: unless-stopped
     logging: *default-logging
