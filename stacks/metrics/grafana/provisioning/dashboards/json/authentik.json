@@ -35,56 +35,7 @@
     ]
   },
   "templating": {
-    "list": [
-      {
-        "allValue": ".*",
-        "current": {},
-        "datasource": {
-          "type": "victoriametrics-metrics-datasource",
-          "uid": "victoriametrics"
-        },
-        "definition": "authentik_outpost_connection",
-        "hide": 0,
-        "includeAll": true,
-        "label": "Namespace",
-        "multi": true,
-        "name": "namespace",
-        "options": [],
-        "query": {
-          "query": "authentik_outpost_connection",
-          "refId": "StandardVariableQuery"
-        },
-        "refresh": 1,
-        "regex": "/.*namespace=\"([^\"]*).*/",
-        "skipUrlSync": false,
-        "sort": 0,
-        "type": "query"
-      },
-      {
-        "allValue": null,
-        "current": {},
-        "datasource": {
-          "type": "victoriametrics-metrics-datasource",
-          "uid": "victoriametrics"
-        },
-        "definition": "authentik_outpost_info{outpost_type=\"proxy\"}",
-        "hide": 2,
-        "includeAll": false,
-        "label": null,
-        "multi": false,
-        "name": "outpost_proxy",
-        "options": [],
-        "query": {
-          "query": "authentik_outpost_info{outpost_type=\"proxy\"}",
-          "refId": "StandardVariableQuery"
-        },
-        "refresh": 1,
-        "regex": "/.*outpost_name=\"([^\"]*).*/",
-        "skipUrlSync": false,
-        "sort": 0,
-        "type": "query"
-      }
-    ]
+    "list": []
   },
   "panels": [
     {
@@ -115,15 +66,15 @@
         "graphMode": "none",
         "reduceOptions": {
           "calcs": ["lastNotNull"],
-          "fields": "/^version$/",
+          "fields": "",
           "values": false
         },
-        "textMode": "value"
+        "textMode": "name"
       },
       "targets": [
         {
           "refId": "A",
-          "expr": "authentik_tasks_workers{job=\"authentik\"}",
+          "expr": "max by (version) (authentik_tasks_workers{job=\"authentik\"})",
           "instant": true,
           "legendFormat": "{{ version }}"
         }
@@ -160,7 +111,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "max(authentik_admin_workers{namespace=~\"$namespace\"})",
+          "expr": "max(authentik_admin_workers{job=\"authentik\"})",
           "instant": true
         }
       ],
@@ -196,7 +147,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(authentik_outposts_connected{namespace=~\"$namespace\"})",
+          "expr": "sum(authentik_outposts_connected{job=\"authentik\"})",
           "instant": true
         }
       ],
@@ -228,7 +179,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "max(authentik_policies_cached{namespace=~\"$namespace\"})",
+          "expr": "max(authentik_policies_cached{job=\"authentik\"})",
           "instant": true
         }
       ],
@@ -260,7 +211,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "max(authentik_flows_cached{namespace=~\"$namespace\"})",
+          "expr": "max(authentik_flows_cached{job=\"authentik\"})",
           "instant": true
         }
       ],
@@ -296,7 +247,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(authentik_tasks_queued{namespace=~\"$namespace\"})"
+          "expr": "sum(authentik_tasks_queued{job=\"authentik\"})"
         }
       ],
       "id": 7
@@ -343,7 +294,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (dest) (rate(authentik_main_request_duration_seconds_count{namespace=~\"$namespace\"}[5m]))",
+          "expr": "sum by (dest) (rate(authentik_main_request_duration_seconds_count{job=\"authentik\"}[5m]))",
           "legendFormat": "{{ dest }}"
         }
       ],
@@ -385,17 +336,17 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "histogram_quantile(0.50, sum by (le) (rate(authentik_main_request_duration_seconds_bucket{namespace=~\"$namespace\"}[5m])))",
+          "expr": "histogram_quantile(0.50, sum by (le) (rate(authentik_main_request_duration_seconds_bucket{job=\"authentik\"}[5m])))",
           "legendFormat": "p50"
         },
         {
           "refId": "B",
-          "expr": "histogram_quantile(0.95, sum by (le) (rate(authentik_main_request_duration_seconds_bucket{namespace=~\"$namespace\"}[5m])))",
+          "expr": "histogram_quantile(0.95, sum by (le) (rate(authentik_main_request_duration_seconds_bucket{job=\"authentik\"}[5m])))",
           "legendFormat": "p95"
         },
         {
           "refId": "C",
-          "expr": "histogram_quantile(0.99, sum by (le) (rate(authentik_main_request_duration_seconds_bucket{namespace=~\"$namespace\"}[5m])))",
+          "expr": "histogram_quantile(0.99, sum by (le) (rate(authentik_main_request_duration_seconds_bucket{job=\"authentik\"}[5m])))",
           "legendFormat": "p99"
         }
       ],
@@ -443,7 +394,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (host) (rate(authentik_outpost_proxy_request_duration_seconds_count{namespace=~\"$namespace\"}[5m]))",
+          "expr": "sum by (host) (rate(authentik_outpost_proxy_request_duration_seconds_count{job=\"authentik\"}[5m]))",
           "legendFormat": "{{ host }}"
         }
       ],
@@ -485,7 +436,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "histogram_quantile(0.95, sum by (le, host) (rate(authentik_outpost_proxy_request_duration_seconds_bucket{namespace=~\"$namespace\"}[5m])))",
+          "expr": "histogram_quantile(0.95, sum by (le, host) (rate(authentik_outpost_proxy_request_duration_seconds_bucket{job=\"authentik\"}[5m])))",
           "legendFormat": "{{ host }}"
         }
       ],
@@ -533,7 +484,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "avg by (flow_slug) (rate(authentik_flows_plan_time_sum{namespace=~\"$namespace\"}[5m]) / rate(authentik_flows_plan_time_count{namespace=~\"$namespace\"}[5m]))",
+          "expr": "avg by (flow_slug) (rate(authentik_flows_plan_time_sum{job=\"authentik\"}[15m]) / rate(authentik_flows_plan_time_count{job=\"authentik\"}[15m]))",
           "legendFormat": "{{ flow_slug }}"
         }
       ],
@@ -575,7 +526,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "topk(5, avg by (binding_target_name) (rate(authentik_policies_execution_time_sum{namespace=~\"$namespace\"}[5m]) / rate(authentik_policies_execution_time_count{namespace=~\"$namespace\"}[5m])))",
+          "expr": "topk(5, avg by (binding_target_name) (rate(authentik_policies_execution_time_sum{job=\"authentik\"}[15m]) / rate(authentik_policies_execution_time_count{job=\"authentik\"}[15m])))",
           "legendFormat": "{{ binding_target_name }}"
         }
       ],
@@ -617,12 +568,12 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "histogram_quantile(0.95, sum by (le) (rate(authentik_policies_engine_time_total_seconds_bucket{namespace=~\"$namespace\"}[5m])))",
+          "expr": "histogram_quantile(0.95, sum by (le) (rate(authentik_policies_engine_time_total_seconds_bucket{job=\"authentik\"}[15m])))",
           "legendFormat": "p95"
         },
         {
           "refId": "B",
-          "expr": "histogram_quantile(0.50, sum by (le) (rate(authentik_policies_engine_time_total_seconds_bucket{namespace=~\"$namespace\"}[5m])))",
+          "expr": "histogram_quantile(0.50, sum by (le) (rate(authentik_policies_engine_time_total_seconds_bucket{job=\"authentik\"}[15m])))",
           "legendFormat": "p50"
         }
       ],
@@ -664,12 +615,12 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "histogram_quantile(0.95, sum by (le) (rate(authentik_property_mapping_execution_time_bucket{namespace=~\"$namespace\"}[5m])))",
+          "expr": "histogram_quantile(0.95, sum by (le) (rate(authentik_property_mapping_execution_time_bucket{job=\"authentik\"}[5m])))",
           "legendFormat": "p95"
         },
         {
           "refId": "B",
-          "expr": "histogram_quantile(0.50, sum by (le) (rate(authentik_property_mapping_execution_time_bucket{namespace=~\"$namespace\"}[5m])))",
+          "expr": "histogram_quantile(0.50, sum by (le) (rate(authentik_property_mapping_execution_time_bucket{job=\"authentik\"}[5m])))",
           "legendFormat": "p50"
         }
       ],
@@ -711,13 +662,13 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "histogram_quantile(0.95, sum by (le, stage) (rate(authentik_flows_stage_time_bucket{namespace=~\"$namespace\"}[5m])))",
-          "legendFormat": "p95: {{ stage }}"
+          "expr": "histogram_quantile(0.95, sum by (le, stage_type) (rate(authentik_flows_stage_time_bucket{job=\"authentik\"}[15m])))",
+          "legendFormat": "p95: {{ stage_type }}"
         },
         {
           "refId": "B",
-          "expr": "histogram_quantile(0.50, sum by (le, stage) (rate(authentik_flows_stage_time_bucket{namespace=~\"$namespace\"}[5m])))",
-          "legendFormat": "p50: {{ stage }}"
+          "expr": "histogram_quantile(0.50, sum by (le, stage_type) (rate(authentik_flows_stage_time_bucket{job=\"authentik\"}[15m])))",
+          "legendFormat": "p50: {{ stage_type }}"
         }
       ],
       "id": 35
@@ -758,13 +709,13 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "histogram_quantile(0.95, sum by (le, stage) (rate(authentik_flows_execution_stage_time_bucket{namespace=~\"$namespace\"}[5m])))",
-          "legendFormat": "p95: {{ stage }}"
+          "expr": "histogram_quantile(0.95, sum by (le, stage_type) (rate(authentik_flows_execution_stage_time_bucket{job=\"authentik\"}[15m])))",
+          "legendFormat": "p95: {{ stage_type }}"
         },
         {
           "refId": "B",
-          "expr": "histogram_quantile(0.50, sum by (le, stage) (rate(authentik_flows_execution_stage_time_bucket{namespace=~\"$namespace\"}[5m])))",
-          "legendFormat": "p50: {{ stage }}"
+          "expr": "histogram_quantile(0.50, sum by (le, stage_type) (rate(authentik_flows_execution_stage_time_bucket{job=\"authentik\"}[15m])))",
+          "legendFormat": "p50: {{ stage_type }}"
         }
       ],
       "id": 36
@@ -772,13 +723,13 @@
     {
       "type": "row",
       "title": "🔧 Tasks",
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 40 },
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 48 },
       "id": 40
     },
     {
       "type": "timeseries",
       "title": "Queued tasks over time",
-      "gridPos": { "h": 8, "w": 16, "x": 0, "y": 41 },
+      "gridPos": { "h": 8, "w": 16, "x": 0, "y": 49 },
       "datasource": {
         "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
@@ -810,62 +761,16 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "topk(10, sum by (actor_name) (authentik_tasks_queued{namespace=~\"$namespace\"}) > 0)",
+          "expr": "topk(10, sum by (actor_name) (authentik_tasks_queued{job=\"authentik\"}) > 0)",
           "legendFormat": "{{ actor_name }}"
         }
       ],
       "id": 41
     },
     {
-      "type": "piechart",
-      "title": "Task status",
-      "gridPos": { "h": 8, "w": 4, "x": 16, "y": 41 },
-      "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "palette-classic" }
-        },
-        "overrides": [
-          {
-            "matcher": { "id": "byName", "options": "Successful" },
-            "properties": [{ "id": "color", "value": { "fixedColor": "green", "mode": "fixed" } }]
-          },
-          {
-            "matcher": { "id": "byName", "options": "Failed" },
-            "properties": [{ "id": "color", "value": { "fixedColor": "red", "mode": "fixed" } }]
-          }
-        ]
-      },
-      "options": {
-        "displayLabels": [],
-        "legend": { "displayMode": "list", "placement": "bottom", "showLegend": true, "values": [] },
-        "pieType": "donut",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "tooltip": { "mode": "multi", "sort": "desc" }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum(authentik_system_tasks{namespace=~\"$namespace\",status=\"TaskResultStatus.ERROR\"})",
-          "legendFormat": "Failed",
-          "instant": true
-        },
-        {
-          "refId": "B",
-          "expr": "sum(authentik_system_tasks{namespace=~\"$namespace\",status=\"TaskResultStatus.SUCCESSFUL\"})",
-          "legendFormat": "Successful",
-          "instant": true
-        }
-      ],
-      "id": 42
-    },
-    {
       "type": "stat",
       "title": "Task workers",
-      "gridPos": { "h": 4, "w": 4, "x": 20, "y": 41 },
+      "gridPos": { "h": 8, "w": 8, "x": 16, "y": 49 },
       "datasource": {
         "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
@@ -891,48 +796,11 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "count(authentik_tasks_workers{namespace=~\"$namespace\"})",
+          "expr": "count(authentik_tasks_workers{job=\"authentik\"})",
           "instant": true
         }
       ],
       "id": 43
-    },
-    {
-      "type": "bargauge",
-      "title": "System task duration",
-      "gridPos": { "h": 4, "w": 4, "x": 20, "y": 45 },
-      "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              { "color": "green", "value": null },
-              { "color": "red", "value": 800000 }
-            ]
-          },
-          "unit": "ms"
-        }
-      },
-      "options": {
-        "displayMode": "lcd",
-        "orientation": "horizontal",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "showUnfilled": true
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "topk(5, avg by (task_name) (authentik_system_tasks{namespace=~\"$namespace\"}))",
-          "legendFormat": "{{ task_name }}",
-          "instant": true
-        }
-      ],
-      "id": 44
     }
   ]
 }
