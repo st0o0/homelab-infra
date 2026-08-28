@@ -251,6 +251,10 @@
       matchPackageNames: ['dialmaster/youtarr'],
       sourceUrl: 'https://github.com/dialmaster/youtarr',
     },
+    {
+      matchPackageNames: ['ghcr.io/matter-js/matterjs-server'],
+      sourceUrl: 'https://github.com/matter-js/matterjs-server',
+    },
   ],
   'ansible-galaxy': {
     managerFilePatterns: [
