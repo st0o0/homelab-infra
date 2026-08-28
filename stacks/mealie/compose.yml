@@ -6,7 +6,7 @@ x-logging: &default-logging
 
 services:
   mealie:
-    image: ghcr.io/mealie-recipes/mealie:v3.22.0
+    image: ghcr.io/mealie-recipes/mealie:v3.24.0@sha256:0b08ac3a9f0a65b8298bcb3a9fcb596f870f92fbefbecd8fffe075fa9b6d2d5d
     container_name: mealie
     restart: always
     logging: *default-logging
