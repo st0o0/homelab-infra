@@ -457,7 +457,7 @@
     },
     {
       "type": "stat",
-      "title": "Slow Queries (1h)",
+      "title": "Slow Queries",
       "gridPos": {
         "h": 4,
         "w": 3,
@@ -595,8 +595,8 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(rate(vl_rows_ingested_total{job=\"victoria-logs\"}[$__rate_interval]))",
-          "legendFormat": "{{type}}"
+          "expr": "sum by (host) (rate(loki_write_sent_entries_total{host!~\"[0-9].*\"}[$__rate_interval]))",
+          "legendFormat": "{{host}}"
         }
       ],
       "id": 101
@@ -831,7 +831,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (path) (vl_http_request_duration_seconds_sum{job=\"victoria-logs\"}) / sum by (path) (vl_http_request_duration_seconds_count{job=\"victoria-logs\"})"
+          "expr": "sum by (path) (rate(vl_http_request_duration_seconds_sum{job=\"victoria-logs\"}[$__rate_interval])) / sum by (path) (rate(vl_http_request_duration_seconds_count{job=\"victoria-logs\"}[$__rate_interval]))"
         }
       ],
       "id": 202

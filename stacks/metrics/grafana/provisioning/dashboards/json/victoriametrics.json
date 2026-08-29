@@ -429,7 +429,7 @@
     },
     {
       "type": "stat",
-      "title": "Slow Queries (1h)",
+      "title": "Slow Queries",
       "gridPos": {
         "h": 4,
         "w": 3,
@@ -568,8 +568,8 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (type) (rate(vm_rows_inserted_total[$__rate_interval])) > 0",
-          "legendFormat": "{{type}}"
+          "expr": "sum by (host) (rate(prometheus_remote_storage_samples_total[$__rate_interval]))",
+          "legendFormat": "{{host}}"
         }
       ],
       "id": 101
@@ -644,7 +644,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "rate(vm_new_timeseries_created_total[$__rate_interval])",
+          "expr": "rate(vm_new_timeseries_created_total{job=\"victoria-metrics\"}[$__rate_interval])",
           "legendFormat": "new series/s"
         }
       ],
@@ -955,7 +955,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (path) (vm_request_duration_seconds_sum) / sum by (path) (vm_request_duration_seconds_count)",
+          "expr": "sum by (path) (rate(vm_request_duration_seconds_sum[$__rate_interval])) / sum by (path) (rate(vm_request_duration_seconds_count[$__rate_interval]))",
           "legendFormat": "{{path}}"
         }
       ],
@@ -963,7 +963,7 @@
     },
     {
       "type": "timeseries",
-      "title": "Rollup Cache Hit Rate",
+      "title": "Ingestion by Job",
       "gridPos": {
         "h": 8,
         "w": 12,
@@ -1009,7 +1009,7 @@
               "mode": "off"
             }
           },
-          "unit": "percent"
+          "unit": "none"
         }
       },
       "options": {
@@ -1030,8 +1030,8 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(rate(vm_rollup_result_cache_full_hits_total{job=\"victoria-metrics\"}[$__rate_interval])) / sum(rate(vm_rollup_result_cache_requests_total{job=\"victoria-metrics\"}[$__rate_interval])) * 100",
-          "legendFormat": "hit rate"
+          "expr": "topk(10, sum by (job) (scrape_samples_scraped))",
+          "legendFormat": "{{job}}"
         }
       ],
       "id": 203
