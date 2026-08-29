@@ -114,24 +114,43 @@ requires = "Redeploy"
 # NJORD_LOCATION_LAT=changeme
 # NJORD_LOCATION_LON=changeme
 # """
-#
-# [[stack]]
-# name = "vaultwarden-1"
-# tags = ["infra"]
-# [stack.config]
-# server = "FeelsCozyMan"
-# run_directory = "stacks/vaultwarden"
-# file_paths = ["compose.yml"]
-# linked_repo = "homelab-infra"
-# extra_args = ["--remove-orphans"]
-# environment = """
-# VW_DOMAIN=[[FeelsCozyMan_vaultwarden_domain]]
-# VW_DATABASE_URL=[[FeelsCozyMan_vaultwarden_database_url]]
-# PUID=[[puid]]
-# PGID=[[pgid]]
-# TZ=[[tz]]
-# VW_DISABLE_ADMIN_TOKEN=true
-# VW_SIGNUPS_ALLOWED=false
-# VW_PORT=3002
-# VW_PATH_DATA=/docker/vaultwarden/data
-# """
+
+[[stack]]
+name = "vaultwarden-1"
+tags = ["infra"]
+[stack.config]
+server = "FeelsCozyMan"
+run_directory = "stacks/vaultwarden"
+file_paths = ["compose.yml"]
+linked_repo = "homelab-infra"
+extra_args = ["--remove-orphans"]
+environment = """
+TZ=[[tz]]
+PUID=[[puid]]
+PGID=[[pgid]]
+VW_DOMAIN=[[FeelsCozyMan_vaultwarden_domain]]
+VW_DB_ENGINE=postgresql
+VW_DB_HOST=[[FeelsCozyMan_vaultwarden_db_host]]
+VW_DB_PORT=[[FeelsCozyMan_vaultwarden_db_port]]
+VW_DB_USER=[[FeelsCozyMan_vaultwarden_db_user]]
+VW_DB_PASS=[[FeelsCozyMan_vaultwarden_db_pass]]
+VW_DB_NAME=[[FeelsCozyMan_vaultwarden_db_name]]
+VW_DATABASE_MAX_CONNS=10
+VW_DISABLE_ADMIN_TOKEN=true
+VW_SIGNUPS_ALLOWED=false
+VW_WEBSOCKET_ENABLED=true
+VW_SSO_ENABLED=false
+VW_SSO_ONLY=false
+VW_SSO_AUTHORITY=[[FeelsCozyMan_vaultwarden_sso_authority]]
+VW_SSO_CLIENT_ID=[[FeelsCozyMan_vaultwarden_sso_client_id]]
+VW_SSO_CLIENT_SECRET=[[FeelsCozyMan_vaultwarden_sso_client_secret]]
+VW_SMTP_HOST=[[FeelsCozyMan_vaultwarden_smtp_host]]
+VW_SMTP_PORT=[[FeelsCozyMan_vaultwarden_smtp_port]]
+VW_SMTP_FROM=[[FeelsCozyMan_vaultwarden_smtp_from]]
+VW_SMTP_FROM_NAME=Vaultwarden
+VW_SMTP_USER=[[FeelsCozyMan_vaultwarden_smtp_user]]
+VW_SMTP_PASS=[[FeelsCozyMan_vaultwarden_smtp_pass]]
+VW_SMTP_SECURITY=[[FeelsCozyMan_vaultwarden_smtp_security]]
+VW_PORT=3002
+VW_PATH_DATA=/docker/vaultwarden/data
+"""
