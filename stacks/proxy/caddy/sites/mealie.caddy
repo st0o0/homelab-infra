@@ -1,7 +1,12 @@
 {$CADDY_DOMAIN_MEALIE} {
 	import defaults
+	import log-service mealie
 	import ratelimit-default mealie
-	import access-geo-dach
+	import access-geo
+
+	request_body {
+		max_size 200MB
+	}
 
 	reverse_proxy {$CADDY_TARGET_MEALIE} {
 		header_up X-Real-IP {remote_host}

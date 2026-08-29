@@ -1,11 +1,12 @@
 FROM caddy:builder@sha256:4bdeabce8e79d36b23d1cba7d20598cec2c1117ace960d8ca06071f945e8fc9b AS builder
 
+# caddy-ratelimit has no tag newer than v0.1.0 (2024); pinned to its current HEAD commit instead
 RUN xcaddy build \
-    --with github.com/hslatman/caddy-crowdsec-bouncer/http@latest \
-    --with github.com/hslatman/caddy-crowdsec-bouncer/appsec@latest \
-    --with github.com/porech/caddy-maxmind-geolocation@latest \
-    --with github.com/mholt/caddy-ratelimit@latest \
-    --with github.com/mholt/caddy-l4@latest
+    --with github.com/hslatman/caddy-crowdsec-bouncer/http@v0.14.1 \
+    --with github.com/hslatman/caddy-crowdsec-bouncer/appsec@v0.14.1 \
+    --with github.com/porech/caddy-maxmind-geolocation@v1.0.3 \
+    --with github.com/mholt/caddy-ratelimit@5625512f24f6f59d6f64fb3aafe5eecff0b286db \
+    --with github.com/mholt/caddy-l4@v0.1.2
 
 FROM caddy:latest@sha256:df7f1c2fb114453b951de51a98efc010db1655a92c2e86be6706714e2417a78d
 COPY --from=builder /usr/bin/caddy /usr/bin/caddy

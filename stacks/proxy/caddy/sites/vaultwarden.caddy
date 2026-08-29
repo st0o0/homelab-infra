@@ -8,9 +8,31 @@
 		X-Robots-Tag "noindex, nofollow"
 	}
 
-	@api path /api/* /identity/* /icons/* /notifications/hub /alive
+	@admin path /admin*
+	respond @admin 404
+
+	@identity path /identity/*
+	route @identity {
+		import ratelimit-strict vaultwarden_identity
+		reverse_proxy {$CADDY_TARGET_VAULTWARDEN} {
+			header_up X-Real-IP {remote_host}
+		}
+	}
+
+	@websocket path /notifications/hub
+	route @websocket {
+		import ratelimit-media vaultwarden_ws
+		reverse_proxy {$CADDY_TARGET_VAULTWARDEN} {
+			header_up X-Real-IP {remote_host}
+		}
+	}
+
+	@api path /api/* /icons/* /alive
 	route @api {
 		import ratelimit-default vaultwarden_api
+		request_body {
+			max_size 600MB
+		}
 		reverse_proxy {$CADDY_TARGET_VAULTWARDEN} {
 			header_up X-Real-IP {remote_host}
 		}

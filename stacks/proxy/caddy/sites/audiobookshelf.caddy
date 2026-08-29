@@ -4,6 +4,10 @@
 	import ratelimit-media audiobookshelf
 	import access-geo
 
+	request_body {
+		max_size 5GB
+	}
+
 	reverse_proxy {$CADDY_TARGET_AUDIOBOOKSHELF} {
 		header_up X-Real-IP {remote_host}
 	}
