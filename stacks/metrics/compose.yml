@@ -69,6 +69,7 @@ services:
       - --search.maxQueryDuration=${VM_MAX_QUERY_DURATION:-60s}
       - --smallMergeConcurrency=${VM_SMALL_MERGE_CONCURRENCY:-1}
       - --maxLabelsPerTimeseries=${VM_MAX_LABELS_PER_TIMESERIES:-35}
+      - --maxConcurrentInserts=${VM_MAX_CONCURRENT_INSERTS:-10}
       # VictoriaMetrics scrapes its own internals (vm_* metrics)
       - --selfScrapeInterval=${VM_SELF_SCRAPE_INTERVAL:-30s}
     ports:
@@ -132,7 +133,7 @@ services:
       - --pushmetrics.extraLabel=job="victoria-logs"
       - --memory.allowedPercent=${VL_MEMORY_ALLOWED_PERCENT:-60}
       - --search.maxConcurrentRequests=${VL_MAX_CONCURRENT_REQUESTS:-3}
-      - --maxConcurrentInserts=${VL_MAX_CONCURRENT_INSERTS:-3}
+      - --maxConcurrentInserts=${VL_MAX_CONCURRENT_INSERTS:-10}
       - --storage.minFreeDiskSpaceBytes=${VL_MIN_FREE_DISK_SPACE:-100MB}
     ports:
       # Loopback by default; set VLOGS_BIND_IP to the WireGuard IP
