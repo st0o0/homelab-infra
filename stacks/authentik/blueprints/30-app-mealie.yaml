@@ -25,7 +25,7 @@ entries:
       access_token_validity: hours=1
       refresh_token_validity: days=30
       refresh_token_threshold: seconds=0
-      sub_mode: based_on_email
+      sub_mode: user_email
       issuer_mode: per_provider
       property_mappings:
         - !Find [authentik_providers_oauth2.scopemapping, [scope_name, openid]]
