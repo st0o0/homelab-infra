@@ -2,7 +2,7 @@
 
 [[stack]]
 name = "proxy"
-tags = ["infra", "security", "monitoring"]
+tags = ["network", "security", "monitoring"]
 [stack.config]
 server = "FeelsPrivateMan"
 project_name = "proxy"

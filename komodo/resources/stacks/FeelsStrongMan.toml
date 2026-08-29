@@ -90,7 +90,7 @@ command = "for net in authentik-net media-net immich-net; do docker network crea
 
 [[stack]]
 name = "authentik-1"
-tags = ["infra"]
+tags = ["security"]
 [stack.config]
 server = "FeelsStrongMan"
 run_directory = "stacks/authentik"
@@ -414,7 +414,7 @@ command = "docker network create media-net 2>/dev/null || true"
 
 [[stack]]
 name = "immich-1"
-tags = ["media", "apps"]
+tags = ["apps"]
 after = ["immich-postgres-1"]
 [stack.config]
 server = "FeelsStrongMan"
