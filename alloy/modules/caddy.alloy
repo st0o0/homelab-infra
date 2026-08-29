@@ -67,7 +67,7 @@ declare "caddy" {
 
     stage.template {
       source   = "service"
-      template = "{{ regexReplaceAll \".*/services/(.*)\\.log\" .filename \"$1\" }}"
+      template = "{{ regexReplaceAll \".*/services/(.*)[.]log\" .filename \"$1\" }}"
     }
 
     stage.labels {
