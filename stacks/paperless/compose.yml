@@ -91,7 +91,7 @@ services:
 
   tika:
     image: apache/tika:4.0.0@sha256:a8b442501f601fb15015de974f9afe13dd242b0f14e49a2b144fadcb214a555b
-    container_name: paperless-tika
+    container_name: tika
     restart: unless-stopped
     logging: *default-logging
     healthcheck:
@@ -109,7 +109,7 @@ services:
 
   gotenberg:
     image: gotenberg/gotenberg:8
-    container_name: paperless-gotenberg
+    container_name: gotenberg
     restart: unless-stopped
     logging: *default-logging
     command:
