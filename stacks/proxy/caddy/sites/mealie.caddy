@@ -1,7 +1,13 @@
 {$CADDY_DOMAIN_MEALIE} {
 	import defaults
 	import log-service mealie
-	import ratelimit-default mealie
+	rate_limit {
+		zone mealie {
+			key {remote_host}
+			events 150
+			window 1m
+		}
+	}
 	import access-geo
 
 	request_body {
