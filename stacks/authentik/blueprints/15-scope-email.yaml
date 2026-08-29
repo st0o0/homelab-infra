@@ -1,0 +1,18 @@
+version: 1
+metadata:
+  name: Email Scope Mapping
+  labels:
+    blueprints.goauthentik.io/instantiate: "true"
+
+entries:
+  - model: authentik_providers_oauth2.scopemapping
+    identifiers:
+      scope_name: email
+    attrs:
+      name: "Email"
+      description: "Email address and verification status"
+      expression: |
+        return {
+            "email": request.user.email,
+            "email_verified": True,
+        }

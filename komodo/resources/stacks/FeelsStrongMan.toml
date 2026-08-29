@@ -187,6 +187,10 @@ path = "blueprints/15-reputation-policy.yaml"
 requires = "Redeploy"
 
 [[stack.config.config_files]]
+path = "blueprints/15-scope-email.yaml"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
 path = "blueprints/15-scope-groups.yaml"
 requires = "Redeploy"
 
