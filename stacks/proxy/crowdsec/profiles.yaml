@@ -28,6 +28,13 @@ notifications:
   - file_appsec
 on_success: break
 ---
+name: behavioral_noauto
+filters:
+  - Alert.GetScenario() in ["crowdsecurity/http-crawl-non_statics", "crowdsecurity/http-probing"]
+notifications:
+  - file_alerts
+on_success: break
+---
 name: default_ip_remediation
 filters:
   - Alert.Remediation == true && Alert.GetScope() == "Ip"

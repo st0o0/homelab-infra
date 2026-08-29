@@ -1,7 +1,8 @@
 name: custom/whitelist-immich
-description: Whitelist immich from HTTP behavior scenarios
+description: Whitelist known Immich false-positive traffic from HTTP behavior scenarios
 filter: "evt.Line.Src contains '/services/immich.'"
 whitelist:
-  reason: "Immich mobile clients trigger false positives"
+  reason: "Album browsing and thumbnail scrubbing trips http-crawl-non_statics (crowdsecurity/crowdsec#3561)"
   expression:
-    - "true"
+    - "evt.Meta.http_verb == 'GET' && evt.Meta.http_path matches '^/api/assets/[a-f0-9-]+/thumbnail'"
+    - "evt.Meta.http_verb == 'GET' && evt.Meta.http_path matches '^/api/albums/[a-f0-9-]+'"

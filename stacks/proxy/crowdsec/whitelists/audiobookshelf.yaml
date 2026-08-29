@@ -1,7 +1,7 @@
 name: custom/whitelist-audiobookshelf
-description: Whitelist audiobookshelf from HTTP behavior scenarios
+description: Whitelist known Audiobookshelf false-positive traffic from HTTP behavior scenarios
 filter: "evt.Line.Src contains '/services/audiobookshelf.'"
 whitelist:
-  reason: "Audiobookshelf mobile clients trigger false positives"
+  reason: "New devices requesting missing author photos on first load trips http-probing (advplyr/audiobookshelf#4387)"
   expression:
-    - "true"
+    - "evt.Meta.http_status == '404' && evt.Meta.http_verb == 'GET' && evt.Meta.http_path matches '^/api/authors/[^/]+/image'"

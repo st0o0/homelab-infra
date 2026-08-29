@@ -169,9 +169,10 @@ services:
         COLLECTIONS=crowdsecurity/caddy crowdsecurity/sshd crowdsecurity/http-cve
         crowdsecurity/base-http-scenarios crowdsecurity/appsec-virtual-patching
         crowdsecurity/linux crowdsecurity/http-dos
+      - PARSERS=crowdsecurity/jellyfin-whitelist
       - GID=${PGID:-1000}
       # bump to force CrowdSec recreate on config changes (profiles/scenarios/appsec)
-      - CONFIG_VERSION=2
+      - CONFIG_VERSION=3
     volumes:
       - ./crowdsec/config.yaml.local:/etc/crowdsec/config.yaml.local:ro
       - ./crowdsec/profiles.yaml:/etc/crowdsec/profiles.yaml:ro

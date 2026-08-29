@@ -1,7 +1,0 @@
-name: custom/whitelist-jellyfin
-description: Whitelist jellyfin from HTTP behavior scenarios
-filter: "evt.Line.Src contains '/services/jellyfin.'"
-whitelist:
-  reason: "Jellyfin media clients (Streamyfin, Finamp, Infuse) trigger false positives"
-  expression:
-    - "true"
