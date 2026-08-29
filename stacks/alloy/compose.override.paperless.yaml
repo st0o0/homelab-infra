@@ -9,7 +9,7 @@ services:
       - PAPERLESS_EXPORTER_TARGET=${ALLOY_PAPERLESS_EXPORTER_TARGET:-paperless-exporter:9934}
 
   paperless-exporter:
-    image: hansmi/prometheus-paperless-exporter:latest
+    image: ghcr.io/hansmi/prometheus-paperless-exporter:v0.0.10@sha256:0f47f06a3382ad9fc080fe8a8f66e7a4c41f13cb1c156a6da675c636a86de2f4
     container_name: paperless-exporter
     restart: unless-stopped
     logging:

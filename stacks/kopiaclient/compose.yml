@@ -6,7 +6,7 @@ x-logging: &default-logging
 
 services:
   kopiaclient:
-    image: kopia/kopia:latest@sha256:89fd95ee2942880ca00eae964266958a394421ddbdf69bca62e38afc55f5900e
+    image: kopia/kopia:0.23.1@sha256:89fd95ee2942880ca00eae964266958a394421ddbdf69bca62e38afc55f5900e
     container_name: kopiaclient
     hostname: ${KOPIA_HOSTNAME:?KOPIA_HOSTNAME is required}
     restart: unless-stopped

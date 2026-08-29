@@ -90,7 +90,7 @@ services:
           memory: 512M
 
   tika:
-    image: apache/tika:latest
+    image: apache/tika:4.0.0@sha256:a8b442501f601fb15015de974f9afe13dd242b0f14e49a2b144fadcb214a555b
     container_name: paperless-tika
     restart: unless-stopped
     logging: *default-logging
