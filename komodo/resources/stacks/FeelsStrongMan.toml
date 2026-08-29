@@ -542,8 +542,8 @@ PAPERLESS_REDIS_DBINDEX=1
 PAPERLESS_REDIS_PREFIX=PAPERLESS
 # OIDC
 PAPERLESS_OIDC_SERVER_URL=[[FeelsStrongMan_paperless_oidc_server_url]]
-PAPERLESS_OIDC_CLIENT_ID=[[FeelsStrongMan_authentik_provider_paperless_client_id]]
-PAPERLESS_OIDC_CLIENT_SECRET=[[FeelsStrongMan_authentik_provider_paperless_client_secret]]
+PAPERLESS_OIDC_CLIENT_ID=[[FeelsStrongMan_paperless_oidc_client_id]]
+PAPERLESS_OIDC_CLIENT_SECRET=[[FeelsStrongMan_paperless_oidc_client_secret]]
 PAPERLESS_DISABLE_REGULAR_LOGIN=false
 PAPERLESS_REDIRECT_LOGIN_TO_SSO=false
 """
