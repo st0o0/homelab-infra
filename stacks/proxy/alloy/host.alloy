@@ -107,14 +107,8 @@ prometheus.relabel "alloy" {
   }
 
   rule {
-    action        = "drop"
+    action        = "keep"
     source_labels = ["__name__"]
-    regex         = "(alloy_component_(evaluation_seconds|dependencies_wait_seconds)|prometheus_(fanout_latency|target_interval_length_histogram_seconds|target_sync_length_histogram_seconds|remote_storage_sent_batch_duration_seconds)|remotecfg_request_duration_seconds|loki_write_request_duration_seconds)_(bucket|sum|count)"
-  }
-
-  rule {
-    action        = "drop"
-    source_labels = ["__name__"]
-    regex         = "alloy_component_graph_connection|net_conntrack_dialer_conn_failed_total|alloy_fanout_mapping_store_mappings_total"
+    regex         = "alloy_(component_(controller_running_components|evaluation_seconds_(sum|count))|config_last_load_successful|prometheus_relabel_cache_(hits|misses)|resources_process_(cpu_seconds_total|resident_memory_bytes))|loki_(source_(docker_target_entries_total|file_files_active_total)|write_(dropped_(entries|bytes)_total|sent_(entries|bytes)_total|request_duration_seconds_(sum|count)))|prometheus_(remote_(storage_(samples_(total|failed_total|retried_total|pending)|highest_timestamp_in_seconds|shards(_desired|_max)?|sent_batch_duration_seconds_(sum|count)|bytes_total)|write_wal_storage_active_series)|scrape_targets_gauge|target_scrape_pool_targets)|scrape_(samples_scraped|duration_seconds)|up"
   }
 }
