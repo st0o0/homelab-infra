@@ -21,7 +21,7 @@ entries:
       name: mfa-webauthn-setup
     attrs:
       friendly_name: "Passkey / Security Key"
-      resident_key_requirement: preferred
+      resident_key_requirement: required
       user_verification: preferred
 
   # Static recovery tokens setup stage
