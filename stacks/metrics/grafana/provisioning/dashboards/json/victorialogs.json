@@ -353,7 +353,7 @@
     },
     {
       "type": "stat",
-      "title": "Goroutines",
+      "title": "Retention",
       "gridPos": {
         "h": 4,
         "w": 3,
@@ -378,12 +378,13 @@
               }
             ]
           },
-          "unit": "short"
+          "unit": "none",
+          "decimals": 1
         }
       },
       "options": {
         "colorMode": "value",
-        "graphMode": "area",
+        "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
@@ -398,7 +399,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "go_goroutines{job=\"victoria-logs\"}"
+          "expr": "(vl_storage_log_max_timestamp_seconds{job=\"victoria-logs\"} - vl_storage_log_min_timestamp_seconds{job=\"victoria-logs\"}) / 86400"
         }
       ],
       "id": 7

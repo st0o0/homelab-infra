@@ -402,7 +402,8 @@
               }
             ]
           },
-          "unit": "s"
+          "unit": "none",
+          "decimals": 1
         }
       },
       "options": {
@@ -422,7 +423,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "vm_next_retention_seconds"
+          "expr": "vm_next_retention_seconds / 86400"
         }
       ],
       "id": 8
