@@ -90,8 +90,25 @@
       -A ufw-after-forward -m limit --limit 3/min --limit-burst 10 -j NFLOG --nflog-group 1 --nflog-prefix "[UFW FORWARD] "
   notify: Reload ufw
 
+- name: Create ulogd2 systemd override directory
+  ansible.builtin.file:
+    path: /etc/systemd/system/ulogd2.service.d
+    state: directory
+    mode: "0755"
+
+- name: Harden ulogd2 with restart-on-failure
+  ansible.builtin.copy:
+    dest: /etc/systemd/system/ulogd2.service.d/override.conf
+    content: |
+      [Service]
+      Restart=on-failure
+      RestartSec=5
+    mode: "0644"
+  notify: Restart ulogd2
+
 - name: Enable ulogd2 service
   ansible.builtin.service:
     name: ulogd2
     enabled: true
     state: started
+    daemon_reload: true
