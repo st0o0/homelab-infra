@@ -24,6 +24,34 @@ CADVISOR_DISABLE_METRICS=advtcp,cpu_topology,cpuset,hugetlb,memory_numa,process,
 """
 
 [[stack.config.config_files]]
+path = "alloy/cadvisor.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "alloy/docker.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "alloy/features.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "alloy/host.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "alloy/outputs.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "alloy/self.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "../../alloy/modules/gitleaks.toml"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
 path = "../../alloy/modules/appsec.alloy"
 requires = "Redeploy"
 

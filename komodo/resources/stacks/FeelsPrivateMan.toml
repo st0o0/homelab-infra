@@ -74,6 +74,30 @@ CROWDSEC_FIREWALL_BOUNCER_API_KEY=[[FeelsPrivateMan_crowdsec_firewall_bouncer_ap
 """
 
 [[stack.config.config_files]]
+path = "alloy/docker.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "alloy/host.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "alloy/instance.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "alloy/outputs.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "alloy/scrape.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "../../alloy/modules/gitleaks.toml"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
 path = "../../alloy/modules/appsec.alloy"
 requires = "Redeploy"
 
