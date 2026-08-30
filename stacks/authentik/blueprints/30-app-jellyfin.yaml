@@ -39,7 +39,7 @@ entries:
     attrs:
       name: Jellyfin
       provider: !KeyOf provider
-      group: Netflix
+      group: Media
       open_in_new_tab: true
       policy_engine_mode: any
 

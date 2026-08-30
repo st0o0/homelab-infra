@@ -39,6 +39,7 @@ entries:
     attrs:
       name: Vaultwarden
       provider: !KeyOf provider
+      group: IT
       open_in_new_tab: false
       policy_engine_mode: any
 
@@ -70,6 +71,7 @@ entries:
     attrs:
       name: Vaultwarden (Forward Auth)
       provider: !KeyOf proxy-provider
+      group: IT
       open_in_new_tab: false
       policy_engine_mode: any
 
