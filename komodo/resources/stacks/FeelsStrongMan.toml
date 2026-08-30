@@ -255,10 +255,6 @@ path = "blueprints/30-app-mealie.yaml"
 requires = "Redeploy"
 
 [[stack.config.config_files]]
-path = "blueprints/30-app-pangolin.yaml"
-requires = "Redeploy"
-
-[[stack.config.config_files]]
 path = "blueprints/30-app-paperless.yaml"
 requires = "Redeploy"
 

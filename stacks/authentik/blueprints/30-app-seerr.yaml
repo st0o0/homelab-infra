@@ -25,6 +25,7 @@ entries:
       provider: !KeyOf proxy-provider
       group: Media
       open_in_new_tab: true
+      meta_icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/seerr.svg
       policy_engine_mode: any
 
   - model: authentik_policies.policybinding

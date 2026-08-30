@@ -41,6 +41,7 @@ entries:
       provider: !KeyOf provider
       group: IT
       open_in_new_tab: false
+      meta_icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/paperless-ngx.svg
       policy_engine_mode: any
 
   - model: authentik_policies.policybinding
