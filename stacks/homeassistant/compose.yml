@@ -28,15 +28,16 @@ services:
       - TZ=${TZ:-}
     volumes:
       - ${HA_PATH_CONFIG:-./homeassistant/data}:/config
+      - ./homeassistant/packages/performance.yaml:/config/packages/performance.yaml:ro
       - /run/dbus:/run/dbus:ro
     deploy:
       resources:
         limits:
           cpus: "2"
-          memory: 1500M
+          memory: 2G
         reservations:
           cpus: "0.5"
-          memory: 512M
+          memory: 768M
 
   mqtt:
     image: eclipse-mosquitto:2.1.2

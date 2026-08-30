@@ -1,0 +1,58 @@
+# ---------------------------------------------------------------------------
+# Home Assistant Performance Package
+# Mount read-only into /config/packages/ and enable packages in
+# configuration.yaml:
+#
+#   homeassistant:
+#     packages: !include_dir_named packages
+#
+# PostgreSQL connection string goes into secrets.yaml on the server:
+#
+#   recorder_db_url: "postgresql+psycopg2://USER:PASS@HOST:PORT/homeassistant"
+# ---------------------------------------------------------------------------
+
+recorder:
+  db_url: !secret recorder_db_url
+  purge_keep_days: 7
+  commit_interval: 5
+  auto_purge: true
+  auto_repack: true
+  exclude:
+    domains:
+      - automation
+      - update
+      - camera
+      - script
+      - scene
+      - persistent_notification
+    entity_globs:
+      - sensor.*_linkquality
+      - sensor.*_battery
+      - sensor.*_last_seen
+      - sensor.sun_*
+      - binary_sensor.*_update_available
+    entities:
+      - sensor.date
+      - sensor.date_time
+      - sensor.time
+      - sensor.last_boot
+    event_types:
+      - call_service
+
+logger:
+  default: warning
+  logs:
+    homeassistant.components.mqtt: info
+    homeassistant.components.websocket_api: error
+
+logbook:
+  exclude:
+    domains:
+      - automation
+      - script
+      - group
+      - persistent_notification
+    entity_globs:
+      - sensor.*_linkquality
+      - sensor.*_battery
+      - sensor.*_last_seen
