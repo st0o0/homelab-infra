@@ -1,0 +1,7 @@
+rest_command:
+  shelly_calibrate_cover:
+    url: "http://{{ shelly_ip }}/rpc"
+    method: POST
+    headers:
+      content-type: "application/json"
+    payload: '{"id":1,"method":"Cover.Calibrate","params":{"id":0}}'

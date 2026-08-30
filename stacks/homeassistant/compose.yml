@@ -26,9 +26,11 @@ services:
         ipv4_address: ${HA_VLAN_IP:-10.44.88.254}
     environment:
       - TZ=${TZ:-}
+      - HA_RECORDER_DB_URL=${HA_RECORDER_DB_URL:-}
     volumes:
       - ${HA_PATH_CONFIG:-./homeassistant/data}:/config
-      - ./homeassistant/packages/performance.yaml:/config/packages/performance.yaml:ro
+      - ./homeassistant/configuration.yaml:/config/configuration.yaml:ro
+      - ./homeassistant/packages:/config/packages:ro
       - /run/dbus:/run/dbus:ro
     deploy:
       resources:

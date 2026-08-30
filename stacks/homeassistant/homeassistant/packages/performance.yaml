@@ -1,18 +1,5 @@
-# ---------------------------------------------------------------------------
-# Home Assistant Performance Package
-# Mount read-only into /config/packages/ and enable packages in
-# configuration.yaml:
-#
-#   homeassistant:
-#     packages: !include_dir_named packages
-#
-# PostgreSQL connection string goes into secrets.yaml on the server:
-#
-#   recorder_db_url: "postgresql+psycopg2://USER:PASS@HOST:PORT/homeassistant"
-# ---------------------------------------------------------------------------
-
 recorder:
-  db_url: !secret recorder_db_url
+  db_url: !env_var HA_RECORDER_DB_URL
   purge_keep_days: 7
   commit_interval: 5
   auto_purge: true

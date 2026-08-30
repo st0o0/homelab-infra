@@ -1,0 +1,18 @@
+prometheus:
+  namespace: hass
+  filter:
+    include_domains:
+      - sensor
+      - binary_sensor
+      - climate
+      - cover
+    exclude_entity_globs:
+      - sensor.date*
+      - sensor.time*
+      - sensor.last_boot
+      - sensor.sun_*
+      - sensor.hacs*
+      - sensor.*_firmware*
+      - sensor.*_update*
+      - sensor.*_last_seen
+      - binary_sensor.*_update*

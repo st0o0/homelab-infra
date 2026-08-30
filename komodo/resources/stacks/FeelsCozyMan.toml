@@ -141,6 +141,7 @@ requires = "Redeploy"
 # NJORD_LOCATION_NAME=changeme
 # NJORD_LOCATION_LAT=changeme
 # NJORD_LOCATION_LON=changeme
+# HA_RECORDER_DB_URL=[[FeelsCozyMan_ha_recorder_db_url]]
 # """
 
 [[stack]]

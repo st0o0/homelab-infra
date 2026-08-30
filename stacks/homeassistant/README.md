@@ -47,6 +47,25 @@ docker compose up -d
 | `NJORD_LOCATION_NAME` | no | `vreden` | Weather location |
 | `TZ` | no | `Europe/Berlin` | Timezone |
 
+## Configuration
+
+HA config is split between repo-managed (read-only) and HA-managed (writable) files:
+
+```
+repo (mounted :ro)                   HA data volume (writable)
+homeassistant/                       automations.yaml
+  configuration.yaml  ─── bootstrap  scripts.yaml
+  packages/                          scenes.yaml
+    performance.yaml  ─── recorder   secrets.yaml
+    prometheus.yaml   ─── metrics    themes/
+    rest_commands.yaml                .storage/
+```
+
+- `configuration.yaml` is a minimal bootstrap that loads packages and includes HA-managed files
+- `packages/` contains all infrastructure config grouped by concern
+- To add a new package: create a `.yaml` file in `packages/`, restart HA (no compose change needed)
+- Automations, scripts, and scenes are managed through the HA UI and stay in the data volume
+
 ## Verify
 
 - Home Assistant: `http://localhost:8123`
