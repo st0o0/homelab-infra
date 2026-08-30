@@ -1,14 +1,14 @@
 type: leaky
 name: custom/authentik
-description: Ban IPs that abuse Authentik endpoints (login, token, recovery, enrollment, API enumeration, outpost probing)
+description: Ban IPs that brute-force Authentik login, token, recovery, or enrollment endpoints
 filter: >-
   evt.Meta.log_type == 'http_access-log' &&
   evt.Meta.http_status in ['400', '401', '403', '404'] &&
-  ((evt.Meta.http_verb == 'POST' &&
+  evt.Meta.http_verb == 'POST' &&
   (evt.Meta.http_path startsWith '/api/v3/flows/executor/' ||
-  evt.Meta.http_path startsWith '/application/o/token/')) ||
-  (evt.Meta.http_path startsWith '/api/' ||
-  evt.Meta.http_path startsWith '/outpost.goauthentik.io/'))
+  evt.Meta.http_path startsWith '/application/o/token/' ||
+  evt.Meta.http_path startsWith '/api/v3/flows/instances/' ||
+  evt.Meta.http_path startsWith '/api/v3/stages/')
 groupby: evt.Meta.source_ip
 capacity: 8
 leakspeed: 20s
