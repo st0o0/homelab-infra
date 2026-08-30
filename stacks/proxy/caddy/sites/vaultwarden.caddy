@@ -17,7 +17,9 @@
 	@api path /api/* /icons/* /alive
 	route @api {
 		import ratelimit-default vaultwarden_api
-		request_body { max_size 600MB }
+		request_body {
+			max_size 600MB
+		}
 		import proxy {$CADDY_TARGET_VAULTWARDEN}
 	}
 	route {

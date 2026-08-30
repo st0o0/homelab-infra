@@ -3,6 +3,8 @@
 	import log-service mealie
 	import ratelimit-relaxed mealie
 	import access-geo
-	request_body { max_size 200MB }
+	request_body {
+		max_size 200MB
+	}
 	import proxy {$CADDY_TARGET_MEALIE}
 }

@@ -2,7 +2,9 @@
 	import defaults
 	import log-service immich
 	import access-geo
-	request_body { max_size 50GB }
+	request_body {
+		max_size 50GB
+	}
 	@auth path /api/auth/login /api/oauth/*
 	route @auth {
 		import ratelimit-strict immich_auth
