@@ -1475,6 +1475,10 @@
                   }
                 ]
               },
+              "custom": {
+                "fillOpacity": 80,
+                "lineWidth": 0
+              },
               "unit": "none"
             },
             "overrides": []
@@ -1487,18 +1491,10 @@
           },
           "id": 302,
           "options": {
-            "colorMode": "background",
-            "graphMode": "none",
-            "justifyMode": "auto",
-            "orientation": "horizontal",
-            "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "textMode": "value_and_name"
+            "alignValue": "center",
+            "mergeValues": true,
+            "showValue": "auto",
+            "rowHeight": 0.8
           },
           "targets": [
             {
@@ -1508,7 +1504,7 @@
             }
           ],
           "title": "Target Up Status",
-          "type": "stat"
+          "type": "state-timeline"
         },
         {
           "datasource": {

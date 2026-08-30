@@ -662,12 +662,12 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "histogram_quantile(0.95, sum by (le, stage_type) (rate(authentik_flows_stage_time_bucket{job=\"authentik\"}[15m])))",
+          "expr": "histogram_quantile(0.95, sum by (le, stage_type) (rate(authentik_flows_stage_time_bucket{job=\"authentik\"}[$__range])))",
           "legendFormat": "p95: {{ stage_type }}"
         },
         {
           "refId": "B",
-          "expr": "histogram_quantile(0.50, sum by (le, stage_type) (rate(authentik_flows_stage_time_bucket{job=\"authentik\"}[15m])))",
+          "expr": "histogram_quantile(0.50, sum by (le, stage_type) (rate(authentik_flows_stage_time_bucket{job=\"authentik\"}[$__range])))",
           "legendFormat": "p50: {{ stage_type }}"
         }
       ],
@@ -709,12 +709,12 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "histogram_quantile(0.95, sum by (le, stage_type) (rate(authentik_flows_execution_stage_time_bucket{job=\"authentik\"}[15m])))",
+          "expr": "histogram_quantile(0.95, sum by (le, stage_type) (rate(authentik_flows_execution_stage_time_bucket{job=\"authentik\"}[$__range])))",
           "legendFormat": "p95: {{ stage_type }}"
         },
         {
           "refId": "B",
-          "expr": "histogram_quantile(0.50, sum by (le, stage_type) (rate(authentik_flows_execution_stage_time_bucket{job=\"authentik\"}[15m])))",
+          "expr": "histogram_quantile(0.50, sum by (le, stage_type) (rate(authentik_flows_execution_stage_time_bucket{job=\"authentik\"}[$__range])))",
           "legendFormat": "p50: {{ stage_type }}"
         }
       ],
