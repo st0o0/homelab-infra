@@ -1,20 +1,8 @@
 {$CADDY_DOMAIN_MEALIE} {
 	import defaults
 	import log-service mealie
-	rate_limit {
-		zone mealie {
-			key {remote_host}
-			events 150
-			window 1m
-		}
-	}
+	import ratelimit-relaxed mealie
 	import access-geo
-
-	request_body {
-		max_size 200MB
-	}
-
-	reverse_proxy {$CADDY_TARGET_MEALIE} {
-		header_up X-Real-IP {remote_host}
-	}
+	request_body { max_size 200MB }
+	import proxy {$CADDY_TARGET_MEALIE}
 }

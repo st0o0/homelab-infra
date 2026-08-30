@@ -77,6 +77,16 @@
 	}
 }
 
+(ratelimit-relaxed) {
+	rate_limit {
+		zone relaxed_{args[0]} {
+			key {remote_host}
+			events 150
+			window 1m
+		}
+	}
+}
+
 (ratelimit-media) {
 	rate_limit {
 		zone media_{args[0]} {
@@ -91,8 +101,14 @@
 	appsec
 }
 
+(proxy) {
+	reverse_proxy {args[0]} {
+		header_up X-Real-IP {remote_host}
+	}
+}
+
 (block-bots) {
-	@bot header_regexp User-Agent "(?i)(GPTBot|ChatGPT-User|ChatGPT|ClaudeBot|anthropic-ai|Bytespider|PerplexityBot|Cohere-ai|cohere-crawler|Google-Extended|Applebot-Extended|Meta-ExternalAgent|FacebookBot|Amazonbot|AI2Bot|Ai2Bot-Dolma|Googlebot|Bingbot|bingbot|Slurp|DuckDuckBot|Baiduspider|YandexBot|Sogou|Qwantify|SeznamBot|ia_archiver|AhrefsBot|SemrushBot|MJ12bot|DotBot|PetalBot)"
+	@bot header_regexp User-Agent "(?i)(GPTBot|OAI-SearchBot|ChatGPT-User|ChatGPT|ClaudeBot|Claude-Web|Claude-User|anthropic-ai|Bytespider|PerplexityBot|Perplexity-User|Cohere-ai|cohere-crawler|Google-Extended|GoogleOther|Applebot-Extended|Meta-ExternalAgent|Meta-ExternalFetcher|FacebookBot|Amazonbot|NovaAct|AI2Bot|Ai2Bot-Dolma|CCBot|Diffbot|YouBot|PhindBot|DuckAssistBot|MistralAI-User|GitHubCopilotChat|ChatGLM\\.Spider|Timpibot|PanguBot|Brightbot|DataForSeoBot|Webzio-Extended|VelenPublicWebCrawler|SBIntuitionsBot|ImagesiftBot|magpie-crawler|omgili|Googlebot|Bingbot|bingbot|Slurp|DuckDuckBot|Baiduspider|YandexBot|Sogou|Qwantify|SeznamBot|ia_archiver|AhrefsBot|SemrushBot|MJ12bot|DotBot|PetalBot)"
 	abort @bot
 }
 
@@ -142,9 +158,12 @@ Disallow: /" 200
 	encode zstd gzip
 	header {
 		-Server
+		-X-Powered-By
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
+		X-Robots-Tag "noindex, nofollow"
 		Referrer-Policy strict-origin-when-cross-origin
+		Permissions-Policy "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()"
 		Strict-Transport-Security "max-age=31536000; includeSubDomains"
 	}
 }

@@ -3,8 +3,5 @@
 	import log-service jellyfin
 	import ratelimit-media jellyfin
 	import access-geo
-
-	reverse_proxy {$CADDY_TARGET_JELLYFIN} {
-		header_up X-Real-IP {remote_host}
-	}
+	import proxy {$CADDY_TARGET_JELLYFIN}
 }

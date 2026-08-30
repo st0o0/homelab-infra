@@ -2,23 +2,14 @@
 	import defaults
 	import log-service audiobookshelf
 	import access-geo
-
-	request_body {
-		max_size 5GB
-	}
-
+	request_body { max_size 5GB }
 	@auth path /login /auth/*
 	route @auth {
 		import ratelimit-strict audiobookshelf_auth
-		reverse_proxy {$CADDY_TARGET_AUDIOBOOKSHELF} {
-			header_up X-Real-IP {remote_host}
-		}
+		import proxy {$CADDY_TARGET_AUDIOBOOKSHELF}
 	}
-
 	route {
 		import ratelimit-media audiobookshelf
-		reverse_proxy {$CADDY_TARGET_AUDIOBOOKSHELF} {
-			header_up X-Real-IP {remote_host}
-		}
+		import proxy {$CADDY_TARGET_AUDIOBOOKSHELF}
 	}
 }

@@ -2,22 +2,15 @@
 	import defaults
 	import log-service authentik
 	import access-geo
-
 	@staticAssets path /static/dist/*.js /static/dist/chunks/*.js
 	header @staticAssets Content-Type "application/javascript"
-
 	@flow path /api/v3/flows/executor/* /if/flow/*
 	route @flow {
 		import ratelimit-strict authentik_flow
-		reverse_proxy {$CADDY_TARGET_AUTHENTIK} {
-			header_up X-Real-IP {remote_host}
-		}
+		import proxy {$CADDY_TARGET_AUTHENTIK}
 	}
-
 	route {
 		import ratelimit-media authentik
-		reverse_proxy {$CADDY_TARGET_AUTHENTIK} {
-			header_up X-Real-IP {remote_host}
-		}
+		import proxy {$CADDY_TARGET_AUTHENTIK}
 	}
 }

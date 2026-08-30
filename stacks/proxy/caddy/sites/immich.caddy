@@ -2,26 +2,17 @@
 	import defaults
 	import log-service immich
 	import access-geo
-
-	request_body {
-		max_size 50GB
-	}
-
+	request_body { max_size 50GB }
 	@auth path /api/auth/login /api/oauth/*
 	route @auth {
 		import ratelimit-strict immich_auth
-		reverse_proxy {$CADDY_TARGET_IMMICH} {
-			header_up X-Real-IP {remote_host}
-		}
+		import proxy {$CADDY_TARGET_IMMICH}
 	}
-
 	route {
 		import ratelimit-media immich
 		reverse_proxy {$CADDY_TARGET_IMMICH} {
 			header_up X-Real-IP {remote_host}
-			transport http {
-				read_timeout 600s
-			}
+			transport http { read_timeout 600s }
 		}
 	}
 }

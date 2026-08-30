@@ -1,8 +1,7 @@
 {$CADDY_DOMAIN_PAPERLESS} {
 	import defaults
+	import log-service paperless
 	import ratelimit-default paperless
-
-	reverse_proxy {$CADDY_TARGET_PAPERLESS} {
-		header_up X-Real-IP {remote_host}
-	}
+	import access-geo
+	import proxy {$CADDY_TARGET_PAPERLESS}
 }

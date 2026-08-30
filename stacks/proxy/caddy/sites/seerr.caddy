@@ -3,12 +3,8 @@
 	import log-service seerr
 	import ratelimit-media seerr
 	import access-geo
-
 	route {
 		import authentik
-
-		reverse_proxy {$CADDY_TARGET_SEERR} {
-			header_up X-Real-IP {remote_host}
-		}
+		import proxy {$CADDY_TARGET_SEERR}
 	}
 }

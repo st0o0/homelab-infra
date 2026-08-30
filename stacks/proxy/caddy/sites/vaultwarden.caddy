@@ -2,48 +2,27 @@
 	import defaults
 	import log-service vaultwarden
 	import access-geo
-
-	header {
-		Permissions-Policy "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()"
-		X-Robots-Tag "noindex, nofollow"
-	}
-
 	@admin path /admin*
 	respond @admin 404
-
 	@identity path /identity/*
 	route @identity {
 		import ratelimit-strict vaultwarden_identity
-		reverse_proxy {$CADDY_TARGET_VAULTWARDEN} {
-			header_up X-Real-IP {remote_host}
-		}
+		import proxy {$CADDY_TARGET_VAULTWARDEN}
 	}
-
 	@websocket path /notifications/hub
 	route @websocket {
 		import ratelimit-media vaultwarden_ws
-		reverse_proxy {$CADDY_TARGET_VAULTWARDEN} {
-			header_up X-Real-IP {remote_host}
-		}
+		import proxy {$CADDY_TARGET_VAULTWARDEN}
 	}
-
 	@api path /api/* /icons/* /alive
 	route @api {
 		import ratelimit-default vaultwarden_api
-		request_body {
-			max_size 600MB
-		}
-		reverse_proxy {$CADDY_TARGET_VAULTWARDEN} {
-			header_up X-Real-IP {remote_host}
-		}
+		request_body { max_size 600MB }
+		import proxy {$CADDY_TARGET_VAULTWARDEN}
 	}
-
 	route {
 		import ratelimit-strict vaultwarden
 		import authentik
-
-		reverse_proxy {$CADDY_TARGET_VAULTWARDEN} {
-			header_up X-Real-IP {remote_host}
-		}
+		import proxy {$CADDY_TARGET_VAULTWARDEN}
 	}
 }
