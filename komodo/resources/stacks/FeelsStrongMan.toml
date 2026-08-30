@@ -207,6 +207,10 @@ path = "blueprints/15-passwordless-flow.yaml"
 requires = "Redeploy"
 
 [[stack.config.config_files]]
+path = "blueprints/16-passwordless-identification.yaml"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
 path = "blueprints/15-recovery-flow.yaml"
 requires = "Redeploy"
 
