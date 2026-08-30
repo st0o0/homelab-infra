@@ -1209,7 +1209,8 @@
             "mode": "absolute",
             "steps": [{ "color": "green", "value": null }]
           },
-          "unit": "ops"
+          "unit": "ops",
+          "noValue": "0"
         }
       },
       "options": {

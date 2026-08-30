@@ -1085,7 +1085,8 @@
             }
           },
           "min": 0,
-          "unit": "short"
+          "unit": "short",
+          "noValue": "0"
         }
       },
       "options": {
@@ -1767,7 +1768,8 @@
                   }
                 ]
               },
-              "unit": "short"
+              "unit": "short",
+              "noValue": "0"
             },
             "overrides": []
           },

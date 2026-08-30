@@ -638,7 +638,7 @@
           "custom": {
             "fillOpacity": 80,
             "lineWidth": 0,
-            "spanNulls": false
+            "spanNulls": true
           },
           "mappings": [
             {

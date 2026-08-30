@@ -831,7 +831,8 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (path) (rate(vl_http_request_duration_seconds_sum{job=\"victoria-logs\"}[$__rate_interval])) / sum by (path) (rate(vl_http_request_duration_seconds_count{job=\"victoria-logs\"}[$__rate_interval]))"
+          "expr": "sum by (path) (rate(vl_http_request_duration_seconds_sum{job=\"victoria-logs\"}[$__rate_interval])) / sum by (path) (rate(vl_http_request_duration_seconds_count{job=\"victoria-logs\"}[$__rate_interval]))",
+          "legendFormat": "{{path}}"
         }
       ],
       "id": 202
@@ -1182,15 +1183,15 @@
             "barAlignment": 0,
             "barWidthFactor": 0.6,
             "drawStyle": "line",
-            "fillOpacity": 0,
+            "fillOpacity": 20,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
               "viz": false
             },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
             "pointSize": 5,
             "scaleDistribution": {
               "type": "linear"
@@ -1234,8 +1235,11 @@
       },
       "options": {
         "legend": {
-          "calcs": [],
-          "displayMode": "list",
+          "calcs": [
+            "mean",
+            "max"
+          ],
+          "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
         },
@@ -2088,15 +2092,15 @@
             "barAlignment": 0,
             "barWidthFactor": 0.6,
             "drawStyle": "line",
-            "fillOpacity": 0,
+            "fillOpacity": 20,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
               "viz": false
             },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
             "pointSize": 5,
             "scaleDistribution": {
               "type": "linear"
@@ -2140,8 +2144,11 @@
       },
       "options": {
         "legend": {
-          "calcs": [],
-          "displayMode": "list",
+          "calcs": [
+            "mean",
+            "max"
+          ],
+          "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
         },

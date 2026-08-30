@@ -112,7 +112,7 @@
     },
     {
       "type": "stat",
-      "title": "Pending Requests",
+      "title": "Pending",
       "id": 4,
       "gridPos": { "h": 4, "w": 3, "x": 6, "y": 1 },
       "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
