@@ -72,6 +72,7 @@ entries:
       name: Vaultwarden (Forward Auth)
       provider: !KeyOf proxy-provider
       group: IT
+      meta_hide: true
       open_in_new_tab: false
       policy_engine_mode: any
 
