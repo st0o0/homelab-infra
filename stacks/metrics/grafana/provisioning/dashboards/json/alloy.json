@@ -1429,8 +1429,8 @@
           },
           "targets": [
             {
-              "expr": "sum by (scrape_job) (prometheus_target_scrape_pool_targets{host=~\"$alloy_host\"})",
-              "legendFormat": "{{scrape_job}}",
+              "expr": "sum by (short_job) (label_replace(prometheus_target_scrape_pool_targets{host=~\"$alloy_host\"}, \"short_job\", \"$1\", \"scrape_job\", \"(?:.*[./])?(.*)\"))",
+              "legendFormat": "{{short_job}}",
               "refId": "A"
             }
           ],
@@ -1498,8 +1498,8 @@
           },
           "targets": [
             {
-              "expr": "min by (host, job) (up{job=~\".*\",host=~\"$alloy_host\"})",
-              "legendFormat": "{{host}} / {{job}}",
+              "expr": "min by (host, short_job) (label_replace(up{job=~\".*\",host=~\"$alloy_host\"}, \"short_job\", \"$1\", \"job\", \"(?:.*[./])?(.*)\"))",
+              "legendFormat": "{{host}} / {{short_job}}",
               "refId": "A"
             }
           ],
@@ -1581,8 +1581,8 @@
           },
           "targets": [
             {
-              "expr": "topk(15, sum by (job) (scrape_samples_scraped{host=~\"$alloy_host\"}))",
-              "legendFormat": "{{job}}",
+              "expr": "topk(15, sum by (short_job) (label_replace(scrape_samples_scraped{host=~\"$alloy_host\"}, \"short_job\", \"$1\", \"job\", \"(?:.*[./])?(.*)\")))",
+              "legendFormat": "{{short_job}}",
               "refId": "A"
             }
           ],
@@ -1664,8 +1664,8 @@
           },
           "targets": [
             {
-              "expr": "topk(10, sum by (job) (scrape_duration_seconds{host=~\"$alloy_host\"}))",
-              "legendFormat": "{{job}}",
+              "expr": "topk(10, sum by (short_job) (label_replace(scrape_duration_seconds{host=~\"$alloy_host\"}, \"short_job\", \"$1\", \"job\", \"(?:.*[./])?(.*)\")))",
+              "legendFormat": "{{short_job}}",
               "refId": "A"
             }
           ],
