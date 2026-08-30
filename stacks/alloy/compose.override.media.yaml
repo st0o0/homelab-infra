@@ -9,7 +9,7 @@ services:
       - media-net
 
   tentacle:
-    image: ghcr.io/st0o0/tentacle:0.1.6@sha256:0ebc9ca90d348889ae546cb83673c72d3a60186dad8154a033f4c3639c8bc0ec
+    image: ghcr.io/st0o0/tentacle:0.1.7@sha256:ea4ffe627eddae20eb9e49e21f94aa17818aa1c8f5b330430b419b6a4038bc12
     container_name: tentacle
     restart: always
     environment:
