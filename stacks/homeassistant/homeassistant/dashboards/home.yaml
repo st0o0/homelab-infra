@@ -1,0 +1,747 @@
+views:
+  - badges:
+      - type: entity
+        show_name: true
+        show_state: true
+        show_icon: true
+        name: Jan
+        entity: sensor.handyjan_battery_level
+      - type: entity
+        show_name: true
+        show_state: true
+        show_icon: true
+        name: "Nadine "
+        show_entity_picture: false
+        entity: sensor.handynadine_battery_level
+    cards: []
+    type: sections
+    sections:
+      - type: grid
+        cards:
+          - type: heading
+            icon: mdi:radioactive-circle-outline
+            heading_style: subtitle
+            heading: NINA
+            visibility:
+              - condition: or
+                conditions:
+                  - condition: state
+                    entity: binary_sensor.warning_city_1
+                    state: "on"
+                  - condition: state
+                    entity: binary_sensor.warning_city_2
+                    state: "on"
+                  - condition: state
+                    entity: binary_sensor.warning_city_3
+                    state: "on"
+                  - condition: state
+                    entity: binary_sensor.warning_city_4
+                    state: "on"
+                  - condition: state
+                    entity: binary_sensor.warning_city_5
+                    state: "on"
+                  - condition: state
+                    entity: binary_sensor.warning_city_6
+                    state: "on"
+                  - condition: state
+                    entity: binary_sensor.warning_city_7
+                    state: "on"
+                  - condition: state
+                    entity: binary_sensor.warning_city_8
+                    state: "on"
+                  - condition: state
+                    entity: binary_sensor.warning_city_9
+                    state: "on"
+                  - condition: state
+                    entity: binary_sensor.warning_city_10
+                    state: "on"
+          - type: custom:meteoalarm-card
+            entities:
+              - entity: binary_sensor.warning_city_1
+              - entity: binary_sensor.warning_city_2
+              - entity: binary_sensor.warning_city_3
+              - entity: binary_sensor.warning_city_4
+              - entity: binary_sensor.warning_city_6
+              - entity: binary_sensor.warning_city_5
+              - entity: binary_sensor.warning_city_7
+              - entity: binary_sensor.warning_city_8
+              - entity: binary_sensor.warning_city_9
+              - entity: binary_sensor.warning_city_10
+            integration: nina
+            hide_when_no_warning: true
+            override_headline: false
+            disable_swiper: false
+            scaling_mode: scale
+          - type: heading
+            icon: mdi:weather-lightning-rainy
+            heading_style: subtitle
+            heading: "DWD "
+            visibility:
+              - condition: or
+                conditions:
+                  - condition: state
+                    entity: sensor.vreden_weather_warnings_vorwarnstufe
+                    state_not: "0"
+                  - condition: state
+                    entity: sensor.vreden_weather_warnings_aktuelle_warnstufe
+                    state_not: "0"
+          - type: custom:meteoalarm-card
+            entities:
+              - entity: sensor.vreden_weather_warnings_aktuelle_warnstufe
+            integration: dwd
+            disable_swiper: false
+            hide_caption: false
+            hide_when_no_warning: true
+            override_headline: false
+            scaling_mode: scale
+          - type: custom:meteoalarm-card
+            entities:
+              - entity: sensor.vreden_weather_warnings_vorwarnstufe
+            integration: dwd
+            disable_swiper: false
+            hide_caption: false
+            hide_when_no_warning: true
+            override_headline: false
+            scaling_mode: headline_and_scale
+          - type: heading
+            icon: mdi:weather-partly-cloudy
+            heading_style: subtitle
+            heading: Wetter
+            badges:
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: sensor.gw1200a_outdoor_humidity
+                color: blue
+                name: Loggia
+                state_content:
+                  - name
+                  - state
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: sensor.gw1200a_outdoor_temperature
+                name: Loggia
+                color: yellow
+                state_content:
+                  - name
+                  - state
+          - type: custom:weather-chart-card-ha
+            entity: weather.tomorrowio_vreden_daily
+            title: false
+            show_main: true
+            show_temperature: true
+            show_current_condition: true
+            show_attributes: true
+            show_time: true
+            show_time_seconds: true
+            show_hour_leading_zero: true
+            show_day: true
+            show_date: true
+            show_humidity: true
+            show_pressure: true
+            show_wind_direction: true
+            show_wind_speed: true
+            show_sun: true
+            show_feels_like: false
+            timezone: Europe/Berlin
+            show_dew_point: false
+            show_wind_gust_speed: false
+            show_visibility: false
+            show_last_changed: true
+            show_forecast_toggle: false
+            use_12hour_format: false
+            icons_size: 30
+            main_icon_size: 150
+            current_temp_size: 35
+            animated_icons: true
+            icon_style: style1
+            autoscroll: true
+            forecast:
+              precipitation_type: rainfall
+              show_probability: true
+              labels_font_size: "11"
+              precip_bar_size: "100"
+              style: style2
+              show_wind_forecast: true
+              condition_icons: true
+              round_temp: false
+              type: hourly
+              number_of_forecasts: "0"
+              disable_animation: false
+              show_date_labels: true
+              use_color_thresholds: true
+              gradient_mode: classic
+              gradient_preset: temperate
+              auto_rotate: 0
+            locale: de
+            sun_city: Vreden
+            sun_latitude: 52.035862
+            sun_longitude: 6.8236481
+            sun_timezone: Europe/Berlin
+            units:
+              temperature: ""
+              pressure: ""
+              speed: ""
+          - type: horizontal-stack
+            cards:
+              - type: custom:timer-bar-card
+                entity: input_boolean.night_ventilation_mode
+                icon: mdi:weather-night
+                active_state: "on"
+                end_time:
+                  entity: sensor.night_ventilation_end_datetime
+                tap_action:
+                  action: perform-action
+                  perform_action: input_boolean.turn_off
+                  target:
+                    entity_id: input_boolean.night_ventilation_mode
+                mushroom:
+                  color: blue
+                  layout: vertical
+                  primary_info: none
+                  fill_container: true
+                visibility:
+                  - condition: state
+                    entity: input_boolean.night_ventilation_mode
+                    state: "on"
+              - type: custom:mushroom-entity-card
+                entity: input_datetime.night_ventilation_end_time
+                name: Nachtlüftung
+                icon: mdi:weather-night
+                fill_container: true
+                layout: vertical
+                primary_info: name
+                tap_action:
+                  action: perform-action
+                  perform_action: input_boolean.turn_on
+                  target:
+                    entity_id: input_boolean.night_ventilation_mode
+                  data: {}
+                hold_action:
+                  action: more-info
+                double_tap_action:
+                  action: none
+                visibility:
+                  - condition: state
+                    entity: input_boolean.night_ventilation_mode
+                    state: "off"
+      - type: grid
+        cards:
+          - show_name: true
+            show_icon: true
+            type: button
+            tap_action:
+              action: perform-action
+              perform_action: light.turn_off
+              target:
+                entity_id: all
+              data:
+                transition: 60
+            entity: sensor.lights_on_count
+            name: Alle Lichter aus
+            icon: mdi:lightbulb-outline
+            show_state: false
+            hold_action:
+              action: none
+            grid_options:
+              columns: 12
+              rows: 2
+            visibility:
+              - condition: state
+                entity: sensor.lights_on_count
+                state_not: "0"
+          - features:
+              - type: area-controls
+                controls:
+                  - light
+            alert_classes: []
+            sensor_classes:
+              - temperature
+              - humidity
+            features_position: inline
+            display_type: icon
+            type: area
+            navigation_path: /dashboard-views/livingroom
+            area: wohnzimmer
+            aspect_ratio: 1:2
+            color: red
+          - features:
+              - type: area-controls
+                controls:
+                  - light
+            alert_classes: []
+            sensor_classes:
+              - temperature
+              - humidity
+            display_type: picture
+            features_position: inline
+            type: area
+            area: kuche
+            grid_options:
+              columns: 12
+              rows: 2
+            color: deep-purple
+            tap_action:
+              action: navigate
+              navigation_path: /dashboard-views/kitchen
+            vertical: false
+          - features:
+              - type: area-controls
+                controls:
+                  - fan
+                  - light
+            alert_classes: []
+            sensor_classes:
+              - temperature
+              - humidity
+            features_position: inline
+            display_type: picture
+            type: area
+            area: abstellraum
+            navigation_path: /dashboard-views/storageroom
+            grid_options:
+              columns: 12
+              rows: 2
+            color: ""
+          - features:
+              - type: area-controls
+                controls:
+                  - fan
+            alert_classes: []
+            sensor_classes:
+              - temperature
+              - humidity
+              - illuminance
+            display_type: icon
+            features_position: inline
+            type: area
+            area: badezimmer
+            navigation_path: /dashboard-views/bathroom
+            grid_options:
+              columns: 12
+              rows: 1
+            color: teal
+            vertical: false
+          - features:
+              - type: area-controls
+                controls:
+                  - light
+            alert_classes: []
+            sensor_classes:
+              - temperature
+              - humidity
+              - carbon_dioxide
+              - pm25
+            display_type: icon
+            features_position: inline
+            type: area
+            area: schlafzimmer
+            color: light-green
+            grid_options:
+              columns: 12
+              rows: 4
+            tap_action:
+              action: navigate
+              navigation_path: /dashboard-views/bedroom
+            vertical: false
+          - features:
+              - type: area-controls
+                controls:
+                  - light
+            alert_classes: []
+            sensor_classes: []
+            features_position: inline
+            display_type: picture
+            type: area
+            area: flur
+            color: yellow
+            grid_options:
+              columns: 12
+              rows: 4
+          - alert_classes: []
+            sensor_classes:
+              - temperature
+              - humidity
+            features_position: inline
+            display_type: icon
+            type: area
+            area: loggia
+            grid_options:
+              rows: 4
+              columns: 12
+            navigation_path: /dashboard-views/loggia
+            color: orange
+          - show_name: true
+            show_icon: true
+            type: button
+            tap_action:
+              action: toggle
+            entity: scene.wake_up
+            icon: mdi:lightbulb-multiple
+            grid_options:
+              columns: 12
+              rows: 2
+            show_state: false
+            hold_action:
+              action: none
+            visibility:
+              - condition: state
+                entity: binary_sensor.5bis8
+                state: "on"
+            name: "Guten Morgen "
+        column_span: 1
+      - type: grid
+        cards:
+          - type: heading
+            icon: mdi:calendar
+            heading_style: title
+            heading: Kalender
+            badges:
+              - type: entity
+                show_state: true
+                show_icon: true
+                color: state
+                state_content: message
+                visibility:
+                  - condition: state
+                    entity: calendar.deutschland_nw
+                    state: "on"
+                icon: mdi:party-popper
+                entity: calendar.deutschland_nrw
+          - type: custom:atomic-calendar-revive
+            enableModeChange: true
+            entities:
+              - entity: calendar.schweiz_be
+                name: Schweiz, BE
+              - entity: calendar.nadine
+                name: Nadine
+              - entity: calendar.familie
+                name: Familie
+              - entity: calendar.jan
+                name: Jan
+              - entity: calendar.deutschland_nrw
+                name: Deutschland, NRW
+              - entity: calendar.abfallkalender_2025
+                name: Abfallkalender_2025
+              - entity: calendar.waste_collection_schedule_egw_westmunsterland
+                name: Abfallkalender
+            showLastCalendarWeek: false
+            calShowDescription: true
+            disableCalLink: true
+            disableCalLocationLink: true
+            disableCalEventLink: true
+            showDescription: false
+            showMonth: true
+            showProgressBar: false
+            showFullDayProgress: false
+            showNoEventsForToday: true
+            showCalendarName: true
+            showTimeRemaining: false
+            showAllDayHours: true
+            refreshInterval: 180
+            defaultMode: Event
+            showMultiDay: false
+            showMultiDayEventParts: false
+            hideDuplicates: true
+            allDayBottom: false
+            offsetHeaderDate: false
+            showAllDayEvents: true
+            showRelativeTime: true
+            showLocation: false
+            showEventDate: true
+            showWeekNumber: true
+            disableEventLink: false
+            maxDaysToShow: 7
+            startDaysAhead: 0
+          - type: custom:atomic-calendar-revive
+            enableModeChange: true
+            entities:
+              - entity: calendar.einkaufen
+                name: Einkaufen
+                maxDaysToShow: 7
+                showMultiDay: true
+            refreshInterval: 180
+            defaultMode: Event
+            linkTarget: _parent
+            showDate: false
+            showDeclined: false
+            showLocation: false
+            hideFinishedEvents: true
+            showAllDayEvents: true
+            offsetHeaderDate: false
+            compactMode: false
+            showRelativeTime: true
+            showCurrentEventLine: true
+            showProgressBar: false
+            showDescription: true
+            disableLocationLink: true
+            disableEventLink: true
+            showFullDayProgress: false
+            showNoEventsForToday: false
+            showEventIcon: false
+            showWeekNumber: true
+            showDatePerEvent: false
+            showAllDayHours: false
+            showTimeRemaining: false
+            hoursOnSameLine: false
+            dimFinishedEvents: true
+            showMultiDay: false
+            allDayBottom: true
+            showLastCalendarWeek: false
+            calShowDescription: false
+            sortBy: start
+            showEventDate: true
+            showMonth: false
+            showCalendarName: false
+    max_columns: 3
+    icon: mdi:home-outline
+    dense_section_placement: true
+    path: home
+    header:
+      layout: center
+      badges_position: top
+      badges_wrap: scroll
+    top_margin: false
+  - type: sections
+    max_columns: 3
+    icon: mdi:home-plus-outline
+    path: more
+    dense_section_placement: true
+    sections:
+      - type: grid
+        cards:
+          - type: heading
+            icon: mdi:fridge-outline
+            heading: Einkaufsliste
+            heading_style: title
+            tap_action:
+              action: none
+            badges:
+              - type: entity
+                entity: todo.mealie_einkaufsliste
+          - display_order: none
+            type: todo-list
+            entity: todo.mealie_einkaufsliste
+            hide_completed: false
+            hide_create: false
+          - show_name: false
+            show_icon: true
+            type: button
+            tap_action:
+              action: perform-action
+              perform_action: todo.remove_completed_items
+              target:
+                entity_id: todo.mealie_fur_die_woche
+              data: {}
+            name: Erledigte Löschen
+            icon: mdi:cart-check
+            show_state: false
+            grid_options:
+              columns: 12
+              rows: 2
+            hold_action:
+              action: none
+          - type: custom:atomic-calendar-revive
+            enableModeChange: true
+            entities:
+              - entity: calendar.mealie_abendessen
+                name: Abendessen
+                icon: mdi:diner
+              - entity: calendar.mealie_mittagessen
+                name: Mittagessen
+              - entity: calendar.mealie_fruhstuck
+                name: Frühstück
+              - entity: calendar.mealie_beilage
+                name: Beilage
+            showLastCalendarWeek: false
+            calShowDescription: true
+            disableCalLink: true
+            disableCalLocationLink: true
+            disableCalEventLink: true
+            showDescription: false
+            showMonth: true
+            showProgressBar: false
+            showFullDayProgress: false
+            showNoEventsForToday: true
+            showCalendarName: true
+            showTimeRemaining: false
+            showAllDayHours: true
+            refreshInterval: 180
+            defaultMode: Event
+            showMultiDay: false
+            showMultiDayEventParts: false
+            hideDuplicates: true
+            allDayBottom: false
+            offsetHeaderDate: false
+            showAllDayEvents: true
+            showRelativeTime: true
+            showLocation: false
+            showEventDate: true
+            showWeekNumber: true
+            disableEventLink: false
+            maxDaysToShow: 7
+            startDaysAhead: 0
+        column_span: 1
+      - type: grid
+        cards:
+          - type: conditional
+            conditions:
+              - entity: sensor.dwd_warnungen_current_warning_level
+                state_not: "0"
+            card:
+              type: vertical-stack
+              cards:
+                - camera_view: live
+                  fit_mode: contain
+                  type: picture-glance
+                  entities: []
+                  camera_image: camera.www_dwd_de
+                  tap_action:
+                    action: none
+                  hold_action:
+                    action: none
+                  double_tap_action:
+                    action: none
+                - type: markdown
+                  content: |-
+                    {% set level_colors = {0:'#c5e566', 1:'#ffeb3b', 2:'#fb8c00', 3:'#e53935', 4:'#880e4f', 20:'#fe68fe', 50:'#fe68fe', 51:'#9e46f8'} %} {% set current_count = state_attr("sensor.vreden_weather_warnings_aktuelle_warnstufe", "warning_count") %} {% set advance_count = state_attr("sensor.vreden_weather_warnings_vorwarnstufe", "warning_count") %} {% if ((current_count == 0) and (advance_count == 0)) %} **<font color={{ level_colors[0] }}>Keine Warnungen</font>** {% else %}
+                      {% for i in range(current_count) %}
+                        {% set headline = state_attr("sensor.vreden_weather_warnings_aktuelle_warnstufe", "warning_" ~ loop.index ~ "_headline") %}
+                        {% set description = state_attr("sensor.vreden_weather_warnings_aktuelle_warnstufe", "warning_" ~ loop.index ~ "_description") %}
+                        {% set level = state_attr("sensor.vreden_weather_warnings_aktuelle_warnstufe", "warning_" ~ loop.index ~ "_level") %}
+                        {% set time_start = state_attr("sensor.vreden_weather_warnings_aktuelle_warnstufe", "warning_" ~ loop.index ~ "_start") %}
+                        {% set time_end = state_attr("sensor.vreden_weather_warnings_aktuelle_warnstufe", "warning_" ~ loop.index ~ "_end") %}
+                      **<font color={{ level_colors[level] if level_colors[level] is defined else level_colors[1] }}>{{ headline }}</font>**
+                      {{ time_start.strftime("%a %H:%M") ~ " - " ~ time_end.strftime("%a %H:%M") }}
+                      *{{ description|trim }}*
+                      {% if not loop.last %}***{% endif %}
+                      {% endfor %}
+                      {% if ((current_count != 0) and (advance_count != 0)) %}***{% endif %}
+                      {% for i in range(advance_count) %}
+                        {% set headline = state_attr("sensor.vreden_weather_warnings_vorwarnstufe", "warning_" ~ loop.index ~ "_headline") %}
+                        {% set description = state_attr("sensor.vreden_weather_warnings_vorwarnstufe", "warning_" ~ loop.index ~ "_description") %}
+                        {% set level = state_attr("sensor.vreden_weather_warnings_vorwarnstufe", "warning_" ~ loop.index ~ "_level") %}
+                        {% set time_start = state_attr("sensor.vreden_weather_warnings_vorwarnstufe", "warning_" ~ loop.index ~ "_start") %}
+                        {% set time_end = state_attr("sensor.vreden_weather_warnings_vorwarnstufe", "warning_" ~ loop.index ~ "_end") %}
+                      **<font color={{ level_colors[level] }}>{{ headline }}</font>**
+                      {{ time_start.strftime("%a %H:%M") ~ " - " ~ time_end.strftime("%a %H:%M") }}
+                      *{{ description }}*
+                      {% if not loop.last %}***{% endif %}
+                      {% endfor %}
+                    {% endif %}
+                  title: DWD Warnungen
+          - type: conditional
+            conditions:
+              - condition: or
+                conditions:
+                  - condition: state
+                    entity: binary_sensor.warning_city_1
+                    state: "on"
+                  - condition: state
+                    entity: binary_sensor.warning_city_2
+                    state: "on"
+                  - condition: state
+                    entity: binary_sensor.warning_city_3
+                    state: "on"
+                  - condition: state
+                    entity: binary_sensor.warning_city_4
+                    state: "on"
+                  - condition: state
+                    entity: binary_sensor.warning_city_5
+                    state: "on"
+                  - condition: state
+                    entity: binary_sensor.warning_city_6
+                    state: "on"
+                  - condition: state
+                    entity: binary_sensor.warning_city_7
+                    state: "on"
+                  - condition: state
+                    entity: binary_sensor.warning_city_8
+                    state: "on"
+                  - condition: state
+                    entity: binary_sensor.warning_city_9
+                    state: "on"
+                  - condition: state
+                    entity: binary_sensor.warning_city_10
+                    state: "on"
+            card:
+              type: entity-filter
+              entities:
+                - binary_sensor.warning_city_1
+                - binary_sensor.warning_city_2
+                - binary_sensor.warning_city_3
+                - binary_sensor.warning_city_4
+                - binary_sensor.warning_city_5
+                - binary_sensor.warning_city_6
+                - binary_sensor.warning_city_7
+                - binary_sensor.warning_city_8
+                - binary_sensor.warning_city_9
+                - binary_sensor.warning_city_10
+              state_filter:
+                - "on"
+              card:
+                type: markdown
+                title: NINA Warnungen
+                content: |-
+                  
+                  {# --- Loop through the entities with state 'on' --- #} {% for item in config.entities %}
+                  
+                  {# --- SETTINGS --- #} {% set show_recommend_action = true %}   {% set show_timeframe = true %}  {% set show_source = false %}  {% set show_timestamp_sent = false %}  {% set default_source = 'NINA' %}  {% set minor_severity = "info" %}  {% set moderate_severity = "info" %}  {% set default_severity = "success" %} 
+                  
+                  {# --- Initialise attribute values --- #} {% set headline = state_attr(item.entity, "headline")|default('Meldung', true) %}  {% set description = state_attr(item.entity, "description")|default('', true)|trim %} {% set recommended_actions = state_attr(item.entity, "recommended_actions")|default('', true)|trim %} {% set warn_timeframe = "" %} {% set level = state_attr(item.entity, "severity")|default(default_severity, true) %}  {% set sender = state_attr(item.entity, "sender")|default(default_source, true) %}
+                  {# --- Set severity --- #} {% if level == "Extreme" %} {% set severity = "error" %}  {% elif level == "Severe" %}{% set severity = "warning" %}  {% elif level == "Moderate" %}{% set severity = moderate_severity %}  {% elif level == "Minor" %}{% set severity = minor_severity %}  {% else %}{% set severity = default_severity %} {% endif %}
+                  {# --- Check attribute content --- #} {% set has_start = (not not state_attr(item.entity, 'start')|default(false, true)) %} {% set has_sent = (not not state_attr(item.entity, 'sent')|default(false, true)) %} {% set has_end = (not not state_attr(item.entity, 'end')|default(false, true)) %} {% set has_expires = (not not state_attr(item.entity, 'expires')|default(false, true)) %} {% set has_recommended_actions = (not not state_attr(item.entity, 'recommended_actions')|default(false, true)) %}
+                  {# --- Fill timestamp variables --- #} {% if has_sent %}  {% set time_sent = as_timestamp(state_attr(item.entity, "sent")) %}  {% else %}  {% set time_sent = as_timestamp("1970-01-01T00:00:00+00:00") %}  {% endif %} {% set num_weekday_sent = time_sent | timestamp_custom("%w", True) | int %} {% set weekday_sent = "" ~ ['Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag','Sonntag'][num_weekday_sent-1] %}
+                  {% if has_start %}  {% set time_start = as_timestamp(state_attr(item.entity, "start")) %}  {% else %}  {% set time_start = as_timestamp("1970-01-01T00:00:00+00:00") %}  {% endif %} {% set num_weekday_start = time_start | timestamp_custom("%w", True) | int %} {% set weekday_start = "" ~ ['Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag','Sonntag'][num_weekday_start-1] %}
+                  {% if has_end %}  {% set time_end = as_timestamp(state_attr(item.entity, "end")) %}  {% else %}  {% set time_end = as_timestamp("1970-01-01T00:00:00+00:00") %}  {% endif %} {% set num_weekday_end = time_end | timestamp_custom("%w", True) | int %} {% set weekday_end = "" ~ ['Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag','Sonntag'][num_weekday_end-1] %}
+                  {% if has_expires %}  {% set time_expires = as_timestamp(state_attr(item.entity, "expires")) %}  {% else %}  {% set time_expires = as_timestamp("1970-01-01T00:00:00+00:00") %}  {% endif %} {% set num_weekday_expires = time_expires | timestamp_custom("%w", True) | int %} {% set weekday_expires = "" ~ ['Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag','Sonntag'][num_weekday_expires-1] %}
+                  {# --- Format recommended_actions for warning --- #} {% if has_recommended_actions %}  {% set recommended_actions = "<br/>**Empfehlung:** " ~ recommended_actions ~ "<br/>" %} {% endif %}
+                  {# --- Format custom timeframe for warning --- #} {% if show_timeframe %}  {% set warn_timeframe = "<br/>**" ~ weekday_sent ~ ", " ~ time_sent | timestamp_custom("%H:%M Uhr") %} {% if has_start %}  {% set warn_timeframe = "<br/>**" ~ weekday_start ~ ", " ~ time_start | timestamp_custom("%H:%M Uhr") %} {% endif %} {% if has_end %}  {% set warn_timeframe = warn_timeframe ~ " - " ~ weekday_end ~ ", " ~ time_end | timestamp_custom("%H:%M Uhr") ~ "**<br/>"  %} {% elif has_expires %}  {% set warn_timeframe = warn_timeframe ~ " - " ~ weekday_expires ~ ", " ~ time_expires | timestamp_custom("%H:%M Uhr") ~ "**<br/>"  %} {% else %} {% set warn_timeframe = "" %} {% set show_timestamp_sent = true %}  {% endif %} {% endif %}
+                  {# --- Construct ha-alert elements --- #} <ha-alert alert-type="{{ severity }}" title="{{ headline }}">  {{ description }} <br/>  {{ recommended_actions }}  {{ warn_timeframe }} {% if show_timestamp_sent %}  <br/>`{{ time_sent | timestamp_custom("Meldung vom: %d.%m.%Y, %H:%M Uhr") }}` {% endif %} {% if show_source %}  <br/>`Quelle: {{ sender }}` {% endif %}</ha-alert> {% endfor %}
+            grid_options:
+              columns: 12
+              rows: 8
+      - type: grid
+        cards:
+          - type: heading
+            heading_style: title
+            heading: Wesel Rhein
+            icon: mdi:wave
+          - type: custom:mini-graph-card
+            name: Wasserdurchfluss
+            icon: mdi:wave-undercurrent
+            entities:
+              - entity: sensor.wesel_rhein_wasserdurchflussrate
+            hours_to_show: 168
+            points_per_hour: 0.5
+            update_interval: 900
+            animate: true
+            smoothing: true
+            hour24: true
+            tap_action:
+              action: none
+            show:
+              extrema: true
+              state: true
+              legend: true
+              fill: fade
+          - type: custom:mini-graph-card
+            name: Wasserstand
+            icon: mdi:wave-undercurrent
+            entities:
+              - entity: sensor.wesel_rhein_wasserstand
+            hours_to_show: 168
+            points_per_hour: 0.5
+            update_interval: 900
+            animate: true
+            smoothing: true
+            hour24: true
+            tap_action:
+              action: none
+            show:
+              extrema: true
+              state: true
+              legend: true
+              fill: fade
+    cards: []

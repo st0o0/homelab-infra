@@ -1,0 +1,90 @@
+views:
+  - cards: []
+    badges:
+      - type: entity
+        show_name: false
+        show_state: true
+        show_icon: true
+        color: ""
+        entity: weather.tomorrowio_vreden_daily
+      - type: entity
+        show_name: false
+        show_state: true
+        show_icon: true
+        entity: sensor.gw1200a_outdoor_temperature
+    icon: mdi:wall
+    visible:
+      - user: eac73d77978b470d8c91b583260312b0
+    type: sections
+    sections:
+      - type: grid
+        cards:
+          - show_name: true
+            show_icon: true
+            type: button
+            tap_action:
+              action: perform-action
+              perform_action: light.turn_off
+              target:
+                entity_id: all
+              data:
+                transition: 60
+            entity: sensor.lights_on_count
+            name: Alle Lichter aus
+            icon: mdi:lightbulb-outline
+            show_state: false
+            hold_action:
+              action: none
+            grid_options:
+              columns: 12
+              rows: 2
+            visibility:
+              - condition: state
+                entity: sensor.lights_on_count
+                state_not: "0"
+          - show_name: true
+            show_icon: true
+            type: button
+            tap_action:
+              action: toggle
+            entity: scene.aufstehen
+            icon: mdi:lightbulb-multiple
+            grid_options:
+              columns: 12
+              rows: 2
+            show_state: false
+            hold_action:
+              action: none
+            visibility:
+              - condition: state
+                entity: binary_sensor.5bis8
+                state: "on"
+            name: "Guten Morgen "
+      - type: grid
+        cards:
+          - show_current: false
+            show_forecast: true
+            type: weather-forecast
+            entity: weather.tomorrowio_vreden_daily
+            forecast_type: hourly
+            name: Vreden
+            secondary_info_attribute: visibility
+      - type: grid
+        cards:
+          - alert_classes: []
+            sensor_classes:
+              - temperature
+              - humidity
+            features_position: inline
+            display_type: picture
+            type: area
+            area: schlafzimmer
+            navigation_path: /dashboard-views/bedroom
+            color: ""
+            features:
+              - type: area-controls
+                controls:
+                  - light
+    max_columns: 1
+    subview: false
+    dense_section_placement: true

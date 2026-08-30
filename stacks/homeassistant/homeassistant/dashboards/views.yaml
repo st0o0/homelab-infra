@@ -1,0 +1,1496 @@
+views:
+  - title: Schlafzimmer
+    cards: []
+    icon: mdi:bed-king-outline
+    subview: true
+    badges:
+      - type: entity
+        show_name: false
+        show_state: true
+        show_icon: true
+        entity: sensor.alpstuga_air_quality_monitor_luftfeuchtigkeit
+        color: state
+        show_entity_picture: true
+        tap_action:
+          action: none
+      - type: entity
+        show_name: false
+        show_state: true
+        show_icon: true
+        color: state
+        entity: sensor.alpstuga_air_quality_monitor_temperatur
+        show_entity_picture: false
+        tap_action:
+          action: none
+      - type: entity
+        show_name: false
+        show_state: true
+        show_icon: true
+        entity: sensor.alpstuga_air_quality_monitor_kohlendioxid
+        name: CO2
+        tap_action:
+          action: none
+        color: white
+      - type: entity
+        show_name: false
+        show_state: true
+        show_icon: true
+        entity: sensor.alpstuga_air_quality_monitor_pm25
+        color: white
+        tap_action:
+          action: none
+      - type: entity
+        show_name: false
+        show_state: true
+        show_icon: true
+        entity: sensor.alpstuga_air_quality_monitor_luftqualitat
+        color: white
+        tap_action:
+          action: none
+    type: sections
+    sections:
+      - type: grid
+        cards:
+          - show_name: false
+            show_icon: true
+            type: button
+            tap_action:
+              action: toggle
+            entity: light.display_bedroom_0
+            show_state: false
+            icon: mdi:ceiling-light-outline
+            hold_action:
+              action: none
+            grid_options:
+              rows: 2
+              columns: 4
+            visibility:
+              - condition: state
+                state_not: unavailable
+          - show_name: false
+            show_icon: true
+            type: button
+            tap_action:
+              action: toggle
+            entity: light.desklamp_bedroom_1
+            show_state: false
+            hold_action:
+              action: none
+            icon: mdi:light-flood-up
+            grid_options:
+              columns: 4
+              rows: 2
+          - show_name: false
+            show_icon: true
+            type: button
+            tap_action:
+              action: toggle
+            entity: light.desklamp_bedroom_0
+            show_state: false
+            hold_action:
+              action: none
+            icon: mdi:desk-lamp
+            grid_options:
+              columns: 4
+              rows: 2
+          - type: custom:mushroom-light-card
+            entity: light.ormanas_ormanas_01
+            fill_container: false
+            layout: vertical
+            use_light_color: true
+            show_brightness_control: true
+            show_color_control: true
+            show_color_temp_control: true
+            grid_options:
+              columns: 12
+              rows: 2
+            name: Lichtstreifen
+            collapsible_controls: true
+      - type: grid
+        cards:
+          - type: heading
+            icon: mdi:window-shutter
+            heading: Fenster
+            heading_style: subtitle
+            badges:
+              - type: entity
+                show_state: true
+                show_icon: false
+                entity: cover.cover_window_bedroom_0
+                state_content: current_position
+          - square: false
+            type: grid
+            cards:
+              - show_name: false
+                show_icon: true
+                type: button
+                show_state: true
+                hold_action:
+                  action: none
+                entity: cover.cover_window_bedroom_0
+                icon: ""
+              - show_name: true
+                show_icon: true
+                show_state: false
+                type: button
+                tap_action:
+                  action: perform-action
+                  perform_action: script.cover_set_to_position
+                  data:
+                    cover_level: 30
+                    cover_device: cover.cover_window_bedroom_0
+                  target: {}
+                name: 30%
+                icon: mdi:window-shutter
+              - show_name: true
+                show_icon: true
+                show_state: false
+                type: button
+                tap_action:
+                  action: perform-action
+                  perform_action: script.cover_set_to_position
+                  data:
+                    cover_level: 60
+                    cover_device: cover.cover_window_bedroom_0
+                  target: {}
+                name: 60%
+                icon: mdi:window-shutter-alert
+              - show_name: true
+                show_icon: true
+                show_state: false
+                type: button
+                tap_action:
+                  action: perform-action
+                  perform_action: script.cover_set_to_position
+                  data:
+                    cover_level: 90
+                    cover_device: cover.cover_window_bedroom_0
+                  target: {}
+                icon: mdi:window-shutter-open
+                name: 90%
+            columns: 4
+          - type: custom:mushroom-cover-card
+            entity: cover.cover_window_bedroom_0
+            name: Fenster Rollladen
+            fill_container: true
+            grid_options:
+              columns: 12
+              rows: 1
+            show_position_control: true
+            show_buttons_control: false
+            show_tilt_position_control: false
+            primary_info: none
+            secondary_info: none
+            hold_action:
+              action: more-info
+            double_tap_action:
+              action: more-info
+            icon_type: none
+      - type: grid
+        cards:
+          - type: custom:mushroom-fan-card
+            entity: fan.schlafzimmer_industrie_fan_bedroom_0
+            name: Industrielüfter
+            icon_animation: true
+            fill_container: true
+            tap_action:
+              action: toggle
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            secondary_info: none
+            layout: vertical
+            grid_options:
+              columns: 12
+              rows: 2
+            visibility:
+              - condition: state
+                state_not: unavailable
+          - type: tile
+            grid_options:
+              rows: auto
+              columns: full
+            entity: fan.air_circulator
+            name: Dreo Lüfter
+            color: green
+            vertical: true
+            tap_action:
+              action: none
+            icon_tap_action:
+              action: none
+            features:
+              - type: toggle
+              - style: dropdown
+                type: fan-preset-modes
+              - type: fan-speed
+              - type: fan-oscillate
+            features_position: bottom
+        column_span: 1
+      - type: grid
+        cards:
+          - type: custom:mini-graph-card
+            name: Feuchtigkeit
+            icon: mdi:water-percent
+            entities:
+              - entity: sensor.alpstuga_air_quality_monitor_luftfeuchtigkeit
+                show_points: false
+            hours_to_show: 168
+            points_per_hour: 6
+            update_interval: 180
+            decimals: 1
+            animate: true
+            smoothing: true
+            hour24: true
+            aggregate_func: median
+            group_by: time
+            show:
+              state: true
+              legend: false
+              extrema: true
+              fill: true
+            color_thresholds:
+              - value: 40
+                color: #55AA55
+              - value: 60
+                color: #CC3333
+          - type: custom:mini-graph-card
+            name: Temperatur
+            icon: mdi:thermometer
+            entities:
+              - entity: sensor.alpstuga_air_quality_monitor_temperatur
+                show_points: false
+            hours_to_show: 168
+            points_per_hour: 1
+            update_interval: 180
+            decimals: 2
+            animate: true
+            smoothing: true
+            hour24: true
+            color_thresholds:
+              - value: 10
+                color: #3333CC
+              - value: 20
+                color: #33CC33
+              - value: 30
+                color: #CC3333
+            show:
+              state: true
+              legend: false
+              extrema: true
+              fill: true
+          - type: custom:mini-graph-card
+            name: Kohlendioxid
+            icon: mdi:thermometer
+            entities:
+              - entity: sensor.alpstuga_air_quality_monitor_kohlendioxid
+                show_points: false
+            hours_to_show: 168
+            points_per_hour: 1
+            update_interval: 180
+            decimals: 2
+            animate: true
+            smoothing: true
+            hour24: true
+            color_thresholds:
+              - value: 400
+                color: #2ECC71
+              - value: 800
+                color: #A3D900
+              - value: 1000
+                color: #F1C40F
+              - value: 1400
+                color: #E67E22
+              - value: 2000
+                color: #E74C3C
+            show:
+              state: true
+              legend: false
+              extrema: true
+              fill: true
+          - type: custom:mini-graph-card
+            name: PM 2.5
+            icon: mdi:blur
+            entities:
+              - entity: sensor.alpstuga_air_quality_monitor_pm25
+                show_points: false
+            hours_to_show: 168
+            points_per_hour: 1
+            update_interval: 180
+            decimals: 2
+            animate: true
+            smoothing: true
+            hour24: true
+            color_thresholds:
+              - value: 0
+                color: #2ECC71
+              - value: 15
+                color: #F1C40F
+              - value: 35
+                color: #E67E22
+              - value: 75
+                color: #E74C3C
+            show:
+              state: true
+              legend: false
+              extrema: true
+              fill: true
+    max_columns: 1
+    path: bedroom
+  - icon: mdi:sofa-outline
+    subview: true
+    cards: []
+    title: Wohnzimmer
+    badges:
+      - type: entity
+        show_name: false
+        show_state: true
+        show_icon: true
+        color: state
+        entity: sensor.ht_livingroom_0_temperature
+        tap_action:
+          action: none
+      - type: entity
+        show_name: false
+        show_state: true
+        show_icon: true
+        color: state
+        show_entity_picture: false
+        entity: sensor.ht_livingroom_0_humidity
+        tap_action:
+          action: none
+      - type: entity
+        show_name: false
+        show_state: true
+        show_icon: true
+        color: green
+        entity: humidifier.storageroom_humidity_management
+        state_content: humidity
+        tap_action:
+          action: none
+        show_entity_picture: false
+      - type: entity
+        show_name: false
+        show_state: false
+        show_icon: true
+        color: ""
+        entity: fan.fan_storageroom_0
+        tap_action:
+          action: none
+        show_entity_picture: false
+    type: sections
+    sections:
+      - type: grid
+        cards:
+          - type: custom:mushroom-light-card
+            entity: light.floorlamp_livingroom_0
+            fill_container: true
+            show_brightness_control: true
+            show_color_control: false
+            show_color_temp_control: false
+            hold_action:
+              action: more-info
+            double_tap_action:
+              action: none
+            name: Stehlampe
+            icon: mdi:floor-lamp-dual-outline
+            grid_options:
+              columns: 6
+              rows: 2
+          - type: custom:mushroom-media-player-card
+            entity: media_player.nokia_streaming_box_8000
+            fill_container: true
+            secondary_info: none
+            primary_info: none
+            use_media_info: true
+            show_volume_level: false
+            media_controls:
+              - on_off
+            volume_controls: []
+            grid_options:
+              columns: 6
+              rows: 2
+            collapsible_controls: false
+            tap_action:
+              action: navigate
+              navigation_path: /tv-control
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+      - type: grid
+        cards:
+          - type: heading
+            heading_style: subtitle
+            heading: Fenster
+            icon: mdi:window-shutter-open
+            badges:
+              - type: entity
+                show_state: true
+                show_icon: false
+                entity: cover.cover_window_livingroom_0
+                color: state
+                state_content: current_position
+          - square: false
+            type: grid
+            cards:
+              - show_name: false
+                show_icon: true
+                type: button
+                show_state: true
+                hold_action:
+                  action: none
+                entity: cover.cover_window_livingroom_0
+                icon: ""
+              - show_name: true
+                show_icon: true
+                show_state: false
+                type: button
+                tap_action:
+                  action: perform-action
+                  perform_action: script.cover_set_to_position
+                  data:
+                    cover_level: 30
+                    cover_device: cover.cover_window_livingroom_0
+                  target: {}
+                name: 30%
+                icon: mdi:window-shutter
+              - show_name: true
+                show_icon: true
+                show_state: false
+                type: button
+                tap_action:
+                  action: perform-action
+                  perform_action: script.cover_set_to_position
+                  data:
+                    cover_level: 60
+                    cover_device: cover.cover_window_livingroom_0
+                  target: {}
+                name: 60%
+                icon: mdi:window-shutter-alert
+              - show_name: true
+                show_icon: true
+                show_state: false
+                type: button
+                tap_action:
+                  action: perform-action
+                  perform_action: script.cover_set_to_position
+                  data:
+                    cover_level: 90
+                    cover_device: cover.cover_window_livingroom_0
+                  target: {}
+                icon: mdi:window-shutter-open
+                name: 90%
+            columns: 4
+          - type: custom:mushroom-cover-card
+            entity: cover.cover_window_livingroom_0
+            fill_container: true
+            primary_info: none
+            icon_type: none
+            secondary_info: none
+            show_position_control: true
+            grid_options:
+              columns: 12
+              rows: 1
+            hold_action:
+              action: more-info
+            double_tap_action:
+              action: more-info
+      - type: grid
+        cards:
+          - type: heading
+            heading: Doppeltür
+            heading_style: subtitle
+            icon: mdi:window-shutter-open
+            badges:
+              - type: entity
+                show_state: true
+                show_icon: false
+                entity: cover.cover_doubledoor_livingroom_0
+                color: state
+                state_content: current_position
+          - square: false
+            type: grid
+            cards:
+              - show_name: false
+                show_icon: true
+                type: button
+                show_state: true
+                hold_action:
+                  action: none
+                entity: cover.cover_doubledoor_livingroom_0
+                icon: ""
+              - show_name: true
+                show_icon: true
+                show_state: false
+                type: button
+                tap_action:
+                  action: perform-action
+                  perform_action: script.cover_set_to_position
+                  data:
+                    cover_level: 30
+                    cover_device: cover.cover_doubledoor_livingroom_0
+                  target: {}
+                name: 30%
+                icon: mdi:window-shutter
+              - show_name: true
+                show_icon: true
+                show_state: false
+                type: button
+                tap_action:
+                  action: perform-action
+                  perform_action: script.cover_set_to_position
+                  data:
+                    cover_level: 60
+                    cover_device: cover.cover_doubledoor_livingroom_0
+                  target: {}
+                name: 60%
+                icon: mdi:window-shutter-alert
+              - show_name: true
+                show_icon: true
+                show_state: false
+                type: button
+                tap_action:
+                  action: perform-action
+                  perform_action: script.cover_set_to_position
+                  data:
+                    cover_level: 90
+                    cover_device: cover.cover_doubledoor_livingroom_0
+                  target: {}
+                icon: mdi:window-shutter-open
+                name: 90%
+            columns: 4
+          - type: custom:mushroom-cover-card
+            entity: cover.cover_doubledoor_livingroom_0
+            primary_info: none
+            icon_type: none
+            secondary_info: none
+            fill_container: true
+            show_position_control: true
+            grid_options:
+              columns: 12
+              rows: 1
+      - type: grid
+        cards:
+          - type: custom:mini-graph-card
+            name: Feuchtigkeit
+            icon: mdi:water-percent
+            entities:
+              - entity: sensor.ht_livingroom_0_humidity
+                show_points: false
+            hours_to_show: 168
+            points_per_hour: 6
+            update_interval: 180
+            decimals: 1
+            animate: true
+            smoothing: true
+            hour24: true
+            aggregate_func: median
+            group_by: time
+            show:
+              state: true
+              legend: false
+              extrema: true
+              fill: true
+            color_thresholds:
+              - value: 40
+                color: #55AA55
+              - value: 60
+                color: #CC3333
+          - type: custom:mini-graph-card
+            name: Temperatur
+            icon: mdi:thermometer
+            entities:
+              - entity: sensor.ht_livingroom_0_temperature
+                show_points: false
+            hours_to_show: 168
+            points_per_hour: 1
+            update_interval: 180
+            decimals: 2
+            animate: true
+            smoothing: true
+            hour24: true
+            color_thresholds:
+              - value: 10
+                color: #3333CC
+              - value: 20
+                color: #33CC33
+              - value: 30
+                color: #CC3333
+            show:
+              state: true
+              legend: false
+              extrema: true
+              fill: true
+    max_columns: 1
+    path: livingroom
+    dense_section_placement: true
+  - icon: mdi:table-chair
+    subview: true
+    cards: []
+    title: Küche
+    badges:
+      - type: entity
+        show_name: false
+        show_state: true
+        show_icon: true
+        color: state
+        entity: sensor.ht_livingroom_0_temperature
+        tap_action:
+          action: none
+      - type: entity
+        show_name: false
+        show_state: true
+        show_icon: true
+        color: state
+        entity: sensor.ht_livingroom_0_humidity
+        tap_action:
+          action: none
+      - type: entity
+        show_name: true
+        show_state: false
+        show_icon: true
+        color: state
+        entity: sensor.dishwasher_kitchen_0_salz_fast_leer
+        name: Salz nachfüllen
+        tap_action:
+          action: none
+        visibility:
+          - condition: state
+            entity: sensor.dishwasher_kitchen_0_salz_fast_leer
+            state_not: "off"
+        state_content: name
+        icon: mdi:water-alert-outline
+      - type: entity
+        show_name: true
+        show_state: false
+        show_icon: true
+        color: state
+        name: Klarspüler nachfüllen
+        tap_action:
+          action: none
+        visibility:
+          - condition: state
+            entity: sensor.dishwasher_kitchen_0_klarspuler_fast_leer
+            state_not: "off"
+        show_entity_picture: false
+        state_content: name
+        icon: mdi:water-alert-outline
+        entity: sensor.dishwasher_kitchen_0_klarspuler_fast_leer
+    type: sections
+    sections:
+      - type: grid
+        cards:
+          - show_name: false
+            show_icon: true
+            type: button
+            tap_action:
+              action: toggle
+            show_state: false
+            icon: mdi:wall-sconce-flat
+            hold_action:
+              action: none
+            entity: switch.countertoplamp_kitchen_0_switch_0
+            grid_options:
+              columns: 6
+              rows: 2
+          - show_name: false
+            show_icon: true
+            type: button
+            tap_action:
+              action: toggle
+            entity: switch.dishwasher_kitchen_0_einschalter
+            show_state: false
+            icon: mdi:dishwasher
+            grid_options:
+              columns: 6
+              rows: 2
+          - type: entities
+            entities:
+              - entity: sensor.dishwasher_kitchen_0_tur
+              - entity: sensor.dishwasher_kitchen_0_betriebszustand
+            visibility:
+              - condition: state
+                entity: sensor.dishwasher_kitchen_0_betriebszustand
+                state: ready
+              - condition: state
+                entity: sensor.dishwasher_kitchen_0_programm_endzeit
+                state: unavailable
+            show_header_toggle: false
+          - type: custom:timer-bar-card
+            entity: sensor.dishwasher_kitchen_0_betriebszustand
+            name: Spülmaschine
+            icon: mdi:dishwasher
+            active_state: run
+            end_time:
+              entity: sensor.dishwasher_kitchen_0_programm_endzeit
+            text_width: 4em
+            bar_width: calc(75% - 10em)
+            mushroom:
+              color: green
+            visibility:
+              - condition: state
+                entity: sensor.dishwasher_kitchen_0_betriebszustand
+                state_not: ready
+      - type: grid
+        cards:
+          - type: heading
+            heading: Tür
+            heading_style: subtitle
+            icon: mdi:window-shutter-open
+            badges:
+              - type: entity
+                show_state: true
+                show_icon: false
+                entity: cover.cover_door_kitchen_0
+                color: state
+                state_content: current_position
+          - square: false
+            type: grid
+            cards:
+              - show_name: false
+                show_icon: true
+                type: button
+                show_state: true
+                hold_action:
+                  action: none
+                entity: cover.cover_door_kitchen_0
+                icon: ""
+              - show_name: true
+                show_icon: true
+                show_state: false
+                type: button
+                tap_action:
+                  action: perform-action
+                  perform_action: script.cover_set_to_position
+                  data:
+                    cover_level: 30
+                    cover_device: cover.cover_door_kitchen_0
+                  target: {}
+                name: 30%
+                icon: mdi:window-shutter
+              - show_name: true
+                show_icon: true
+                show_state: false
+                type: button
+                tap_action:
+                  action: perform-action
+                  perform_action: script.cover_set_to_position
+                  data:
+                    cover_level: 60
+                    cover_device: cover.cover_door_kitchen_0
+                  target: {}
+                name: 60%
+                icon: mdi:window-shutter-alert
+              - show_name: true
+                show_icon: true
+                show_state: false
+                type: button
+                tap_action:
+                  action: perform-action
+                  perform_action: script.cover_set_to_position
+                  data:
+                    cover_level: 90
+                    cover_device: cover.cover_door_kitchen_0
+                  target: {}
+                icon: mdi:window-shutter-open
+                name: 90%
+            columns: 4
+          - type: custom:mushroom-cover-card
+            entity: cover.cover_door_kitchen_0
+            icon_type: none
+            primary_info: none
+            secondary_info: none
+            show_position_control: true
+            fill_container: true
+            grid_options:
+              columns: 12
+              rows: 1
+      - type: grid
+        cards:
+          - type: heading
+            heading: Doppeltür
+            heading_style: subtitle
+            icon: mdi:window-shutter-open
+            badges:
+              - type: entity
+                show_state: true
+                show_icon: false
+                entity: cover.cover_doubledoor_kitchen_0
+                state_content: current_position
+                color: state
+          - square: false
+            type: grid
+            cards:
+              - show_name: false
+                show_icon: true
+                type: button
+                show_state: true
+                hold_action:
+                  action: none
+                entity: cover.cover_doubledoor_kitchen_0
+                icon: ""
+              - show_name: true
+                show_icon: true
+                show_state: false
+                type: button
+                tap_action:
+                  action: perform-action
+                  perform_action: script.cover_set_to_position
+                  data:
+                    cover_level: 30
+                    cover_device: cover.cover_doubledoor_kitchen_0
+                  target: {}
+                name: 30%
+                icon: mdi:window-shutter
+              - show_name: true
+                show_icon: true
+                show_state: false
+                type: button
+                tap_action:
+                  action: perform-action
+                  perform_action: script.cover_set_to_position
+                  data:
+                    cover_level: 60
+                    cover_device: cover.cover_doubledoor_kitchen_0
+                  target: {}
+                name: 60%
+                icon: mdi:window-shutter-alert
+              - show_name: true
+                show_icon: true
+                show_state: false
+                type: button
+                tap_action:
+                  action: perform-action
+                  perform_action: script.cover_set_to_position
+                  data:
+                    cover_level: 90
+                    cover_device: cover.cover_doubledoor_kitchen_0
+                  target: {}
+                icon: mdi:window-shutter-open
+                name: 90%
+            columns: 4
+          - type: custom:mushroom-cover-card
+            entity: cover.cover_doubledoor_kitchen_0
+            primary_info: none
+            icon_type: none
+            secondary_info: none
+            show_position_control: true
+            grid_options:
+              columns: 12
+              rows: 1
+            fill_container: true
+      - type: grid
+        cards:
+          - type: custom:mini-graph-card
+            name: Feuchtigkeit
+            icon: mdi:water-percent
+            entities:
+              - entity: sensor.schlafzimmer_timmerflotte_luftfeuchtigkeit
+                show_points: false
+            hours_to_show: 168
+            points_per_hour: 6
+            update_interval: 180
+            decimals: 1
+            animate: true
+            smoothing: true
+            hour24: true
+            aggregate_func: median
+            group_by: time
+            show:
+              state: true
+              legend: false
+              extrema: true
+              fill: true
+            color_thresholds:
+              - value: 40
+                color: #55AA55
+              - value: 60
+                color: #CC3333
+          - type: custom:mini-graph-card
+            name: Temperatur
+            icon: mdi:thermometer
+            entities:
+              - entity: sensor.schlafzimmer_timmerflotte_temperatur
+                show_points: false
+            hours_to_show: 168
+            points_per_hour: 1
+            update_interval: 180
+            decimals: 2
+            animate: true
+            smoothing: true
+            hour24: true
+            aggregate_func: median
+            group_by: time
+            color_thresholds:
+              - value: 20
+                color: #3333CC
+              - value: 22.5
+                color: #33CC33
+              - value: 26
+                color: #CC3333
+            show:
+              state: true
+              legend: false
+              extrema: true
+              fill: true
+    max_columns: 1
+    path: kitchen
+    dense_section_placement: true
+  - icon: mdi:shower-head
+    subview: true
+    cards: []
+    title: Badezimmer
+    badges:
+      - type: entity
+        show_name: false
+        show_state: true
+        show_icon: true
+        color: state
+        entity: sensor.ht_bathroom_0_temperature
+        tap_action:
+          action: none
+      - type: entity
+        show_name: false
+        show_state: true
+        show_icon: true
+        color: state
+        entity: sensor.ht_bathroom_0_humidity
+        tap_action:
+          action: none
+      - type: entity
+        show_name: false
+        show_state: true
+        show_icon: true
+        color: green
+        entity: humidifier.bathroom_humidity_management
+        state_content: humidity
+        tap_action:
+          action: none
+      - type: entity
+        show_name: false
+        show_state: true
+        show_icon: true
+        color: ""
+        entity: automation.fan_bathroom_button
+        icon: mdi:fan-auto
+        tap_action:
+          action: none
+    type: sections
+    sections:
+      - type: grid
+        cards:
+          - type: horizontal-stack
+            cards:
+              - show_name: false
+                show_icon: true
+                type: button
+                tap_action:
+                  action: toggle
+                entity: fan.fan_bathroom_0
+                show_state: false
+                grid_options:
+                  columns: 6
+                  rows: 2
+                double_tap_action:
+                  action: none
+              - type: custom:mushroom-humidifier-card
+                entity: humidifier.bathroom_humidity_management
+                fill_container: true
+                show_target_humidity_control: true
+                collapsible_controls: false
+                tap_action:
+                  action: more-info
+                double_tap_action:
+                  action: none
+                name: Lüftungssteuerung
+                primary_info: state
+                secondary_info: none
+                hold_action:
+                  action: toggle
+            visibility:
+              - condition: and
+                conditions:
+                  - condition: state
+                    entity: switch.shower_mode
+                    state: "off"
+                  - condition: state
+                    entity: switch.bathroom_ventilation_mode
+                    state: "off"
+          - type: horizontal-stack
+            cards:
+              - type: custom:timer-bar-card
+                entity: switch.shower_mode
+                icon: mdi:shower-head
+                duration:
+                  entity: input_number.shower_mode_duration
+                  units: minutes
+                tap_action:
+                  action: perform-action
+                  perform_action: timer.cancel
+                  target:
+                    entity_id: timer.shower_mode_timer
+                mushroom:
+                  color: green
+                  layout: vertical
+                  primary_info: none
+                  fill_container: true
+                visibility:
+                  - condition: state
+                    entity: switch.shower_mode
+                    state: "on"
+              - type: custom:mushroom-number-card
+                entity: input_number.shower_mode_duration
+                name: Duschzeit
+                fill_container: true
+                display_mode: slider
+                layout: vertical
+                primary_info: name
+                tap_action:
+                  action: perform-action
+                  perform_action: script.shower_mode_start_timer
+                double_tap_action:
+                  action: none
+                visibility:
+                  - condition: state
+                    entity: switch.shower_mode
+                    state: "off"
+                hold_action:
+                  action: none
+            visibility:
+              - condition: state
+                entity: switch.bathroom_ventilation_mode
+                state: "off"
+      - type: grid
+        cards:
+          - type: custom:mini-graph-card
+            name: Feuchtigkeit
+            icon: mdi:water-percent
+            entities:
+              - entity: sensor.ht_bathroom_0_humidity
+                show_points: false
+            hours_to_show: 168
+            points_per_hour: 6
+            update_interval: 180
+            decimals: 1
+            animate: true
+            smoothing: true
+            hour24: true
+            aggregate_func: median
+            group_by: time
+            show:
+              state: true
+              legend: false
+              extrema: true
+              fill: true
+            color_thresholds:
+              - value: 40
+                color: #55AA55
+              - value: 60
+                color: #CC3333
+          - type: custom:mini-graph-card
+            name: Temperatur
+            icon: mdi:thermometer
+            entities:
+              - entity: sensor.ht_bathroom_0_temperature
+                show_points: false
+            hours_to_show: 168
+            points_per_hour: 1
+            update_interval: 180
+            decimals: 2
+            animate: true
+            smoothing: true
+            hour24: true
+            aggregate_func: median
+            group_by: time
+            color_thresholds:
+              - value: 20
+                color: #3333CC
+              - value: 22.5
+                color: #33CC33
+              - value: 26
+                color: #CC3333
+            show:
+              state: true
+              legend: false
+              extrema: true
+              fill: true
+      - type: grid
+        cards:
+          - type: horizontal-stack
+            cards:
+              - type: horizontal-stack
+                cards:
+                  - type: custom:timer-bar-card
+                    entity: switch.bathroom_ventilation_mode
+                    icon: mdi:fan-clock
+                    duration:
+                      entity: input_number.bathroom_ventilation_mode_duration
+                      units: minutes
+                    tap_action:
+                      action: perform-action
+                      perform_action: timer.cancel
+                      target:
+                        entity_id: timer.bathroom_ventilation_mode_timer
+                    mushroom:
+                      color: green
+                      layout: vertical
+                      primary_info: none
+                      fill_container: true
+                    visibility:
+                      - condition: and
+                        conditions:
+                          - condition: state
+                            entity: switch.bathroom_ventilation_mode
+                            state: "on"
+                          - condition: state
+                            entity: input_boolean.night_ventilation_mode
+                            state: "off"
+                  - type: custom:mushroom-number-card
+                    entity: input_number.bathroom_ventilation_mode_duration
+                    fill_container: true
+                    display_mode: slider
+                    layout: vertical
+                    primary_info: name
+                    tap_action:
+                      action: perform-action
+                      perform_action: script.bathroom_ventilation_mode_start_timer
+                      target: {}
+                    double_tap_action:
+                      action: none
+                    visibility:
+                      - condition: state
+                        entity: switch.bathroom_ventilation_mode
+                        state: "off"
+                    hold_action:
+                      action: none
+                    icon: mdi:fan-clock
+                    name: Lüftung
+                visibility:
+                  - condition: state
+                    entity: switch.shower_mode
+                    state: "off"
+            grid_options:
+              columns: full
+    max_columns: 1
+    path: bathroom
+    dense_section_placement: true
+  - title: Abstellraum
+    icon: mdi:washing-machine
+    subview: true
+    cards: []
+    badges:
+      - type: entity
+        show_name: false
+        show_state: true
+        show_icon: true
+        color: state
+        entity: sensor.ht_storageroom_0_temperature
+        tap_action:
+          action: none
+      - type: entity
+        show_name: false
+        show_state: true
+        show_icon: true
+        color: state
+        entity: sensor.ht_storageroom_0_humidity
+        tap_action:
+          action: none
+      - type: entity
+        show_name: false
+        show_state: true
+        show_icon: true
+        color: green
+        entity: humidifier.storageroom_humidity_management
+        state_content: humidity
+        tap_action:
+          action: none
+      - type: entity
+        show_name: false
+        show_state: false
+        show_icon: true
+        color: ""
+        entity: automation.fan_storageroom_button
+        icon: mdi:fan-auto
+        tap_action:
+          action: none
+    type: sections
+    sections:
+      - type: grid
+        cards:
+          - type: horizontal-stack
+            cards:
+              - show_name: false
+                show_icon: true
+                type: button
+                tap_action:
+                  action: toggle
+                entity: light.lamp_storageroom_0
+                show_state: false
+                grid_options:
+                  columns: 4
+                  rows: 2
+              - show_name: false
+                show_icon: true
+                type: button
+                tap_action:
+                  action: toggle
+                entity: fan.fan_storageroom_0
+                show_state: false
+                visibility:
+                  - condition: state
+                    entity: switch.storageroom_ventilation_mode
+                    state: "off"
+                grid_options:
+                  columns: 4
+                  rows: 2
+              - type: custom:mushroom-humidifier-card
+                entity: humidifier.storageroom_humidity_management
+                fill_container: true
+                show_target_humidity_control: true
+                primary_info: state
+                secondary_info: none
+                visibility:
+                  - condition: state
+                    entity: switch.storageroom_ventilation_mode
+                    state: "off"
+                grid_options:
+                  columns: 4
+                  rows: 2
+                double_tap_action:
+                  action: none
+                tap_action:
+                  action: more-info
+                hold_action:
+                  action: toggle
+            grid_options:
+              columns: 12
+              rows: 2
+        column_span: 1
+      - type: grid
+        cards: []
+      - type: grid
+        cards:
+          - type: vertical-stack
+            cards:
+              - type: custom:mushroom-template-card
+                primary: "{{ states('select.washmachine_storageroom_0_aktives_programm') | replace('laundry_care_washer_program_', '') | replace('_', ' ') | title }}"
+                secondary: "{% set state = states('sensor.washmachine_storageroom_0_betriebszustand') %}{% if state == 'run' %}{% set end = as_timestamp(states('sensor.washmachine_storageroom_0_programm_endzeit')) %}{% set remaining = ((end - now().timestamp()) / 60) | int %}{% if remaining > 60 %}Noch {{ (remaining / 60) | int }}h {{ remaining % 60 }}min{% elif remaining > 0 %}Noch {{ remaining }} Minuten{% else %}Gleich fertig...{% endif %}{% elif state == 'finished' %}Fertig — bitte ausräumen{% elif state == 'pause' %}Pausiert{% elif state == 'ready' %}Bereit{% else %}{{ state | title }}{% endif %}"
+                icon: mdi:washing-machine
+                icon_color: "{% set state = states('sensor.washmachine_storageroom_0_betriebszustand') %}{% if state == 'run' %}blue{% elif state == 'finished' %}green{% elif state == 'pause' %}orange{% else %}grey{% endif %}"
+                entity: sensor.washmachine_storageroom_0_betriebszustand
+                tap_action:
+                  action: more-info
+                visibility:
+                  - condition: state
+                    entity: sensor.washmachine_storageroom_0_betriebszustand
+                    state_not: inactive
+              - type: custom:timer-bar-card
+                entity: sensor.washmachine_storageroom_0_betriebszustand
+                name: Waschmaschine
+                icon: mdi:washing-machine
+                active_state: run
+                end_time:
+                  entity: sensor.washmachine_storageroom_0_programm_endzeit
+                text_width: 4em
+                bar_width: calc(75% - 10em)
+                mushroom:
+                  color: green
+                visibility:
+                  - condition: state
+                    entity: sensor.washmachine_storageroom_0_betriebszustand
+                    state_not: inactive
+          - type: tile
+            grid_options:
+              columns: 12
+              rows: 1
+            entity: switch.washmachine_storageroom_0_einschalter
+            name: Einschalter
+            hide_state: true
+            vertical: true
+            tap_action:
+              action: toggle
+            features_position: bottom
+            visibility:
+              - condition: state
+                entity: sensor.washmachine_storageroom_0_betriebszustand
+                state_not: run
+      - type: grid
+        cards:
+          - type: custom:mini-graph-card
+            name: Feuchtigkeit
+            icon: mdi:water-percent
+            entities:
+              - entity: sensor.ht_storageroom_0_humidity
+                show_points: false
+            hours_to_show: 168
+            points_per_hour: 6
+            update_interval: 180
+            decimals: 1
+            animate: true
+            smoothing: true
+            hour24: true
+            aggregate_func: median
+            group_by: time
+            show:
+              state: true
+              legend: false
+              extrema: true
+              fill: true
+            color_thresholds:
+              - value: 40
+                color: #55AA55
+              - value: 60
+                color: #CC3333
+          - type: custom:mini-graph-card
+            name: Temperatur
+            icon: mdi:thermometer
+            entities:
+              - entity: sensor.ht_storageroom_0_temperature
+                show_points: false
+            hours_to_show: 168
+            points_per_hour: 1
+            update_interval: 180
+            decimals: 2
+            animate: true
+            smoothing: true
+            hour24: true
+            aggregate_func: median
+            group_by: time
+            color_thresholds:
+              - value: 19
+                color: #3333CC
+              - value: 22
+                color: #33CC33
+              - value: 25
+                color: #CC3333
+            show:
+              state: true
+              legend: false
+              extrema: true
+              fill: true
+      - type: grid
+        cards:
+          - type: horizontal-stack
+            cards:
+              - type: custom:timer-bar-card
+                entity: switch.storageroom_ventilation_mode
+                icon: mdi:fan-clock
+                duration:
+                  entity: input_number.storageroom_ventilation_mode_duration
+                  units: minutes
+                tap_action:
+                  action: perform-action
+                  perform_action: timer.cancel
+                  target:
+                    entity_id: timer.storageroom_ventilation_mode_timer
+                mushroom:
+                  color: green
+                  layout: vertical
+                  primary_info: none
+                  fill_container: true
+                visibility:
+                  - condition: and
+                    conditions:
+                      - condition: state
+                        entity: switch.storageroom_ventilation_mode
+                        state: "on"
+                      - condition: state
+                        entity: input_boolean.night_ventilation_mode
+                        state: "off"
+              - type: custom:mushroom-number-card
+                entity: input_number.storageroom_ventilation_mode_duration
+                fill_container: true
+                display_mode: slider
+                layout: vertical
+                primary_info: name
+                tap_action:
+                  action: perform-action
+                  perform_action: script.storageroom_ventilation_mode_start_timer
+                  target: {}
+                double_tap_action:
+                  action: none
+                visibility:
+                  - condition: state
+                    entity: switch.storageroom_ventilation_mode
+                    state: "off"
+                hold_action:
+                  action: none
+                icon: mdi:fan-clock
+                name: Lüftung
+            grid_options:
+              columns: full
+    max_columns: 1
+    dense_section_placement: true
+    path: storageroom
+  - type: sections
+    max_columns: 1
+    icon: mdi:sunglasses
+    path: loggia
+    sections:
+      - type: grid
+        cards:
+          - type: custom:mini-graph-card
+            name: Feuchtigkeit
+            icon: mdi:water-percent
+            entities:
+              - entity: sensor.gw1200a_outdoor_humidity
+            hours_to_show: 168
+            points_per_hour: 1
+            update_interval: 180
+            decimals: 1
+            animate: true
+            smoothing: true
+            hour24: true
+            aggregate_func: median
+            group_by: time
+            show:
+              state: true
+              legend: false
+              extrema: true
+              fill: true
+            color_thresholds:
+              - value: 40
+                color: #55AA55
+              - value: 60
+                color: #CC3333
+          - type: custom:mini-graph-card
+            name: Temperatur
+            icon: mdi:thermometer
+            entities:
+              - entity: sensor.gw1200a_outdoor_temperature
+            hours_to_show: 168
+            points_per_hour: 1
+            update_interval: 180
+            decimals: 2
+            animate: true
+            smoothing: true
+            hour24: true
+            aggregate_func: median
+            group_by: time
+            color_thresholds:
+              - value: 10
+                color: #3333CC
+              - value: 20
+                color: #33CC33
+              - value: 30
+                color: #CC3333
+            show:
+              state: true
+              legend: false
+              extrema: true
+              fill: true
+    cards: []
+    subview: true
+    badges:
+      - type: entity
+        show_name: false
+        show_state: true
+        show_icon: true
+        entity: binary_sensor.gw1200a_outdoor_battery
+        icon: mdi:battery-alert
+        show_entity_picture: false
+        color: purple
+        tap_action:
+          action: none
+    title: Loggia

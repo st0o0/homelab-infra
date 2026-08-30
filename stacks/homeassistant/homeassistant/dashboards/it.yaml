@@ -1,0 +1,3824 @@
+views:
+  - type: sections
+    max_columns: 3
+    title: IT
+    dense_section_placement: true
+    sections:
+      - type: grid
+        cards:
+          - type: heading
+            heading_style: title
+            heading: Internet
+            icon: mdi:web
+            badges:
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: binary_sensor.9_9_9_9
+                tap_action:
+                  action: none
+                name: 9.9.9.9
+                color: accent
+                state_content: name
+                icon: mdi:web-check
+              - type: entity
+                show_state: true
+                show_icon: true
+                color: primary
+                icon: mdi:web-check
+                entity: binary_sensor.1_1_1_1
+                state_content: name
+                name: 1.1.1.1
+          - type: statistic
+            period:
+              calendar:
+                period: month
+            stat_type: mean
+            entity: sensor.speedtest_upload
+            name: Upload Avg
+          - type: statistic
+            period:
+              calendar:
+                period: month
+            stat_type: mean
+            entity: sensor.speedtest_download
+            name: Download Avg
+          - type: horizontal-stack
+            cards:
+              - type: custom:mini-graph-card
+                name: Upload
+                icon: mdi:speedometer
+                entities:
+                  - entity: sensor.speedtest_upload
+                    name: Upload
+                hours_to_show: 168
+                points_per_hour: 0.3
+                update_interval: 720
+                decimals: 2
+                hour24: true
+                cache: true
+                tap_action:
+                  action: none
+                show:
+                  state: true
+                  extrema: false
+                  fill: fade
+              - type: custom:mini-graph-card
+                name: Download
+                icon: mdi:speedometer
+                entities:
+                  - entity: sensor.speedtest_download
+                    name: Download
+                hours_to_show: 168
+                points_per_hour: 0.3
+                update_interval: 720
+                decimals: 2
+                hour24: true
+                cache: true
+                tap_action:
+                  action: none
+                show:
+                  state: true
+                  extrema: false
+                  fill: fade
+            visibility:
+              - condition: state
+                entity: sensor.speedtest_download
+                state_not: unavailable
+              - condition: state
+                entity: sensor.speedtest_upload
+                state_not: unavailable
+          - type: custom:mushroom-update-card
+            entity: update.primary_pi_hole_docker_update_available
+            icon: mdi:package-up
+            layout: vertical
+            fill_container: true
+            primary_info: name
+            secondary_info: state
+            show_buttons_control: false
+            collapsible_controls: false
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            tap_action:
+              action: more-info
+            name: Primary Pi-Hole
+          - type: custom:mushroom-update-card
+            entity: update.secondary_pi_hole_docker_update_available
+            icon: mdi:package-up
+            layout: vertical
+            fill_container: true
+            primary_info: name
+            secondary_info: state
+            show_buttons_control: false
+            collapsible_controls: false
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            tap_action:
+              action: more-info
+            name: Secondary Pi-Hole
+      - type: grid
+        cards:
+          - type: heading
+            heading_style: title
+            icon: mdi:nas
+            badges:
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: update.truenas_system
+                color: primary
+                state_content: latest_version
+                visibility:
+                  - condition: state
+                    entity: update.truenas_system
+                    state: "on"
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: binary_sensor.truenas_system_boot_pool_healthy
+                color: yellow
+                state_content: Status
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: binary_sensor.truenas_system_apps_healthy
+                color: amber
+                state_content: Status
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: binary_sensor.truenas_system_volume01_healthy
+                color: orange
+                state_content: Status
+            tap_action:
+              action: none
+            heading: FeelsAmazingMan
+          - type: custom:mini-graph-card
+            name: Festplattentemperatur
+            icon: mdi:temperature-celsius
+            entities:
+              - entity: sensor.disk_feelsamazingman_toshiba_mg09aca18te_temperatur
+                name: Drive01
+              - entity: sensor.disk_feelsamazingman_toshiba_mg09aca18te_temperatur_2
+                name: Drive02
+                show_state: true
+              - entity: sensor.disk_feelsamazingman_toshiba_mg09aca18te_temperatur_3
+                name: Drive03
+                show_state: true
+              - entity: sensor.disk_feelsamazingman_toshiba_mg09aca18te_temperatur_4
+                name: Drive04
+                show_state: true
+              - entity: sensor.disk_feelsamazingman_toshiba_mg09aca18te_temperatur_5
+                name: Drive05
+                show_state: true
+            hours_to_show: 168
+            points_per_hour: 0.3
+            update_interval: 60
+            decimals: 0
+            hour24: true
+            cache: true
+            tap_action:
+              action: none
+            show:
+              state: true
+              fill: fade
+          - type: custom:mini-graph-card
+            name: Festplattentemperatur
+            icon: mdi:temperature-celsius
+            entities:
+              - entity: sensor.toshiba_mg09aca18te_01_temperatur
+                name: Drive01
+              - entity: sensor.toshiba_mg09aca18te_02_temperatur
+                name: Drive02
+                show_state: true
+              - entity: sensor.toshiba_mg09aca18te_03_temperatur
+                name: Drive03
+                show_state: true
+              - entity: sensor.toshiba_mg09aca18te_04_temperatur
+                name: Drive04
+                show_state: true
+              - entity: sensor.toshiba_mg09aca18te_05_temperatur
+                name: Drive05
+                show_state: true
+            hours_to_show: 168
+            points_per_hour: 0.3
+            update_interval: 60
+            decimals: 0
+            hour24: true
+            cache: true
+            tap_action:
+              action: none
+            show:
+              state: true
+              fill: fade
+          - type: horizontal-stack
+            cards:
+              - type: custom:mini-graph-card
+                name: Intern
+                icon: mdi:harddisk
+                entities:
+                  - entity: sensor.truenas_datasets_volume01
+                hours_to_show: 168
+                points_per_hour: 0.3
+                update_interval: 168
+                hour24: true
+                cache: true
+                tap_action:
+                  action: none
+                show:
+                  extrema: false
+                  fill: fade
+      - type: grid
+        cards:
+          - type: heading
+            heading_style: title
+            heading: DS418
+            icon: mdi:nas
+            badges:
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: update.ds418_dsm_update
+                tap_action:
+                  action: more-info
+                color: state
+                icon: mdi:update
+                visibility:
+                  - condition: state
+                    entity: update.ds418_dsm_update
+                    state: "on"
+              - type: entity
+                show_state: true
+                show_icon: true
+                tap_action:
+                  action: more-info
+                color: state
+                entity: binary_sensor.ds418_sicherheitsstatus
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: sensor.ds418_volume_01_verwendetes_volumen
+                color: purple
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: sensor.ds418_volume_01_durchschnittliche_festplattentemperatur
+                color: green
+            tap_action:
+              action: url
+              url_path: https://st0o0.synology.me:62626/#/signin
+          - type: custom:mini-graph-card
+            name: Festplattentemperatur
+            icon: mdi:temperature-celsius
+            entities:
+              - entity: sensor.ds418_drive_01_temperature
+                name: Drive01
+              - entity: sensor.ds418_drive_02_temperature
+                name: Drive02
+                show_state: true
+              - entity: sensor.ds418_drive_03_temperature
+                name: Drive03
+                show_state: true
+              - entity: sensor.ds418_drive_04_temperature
+                name: Drive04
+                show_state: true
+            hours_to_show: 168
+            points_per_hour: 0.3
+            update_interval: 60
+            decimals: 0
+            hour24: true
+            cache: true
+            tap_action:
+              action: none
+            show:
+              state: true
+              fill: fade
+          - type: horizontal-stack
+            cards:
+              - type: custom:mini-graph-card
+                name: Intern
+                icon: mdi:harddisk
+                entities:
+                  - entity: sensor.ds418_volume_01_belegter_speicherplatz
+                    name: Belegt
+                hours_to_show: 168
+                points_per_hour: 0.3
+                update_interval: 168
+                hour24: true
+                cache: true
+                tap_action:
+                  action: none
+                show:
+                  state: true
+                  extrema: false
+                  fill: fade
+      - type: grid
+        cards:
+          - type: heading
+            icon: mdi:raspberry-pi
+            heading_style: title
+            heading: RaspberryPi 4 - 4GB
+            badges:
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: sensor.system_monitor_prozessortemperatur
+                color: state
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: sensor.docker_hub
+                state_content: state
+                color: accent
+                visibility:
+                  - condition: state
+                    entity: binary_sensor.docker_hub_update_available
+                    state: "on"
+            tap_action:
+              action: none
+          - type: custom:mini-graph-card
+            name: Auslastung
+            icon: mdi:chip
+            entities:
+              - entity: sensor.system_monitor_last_1_min
+                name: 1min
+              - entity: sensor.system_monitor_last_5_min
+                name: 5min
+                show_state: true
+              - entity: sensor.system_monitor_last_15_min
+                name: 15min
+                show_state: true
+            hours_to_show: 48
+            points_per_hour: 1
+            update_interval: 60
+            decimals: 2
+            hour24: true
+            cache: true
+            tap_action:
+              action: none
+            show:
+              state: true
+              fill: fade
+          - type: custom:mini-graph-card
+            name: Energy Cost
+            icon: mdi:power-plug
+            entities:
+              - entity: sensor.stromkosten
+            hours_to_show: 720
+            points_per_hour: 0.1
+            update_interval: 180
+            decimals: 2
+            hour24: true
+            cache: true
+            logarithmic: true
+            tap_action:
+              action: none
+            show:
+              state: true
+              legend: false
+              fill: fade
+      - type: grid
+        cards:
+          - type: heading
+            heading: USV
+            heading_style: title
+            icon: mdi:battery-heart-variant
+            badges:
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: sensor.usv_batterie_ladung
+                color: state
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: sensor.usv_batterielaufzeit
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: sensor.usv_last
+                color: state
+                state_content: state
+            tap_action:
+              action: url
+              url_path: http://10.0.20.120:8080
+          - type: custom:mini-graph-card
+            name: Load
+            icon: mdi:weight
+            entities:
+              - entity: sensor.usv_last
+                name: Load
+            hours_to_show: 168
+            points_per_hour: 1
+            update_interval: 180
+            decimals: 1
+            animate: true
+            hour24: true
+            aggregate_func: median
+            show:
+              state: true
+              legend: false
+              extrema: false
+              fill: fade
+          - type: horizontal-stack
+            cards:
+              - type: custom:mini-graph-card
+                name: Battery Voltage
+                icon: mdi:battery-charging
+                entities:
+                  - entity: sensor.usv_batteriespannung
+                    name: Spannung
+                  - entity: sensor.usv_nominale_batteriespannung
+                    name: Nominale Spannung
+                    fixed_value: true
+                    show_points: false
+                    show_fill: false
+                hours_to_show: 168
+                height: 250
+                points_per_hour: 0.34
+                update_interval: 720
+                decimals: 2
+                hour24: true
+                cache: true
+                show:
+                  state: true
+                  legend: false
+                  average: true
+                  fill: fade
+              - type: custom:mini-graph-card
+                name: Input Voltage
+                icon: mdi:power-plug-outline
+                entities:
+                  - entity: sensor.usv_eingangsspannung
+                    name: Spannung
+                  - entity: sensor.usv_nominale_eingangsspannung
+                    name: Nominale Spannung
+                    show_fill: false
+                    show_points: false
+                    fixed_value: true
+                hours_to_show: 168
+                height: 250
+                points_per_hour: 0.34
+                update_interval: 720
+                decimals: 2
+                hour24: true
+                cache: true
+                show:
+                  state: true
+                  legend: false
+                  average: true
+                  fill: fade
+            grid_options:
+              columns: 12
+              rows: auto
+      - type: grid
+        cards:
+          - type: heading
+            heading: Rack Supply
+            heading_style: title
+            badges:
+              - type: entity
+                entity: sensor.it_switch_0_device_temperature
+            icon: mdi:power-plug-outline
+          - type: custom:mini-graph-card
+            name: Rack
+            icon: mdi:power-plug-outline
+            entities:
+              - entity: sensor.strom_it
+                name: Power
+            hours_to_show: 24
+            points_per_hour: 3
+            update_interval: 180
+            decimals: 1
+            hour24: true
+            cache: true
+            aggregate_func: median
+            show:
+              state: true
+              legend: false
+              extrema: false
+              fill: fade
+          - type: custom:mini-graph-card
+            name: Strom
+            icon: mdi:power-plug-outline
+            entities:
+              - entity: sensor.strom_phase_a_active_power
+                name: A
+              - entity: sensor.strom_phase_b_active_power
+                name: B
+                show_state: true
+              - entity: sensor.strom_phase_c_active_power
+                name: C
+                show_state: true
+            hours_to_show: 12
+            points_per_hour: 2
+            update_interval: 180
+            decimals: 1
+            hour24: true
+            cache: true
+            show:
+              state: true
+              legend: false
+              fill: fade
+      - type: grid
+        cards:
+          - type: heading
+            heading_style: title
+            icon: mdi:pi-hole
+            badges:
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: update.primary_pi_hole_docker_update_available
+                color: accent
+                state_content: latest_version
+                visibility:
+                  - condition: state
+                    entity: update.primary_pi_hole_docker_update_available
+                    state: "on"
+                icon: mdi:package-up
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: binary_sensor.primary_pi_hole_status
+                color: accent
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: update.secondary_pi_hole_docker_update_available
+                visibility:
+                  - condition: state
+                    entity: update.secondary_pi_hole_docker_update_available
+                    state: "on"
+                state_content: latest_version
+                color: primary
+                icon: mdi:package-up
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: binary_sensor.secondary_pi_hole_status
+                color: primary
+          - type: custom:mini-graph-card
+            icon: mdi:dns
+            name: Pi-Hole
+            entities:
+              - entity: sensor.primary_pi_hole_dns_queries_today
+                name: Primary Total
+              - entity: sensor.secondary_pi_hole_dns_queries_today
+                name: Secondary Total
+                show_state: true
+              - entity: sensor.primary_pi_hole_ads_blocked_today
+                name: Primary Blocked
+              - entity: sensor.secondary_pi_hole_ads_blocked_today
+                name: Secondary Blocked
+              - entity: sensor.primary_pi_hole_dns_queries_cached
+                name: Primary Cached
+              - entity: sensor.secondary_pi_hole_dns_queries_cached
+                name: Secondary Cached
+              - entity: sensor.primary_pi_hole_dns_queries_forwarded
+                name: Primary Forwarded
+              - entity: sensor.secondary_pi_hole_dns_queries_forwarded
+                name: Secondary Forwarded
+            hours_to_show: 72
+            points_per_hour: 0.5
+            update_interval: 120
+            aggregate_func: avg
+            decimals: 0
+            unit: q
+            cache: true
+            hour24: true
+            tap_action:
+              action: none
+            show:
+              legend: true
+              state: true
+              fill: fade
+          - type: custom:mini-graph-card
+            icon: mdi:dns
+            name: Domains blocked
+            entities:
+              - entity: sensor.primary_pi_hole_domains_blocked
+                name: Primary
+              - entity: sensor.secondary_pi_hole_domains_blocked
+                name: Secondary
+                show_state: true
+            hours_to_show: 72
+            points_per_hour: 0.2
+            update_interval: 900
+            decimals: 0
+            unit: d
+            cache: true
+            hour24: true
+            tap_action:
+              action: none
+            show:
+              state: true
+              fill: fade
+          - type: gauge
+            entity: sensor.primary_pi_hole_ads_percentage_blocked_today
+            needle: false
+            severity:
+              green: 60
+              yellow: 30
+              red: 0
+            max: 100
+            min: 0
+            tap_action:
+              action: none
+            grid_options:
+              columns: 6
+              rows: auto
+          - type: gauge
+            entity: sensor.secondary_pi_hole_ads_percentage_blocked_today
+            needle: false
+            severity:
+              green: 60
+              yellow: 30
+              red: 0
+            max: 100
+            min: 0
+            tap_action:
+              action: none
+            grid_options:
+              columns: 6
+              rows: auto
+      - type: grid
+        cards:
+          - type: heading
+            heading_style: title
+            icon: mdi:server-security
+            heading: Servarr
+          - type: custom:mini-graph-card
+            name: Anzahl
+            icon: mdi:jellyfish-outline
+            entities:
+              - entity: sensor.sonarr_sendungen
+                name: Series
+              - entity: sensor.radarr_filme
+                name: Movies
+                show_state: true
+            hours_to_show: 168
+            points_per_hour: 0.5
+            update_interval: 180
+            decimals: 0
+            cache: true
+            hour24: true
+            tap_action:
+              action: none
+            show:
+              state: true
+              fill: fade
+          - show_name: true
+            show_icon: true
+            show_state: true
+            type: glance
+            entities:
+              - entity: sensor.overseerr_anstehende_anfragen
+                name: Anstehende Anfragen
+              - entity: sensor.overseerr_abgelehnte_anfragen
+                name: Abgelehnte anfragen
+              - entity: sensor.overseerr_tv_anfragen
+                name: TV anfragen
+              - entity: sensor.overseerr_film_anfragen
+                name: Film anfragen
+            state_color: true
+            title: Jellyseerr
+            columns: 2
+      - type: grid
+        cards:
+          - type: heading
+            heading_style: title
+            icon: mdi:paperclip
+            heading: Management
+          - show_name: true
+            show_icon: true
+            show_state: true
+            type: glance
+            entities:
+              - entity: sensor.mealie_benutzer
+                name: Benutzer
+              - entity: sensor.mealie_kategorien
+                name: Kategorien
+              - entity: sensor.mealie_rezepte
+                name: Rezepte
+              - entity: sensor.mealie_tags
+                name: Tags
+              - entity: sensor.mealie_werkzeuge
+                name: Werkzeuge
+            state_color: true
+            title: Mealie
+          - show_name: true
+            show_icon: true
+            show_state: true
+            type: glance
+            entities:
+              - entity: sensor.immich_anzahl_fotos
+                name: Fotos
+              - entity: sensor.immich_anzahl_videos
+                name: Videos
+              - entity: sensor.immich_speicherplatz_auslastung
+                name: Speicherauslastung
+            state_color: true
+            title: Immich
+          - show_name: true
+            show_icon: true
+            show_state: true
+            type: glance
+            entities:
+              - entity: sensor.paperless_dokumente_insgesamt
+                name: Dokumente
+              - entity: sensor.paperless_dokumenttypen
+                name: Dokumenttypen
+              - entity: sensor.paperless_verfugbarer_speicherplatz
+                name: Speicherplatz
+            state_color: true
+            title: Paperless
+          - type: custom:mushroom-update-card
+            entity: update.paperless_software
+            name: Paperless
+            icon: mdi:package-up
+            fill_container: true
+            layout: vertical
+            show_buttons_control: false
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            primary_info: name
+            secondary_info: state
+          - type: custom:mushroom-update-card
+            entity: update.immich_version
+            name: Immich
+            icon: mdi:package-up
+            layout: vertical
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+    badges: []
+    cards: []
+    path: it
+    visible:
+      - user: 40ecff3c47134f45a0533a3d311cfbe9
+      - user: 133cecd7aca44a8694c70c2dbbb96745
+    icon: mdi:server-security
+    subview: false
+  - title: Stromverteilung
+    path: verteilung
+    icon: mdi:chart-pie
+    type: sections
+    max_columns: 2
+    dense_section_placement: true
+    sections:
+      - type: grid
+        column_span: 2
+        columns: 4
+        cards:
+          - type: tile
+            grid_options:
+              columns: full
+              rows: auto
+            entity: sensor.strom_total_active_power
+            name: Gesamt Netz
+            icon: mdi:transmission-tower
+            color: deep-orange
+            show_entity_picture: false
+            hide_state: false
+            vertical: true
+            tap_action:
+              action: none
+            icon_tap_action:
+              action: none
+            features:
+              - type: trend-graph
+                detail: false
+                hours_to_show: 12
+            features_position: bottom
+      - type: grid
+        column_span: 2
+        cards:
+          - type: distribution
+            entities:
+              - entity: sensor.strom_wohnzimmer
+                name: Wohnzimmer
+              - entity: sensor.strom_it
+                name: IT
+              - entity: sensor.strom_kuche
+                name: Küche
+              - entity: sensor.strom_schlafzimmer
+                name: Schlafzimmer
+              - entity: sensor.strom_flur
+                name: Flur
+              - entity: sensor.strom_abstellraum
+                name: Abstellraum
+              - entity: sensor.strom_sonstige
+                name: Sonstige
+            grid_options:
+              columns: full
+              rows: auto
+      - type: grid
+        column_span: 2
+        cards:
+          - type: glance
+            title: Phase A
+            show_state: true
+            columns: 2
+            entities:
+              - entity: sensor.strom_phase_a_active_power
+                name: Wirkleistung
+              - entity: sensor.strom_phase_a_apparent_power
+                name: Scheinleistung
+              - entity: sensor.strom_phase_a_reactive_power
+                name: Blindleistung
+              - entity: sensor.strom_phase_a_power_factor
+                name: PF
+          - type: glance
+            title: Phase B
+            show_state: true
+            columns: 2
+            entities:
+              - entity: sensor.strom_phase_b_active_power
+                name: Wirkleistung
+              - entity: sensor.strom_phase_b_apparent_power
+                name: Scheinleistung
+              - entity: sensor.strom_phase_b_reactive_power
+                name: Blindleistung
+              - entity: sensor.strom_phase_b_power_factor
+                name: PF
+          - type: glance
+            title: Phase C
+            show_state: true
+            columns: 2
+            entities:
+              - entity: sensor.strom_phase_c_active_power
+                name: Wirkleistung
+              - entity: sensor.strom_phase_c_apparent_power
+                name: Scheinleistung
+              - entity: sensor.strom_phase_c_reactive_power
+                name: Blindleistung
+              - entity: sensor.strom_phase_c_power_factor
+                name: PF
+          - type: statistics-graph
+            title: Verlauf nach Bereich (24h)
+            chart_type: bar
+            period: hour
+            stat_types:
+              - mean
+            entities:
+              - entity: sensor.strom_wohnzimmer
+                name: Wohnzimmer
+              - entity: sensor.strom_it
+                name: IT
+              - entity: sensor.strom_kuche
+                name: Küche
+              - entity: sensor.strom_schlafzimmer
+                name: Schlafzimmer
+              - entity: sensor.strom_flur
+                name: Flur
+              - entity: sensor.strom_abstellraum
+                name: Abstellraum
+              - entity: sensor.strom_sonstige
+                name: Sonstige
+      - type: grid
+        column_span: 2
+        cards:
+          - type: custom:apexcharts-card
+            header:
+              show: true
+              title: Wirkleistung vs. Scheinleistung (24h)
+              show_states: true
+              colorize_states: true
+            graph_span: 24h
+            span:
+              end: minute
+            apex_config:
+              legend:
+                show: true
+              stroke:
+                curve: smooth
+                width:
+                  - 2
+                  - 1
+                  - 2
+                  - 1
+                  - 2
+                  - 1
+                dashArray:
+                  - 0
+                  - 6
+                  - 0
+                  - 6
+                  - 0
+                  - 6
+              fill:
+                opacity:
+                  - 1
+                  - 0.5
+                  - 1
+                  - 0.5
+                  - 1
+                  - 0.5
+            series:
+              - entity: sensor.strom_phase_a_active_power
+                name: A - Wirkleistung
+                color: #e74c3c
+                group_by:
+                  func: avg
+                  duration: 5min
+              - entity: sensor.strom_phase_a_apparent_power
+                name: A - Scheinleistung
+                color: #e74c3c
+                group_by:
+                  func: avg
+                  duration: 5min
+              - entity: sensor.strom_phase_b_active_power
+                name: B - Wirkleistung
+                color: #3498db
+                group_by:
+                  func: avg
+                  duration: 5min
+              - entity: sensor.strom_phase_b_apparent_power
+                name: B - Scheinleistung
+                color: #3498db
+                group_by:
+                  func: avg
+                  duration: 5min
+              - entity: sensor.strom_phase_c_active_power
+                name: C - Wirkleistung
+                color: #2ecc71
+                group_by:
+                  func: avg
+                  duration: 5min
+              - entity: sensor.strom_phase_c_apparent_power
+                name: C - Scheinleistung
+                color: #2ecc71
+                group_by:
+                  func: avg
+                  duration: 5min
+          - type: custom:apexcharts-card
+            header:
+              show: true
+              title: Blindleistung nach Phase (24h)
+              show_states: true
+              colorize_states: true
+            graph_span: 24h
+            span:
+              end: minute
+            apex_config:
+              legend:
+                show: true
+              stroke:
+                curve: smooth
+            series:
+              - entity: sensor.strom_phase_a_reactive_power
+                name: Phase A
+                color: #e74c3c
+                stroke_width: 2
+                group_by:
+                  func: avg
+                  duration: 5min
+              - entity: sensor.strom_phase_b_reactive_power
+                name: Phase B
+                color: #3498db
+                stroke_width: 2
+                group_by:
+                  func: avg
+                  duration: 5min
+              - entity: sensor.strom_phase_c_reactive_power
+                name: Phase C
+                color: #2ecc71
+                stroke_width: 2
+                group_by:
+                  func: avg
+                  duration: 5min
+  - title: Shelly Info
+    cards: []
+    visible:
+      - user: 40ecff3c47134f45a0533a3d311cfbe9
+      - user: 133cecd7aca44a8694c70c2dbbb96745
+    type: sections
+    sections:
+      - type: grid
+        columns: 1
+        gap: 8px
+        cards:
+          - type: heading
+            heading: Küche
+            icon: mdi:table-chair
+            tap_action:
+              action: navigate
+              navigation_path: /dashboard-views/kitchen
+          - type: heading
+            icon: mdi:wall-sconce-round-outline
+            heading: Zeile
+            heading_style: subtitle
+            badges:
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: update.countertoplamp_kitchen_0_firmware
+                color: state
+                icon: mdi:update
+                tap_action:
+                  action: more-info
+              - type: entity
+                entity: sensor.countertoplamp_kitchen_0_device_temperature
+                color: accent
+                show_state: true
+                show_icon: true
+          - type: grid
+            square: false
+            columns: 4
+            grid_options:
+              columns: full
+            cards:
+              - type: tile
+                entity: binary_sensor.countertoplamp_kitchen_0_overpowering
+                features_position: bottom
+                vertical: true
+                hide_state: true
+                tap_action:
+                  action: none
+              - type: tile
+                entity: binary_sensor.countertoplamp_kitchen_0_overcurrent
+                features_position: bottom
+                vertical: true
+                hide_state: true
+                tap_action:
+                  action: none
+              - type: tile
+                entity: binary_sensor.countertoplamp_kitchen_0_overvoltage
+                features_position: bottom
+                vertical: true
+                hide_state: true
+                tap_action:
+                  action: none
+              - type: tile
+                entity: binary_sensor.countertoplamp_kitchen_0_overheating
+                features_position: bottom
+                vertical: true
+                hide_state: true
+                tap_action:
+                  action: none
+          - type: heading
+            icon: mdi:window-shutter-open
+            heading: Tür Rollladen
+            heading_style: subtitle
+            badges:
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: update.cover_door_kitchen_0_firmware
+                color: state
+                icon: mdi:update
+                tap_action:
+                  action: more-info
+              - type: entity
+                entity: sensor.cover_door_kitchen_0_device_temperature
+                color: accent
+                show_state: true
+                show_icon: true
+          - type: grid
+            square: false
+            columns: 4
+            grid_options:
+              columns: full
+            cards:
+              - type: tile
+                entity: binary_sensor.cover_door_kitchen_0_overpowering
+                features_position: bottom
+                vertical: true
+                hide_state: true
+                tap_action:
+                  action: none
+              - type: tile
+                entity: binary_sensor.cover_door_kitchen_0_overcurrent
+                features_position: bottom
+                vertical: true
+                hide_state: true
+                tap_action:
+                  action: none
+              - type: tile
+                entity: binary_sensor.cover_door_kitchen_0_overvoltage
+                features_position: bottom
+                vertical: true
+                hide_state: true
+                tap_action:
+                  action: none
+              - type: tile
+                entity: binary_sensor.cover_door_kitchen_0_overheating
+                features_position: bottom
+                vertical: true
+                hide_state: true
+                tap_action:
+                  action: none
+          - type: heading
+            icon: mdi:window-shutter-open
+            heading: Doppeltür Rollladen
+            heading_style: subtitle
+            badges:
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: update.cover_doubledoor_kitchen_0_firmware
+                color: state
+                icon: mdi:update
+                tap_action:
+                  action: more-info
+              - type: entity
+                entity: sensor.cover_doubledoor_kitchen_0_device_temperature
+                color: accent
+                show_state: true
+                show_icon: true
+          - type: grid
+            square: false
+            columns: 4
+            grid_options:
+              columns: full
+            cards:
+              - type: tile
+                entity: binary_sensor.cover_door_kitchen_0_overpowering
+                features_position: bottom
+                vertical: true
+                hide_state: true
+                tap_action:
+                  action: none
+              - type: tile
+                entity: binary_sensor.cover_door_kitchen_0_overcurrent
+                features_position: bottom
+                vertical: true
+                show_entity_picture: false
+                hide_state: true
+                tap_action:
+                  action: none
+              - type: tile
+                entity: binary_sensor.cover_door_kitchen_0_overvoltage
+                features_position: bottom
+                vertical: true
+                hide_state: true
+                tap_action:
+                  action: none
+              - type: tile
+                entity: binary_sensor.cover_door_kitchen_0_overheating
+                features_position: bottom
+                vertical: true
+                hide_state: true
+                tap_action:
+                  action: none
+          - type: custom:mini-graph-card
+            name: Shelly Temperatur
+            icon: mdi:temperature-celsius
+            entities:
+              - entity: sensor.countertoplamp_kitchen_0_device_temperature
+                name: Zeile
+              - entity: sensor.cover_door_kitchen_0_device_temperature
+                name: Tür Rollladen
+                show_state: true
+              - entity: sensor.cover_doubledoor_kitchen_0_device_temperature
+                name: Doppeltür Rollladen
+                show_state: true
+            hours_to_show: 24
+            points_per_hour: 5
+            decimals: 1
+            hour24: true
+            cache: true
+            aggregate_func: median
+            tap_action:
+              action: none
+            show:
+              state: true
+              fill: true
+      - type: grid
+        cards:
+          - type: heading
+            heading_style: title
+            heading: Wohnzimmer
+            icon: mdi:sofa-outline
+            badges: []
+            tap_action:
+              action: navigate
+              navigation_path: /dashboard-views/livingroom
+          - type: heading
+            icon: mdi:floor-lamp-dual
+            heading: Stehlampe
+            heading_style: subtitle
+            badges:
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: update.floorlamp_livingroom_0_firmware
+                color: state
+                icon: mdi:update
+                tap_action:
+                  action: more-info
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: sensor.floorlamp_livingroom_0_device_temperature
+                color: accent
+          - type: vertical-stack
+            cards:
+              - square: false
+                type: grid
+                cards:
+                  - type: tile
+                    entity: binary_sensor.floorlamp_livingroom_0_overpowering
+                    vertical: true
+                    hide_state: true
+                    features_position: bottom
+                    tap_action:
+                      action: none
+                  - type: tile
+                    entity: binary_sensor.floorlamp_livingroom_0_overheating
+                    vertical: true
+                    hide_state: true
+                    tap_action:
+                      action: none
+                columns: 2
+                grid_options:
+                  columns: full
+          - type: heading
+            icon: mdi:window-shutter-open
+            heading: Doppeltür Rollladen
+            heading_style: subtitle
+            badges:
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: update.cover_doubledoor_livingroom_0_firmware
+                color: state
+                icon: mdi:update
+                tap_action:
+                  action: more-info
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: sensor.cover_doubledoor_livingroom_0_device_temperature
+                color: accent
+          - type: vertical-stack
+            cards:
+              - square: false
+                type: grid
+                cards:
+                  - type: tile
+                    entity: binary_sensor.cover_doubledoor_livingroom_0_overpowering
+                    vertical: true
+                    hide_state: true
+                    features_position: bottom
+                    tap_action:
+                      action: none
+                  - type: tile
+                    entity: binary_sensor.cover_doubledoor_livingroom_0_overcurrent
+                    hide_state: true
+                    vertical: true
+                    tap_action:
+                      action: none
+                  - type: tile
+                    entity: binary_sensor.cover_doubledoor_livingroom_0_overvoltage
+                    vertical: true
+                    hide_state: true
+                    tap_action:
+                      action: none
+                  - type: tile
+                    entity: binary_sensor.cover_doubledoor_livingroom_0_overheating
+                    vertical: true
+                    hide_state: true
+                    tap_action:
+                      action: none
+                columns: 4
+                grid_options:
+                  columns: full
+          - type: heading
+            icon: mdi:window-shutter-open
+            heading: Fenster Rollladen
+            heading_style: subtitle
+            badges:
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: update.cover_window_livingroom_0_firmware
+                color: state
+                icon: mdi:update
+                tap_action:
+                  action: more-info
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: sensor.cover_window_livingroom_0_device_temperature
+                color: accent
+          - square: false
+            type: grid
+            cards:
+              - type: tile
+                entity: binary_sensor.cover_window_livingroom_0_overpowering
+                vertical: true
+                hide_state: true
+                features_position: bottom
+                tap_action:
+                  action: none
+              - type: tile
+                entity: binary_sensor.cover_window_livingroom_0_overcurrent
+                hide_state: true
+                vertical: true
+                tap_action:
+                  action: none
+              - type: tile
+                entity: binary_sensor.cover_window_livingroom_0_overvoltage
+                vertical: true
+                hide_state: true
+                tap_action:
+                  action: none
+              - type: tile
+                entity: binary_sensor.cover_window_livingroom_0_overheating
+                vertical: true
+                hide_state: true
+                tap_action:
+                  action: none
+            columns: 4
+            grid_options:
+              columns: full
+          - type: heading
+            icon: mdi:television
+            heading: TV-Board
+            heading_style: subtitle
+            badges:
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: update.tvboard_livingroom_0_firmware
+                color: state
+                icon: mdi:update
+                tap_action:
+                  action: more-info
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: sensor.tvboard_livingroom_0_device_temperature
+                color: accent
+          - type: vertical-stack
+            cards:
+              - square: false
+                type: grid
+                columns: 4
+                grid_options:
+                  columns: full
+                cards:
+                  - type: tile
+                    entity: binary_sensor.tvboard_livingroom_0_overpowering
+                    vertical: true
+                    hide_state: true
+                    features_position: bottom
+                    tap_action:
+                      action: none
+                  - type: tile
+                    entity: binary_sensor.tvboard_livingroom_0_overcurrent
+                    vertical: true
+                    hide_state: true
+                    tap_action:
+                      action: none
+                  - type: tile
+                    entity: binary_sensor.tvboard_livingroom_0_overvoltage
+                    vertical: true
+                    hide_state: true
+                    tap_action:
+                      action: none
+                  - type: tile
+                    entity: binary_sensor.tvboard_livingroom_0_overheating
+                    vertical: true
+                    hide_state: true
+                    tap_action:
+                      action: none
+          - type: custom:mini-graph-card
+            name: Shelly Temperatur
+            icon: mdi:temperature-celsius
+            entities:
+              - entity: sensor.floorlamp_livingroom_0_device_temperature
+                name: Stehlampe
+              - entity: sensor.cover_window_livingroom_0_device_temperature
+                name: Fenster Rollladen
+                show_state: true
+              - entity: sensor.cover_doubledoor_livingroom_0_device_temperature
+                name: Doppeltür Rollladen
+                show_state: true
+              - entity: sensor.tvboard_livingroom_0_device_temperature
+                name: TV-Board
+                show_state: true
+            hours_to_show: 24
+            points_per_hour: 5
+            decimals: 1
+            hour24: true
+            cache: true
+            aggregate_func: median
+            tap_action:
+              action: none
+            show:
+              state: true
+              fill: true
+      - type: grid
+        cards:
+          - type: heading
+            heading_style: title
+            heading: Schlafzimmer
+            icon: mdi:bed-double-outline
+            badges:
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: update.display_bedroom_0_firmware
+                icon: mdi:update
+                tap_action:
+                  action: more-info
+                color: state
+                state_content: state
+            tap_action:
+              action: navigate
+              navigation_path: /dashboard-views/bedroom
+          - type: heading
+            icon: mdi:window-shutter-open
+            heading: Fenster Rollladen
+            heading_style: subtitle
+            badges:
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: update.cover_window_bedroom_0_firmware
+                color: state
+                icon: mdi:update
+                tap_action:
+                  action: more-info
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: sensor.cover_window_bedroom_0_device_temperature
+                color: accent
+          - type: vertical-stack
+            cards:
+              - square: false
+                type: grid
+                cards:
+                  - type: tile
+                    entity: binary_sensor.cover_window_bedroom_0_overpowering
+                    vertical: true
+                    hide_state: true
+                    features_position: bottom
+                    tap_action:
+                      action: none
+                  - type: tile
+                    entity: binary_sensor.cover_window_bedroom_0_overcurrent
+                    hide_state: true
+                    vertical: true
+                    tap_action:
+                      action: none
+                  - type: tile
+                    entity: binary_sensor.cover_window_bedroom_0_overvoltage
+                    vertical: true
+                    hide_state: true
+                    tap_action:
+                      action: none
+                  - type: tile
+                    entity: binary_sensor.cover_window_bedroom_0_overheating
+                    vertical: true
+                    hide_state: true
+                    tap_action:
+                      action: none
+                columns: 4
+                grid_options:
+                  columns: full
+          - type: heading
+            icon: mdi:desk-lamp
+            heading: Schreibtischlampe 0
+            heading_style: subtitle
+            badges:
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: update.desklamp_bedroom_0_firmware
+                color: state
+                icon: mdi:update
+                tap_action:
+                  action: more-info
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: sensor.desklamp_bedroom_0_device_temperature
+                color: accent
+          - type: vertical-stack
+            cards:
+              - square: false
+                type: grid
+                cards:
+                  - type: tile
+                    entity: binary_sensor.desklamp_bedroom_0_overpowering
+                    vertical: true
+                    hide_state: true
+                    features_position: bottom
+                    tap_action:
+                      action: none
+                  - type: tile
+                    entity: binary_sensor.desklamp_bedroom_0_overcurrent
+                    hide_state: true
+                    vertical: true
+                    tap_action:
+                      action: none
+                  - type: tile
+                    entity: binary_sensor.desklamp_bedroom_0_overvoltage
+                    vertical: true
+                    hide_state: true
+                    tap_action:
+                      action: none
+                  - type: tile
+                    entity: binary_sensor.desklamp_bedroom_0_overheating
+                    vertical: true
+                    hide_state: true
+                    tap_action:
+                      action: none
+                columns: 4
+                grid_options:
+                  columns: full
+          - type: heading
+            icon: mdi:desk-lamp
+            heading: Schreibtischlampe 1
+            heading_style: subtitle
+            badges:
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: update.desklamp_bedroom_1_firmware
+                color: state
+                icon: mdi:update
+                tap_action:
+                  action: more-info
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: sensor.desklamp_bedroom_1_device_temperature
+                color: accent
+          - type: vertical-stack
+            cards:
+              - square: false
+                type: grid
+                cards:
+                  - type: tile
+                    entity: binary_sensor.desklamp_bedroom_1_overpowering
+                    vertical: true
+                    hide_state: true
+                    features_position: bottom
+                    tap_action:
+                      action: none
+                  - type: tile
+                    entity: binary_sensor.desklamp_bedroom_1_overcurrent
+                    hide_state: true
+                    vertical: true
+                    tap_action:
+                      action: none
+                  - type: tile
+                    entity: binary_sensor.desklamp_bedroom_1_overvoltage
+                    vertical: true
+                    hide_state: true
+                    tap_action:
+                      action: none
+                  - type: tile
+                    entity: binary_sensor.desklamp_bedroom_1_overheating
+                    vertical: true
+                    hide_state: true
+                    tap_action:
+                      action: none
+                columns: 4
+                grid_options:
+                  columns: full
+          - type: custom:mini-graph-card
+            name: Shelly Temperatur
+            icon: mdi:temperature-celsius
+            entities:
+              - entity: sensor.cover_window_bedroom_0_device_temperature
+                name: Rollladen
+              - entity: sensor.desklamp_bedroom_0_device_temperature
+                name: Schreibtischlampe 0
+                show_state: true
+              - entity: sensor.desklamp_bedroom_1_device_temperature
+                name: Schreibtischlampe 1
+                show_state: true
+            hours_to_show: 24
+            points_per_hour: 5
+            decimals: 1
+            hour24: true
+            cache: true
+            aggregate_func: median
+            tap_action:
+              action: none
+            show:
+              state: true
+              fill: true
+      - type: grid
+        cards:
+          - type: heading
+            heading: Flur
+            heading_style: title
+            icon: mdi:human-walker
+            badges: []
+          - type: heading
+            icon: mdi:wall-sconce-round-outline
+            heading: Lampe
+            heading_style: subtitle
+            badges:
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: update.lamp_hall_0_firmware
+                color: state
+                icon: mdi:update
+                tap_action:
+                  action: more-info
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: sensor.lamp_hall_0_device_temperature
+                color: accent
+          - type: vertical-stack
+            cards:
+              - square: false
+                type: grid
+                cards:
+                  - type: tile
+                    entity: binary_sensor.lamp_hall_0_overpowering
+                    vertical: true
+                    hide_state: true
+                    features_position: bottom
+                    tap_action:
+                      action: none
+                  - type: tile
+                    entity: binary_sensor.lamp_hall_0_overcurrent
+                    hide_state: true
+                    vertical: true
+                    features_position: bottom
+                    tap_action:
+                      action: none
+                  - type: tile
+                    entity: binary_sensor.lamp_hall_0_overvoltage
+                    vertical: true
+                    hide_state: true
+                    tap_action:
+                      action: none
+                  - type: tile
+                    entity: binary_sensor.lamp_hall_0_overheating
+                    vertical: true
+                    hide_state: true
+                    tap_action:
+                      action: none
+                columns: 4
+                grid_options:
+                  columns: full
+          - type: custom:mini-graph-card
+            name: Shelly Temperatur
+            icon: mdi:temperature-celsius
+            entities:
+              - entity: sensor.lamp_hall_0_device_temperature
+                name: Lüfter
+            hours_to_show: 24
+            points_per_hour: 5
+            decimals: 1
+            hour24: true
+            cache: true
+            aggregate_func: median
+            tap_action:
+              action: none
+            show:
+              state: true
+              fill: true
+      - type: grid
+        cards:
+          - type: heading
+            heading_style: title
+            heading: Stromzähler 3EM
+            icon: mdi:meter-electric-outline
+            badges:
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: update.strom_firmware
+                color: state
+                icon: mdi:update
+                tap_action:
+                  action: more-info
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: sensor.strom_temperature
+                color: accent
+          - type: custom:mini-graph-card
+            name: Leistung nach Phase
+            icon: mdi:lightning-bolt
+            entities:
+              - entity: sensor.strom_phase_a_active_power
+                name: Phase A
+                show_state: true
+              - entity: sensor.strom_phase_b_active_power
+                name: Phase B
+                show_state: true
+              - entity: sensor.strom_phase_c_active_power
+                name: Phase C
+                show_state: true
+            hours_to_show: 24
+            points_per_hour: 5
+            decimals: 0
+            hour24: true
+            cache: true
+            tap_action:
+              action: none
+            show:
+              state: true
+              fill: fade
+      - type: grid
+        cards:
+          - type: heading
+            heading_style: title
+            icon: mdi:server-security
+            badges: []
+            heading: IT
+          - type: heading
+            icon: mdi:server
+            heading: Rack
+            heading_style: subtitle
+            badges:
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: update.it_firmware
+                color: state
+                icon: mdi:update
+                tap_action:
+                  action: more-info
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: sensor.it_switch_0_device_temperature
+                color: accent
+          - type: vertical-stack
+            cards:
+              - square: false
+                type: grid
+                cards:
+                  - type: tile
+                    entity: binary_sensor.it_switch_0_overpowering
+                    vertical: true
+                    hide_state: true
+                    features_position: bottom
+                    tap_action:
+                      action: none
+                  - type: tile
+                    entity: binary_sensor.it_switch_0_overcurrent
+                    hide_state: true
+                    vertical: true
+                    features_position: bottom
+                    tap_action:
+                      action: none
+                  - type: tile
+                    entity: binary_sensor.it_switch_0_overvoltage
+                    vertical: true
+                    hide_state: true
+                    tap_action:
+                      action: none
+                  - type: tile
+                    entity: binary_sensor.it_switch_0_overheating
+                    vertical: true
+                    hide_state: true
+                    tap_action:
+                      action: none
+                columns: 4
+                grid_options:
+                  columns: full
+          - type: custom:mini-graph-card
+            name: Shelly Temperatur
+            icon: mdi:temperature-celsius
+            entities:
+              - entity: sensor.it_switch_0_device_temperature
+                name: Power Supply
+            hours_to_show: 24
+            points_per_hour: 5
+            decimals: 1
+            hour24: true
+            cache: true
+            aggregate_func: median
+            tap_action:
+              action: none
+            show:
+              state: true
+              fill: true
+      - type: grid
+        cards:
+          - type: heading
+            heading_style: title
+            heading: Abstellraum
+            icon: mdi:wardrobe-outline
+            tap_action:
+              action: navigate
+              navigation_path: /dashboard-home/storageroom
+          - type: heading
+            heading_style: subtitle
+            heading: Lampe
+            icon: mdi:wall-sconce-round-outline
+            badges:
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: update.lamp_storageroom_0_firmware
+                color: state
+                icon: mdi:update
+                tap_action:
+                  action: more-info
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: sensor.lamp_storageroom_0_device_temperature
+                color: accent
+          - type: heading
+            heading_style: subtitle
+            heading: Lüfter
+            icon: mdi:fan
+            badges:
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: update.fan_storageroom_0_firmware
+                color: state
+                icon: mdi:update
+                tap_action:
+                  action: more-info
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: sensor.fan_storageroom_0_device_temperature
+                color: accent
+          - type: heading
+            heading_style: subtitle
+            heading: Gefrierschrank
+            icon: mdi:fridge-outline
+            badges:
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: update.freezer_storageroom_0_firmware
+                color: state
+                icon: mdi:update
+                tap_action:
+                  action: more-info
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: sensor.freezer_storageroom_0_device_temperature
+                color: accent
+          - type: vertical-stack
+            cards:
+              - type: grid
+                square: false
+                columns: 4
+                grid_options:
+                  columns: full
+                cards:
+                  - type: tile
+                    entity: binary_sensor.freezer_storageroom_0_overpowering
+                    vertical: true
+                    hide_state: true
+                    features_position: bottom
+                    tap_action:
+                      action: none
+                  - type: tile
+                    entity: binary_sensor.freezer_storageroom_0_overcurrent
+                    vertical: true
+                    hide_state: true
+                    tap_action:
+                      action: none
+                  - type: tile
+                    entity: binary_sensor.freezer_storageroom_0_overvoltage
+                    vertical: true
+                    hide_state: true
+                    tap_action:
+                      action: none
+                  - type: tile
+                    entity: binary_sensor.freezer_storageroom_0_overheating
+                    vertical: true
+                    hide_state: true
+                    tap_action:
+                      action: none
+          - type: custom:mini-graph-card
+            name: Shelly Temperatur
+            icon: mdi:temperature-celsius
+            entities:
+              - entity: sensor.lamp_storageroom_0_device_temperature
+                name: Lampe
+              - entity: sensor.freezer_storageroom_0_device_temperature
+                name: Lüfter
+                show_state: true
+              - entity: sensor.freezer_storageroom_0_device_temperature
+                name: Gefrierschrank
+                show_state: true
+            hours_to_show: 24
+            points_per_hour: 5
+            decimals: 1
+            hour24: true
+            cache: true
+            aggregate_func: median
+            tap_action:
+              action: none
+            show:
+              state: true
+              fill: true
+      - type: grid
+        cards:
+          - type: heading
+            heading_style: title
+            heading: Badezimmer
+            icon: mdi:shower-head
+            badges:
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: update.lamp_bathroom_0_firmware
+                name: Lampe
+                icon: mdi:update
+                color: state
+                state_content: name
+                tap_action:
+                  action: more-info
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: update.fan_bathroom_0_firmware
+                name: Lüfter
+                icon: mdi:update
+                color: state
+                state_content: name
+                tap_action:
+                  action: more-info
+            tap_action:
+              action: navigate
+              navigation_path: /dashboard-views/bathroom
+          - type: custom:mini-graph-card
+            name: Shelly Temperatur
+            icon: mdi:temperature-celsius
+            entities:
+              - entity: sensor.lamp_bathroom_0_device_temperature
+                name: Lampe
+              - entity: sensor.fan_bathroom_0_device_temperature
+                name: Lüfter
+                show_state: true
+            hours_to_show: 24
+            points_per_hour: 5
+            decimals: 1
+            hour24: true
+            cache: true
+            aggregate_func: median
+            tap_action:
+              action: none
+            show:
+              state: true
+              fill: true
+    max_columns: 3
+    dense_section_placement: true
+    path: shellyinfos
+    icon: mdi:sheep
+  - type: sections
+    max_columns: 1
+    path: zigbee-infos
+    icon: mdi:zigbee
+    sections:
+      - type: grid
+        cards:
+          - type: custom:zigbee2mqtt-networkmap
+            entity: sensor.zigbee2mqtt_bridge_network_map
+            mqtt_base_topic: zigbee2mqtt
+            mqtt_topic: zigbee2mqtt/bridge/request/networkmap
+            mqtt_payload:
+              type: raw
+              routes: true
+            force: 3000
+            node_size: 16
+            font_size: 12
+            link_width: 2
+            height: 400
+            css: |-
+              :host {
+                --zigbee2mqtt-networkmap-node-color: rgba(18, 120, 98, .7);
+                --zigbee2mqtt-networkmap-node-fill-color: #dcfaf3;
+                --zigbee2mqtt-networkmap-node-pinned-color: rgba(190, 56, 93, .6);
+                --zigbee2mqtt-networkmap-link-color: rgba(18, 120, 98, .5);
+                --zigbee2mqtt-networkmap-hover-color: #be385d;
+                --zigbee2mqtt-networkmap-link-selected-color: rgba(202, 164, 85, .6);
+                --zigbee2mqtt-networkmap-label-color: #127862;
+                --zigbee2mqtt-networkmap-arrow-color: rgba(18, 120, 98, 0.7);
+                --zigbee2mqtt-networkmap-node-coordinator-color: rgba(224, 78, 93, .7);
+                --zigbee2mqtt-networkmap-node-router-color: rgba(0, 165, 255, .7);
+              }
+              
+          - show_name: true
+            show_icon: true
+            type: button
+            entity: switch.zigbee2mqtt_bridge_permit_join
+            name: Permit Join
+            show_state: true
+            hold_action:
+              action: none
+            grid_options:
+              columns: 6
+              rows: 3
+          - show_name: true
+            show_icon: true
+            type: button
+            entity: button.zigbee2mqtt_bridge_restart
+            name: Restart
+            show_state: false
+            hold_action:
+              action: none
+            grid_options:
+              columns: 6
+              rows: 3
+            tap_action:
+              action: toggle
+      - type: grid
+        cards:
+          - type: custom:mushroom-update-card
+            entity: update.vallhorn_vallhorn_01
+            show_buttons_control: false
+          - type: custom:mushroom-update-card
+            show_buttons_control: false
+            entity: update.styrbar_styrbar_01
+          - type: custom:mushroom-update-card
+            show_buttons_control: false
+            entity: update.rodret_rodret_01
+          - type: custom:mushroom-update-card
+            show_buttons_control: false
+            entity: update.rodret_rodret_02
+          - type: custom:mushroom-update-card
+            show_buttons_control: false
+            entity: update.ormanas_ormanas_01
+            grid_options:
+              columns: 12
+              rows: 1
+    header:
+      layout: center
+      badges_position: bottom
+      badges_wrap: scroll
+    title: Zigbee Info
+    cards: []
+  - type: sections
+    max_columns: 4
+    title: Uptime
+    path: uptime
+    icon: mdi:timelapse
+    sections:
+      - type: grid
+        cards:
+          - type: horizontal-stack
+            cards:
+              - type: custom:mini-graph-card
+                name: VPS
+                icon: mdi:code-brackets
+                entities:
+                  - entity: sensor.authentik_antwortzeit
+                    name: Authentik
+                  - entity: sensor.pangolin_antwortzeit
+                    name: Pangolin
+                    show_state: true
+                  - entity: sensor.jellyfin_antwortzeit
+                    name: Jellyfin
+                    show_state: true
+                  - entity: sensor.audiobookshelf_antwortzeit
+                    name: AudioBookshelf
+                    show_state: true
+                  - entity: sensor.immich_antwortzeit
+                    name: Immich
+                    show_state: true
+                  - entity: sensor.mealie_antwortzeit
+                    name: Mealie
+                    show_state: true
+                  - entity: sensor.pastebin_antwortzeit
+                    name: Pastebin
+                    show_state: true
+                  - entity: sensor.vaultwarden_antwortzeit
+                    name: Vaultwarden
+                    show_state: true
+                  - entity: sensor.paperless_antwortzeit
+                    name: Paperless
+                    show_state: true
+                hours_to_show: 24
+                points_per_hour: 2
+                update_interval: 180
+                decimals: 0
+                cache: true
+                hour24: true
+                tap_action:
+                  action: none
+                show:
+                  state: true
+                  fill: fade
+              - type: custom:mini-graph-card
+                name: ARR
+                icon: mdi:code-brackets
+                entities:
+                  - entity: sensor.sonarr_antwortzeit
+                    name: Sonarr
+                  - entity: sensor.radarr_antwortzeit
+                    name: Radarr
+                    show_state: true
+                  - entity: sensor.mediathekarr_antwortzeit
+                    name: Mediathekarr
+                    show_state: true
+                hours_to_show: 12
+                points_per_hour: 3
+                update_interval: 180
+                decimals: 0
+                cache: true
+                hour24: true
+                tap_action:
+                  action: none
+                show:
+                  state: true
+                  fill: fade
+              - type: custom:mini-graph-card
+                name: HOME
+                icon: mdi:code-brackets
+                entities:
+                  - entity: sensor.homeassistant_antwortzeit
+                    name: HomeAssistant
+                  - entity: sensor.actualbudget_antwortzeit
+                    name: ActualBudget
+                    show_state: true
+                hours_to_show: 12
+                points_per_hour: 3
+                update_interval: 180
+                decimals: 0
+                cache: true
+                hour24: true
+                tap_action:
+                  action: none
+                show:
+                  state: true
+                  fill: fade
+              - type: custom:mini-graph-card
+                name: STORAGE
+                icon: mdi:code-brackets
+                entities:
+                  - entity: sensor.ds418_antwortzeit
+                    name: DS418
+                  - entity: sensor.ds218_antwortzeit
+                    name: DS218
+                    show_state: true
+                  - entity: sensor.truenas_antwortzeit
+                    name: TrueNAS
+                    show_state: true
+                hours_to_show: 12
+                points_per_hour: 3
+                update_interval: 180
+                decimals: 0
+                cache: true
+                hour24: true
+                tap_action:
+                  action: none
+                show:
+                  state: true
+                  fill: fade
+            grid_options:
+              columns: 48
+              rows: auto
+        column_span: 4
+        visibility:
+          - condition: screen
+            media_query: "(min-width: 768px)"
+      - type: grid
+        cards:
+          - type: heading
+            icon: mdi:server
+            heading: VPS
+            heading_style: subtitle
+          - type: custom:uptime-card
+            entity: sensor.vps_status
+            icon: mdi:cloud
+            status_adaptive_color: true
+            alias:
+              ok: Available!
+              ko: No Remote Services for the moment...
+            ok: up
+            ko: down
+            none: maintenance
+            color_thresholds:
+              - value: 30
+                color: red
+              - value: 60
+                color: blue
+              - value: 90
+                color: orange
+              - value: 100
+                color: green
+            duration:
+              quantity: 1
+              unit: week
+          - type: custom:uptime-card
+            entity: sensor.authentik_status
+            icon: mdi:server
+            status_adaptive_color: true
+            alias:
+              ok: Available!
+              ko: No Auth for the moment...
+            ok: up
+            ko: down
+            none: maintenance
+            color_thresholds:
+              - value: 30
+                color: red
+              - value: 60
+                color: blue
+              - value: 90
+                color: orange
+              - value: 100
+                color: green
+            duration:
+              quantity: 1
+              unit: week
+          - type: custom:uptime-card
+            entity: sensor.pangolin_status
+            icon: mdi:remote-desktop
+            status_adaptive_color: true
+            alias:
+              ok: Available!
+              ko: No ReverseProxy for the moment...
+            ok: up
+            ko: down
+            none: maintenance
+            color_thresholds:
+              - value: 30
+                color: red
+              - value: 60
+                color: blue
+              - value: 90
+                color: orange
+              - value: 100
+                color: green
+            duration:
+              quantity: 1
+              unit: week
+          - type: custom:uptime-card
+            entity: sensor.jellyfin_status
+            icon: mdi:jellyfish
+            status_adaptive_color: true
+            alias:
+              ok: Available!
+              ko: No Jellyfin for the moment...
+            ok: up
+            ko: down
+            none: maintenance
+            color_thresholds:
+              - value: 30
+                color: red
+              - value: 60
+                color: blue
+              - value: 90
+                color: orange
+              - value: 100
+                color: green
+            duration:
+              quantity: 1
+              unit: week
+          - type: custom:uptime-card
+            entity: sensor.audiobookshelf_status
+            icon: mdi:bookshelf
+            status_adaptive_color: true
+            alias:
+              ok: Available!
+              ko: No Audio for the moment...
+            ok: up
+            ko: down
+            none: maintenance
+            color_thresholds:
+              - value: 30
+                color: red
+              - value: 60
+                color: blue
+              - value: 90
+                color: orange
+              - value: 100
+                color: green
+            duration:
+              quantity: 1
+              unit: week
+          - type: custom:uptime-card
+            entity: sensor.immich_status
+            icon: mdi:camera
+            status_adaptive_color: true
+            alias:
+              ok: Available!
+              ko: No Photo storage for the moment...
+            ok: up
+            ko: down
+            none: maintenance
+            color_thresholds:
+              - value: 30
+                color: red
+              - value: 60
+                color: blue
+              - value: 90
+                color: orange
+              - value: 100
+                color: green
+            duration:
+              quantity: 1
+              unit: week
+          - type: custom:uptime-card
+            entity: sensor.mealie_status
+            icon: mdi:food
+            status_adaptive_color: true
+            alias:
+              ok: Available!
+              ko: No Mealie for the moment...
+            ok: up
+            ko: down
+            none: maintenance
+            color_thresholds:
+              - value: 30
+                color: red
+              - value: 60
+                color: blue
+              - value: 90
+                color: orange
+              - value: 100
+                color: green
+            duration:
+              quantity: 1
+              unit: week
+          - type: custom:uptime-card
+            entity: sensor.pastebin_status
+            icon: mdi:content-paste
+            status_adaptive_color: true
+            alias:
+              ok: Available!
+              ko: No Pastebin for the moment...
+            ok: up
+            ko: down
+            none: maintenance
+            color_thresholds:
+              - value: 30
+                color: red
+              - value: 60
+                color: blue
+              - value: 90
+                color: orange
+              - value: 100
+                color: green
+            duration:
+              quantity: 1
+              unit: week
+          - type: custom:uptime-card
+            entity: sensor.vaultwarden_status
+            icon: mdi:passport
+            status_adaptive_color: true
+            alias:
+              ok: Available!
+              ko: No Vaultwarden for the moment...
+            ok: up
+            ko: down
+            none: maintenance
+            color_thresholds:
+              - value: 30
+                color: red
+              - value: 60
+                color: blue
+              - value: 90
+                color: orange
+              - value: 100
+                color: green
+            duration:
+              quantity: 1
+              unit: week
+          - type: custom:uptime-card
+            entity: sensor.paperless_status
+            icon: mdi:content-paste
+            status_adaptive_color: true
+            alias:
+              ok: Available!
+              ko: No Paperless for the moment...
+            ok: up
+            ko: down
+            none: maintenance
+            color_thresholds:
+              - value: 30
+                color: red
+              - value: 60
+                color: blue
+              - value: 90
+                color: orange
+              - value: 100
+                color: green
+            duration:
+              quantity: 1
+              unit: week
+      - type: grid
+        cards:
+          - type: heading
+            icon: mdi:server
+            heading_style: subtitle
+            heading: ARR
+          - type: custom:uptime-card
+            entity: sensor.arr_status
+            icon: mdi:pirate
+            status_adaptive_color: true
+            alias:
+              ok: Available!
+              ko: No *ARR for the moment...
+            ok: up
+            ko: down
+            none: maintenance
+            color_thresholds:
+              - value: 30
+                color: red
+              - value: 60
+                color: blue
+              - value: 90
+                color: orange
+              - value: 100
+                color: green
+            duration:
+              quantity: 1
+              unit: week
+          - type: custom:uptime-card
+            entity: sensor.sonarr_status
+            icon: mdi:television
+            status_adaptive_color: true
+            alias:
+              ok: Available!
+              ko: No Series for the moment...
+            ok: up
+            ko: down
+            none: maintenance
+            color_thresholds:
+              - value: 30
+                color: red
+              - value: 60
+                color: blue
+              - value: 90
+                color: orange
+              - value: 100
+                color: green
+            duration:
+              quantity: 1
+              unit: week
+          - type: custom:uptime-card
+            entity: sensor.radarr_status
+            icon: mdi:television
+            status_adaptive_color: true
+            alias:
+              ok: Available!
+              ko: No Movies for the moment...
+            ok: up
+            ko: down
+            none: maintenance
+            color_thresholds:
+              - value: 30
+                color: red
+              - value: 60
+                color: blue
+              - value: 90
+                color: orange
+              - value: 100
+                color: green
+            duration:
+              quantity: 1
+              unit: week
+          - type: custom:uptime-card
+            entity: sensor.prowlarr_status
+            icon: mdi:download
+            status_adaptive_color: true
+            alias:
+              ok: Available!
+              ko: No Indexer for the moment...
+            ok: up
+            ko: down
+            none: maintenance
+            color_thresholds:
+              - value: 30
+                color: red
+              - value: 60
+                color: blue
+              - value: 90
+                color: orange
+              - value: 100
+                color: green
+            duration:
+              quantity: 1
+              unit: week
+          - type: custom:uptime-card
+            entity: sensor.mediathekarr_status
+            icon: mdi:television
+            status_adaptive_color: true
+            alias:
+              ok: Available!
+              ko: No Rundfunk stuff for the moment...
+            ok: up
+            ko: down
+            none: maintenance
+            color_thresholds:
+              - value: 30
+                color: red
+              - value: 60
+                color: blue
+              - value: 90
+                color: orange
+              - value: 100
+                color: green
+            duration:
+              quantity: 1
+              unit: week
+      - type: grid
+        cards:
+          - type: heading
+            icon: mdi:server
+            heading_style: subtitle
+            heading: HOME
+          - type: custom:uptime-card
+            entity: sensor.home_status
+            icon: mdi:home
+            status_adaptive_color: true
+            alias:
+              ok: Available!
+              ko: No Home for the moment...
+            ok: up
+            ko: down
+            none: maintenance
+            color_thresholds:
+              - value: 30
+                color: red
+              - value: 60
+                color: blue
+              - value: 90
+                color: orange
+              - value: 100
+                color: green
+            duration:
+              quantity: 1
+              unit: week
+          - type: custom:uptime-card
+            entity: sensor.actualbudget_status
+            icon: mdi:cash
+            status_adaptive_color: true
+            alias:
+              ok: Available!
+              ko: No Budget for the moment...
+            ok: up
+            ko: down
+            none: maintenance
+            color_thresholds:
+              - value: 30
+                color: red
+              - value: 60
+                color: blue
+              - value: 90
+                color: orange
+              - value: 100
+                color: green
+            duration:
+              quantity: 1
+              unit: week
+          - type: custom:uptime-card
+            entity: sensor.homeassistant_status
+            icon: mdi:home-assistant
+            status_adaptive_color: true
+            alias:
+              ok: Available!
+              ko: No Home Assistant for the moment...
+            ok: up
+            ko: down
+            none: maintenance
+            color_thresholds:
+              - value: 30
+                color: red
+              - value: 60
+                color: blue
+              - value: 90
+                color: orange
+              - value: 100
+                color: green
+            duration:
+              quantity: 1
+              unit: week
+      - type: grid
+        cards:
+          - type: heading
+            icon: mdi:server
+            heading_style: subtitle
+            heading: STORAGE
+          - type: custom:uptime-card
+            entity: sensor.storage_status
+            icon: mdi:server
+            status_adaptive_color: true
+            alias:
+              ok: Available!
+              ko: No Storage for the moment...
+            ok: up
+            ko: down
+            none: maintenance
+            color_thresholds:
+              - value: 30
+                color: red
+              - value: 60
+                color: blue
+              - value: 90
+                color: orange
+              - value: 100
+                color: green
+            duration:
+              quantity: 1
+              unit: week
+          - type: custom:uptime-card
+            entity: sensor.ds218_status
+            icon: mdi:server
+            status_adaptive_color: true
+            alias:
+              ok: Available!
+              ko: No DS218 for the moment...
+            ok: up
+            ko: down
+            none: maintenance
+            color_thresholds:
+              - value: 30
+                color: red
+              - value: 60
+                color: blue
+              - value: 90
+                color: orange
+              - value: 100
+                color: green
+            duration:
+              quantity: 1
+              unit: week
+          - type: custom:uptime-card
+            entity: sensor.ds418_status
+            icon: mdi:nas
+            status_adaptive_color: true
+            alias:
+              ok: Available!
+              ko: No DS418 for the moment...
+            ok: up
+            ko: down
+            none: maintenance
+            color_thresholds:
+              - value: 30
+                color: red
+              - value: 60
+                color: blue
+              - value: 90
+                color: orange
+              - value: 100
+                color: green
+            duration:
+              quantity: 1
+              unit: week
+          - type: custom:uptime-card
+            entity: sensor.truenas_status_2
+            icon: mdi:nas
+            status_adaptive_color: true
+            alias:
+              ok: Available!
+              ko: No TrueNAS for the moment...
+            ok: up
+            ko: down
+            none: maintenance
+            color_thresholds:
+              - value: 30
+                color: red
+              - value: 60
+                color: blue
+              - value: 90
+                color: orange
+              - value: 100
+                color: green
+            duration:
+              quantity: 1
+              unit: week
+    cards: []
+    badges:
+      - type: entity
+        show_name: true
+        show_state: true
+        show_icon: true
+        entity: sensor.vps_status
+        icon: mdi:check-circle
+        state_content: state
+        color: green
+        name: VPS
+        show_entity_picture: false
+      - type: entity
+        show_name: true
+        show_state: true
+        show_icon: true
+        entity: sensor.arr_status
+        icon: mdi:check-circle
+        state_content: state
+        color: lime
+        name: ARR
+        show_entity_picture: false
+      - type: entity
+        show_name: true
+        show_state: true
+        show_icon: true
+        entity: sensor.home_status
+        icon: mdi:check-circle
+        state_content: state
+        color: amber
+        name: HOME
+        show_entity_picture: false
+      - type: entity
+        show_name: true
+        show_state: true
+        show_icon: true
+        entity: sensor.storage_status
+        icon: mdi:check-circle
+        state_content: state
+        color: deep-orange
+        show_entity_picture: false
+        name: STORAGE
+  - type: sections
+    max_columns: 2
+    title: NAS
+    path: nas
+    icon: mdi:nas
+    top_margin: false
+    sections:
+      - type: grid
+        cards:
+          - type: heading
+            heading_style: title
+            heading: DS418
+            icon: mdi:nas
+            badges:
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: update.ds418_dsm_update
+                visibility:
+                  - condition: state
+                    entity: update.ds418_dsm_update
+                    state: "on"
+              - type: entity
+                entity: binary_sensor.ds418_sicherheitsstatus
+          - type: custom:mini-graph-card
+            name: Traffic
+            icon: mdi:wifi-arrow-up-down
+            entities:
+              - entity: sensor.ds418_download_durchsatz
+                name: Download
+              - entity: sensor.ds418_upload_durchsatz
+                name: Upload
+                show_state: true
+            hours_to_show: 48
+            points_per_hour: 1
+            update_interval: 60
+            decimals: 3
+            cache: true
+            hour24: true
+            tap_action:
+              action: none
+            show:
+              state: true
+              fill: fade
+          - type: custom:mini-graph-card
+            name: Auslastung
+            icon: mdi:chip
+            entities:
+              - entity: sensor.ds418_durchschnittliche_cpu_auslastung_1_min
+                name: 1min
+              - entity: sensor.ds418_durchschnittliche_cpu_auslastung_5_min
+                name: 5min
+                show_state: true
+              - entity: sensor.ds418_durchschnittliche_cpu_auslastung_15_min
+                name: 15min
+                show_state: true
+            hours_to_show: 48
+            points_per_hour: 1
+            update_interval: 60
+            decimals: 2
+            cache: true
+            hour24: true
+            tap_action:
+              action: none
+            show:
+              state: true
+              fill: fade
+          - type: heading
+            icon: mdi:harddisk
+            heading_style: subtitle
+            heading: Drive 01
+            badges:
+              - type: entity
+                entity: sensor.ds418_drive_01_temperature
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-entity-card
+                entity: sensor.ds418_drive_01_status
+                layout: vertical
+                fill_container: true
+                primary_info: name
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                grid_options:
+                  columns: 3
+                  rows: 2
+              - type: custom:mushroom-entity-card
+                entity: sensor.ds418_drive_01_status_smart
+                layout: vertical
+                fill_container: true
+                primary_info: name
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                grid_options:
+                  columns: 3
+                  rows: 2
+              - type: custom:mushroom-entity-card
+                entity: binary_sensor.ds418_drive_01_max_fehlerhafte_sektoren_uberschritten
+                layout: vertical
+                fill_container: true
+                primary_info: name
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                grid_options:
+                  columns: 3
+                  rows: 2
+              - type: custom:mushroom-entity-card
+                entity: binary_sensor.ds418_drive_01_unterhalb_der_mindestrestlebensdauer
+                layout: vertical
+                fill_container: true
+                primary_info: name
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                grid_options:
+                  columns: 3
+                  rows: 2
+          - type: heading
+            icon: mdi:harddisk
+            heading_style: subtitle
+            heading: Drive 02
+            badges:
+              - type: entity
+                entity: sensor.ds418_drive_02_temperature
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-entity-card
+                entity: sensor.ds418_drive_02_status
+                layout: vertical
+                fill_container: true
+                primary_info: name
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                grid_options:
+                  columns: 3
+                  rows: 2
+              - type: custom:mushroom-entity-card
+                entity: sensor.ds418_drive_02_status_smart
+                layout: vertical
+                fill_container: true
+                primary_info: name
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                grid_options:
+                  columns: 3
+                  rows: 2
+              - type: custom:mushroom-entity-card
+                entity: binary_sensor.ds418_drive_02_max_fehlerhafte_sektoren_uberschritten
+                layout: vertical
+                fill_container: true
+                primary_info: name
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                grid_options:
+                  columns: 3
+                  rows: 2
+              - type: custom:mushroom-entity-card
+                entity: binary_sensor.ds418_drive_02_unterhalb_der_mindestrestlebensdauer
+                layout: vertical
+                fill_container: true
+                primary_info: name
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                grid_options:
+                  columns: 3
+                  rows: 2
+          - type: heading
+            icon: mdi:harddisk
+            heading_style: subtitle
+            heading: Drive 03
+            badges:
+              - type: entity
+                entity: sensor.ds418_drive_03_temperature
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-entity-card
+                entity: sensor.ds418_drive_03_status
+                layout: vertical
+                fill_container: true
+                primary_info: name
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                grid_options:
+                  columns: 3
+                  rows: 2
+              - type: custom:mushroom-entity-card
+                entity: sensor.ds418_drive_03_status_smart
+                layout: vertical
+                fill_container: true
+                primary_info: name
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                grid_options:
+                  columns: 3
+                  rows: 2
+              - type: custom:mushroom-entity-card
+                entity: binary_sensor.ds418_drive_03_max_fehlerhafte_sektoren_uberschritten
+                layout: vertical
+                fill_container: true
+                primary_info: name
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                grid_options:
+                  columns: 3
+                  rows: 2
+              - type: custom:mushroom-entity-card
+                entity: binary_sensor.ds418_drive_03_unterhalb_der_mindestrestlebensdauer
+                layout: vertical
+                fill_container: true
+                primary_info: name
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                grid_options:
+                  columns: 3
+                  rows: 2
+          - type: heading
+            icon: mdi:harddisk
+            heading_style: subtitle
+            heading: Drive 04
+            badges:
+              - type: entity
+                entity: sensor.ds418_drive_04_temperature
+          - type: horizontal-stack
+            cards: []
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-entity-card
+                entity: sensor.ds418_drive_04_status
+                layout: vertical
+                fill_container: true
+                primary_info: name
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                grid_options:
+                  columns: 3
+                  rows: 2
+              - type: custom:mushroom-entity-card
+                entity: sensor.ds418_drive_04_status_smart
+                layout: vertical
+                fill_container: true
+                primary_info: name
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                grid_options:
+                  columns: 3
+                  rows: 2
+              - type: custom:mushroom-entity-card
+                entity: binary_sensor.ds418_drive_04_max_fehlerhafte_sektoren_uberschritten
+                layout: vertical
+                fill_container: true
+                primary_info: name
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                grid_options:
+                  columns: 3
+                  rows: 2
+              - type: custom:mushroom-entity-card
+                entity: binary_sensor.ds418_drive_04_unterhalb_der_mindestrestlebensdauer
+                layout: vertical
+                fill_container: true
+                primary_info: name
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                grid_options:
+                  columns: 3
+                  rows: 2
+      - type: grid
+        cards:
+          - type: heading
+            heading_style: title
+            heading: FeelsAmazingMan
+            icon: mdi:nas
+            badges:
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: binary_sensor.truenas_gesundheit
+              - type: entity
+                entity: sensor.truenas_status
+          - type: custom:mini-graph-card
+            name: Traffic
+            icon: mdi:wifi-arrow-up-down
+            entities:
+              - entity: sensor.truenas_system_ens18_tx
+                name: Download
+              - entity: sensor.truenas_system_ens18_rx
+                name: Upload
+                show_state: true
+            hours_to_show: 48
+            points_per_hour: 1
+            update_interval: 60
+            decimals: 3
+            cache: true
+            hour24: true
+            tap_action:
+              action: none
+            show:
+              state: true
+              fill: fade
+          - type: custom:mini-graph-card
+            name: Auslastung
+            icon: mdi:chip
+            entities:
+              - entity: sensor.truenas_system_cpu_load_shortterm
+                name: 1min
+              - entity: sensor.truenas_system_cpu_load_midterm
+                name: 5min
+                show_state: true
+              - entity: sensor.truenas_system_cpu_load_longterm
+                name: 15min
+                show_state: true
+            hours_to_show: 48
+            points_per_hour: 1
+            update_interval: 60
+            decimals: 2
+            cache: true
+            hour24: true
+            tap_action:
+              action: none
+            show:
+              state: true
+              fill: fade
+          - type: heading
+            icon: mdi:harddisk
+            heading_style: subtitle
+            heading: TOSHIBA MG09ACA18TE 01
+            badges:
+              - type: entity
+                entity: sensor.toshiba_mg09aca18te_01_temperatur
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-entity-card
+                entity: binary_sensor.toshiba_mg09aca18te_01_gesundheit
+                fill_container: true
+                primary_info: name
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                grid_options:
+                  columns: 3
+                  rows: 2
+                name: Health
+                layout: vertical
+                icon: mdi:check
+                icon_color: primary
+              - type: custom:mushroom-entity-card
+                entity: sensor.toshiba_mg09aca18te_01_leistungszyklen
+                fill_container: true
+                primary_info: name
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                grid_options:
+                  columns: 3
+                  rows: 2
+                layout: vertical
+                name: Zyklen
+              - type: custom:mushroom-entity-card
+                entity: sensor.toshiba_mg09aca18te_01_betriebsstunden
+                fill_container: true
+                primary_info: name
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                grid_options:
+                  columns: 3
+                  rows: 2
+                layout: vertical
+                name: Stunden
+          - type: heading
+            icon: mdi:harddisk
+            heading_style: subtitle
+            heading: TOSHIBA MG09ACA18TE 02
+            badges:
+              - type: entity
+                entity: sensor.toshiba_mg09aca18te_02_temperatur
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-entity-card
+                entity: binary_sensor.toshiba_mg09aca18te_02_gesundheit
+                fill_container: true
+                primary_info: name
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                grid_options:
+                  columns: 3
+                  rows: 2
+                name: Health
+                layout: vertical
+                icon: mdi:check
+                icon_color: primary
+              - type: custom:mushroom-entity-card
+                entity: sensor.toshiba_mg09aca18te_02_leistungszyklen
+                fill_container: true
+                primary_info: name
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                grid_options:
+                  columns: 3
+                  rows: 2
+                layout: vertical
+                name: Zyklen
+              - type: custom:mushroom-entity-card
+                entity: sensor.toshiba_mg09aca18te_02_betriebsstunden
+                fill_container: true
+                primary_info: name
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                grid_options:
+                  columns: 3
+                  rows: 2
+                layout: vertical
+                name: Stunden
+          - type: heading
+            icon: mdi:harddisk
+            heading_style: subtitle
+            heading: TOSHIBA MG09ACA18TE 03
+            badges:
+              - type: entity
+                entity: sensor.toshiba_mg09aca18te_03_temperatur
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-entity-card
+                entity: binary_sensor.toshiba_mg09aca18te_03_gesundheit
+                fill_container: true
+                primary_info: name
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                grid_options:
+                  columns: 3
+                  rows: 2
+                name: Health
+                layout: vertical
+                icon: mdi:check
+                icon_color: primary
+              - type: custom:mushroom-entity-card
+                entity: sensor.toshiba_mg09aca18te_03_leistungszyklen
+                fill_container: true
+                primary_info: name
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                grid_options:
+                  columns: 3
+                  rows: 2
+                layout: vertical
+                name: Zyklen
+              - type: custom:mushroom-entity-card
+                entity: sensor.toshiba_mg09aca18te_03_betriebsstunden
+                fill_container: true
+                primary_info: name
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                grid_options:
+                  columns: 3
+                  rows: 2
+                layout: vertical
+                name: Stunden
+          - type: heading
+            icon: mdi:harddisk
+            heading_style: subtitle
+            heading: TOSHIBA MG09ACA18TE 04
+            badges:
+              - type: entity
+                entity: sensor.toshiba_mg09aca18te_04_temperatur
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-entity-card
+                entity: binary_sensor.toshiba_mg09aca18te_04_gesundheit
+                fill_container: true
+                primary_info: name
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                grid_options:
+                  columns: 3
+                  rows: 2
+                name: Health
+                layout: vertical
+                icon: mdi:check
+                icon_color: primary
+              - type: custom:mushroom-entity-card
+                entity: sensor.toshiba_mg09aca18te_04_leistungszyklen
+                fill_container: true
+                primary_info: name
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                grid_options:
+                  columns: 3
+                  rows: 2
+                layout: vertical
+                name: Zyklen
+              - type: custom:mushroom-entity-card
+                entity: sensor.toshiba_mg09aca18te_04_betriebsstunden
+                fill_container: true
+                primary_info: name
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                grid_options:
+                  columns: 3
+                  rows: 2
+                layout: vertical
+                name: Stunden
+          - type: heading
+            icon: mdi:harddisk
+            heading_style: subtitle
+            heading: TOSHIBA MG09ACA18TE 05
+            badges:
+              - type: entity
+                entity: sensor.toshiba_mg09aca18te_05_temperatur
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-entity-card
+                entity: binary_sensor.toshiba_mg09aca18te_05_gesundheit
+                fill_container: true
+                primary_info: name
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                grid_options:
+                  columns: 3
+                  rows: 2
+                name: Health
+                layout: vertical
+                icon: mdi:check
+                icon_color: primary
+              - type: custom:mushroom-entity-card
+                entity: sensor.toshiba_mg09aca18te_05_leistungszyklen
+                fill_container: true
+                primary_info: name
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                grid_options:
+                  columns: 3
+                  rows: 2
+                layout: vertical
+                name: Zyklen
+              - type: custom:mushroom-entity-card
+                entity: sensor.toshiba_mg09aca18te_05_betriebsstunden
+                fill_container: true
+                primary_info: name
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                grid_options:
+                  columns: 3
+                  rows: 2
+                layout: vertical
+                name: Stunden
+          - type: heading
+            icon: mdi:harddisk
+            heading_style: subtitle
+            heading: KINGSTON SA400S37480G 01
+            badges:
+              - type: entity
+                entity: sensor.kingston_sa400s37480g_01_temperatur
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-entity-card
+                entity: binary_sensor.kingston_sa400s37480g_01_gesundheit
+                fill_container: true
+                primary_info: name
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                grid_options:
+                  columns: 3
+                  rows: 2
+                name: Health
+                layout: vertical
+                icon: mdi:check
+                icon_color: primary
+              - type: custom:mushroom-entity-card
+                entity: sensor.kingston_sa400s37480g_01_leistungszyklen
+                fill_container: true
+                primary_info: name
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                grid_options:
+                  columns: 3
+                  rows: 2
+                layout: vertical
+                name: Zyklen
+              - type: custom:mushroom-entity-card
+                entity: sensor.kingston_sa400s37480g_01_betriebsstunden
+                fill_container: true
+                primary_info: name
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                grid_options:
+                  columns: 3
+                  rows: 2
+                layout: vertical
+                name: Stunden
+              - type: custom:mushroom-entity-card
+                entity: sensor.kingston_sa400s37480g_01_verschleiss
+                fill_container: true
+                primary_info: name
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                grid_options:
+                  columns: 3
+                  rows: 2
+                layout: vertical
+                name: Verscheiss
+          - type: heading
+            icon: mdi:harddisk
+            heading_style: subtitle
+            heading: KINGSTON SA400S37480G 02
+            badges:
+              - type: entity
+                entity: sensor.kingston_sa400s37480g_02_temperatur
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-entity-card
+                entity: binary_sensor.kingston_sa400s37480g_02_gesundheit
+                fill_container: true
+                primary_info: name
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                grid_options:
+                  columns: 3
+                  rows: 2
+                name: Health
+                layout: vertical
+                icon: mdi:check
+                icon_color: primary
+              - type: custom:mushroom-entity-card
+                entity: sensor.kingston_sa400s37480g_02_leistungszyklen
+                fill_container: true
+                primary_info: name
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                grid_options:
+                  columns: 3
+                  rows: 2
+                layout: vertical
+                name: Zyklen
+              - type: custom:mushroom-entity-card
+                entity: sensor.kingston_sa400s37480g_02_betriebsstunden
+                fill_container: true
+                primary_info: name
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                grid_options:
+                  columns: 3
+                  rows: 2
+                layout: vertical
+                name: Stunden
+              - type: custom:mushroom-entity-card
+                entity: sensor.kingston_sa400s37480g_02_verschleiss
+                fill_container: true
+                primary_info: name
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                grid_options:
+                  columns: 3
+                  rows: 2
+                layout: vertical
+                name: Verscheiss
+          - type: heading
+            icon: mdi:harddisk
+            heading_style: subtitle
+            heading: Samsung SSD 980 1TB 01
+            badges:
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: sensor.samsung_ssd_980_1tb_01_temperatur
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-entity-card
+                entity: binary_sensor.samsung_ssd_980_1tb_01_gesundheit
+                fill_container: true
+                primary_info: name
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                grid_options:
+                  columns: 3
+                  rows: 2
+                name: Health
+                layout: vertical
+                icon: mdi:check
+                icon_color: primary
+              - type: custom:mushroom-entity-card
+                entity: sensor.samsung_ssd_980_1tb_01_leistungszyklen
+                fill_container: true
+                primary_info: name
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                grid_options:
+                  columns: 3
+                  rows: 2
+                layout: vertical
+                name: Zyklen
+              - type: custom:mushroom-entity-card
+                entity: sensor.samsung_ssd_980_1tb_01_betriebsstunden
+                fill_container: true
+                primary_info: name
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                grid_options:
+                  columns: 3
+                  rows: 2
+                layout: vertical
+                name: Stunden
+              - type: custom:mushroom-entity-card
+                entity: sensor.samsung_ssd_980_1tb_01_verschleiss
+                fill_container: true
+                primary_info: name
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                grid_options:
+                  columns: 3
+                  rows: 2
+                layout: vertical
+                name: Verscheiss
+          - type: heading
+            icon: mdi:harddisk
+            heading_style: subtitle
+            heading: Samsung SSD 980 1TB 02
+            badges:
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: sensor.samsung_ssd_980_1tb_02_temperatur
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-entity-card
+                entity: binary_sensor.samsung_ssd_980_1tb_02_gesundheit
+                fill_container: true
+                primary_info: name
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                grid_options:
+                  columns: 3
+                  rows: 2
+                name: Health
+                layout: vertical
+                icon: mdi:check
+                icon_color: primary
+              - type: custom:mushroom-entity-card
+                entity: sensor.samsung_ssd_980_1tb_02_leistungszyklen
+                fill_container: true
+                primary_info: name
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                grid_options:
+                  columns: 3
+                  rows: 2
+                layout: vertical
+                name: Zyklen
+              - type: custom:mushroom-entity-card
+                entity: sensor.samsung_ssd_980_1tb_02_betriebsstunden
+                fill_container: true
+                primary_info: name
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                grid_options:
+                  columns: 3
+                  rows: 2
+                layout: vertical
+                name: Stunden
+              - type: custom:mushroom-entity-card
+                entity: sensor.samsung_ssd_980_1tb_02_verschleiss
+                fill_container: true
+                primary_info: name
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                grid_options:
+                  columns: 3
+                  rows: 2
+                layout: vertical
+                name: Verscheiss
+    header:
+      layout: responsive
+      badges_position: bottom
+    cards: []
+    visible:
+      - user: 40ecff3c47134f45a0533a3d311cfbe9
+      - user: 133cecd7aca44a8694c70c2dbbb96745
+  - type: sections
+    title: Ecowitt WH90
+    path: ecowitt
+    icon: mdi:weather-partly-cloudy
+    max_columns: 3
+    dense_section_placement: true
+    sections:
+      - type: grid
+        cards:
+          - type: heading
+            heading: Temperatur
+            heading_style: title
+            icon: mdi:thermometer
+          - type: tile
+            entity: sensor.gw1200a_outdoor_temperature
+            name: Außentemperatur
+          - type: tile
+            entity: sensor.gw1200a_outdoor_temperature_2
+            name: Außentemperatur 2
+          - type: tile
+            entity: sensor.gw1200a_feels_like_temperature
+            name: Gefühlte Temperatur
+          - type: tile
+            entity: sensor.gw1200a_dewpoint
+            name: Taupunkt
+      - type: grid
+        cards:
+          - type: heading
+            heading: Luftfeuchtigkeit & Druck
+            heading_style: title
+            icon: mdi:water-percent
+          - type: tile
+            entity: sensor.gw1200a_outdoor_humidity
+            name: Außenluftfeuchtigkeit
+          - type: tile
+            entity: sensor.gw1200a_humidity
+            name: Luftfeuchtigkeit
+          - type: tile
+            entity: sensor.gw1200a_vapour_pressure_deficit
+            name: Dampfdruckdefizit
+      - type: grid
+        cards:
+          - type: heading
+            heading: Wind
+            heading_style: title
+            icon: mdi:weather-windy
+          - type: tile
+            entity: sensor.gw1200a_wind_speed
+            name: Windgeschwindigkeit
+          - type: tile
+            entity: sensor.gw1200a_wind_gust
+            name: Windböe
+          - type: tile
+            entity: sensor.gw1200a_max_daily_gust
+            name: Max. Tagesböe
+          - type: tile
+            entity: sensor.gw1200a_wind_direction
+            name: Windrichtung
+          - type: tile
+            entity: sensor.wohnzimmer_gw1200a_wind_direction_10m_avg
+            name: Windrichtung Ø 10min
+      - type: grid
+        cards:
+          - type: heading
+            heading: Regen (Piezo)
+            heading_style: title
+            icon: mdi:weather-rainy
+          - type: tile
+            entity: binary_sensor.gw1200a_rain_state_piezo
+            name: Regenmelder
+          - type: tile
+            entity: sensor.gw1200a_rain_rate_piezo
+            name: Regenrate
+          - type: tile
+            entity: sensor.gw1200a_event_rain_piezo
+            name: Ereignisregen
+          - type: tile
+            entity: sensor.gw1200a_hourly_rain_piezo
+            name: Stundenregen
+          - type: tile
+            entity: sensor.gw1200a_daily_rain_piezo
+            name: Tagesregen
+          - type: tile
+            entity: sensor.wohnzimmer_gw1200a_24h_rain_piezo
+            name: 24h Regen
+          - type: tile
+            entity: sensor.gw1200a_weekly_rain_piezo
+            name: Wochenregen
+          - type: tile
+            entity: sensor.gw1200a_monthly_rain_piezo
+            name: Monatsregen
+          - type: tile
+            entity: sensor.gw1200a_yearly_rain_piezo
+            name: Jahresregen
+      - type: grid
+        cards:
+          - type: heading
+            heading: Solar & UV
+            heading_style: title
+            icon: mdi:weather-sunny
+          - type: tile
+            entity: sensor.gw1200a_solar_radiation
+            name: Solarstrahlung
+          - type: tile
+            entity: sensor.gw1200a_solar_lux
+            name: Beleuchtungsstärke
+          - type: tile
+            entity: sensor.gw1200a_uv_index
+            name: UV-Index
+      - type: grid
+        cards:
+          - type: heading
+            heading: WH90 Status
+            heading_style: title
+            icon: mdi:battery
+          - type: tile
+            entity: sensor.gw1200a_wh90_battery
+            name: WH90 Batterie
+          - type: tile
+            entity: sensor.gw1200a_wh90_capacitor
+            name: WH90 Kondensator
+          - type: tile
+            entity: binary_sensor.gw1200a_outdoor_battery
+            name: Außensensor Batterie

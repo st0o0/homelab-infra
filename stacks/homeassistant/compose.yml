@@ -31,6 +31,7 @@ services:
       - ${HA_PATH_CONFIG:-./homeassistant/data}:/config
       - ./homeassistant/configuration.yaml:/config/configuration.yaml:ro
       - ./homeassistant/packages:/config/packages:ro
+      - ./homeassistant/dashboards:/config/dashboards:ro
       - /run/dbus:/run/dbus:ro
     deploy:
       resources:

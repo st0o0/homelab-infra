@@ -1,0 +1,152 @@
+{
+  "version": 1,
+  "minor_version": 9,
+  "key": "core.area_registry",
+  "data": {
+    "areas": [
+      {
+        "aliases": [],
+        "floor_id": null,
+        "humidity_entity_id": "sensor.ht_storageroom_0_humidity",
+        "icon": "mdi:washing-machine",
+        "id": "abstellraum",
+        "labels": [],
+        "name": "Abstellraum",
+        "picture": null,
+        "temperature_entity_id": "sensor.ht_storageroom_0_temperature",
+        "created_at": "2024-11-04T13:07:11.036645+00:00",
+        "modified_at": "2025-11-20T20:20:46.305419+00:00"
+      },
+      {
+        "aliases": [],
+        "floor_id": null,
+        "humidity_entity_id": null,
+        "icon": "mdi:shower-head",
+        "id": "badezimmer",
+        "labels": [],
+        "name": "Badezimmer",
+        "picture": null,
+        "temperature_entity_id": null,
+        "created_at": "2024-10-21T14:12:53.188963+00:00",
+        "modified_at": "2024-11-02T18:54:14.586895+00:00"
+      },
+      {
+        "aliases": [],
+        "floor_id": null,
+        "humidity_entity_id": null,
+        "icon": "mdi:human-walker",
+        "id": "flur",
+        "labels": [],
+        "name": "Flur",
+        "picture": null,
+        "temperature_entity_id": null,
+        "created_at": "2024-10-30T18:19:38.833715+00:00",
+        "modified_at": "2024-10-30T18:46:11.435058+00:00"
+      },
+      {
+        "aliases": [],
+        "floor_id": null,
+        "humidity_entity_id": null,
+        "icon": "mdi:robot-love",
+        "id": "it",
+        "labels": [],
+        "name": "IT",
+        "picture": null,
+        "temperature_entity_id": null,
+        "created_at": "2024-10-18T11:14:56.600810+00:00",
+        "modified_at": "2024-10-18T11:14:56.600827+00:00"
+      },
+      {
+        "aliases": [],
+        "floor_id": null,
+        "humidity_entity_id": "sensor.schlafzimmer_timmerflotte_luftfeuchtigkeit",
+        "icon": "mdi:table-chair",
+        "id": "kuche",
+        "labels": [],
+        "name": "Küche",
+        "picture": null,
+        "temperature_entity_id": "sensor.schlafzimmer_timmerflotte_temperatur",
+        "created_at": "2024-10-18T08:39:13.217299+00:00",
+        "modified_at": "2026-07-21T11:23:53.608114+00:00"
+      },
+      {
+        "aliases": [],
+        "floor_id": null,
+        "humidity_entity_id": null,
+        "icon": "mdi:sunglasses",
+        "id": "loggia",
+        "labels": [],
+        "name": "Loggia",
+        "picture": null,
+        "temperature_entity_id": null,
+        "created_at": "2025-03-21T16:24:20.240165+00:00",
+        "modified_at": "2025-03-21T16:24:20.240175+00:00"
+      },
+      {
+        "aliases": [],
+        "floor_id": null,
+        "humidity_entity_id": null,
+        "icon": "mdi:music",
+        "id": "musik",
+        "labels": [],
+        "name": "Musik",
+        "picture": null,
+        "temperature_entity_id": null,
+        "created_at": "2024-10-24T07:02:59.186051+00:00",
+        "modified_at": "2024-10-24T07:02:59.186067+00:00"
+      },
+      {
+        "aliases": [],
+        "floor_id": null,
+        "humidity_entity_id": null,
+        "icon": "mdi:account-group",
+        "id": "personen",
+        "labels": [],
+        "name": "Personen",
+        "picture": null,
+        "temperature_entity_id": null,
+        "created_at": "2024-10-28T12:15:34.089757+00:00",
+        "modified_at": "2024-10-28T12:15:34.089767+00:00"
+      },
+      {
+        "aliases": [],
+        "floor_id": null,
+        "humidity_entity_id": "sensor.alpstuga_air_quality_monitor_luftfeuchtigkeit",
+        "icon": "mdi:bed-king-outline",
+        "id": "schlafzimmer",
+        "labels": [],
+        "name": "Schlafzimmer",
+        "picture": null,
+        "temperature_entity_id": "sensor.alpstuga_air_quality_monitor_temperatur",
+        "created_at": "2024-10-18T08:39:13.217627+00:00",
+        "modified_at": "2026-07-21T11:24:04.210818+00:00"
+      },
+      {
+        "aliases": [],
+        "floor_id": null,
+        "humidity_entity_id": null,
+        "icon": "mdi:alien",
+        "id": "stuff",
+        "labels": [],
+        "name": "Stuff",
+        "picture": null,
+        "temperature_entity_id": null,
+        "created_at": "2024-10-24T07:01:53.583080+00:00",
+        "modified_at": "2024-10-24T07:01:53.583097+00:00"
+      },
+      {
+        "aliases": [],
+        "floor_id": null,
+        "humidity_entity_id": "sensor.ht_livingroom_0_humidity",
+        "icon": "mdi:sofa-outline",
+        "id": "wohnzimmer",
+        "labels": [],
+        "name": "Wohnzimmer",
+        "picture": null,
+        "temperature_entity_id": "sensor.ht_livingroom_0_temperature",
+        "created_at": "2024-10-18T08:39:10.387129+00:00",
+        "modified_at": "2025-11-20T20:20:34.601436+00:00"
+      }
+    ]
+  }
+}

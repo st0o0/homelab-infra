@@ -1,0 +1,17 @@
+views:
+  - title: Todo-Liste
+    type: sections
+    max_columns: 1
+    icon: mdi:list-status
+    path: todo-liste
+    sections:
+      - type: grid
+        cards:
+          - display_order: duedate_asc
+            type: todo-list
+            entity: todo.nadine
+            hide_create: false
+            hide_completed: false
+    visible:
+      - user: 133cecd7aca44a8694c70c2dbbb96745
+    cards: []

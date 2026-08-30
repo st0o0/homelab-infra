@@ -1,0 +1,92 @@
+input_boolean:
+  night_ventilation_mode:
+    name: night_ventilation_mode
+    icon: mdi:weather-night
+
+input_button:
+  createchannel:
+    name: create_channels
+    icon: mdi:creation-outline
+  deletechannel:
+    name: delete_channels
+    icon: mdi:delete-variant
+
+input_datetime:
+  night_ventilation_end_time:
+    has_time: true
+    has_date: false
+    name: night_ventilation_end_time
+    icon: mdi:clock-end
+
+input_number:
+  shower_mode_duration:
+    min: 10
+    max: 60
+    unit_of_measurement: Minute
+    name: shower_mode_duration
+    icon: mdi:timer-sand
+    step: 1
+    mode: slider
+  storageroom_ventilation_mode_duration:
+    min: 6
+    max: 60
+    name: storageroom_ventilation_mode_duration
+    unit_of_measurement: Min
+    mode: slider
+    step: 1
+  bathroom_ventilation_mode_duration:
+    min: 15
+    max: 60
+    name: bathroom_ventilation_mode_duration
+    unit_of_measurement: Min
+    mode: slider
+    step: 1
+
+input_select:
+  styrbar_01_helper_mode:
+    name: STYRBAR_01_HELPER_MODE
+    options:
+      - rgb
+      - temperature
+
+input_text:
+  cover_doubledoor_kitchen_position:
+    name: cover_doubledoor_kitchen_position
+    mode: text
+    max: 100
+    min: 0
+  cover_door_kitchen_position:
+    name: cover_door_kitchen_position
+    mode: text
+    max: 100
+    min: 0
+  cover_doubledoor_livingroom_position:
+    name: cover_doubledoor_livingroom_position
+    mode: text
+    max: 100
+    min: 0
+  cover_window_bedroom_position:
+    name: cover_window_bedroom_position
+    mode: text
+    max: 100
+    min: 0
+  styrbar_01_helper:
+    name: STYRBAR_01_HELPER
+    mode: text
+    min: 0
+    max: 100
+
+timer:
+  shower_mode_timer:
+    name: shower_mode_timer
+    icon: mdi:timer
+    restore: true
+    duration: "0:00:00"
+  storageroom_ventilation_mode_timer:
+    name: storageroom_ventilation_mode_timer
+    restore: true
+    duration: "0:00:00"
+  bathroom_ventilation_mode_timer:
+    name: bathroom_ventilation_mode_timer
+    restore: true
+    duration: "0:00:00"

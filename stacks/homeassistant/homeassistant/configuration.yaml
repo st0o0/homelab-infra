@@ -9,3 +9,72 @@ frontend:
 automation: !include automations.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml
+
+lovelace:
+  mode: storage
+  resources:
+    - url: /hacsfiles/lovelace-mushroom/mushroom.js
+      type: module
+    - url: /hacsfiles/mini-graph-card/mini-graph-card-bundle.js
+      type: module
+    - url: /hacsfiles/timer-bar-card/timer-bar-card.js
+      type: module
+    - url: /hacsfiles/apexcharts-card/apexcharts-card.js
+      type: module
+    - url: /hacsfiles/atomic-calendar-revive/atomic-calendar-revive.js
+      type: module
+    - url: /hacsfiles/MeteoalarmCard/meteoalarm-card.js
+      type: module
+    - url: /hacsfiles/weather-card/weather-card.js
+      type: module
+    - url: /hacsfiles/uptime-card/uptime-card.js
+      type: module
+    - url: /hacsfiles/zigbee2mqtt-networkmap/zigbee2mqtt-networkmap.js
+      type: module
+    - url: /hacsfiles/weather-chart-card-ha/weather-chart-card-ha.js
+      type: module
+    - url: /hacsfiles/scheduler-card/scheduler-card.js
+      type: module
+  dashboards:
+    dashboard-display:
+      mode: yaml
+      filename: dashboards/display.yaml
+      title: Display
+      icon: mdi:wall
+      show_in_sidebar: false
+      require_admin: false
+    dashboard-home:
+      mode: yaml
+      filename: dashboards/home.yaml
+      title: Home
+      icon: mdi:home-assistant
+      show_in_sidebar: true
+      require_admin: false
+    tv-control:
+      mode: yaml
+      filename: dashboards/tv_control.yaml
+      title: "TV - Control "
+      icon: mdi:remote
+      show_in_sidebar: true
+      require_admin: false
+    dashboard-views:
+      mode: yaml
+      filename: dashboards/views.yaml
+      title: Views
+      icon: mdi:view-comfy
+      show_in_sidebar: false
+      require_admin: false
+    dashboard-todo-nadine:
+      mode: yaml
+      filename: dashboards/todo_nadine.yaml
+      title: Nadine
+      icon: mdi:ice-cream
+      show_in_sidebar: true
+      require_admin: false
+    dashboard-it:
+      mode: yaml
+      filename: dashboards/it.yaml
+      title: IT
+      icon: mdi:server-outline
+      show_in_sidebar: true
+      require_admin: false

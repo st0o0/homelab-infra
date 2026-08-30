@@ -1,0 +1,13 @@
+person:
+  - id: jan
+    name: Jan
+    user_id: 40ecff3c47134f45a0533a3d311cfbe9
+    device_trackers:
+      - device_tracker.jan
+      - device_tracker.handyjan
+      - device_tracker.starkesipad
+  - id: nadine
+    name: Nadine
+    user_id: 133cecd7aca44a8694c70c2dbbb96745
+    device_trackers:
+      - device_tracker.nadine

@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "minor_version": 3,
+  "key": "energy",
+  "data": {
+    "energy_sources": [
+      {
+        "type": "grid",
+        "stat_energy_from": "sensor.strom_total_active_energy",
+        "stat_energy_to": null,
+        "stat_cost": null,
+        "stat_compensation": null,
+        "entity_energy_price": null,
+        "number_energy_price": 0.28,
+        "entity_energy_price_export": null,
+        "number_energy_price_export": null,
+        "cost_adjustment_day": 0.0,
+        "name": "Netz",
+        "power_config": {
+          "stat_rate": "sensor.strom_total_active_power"
+        },
+        "stat_rate": "sensor.strom_total_active_power"
+      }
+    ],
+    "device_consumption": [],
+    "device_consumption_water": []
+  }
+}

@@ -1,0 +1,141 @@
+{
+  "version": 1,
+  "minor_version": 2,
+  "key": "core.category_registry",
+  "data": {
+    "categories": {
+      "script": [
+        {
+          "category_id": "01JPYCTPTD76SMHYZ0ZE9Q2R0H",
+          "created_at": "2025-03-22T07:42:09.741858+00:00",
+          "icon": "mdi:fan-clock",
+          "modified_at": "2025-03-22T07:42:09.741878+00:00",
+          "name": "Ventilation"
+        },
+        {
+          "category_id": "01K8WSC4PCF5BP8NSNTGFPVCVZ",
+          "created_at": "2025-10-31T09:25:27.884953+00:00",
+          "icon": "mdi:lightbulb",
+          "modified_at": "2026-07-16T15:37:35.136901+00:00",
+          "name": "Lights"
+        },
+        {
+          "category_id": "01KXNS6YNM4VVBTQT7NPGESXCE",
+          "created_at": "2026-07-16T15:37:35.156282+00:00",
+          "icon": "mdi:shower-head",
+          "modified_at": "2026-07-16T15:37:35.156290+00:00",
+          "name": "Shower Mode"
+        },
+        {
+          "category_id": "01KXNS6YNRBVW6EWZ3CMGVP1DK",
+          "created_at": "2026-07-16T15:37:35.160009+00:00",
+          "icon": "mdi:window-shutter",
+          "modified_at": "2026-07-16T15:37:35.160017+00:00",
+          "name": "Cover"
+        },
+        {
+          "category_id": "01KXNS6YNVHCWFF3Y332E4YCW0",
+          "created_at": "2026-07-16T15:37:35.163513+00:00",
+          "icon": "mdi:washing-machine",
+          "modified_at": "2026-07-16T15:37:35.163522+00:00",
+          "name": "Appliances"
+        }
+      ],
+      "helpers": [
+        {
+          "category_id": "01JPYCVSJ683TXY01V54MJKBH6",
+          "created_at": "2025-03-22T07:42:45.318328+00:00",
+          "icon": "mdi:fan-clock",
+          "modified_at": "2025-03-22T07:42:45.318348+00:00",
+          "name": "Ventilation"
+        },
+        {
+          "category_id": "01JPYCX55BJ3MCBV10VE1HXM4W",
+          "created_at": "2025-03-22T07:43:29.963692+00:00",
+          "icon": "mdi:fan-off",
+          "modified_at": "2025-03-22T07:43:29.963709+00:00",
+          "name": "ShowerMode"
+        },
+        {
+          "category_id": "01JPYCZ0FYA6V9Z4XWKNA1CNJT",
+          "created_at": "2025-03-22T07:44:30.718851+00:00",
+          "icon": "mdi:window-shutter-auto",
+          "modified_at": "2025-03-22T07:44:30.718868+00:00",
+          "name": "Calibration"
+        },
+        {
+          "category_id": "01K91S630MWB54FYHBMYAQDS4W",
+          "created_at": "2025-11-02T07:58:21.716284+00:00",
+          "icon": "mdi:nas",
+          "modified_at": "2025-11-02T07:58:21.716305+00:00",
+          "name": "TrueNAS"
+        },
+        {
+          "category_id": "01K91TEJY3FPPEJ4296229KD9H",
+          "created_at": "2025-11-02T08:20:28.739555+00:00",
+          "icon": "mdi:transmission-tower",
+          "modified_at": "2025-11-02T08:20:28.739575+00:00",
+          "name": "Strom"
+        }
+      ],
+      "automation": [
+        {
+          "category_id": "01JPYDDPGTV9X216B69VMKCVQN",
+          "created_at": "2025-03-22T07:52:32.026973+00:00",
+          "icon": "mdi:shower-head",
+          "modified_at": "2026-07-16T15:37:35.116546+00:00",
+          "name": "Shower Mode"
+        },
+        {
+          "category_id": "01JPYDEG41ZFH4PSRB5EMRPKSX",
+          "created_at": "2025-03-22T07:52:58.241536+00:00",
+          "icon": "mdi:fan-clock",
+          "modified_at": "2025-03-22T07:52:58.241556+00:00",
+          "name": "Ventilation"
+        },
+        {
+          "category_id": "01JPYDF6NKEMB4JMNSZ47830XN",
+          "created_at": "2025-03-22T07:53:21.331876+00:00",
+          "icon": "mdi:window-shutter",
+          "modified_at": "2026-07-16T15:37:35.133275+00:00",
+          "name": "Cover"
+        },
+        {
+          "category_id": "01JPYDFRJZRF00KPR532V4242C",
+          "created_at": "2025-03-22T07:53:39.679208+00:00",
+          "icon": "mdi:notification-clear-all",
+          "modified_at": "2025-03-22T07:53:39.679228+00:00",
+          "name": "Notifications"
+        },
+        {
+          "category_id": "01K8VA18CXX6FJBVTABW9AFC0R",
+          "created_at": "2025-10-30T19:38:08.157890+00:00",
+          "icon": "mdi:lightbulb",
+          "modified_at": "2025-10-30T19:38:08.157899+00:00",
+          "name": "Lights"
+        },
+        {
+          "category_id": "01KSYPNR18830ZEXSN20T45P7Z",
+          "created_at": "2026-05-31T09:43:36.744137+00:00",
+          "icon": "mdi:weather-night",
+          "modified_at": "2026-07-16T15:37:35.126919+00:00",
+          "name": "Night Ventilation"
+        },
+        {
+          "category_id": "01KXNS6YNBBPEQX0N3GWPQ9E0X",
+          "created_at": "2026-07-16T15:37:35.147302+00:00",
+          "icon": "mdi:washing-machine",
+          "modified_at": "2026-07-16T15:37:35.147307+00:00",
+          "name": "Appliances"
+        },
+        {
+          "category_id": "01KXNS6YNFAGDJSX9KHVMCC4SD",
+          "created_at": "2026-07-16T15:37:35.151056+00:00",
+          "icon": "mdi:server-network",
+          "modified_at": "2026-07-16T15:37:35.151065+00:00",
+          "name": "Infrastructure"
+        }
+      ]
+    }
+  }
+}
