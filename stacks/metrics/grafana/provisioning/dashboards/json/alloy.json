@@ -1297,7 +1297,7 @@
       "title": "Active Log Files",
       "gridPos": {
         "h": 5,
-        "w": 12,
+        "w": 24,
         "x": 0,
         "y": 44
       },
@@ -1484,17 +1484,17 @@
             "overrides": []
           },
           "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 12,
-            "y": 45
+            "h": 16,
+            "w": 24,
+            "x": 0,
+            "y": 53
           },
           "id": 302,
           "options": {
             "alignValue": "center",
             "mergeValues": true,
-            "showValue": "auto",
-            "rowHeight": 0.8
+            "showValue": "never",
+            "rowHeight": 0.7
           },
           "targets": [
             {
@@ -1564,7 +1564,7 @@
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 53
+            "y": 69
           },
           "id": 303,
           "options": {
@@ -1647,7 +1647,7 @@
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 53
+            "y": 69
           },
           "id": 304,
           "options": {
