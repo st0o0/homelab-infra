@@ -6,7 +6,7 @@ x-logging: &default-logging
 
 services:
   server:
-    image: ghcr.io/goauthentik/server:2026.5.6@sha256:5a77d345a63452cda3762c573070e50a9e4be7f500fb1d82de18d95f705a898c
+    image: ghcr.io/goauthentik/server:2026.8.0@sha256:5217eed4e86a3c6666ecf81c3430753ef958f97f93ac614070d458c10e0b2b33
     container_name: authentik-server
     restart: unless-stopped
     logging: *default-logging
@@ -99,7 +99,7 @@ services:
           memory: 768M
 
   worker:
-    image: ghcr.io/goauthentik/server:2026.5.6@sha256:5a77d345a63452cda3762c573070e50a9e4be7f500fb1d82de18d95f705a898c
+    image: ghcr.io/goauthentik/server:2026.8.0@sha256:5217eed4e86a3c6666ecf81c3430753ef958f97f93ac614070d458c10e0b2b33
     container_name: authentik-worker
     restart: unless-stopped
     logging: *default-logging
