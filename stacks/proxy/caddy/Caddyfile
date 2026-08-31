@@ -81,7 +81,7 @@
 	rate_limit {
 		zone relaxed_{args[0]} {
 			key {remote_host}
-			events 150
+			events 200
 			window 1m
 		}
 	}
