@@ -15,7 +15,6 @@
   configMigration: true,
   commitMessagePrefix: 'chore(deps):',
   commitMessageExtra: '({{packageFileDir}})',
-  assignees: ['st0o0'],
   suppressNotifications: ['prEditedNotification'],
   vulnerabilityAlerts: {
     enabled: true,
@@ -156,18 +155,6 @@
       description: 'Authentik requires sequential minor upgrades (no skipping)',
       matchPackageNames: ['ghcr.io/goauthentik/server'],
       separateMultipleMinor: true,
-    },
-    {
-      description: 'Throttle frequently releasing images to weekly',
-      matchPackageNames: [
-        'ghcr.io/home-assistant/home-assistant',
-        'ghcr.io/home-operations/sonarr',
-        'ghcr.io/home-operations/radarr',
-        'ghcr.io/home-operations/prowlarr',
-        'ghcr.io/home-operations/sabnzbd',
-        'ghcr.io/paperless-ngx/paperless-ngx',
-      ],
-      schedule: ['on monday'],
     },
     // sourceUrl overrides for correct release notes
     {
