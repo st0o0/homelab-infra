@@ -6,7 +6,7 @@ x-logging: &default-logging
 
 services:
   bifrost:
-    image: ghcr.io/st0o0/bifrost:0.2.1
+    image: ghcr.io/st0o0/bifrost:0.2.1@sha256:06497ee7a5895b7450dadd86bf95559cc382782a18607223a90b23dbb6ad4164
     container_name: bifrost
     restart: unless-stopped
     logging: *default-logging
@@ -79,7 +79,7 @@ services:
           memory: 128M
 
   eir:
-    image: ghcr.io/st0o0/eir:0.1.2
+    image: ghcr.io/st0o0/eir:0.1.2@sha256:409623b277291660c25d66bf8a633be92912720f113aece11e19b4037765f5ab
     container_name: eir
     restart: unless-stopped
     logging: *default-logging
@@ -201,7 +201,7 @@ services:
           memory: 128M
 
   geoipupdate:
-    image: maxmindinc/geoipupdate:v7@sha256:faecdca22579730ab0b7dea5aa9af350bb3c93cb9d39845c173639ead30346d2
+    image: maxmindinc/geoipupdate:v7.1.1@sha256:faecdca22579730ab0b7dea5aa9af350bb3c93cb9d39845c173639ead30346d2
     container_name: geoipupdate
     restart: unless-stopped
     logging: *default-logging
@@ -227,7 +227,7 @@ services:
           memory: 32M
 
   ran:
-    image: ghcr.io/st0o0/ran:0.3.7
+    image: ghcr.io/st0o0/ran:0.3.7@sha256:fafe32c547d754b99e97da32faaf09f641b90351e1a58e6409cd104b66bd2f9a
     container_name: ran
     restart: unless-stopped
     logging: *default-logging

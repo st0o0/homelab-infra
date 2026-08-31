@@ -162,7 +162,7 @@ services:
 
   seekarr:
     <<: *common
-    image: ghcr.io/scottrobertson/seekarr:0.3.0
+    image: ghcr.io/scottrobertson/seekarr:0.3.0@sha256:6202f2bd52fbd3ee9f0d5874345156eebb3ade656b561e64e3a7cdd0deb23402
     container_name: seekarr
     user: "${PUID}:${PGID}"
     depends_on:
@@ -183,7 +183,7 @@ services:
           memory: 64M
 
   configarr:
-    image: ghcr.io/raydak-labs/configarr:1.30.2
+    image: ghcr.io/raydak-labs/configarr:1.30.2@sha256:758a8498ee84aadef13d7abf9cb98a70fbbeef2cd3b93a162411cf0ebef59b4a
     container_name: configarr
     restart: "no"
     logging: *default-logging
@@ -212,7 +212,7 @@ services:
 
   youtarr-db:
     <<: *common
-    image: mariadb:10.11
+    image: mariadb:10.11.4@sha256:385c0ba6270307511a511ad915350736602c33fafb3f63f663c853920424c365
     container_name: youtarr-db
     healthcheck:
       test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]

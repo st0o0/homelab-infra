@@ -179,7 +179,6 @@
     {
       matchPackageNames: ['ghcr.io/goauthentik/server'],
       sourceUrl: 'https://github.com/goauthentik/authentik',
-      extractVersion: '^version/(?<version>.+)$',
     },
     {
       matchPackageNames: ['ghcr.io/home-assistant/home-assistant'],

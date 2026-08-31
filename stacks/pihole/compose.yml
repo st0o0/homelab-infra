@@ -31,7 +31,7 @@ services:
           memory: 256M
 
   nebula-sync:
-    image: ghcr.io/lovelaze/nebula-sync:v0.11.2
+    image: ghcr.io/lovelaze/nebula-sync:v0.11.2@sha256:0ab32c6ee545860006fb1baa8cf966d265cf60e1e7395469eb8a63f7e446d01e
     container_name: nebula-sync
     restart: unless-stopped
     logging: *default-logging
