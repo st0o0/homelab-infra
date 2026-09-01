@@ -20,8 +20,8 @@ entries:
           matching_mode: strict
       include_claims_in_id_token: true
       access_code_validity: minutes=1
-      access_token_validity: days=1
-      refresh_token_validity: days=90
+      access_token_validity: hours=1
+      refresh_token_validity: days=14
       refresh_token_threshold: seconds=0
       sub_mode: hashed_user_id
       issuer_mode: per_provider
@@ -63,7 +63,7 @@ entries:
       invalidation_flow: !Find [authentik_flows.flow, [slug, default-provider-invalidation-flow]]
       mode: forward_single
       external_host: !Env AUTHENTIK_PROVIDER_VAULTWARDEN_EXTERNAL_HOST
-      access_token_validity: days=1
+      access_token_validity: hours=1
 
   - model: authentik_core.application
     id: proxy-app

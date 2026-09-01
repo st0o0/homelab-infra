@@ -22,7 +22,7 @@ entries:
           matching_mode: strict
       include_claims_in_id_token: true
       access_code_validity: minutes=1
-      access_token_validity: hours=24
+      access_token_validity: hours=1
       refresh_token_validity: days=90
       refresh_token_threshold: seconds=0
       sub_mode: hashed_user_id
