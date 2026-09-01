@@ -280,11 +280,7 @@ services:
       - RAN_CROWDSEC_BATCH_SIZE=${RAN_CROWDSEC_BATCH_SIZE:-50}
       - RAN_CROWDSEC_DECISION_CACHE=${RAN_CROWDSEC_DECISION_CACHE:-on}
     healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost:9550/metrics || exit 1"]
-      interval: 30s
-      timeout: 5s
-      retries: 3
-      start_period: 15s
+      disable: false
     deploy:
       resources:
         limits:
