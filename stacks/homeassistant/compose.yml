@@ -49,7 +49,7 @@ services:
           memory: 768M
 
   mqtt:
-    image: eclipse-mosquitto:2.1.2
+    image: eclipse-mosquitto:2.1.2-alpine@sha256:6f8d8a947c506f8a2290ec65cd4bd2bc7cb4d43fb5f6271f861cb013e2ef9797
     container_name: mosquitto
     restart: always
     logging: *default-logging
@@ -129,7 +129,7 @@ services:
           memory: 256M
 
   njord:
-    image: ghcr.io/st0o0/njord:0.3.0
+    image: ghcr.io/st0o0/njord:0.3.0@sha256:d8f21389875bfa35006e1119df512e97be3ea11b6fb623dd09cc0f75a286c496
     container_name: njord
     restart: unless-stopped
     logging: *default-logging
