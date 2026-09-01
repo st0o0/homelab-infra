@@ -252,16 +252,339 @@
       ],
       "id": 7
     },
+
+    {
+      "type": "row",
+      "title": "🔑 Authentication Activity",
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 5 },
+      "id": 50
+    },
+    {
+      "type": "stat",
+      "title": "Logins",
+      "gridPos": { "h": 3, "w": 6, "x": 0, "y": 6 },
+      "datasource": {
+        "type": "victoriametrics-logs-datasource",
+        "uid": "victorialogs"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "fixedColor": "green", "mode": "fixed" },
+          "unit": "short"
+        }
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "{container=\"authentik-server\"} msg.action:=\"login\" | stats count() as logins",
+          "queryType": "stats"
+        }
+      ],
+      "transformations": [
+        { "id": "extractFields", "options": { "format": "json", "source": "labels" } },
+        { "id": "organize", "options": { "excludeByName": { "Line": true, "detected_level": true, "id": true, "labels": true, "streamId": true, "streams": true } } },
+        { "id": "convertFieldType", "options": { "conversions": [{ "destinationType": "number", "targetField": "logins" }] } }
+      ],
+      "id": 51
+    },
+    {
+      "type": "stat",
+      "title": "Failed Logins",
+      "gridPos": { "h": 3, "w": 6, "x": 6, "y": 6 },
+      "datasource": {
+        "type": "victoriametrics-logs-datasource",
+        "uid": "victorialogs"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "fixedColor": "red", "mode": "fixed" },
+          "unit": "short"
+        }
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "{container=\"authentik-server\"} msg.action:=\"login_failed\" | stats count() as failed",
+          "queryType": "stats"
+        }
+      ],
+      "transformations": [
+        { "id": "extractFields", "options": { "format": "json", "source": "labels" } },
+        { "id": "organize", "options": { "excludeByName": { "Line": true, "detected_level": true, "id": true, "labels": true, "streamId": true, "streams": true } } },
+        { "id": "convertFieldType", "options": { "conversions": [{ "destinationType": "number", "targetField": "failed" }] } }
+      ],
+      "id": 52
+    },
+    {
+      "type": "stat",
+      "title": "App Authorizations",
+      "gridPos": { "h": 3, "w": 6, "x": 12, "y": 6 },
+      "datasource": {
+        "type": "victoriametrics-logs-datasource",
+        "uid": "victorialogs"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "fixedColor": "blue", "mode": "fixed" },
+          "unit": "short"
+        }
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "{container=\"authentik-server\"} msg.action:=\"authorize_application\" | stats count() as authorizations",
+          "queryType": "stats"
+        }
+      ],
+      "transformations": [
+        { "id": "extractFields", "options": { "format": "json", "source": "labels" } },
+        { "id": "organize", "options": { "excludeByName": { "Line": true, "detected_level": true, "id": true, "labels": true, "streamId": true, "streams": true } } },
+        { "id": "convertFieldType", "options": { "conversions": [{ "destinationType": "number", "targetField": "authorizations" }] } }
+      ],
+      "id": 53
+    },
+    {
+      "type": "stat",
+      "title": "Logouts",
+      "gridPos": { "h": 3, "w": 6, "x": 18, "y": 6 },
+      "datasource": {
+        "type": "victoriametrics-logs-datasource",
+        "uid": "victorialogs"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "fixedColor": "purple", "mode": "fixed" },
+          "unit": "short"
+        }
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "{container=\"authentik-server\"} msg.action:=\"logout\" | stats count() as logouts",
+          "queryType": "stats"
+        }
+      ],
+      "transformations": [
+        { "id": "extractFields", "options": { "format": "json", "source": "labels" } },
+        { "id": "organize", "options": { "excludeByName": { "Line": true, "detected_level": true, "id": true, "labels": true, "streamId": true, "streams": true } } },
+        { "id": "convertFieldType", "options": { "conversions": [{ "destinationType": "number", "targetField": "logouts" }] } }
+      ],
+      "id": 54
+    },
+    {
+      "type": "bargauge",
+      "title": "Authorizations per App",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 9 },
+      "datasource": {
+        "type": "victoriametrics-logs-datasource",
+        "uid": "victorialogs"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "fixedColor": "blue", "mode": "fixed" }
+        }
+      },
+      "options": {
+        "displayMode": "lcd",
+        "orientation": "horizontal",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "/^authorizations$/", "values": true },
+        "showUnfilled": true
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "{container=\"authentik-server\"} msg.action:=\"authorize_application\" | stats by (msg.context.authorized_application.name) count() as authorizations | sort by (authorizations) desc",
+          "queryType": "instant"
+        }
+      ],
+      "transformations": [
+        { "id": "extractFields", "options": { "source": "labels" } },
+        { "id": "organize", "options": { "includeByName": { "msg.context.authorized_application.name": true, "authorizations": true }, "renameByName": { "msg.context.authorized_application.name": "App" } } },
+        { "id": "convertFieldType", "options": { "conversions": [{ "destinationType": "number", "targetField": "authorizations" }] } }
+      ],
+      "id": 55
+    },
+    {
+      "type": "timeseries",
+      "title": "Auth Events Timeline",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 9 },
+      "datasource": {
+        "type": "victoriametrics-logs-datasource",
+        "uid": "victorialogs"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "drawStyle": "bars",
+            "fillOpacity": 20,
+            "lineWidth": 1,
+            "showPoints": "never",
+            "spanNulls": true,
+            "stacking": { "group": "A", "mode": "normal" }
+          },
+          "unit": "short"
+        },
+        "overrides": [
+          { "matcher": { "id": "byName", "options": "login" }, "properties": [{ "id": "color", "value": { "fixedColor": "green", "mode": "fixed" } }] },
+          { "matcher": { "id": "byName", "options": "authorize_application" }, "properties": [{ "id": "color", "value": { "fixedColor": "blue", "mode": "fixed" } }] },
+          { "matcher": { "id": "byName", "options": "login_failed" }, "properties": [{ "id": "color", "value": { "fixedColor": "red", "mode": "fixed" } }] },
+          { "matcher": { "id": "byName", "options": "logout" }, "properties": [{ "id": "color", "value": { "fixedColor": "purple", "mode": "fixed" } }] }
+        ]
+      },
+      "options": {
+        "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" },
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "{container=\"authentik-server\"} msg.action:in(login, login_failed, authorize_application, logout) | stats by (_time:5m, msg.action) count() as events",
+          "queryType": "statsRange"
+        }
+      ],
+      "transformations": [
+        { "id": "extractFields", "options": { "format": "json", "source": "labels" } },
+        { "id": "organize", "options": { "excludeByName": { "Line": true, "detected_level": true, "id": true, "labels": true, "streamId": true, "streams": true } } },
+        { "id": "convertFieldType", "options": { "conversions": [{ "destinationType": "number", "targetField": "events" }] } },
+        { "id": "renameByRegex", "options": { "regex": "events\\{msg.action=\"(.*)\"\\}", "renamePattern": "$1" } }
+      ],
+      "id": 56
+    },
+    {
+      "type": "timeseries",
+      "title": "Failed Login Trend",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 17 },
+      "datasource": {
+        "type": "victoriametrics-logs-datasource",
+        "uid": "victorialogs"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "fixedColor": "red", "mode": "fixed" },
+          "custom": {
+            "drawStyle": "bars",
+            "fillOpacity": 20,
+            "lineWidth": 1,
+            "showPoints": "never",
+            "spanNulls": true,
+            "stacking": { "group": "A", "mode": "none" }
+          },
+          "unit": "short"
+        }
+      },
+      "options": {
+        "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" },
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "{container=\"authentik-server\"} msg.action:=\"login_failed\" | stats by (_time:1h) count() as failed",
+          "queryType": "statsRange"
+        }
+      ],
+      "transformations": [
+        { "id": "extractFields", "options": { "format": "json", "source": "labels" } },
+        { "id": "organize", "options": { "excludeByName": { "Line": true, "detected_level": true, "id": true, "labels": true, "streamId": true, "streams": true } } },
+        { "id": "convertFieldType", "options": { "conversions": [{ "destinationType": "number", "targetField": "failed" }] } }
+      ],
+      "id": 57
+    },
+    {
+      "type": "bargauge",
+      "title": "Geo Distribution",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 17 },
+      "datasource": {
+        "type": "victoriametrics-logs-datasource",
+        "uid": "victorialogs"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "fixedColor": "blue", "mode": "fixed" }
+        }
+      },
+      "options": {
+        "displayMode": "lcd",
+        "orientation": "horizontal",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "/^logins$/", "values": true },
+        "showUnfilled": true
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "{container=\"authentik-server\"} msg.action:=\"authorize_application\" | stats by (msg.context.geo.country, msg.context.geo.city) count() as logins | sort by (logins) desc | limit 10",
+          "queryType": "instant"
+        }
+      ],
+      "transformations": [
+        { "id": "extractFields", "options": { "source": "labels" } },
+        { "id": "organize", "options": { "includeByName": { "msg.context.geo.country": true, "msg.context.geo.city": true, "logins": true }, "renameByName": { "msg.context.geo.country": "Country", "msg.context.geo.city": "City" } } },
+        { "id": "convertFieldType", "options": { "conversions": [{ "destinationType": "number", "targetField": "logins" }] } }
+      ],
+      "id": 58
+    },
+    {
+      "type": "logs",
+      "title": "Recent Auth Events",
+      "gridPos": { "h": 10, "w": 24, "x": 0, "y": 25 },
+      "datasource": {
+        "type": "victoriametrics-logs-datasource",
+        "uid": "victorialogs"
+      },
+      "options": {
+        "dedupStrategy": "none",
+        "enableLogDetails": true,
+        "prettifyLogMessage": false,
+        "showCommonLabels": false,
+        "showLabels": true,
+        "showTime": true,
+        "sortOrder": "Descending",
+        "wrapLogMessage": true
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "{container=\"authentik-server\"} msg.action:in(login, login_failed, authorize_application, logout)"
+        }
+      ],
+      "id": 59
+    },
+
     {
       "type": "row",
       "title": "📊 HTTP Performance",
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 5 },
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 35 },
       "id": 10
     },
     {
       "type": "timeseries",
       "title": "Request rate",
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 6 },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 36 },
       "datasource": {
         "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
@@ -303,7 +626,7 @@
     {
       "type": "timeseries",
       "title": "Request latency (p50 / p95 / p99)",
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 6 },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 36 },
       "datasource": {
         "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
@@ -355,13 +678,13 @@
     {
       "type": "row",
       "title": "🌐 Proxy Outpost",
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 14 },
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 44 },
       "id": 20
     },
     {
       "type": "timeseries",
       "title": "Proxy requests by host",
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 15 },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 45 },
       "datasource": {
         "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
@@ -403,7 +726,7 @@
     {
       "type": "timeseries",
       "title": "Proxy latency by host (p95)",
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 15 },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 45 },
       "datasource": {
         "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
@@ -445,13 +768,13 @@
     {
       "type": "row",
       "title": "⚡ Flows & Policies",
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 23 },
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 53 },
       "id": 30
     },
     {
       "type": "timeseries",
       "title": "FlowPlanner time by flow",
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 24 },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 54 },
       "datasource": {
         "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
@@ -493,7 +816,7 @@
     {
       "type": "timeseries",
       "title": "Policy execution time by binding",
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 24 },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 54 },
       "datasource": {
         "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
@@ -535,7 +858,7 @@
     {
       "type": "timeseries",
       "title": "PolicyEngine total time",
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 32 },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 62 },
       "datasource": {
         "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
@@ -582,7 +905,7 @@
     {
       "type": "timeseries",
       "title": "Property mapping execution time",
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 32 },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 62 },
       "datasource": {
         "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
@@ -629,7 +952,7 @@
     {
       "type": "timeseries",
       "title": "Flow stage time (p50 / p95)",
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 40 },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 70 },
       "datasource": {
         "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
@@ -676,7 +999,7 @@
     {
       "type": "timeseries",
       "title": "Flow execution stage time (p50 / p95)",
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 40 },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 70 },
       "datasource": {
         "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
@@ -723,13 +1046,13 @@
     {
       "type": "row",
       "title": "🔧 Tasks",
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 48 },
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 78 },
       "id": 40
     },
     {
       "type": "timeseries",
       "title": "Queued tasks over time",
-      "gridPos": { "h": 8, "w": 16, "x": 0, "y": 49 },
+      "gridPos": { "h": 8, "w": 16, "x": 0, "y": 79 },
       "datasource": {
         "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
@@ -770,7 +1093,7 @@
     {
       "type": "stat",
       "title": "Task workers",
-      "gridPos": { "h": 8, "w": 8, "x": 16, "y": 49 },
+      "gridPos": { "h": 8, "w": 8, "x": 16, "y": 79 },
       "datasource": {
         "type": "victoriametrics-metrics-datasource",
         "uid": "victoriametrics"
