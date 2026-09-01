@@ -152,6 +152,12 @@ services:
     networks:
       - arr
       - media
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:5055/api/v1/settings/public"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
     deploy:
       resources:
         limits:
@@ -263,6 +269,12 @@ services:
     networks:
       - arr
       - media
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3011/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
     deploy:
       resources:
         limits:

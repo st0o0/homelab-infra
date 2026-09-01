@@ -21,6 +21,12 @@ services:
     environment:
       - KOPIA_PASSWORD=${KOPIA_REPO_PASSWORD:?KOPIA_REPO_PASSWORD is required}
       - TZ=${TZ:-}
+    healthcheck:
+      test: ["CMD", "kopia", "server", "status", "--address=https://localhost:51515", "--server-cert-fingerprint=IGNORE", "--server-control-username=${KOPIA_SERVER_USER}", "--server-control-password=${KOPIA_SERVER_PASS}"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
     deploy:
       resources:
         limits:

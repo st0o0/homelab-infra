@@ -46,6 +46,12 @@ services:
       - ${VW_PATH_DATA:?VW_PATH_DATA is required}:/data/
     ports:
       - "${VW_PORT:-3002}:80"
+    healthcheck:
+      test: ["CMD", "/healthcheck.sh"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
     deploy:
       resources:
         limits:

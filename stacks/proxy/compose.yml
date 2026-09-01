@@ -96,6 +96,12 @@ services:
       - EIR_LOG_FORMAT=${EIR_LOG_FORMAT:-json}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pidof eir || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
     deploy:
       resources:
         limits:
@@ -277,6 +283,12 @@ services:
       - RAN_CROWDSEC_BATCH_INTERVAL=${RAN_CROWDSEC_BATCH_INTERVAL:-10s}
       - RAN_CROWDSEC_BATCH_SIZE=${RAN_CROWDSEC_BATCH_SIZE:-50}
       - RAN_CROWDSEC_DECISION_CACHE=${RAN_CROWDSEC_DECISION_CACHE:-on}
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:9550/metrics || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
     deploy:
       resources:
         limits:

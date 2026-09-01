@@ -48,6 +48,12 @@ services:
       - SMTP_PASSWORD=${MEALIE_EMAIL_PASS:-}
       - SMTP_FROM_EMAIL=${MEALIE_EMAIL_FROM:-}
       - SMTP_AUTH_STRATEGY=${MEALIE_EMAIL_AUTH_STRATEGY:-TLS}
+    healthcheck:
+      test: ["CMD", "curl", "-fs", "http://localhost:9000/api/app/about"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
     deploy:
       resources:
         limits:

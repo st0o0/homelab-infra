@@ -31,6 +31,8 @@ services:
       - IMMICH_MICROSERVICES_METRICS_PORT=${IMMICH_MICROSERVICES_METRICS_PORT:-8082}
     networks:
       - immich-net
+    healthcheck:
+      disable: false
     deploy:
       resources:
         limits:
@@ -52,6 +54,8 @@ services:
       - MACHINE_LEARNING_MODEL_TTL=${IMMICH_ML_MODEL_TTL:-600}
     networks:
       - immich-net
+    healthcheck:
+      disable: false
     deploy:
       resources:
         limits:

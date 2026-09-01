@@ -56,6 +56,12 @@ services:
       - EIR_LOG_FORMAT=${EIR_LOG_FORMAT:-text}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pidof eir || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
     deploy:
       resources:
         limits:

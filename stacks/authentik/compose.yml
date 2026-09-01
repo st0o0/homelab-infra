@@ -90,6 +90,12 @@ services:
     networks:
       - default
       - authentik-net
+    healthcheck:
+      test: ["CMD", "ak", "healthcheck"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
     deploy:
       resources:
         limits:
@@ -180,6 +186,12 @@ services:
       - ${AUTHENTIK_PATH_CERTS:-./certs}:/certs
       - ${AUTHENTIK_PATH_TEMPLATES:-./custom-templates}:/templates
       - ./blueprints:/blueprints/custom
+    healthcheck:
+      test: ["CMD", "ak", "healthcheck"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
     deploy:
       resources:
         limits:
