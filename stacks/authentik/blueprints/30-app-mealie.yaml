@@ -20,6 +20,8 @@ entries:
           matching_mode: strict
         - url: !Env AUTHENTIK_PROVIDER_MEALIE_REDIRECT_URI_2
           matching_mode: strict
+        - url: !Env AUTHENTIK_PROVIDER_MEALIE_REDIRECT_URI_3
+          matching_mode: strict
       include_claims_in_id_token: true
       access_code_validity: minutes=1
       access_token_validity: hours=1
