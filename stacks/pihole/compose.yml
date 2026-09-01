@@ -7,6 +7,7 @@ x-logging: &default-logging
 services:
   pihole:
     image: pihole/pihole:2026.07.2@sha256:f7d1be836e3bc608b56d82fc9904f5a831cdfbc0dc9c6d58f94e4c985c70038b
+    platform: linux/arm/v6
     container_name: pihole
     restart: unless-stopped
     logging: *default-logging
@@ -31,7 +32,8 @@ services:
           memory: 256M
 
   nebula-sync:
-    image: ghcr.io/lovelaze/nebula-sync:v0.11.2@sha256:0ab32c6ee545860006fb1baa8cf966d265cf60e1e7395469eb8a63f7e446d01e
+    image: ghcr.io/lovelaze/nebula-sync:v0.11.2@sha256:951576b448c08df16cc6b46f90cc3b40c44e10dfb56e431dfd0f1ead7d435724
+    platform: linux/arm/v6
     container_name: nebula-sync
     restart: unless-stopped
     logging: *default-logging
@@ -47,4 +49,4 @@ services:
           cpus: 0.1
           memory: 128M
         reservations:
-          memory: 64MB
+          memory: 64M
