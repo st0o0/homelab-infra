@@ -17,20 +17,25 @@ services:
       - "${PIHOLE_PORT_DNS:?PIHOLE_PORT_DNS is required}:53/tcp"
       - "${PIHOLE_PORT_DNS:?PIHOLE_PORT_DNS is required}:53/udp"
       - "${PIHOLE_PORT_WEB:?PIHOLE_PORT_WEB is required}:80/tcp"
+    shm_size: 128m
     environment:
       - TZ=${TZ:-}
       - FTLCONF_webserver_api_password=${PIHOLE_PASS:?PIHOLE_PASS is required}
-      - FTLCONF_webserver_api_max_sessions=${PIHOLE_MAX_SESSIONS:-64}
+      - FTLCONF_webserver_api_max_sessions=${PIHOLE_MAX_SESSIONS:-16}
+      - FTLCONF_database_maxDBdays=${PIHOLE_MAX_DB_DAYS:-7}
+      - FTLCONF_dns_cache_size=${PIHOLE_CACHE_SIZE:-5000}
+      - FTLCONF_dns_CNAMEdeepInspect=false
+      - FTLCONF_dns_rateLimit_count=${PIHOLE_RATE_LIMIT:-500}
     volumes:
       - ${PIHOLE_PATH_DATA:?PIHOLE_PATH_DATA is required}:/etc/pihole
       - ${PIHOLE_PATH_DNSMASQ:?PIHOLE_PATH_DNSMASQ is required}:/etc/dnsmasq.d
     deploy:
       resources:
         limits:
-          cpus: 0.25
-          memory: 512M
-        reservations:
+          cpus: 0.50
           memory: 256M
+        reservations:
+          memory: 128M
 
   nebula-sync:
     image: ghcr.io/lovelaze/nebula-sync:v0.11.2@sha256:951576b448c08df16cc6b46f90cc3b40c44e10dfb56e431dfd0f1ead7d435724
@@ -47,7 +52,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: 0.1
-          memory: 128M
-        reservations:
+          cpus: 0.25
           memory: 64M
+        reservations:
+          memory: 32M
