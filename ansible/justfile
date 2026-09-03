@@ -160,31 +160,47 @@ trust HOST:
         echo "Then run: just a bootstrap {{HOST}} $USER"
     fi
 
-# Backfill ~/.ssh/config entries for hosts that already have a backup key
+# Regenerate ~/.ssh/config from inventory (respects host_enabled)
 sshsync:
     #!/usr/bin/env bash
     set -euo pipefail
-    touch "$HOME/.ssh/config"
-    chmod 600 "$HOME/.ssh/config"
-    HOSTS=$(ansible-inventory --list 2>/dev/null | jq -r '._meta.hostvars | keys[]')
+    SSH_CONFIG="$HOME/.ssh/config"
+    touch "$SSH_CONFIG"
+    chmod 600 "$SSH_CONFIG"
+    MARKER_BEGIN="# BEGIN HOMELAB MANAGED"
+    MARKER_END="# END HOMELAB MANAGED"
+    INVENTORY=$(ansible-inventory --list 2>/dev/null)
+    HOSTS=$(echo "$INVENTORY" | jq -r '._meta.hostvars | keys[]')
+    BLOCK=""
     for HOST in $HOSTS; do
+        INV=$(ansible-inventory --host "$HOST" 2>/dev/null)
+        ENABLED=$(echo "$INV" | jq -r '.host_enabled // true')
+        if [ "$ENABLED" = "false" ]; then
+            echo "  ⊘ $HOST — disabled, removed"
+            continue
+        fi
         KEY="$HOME/.ssh/id_backup_$HOST"
         if [ ! -f "$KEY" ]; then
             echo "  ✗ $HOST — no backup key, skipped"
             continue
         fi
-        INV=$(ansible-inventory --host "$HOST" 2>/dev/null)
         HOST_IP=$(echo "$INV" | jq -r '.ansible_host // empty')
         SSH_USER=$(echo "$INV" | jq -r '.ansible_user // empty')
         if [ -z "$HOST_IP" ] || [ -z "$SSH_USER" ]; then
-            echo "  ✗ $HOST — missing ansible_host/ansible_user in inventory, skipped"
+            echo "  ✗ $HOST — missing ansible_host/ansible_user, skipped"
             continue
         fi
-        sed -i "/# BEGIN ANSIBLE MANAGED - $HOST\$/,/# END ANSIBLE MANAGED - $HOST\$/d" "$HOME/.ssh/config"
-        printf '# BEGIN ANSIBLE MANAGED - %s\nHost %s %s\n    HostName %s\n    User %s\n    IdentityFile %s\n# END ANSIBLE MANAGED - %s\n' \
-            "$HOST" "$HOST" "$HOST_IP" "$HOST_IP" "$SSH_USER" "$KEY" "$HOST" >> "$HOME/.ssh/config"
-        echo "  ✓ $HOST — SSH config entry written"
+        BLOCK+=$(printf '\nHost %s %s\n    HostName %s\n    User %s\n    IdentityFile %s\n' \
+            "$HOST" "$HOST_IP" "$HOST_IP" "$SSH_USER" "$KEY")
+        echo "  ✓ $HOST"
     done
+    # Strip old managed sections (both legacy per-host and new single-block)
+    sed -i '/# BEGIN ANSIBLE MANAGED - /,/# END ANSIBLE MANAGED - /d' "$SSH_CONFIG"
+    sed -i "/$MARKER_BEGIN/,/$MARKER_END/d" "$SSH_CONFIG"
+    # Append new block
+    printf '\n%s\n%s\n%s\n' "$MARKER_BEGIN" "$BLOCK" "$MARKER_END" >> "$SSH_CONFIG"
+    echo ""
+    echo "SSH config updated."
 
 # Show bootstrap status of all hosts
 check:
@@ -203,76 +219,6 @@ check:
         fi
         printf "  %s %-20s %-15s %s\n" "$ICON" "$HOST" "$IP" "$STATUS"
     done
-
-# Rename a host (host_vars, hosts.yml, SSH keys, SSH config)
-rename OLD NEW:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    if [ ! -d "host_vars/{{OLD}}" ]; then
-        echo "Host '{{OLD}}' not found in host_vars/."
-        exit 1
-    fi
-    if [ -d "host_vars/{{NEW}}" ]; then
-        echo "Host '{{NEW}}' already exists."
-        exit 1
-    fi
-    echo "Renaming {{OLD}} → {{NEW}}..."
-    # host_vars
-    mv "host_vars/{{OLD}}" "host_vars/{{NEW}}"
-    echo "  ✓ host_vars/{{OLD}} → host_vars/{{NEW}}"
-    # hosts.yml
-    sed -i 's/^    {{OLD}}:/    {{NEW}}:/' hosts.yml
-    echo "  ✓ hosts.yml updated"
-    # SSH backup key
-    for f in "$HOME/.ssh/id_backup_{{OLD}}" "$HOME/.ssh/id_backup_{{OLD}}.pub"; do
-        if [ -f "$f" ]; then
-            NEW_F=$(echo "$f" | sed 's/{{OLD}}/{{NEW}}/')
-            mv "$f" "$NEW_F"
-            echo "  ✓ $(basename "$f") → $(basename "$NEW_F")"
-        fi
-    done
-    # Fix public key comment
-    NEW_KEY="$HOME/.ssh/id_backup_{{NEW}}"
-    if [ -f "$NEW_KEY" ]; then
-        DERIVED=$(ssh-keygen -y -f "$NEW_KEY")
-        ALGO=$(echo "$DERIVED" | awk '{print $1}')
-        DATA=$(echo "$DERIVED" | awk '{print $2}')
-        echo "$ALGO $DATA backup-{{NEW}}" > "$NEW_KEY.pub"
-        echo "  ✓ public key comment set to backup-{{NEW}}"
-    fi
-    # SSH config — remove old, add new
-    if [ -f "$HOME/.ssh/config" ]; then
-        sed -i '/# BEGIN ANSIBLE MANAGED - {{OLD}}/,/# END ANSIBLE MANAGED - {{OLD}}/d' "$HOME/.ssh/config"
-    fi
-    HOST_IP=$(ansible-inventory --host {{NEW}} 2>/dev/null | jq -r '.ansible_host // empty' || true)
-    SSH_USER=$(ansible-inventory --host {{NEW}} 2>/dev/null | jq -r '.ansible_user // empty' || true)
-    SSH_USER="${SSH_USER:-st0o0}"
-    BACKUP_KEY="$HOME/.ssh/id_backup_{{NEW}}"
-    if [ -n "$HOST_IP" ] && [ -f "$BACKUP_KEY" ]; then
-        printf '# BEGIN ANSIBLE MANAGED - {{NEW}}\nHost {{NEW}} %s\n    HostName %s\n    User %s\n    IdentityFile %s\n# END ANSIBLE MANAGED - {{NEW}}\n' \
-            "$HOST_IP" "$HOST_IP" "$SSH_USER" "$BACKUP_KEY" >> "$HOME/.ssh/config"
-        echo "  ✓ SSH config entry created for {{NEW}}"
-    else
-        echo "  ⚠ Could not create SSH config (missing IP or backup key)"
-    fi
-    # Bitwarden — rename the backup key item
-    if [ -n "${BW_SESSION:-}" ]; then
-        BW_ITEM=$(bw get item "ssh-backup-{{OLD}}" 2>/dev/null || true)
-        if [ -n "$BW_ITEM" ]; then
-            ITEM_ID=$(echo "$BW_ITEM" | jq -r '.id')
-            echo "$BW_ITEM" | jq '.name = "ssh-backup-{{NEW}}"' | bw encode | bw edit item "$ITEM_ID" > /dev/null
-            echo "  ✓ Bitwarden item renamed to ssh-backup-{{NEW}}"
-        else
-            echo "  ⚠ No Bitwarden item 'ssh-backup-{{OLD}}' found"
-        fi
-    else
-        echo "  ⚠ BW_SESSION not set — rename Bitwarden item manually:"
-        echo "    unlock && bw get item ssh-backup-{{OLD}} | jq '.name=\"ssh-backup-{{NEW}}\"' | bw encode | bw edit item <ID>"
-    fi
-    echo ""
-    echo "Done. Apply hostname on server + commit:"
-    echo "  just a deploy {{NEW}} --tags bootstrap"
-    echo "  git add -A && git commit -m 'rename: {{OLD}} → {{NEW}}'"
 
 # Fix SSH public-key comments to match 'backup-<hostname>'
 localsshrename:
