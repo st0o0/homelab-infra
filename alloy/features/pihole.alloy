@@ -13,5 +13,6 @@ prometheus.scrape "pihole" {
   targets         = discovery.relabel.pihole.output
   forward_to      = [prometheus.remote_write.central.receiver]
   scrape_interval = "90s"
+  scrape_timeout  = "30s"
   job_name        = "pihole"
 }
