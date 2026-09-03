@@ -10,7 +10,7 @@ entries:
     identifiers:
       name: Provider for AudioBookshelf
     attrs:
-      authorization_flow: !Find [authentik_flows.flow, [slug, default-provider-authorization-implicit-consent]]
+      authorization_flow: !Find [authentik_flows.flow, [slug, provider-authorization-consent]]
       invalidation_flow: !Find [authentik_flows.flow, [slug, default-provider-invalidation-flow]]
       client_type: confidential
       client_id: !Env AUTHENTIK_PROVIDER_AUDIOBOOKSHELF_CLIENT_ID

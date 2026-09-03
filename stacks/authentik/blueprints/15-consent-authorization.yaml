@@ -1,0 +1,35 @@
+version: 1
+metadata:
+  name: Consent Authorization Flow
+  labels:
+    blueprints.goauthentik.io/instantiate: "true"
+
+entries:
+  # Custom authorization flow with consent
+  - model: authentik_flows.flow
+    id: authorization-consent
+    identifiers:
+      slug: provider-authorization-consent
+    attrs:
+      name: Provider Authorization (Consent)
+      title: Authorize Application
+      designation: authorization
+
+  # Consent stage — remembers user decision for 30 days per app
+  - model: authentik_stages_consent.consentstage
+    id: consent-stage
+    identifiers:
+      name: provider-consent
+    attrs:
+      mode: expiring
+      consent_expire_in: days=30
+
+  # Bind consent stage to the authorization flow
+  - model: authentik_flows.flowstagebinding
+    identifiers:
+      target: !KeyOf authorization-consent
+      order: 0
+    attrs:
+      stage: !KeyOf consent-stage
+      evaluate_on_plan: true
+      re_evaluate_policies: false

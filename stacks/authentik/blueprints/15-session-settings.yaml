@@ -10,6 +10,6 @@ entries:
     identifiers:
       name: default-authentication-login
     attrs:
-      session_duration: hours=24
+      session_duration: days=7
       remember_me_offset: days=30
       network_binding: no_binding

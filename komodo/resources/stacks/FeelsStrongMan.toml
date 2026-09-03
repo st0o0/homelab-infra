@@ -192,6 +192,14 @@ path = "blueprints/10-groups.yaml"
 requires = "Redeploy"
 
 [[stack.config.config_files]]
+path = "blueprints/15-consent-authorization.yaml"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "blueprints/15-geoip-policy.yaml"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
 path = "blueprints/15-mfa-stages.yaml"
 requires = "Redeploy"
 

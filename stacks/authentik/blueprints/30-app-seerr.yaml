@@ -10,7 +10,7 @@ entries:
     identifiers:
       name: Forward Auth for Seerr
     attrs:
-      authorization_flow: !Find [authentik_flows.flow, [slug, default-provider-authorization-implicit-consent]]
+      authorization_flow: !Find [authentik_flows.flow, [slug, provider-authorization-consent]]
       invalidation_flow: !Find [authentik_flows.flow, [slug, default-provider-invalidation-flow]]
       mode: forward_single
       external_host: !Env AUTHENTIK_PROVIDER_SEERR_EXTERNAL_HOST
