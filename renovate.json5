@@ -80,6 +80,11 @@
   ],
   packageRules: [
     {
+      description: 'Group Caddy builder and runtime together (must stay version-aligned)',
+      groupName: 'caddy',
+      matchPackageNames: ['caddy'],
+    },
+    {
       description: 'Group Immich components together (must stay version-aligned)',
       groupName: 'immich',
       matchPackageNames: [
@@ -129,6 +134,10 @@
       separateMultipleMinor: true,
     },
     // sourceUrl overrides for correct release notes
+    {
+      matchPackageNames: ['caddy'],
+      sourceUrl: 'https://github.com/caddyserver/caddy',
+    },
     {
       matchPackageNames: ['ghcr.io/veerendra2/speedtest_exporter'],
       sourceUrl: 'https://github.com/veerendra2/speedtest_exporter',
