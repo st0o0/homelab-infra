@@ -33,9 +33,9 @@ services:
       resources:
         limits:
           cpus: 0.50
-          memory: 256M
+          memory: 384M
         reservations:
-          memory: 128M
+          memory: 192M
 
   nebula-sync:
     image: ghcr.io/lovelaze/nebula-sync:v0.11.2@sha256:951576b448c08df16cc6b46f90cc3b40c44e10dfb56e431dfd0f1ead7d435724
