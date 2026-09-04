@@ -21,11 +21,6 @@ services:
     environment:
       - TZ=${TZ:-}
       - FTLCONF_webserver_api_password=${PIHOLE_PASS:?PIHOLE_PASS is required}
-      - FTLCONF_webserver_api_max_sessions=${PIHOLE_MAX_SESSIONS:-64}
-      - FTLCONF_database_maxDBdays=${PIHOLE_MAX_DB_DAYS:-3}
-      - FTLCONF_dns_cache_size=${PIHOLE_CACHE_SIZE:-5000}
-      - FTLCONF_dns_CNAMEdeepInspect=false
-      - FTLCONF_dns_rateLimit_count=${PIHOLE_RATE_LIMIT:-500}
     volumes:
       - ${PIHOLE_PATH_DATA:?PIHOLE_PATH_DATA is required}:/etc/pihole
       - ${PIHOLE_PATH_DNSMASQ:?PIHOLE_PATH_DNSMASQ is required}:/etc/dnsmasq.d
