@@ -1068,7 +1068,7 @@ groups:
               to: 0
             datasourceUid: victoriametrics
             model:
-              expr: count(pihole_status == 1) or vector(0)
+              expr: count(pihole_blocking_enabled == 1) or vector(0)
               instant: true
               refId: A
           - refId: C

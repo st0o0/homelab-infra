@@ -1,16 +1,19 @@
 services:
   alloy:
     depends_on:
-      pihole-exporter:
+      pihole-exporter-1:
+        condition: service_started
+      pihole-exporter-2:
         condition: service_started
     volumes:
       - ../../alloy/features/pihole.alloy:/etc/alloy/pihole.alloy
     environment:
-      - PIHOLE_METRICS_TARGET=${ALLOY_PIHOLE_METRICS_TARGET:-pihole-exporter:9617}
+      - PIHOLE_1_METRICS_TARGET=${ALLOY_PIHOLE_1_METRICS_TARGET:-pihole-exporter-1:9617}
+      - PIHOLE_2_METRICS_TARGET=${ALLOY_PIHOLE_2_METRICS_TARGET:-pihole-exporter-2:9617}
 
-  pihole-exporter:
-    image: ekofr/pihole-exporter:v1.2.0@sha256:242c53ef3c24b88fcbe8184390b456d05604bd50de5732ca3fd3eb24395585b3
-    container_name: pihole-exporter
+  pihole-exporter-1:
+    image: ghcr.io/nbx3/pihole-exporter:1.2.0@sha256:7fa6dbd8d655126246a3ead1cdc5c3dd924c94d40a7b893222317e3ce92e0e81
+    container_name: pihole-exporter-1
     restart: unless-stopped
     logging:
       driver: json-file
@@ -18,14 +21,32 @@ services:
         max-size: 10m
         max-file: "3"
     environment:
-      # Comma-separated for multi-instance: host1,host2,host3
-      - PIHOLE_HOSTNAME=${ALLOY_PIHOLE_EXPORTER_HOSTNAME:?ALLOY_PIHOLE_EXPORTER_HOSTNAME is required}
-      # Comma-separated matching PIHOLE_HOSTNAME order, or single value for all
-      - PIHOLE_PASSWORD=${ALLOY_PIHOLE_EXPORTER_PASSWORD:?ALLOY_PIHOLE_EXPORTER_PASSWORD is required}
-      - PIHOLE_PORT=${ALLOY_PIHOLE_EXPORTER_PORT:-80}
-      - PIHOLE_PROTOCOL=${ALLOY_PIHOLE_EXPORTER_PROTOCOL:-http}
-      - TIMEOUT=60s
-      - PORT=9617
+      - PIHOLE_URL=${ALLOY_PIHOLE_1_URL:?ALLOY_PIHOLE_1_URL is required}
+      - PIHOLE_PASSWORD=${ALLOY_PIHOLE_1_PASSWORD:?ALLOY_PIHOLE_1_PASSWORD is required}
+      - CACHE_TTL=30
+      - EXPORTER_PORT=9617
+    deploy:
+      resources:
+        limits:
+          cpus: 0.10
+          memory: 64M
+        reservations:
+          memory: 32M
+
+  pihole-exporter-2:
+    image: ghcr.io/nbx3/pihole-exporter:1.2.0@sha256:7fa6dbd8d655126246a3ead1cdc5c3dd924c94d40a7b893222317e3ce92e0e81
+    container_name: pihole-exporter-2
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+    environment:
+      - PIHOLE_URL=${ALLOY_PIHOLE_2_URL:?ALLOY_PIHOLE_2_URL is required}
+      - PIHOLE_PASSWORD=${ALLOY_PIHOLE_2_PASSWORD:?ALLOY_PIHOLE_2_PASSWORD is required}
+      - CACHE_TTL=30
+      - EXPORTER_PORT=9617
     deploy:
       resources:
         limits:

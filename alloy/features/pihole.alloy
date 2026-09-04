@@ -1,16 +1,37 @@
-discovery.relabel "pihole" {
+discovery.relabel "pihole_1" {
   targets = [{
-    __address__ = coalesce(sys.env("PIHOLE_METRICS_TARGET"), "pihole-exporter:9617"),
+    __address__ = coalesce(sys.env("PIHOLE_1_METRICS_TARGET"), "pihole-exporter-1:9617"),
   }]
 
   rule {
     replacement  = sys.env("HOST_HOSTNAME")
     target_label = "instance"
   }
+
+  rule {
+    replacement  = "pihole1"
+    target_label = "pihole"
+  }
+}
+
+discovery.relabel "pihole_2" {
+  targets = [{
+    __address__ = coalesce(sys.env("PIHOLE_2_METRICS_TARGET"), "pihole-exporter-2:9617"),
+  }]
+
+  rule {
+    replacement  = sys.env("HOST_HOSTNAME")
+    target_label = "instance"
+  }
+
+  rule {
+    replacement  = "pihole2"
+    target_label = "pihole"
+  }
 }
 
 prometheus.scrape "pihole" {
-  targets         = discovery.relabel.pihole.output
+  targets         = concat(discovery.relabel.pihole_1.output, discovery.relabel.pihole_2.output)
   forward_to      = [prometheus.remote_write.central.receiver]
   scrape_interval = "90s"
   scrape_timeout  = "30s"

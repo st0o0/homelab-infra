@@ -21,7 +21,7 @@ services:
     environment:
       - TZ=${TZ:-}
       - FTLCONF_webserver_api_password=${PIHOLE_PASS:?PIHOLE_PASS is required}
-      - FTLCONF_webserver_api_max_sessions=${PIHOLE_MAX_SESSIONS:-16}
+      - FTLCONF_webserver_api_max_sessions=${PIHOLE_MAX_SESSIONS:-64}
       - FTLCONF_database_maxDBdays=${PIHOLE_MAX_DB_DAYS:-7}
       - FTLCONF_dns_cache_size=${PIHOLE_CACHE_SIZE:-5000}
       - FTLCONF_dns_CNAMEdeepInspect=false

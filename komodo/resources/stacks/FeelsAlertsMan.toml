@@ -145,12 +145,11 @@ ALLOY_HOSTNAME=FeelsAlertsMan
 ALLOY_SCRAPE_INTERVAL=30s
 GEOIPUPDATE_ACCOUNT_ID=[[maxmind_account_id]]
 GEOIPUPDATE_LICENSE_KEY=[[maxmind_license_key]]
-# ── Pi-hole exporter ──────────────────────────────────────
-# Comma-separated for multiple instances
-ALLOY_PIHOLE_EXPORTER_HOSTNAME=[[FeelsAlertsMan_pihole_exporter_hostname]]
-ALLOY_PIHOLE_EXPORTER_PASSWORD=[[FeelsAlertsMan_pihole_exporter_password]]
-ALLOY_PIHOLE_EXPORTER_PORT=[[FeelsAlertsMan_pihole_exporter_port]]
-ALLOY_PIHOLE_EXPORTER_PROTOCOL=http
+# ── Pi-hole exporters (one per instance) ─────────────────
+ALLOY_PIHOLE_1_URL=[[FeelsAlertsMan_pihole_1_url]]
+ALLOY_PIHOLE_1_PASSWORD=[[FeelsAlertsMan_pihole_1_password]]
+ALLOY_PIHOLE_2_URL=[[FeelsAlertsMan_pihole_2_url]]
+ALLOY_PIHOLE_2_PASSWORD=[[FeelsAlertsMan_pihole_2_password]]
 
 # ── PVE exporter (runs natively on Proxmox, scraped remotely) ──
 ALLOY_PVE_EXPORTER_TARGET=[[FeelsAlertsMan_pve_exporter_target]]
