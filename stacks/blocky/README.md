@@ -11,47 +11,83 @@ Two identical instances, same `config.yml`:
 
 Monitoring via built-in `/metrics` endpoint (port 4000), scraped directly by Alloy.
 
-## MikroTik Deployment
+## Container Images
 
-### Initial Setup
+Both registries are official (same CI pipeline):
 
-1. Pull the container image:
+- **GHCR**: `ghcr.io/0xerr0r/blocky:v0.35` (used by Pi Zero via compose.yml)
+- **Docker Hub**: `spx01/blocky:latest` (used by MikroTik, no registry change needed — Docker Hub only has `latest` tag, not versioned tags)
 
-```
-/container/config set registry-url=https://ghcr.io tmpdir=disk1/pull
-/container/envs add name=blocky_envs
-/container add remote-image=0xerr0r/blocky:v0.25 interface=veth-blocky root-dir=disk1/blocky envlist=blocky_envs logging=yes
-```
+## MikroTik Deployment (RouterOS 7.16+)
 
-2. Copy config to the router:
-
-```bash
-scp stacks/blocky/config.yml admin@<mikrotik-ip>:/disk1/blocky/config.yml
-```
-
-3. Create the network interface:
+### 1. Network Interface
 
 ```
 /interface/veth add name=veth-blocky address=172.17.0.2/24 gateway=172.17.0.1
 /interface/bridge/port add bridge=dockers interface=veth-blocky
 ```
 
-4. Mount config and start:
+### 2. Environment Variables
 
 ```
-/container/mounts add name=blocky-config src=disk1/blocky/config.yml dst=/app/config.yml
-/container set [find tag~"blocky"] mounts=blocky-config
-/container start [find tag~"blocky"]
+/container/envs add list=blocky_envs key=TZ value=Europe/Berlin
 ```
 
-5. Forward DNS traffic to Blocky:
+### 3. Mounts
 
 ```
-/ip/firewall/nat add chain=dstnat dst-port=53 protocol=udp action=dst-nat to-addresses=172.17.0.2
-/ip/firewall/nat add chain=dstnat dst-port=53 protocol=tcp action=dst-nat to-addresses=172.17.0.2
+/container/mounts add list=blocky_mounts src=disk1/blocky/config.yml dst=/app/config.yml
+/container/mounts add list=blocky_mounts src=disk1/blocky/cache dst=/app/cache
 ```
 
-6. Open metrics port for Alloy scraping:
+Create the cache directory:
+
+```
+/file mkdir disk1/blocky/cache
+```
+
+### 4. Copy Config
+
+```bash
+scp stacks/blocky/config.yml admin@<mikrotik-ip>:/disk1/blocky/config.yml
+```
+
+### 5. Create Container
+
+```
+/container add \
+  remote-image=spx01/blocky:latest \
+  interface=veth-blocky \
+  root-dir=disk1/blocky/root \
+  envlist=blocky_envs \
+  mountlists=blocky_mounts \
+  logging=yes \
+  start-on-boot=yes \
+  restart-policy=on-failure \
+  restart-max-count=5 \
+  restart-interval=00:01:00 \
+  stop-signal=15 \
+  memory-high=256000000 \
+  memory-max=512000000 \
+  hostname=blocky \
+  dns=9.9.9.9 \
+  healthcheck-cmd="/app/blocky healthcheck" \
+  healthcheck-interval=00:00:30 \
+  healthcheck-retries=3 \
+  healthcheck-start-period=00:01:00 \
+  healthcheck-timeout=00:00:05 \
+  comment="Blocky DNS blocker"
+```
+
+### 6. MikroTik DNS Forwarder
+
+```
+/ip dns set servers=172.17.0.2 allow-remote-requests=yes cache-size=0
+```
+
+Setting `cache-size=0` disables the MikroTik DNS cache so Blocky handles all caching and metrics reflect real query counts.
+
+### 7. Firewall — Metrics Port for Alloy
 
 ```
 /ip/firewall/filter add chain=input dst-port=4000 protocol=tcp src-address=<FeelsAlertsMan-IP> action=accept comment="Blocky metrics for Alloy"
@@ -60,7 +96,17 @@ scp stacks/blocky/config.yml admin@<mikrotik-ip>:/disk1/blocky/config.yml
 ### Verify
 
 ```
+/container print detail where tag~"blocky"
 /tool dns-test name=google.com server=172.17.0.2
+/tool dns-test name=ads.google.com server=172.17.0.2
+```
+
+The second test should return `0.0.0.0` (blocked).
+
+Check health status:
+
+```
+/container print proplist=name,status,healthcheck-status where tag~"blocky"
 ```
 
 ### Update Config
@@ -72,7 +118,14 @@ scp stacks/blocky/config.yml admin@<mikrotik-ip>:/disk1/blocky/config.yml
 Then on MikroTik:
 
 ```
+/container restart [find tag~"blocky"]
+```
+
+### Update Image
+
+```
 /container stop [find tag~"blocky"]
+/container repull [find tag~"blocky"]
 /container start [find tag~"blocky"]
 ```
 

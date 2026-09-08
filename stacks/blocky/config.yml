@@ -2,6 +2,7 @@ connectIPVersion: v4
 
 upstreams:
   strategy: parallel_best
+  timeout: 5s
   init:
     strategy: blocking
   groups:
@@ -10,10 +11,11 @@ upstreams:
       - tcp-tls:149.112.112.112:853
       - https://1.1.1.1/dns-query
       - https://1.0.0.1/dns-query
+      - 9.9.9.9
+      - 1.1.1.1
 
 bootstrapDns:
   - upstream: 9.9.9.9
-  - upstream: 1.1.1.1
 
 filtering:
   queryTypes:
@@ -82,10 +84,10 @@ blocking:
       - default
 
   loading:
-    strategy: failOnError
+    strategy: fast
     refreshPeriod: 24h
     downloads:
-      timeout: 30s
+      timeout: 300s
       attempts: 3
       cachePath: /app/cache
 
@@ -111,6 +113,10 @@ caching:
   prefetching: true
   prefetchExpires: 2h
   cacheTimeNegative: 5m
+
+log:
+  level: debug
+  format: text
 
 ports:
   dns: 53
