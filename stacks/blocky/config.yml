@@ -3,7 +3,7 @@ connectIPVersion: v4
 upstreams:
   strategy: parallel_best
   init:
-    strategy: failOnError
+    strategy: blocking
   groups:
     default:
       - tcp-tls:9.9.9.9:853
