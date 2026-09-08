@@ -1,0 +1,40 @@
+discovery.relabel "blocky_1" {
+  targets = [{
+    __address__ = coalesce(sys.env("BLOCKY_1_METRICS_TARGET"), "blocky:4000"),
+  }]
+
+  rule {
+    replacement  = sys.env("HOST_HOSTNAME")
+    target_label = "instance"
+  }
+
+  rule {
+    replacement  = "blocky1"
+    target_label = "blocky"
+  }
+}
+
+discovery.relabel "blocky_2" {
+  targets = [{
+    __address__ = coalesce(sys.env("BLOCKY_2_METRICS_TARGET"), "blocky:4000"),
+  }]
+
+  rule {
+    replacement  = sys.env("HOST_HOSTNAME")
+    target_label = "instance"
+  }
+
+  rule {
+    replacement  = "blocky2"
+    target_label = "blocky"
+  }
+}
+
+prometheus.scrape "blocky" {
+  targets         = concat(discovery.relabel.blocky_1.output, discovery.relabel.blocky_2.output)
+  forward_to      = [prometheus.remote_write.central.receiver]
+  scrape_interval = coalesce(sys.env("SCRAPE_INTERVAL"), "30s")
+  scrape_timeout  = "10s"
+  job_name        = "blocky"
+  metrics_path    = "/metrics"
+}

@@ -1,0 +1,130 @@
+connectIPVersion: v4
+
+upstreams:
+  strategy: parallel_best
+  init:
+    strategy: failOnError
+  groups:
+    default:
+      - tcp-tls:9.9.9.9:853
+      - tcp-tls:149.112.112.112:853
+      - https://1.1.1.1/dns-query
+      - https://1.0.0.1/dns-query
+
+bootstrapDns:
+  - upstream: 9.9.9.9
+  - upstream: 1.1.1.1
+
+filtering:
+  queryTypes:
+    - AAAA
+
+fqdnOnly:
+  enable: true
+
+blocking:
+  blockType: zeroIp
+  blockTTL: 5m
+
+  denylists:
+    default:
+      # HaGeZi Multi Pro — ads, trackers, malware, phishing, scam
+      - https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/pro.txt
+      # HaGeZi Threat Intelligence — active malware/C2/phishing feeds
+      - https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/tif.txt
+      # HaGeZi Pop-Up Ads
+      - https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/popupads.txt
+      # HaGeZi DoH/VPN/Proxy Bypass Prevention
+      - https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/doh-vpn-proxy-bypass.txt
+      # Category blocks
+      - https://raw.githubusercontent.com/blocklistproject/Lists/master/gambling.txt
+      - https://raw.githubusercontent.com/blocklistproject/Lists/master/crypto.txt
+      - https://raw.githubusercontent.com/blocklistproject/Lists/master/piracy.txt
+      - https://raw.githubusercontent.com/blocklistproject/Lists/master/porn.txt
+      # IoT / Smart TV
+      - https://raw.githubusercontent.com/Perflyst/PiHoleBlocklist/master/SmartTV.txt
+      - https://raw.githubusercontent.com/Perflyst/PiHoleBlocklist/master/android-tracking.txt
+      # German: Axel Springer
+      - https://raw.githubusercontent.com/autinerd/anti-axelspringer-hosts/master/axelspringer-hosts
+      # Windows telemetry
+      - https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/spy.txt
+      # Twitter
+      - https://blocklistproject.github.io/Lists/twitter.txt
+      # Manual blacklist
+      - |
+        adservice.google.ch
+        adservice.google.com
+        doubleclick.net
+        www.facebook.com
+        rittal.com
+        bintube.com
+
+  allowlists:
+    default:
+      - |
+        android.clients.google.com
+        clients4.google.com
+        clients2.google.com
+        clients3.google.com
+        ec-ns.sascdn.com
+        connectivitycheck.android.com
+        connectivitycheck.gstatic.com
+        appspot-preview.l.google.com
+        storage.signal.org
+        cdn.signal.org
+        udates2.signal.org
+        textsecure-secure.whispersystems.org
+        x.com
+        cc-api-data.adobe.io
+
+  clientGroupsBlock:
+    default:
+      - default
+
+  loading:
+    strategy: failOnError
+    refreshPeriod: 24h
+    downloads:
+      timeout: 30s
+      attempts: 3
+      cachePath: /app/cache
+
+customDNS:
+  filterUnmappedTypes: true
+  mapping:
+    use-application-dns.net: 0.0.0.0
+    mask.icloud.com: 0.0.0.0
+    mask-h2.icloud.com: 0.0.0.0
+
+rebindingProtection:
+  enable: true
+
+rateLimit:
+  enable: true
+  rate: 80
+  burst: 160
+
+caching:
+  maxItemsCount: 0
+  minTime: 5m
+  maxTime: 4h
+  prefetching: true
+  prefetchExpires: 2h
+  cacheTimeNegative: 5m
+
+ports:
+  dns: 53
+  http: 4000
+
+prometheus:
+  enable: true
+  path: /metrics
+
+queryLog:
+  type: none
+
+statistics:
+  enable: true
+
+ede:
+  enable: true

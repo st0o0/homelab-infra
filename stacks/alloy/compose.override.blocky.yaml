@@ -1,0 +1,7 @@
+services:
+  alloy:
+    volumes:
+      - ../../alloy/features/blocky.alloy:/etc/alloy/blocky.alloy
+    environment:
+      - BLOCKY_1_METRICS_TARGET=${BLOCKY_1_METRICS_TARGET:-blocky:4000}
+      - BLOCKY_2_METRICS_TARGET=${BLOCKY_2_METRICS_TARGET:-blocky:4000}

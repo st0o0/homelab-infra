@@ -74,7 +74,7 @@ path = "grafana/provisioning/dashboards/json/nut.json"
 requires = "Restart"
 
 [[stack.config.config_files]]
-path = "grafana/provisioning/dashboards/json/pihole.json"
+path = "grafana/provisioning/dashboards/json/blocky.json"
 requires = "Restart"
 
 [[stack.config.config_files]]
@@ -131,7 +131,7 @@ project_name = "alloy-1"
 run_directory = "stacks/alloy"
 file_paths = [
   "compose.yml",
-  "compose.override.pihole.yaml",
+  "compose.override.blocky.yaml",
   "compose.override.pve.yaml",
   "compose.override.speedtest.yaml",
 ]
@@ -145,11 +145,9 @@ ALLOY_HOSTNAME=FeelsAlertsMan
 ALLOY_SCRAPE_INTERVAL=30s
 GEOIPUPDATE_ACCOUNT_ID=[[maxmind_account_id]]
 GEOIPUPDATE_LICENSE_KEY=[[maxmind_license_key]]
-# ── Pi-hole exporters (one per instance) ─────────────────
-ALLOY_PIHOLE_1_URL=[[FeelsAlertsMan_pihole_1_url]]
-ALLOY_PIHOLE_1_PASSWORD=[[FeelsAlertsMan_pihole_1_password]]
-ALLOY_PIHOLE_2_URL=[[FeelsAlertsMan_pihole_2_url]]
-ALLOY_PIHOLE_2_PASSWORD=[[FeelsAlertsMan_pihole_2_password]]
+# ── Blocky metrics (one per instance) ─────────────────
+BLOCKY_1_METRICS_TARGET=[[FeelsAlertsMan_blocky_1_metrics_target]]
+BLOCKY_2_METRICS_TARGET=[[FeelsAlertsMan_blocky_2_metrics_target]]
 
 # ── PVE exporter (runs natively on Proxmox, scraped remotely) ──
 ALLOY_PVE_EXPORTER_TARGET=[[FeelsAlertsMan_pve_exporter_target]]
@@ -224,7 +222,7 @@ path = "../../alloy/modules/ufw.alloy"
 requires = "Redeploy"
 
 [[stack.config.config_files]]
-path = "../../alloy/features/pihole.alloy"
+path = "../../alloy/features/blocky.alloy"
 requires = "Redeploy"
 
 [[stack.config.config_files]]

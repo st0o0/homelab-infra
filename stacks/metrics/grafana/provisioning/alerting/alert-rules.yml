@@ -13,6 +13,8 @@ deleteRules:
     uid: vm-not-backed-up
   - orgId: 1
     uid: pihole-down
+  - orgId: 1
+    uid: pihole-all-down
 
 groups:
   - orgId: 1
@@ -1050,8 +1052,8 @@ groups:
     folder: Homelab Alerts
     interval: 1m
     rules:
-      - uid: pihole-all-down
-        title: PiholeAllDown
+      - uid: blocky-all-down
+        title: BlockyAllDown
         condition: C
         for: 2m
         keep_firing_for: 5m
@@ -1060,7 +1062,7 @@ groups:
         labels:
           severity: critical
         annotations:
-          summary: "All Pi-hole instances are down — DNS is unavailable"
+          summary: "All Blocky instances are down — DNS blocking is unavailable"
         data:
           - refId: A
             relativeTimeRange:
@@ -1068,7 +1070,7 @@ groups:
               to: 0
             datasourceUid: victoriametrics
             model:
-              expr: count(pihole_blocking_enabled == 1) or vector(0)
+              expr: count(blocky_blocking_enabled == 1) or vector(0)
               instant: true
               refId: A
           - refId: C
