@@ -47,13 +47,8 @@ blocking:
       - https://raw.githubusercontent.com/blocklistproject/Lists/master/crypto.txt
       - https://raw.githubusercontent.com/blocklistproject/Lists/master/piracy.txt
       - https://raw.githubusercontent.com/blocklistproject/Lists/master/porn.txt
-      # IoT / Smart TV
-      - https://raw.githubusercontent.com/Perflyst/PiHoleBlocklist/master/SmartTV.txt
-      - https://raw.githubusercontent.com/Perflyst/PiHoleBlocklist/master/android-tracking.txt
       # German: Axel Springer
       - https://raw.githubusercontent.com/autinerd/anti-axelspringer-hosts/master/axelspringer-hosts
-      # Windows telemetry
-      - https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/spy.txt
       # Twitter
       - https://blocklistproject.github.io/Lists/twitter.txt
       # Manual blacklist
@@ -114,13 +109,13 @@ rateLimit:
   burst: 160
 
 caching:
-  maxItemsCount: 0
+  maxItemsCount: 50000
   minTime: 5m
   maxTime: 30m
   prefetching: true
-  prefetchExpires: 12h
-  prefetchThreshold: 3
-  prefetchMaxItemsCount: 100000
+  prefetchExpires: 2h
+  prefetchThreshold: 5
+  prefetchMaxItemsCount: 10000
   cacheTimeNegative: 30m
 
 log:
