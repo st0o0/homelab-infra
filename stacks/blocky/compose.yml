@@ -15,7 +15,7 @@ services:
       - "${BLOCKY_PORT_DNS:?BLOCKY_PORT_DNS is required}:53/udp"
       - "${BLOCKY_PORT_HTTP:?BLOCKY_PORT_HTTP is required}:4000/tcp"
     volumes:
-      - ${BLOCKY_CONFIG_PATH:?BLOCKY_CONFIG_PATH is required}:/app/config.yml:ro
+      - ./config.yml:/app/config.yml:ro
       - blocky-cache:/app/cache
     healthcheck:
       test: ["CMD", "/app/blocky", "healthcheck"]
