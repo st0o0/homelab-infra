@@ -151,13 +151,20 @@
       sourceUrl: 'https://github.com/jlesage/docker-firefox',
     },
     {
-      matchPackageNames: [
-        'ghcr.io/home-operations/sonarr',
-        'ghcr.io/home-operations/radarr',
-        'ghcr.io/home-operations/prowlarr',
-        'ghcr.io/home-operations/sabnzbd',
-      ],
-      sourceUrl: 'https://github.com/home-operations/containers',
+      matchPackageNames: ['ghcr.io/home-operations/sonarr'],
+      sourceUrl: 'https://github.com/Sonarr/Sonarr',
+    },
+    {
+      matchPackageNames: ['ghcr.io/home-operations/radarr'],
+      sourceUrl: 'https://github.com/Radarr/Radarr',
+    },
+    {
+      matchPackageNames: ['ghcr.io/home-operations/prowlarr'],
+      sourceUrl: 'https://github.com/Prowlarr/Prowlarr',
+    },
+    {
+      matchPackageNames: ['ghcr.io/home-operations/sabnzbd'],
+      sourceUrl: 'https://github.com/sabnzbd/sabnzbd',
     },
     {
       matchPackageNames: [
@@ -221,6 +228,14 @@
     {
       matchPackageNames: ['ghcr.io/matter-js/matterjs-server'],
       sourceUrl: 'https://github.com/matter-js/matterjs-server',
+    },
+    {
+      matchPackageNames: ['crowdsecurity/crowdsec'],
+      sourceUrl: 'https://github.com/crowdsecurity/crowdsec',
+    },
+    {
+      matchPackageNames: ['ghcr.io/0xerr0r/blocky'],
+      sourceUrl: 'https://github.com/0xerr0r/blocky',
     },
   ],
   'ansible-galaxy': {

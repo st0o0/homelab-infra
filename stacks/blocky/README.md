@@ -15,7 +15,7 @@ Monitoring via built-in `/metrics` endpoint (port 4000), scraped directly by All
 
 Both registries are official (same CI pipeline):
 
-- **GHCR**: `ghcr.io/0xerr0r/blocky:v0.35` (used by Pi Zero via compose.yml)
+- **GHCR**: `ghcr.io/0xerr0r/blocky:v0.35.0` (used by Pi Zero via compose.yml)
 - **Docker Hub**: `spx01/blocky:latest` (used by MikroTik, no registry change needed — Docker Hub only has `latest` tag, not versioned tags)
 
 ## MikroTik Deployment (RouterOS 7.16+)
