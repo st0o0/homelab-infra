@@ -35,13 +35,13 @@ blocking:
   denylists:
     default:
       # HaGeZi Multi Pro — ads, trackers, malware, phishing, scam
-      - https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/pro.txt
+      - https://hagezi-mirror.dnsbunker.org/wildcard/pro.txt
       # HaGeZi Threat Intelligence — active malware/C2/phishing feeds
-      - https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/tif.txt
+      - https://hagezi-mirror.dnsbunker.org/wildcard/tif.txt
       # HaGeZi Pop-Up Ads
-      - https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/popupads.txt
+      - https://hagezi-mirror.dnsbunker.org/wildcard/popupads.txt
       # HaGeZi DoH/VPN/Proxy Bypass Prevention
-      - https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/doh-vpn-proxy-bypass.txt
+      - https://hagezi-mirror.dnsbunker.org/wildcard/doh-vpn-proxy-bypass.txt
       # Category blocks
       - https://raw.githubusercontent.com/blocklistproject/Lists/master/gambling.txt
       - https://raw.githubusercontent.com/blocklistproject/Lists/master/crypto.txt

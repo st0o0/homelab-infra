@@ -14,3 +14,7 @@ BLOCKY_PORT_DNS=53
 BLOCKY_PORT_HTTP=4000
 BLOCKY_CONFIG_PATH=/docker/blocky/config.yml
 """
+
+[[stack.config.config_files]]
+path = "config.yml"
+requires = "Redeploy"
