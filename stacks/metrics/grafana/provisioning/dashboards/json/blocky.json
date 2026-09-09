@@ -494,7 +494,7 @@
         "sortBy": [{ "displayName": "Entries", "desc": true }]
       },
       "transformations": [
-        { "id": "organize", "options": { "excludeByName": { "__name__": true, "job": true, "blocky": true }, "indexByName": {}, "renameByName": {} } }
+        { "id": "organize", "options": { "excludeByName": { "__name__": true, "job": true }, "indexByName": {}, "renameByName": {} } }
       ]
     }
   ]

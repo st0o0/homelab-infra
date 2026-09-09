@@ -4,13 +4,8 @@ discovery.relabel "blocky_1" {
   }]
 
   rule {
-    replacement  = sys.env("HOST_HOSTNAME")
-    target_label = "instance"
-  }
-
-  rule {
     replacement  = "blocky1"
-    target_label = "blocky"
+    target_label = "instance"
   }
 }
 
@@ -20,13 +15,8 @@ discovery.relabel "blocky_2" {
   }]
 
   rule {
-    replacement  = sys.env("HOST_HOSTNAME")
-    target_label = "instance"
-  }
-
-  rule {
     replacement  = "blocky2"
-    target_label = "blocky"
+    target_label = "instance"
   }
 }
 
