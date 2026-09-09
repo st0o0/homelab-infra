@@ -6,7 +6,7 @@ x-logging: &default-logging
 
 services:
   mongo:
-    image: mongo:7.0.40@sha256:b6421fd6d1c5ded6377b397d8983e2f82e2100dc5123332dcfda2065a472be5b
+    image: mongo:7.0.41@sha256:8102f674c3d5b5c3b5a248397778b8d148a998c6409f390ff62628eb617f0847
     container_name: mongodb
     restart: always
     logging: *default-logging
