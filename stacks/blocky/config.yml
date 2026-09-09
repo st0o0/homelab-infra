@@ -2,20 +2,24 @@ connectIPVersion: v4
 
 upstreams:
   strategy: parallel_best
-  timeout: 5s
+  timeout: 2s
   init:
     strategy: blocking
   groups:
     default:
+      # Quad9 (Switzerland, non-profit, no IP logging, audited)
       - tcp-tls:9.9.9.9:853
       - tcp-tls:149.112.112.112:853
-      - https://1.1.1.1/dns-query
-      - https://1.0.0.1/dns-query
-      - 9.9.9.9
-      - 1.1.1.1
+      # AdGuard unfiltered (Cyprus, no-log, audited)
+      - tcp-tls:94.140.14.140:853
+      - tcp-tls:94.140.14.141:853
+      # DNS4EU unfiltered (EU, GDPR-compliant)
+      - tcp-tls:86.54.11.100:853#unfiltered.joindns4.eu
+      - tcp-tls:86.54.11.200:853#unfiltered.joindns4.eu
 
 bootstrapDns:
   - upstream: 9.9.9.9
+  - upstream: 149.112.112.112
 
 filtering:
   queryTypes:
@@ -85,10 +89,13 @@ blocking:
 
   loading:
     strategy: fast
-    refreshPeriod: 24h
+    refreshPeriod: 12h
+    concurrency: 8
+    maxErrorsPerSource: 5
     downloads:
-      timeout: 300s
-      attempts: 3
+      timeout: 120s
+      attempts: 5
+      cooldown: 2s
       cachePath: /app/cache
 
 customDNS:
@@ -109,14 +116,17 @@ rateLimit:
 caching:
   maxItemsCount: 0
   minTime: 5m
-  maxTime: 4h
+  maxTime: 30m
   prefetching: true
-  prefetchExpires: 2h
-  cacheTimeNegative: 5m
+  prefetchExpires: 12h
+  prefetchThreshold: 3
+  prefetchMaxItemsCount: 100000
+  cacheTimeNegative: 30m
 
 log:
-  level: debug
+  level: info
   format: text
+  privacy: true
 
 ports:
   dns: 53
@@ -132,5 +142,8 @@ queryLog:
 statistics:
   enable: true
 
+specialUseDomains:
+  rfc6762-appendixG: true
+
 ede:
-  enable: true
+  enable: false
