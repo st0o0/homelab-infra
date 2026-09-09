@@ -6,7 +6,7 @@ x-logging: &default-logging
 
 services:
   valkey:
-    image: docker.io/valkey/valkey:9.1.2-alpine@sha256:dd021e69e0a204fbb25b39c332c3dd61d51853d0a67e34f523cf1e1ab15fe478
+    image: docker.io/valkey/valkey:9.1.2-alpine@sha256:b2c234ceca8ab66d00074c63ddeb4a81193f489311fbd17f680155ab5cdd22ed
     container_name: valkey
     restart: always
     logging: *default-logging
