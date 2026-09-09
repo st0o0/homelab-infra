@@ -25,10 +25,8 @@ services:
       start_period: 30s
     deploy:
       resources:
-        limits:
-          memory: 256M
         reservations:
-          memory: 128M
+          memory: 256M
 
 volumes:
   blocky-cache:
