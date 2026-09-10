@@ -20,7 +20,7 @@ ANSIBLE_HOSTS_FILE="ansible/hosts.yml"
 ANSIBLE_BW_ITEM_NAME="$HOMELAB_ANSIBLE_AGE_KEY_BW_ITEM"
 KOMODO_BW_ITEM_NAME="$HOMELAB_KOMODO_AGE_KEY_BW_ITEM"
 
-cd "$(git rev-parse --show-toplevel)"
+cd "$SCRIPT_DIR/.."
 
 if [ -n "${BW_SESSION:-}" ]; then
     echo "==> Syncing Bitwarden vault..."
