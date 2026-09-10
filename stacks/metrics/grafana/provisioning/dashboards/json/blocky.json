@@ -91,6 +91,7 @@
       ],
       "fieldConfig": {
         "defaults": {
+          "noValue": "0",
           "thresholds": { "mode": "absolute", "steps": [{ "color": "blue", "value": null }] }
         },
         "overrides": []
@@ -112,6 +113,7 @@
       ],
       "fieldConfig": {
         "defaults": {
+          "noValue": "0",
           "thresholds": { "mode": "absolute", "steps": [{ "color": "orange", "value": null }] }
         },
         "overrides": []
@@ -129,11 +131,12 @@
       "gridPos": { "h": 4, "w": 4, "x": 12, "y": 1 },
       "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
       "targets": [
-        { "expr": "sum by (blocky) (blocky_response_total{blocky=~\"$blocky\", response_type=\"BLOCKED\"}) / sum by (blocky) (blocky_response_total{blocky=~\"$blocky\"}) * 100", "legendFormat": "{{blocky}}", "refId": "A" }
+        { "expr": "sum by (blocky) (blocky_response_total{blocky=~\"$blocky\", response_type=\"BLOCKED\"}) / clamp_min(sum by (blocky) (blocky_response_total{blocky=~\"$blocky\"}), 1) * 100", "legendFormat": "{{blocky}}", "refId": "A" }
       ],
       "fieldConfig": {
         "defaults": {
           "unit": "percent",
+          "noValue": "0",
           "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }, { "color": "yellow", "value": 15 }, { "color": "red", "value": 30 }] }
         },
         "overrides": []
@@ -155,6 +158,7 @@
       ],
       "fieldConfig": {
         "defaults": {
+          "noValue": "0",
           "thresholds": { "mode": "absolute", "steps": [{ "color": "purple", "value": null }] }
         },
         "overrides": []
@@ -172,11 +176,12 @@
       "gridPos": { "h": 4, "w": 4, "x": 20, "y": 1 },
       "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
       "targets": [
-        { "expr": "sum by (blocky) (blocky_cache_hits_total{blocky=~\"$blocky\"}) / (sum by (blocky) (blocky_cache_hits_total{blocky=~\"$blocky\"}) + sum by (blocky) (blocky_cache_misses_total{blocky=~\"$blocky\"})) * 100", "legendFormat": "{{blocky}}", "refId": "A" }
+        { "expr": "sum by (blocky) (blocky_cache_hits_total{blocky=~\"$blocky\"}) / clamp_min(sum by (blocky) (blocky_cache_hits_total{blocky=~\"$blocky\"}) + sum by (blocky) (blocky_cache_misses_total{blocky=~\"$blocky\"}), 1) * 100", "legendFormat": "{{blocky}}", "refId": "A" }
       ],
       "fieldConfig": {
         "defaults": {
           "unit": "percent",
+          "noValue": "0",
           "thresholds": { "mode": "absolute", "steps": [{ "color": "red", "value": null }, { "color": "yellow", "value": 50 }, { "color": "green", "value": 80 }] }
         },
         "overrides": []
@@ -245,7 +250,7 @@
       "gridPos": { "h": 8, "w": 12, "x": 0, "y": 14 },
       "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
       "targets": [
-        { "expr": "sum by (blocky) (rate(blocky_response_total{blocky=~\"$blocky\", response_type=\"BLOCKED\"}[$__rate_interval])) / sum by (blocky) (rate(blocky_response_total{blocky=~\"$blocky\"}[$__rate_interval])) * 100", "legendFormat": "{{blocky}}", "refId": "A" }
+        { "expr": "sum by (blocky) (rate(blocky_response_total{blocky=~\"$blocky\", response_type=\"BLOCKED\"}[$__rate_interval])) / clamp_min(sum by (blocky) (rate(blocky_response_total{blocky=~\"$blocky\"}[$__rate_interval])), 0.0001) * 100", "legendFormat": "{{blocky}}", "refId": "A" }
       ],
       "fieldConfig": {
         "defaults": {
@@ -460,6 +465,7 @@
       ],
       "fieldConfig": {
         "defaults": {
+          "noValue": "0",
           "thresholds": { "mode": "absolute", "steps": [{ "color": "purple", "value": null }] }
         },
         "overrides": []
@@ -481,6 +487,7 @@
       ],
       "fieldConfig": {
         "defaults": {
+          "noValue": "0",
           "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] }
         },
         "overrides": []
@@ -502,6 +509,7 @@
       ],
       "fieldConfig": {
         "defaults": {
+          "noValue": "0",
           "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }, { "color": "red", "value": 1 }] }
         },
         "overrides": []
@@ -519,7 +527,7 @@
       "gridPos": { "h": 4, "w": 3, "x": 9, "y": 50 },
       "datasource": { "type": "victoriametrics-metrics-datasource", "uid": "victoriametrics" },
       "targets": [
-        { "expr": "min(blocky_last_list_group_refresh_timestamp_seconds{blocky=~\"$blocky\"})", "legendFormat": "", "refId": "A" }
+        { "expr": "min(blocky_last_list_group_refresh_timestamp_seconds{blocky=~\"$blocky\"}) * 1000", "legendFormat": "", "refId": "A" }
       ],
       "fieldConfig": {
         "defaults": {
