@@ -1,6 +1,6 @@
 # ╔══════════════════════════════════════════════════════════════════════╗
-# ║  Komodo Alerter — all available options                            ║
-# ║  Source: docs.rs/komodo_client — AlerterConfig (6 fields)          ║
+# ║  Komodo Alerter -- all available options                            ║
+# ║  Source: docs.rs/komodo_client -- AlerterConfig (6 fields)          ║
 # ╚══════════════════════════════════════════════════════════════════════╝
 #
 # Alerters route Komodo alerts to external services.

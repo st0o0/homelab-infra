@@ -2,9 +2,9 @@
 #
 # deploy-homelab-infra runs on a 5-minute schedule: sync TOML
 # definitions, then redeploy only stacks whose compose changed.
-# No webhook exposure needed — Komodo triggers it internally.
+# No webhook exposure needed -- Komodo triggers it internally.
 #
-# PullRepo is NOT needed — stacks use linked_repo, so
+# PullRepo is NOT needed -- stacks use linked_repo, so
 # BatchDeployStackIfChanged pulls the repo implicitly per server.
 
 [[procedure]]

@@ -32,7 +32,7 @@ groups:
         labels:
           severity: critical
         annotations:
-          summary: "Host {{ $labels.host }} is down — no metrics received for 2 minutes"
+          summary: "Host {{ $labels.host }} is down -- no metrics received for 2 minutes"
         data:
           - refId: A
             relativeTimeRange:
@@ -498,7 +498,7 @@ groups:
         labels:
           severity: warning
         annotations:
-          summary: "Redis is evicting keys — memory pressure detected"
+          summary: "Redis is evicting keys -- memory pressure detected"
         data:
           - refId: A
             relativeTimeRange:
@@ -928,7 +928,7 @@ groups:
         labels:
           severity: critical
         annotations:
-          summary: "WireGuard handshake {{ printf \"%.0f\" $values.A.Value }}s old — tunnel may be dead"
+          summary: "WireGuard handshake {{ printf \"%.0f\" $values.A.Value }}s old -- tunnel may be dead"
         data:
           - refId: A
             relativeTimeRange:
@@ -1062,7 +1062,7 @@ groups:
         labels:
           severity: critical
         annotations:
-          summary: "All Blocky instances are down — DNS blocking is unavailable"
+          summary: "All Blocky instances are down -- DNS blocking is unavailable"
         data:
           - refId: A
             relativeTimeRange:

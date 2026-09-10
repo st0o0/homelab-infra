@@ -1,6 +1,6 @@
 # ╔══════════════════════════════════════════════════════════════════════╗
-# ║  Komodo Server — all available options                             ║
-# ║  Source: docs.rs/komodo_client — ServerConfig (23 fields)          ║
+# ║  Komodo Server -- all available options                             ║
+# ║  Source: docs.rs/komodo_client -- ServerConfig (23 fields)          ║
 # ╚══════════════════════════════════════════════════════════════════════╝
 
 [[server]]

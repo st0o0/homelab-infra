@@ -69,7 +69,7 @@ cron_docker_prune: true
 # UPS
 # ups_client_enabled: false
 
-# Komodo (Core host — Core + bundled local Periphery; Mongo runs on FeelsDataMan)
+# Komodo (Core host -- Core + bundled local Periphery; Mongo runs on FeelsDataMan)
 komodo_enabled: true
 agent_enabled: false
 # komodo_extra_disk_mounts:

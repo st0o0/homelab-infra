@@ -1,6 +1,6 @@
 # ╔══════════════════════════════════════════════════════════════════════╗
-# ║  Komodo Variables — all available options                          ║
-# ║  Source: docs.rs/komodo_client — Variable                          ║
+# ║  Komodo Variables -- all available options                          ║
+# ║  Source: docs.rs/komodo_client -- Variable                          ║
 # ╚══════════════════════════════════════════════════════════════════════╝
 #
 # Variables are interpolated in Stacks, Builds, Repos and Actions as
@@ -28,7 +28,7 @@ value = "example.com"
 description = "Primary domain for reverse proxy configuration"
 
 # Variables have only three fields: name, value, description
-# Secrets are NOT defined here — they go in:
+# Secrets are NOT defined here -- they go in:
 #   - core.config.toml → [secrets] section
 #   - Periphery configuration
 #   - External tools (SOPS, Bitwarden, etc.)

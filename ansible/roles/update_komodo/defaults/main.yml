@@ -1,5 +1,5 @@
 # Which component to update on this run: core or agent.
-# Set explicitly by update-komodo.yml per play — do not rely on the default outside that playbook.
+# Set explicitly by update-komodo.yml per play -- do not rely on the default outside that playbook.
 _update_komodo_target: core
 
 update_komodo_health_retries: 12

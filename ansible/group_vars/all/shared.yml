@@ -1,6 +1,6 @@
-# Shared feature toggles — override per host in host_vars/<host>/vars.yml
+# Shared feature toggles -- override per host in host_vars/<host>/vars.yml
 
-# Host toggle — set to false for hosts that are temporarily offline
+# Host toggle -- set to false for hosts that are temporarily offline
 host_enabled: true
 
 # UPS monitoring (NUT client)

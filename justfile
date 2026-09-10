@@ -61,9 +61,9 @@ lint:
     just a lint
     just k lint
 
-# Validate SOPS age keys match their expected recipients, re-fetch from Bitwarden on mismatch
+# Check SOPS age keys match their expected recipients, re-fetch from Bitwarden on mismatch
 [unix]
-validate-keys:
+check-keys:
     bash scripts/lib/validate-sops-keys.sh
 
 # First-time setup: both AGE keys, SSH backup keys, and host secrets scaffolding
@@ -84,12 +84,12 @@ setup:
     for HOST in $HOSTS; do
         ENABLED=$(echo "$INVENTORY" | jq -r --arg h "$HOST" '._meta.hostvars[$h].host_enabled // true')
         if [ "$ENABLED" = "false" ]; then
-            echo "  ⊘ $HOST — disabled, skipped"
+            echo "  ⊘ $HOST -- disabled, skipped"
             continue
         fi
         KEY_FILE="$HOME/.ssh/id_backup_$HOST"
         if [ -f "$KEY_FILE" ]; then
-            echo "  ✓ $HOST — already present"
+            echo "  ✓ $HOST -- already present"
             continue
         fi
         BW_ITEM=$(bw get item "ssh-backup-$HOST" 2>/dev/null || true)
@@ -97,9 +97,9 @@ setup:
             echo "$BW_ITEM" | python3 -c "import sys,json; print(json.load(sys.stdin)['sshKey']['privateKey'], end='')" > "$KEY_FILE"
             chmod 600 "$KEY_FILE"
             ssh-keygen -y -f "$KEY_FILE" > "$KEY_FILE.pub"
-            echo "  ✓ $HOST — restored from Bitwarden"
+            echo "  ✓ $HOST -- restored from Bitwarden"
         else
-            echo "  ✗ $HOST — not found in Bitwarden"
+            echo "  ✗ $HOST -- not found in Bitwarden"
         fi
     done
     echo ""

@@ -1,6 +1,6 @@
 # ╔══════════════════════════════════════════════════════════════════════╗
-# ║  Komodo Procedure — all available options                          ║
-# ║  Source: docs.rs/komodo_client — ProcedureConfig (9 fields)        ║
+# ║  Komodo Procedure -- all available options                          ║
+# ║  Source: docs.rs/komodo_client -- ProcedureConfig (9 fields)        ║
 # ╚══════════════════════════════════════════════════════════════════════╝
 
 [[procedure]]
@@ -47,17 +47,17 @@ executions = [
 ]
 
 # Available execution types:
-# - PullRepo                    — Pull a git repo
-# - DeployStack                 — Deploy a stack
-# - DeployStackIfChanged        — Deploy stack only if compose files changed
-# - BatchDeployStackIfChanged   — Deploy all stacks matching a pattern
-# - StartContainer              — Start a container
-# - StopContainer               — Stop a container
-# - RestartContainer            — Restart a container
-# - RunBuild                    — Run a build
-# - RunAction                   — Run an action
-# - RunProcedure                — Nested procedure
-# - Sleep                       — Wait (in ms)
+# - PullRepo                    -- Pull a git repo
+# - DeployStack                 -- Deploy a stack
+# - DeployStackIfChanged        -- Deploy stack only if compose files changed
+# - BatchDeployStackIfChanged   -- Deploy all stacks matching a pattern
+# - StartContainer              -- Start a container
+# - StopContainer               -- Stop a container
+# - RestartContainer            -- Restart a container
+# - RunBuild                    -- Run a build
+# - RunAction                   -- Run an action
+# - RunProcedure                -- Nested procedure
+# - Sleep                       -- Wait (in ms)
 
 # ── Example: Procedure with EnglishToCron ────────────────────────────
 # [[procedure]]

@@ -24,7 +24,7 @@ fi
 COMBINED_AGE_KEY_FILE="$HOME/.config/sops/age/keys.txt"
 if [ -f "$COMBINED_AGE_KEY_FILE" ] && command -v just >/dev/null 2>&1 && command -v ansible-inventory >/dev/null 2>&1; then
     echo "==> Syncing SSH config entries for hosts with a restored backup key..."
-    just a sshsync || true
+    just a ssh-config || true
 elif [ ! -f "$COMBINED_AGE_KEY_FILE" ]; then
-    echo "==> AGE keys not set up yet — skipping SSH config sync (run 'just setup' first)"
+    echo "==> AGE keys not set up yet -- skipping SSH config sync (run 'just setup' first)"
 fi

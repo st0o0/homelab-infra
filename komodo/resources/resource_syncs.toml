@@ -3,7 +3,7 @@
 
 [[resource_sync]]
 name = "bootstrap"
-description = "Bootstrap sync — loads the main resource sync definition"
+description = "Bootstrap sync -- loads the main resource sync definition"
 
 [resource_sync.config]
 linked_repo = "homelab-infra"

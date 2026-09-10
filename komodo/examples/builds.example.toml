@@ -1,6 +1,6 @@
 # ╔══════════════════════════════════════════════════════════════════════╗
-# ║  Komodo Build — all available options                              ║
-# ║  Source: docs.rs/komodo_client — BuildConfig (30 fields)           ║
+# ║  Komodo Build -- all available options                              ║
+# ║  Source: docs.rs/komodo_client -- BuildConfig (30 fields)           ║
 # ╚══════════════════════════════════════════════════════════════════════╝
 
 [[build]]

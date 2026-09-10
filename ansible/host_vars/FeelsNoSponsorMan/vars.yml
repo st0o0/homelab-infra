@@ -60,7 +60,7 @@ unattended_upgrades_enabled: true
 # UPS
 # ups_client_enabled: false
 
-# Komodo (not yet migrated — wave 2)
+# Komodo (not yet migrated -- wave 2)
 komodo_enabled: false
 agent_enabled: true
 # agent_extra_disk_mounts:

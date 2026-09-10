@@ -1,4 +1,4 @@
-# Komodo CLI config — fill in values, then encrypt with SOPS:
+# Komodo CLI config -- fill in values, then encrypt with SOPS:
 #   km edit
 #
 # Decrypt into ~/.config/komodo/ via: km setup

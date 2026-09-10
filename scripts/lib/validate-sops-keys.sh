@@ -16,7 +16,7 @@ validate_key() {
     local expected_recipient
     expected_recipient=$(grep -oP 'age1[a-z0-9]+' "$sops_config" | head -1)
     if [ -z "$expected_recipient" ]; then
-        echo "    $label: no recipient found in $sops_config — skipping"
+        echo "    $label: no recipient found in $sops_config -- skipping"
         return
     fi
 
@@ -41,7 +41,7 @@ restore_from_bw() {
     local bw_item="$1" label="$2"
 
     if [ -z "${BW_SESSION:-}" ]; then
-        echo "    $label: no BW_SESSION — run 'unlock' then 'just validate-keys' to fix"
+        echo "    $label: no BW_SESSION -- run 'unlock' then 'just check-keys' to fix"
         return 1
     fi
 

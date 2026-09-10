@@ -35,32 +35,28 @@ tags:
 
     print()
     print("Usage:")
-    print("  just a deploy HOST --tags TAG[,TAG]     Deploy specific tags to a host")
-    print("  just a deploy HOST --check              Dry-run on a host")
-    print("  just a run TAG                          Run a tag across all hosts")
+    print("  just a apply HOST --tags TAG[,TAG]      Apply specific tags to a host")
+    print("  just a apply HOST --check               Dry-run on a host")
+    print("  just a converge TAG                     Run a tag across all hosts")
 
 # Bootstrap a new host (first run, as root with password)
 bootstrap HOST USER="root":
     ansible-playbook run.yml --tags bootstrap --limit {{HOST}} -e ansible_user={{USER}} -e ansible_ssh_private_key_file=~/.ssh/id_ansible --ask-pass
 
 # Converge all hosts (optionally filter by tags)
-run TAGS="" *ARGS:
+converge TAGS="" *ARGS:
     ansible-playbook run.yml {{ if TAGS != "" { "--tags " + TAGS } else { "" } }} {{ARGS}}
 
-# Converge specific hosts (optionally filter by tags)
-deploy HOSTS *ARGS:
+# Apply playbook to specific hosts (optionally filter by tags)
+apply HOSTS *ARGS:
     ansible-playbook run.yml --limit {{HOSTS}} {{ARGS}}
 
-# Run system updates (all hosts or single host)
-update *ARGS:
+# Run apt upgrades (all hosts or single host)
+upgrade *ARGS:
     ansible-playbook run.yml --tags bootstrap -e bootstrap_upgrade=true --skip-tags ssh {{ARGS}}
 
-# Update Komodo fleet (Core first, then Agent)
-update-komodo *ARGS:
-    ansible-playbook update-komodo.yml {{ARGS}}
-
 # Sync dotfiles on all hosts
-sync-dotfiles *ARGS:
+dotfiles *ARGS:
     ansible-playbook run.yml --tags dotfiles {{ARGS}}
 
 # Connectivity check (skips disabled hosts)
@@ -97,8 +93,8 @@ secrets HOST:
     fi
     sops "$SECRET" || true
 
-# Create a new host (scaffold host_vars + secrets)
-new-host HOST:
+# Scaffold a new host (host_vars + secrets)
+add-host HOST:
     #!/usr/bin/env bash
     mkdir -p "host_vars/{{HOST}}"
     VARS="host_vars/{{HOST}}/vars.yml"
@@ -118,8 +114,8 @@ new-host HOST:
     echo ""
     echo "Add '    {{HOST}}:' under 'all: hosts:' in hosts.yml"
 
-# Show the container's SSH public key (copy this to your servers)
-show-key:
+# Show the container's SSH public key
+pubkey:
     #!/usr/bin/env bash
     KEY_FILE="$HOME/.ssh/id_ansible.pub"
     if [ ! -f "$KEY_FILE" ]; then
@@ -138,8 +134,8 @@ show-key:
     echo "  echo '$PUB' >> ~/.ssh/authorized_keys"
     echo ""
 
-# Check if Ansible can reach a host (tries backup key, then id_ansible)
-trust HOST:
+# Test SSH connectivity to a host (tries backup key, then id_ansible)
+test-ssh HOST:
     #!/usr/bin/env bash
     INV=$(ansible-inventory --host {{HOST}} 2>/dev/null) || { echo "Host '{{HOST}}' not found in inventory."; exit 1; }
     HOST_IP=$(echo "$INV" | jq -r '.ansible_host // empty')
@@ -163,8 +159,8 @@ trust HOST:
         echo "Then run: just a bootstrap {{HOST}} $USER"
     fi
 
-# Regenerate ~/.ssh/config from inventory (respects host_enabled)
-sshsync:
+# Regenerate ~/.ssh/config from inventory (skips disabled hosts)
+ssh-config:
     #!/usr/bin/env bash
     set -euo pipefail
     SSH_CONFIG="$HOME/.ssh/config"
@@ -179,18 +175,18 @@ sshsync:
         INV=$(ansible-inventory --host "$HOST" 2>/dev/null)
         ENABLED=$(echo "$INV" | jq -r '.host_enabled // true')
         if [ "$ENABLED" = "false" ]; then
-            echo "  ⊘ $HOST — disabled, removed"
+            echo "  ⊘ $HOST -- disabled, removed"
             continue
         fi
         KEY="$HOME/.ssh/id_backup_$HOST"
         if [ ! -f "$KEY" ]; then
-            echo "  ✗ $HOST — no backup key, skipped"
+            echo "  ✗ $HOST -- no backup key, skipped"
             continue
         fi
         HOST_IP=$(echo "$INV" | jq -r '.ansible_host // empty')
         SSH_USER=$(echo "$INV" | jq -r '.ansible_user // empty')
         if [ -z "$HOST_IP" ] || [ -z "$SSH_USER" ]; then
-            echo "  ✗ $HOST — missing ansible_host/ansible_user, skipped"
+            echo "  ✗ $HOST -- missing ansible_host/ansible_user, skipped"
             continue
         fi
         BLOCK+=$(printf '\nHost %s %s\n    HostName %s\n    User %s\n    IdentityFile %s\n' \
@@ -205,8 +201,8 @@ sshsync:
     echo ""
     echo "SSH config updated."
 
-# Show bootstrap status of all hosts (marks disabled hosts)
-check:
+# Show host status (marks disabled hosts)
+status:
     #!/usr/bin/env bash
     HOSTS=$(ansible-inventory --list 2>/dev/null | jq -r '._meta.hostvars | keys[]')
     for HOST in $HOSTS; do
@@ -229,7 +225,7 @@ check:
     done
 
 # Fix SSH public-key comments to match 'backup-<hostname>'
-localsshrename:
+fix-ssh-keys:
     #!/usr/bin/env bash
     set -euo pipefail
     INVENTORY=$(ansible-inventory --list 2>/dev/null)
@@ -249,12 +245,12 @@ localsshrename:
         if [ -f "$PUB" ]; then
             OLD=$(cat "$PUB")
             if [ "$OLD" = "$NEW_LINE" ]; then
-                echo "  ✓ $HOST — already correct"
+                echo "  ✓ $HOST -- already correct"
                 continue
             fi
         fi
         echo "$NEW_LINE" > "$PUB"
-        echo "  ✓ $HOST — comment set to backup-$HOST"
+        echo "  ✓ $HOST -- comment set to backup-$HOST"
     done
 
 # Lint

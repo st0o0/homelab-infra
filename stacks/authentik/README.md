@@ -35,8 +35,8 @@ docker compose up -d
 
 | Variable | Required | Default | Purpose |
 |---|---|---|---|
-| `AUTHENTIK_SECRET_KEY` | yes | — | Secret key for session signing |
-| `PG_PASS` | yes | — | PostgreSQL password |
+| `AUTHENTIK_SECRET_KEY` | yes | -- | Secret key for session signing |
+| `PG_PASS` | yes | -- | PostgreSQL password |
 | `PG_HOST` | no | `authentik-db` | PostgreSQL hostname |
 | `PG_USER` | no | `authentik` | PostgreSQL user |
 | `PG_DB` | no | `authentik` | PostgreSQL database |
@@ -45,4 +45,4 @@ docker compose up -d
 
 ## Verify
 
-Open `http://localhost:9000` — the Authentik setup wizard should load.
+Open `http://localhost:9000` -- the Authentik setup wizard should load.

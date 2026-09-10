@@ -1,4 +1,4 @@
-# Host toggle — set to false for temporarily offline hosts
+# Host toggle -- set to false for temporarily offline hosts
 # host_enabled: true
 
 # Bootstrap

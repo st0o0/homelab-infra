@@ -1,7 +1,7 @@
 {
   "uid": "media-overview",
   "title": "Media Overview",
-  "description": "Unified view of all media services — consumption, acquisition, and collection.",
+  "description": "Unified view of all media services -- consumption, acquisition, and collection.",
   "tags": [
     "media",
     "jellyfin",
@@ -1027,7 +1027,7 @@
 
     {
       "type": "row",
-      "title": "🎬 Collection — Arr Stack",
+      "title": "🎬 Collection -- Arr Stack",
       "gridPos": { "h": 1, "w": 24, "x": 0, "y": 35 },
       "id": 40
     },
@@ -1305,7 +1305,7 @@
 
     {
       "type": "row",
-      "title": "📚 Collection — Media Libraries",
+      "title": "📚 Collection -- Media Libraries",
       "gridPos": { "h": 1, "w": 24, "x": 0, "y": 60 },
       "id": 50
     },

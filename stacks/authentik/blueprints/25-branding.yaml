@@ -1028,7 +1028,7 @@ entries:
         }
 
         /* Keep the translate icon (label) white, but let clicks pass THROUGH it to the
-           select underneath — otherwise the icon intercepts the click and the dropdown
+           select underneath -- otherwise the icon intercepts the click and the dropdown
            never opens. */
         :host(ak-locale-select) label[part="label"] {
             color: #ffffff !important;

@@ -83,7 +83,7 @@ secrets TARGET="all":
     AFTER=$(sha256sum "$TMP_YAML" | cut -d' ' -f1)
 
     if [ "$BEFORE" = "$AFTER" ]; then
-        echo "No changes — $SECRET left unchanged"
+        echo "No changes -- $SECRET left unchanged"
         exit 0
     fi
 
@@ -142,7 +142,7 @@ vars TARGET="all":
     yaml_to_toml() {
         local yaml="$1" toml="$2" prefix="$3"
         {
-            echo "# DO NOT EDIT — use 'just k vars' to edit as flat YAML"
+            echo "# DO NOT EDIT -- use 'just k vars' to edit as flat YAML"
             echo ""
             first=true
             while IFS= read -r line; do
@@ -171,7 +171,7 @@ vars TARGET="all":
         AFTER=$(sha256sum "$TMP" | cut -d' ' -f1)
 
         if [ "$BEFORE" = "$AFTER" ]; then
-            echo "No changes — $TOML left unchanged"
+            echo "No changes -- $TOML left unchanged"
             exit 0
         fi
         yaml_to_toml "$TMP" "$TOML" ""
@@ -231,7 +231,7 @@ vars TARGET="all":
     AFTER=$(sha256sum "$TMP" | cut -d' ' -f1)
 
     if [ "$BEFORE" = "$AFTER" ]; then
-        echo "No changes — $TOML left unchanged"
+        echo "No changes -- $TOML left unchanged"
         exit 0
     fi
     yaml_to_toml "$TMP" "$TOML" "${HOST}_"
@@ -239,8 +239,8 @@ vars TARGET="all":
 
 # --- Configuration audit ---
 
-# Check that all [[PLACEHOLDER]] refs in stacks/*.toml have matching secrets/variables
-check HOST="":
+# Audit that all [[PLACEHOLDER]] refs in stacks/*.toml have matching secrets/variables
+audit HOST="":
     #!/usr/bin/env bash
     set -euo pipefail
     SOPS_CONFIG="komodo/.sops.yaml"
@@ -248,7 +248,7 @@ check HOST="":
 
     can_decrypt=true
     if [ ! -f "$SOPS_AGE_KEY_FILE" ]; then
-        echo "Warning: AGE key not found at $SOPS_AGE_KEY_FILE — skipping secret checks" >&2
+        echo "Warning: AGE key not found at $SOPS_AGE_KEY_FILE -- skipping secret checks" >&2
         can_decrypt=false
     fi
 
@@ -320,7 +320,7 @@ check HOST="":
         echo "── $host ($stacks) ──"
         echo ""
 
-        # Check each placeholder — print ok inline, collect problems
+        # Check each placeholder -- print ok inline, collect problems
         local missing_lines=""
         while IFS=$'\t' read -r h stack key scope; do
             local found=""
@@ -342,7 +342,7 @@ check HOST="":
             if [ -n "$found" ]; then
                 printf "  ✓ %-40s (%s)\n" "$key" "$found"
             elif [ "$scope" = "per-host" ] && [ "$can_decrypt" = false ]; then
-                printf "  ? %-40s (cannot check — no AGE key)\n" "$key"
+                printf "  ? %-40s (cannot check -- no AGE key)\n" "$key"
             else
                 missing_lines="${missing_lines}${key}\t${stack}\n"
             fi
@@ -391,8 +391,13 @@ check HOST="":
 
 # Push secrets to FeelsCozyMan (decrypt + deploy core.secrets.toml, restart if changed)
 [working-directory: 'ansible']
-update-secrets *ARGS:
+push-secrets *ARGS:
     ansible-playbook run.yml --limit FeelsCozyMan --tags komodo_secrets {{ ARGS }}
+
+# Update Komodo fleet (Core first, then Agent)
+[working-directory: 'ansible']
+upgrade *ARGS:
+    ansible-playbook update-komodo.yml {{ARGS}}
 
 # --- Linting & Validation ---
 
@@ -494,7 +499,7 @@ restart STACK:
 stop STACK:
     km x -y stop-stack {{STACK}}
 
-# Destroy a stack (docker compose down) — prompts for confirmation
+# Destroy a stack (docker compose down) -- prompts for confirmation
 destroy STACK:
     km x destroy-stack {{STACK}}
 

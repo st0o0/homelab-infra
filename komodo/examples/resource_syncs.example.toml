@@ -1,6 +1,6 @@
 # ╔══════════════════════════════════════════════════════════════════════╗
-# ║  Komodo ResourceSync — all available options                       ║
-# ║  Source: docs.rs/komodo_client — ResourceSyncConfig (19 fields)    ║
+# ║  Komodo ResourceSync -- all available options                       ║
+# ║  Source: docs.rs/komodo_client -- ResourceSyncConfig (19 fields)    ║
 # ╚══════════════════════════════════════════════════════════════════════╝
 #
 # ResourceSync synchronizes TOML resource files from a git repo into

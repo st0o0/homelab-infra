@@ -18,7 +18,7 @@ docs: clarify secrets rotation workflow
 
 Common types: `feat`, `fix`, `docs`, `refactor`, `perf`, `test`, `build`,
 `ci`, `chore`, `revert`. A CI check (`commitlint.yml`) lints every commit in a PR against this
-format and fails if any of them don't match — this applies to **all PRs**
+format and fails if any of them don't match -- this applies to **all PRs**
 (ansible, komodo, stacks, docs, etc.). Clean these up (`git rebase -i`)
 before merging.
 
@@ -67,7 +67,7 @@ name (e.g. `uptime-kuma`, `home-assistant`).
 - Guard required env vars with `${VAR:?VAR is required}` so `docker compose
   config` fails loudly instead of deploying with an empty value
 - Give every optional var a sensible default: `${VAR:-default}`
-- Document every var — required and optional — in `.env.example`
+- Document every var -- required and optional -- in `.env.example`
 
 ### 3. Validate locally
 
@@ -105,5 +105,5 @@ git push
 - **Pin image tags** where possible (`jellyfin:10.11` not `jellyfin:latest`) for reproducibility
 - **Always support `TZ`** as an env var so timezone is configurable
 - **Use `/data/<service-name>`** as the default host bind path convention
-- **Keep `.env.example` complete** — every var the compose file reads should appear there, required vars first
-- **One stack per service** — even if services are related (e.g. Immich Server and its Postgres are separate stacks: `immich`, `immich-postgres`)
+- **Keep `.env.example` complete** -- every var the compose file reads should appear there, required vars first
+- **One stack per service** -- even if services are related (e.g. Immich Server and its Postgres are separate stacks: `immich`, `immich-postgres`)

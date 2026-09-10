@@ -1,6 +1,6 @@
 # ╔══════════════════════════════════════════════════════════════════════╗
-# ║  Komodo Stack — all available options                              ║
-# ║  Source: docs.rs/komodo_client — StackConfig (42 fields)           ║
+# ║  Komodo Stack -- all available options                              ║
+# ║  Source: docs.rs/komodo_client -- StackConfig (42 fields)           ║
 # ╚══════════════════════════════════════════════════════════════════════╝
 
 [[stack]]
@@ -69,7 +69,7 @@ env_file_path = ".env"
 skip_secret_interp = false
 
 # ── Additional env files ─────────────────────────────────────────────
-# NOT USED — all env vars go in the main `environment` block above.
+# NOT USED -- all env vars go in the main `environment` block above.
 # Komodo's additional_env_files did not work reliably, so we put
 # everything into a single .env per stack.
 # [[stack.config.additional_env_files]]

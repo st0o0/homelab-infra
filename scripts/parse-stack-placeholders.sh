@@ -30,7 +30,7 @@ BEGIN { stack=""; server=""; in_block=0; block_buf="" }
 # Skip comment lines
 /^[[:space:]]*#/ { next }
 
-# New stack block — reset state
+# New stack block -- reset state
 /^\[\[stack\]\]/ {
     stack = ""
     server = ""

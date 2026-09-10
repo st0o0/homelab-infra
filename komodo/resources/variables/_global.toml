@@ -1,4 +1,4 @@
-# DO NOT EDIT — use 'just k vars' to edit as flat YAML
+# DO NOT EDIT -- use 'just k vars' to edit as flat YAML
 
 [[variable]]
 name = "tz"

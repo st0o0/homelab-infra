@@ -23,7 +23,7 @@ WireGuard tunnel sidecar. Other containers can route their traffic through the t
 └──────────────────────────┘
 ```
 
-Bifrost runs as a standalone stack. Other services reference it by container name — they do **not** need to be in the same Compose project.
+Bifrost runs as a standalone stack. Other services reference it by container name -- they do **not** need to be in the same Compose project.
 
 Eir monitors the Bifrost container and automatically recreates any dependent containers when Bifrost is restarted or updated, so they rejoin the new network namespace.
 
@@ -46,15 +46,15 @@ docker compose up -d
 
 | Variable | Required | Default | Purpose |
 |---|---|---|---|
-| `BIFROST_PRIVATE_KEY` | yes | — | WireGuard private key |
-| `BIFROST_ADDRESS` | yes | — | Tunnel IP (e.g. `10.77.32.2/32`) |
-| `BIFROST_PEER_PUBLIC_KEY` | yes | — | Remote peer's public key |
-| `BIFROST_PEER_ENDPOINT` | yes | — | Remote peer's endpoint (e.g. `vpn.example.com:51820`) |
-| `BIFROST_PEER_ALLOWED_IPS` | yes | — | Allowed IPs for the tunnel |
+| `BIFROST_PRIVATE_KEY` | yes | -- | WireGuard private key |
+| `BIFROST_ADDRESS` | yes | -- | Tunnel IP (e.g. `10.77.32.2/32`) |
+| `BIFROST_PEER_PUBLIC_KEY` | yes | -- | Remote peer's public key |
+| `BIFROST_PEER_ENDPOINT` | yes | -- | Remote peer's endpoint (e.g. `vpn.example.com:51820`) |
+| `BIFROST_PEER_ALLOWED_IPS` | yes | -- | Allowed IPs for the tunnel |
 | `BIFROST_LISTEN_PORT` | no | `0` | WireGuard listen port (0 = random) |
 | `BIFROST_MTU` | no | `1420` | Tunnel MTU |
 | `BIFROST_PEER_KEEPALIVE` | no | `25` | Keepalive interval in seconds |
-| `BIFROST_PEER_PRESHARED_KEY` | no | — | Optional preshared key |
+| `BIFROST_PEER_PRESHARED_KEY` | no | -- | Optional preshared key |
 | `BIFROST_INTERFACE` | no | `wg0` | WireGuard interface name |
 | `BIFROST_CHECK_INTERVAL` | no | `30` | Health check interval |
 | `BIFROST_STALE_AFTER` | no | `135` | Seconds before connection is stale |

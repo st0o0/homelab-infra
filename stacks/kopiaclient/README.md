@@ -40,11 +40,11 @@ docker exec kopiaclient kopia repository connect server \
 
 | Variable | Required | Default | Purpose |
 |---|---|---|---|
-| `KOPIA_HOSTNAME` | yes | — | Hostname shown in Kopia Server UI |
-| `KOPIA_REPO_PASSWORD` | yes | — | Repository encryption password |
-| `KOPIA_CLIENT_USER` | yes | — | Local web UI username |
-| `KOPIA_CLIENT_PASS` | yes | — | Local web UI password |
-| `TZ` | no | — | Timezone |
+| `KOPIA_HOSTNAME` | yes | -- | Hostname shown in Kopia Server UI |
+| `KOPIA_REPO_PASSWORD` | yes | -- | Repository encryption password |
+| `KOPIA_CLIENT_USER` | yes | -- | Local web UI username |
+| `KOPIA_CLIENT_PASS` | yes | -- | Local web UI password |
+| `TZ` | no | -- | Timezone |
 
 ## Volumes
 

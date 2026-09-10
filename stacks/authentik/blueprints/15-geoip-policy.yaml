@@ -22,7 +22,7 @@ entries:
       expression: |
         geo = request.context.get("geoip", {})
         if not geo:
-            # No GeoIP data (local network / internal) — allow access
+            # No GeoIP data (local network / internal) -- allow access
             return False
 
         country = geo.get("country", "")

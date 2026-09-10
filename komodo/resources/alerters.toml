@@ -1,4 +1,4 @@
-# Komodo Alerters — route alerts to external services.
+# Komodo Alerters -- route alerts to external services.
 
 [[alerter]]
 name = "discord"

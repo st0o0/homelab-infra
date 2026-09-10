@@ -34,9 +34,9 @@ blocking:
 
   denylists:
     default:
-      # HaGeZi Multi Pro — ads, trackers, malware, phishing, scam
+      # HaGeZi Multi Pro -- ads, trackers, malware, phishing, scam
       - https://hagezi-mirror.dnsbunker.org/wildcard/pro.txt
-      # HaGeZi Threat Intelligence — active malware/C2/phishing feeds
+      # HaGeZi Threat Intelligence -- active malware/C2/phishing feeds
       - https://hagezi-mirror.dnsbunker.org/wildcard/tif.txt
       # HaGeZi Pop-Up Ads
       - https://hagezi-mirror.dnsbunker.org/wildcard/popupads.txt

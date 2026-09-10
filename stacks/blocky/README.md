@@ -6,8 +6,8 @@ DNS blocker replacing PiHole. Single Go binary, ~20-50MB RAM, pure YAML config.
 
 Two identical instances, same `config.yml`:
 
-- **FeelsNoSponsorMan** (Pi Zero 2 W) — deployed via Komodo
-- **MikroTik Router** — deployed manually via SCP
+- **FeelsNoSponsorMan** (Pi Zero 2 W) -- deployed via Komodo
+- **MikroTik Router** -- deployed manually via SCP
 
 Monitoring via built-in `/metrics` endpoint (port 4000), scraped directly by Alloy.
 
@@ -16,7 +16,7 @@ Monitoring via built-in `/metrics` endpoint (port 4000), scraped directly by All
 Both registries are official (same CI pipeline):
 
 - **GHCR**: `ghcr.io/0xerr0r/blocky:v0.35.0` (used by Pi Zero via compose.yml)
-- **Docker Hub**: `spx01/blocky:latest` (used by MikroTik, no registry change needed — Docker Hub only has `latest` tag, not versioned tags)
+- **Docker Hub**: `spx01/blocky:latest` (used by MikroTik, no registry change needed -- Docker Hub only has `latest` tag, not versioned tags)
 
 ## MikroTik Deployment (RouterOS 7.16+)
 
@@ -87,7 +87,7 @@ scp stacks/blocky/config.yml admin@<mikrotik-ip>:/disk1/blocky/config.yml
 
 Setting `cache-size=0` disables the MikroTik DNS cache so Blocky handles all caching and metrics reflect real query counts.
 
-### 7. Firewall — Metrics Port for Alloy
+### 7. Firewall -- Metrics Port for Alloy
 
 ```
 /ip/firewall/filter add chain=input dst-port=4000 protocol=tcp src-address=<FeelsAlertsMan-IP> action=accept comment="Blocky metrics for Alloy"

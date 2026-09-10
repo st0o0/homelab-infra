@@ -1,7 +1,7 @@
 {
   "uid": "nut",
   "title": "UPS",
-  "description": "Network UPS Tools — battery, input power, load, and status.",
+  "description": "Network UPS Tools -- battery, input power, load, and status.",
   "tags": [
     "nut",
     "ups",
@@ -643,7 +643,7 @@
           "mappings": [
             {
               "options": {
-                "0": { "color": "transparent", "text": "—" },
+                "0": { "color": "transparent", "text": "--" },
                 "1": { "color": "orange", "text": "Active" }
               },
               "type": "value"
@@ -669,7 +669,7 @@
               {
                 "id": "mappings",
                 "value": [
-                  { "options": { "0": { "color": "transparent", "text": "—" }, "1": { "color": "red", "text": "On Battery" } }, "type": "value" }
+                  { "options": { "0": { "color": "transparent", "text": "--" }, "1": { "color": "red", "text": "On Battery" } }, "type": "value" }
                 ]
               }
             ]
@@ -680,7 +680,7 @@
               {
                 "id": "mappings",
                 "value": [
-                  { "options": { "0": { "color": "transparent", "text": "—" }, "1": { "color": "red", "text": "Low Battery" } }, "type": "value" }
+                  { "options": { "0": { "color": "transparent", "text": "--" }, "1": { "color": "red", "text": "Low Battery" } }, "type": "value" }
                 ]
               }
             ]
@@ -691,7 +691,7 @@
               {
                 "id": "mappings",
                 "value": [
-                  { "options": { "0": { "color": "transparent", "text": "—" }, "1": { "color": "blue", "text": "Charging" } }, "type": "value" }
+                  { "options": { "0": { "color": "transparent", "text": "--" }, "1": { "color": "blue", "text": "Charging" } }, "type": "value" }
                 ]
               }
             ]
@@ -702,7 +702,7 @@
               {
                 "id": "mappings",
                 "value": [
-                  { "options": { "0": { "color": "transparent", "text": "—" }, "1": { "color": "orange", "text": "Discharging" } }, "type": "value" }
+                  { "options": { "0": { "color": "transparent", "text": "--" }, "1": { "color": "orange", "text": "Discharging" } }, "type": "value" }
                 ]
               }
             ]
@@ -713,7 +713,7 @@
               {
                 "id": "mappings",
                 "value": [
-                  { "options": { "0": { "color": "transparent", "text": "—" }, "1": { "color": "red", "text": "Replace Battery" } }, "type": "value" }
+                  { "options": { "0": { "color": "transparent", "text": "--" }, "1": { "color": "red", "text": "Replace Battery" } }, "type": "value" }
                 ]
               }
             ]
@@ -724,7 +724,7 @@
               {
                 "id": "mappings",
                 "value": [
-                  { "options": { "0": { "color": "transparent", "text": "—" }, "1": { "color": "red", "text": "Forced Shutdown" } }, "type": "value" }
+                  { "options": { "0": { "color": "transparent", "text": "--" }, "1": { "color": "red", "text": "Forced Shutdown" } }, "type": "value" }
                 ]
               }
             ]

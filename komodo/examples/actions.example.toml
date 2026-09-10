@@ -1,6 +1,6 @@
 # ╔══════════════════════════════════════════════════════════════════════╗
-# ║  Komodo Action — all available options                             ║
-# ║  Source: docs.rs/komodo_client — ActionConfig (13 fields)          ║
+# ║  Komodo Action -- all available options                             ║
+# ║  Source: docs.rs/komodo_client -- ActionConfig (13 fields)          ║
 # ╚══════════════════════════════════════════════════════════════════════╝
 #
 # Actions are TypeScript scripts that use a pre-instantiated `komodo`

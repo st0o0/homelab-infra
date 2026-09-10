@@ -65,7 +65,7 @@ services:
       - --storageDataPath=/storage
       - --retentionPeriod=${VM_RETENTION:-90d}
       - --httpListenAddr=:8428
-      # Deduplication window — keep in sync with the Alloy scrape interval
+      # Deduplication window -- keep in sync with the Alloy scrape interval
       - --dedup.minScrapeInterval=${VM_SCRAPE_INTERVAL:-30s}
       - --search.cacheTimestampOffset=${VM_CACHE_TIMESTAMP_OFFSET:-10m}
       - --memory.allowedPercent=${VM_MEMORY_ALLOWED_PERCENT:-70}

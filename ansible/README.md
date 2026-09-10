@@ -1,18 +1,18 @@
 # ansible/
 
 Server provisioning for this homelab: takes a fresh Debian server (IP +
-user + password) and makes it production-ready — SSH hardened, Docker
+user + password) and makes it production-ready -- SSH hardened, Docker
 installed, monitoring agent running, visible in Dockhand. Everything runs
-from the repo's DevContainer — no local tool installation needed.
+from the repo's DevContainer -- no local tool installation needed.
 
 **Ansible (this directory) provisions servers. The rest of the repo
-(`stacks/`, `komodo/`) manages what runs on them** — see the
+(`stacks/`, `komodo/`) manages what runs on them** -- see the
 [root README](../README.md) for the full-repo overview.
 
 ## First-Time Setup
 
 DevContainer setup (opening the container, unlocking Bitwarden) is covered
-in the [root README](../README.md#quick-start) — the container and
+in the [root README](../README.md#quick-start) -- the container and
 `unlock` alias cover both halves of the repo. From here on, run everything
 from the **repo root**, not this directory.
 
@@ -29,7 +29,7 @@ This will:
 - Create encrypted `secrets.sops.yaml` files for every host in `hosts.yml`
 - Restore SSH backup keys from Bitwarden for hosts that have one
 
-On a new machine, `just setup` automatically restores your age keys from Bitwarden — no manual key copying needed.
+On a new machine, `just setup` automatically restores your age keys from Bitwarden -- no manual key copying needed.
 
 ### 2. Fill in secrets
 
@@ -54,7 +54,7 @@ Repeat for each host: `just a secrets <hostname>`
 The DevContainer has its own SSH key. Servers need to trust it before Ansible can connect.
 
 ```bash
-just a show-key          # prints the public key + copy-paste command
+just a pubkey            # prints the public key + copy-paste command
 ```
 
 From your **Windows terminal** (where YubiKey works):
@@ -67,7 +67,7 @@ ssh user@10.0.20.102 "mkdir -p ~/.ssh && echo 'ssh-ed25519 AAAA...' >> ~/.ssh/au
 Back in the DevContainer, verify:
 
 ```bash
-just a trust obs-1       # should print: ✓ obs-1 reachable
+just a test-ssh obs-1    # should print: ✓ obs-1 reachable
 ```
 
 ### 4. Commit the encrypted secrets
@@ -77,7 +77,7 @@ git add ansible/.sops.yaml ansible/host_vars/
 git commit -m "feat(ansible): add SOPS-encrypted host secrets"
 ```
 
-The `secrets.sops.yaml` files are safely encrypted — values are hidden, but the YAML structure is visible in diffs.
+The `secrets.sops.yaml` files are safely encrypted -- values are hidden, but the YAML structure is visible in diffs.
 
 ---
 
@@ -86,10 +86,10 @@ The `secrets.sops.yaml` files are safely encrypted — values are hidden, but th
 ### Fresh server with root password
 
 ```bash
-just a new-host myserver                  # scaffold host_vars + edit secrets
+just a add-host myserver                  # scaffold host_vars + edit secrets
 # Add 'myserver:' to hosts.yml
 just a bootstrap myserver                 # SSH keys, user creation, sshd hardening
-just a deploy myserver                    # base packages, Docker, node agent
+just a apply myserver                     # base packages, Docker, node agent
 ```
 
 `bootstrap` connects as root with a password (`--ask-pass`), creates the deploy user, sets up SSH keys (backed up to Bitwarden), and hardens sshd. After this, root login is disabled and Ansible uses the backup key.
@@ -97,11 +97,11 @@ just a deploy myserver                    # base packages, Docker, node agent
 ### Existing server (already has your SSH key)
 
 ```bash
-just a new-host myserver                  # scaffold host_vars + edit secrets
+just a add-host myserver                  # scaffold host_vars + edit secrets
 # Add 'myserver:' to hosts.yml
-just a show-key                           # deploy container SSH key from Windows
-just a trust myserver                     # verify access
-just a deploy myserver                    # provision everything
+just a pubkey                             # deploy container SSH key from Windows
+just a test-ssh myserver                  # verify access
+just a apply myserver                     # provision everything
 ```
 
 ### Bootstrap as non-root user
@@ -120,21 +120,21 @@ Run all of these from the **repo root**, not from `ansible/`.
 
 | Command | Description |
 |---|---|
-| `just a ping` | Connectivity check — all hosts |
-| `just a check` | Show bootstrap status of all hosts |
-| `just a run` | Converge all hosts (all roles) |
-| `just a deploy HOST` | Converge a single host |
-| `just a deploy HOST --tags docker` | Run only specific roles on a host |
-| `just a update` | apt dist-upgrade on all hosts |
-| `just a sync-dotfiles` | Enable chezmoi where missing + pull/apply latest dotfiles everywhere |
+| `just a ping` | Connectivity check -- all hosts |
+| `just a status` | Show host status (marks disabled hosts) |
+| `just a converge` | Converge all hosts (all roles) |
+| `just a apply HOST` | Apply playbook to a single host |
+| `just a apply HOST --tags docker` | Run only specific roles on a host |
+| `just a upgrade` | Apt upgrades on all hosts |
+| `just a dotfiles` | Enable chezmoi where missing + pull/apply latest dotfiles everywhere |
 | `just a bootstrap HOST [USER]` | First-time setup (default: root) |
-| `just setup` | New workstation — both age keys + SSH keys from Bitwarden |
+| `just setup` | New workstation -- both age keys + SSH keys from Bitwarden |
 | `just a secrets HOST` | Edit encrypted secrets |
 | `just a vars HOST` | Edit plaintext feature toggles |
-| `just a new-host HOST` | Scaffold a new host |
-| `just a show-key` | Show container SSH public key |
-| `just a trust HOST` | Test if Ansible can reach a host |
-| `just a sshsync` | Backfill `~/.ssh/config` entries for hosts with an existing backup key |
+| `just a add-host HOST` | Scaffold a new host |
+| `just a pubkey` | Show container SSH public key |
+| `just a test-ssh HOST` | Test if Ansible can reach a host |
+| `just a ssh-config` | Regenerate `~/.ssh/config` from inventory |
 | `just a rename OLD NEW` | Rename a host everywhere |
 | `just a lint` | Run ansible-lint |
 
@@ -143,23 +143,23 @@ Run all of these from the **repo root**, not from `ansible/`.
 Run specific roles with `--tags`:
 
 ```bash
-just a run --tags base                  # only base packages + timezone
-just a run --tags docker                # only Docker
-just a run --tags hostname              # only set hostnames
-just a run --tags motd                  # only login banner
-just a run --tags swap                  # only swap configuration
-just a run --tags ufw                   # only firewall
-just a run --tags cron                  # only cron jobs
-just a run --tags unattended_upgrades   # only auto-updates
-just a run --tags node_agent            # only Alloy/Hawser agents
-just a deploy myserver --tags docker,base
+just a converge --tags base                  # only base packages + timezone
+just a converge --tags docker                # only Docker
+just a converge --tags hostname              # only set hostnames
+just a converge --tags motd                  # only login banner
+just a converge --tags swap                  # only swap configuration
+just a converge --tags ufw                   # only firewall
+just a converge --tags cron                  # only cron jobs
+just a converge --tags unattended_upgrades   # only auto-updates
+just a converge --tags node_agent            # only Alloy/Hawser agents
+just a apply myserver --tags docker,base
 ```
 
 ### Dry run
 
 ```bash
-just a run --check                  # show what would change without applying
-just a deploy myserver --check -v   # verbose dry run for one host
+just a converge --check              # show what would change without applying
+just a apply myserver --check -v    # verbose dry run for one host
 ```
 
 ---
@@ -167,7 +167,7 @@ just a deploy myserver --check -v   # verbose dry run for one host
 ## Directory Structure
 
 ```
-ansible/                        # This directory — see ../.devcontainer/,
+ansible/                        # This directory -- see ../.devcontainer/,
                                  # ../.github/workflows/, and ../scripts/ at
                                  # the repo root (shared with the Komodo half)
   ansible.cfg                    # Ansible settings (inventory, key, SOPS plugin)
@@ -176,7 +176,7 @@ ansible/                        # This directory — see ../.devcontainer/,
 
   run.yml                       # Main playbook: all roles
 
-  hosts.yml                     # Flat inventory — just hostnames
+  hosts.yml                     # Flat inventory -- just hostnames
   group_vars/all/               # Defaults shared by all hosts
     base.yml                    #   timezone, packages
     docker.yml                  #   Docker user, package list
@@ -213,9 +213,9 @@ Sets the server's hostname to match the Ansible inventory name. Runs on every co
 Installs standard tools (`btop`, `git`, `curl`, `ca-certificates`, `figlet`), sets the timezone, and optionally runs `apt dist-upgrade`.
 
 **Variables** (`group_vars/all/base.yml`):
-- `base_timezone` — default: `Europe/Berlin`
-- `base_packages` — list of packages to install
-- `base_upgrade` — set to `true` for dist-upgrade (default: `false`, use `just a update`)
+- `base_timezone` -- default: `Europe/Berlin`
+- `base_packages` -- list of packages to install
+- `base_upgrade` -- set to `true` for dist-upgrade (default: `false`, use `just a upgrade`)
 
 ### docker
 
@@ -224,49 +224,49 @@ Installs Docker CE from the official Docker APT repository (not the distro's `do
 After first provisioning, **log out and back in** on the server for your interactive SSH session to pick up the new group membership (`exit` + reconnect, or `newgrp docker` as a one-shot).
 
 **Variables** (`group_vars/all/docker.yml`):
-- `docker_user` — user added to the docker group (default: `ansible_user`)
-- `docker_packages` — `docker-ce`, `docker-ce-cli`, `containerd.io`, `docker-buildx-plugin`, `docker-compose-plugin`
+- `docker_user` -- user added to the docker group (default: `ansible_user`)
+- `docker_packages` -- `docker-ce`, `docker-ce-cli`, `containerd.io`, `docker-buildx-plugin`, `docker-compose-plugin`
 
 ### ssh
 
 Handles the complete SSH lifecycle. In bootstrap mode (connecting as root), it creates the deploy user, generates an ed25519 backup key, stores it in Bitwarden, and deploys authorized_keys. In normal mode, it ensures keys are up to date.
 
-SSHD is hardened via a drop-in config at `/etc/ssh/sshd_config.d/99-ansible-hardening.conf` — no conflicts with package updates.
+SSHD is hardened via a drop-in config at `/etc/ssh/sshd_config.d/99-ansible-hardening.conf` -- no conflicts with package updates.
 
 **Variables** (`group_vars/all/ssh.yml`):
-- `ssh_user` — deploy user to create/manage
-- `ssh_yubikey_public_keys` — YubiKey public keys for authorized_keys
-- `ssh_bitwarden_folder` — Bitwarden folder for backup keys
-- `ssh_exclusive` — if `true`, only managed keys are allowed (removes others)
+- `ssh_user` -- deploy user to create/manage
+- `ssh_yubikey_public_keys` -- YubiKey public keys for authorized_keys
+- `ssh_bitwarden_folder` -- Bitwarden folder for backup keys
+- `ssh_exclusive` -- if `true`, only managed keys are allowed (removes others)
 
 ### swap
 
-Configures a swap file. Useful for Pis and LXC containers with limited RAM. Disabled by default — enable per host.
+Configures a swap file. Useful for Pis and LXC containers with limited RAM. Disabled by default -- enable per host.
 
 **Variables** (`host_vars/<hostname>/vars.yml`):
-- `swap_enabled` — default: `false`
-- `swap_size` — default: `2G`
-- `swap_swappiness` — default: `10` (prefer RAM over swap)
+- `swap_enabled` -- default: `false`
+- `swap_size` -- default: `2G`
+- `swap_swappiness` -- default: `10` (prefer RAM over swap)
 
 ### unattended_upgrades
 
-Automatic security updates via `apt`. Disabled by default — enable per host. Supports package blacklists and reboot control.
+Automatic security updates via `apt`. Disabled by default -- enable per host. Supports package blacklists and reboot control.
 
 **Variables** (`host_vars/<hostname>/vars.yml`):
-- `unattended_upgrades_enabled` — default: `false`
-- `unattended_upgrades_blacklist` — list of packages to never auto-update (e.g. `["docker-ce", "wireguard*"]`)
-- `unattended_upgrades_skip_reboot_required` — if `true`, only installs updates that don't require a reboot (default: `false`)
-- `unattended_upgrades_auto_reboot` — if `true`, reboots automatically after updates (default: `false`)
-- `unattended_upgrades_auto_reboot_time` — reboot time window (default: `04:00`)
+- `unattended_upgrades_enabled` -- default: `false`
+- `unattended_upgrades_blacklist` -- list of packages to never auto-update (e.g. `["docker-ce", "wireguard*"]`)
+- `unattended_upgrades_skip_reboot_required` -- if `true`, only installs updates that don't require a reboot (default: `false`)
+- `unattended_upgrades_auto_reboot` -- if `true`, reboots automatically after updates (default: `false`)
+- `unattended_upgrades_auto_reboot_time` -- reboot time window (default: `04:00`)
 
 ### ufw
 
 Firewall using UFW. SSH is allowed by default, everything else denied incoming.
 
 **Variables** (`defaults/main.yml` + `host_vars/<hostname>/vars.yml`):
-- `ufw_enabled` — default: `true`
-- `ufw_rules` — default: `[{rule: allow, port: 22, proto: tcp, comment: "SSH"}]`
-- `ufw_extra_rules` — per-host additional rules, e.g.:
+- `ufw_enabled` -- default: `true`
+- `ufw_rules` -- default: `[{rule: allow, port: 22, proto: tcp, comment: "SSH"}]`
+- `ufw_extra_rules` -- per-host additional rules, e.g.:
   ```yaml
   ufw_extra_rules:
     - { rule: allow, port: 8978, proto: tcp, comment: "CloudBeaver" }
@@ -278,10 +278,10 @@ Firewall using UFW. SSH is allowed by default, everything else denied incoming.
 Scheduled maintenance tasks. Docker system prune runs weekly by default.
 
 **Variables** (`host_vars/<hostname>/vars.yml`):
-- `cron_enabled` — default: `true`
-- `cron_docker_prune` — default: `true` (weekly Sunday 03:00)
-- `cron_docker_prune_schedule` — cron expression (default: `0 3 * * 0`)
-- `cron_extra_jobs` — list of custom cron jobs:
+- `cron_enabled` -- default: `true`
+- `cron_docker_prune` -- default: `true` (weekly Sunday 03:00)
+- `cron_docker_prune_schedule` -- cron expression (default: `0 3 * * 0`)
+- `cron_extra_jobs` -- list of custom cron jobs:
   ```yaml
   cron_extra_jobs:
     - { name: "cleanup-logs", job: "find /var/log -name '*.gz' -mtime +30 -delete", schedule: "0 4 * * 0" }
@@ -292,7 +292,7 @@ Scheduled maintenance tasks. Docker system prune runs weekly by default.
 Colored login banner showing hostname (as ASCII art via figlet), OS, kernel, IPs, Docker containers, performance bars (load, memory, disk with color-coded thresholds), and available config tools (armbian-config, raspi-config, nmtui).
 
 **Variables** (`host_vars/<hostname>/vars.yml`):
-- `shell_motd_enabled` — default: `true`
+- `shell_motd_enabled` -- default: `true`
 
 ### dotfiles
 
@@ -305,8 +305,8 @@ On subsequent converges, `chezmoi update --force` pulls and applies
 the latest dotfiles.
 
 **Variables** (`roles/dotfiles/defaults/main.yml`):
-- `shell_dotfiles_enabled` — default: `true`
-- `shell_dotfiles_github_user` — default: `st0o0`
+- `shell_dotfiles_enabled` -- default: `true`
+- `shell_dotfiles_github_user` -- default: `st0o0`
 
 ### node_agent
 
@@ -314,9 +314,9 @@ Deploys monitoring and management agents as Docker containers. Each component is
 
 | Component | Default | Purpose |
 |---|---|---|
-| **Alloy** | enabled | Grafana Alloy — collects host metrics + Docker/system logs, pushes to central VictoriaMetrics/VictoriaLogs |
-| **Hawser** | enabled | Dockhand edge agent — makes the server visible in Dockhand for stack management |
-| **Bifrost** | disabled | WireGuard tunnel sidecar — routes Alloy + Hawser traffic through an encrypted tunnel for remote servers |
+| **Alloy** | enabled | Grafana Alloy -- collects host metrics + Docker/system logs, pushes to central VictoriaMetrics/VictoriaLogs |
+| **Hawser** | enabled | Dockhand edge agent -- makes the server visible in Dockhand for stack management |
+| **Bifrost** | disabled | WireGuard tunnel sidecar -- routes Alloy + Hawser traffic through an encrypted tunnel for remote servers |
 
 **Per-host toggles** (`host_vars/<hostname>/vars.yml`):
 ```yaml
@@ -332,7 +332,7 @@ node_agent_dockhand_url: "http://10.0.20.102:9000"
 node_agent_dockhand_token: "your-token"
 ```
 
-Uses the Docker Compose overlay pattern — each component is a separate compose file layered together at deploy time.
+Uses the Docker Compose overlay pattern -- each component is a separate compose file layered together at deploy time.
 
 ---
 
@@ -395,7 +395,7 @@ This renames everything in one step:
 Then apply the hostname on the server and commit:
 
 ```bash
-just a deploy newname --tags hostname
+just a apply newname --tags hostname
 git add -A && git commit -m "rename: oldname → newname"
 ```
 
@@ -403,20 +403,20 @@ git add -A && git commit -m "rename: oldname → newname"
 
 ## DevContainer
 
-The DevContainer is shared with the rest of the repo — see
+The DevContainer is shared with the rest of the repo -- see
 [`../.devcontainer/`](../.devcontainer/) and the
 [root README](../README.md#quick-start). Ansible-specific bits:
 
 | Platform | SSH/YubiKey | Bitwarden |
 |---|---|---|
-| **Windows** | Container SSH key (`id_ansible`) — deploy to servers from Windows where YubiKey works | `bw login` required |
-| **Linux** | GPG agent socket mounted — YubiKey works directly | Snap config passed through — already logged in |
+| **Windows** | Container SSH key (`id_ansible`) -- deploy to servers from Windows where YubiKey works | `bw login` required |
+| **Linux** | GPG agent socket mounted -- YubiKey works directly | Snap config passed through -- already logged in |
 
 ### Shell prompt icons look broken / boxes instead of icons (Windows)
 
-`terminal.integrated.fontFamily` in `.devcontainer/*/devcontainer.json` only tells VS Code *which* font to request — VS Code's integrated terminal is rendered by the Electron UI process on your **host** machine, not inside the container, so the Nerd Font glyphs Starship uses (segment icons, git branch symbol, etc.) only render if that font is actually installed on the host OS. This is why the Linux devcontainer can look right while Windows doesn't: the font has to be installed once per host, separately from anything the container/postCreateCommand can do.
+`terminal.integrated.fontFamily` in `.devcontainer/*/devcontainer.json` only tells VS Code *which* font to request -- VS Code's integrated terminal is rendered by the Electron UI process on your **host** machine, not inside the container, so the Nerd Font glyphs Starship uses (segment icons, git branch symbol, etc.) only render if that font is actually installed on the host OS. This is why the Linux devcontainer can look right while Windows doesn't: the font has to be installed once per host, separately from anything the container/postCreateCommand can do.
 
-Install it once on the Windows host, then fully restart VS Code (reload window is not enough — the font list is cached at process start):
+Install it once on the Windows host, then fully restart VS Code (reload window is not enough -- the font list is cached at process start):
 
 ```powershell
 winget install -e --id DEVCOM.JetBrainsMonoNerdFont
@@ -424,9 +424,9 @@ winget install -e --id DEVCOM.JetBrainsMonoNerdFont
 
 ### Persistent storage
 
-- **SSH keys** — Docker volume `homelab-infra-ssh`, survives rebuilds
-- **Ansible SOPS age key (Key A)** — Docker volume `homelab-infra-sops-ansible`, survives rebuilds
-- **Komodo SOPS age key (Key B)** — Docker volume `homelab-infra-sops-komodo`, survives rebuilds (see [komodo/README.md](../komodo/README.md))
+- **SSH keys** -- Docker volume `homelab-infra-ssh`, survives rebuilds
+- **Ansible SOPS age key (Key A)** -- Docker volume `homelab-infra-sops-ansible`, survives rebuilds
+- **Komodo SOPS age key (Key B)** -- Docker volume `homelab-infra-sops-komodo`, survives rebuilds (see [komodo/README.md](../komodo/README.md))
 
 ---
 
@@ -437,7 +437,7 @@ winget install -e --id DEVCOM.JetBrainsMonoNerdFont
 Ansible can't connect. Check which key it's trying:
 
 ```bash
-just a trust myhost          # tests backup key, shows deploy instructions if needed
+just a test-ssh myhost       # tests backup key, shows deploy instructions if needed
 ```
 
 If the host was just bootstrapped, the backup key should be at `~/.ssh/id_backup_<hostname>`. If it's missing, restore from Bitwarden:
@@ -469,7 +469,7 @@ A previous apt run was interrupted on the server. Fix manually:
 
 ```bash
 ssh myhost "sudo dpkg --configure -a"
-just a deploy myhost
+just a apply myhost
 ```
 
 ### Windows: "Permission denied" when SSHing with YubiKey

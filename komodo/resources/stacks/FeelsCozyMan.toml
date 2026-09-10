@@ -104,7 +104,7 @@ requires = "Redeploy"
 # ALLOY_MQTT_BROKER_ADDRESS=tcp://mosquitto:1883
 # ALLOY_NJORD_METRICS_TARGET=njord:9090
 # Note: Zigbee2MQTT has no Prometheus endpoint and no exporter is wired in
-# this repo yet — its bridge stats are only available over MQTT topics.
+# this repo yet -- its bridge stats are only available over MQTT topics.
 
 # [[stack]]
 # name = "homeassistant-1"

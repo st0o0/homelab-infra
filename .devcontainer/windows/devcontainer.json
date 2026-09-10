@@ -24,7 +24,7 @@
         "BW_SERVER_URL": "${localEnv:BW_SERVER_URL}",
         // Dotfiles auto-attach a persistent tmux session on every interactive
         // shell. Without this, SSHing from a devcontainer shell into a host
-        // (which also auto-attaches tmux) nests tmux inside tmux — this
+        // (which also auto-attaches tmux) nests tmux inside tmux -- this
         // container layer doesn't need its own persistent session, so skip it.
         "NO_AUTOSTART": "1"
     },

@@ -56,11 +56,11 @@ docker compose up -d
 | Radarr | `home-operations/radarr` | 7878 | Movie management |
 | Prowlarr | `home-operations/prowlarr` | 9696 | Indexer management |
 | Seerr | `seerr-team/seerr` | 5055 | Media request UI |
-| Seekarr | `scottrobertson/seekarr` | — | Search automation |
-| Configarr | `raydak-labs/configarr` | — | TRaSH guide sync (run-once) |
-| Exportarr | `onedr0p/exportarr` x3 | — | Prometheus metrics for Sonarr/Radarr/Prowlarr |
+| Seekarr | `scottrobertson/seekarr` | -- | Search automation |
+| Configarr | `raydak-labs/configarr` | -- | TRaSH guide sync (run-once) |
+| Exportarr | `onedr0p/exportarr` x3 | -- | Prometheus metrics for Sonarr/Radarr/Prowlarr |
 | Youtarr | `dialmaster/youtarr` | 3087 | YouTube downloader |
-| Youtarr-DB | `mariadb:10.11` | — | MariaDB for Youtarr |
+| Youtarr-DB | `mariadb:10.11` | -- | MariaDB for Youtarr |
 
 ## Environment variables
 

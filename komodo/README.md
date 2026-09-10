@@ -39,7 +39,7 @@ just setup
 This runs `scripts/init-secrets.sh`, which:
 
 1. Restores the age key from Bitwarden if one exists there, otherwise
-   generates a new one — both keys are stored in `~/.config/sops/age/keys.txt`
+   generates a new one -- both keys are stored in `~/.config/sops/age/keys.txt`
 2. Backs the key up to Bitwarden (secure note "Homelab Komodo SOPS Age
    Key") if not already there
 3. Writes the age public key into `komodo/.sops.yaml`
@@ -66,13 +66,13 @@ just k show-secrets nas-01    # print decrypted per-host secrets to stdout
 
 ## Decrypting on the Core host
 
-The `komodo` Ansible role handles secret provisioning automatically —
+The `komodo` Ansible role handles secret provisioning automatically --
 it decrypts all global and per-host secrets, merges them into a
 `[secrets]` TOML block with per-host keys prefixed by hostname, and
 deploys the result as `core.secrets.toml` on the Core host. Run:
 
 ```bash
-just a deploy <core-host> --tags komodo
+just a apply <core-host> --tags komodo
 ```
 
 The Komodo Core stack mounts this file read-only via `KOMODO_SECRETS_FILE`
@@ -81,7 +81,7 @@ when secrets change.
 
 ## Rotating a secret
 
-1. `just k secrets [TARGET]` — edit the value, save, it's re-encrypted automatically
+1. `just k secrets [TARGET]` -- edit the value, save, it's re-encrypted automatically
 2. Commit and push:
    ```bash
    git add komodo/secrets.sops.yaml   # or komodo/resources/hosts/<TARGET>/secrets.sops.yaml
@@ -104,7 +104,7 @@ editing. Values end up available as `[[<hostname>_<key>]]`.
 ## Non-secret variables, shared or per-host
 
 Non-secret values (`TZ`, `PUID`, hostnames that aren't credentials, ...)
-don't go through `sops` — they live as plain TOML under
+don't go through `sops` -- they live as plain TOML under
 `komodo/resources/`, since that's the only path Komodo's ResourceSync
 watches.
 

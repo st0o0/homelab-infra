@@ -1,6 +1,6 @@
 # ╔══════════════════════════════════════════════════════════════════════╗
-# ║  Komodo Deployment — all available options                         ║
-# ║  Source: docs.rs/komodo_client — DeploymentConfig (23 fields)      ║
+# ║  Komodo Deployment -- all available options                         ║
+# ║  Source: docs.rs/komodo_client -- DeploymentConfig (23 fields)      ║
 # ╚══════════════════════════════════════════════════════════════════════╝
 #
 # Deployments manage individual Docker containers (not Compose).

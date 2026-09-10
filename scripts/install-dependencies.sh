@@ -6,7 +6,7 @@ git config --global --add safe.directory "$(pwd)"
 # --------------------------------------------------------------------------
 # Layer 1: Shell toolchain (zsh, tmux, starship, chezmoi, fzf, zoxide)
 # --------------------------------------------------------------------------
-# Owned by the dotfiles repo — single source of truth for shell tools.
+# Owned by the dotfiles repo -- single source of truth for shell tools.
 echo "==> Installing shell toolchain via dotfiles/install.sh..."
 curl -fsSL https://raw.githubusercontent.com/st0o0/dotfiles/main/install.sh \
     | bash -s -- --profile devcontainer
@@ -50,7 +50,7 @@ if [ -n "${BW_SERVER_URL:-}" ]; then
         echo "    Server already configured: $BW_SERVER_URL"
     fi
 else
-    echo "    No BW_SERVER_URL set — using Bitwarden cloud"
+    echo "    No BW_SERVER_URL set -- using Bitwarden cloud"
 fi
 
 BW_HOST_DIRS=(
@@ -61,7 +61,7 @@ BW_TARGET="$HOME/.config/Bitwarden CLI"
 if [ ! -d "$BW_TARGET/data" ]; then
     for dir in "${BW_HOST_DIRS[@]}"; do
         if [ -d "$dir/data" ]; then
-            echo "    Found host BW config at $dir — linking..."
+            echo "    Found host BW config at $dir -- linking..."
             rm -rf "$BW_TARGET"
             ln -s "$dir" "$BW_TARGET"
             break
@@ -110,7 +110,7 @@ restore_age_key() {
     local expected_recipient
     expected_recipient=$(grep -oP 'age1[a-z0-9]+' "$sops_config" 2>/dev/null || true)
     if [ -z "$expected_recipient" ]; then
-        echo "    $bw_item_name: no recipient in $sops_config — skipping"
+        echo "    $bw_item_name: no recipient in $sops_config -- skipping"
         return
     fi
     if [ -f "$COMBINED_AGE_KEY_FILE" ]; then
@@ -133,10 +133,10 @@ restore_age_key() {
             chmod 600 "$COMBINED_AGE_KEY_FILE"
             echo "    $bw_item_name: restored from Bitwarden"
         else
-            echo "    $bw_item_name: not found in Bitwarden — run 'just setup' to create one"
+            echo "    $bw_item_name: not found in Bitwarden -- run 'just setup' to create one"
         fi
     else
-        echo "    $bw_item_name: no BW_SESSION — set it to auto-restore, or run 'just setup'"
+        echo "    $bw_item_name: no BW_SESSION -- set it to auto-restore, or run 'just setup'"
     fi
 }
 restore_age_key "$HOMELAB_ANSIBLE_AGE_KEY_BW_ITEM" "ansible/.sops.yaml"
@@ -188,7 +188,7 @@ ALIAS_DIR="$HOME/.bash_aliases.d"
 mkdir -p "$ALIAS_DIR"
 DEVCONTAINER_ALIASES="$ALIAS_DIR/00-devcontainer.sh"
 cat > "$DEVCONTAINER_ALIASES" <<'ALIASES'
-# Bitwarden unlock — sets BW_SESSION for the current shell
+# Bitwarden unlock -- sets BW_SESSION for the current shell
 unlock() {
     export BW_SESSION=$(bw unlock --raw)
     echo "Bitwarden unlocked."

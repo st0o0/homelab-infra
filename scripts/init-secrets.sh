@@ -4,7 +4,7 @@ set -euo pipefail
 # First-time setup for both trust boundaries in this repo: generates/restores
 # the ansible AGE keypair (Key A) and the Komodo AGE keypair (Key B), backs
 # each up to its own Bitwarden secure note, configures the matching
-# .sops.yaml, and scaffolds per-host ansible secrets. Safe to re-run — skips
+# .sops.yaml, and scaffolds per-host ansible secrets. Safe to re-run -- skips
 # steps that are already done.
 #
 # Both private keys are stored in a single combined file so SOPS_AGE_KEY_FILE
@@ -100,7 +100,7 @@ init_age_key() {
             echo "==> $bw_item_name not found in Bitwarden"
         fi
     else
-        echo "==> BW_SESSION not set — cannot check Bitwarden."
+        echo "==> BW_SESSION not set -- cannot check Bitwarden."
         echo "    export BW_SESSION=\$(bw unlock --raw)"
     fi
 

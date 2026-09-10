@@ -1,6 +1,6 @@
 # ╔══════════════════════════════════════════════════════════════════════╗
-# ║  Komodo User Groups — all available options                        ║
-# ║  Source: docs.rs/komodo_client — UserGroupToml                     ║
+# ║  Komodo User Groups -- all available options                        ║
+# ║  Source: docs.rs/komodo_client -- UserGroupToml                     ║
 # ╚══════════════════════════════════════════════════════════════════════╝
 #
 # User Groups control permissions for Komodo users.
@@ -11,10 +11,10 @@ name = "admins"
 users = ["admin@example.com", "ops@example.com"]
 
 # Permissions per resource type and level:
-# - None    — no access
-# - Read    — read only
-# - Execute — read + execute (Deploy, Build, etc.)
-# - Write   — read + execute + configure
+# - None    -- no access
+# - Read    -- read only
+# - Execute -- read + execute (Deploy, Build, etc.)
+# - Write   -- read + execute + configure
 
 # Set blanket permissions for all resources of a given type
 [user_group.all]
