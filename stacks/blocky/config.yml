@@ -77,6 +77,7 @@ blocking:
         textsecure-secure.whispersystems.org
         x.com
         cc-api-data.adobe.io
+        fotokoch.de
 
   clientGroupsBlock:
     default:

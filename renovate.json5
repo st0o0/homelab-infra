@@ -1,25 +1,15 @@
 {
   $schema: 'https://docs.renovatebot.com/renovate-schema.json',
   extends: [
-    'config:recommended',
+    'local>st0o0/renovate-config',
     'docker:pinDigests',
     'helpers:pinGitHubActionDigests',
     'helpers:githubDigestChangelogs',
     'workarounds:doNotUpgradeFromAlpineStableToEdge',
   ],
-  timezone: 'Europe/Berlin',
-  prConcurrentLimit: 0,
-  prHourlyLimit: 0,
   dependencyDashboard: false,
   ignorePaths: ['ansible/report/**'],
-  rebaseWhen: 'behind-base-branch',
-  configMigration: true,
-  commitMessagePrefix: 'chore(deps):',
   commitMessageExtra: '({{packageFileDir}})',
-  suppressNotifications: ['prEditedNotification'],
-  vulnerabilityAlerts: {
-    enabled: true,
-  },
   hostRules: [
     {
       matchHost: 'docker.io',
@@ -236,6 +226,74 @@
     {
       matchPackageNames: ['ghcr.io/0xerr0r/blocky'],
       sourceUrl: 'https://github.com/0xerr0r/blocky',
+    },
+    {
+      matchPackageNames: ['traefik/whoami'],
+      sourceUrl: 'https://github.com/traefik/whoami',
+    },
+    {
+      matchPackageNames: ['kopia/kopia'],
+      sourceUrl: 'https://github.com/kopia/kopia',
+    },
+    {
+      matchPackageNames: ['jellyfin/jellyfin'],
+      sourceUrl: 'https://github.com/jellyfin/jellyfin',
+    },
+    {
+      matchPackageNames: ['ghcr.io/advplyr/audiobookshelf'],
+      sourceUrl: 'https://github.com/advplyr/audiobookshelf',
+    },
+    {
+      matchPackageNames: ['ghcr.io/mealie-recipes/mealie'],
+      sourceUrl: 'https://github.com/mealie-recipes/mealie',
+    },
+    {
+      matchPackageNames: ['eclipse-mosquitto'],
+      sourceUrl: 'https://github.com/eclipse-mosquitto/mosquitto',
+    },
+    {
+      matchPackageNames: ['ghcr.io/koenkk/zigbee2mqtt'],
+      sourceUrl: 'https://github.com/Koenkk/zigbee2mqtt',
+    },
+    {
+      matchPackageNames: ['ghcr.io/paperless-ngx/paperless-ngx'],
+      sourceUrl: 'https://github.com/paperless-ngx/paperless-ngx',
+    },
+    {
+      matchPackageNames: ['apache/tika'],
+      sourceUrl: 'https://github.com/apache/tika',
+    },
+    {
+      matchPackageNames: ['gotenberg/gotenberg'],
+      sourceUrl: 'https://github.com/gotenberg/gotenberg',
+    },
+    {
+      matchPackageNames: ['ghcr.io/qdm12/gluetun'],
+      sourceUrl: 'https://github.com/qdm12/gluetun',
+    },
+    {
+      matchPackageNames: ['grafana/alloy'],
+      sourceUrl: 'https://github.com/grafana/alloy',
+    },
+    {
+      matchPackageNames: ['grafana/grafana'],
+      sourceUrl: 'https://github.com/grafana/grafana',
+    },
+    {
+      matchPackageNames: ['ghcr.io/seerr-team/seerr'],
+      sourceUrl: 'https://github.com/seerr-team/seerr',
+    },
+    {
+      matchPackageNames: ['ghcr.io/scottrobertson/seekarr'],
+      sourceUrl: 'https://github.com/scottrobertson/seekarr',
+    },
+    {
+      matchPackageNames: ['ghcr.io/raydak-labs/configarr'],
+      sourceUrl: 'https://github.com/raydak-labs/configarr',
+    },
+    {
+      matchPackageNames: ['ghcr.io/hansmi/prometheus-paperless-exporter'],
+      sourceUrl: 'https://github.com/hansmi/prometheus-paperless-exporter',
     },
   ],
   'ansible-galaxy': {
