@@ -79,8 +79,14 @@ setup:
     bash ../scripts/init-secrets.sh
     echo ""
     echo "=== Restoring SSH backup keys ==="
-    HOSTS=$(ansible-inventory --list 2>/dev/null | jq -r '._meta.hostvars | keys[]')
+    INVENTORY=$(ansible-inventory --list 2>/dev/null)
+    HOSTS=$(echo "$INVENTORY" | jq -r '._meta.hostvars | keys[]')
     for HOST in $HOSTS; do
+        ENABLED=$(echo "$INVENTORY" | jq -r --arg h "$HOST" '._meta.hostvars[$h].host_enabled // true')
+        if [ "$ENABLED" = "false" ]; then
+            echo "  ⊘ $HOST — disabled, skipped"
+            continue
+        fi
         KEY_FILE="$HOME/.ssh/id_backup_$HOST"
         if [ -f "$KEY_FILE" ]; then
             echo "  ✓ $HOST — already present"

@@ -63,9 +63,12 @@ update-komodo *ARGS:
 sync-dotfiles *ARGS:
     ansible-playbook run.yml --tags dotfiles {{ARGS}}
 
-# Connectivity check
+# Connectivity check (skips disabled hosts)
 ping:
-    ansible -m ping all
+    #!/usr/bin/env bash
+    source "$(dirname "${BASH_SOURCE[0]}")/../scripts/lib/enabled-hosts.sh"
+    LIMIT=$(enabled_hosts_limit)
+    ansible -m ping all ${LIMIT:+--limit "$LIMIT"}
 
 # Edit plaintext vars for a host (or 'all' for shared vars)
 vars HOST:
@@ -202,12 +205,17 @@ sshsync:
     echo ""
     echo "SSH config updated."
 
-# Show bootstrap status of all hosts
+# Show bootstrap status of all hosts (marks disabled hosts)
 check:
     #!/usr/bin/env bash
     HOSTS=$(ansible-inventory --list 2>/dev/null | jq -r '._meta.hostvars | keys[]')
     for HOST in $HOSTS; do
         INV=$(ansible-inventory --host "$HOST" 2>/dev/null)
+        ENABLED=$(echo "$INV" | jq -r '.host_enabled // true')
+        if [ "$ENABLED" = "false" ]; then
+            printf "  ⊘ %-20s %-15s %s\n" "$HOST" "" "disabled"
+            continue
+        fi
         IP=$(echo "$INV" | jq -r '.ansible_host // "?"')
         BACKUP_KEY="$HOME/.ssh/id_backup_$HOST"
         if [ -f "$BACKUP_KEY" ]; then
@@ -224,8 +232,11 @@ check:
 localsshrename:
     #!/usr/bin/env bash
     set -euo pipefail
-    HOSTS=$(ansible-inventory --list 2>/dev/null | jq -r '._meta.hostvars | keys[]')
+    INVENTORY=$(ansible-inventory --list 2>/dev/null)
+    HOSTS=$(echo "$INVENTORY" | jq -r '._meta.hostvars | keys[]')
     for HOST in $HOSTS; do
+        ENABLED=$(echo "$INVENTORY" | jq -r --arg h "$HOST" '._meta.hostvars[$h].host_enabled // true')
+        if [ "$ENABLED" = "false" ]; then continue; fi
         KEY="$HOME/.ssh/id_backup_$HOST"
         PUB="$KEY.pub"
         if [ ! -f "$KEY" ]; then
