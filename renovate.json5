@@ -133,10 +133,6 @@
       sourceUrl: 'https://github.com/veerendra2/speedtest_exporter',
     },
     {
-      matchPackageNames: ['ekofr/pihole-exporter'],
-      sourceUrl: 'https://github.com/eko/pihole-exporter',
-    },
-    {
       matchPackageNames: ['jlesage/firefox'],
       sourceUrl: 'https://github.com/jlesage/docker-firefox',
     },
@@ -166,10 +162,6 @@
     {
       matchPackageNames: ['maxmindinc/geoipupdate'],
       sourceUrl: 'https://github.com/maxmind/geoipupdate',
-    },
-    {
-      matchPackageNames: ['pihole/pihole'],
-      sourceUrl: 'https://github.com/pi-hole/docker-pi-hole',
     },
     {
       matchPackageNames: ['vaultwarden/server'],
@@ -222,10 +214,6 @@
     {
       matchPackageNames: ['crowdsecurity/crowdsec'],
       sourceUrl: 'https://github.com/crowdsecurity/crowdsec',
-    },
-    {
-      matchPackageNames: ['ghcr.io/0xerr0r/blocky'],
-      sourceUrl: 'https://github.com/0xerr0r/blocky',
     },
     {
       matchPackageNames: ['traefik/whoami'],

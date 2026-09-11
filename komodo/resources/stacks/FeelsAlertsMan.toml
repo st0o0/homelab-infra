@@ -74,10 +74,6 @@ path = "grafana/provisioning/dashboards/json/nut.json"
 requires = "Restart"
 
 [[stack.config.config_files]]
-path = "grafana/provisioning/dashboards/json/blocky.json"
-requires = "Restart"
-
-[[stack.config.config_files]]
 path = "grafana/provisioning/dashboards/json/proxmox.json"
 requires = "Restart"
 
@@ -127,7 +123,6 @@ project_name = "alloy-1"
 run_directory = "stacks/alloy"
 file_paths = [
   "compose.yml",
-  "compose.override.blocky.yaml",
   "compose.override.pve.yaml",
   "compose.override.speedtest.yaml",
 ]
@@ -141,10 +136,6 @@ ALLOY_HOSTNAME=FeelsAlertsMan
 ALLOY_SCRAPE_INTERVAL=30s
 GEOIPUPDATE_ACCOUNT_ID=[[maxmind_account_id]]
 GEOIPUPDATE_LICENSE_KEY=[[maxmind_license_key]]
-# ── Blocky metrics (one per instance) ─────────────────
-BLOCKY_1_METRICS_TARGET=[[FeelsAlertsMan_blocky_1_metrics_target]]
-BLOCKY_2_METRICS_TARGET=[[FeelsAlertsMan_blocky_2_metrics_target]]
-
 # ── PVE exporter (runs natively on Proxmox, scraped remotely) ──
 ALLOY_PVE_EXPORTER_TARGET=[[FeelsAlertsMan_pve_exporter_target]]
 """
@@ -215,10 +206,6 @@ requires = "Redeploy"
 
 [[stack.config.config_files]]
 path = "../../alloy/modules/ufw.alloy"
-requires = "Redeploy"
-
-[[stack.config.config_files]]
-path = "../../alloy/features/blocky.alloy"
 requires = "Redeploy"
 
 [[stack.config.config_files]]
