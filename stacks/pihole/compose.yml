@@ -6,7 +6,7 @@ x-logging: &default-logging
 
 services:
   pihole:
-    image: pihole/pihole:2026.07.2@sha256:8bafd2fed06b05dbd98a75c66f796b8b192b175e8bbecef2d940d95b0aa54a1b
+    image: pihole/pihole:2026.07.2
     container_name: pihole
     restart: unless-stopped
     logging: *default-logging
