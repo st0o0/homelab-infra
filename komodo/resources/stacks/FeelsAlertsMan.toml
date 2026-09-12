@@ -114,6 +114,39 @@ path = "grafana/provisioning/alerting/templates.yml"
 requires = "Redeploy"
 
 [[stack]]
+name = "forseti-1"
+tags = ["dns"]
+[stack.config]
+server = "FeelsAlertsMan"
+project_name = "forseti-1"
+run_directory = "stacks/forseti"
+file_paths = ["compose.yml"]
+linked_repo = "homelab-infra"
+extra_args = ["--remove-orphans"]
+
+[stack.config.pre_deploy]
+path = "."
+command = "docker network create forseti-net 2>/dev/null || true"
+
+environment = """
+TZ=[[tz]]
+FORSETI_MIKROTIK_HOST=[[FeelsAlertsMan_forseti_mikrotik_host]]
+FORSETI_MIKROTIK_PORT=[[FeelsAlertsMan_forseti_mikrotik_port]]
+FORSETI_MIKROTIK_PASSWORD=[[FeelsAlertsMan_forseti_mikrotik_password]]
+FORSETI_PIZERO_HOST=[[FeelsAlertsMan_forseti_pizero_host]]
+FORSETI_PIZERO_PORT=[[FeelsAlertsMan_forseti_pizero_port]]
+FORSETI_PIZERO_PASSWORD=[[FeelsAlertsMan_forseti_pizero_password]]
+"""
+
+[[stack.config.config_files]]
+path = "forseti.yaml"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "overrides/pizero.yaml"
+requires = "Redeploy"
+
+[[stack]]
 name = "alloy-1"
 tags = ["monitoring"]
 after = ["metrics-1"]
@@ -123,6 +156,7 @@ project_name = "alloy-1"
 run_directory = "stacks/alloy"
 file_paths = [
   "compose.yml",
+  "compose.override.forseti.yaml",
   "compose.override.pve.yaml",
   "compose.override.speedtest.yaml",
 ]
@@ -206,6 +240,10 @@ requires = "Redeploy"
 
 [[stack.config.config_files]]
 path = "../../alloy/modules/ufw.alloy"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "../../alloy/features/forseti.alloy"
 requires = "Redeploy"
 
 [[stack.config.config_files]]

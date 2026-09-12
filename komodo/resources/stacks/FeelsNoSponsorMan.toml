@@ -1,0 +1,18 @@
+# ── FeelsNoSponsorMan ──────────────────────────────────────────────────────
+
+[[stack]]
+name = "pihole-1"
+tags = ["dns"]
+[stack.config]
+server = "FeelsNoSponsorMan"
+project_name = "pihole-1"
+run_directory = "stacks/pihole"
+file_paths = ["compose.yml"]
+linked_repo = "homelab-infra"
+extra_args = ["--remove-orphans"]
+environment = """
+TZ=[[tz]]
+PIHOLE_PASSWORD=[[FeelsNoSponsorMan_pihole_password]]
+PIHOLE_WEB_PORT=[[FeelsNoSponsorMan_pihole_web_port]]
+PIHOLE_DNS_PORT=[[FeelsNoSponsorMan_pihole_dns_port]]
+"""

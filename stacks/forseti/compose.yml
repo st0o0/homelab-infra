@@ -1,0 +1,46 @@
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: 10m
+    max-file: "3"
+
+services:
+  forseti:
+    image: ghcr.io/st0o0/forseti:0.1.2
+    container_name: forseti
+    restart: unless-stopped
+    logging: *default-logging
+    command: ["watch", "-config", "/etc/forseti/forseti.yaml"]
+    ports:
+      - "${FORSETI_METRICS_PORT:-9099}:9099"
+    environment:
+      - FORSETI_MIKROTIK_HOST=${FORSETI_MIKROTIK_HOST:?FORSETI_MIKROTIK_HOST is required}
+      - FORSETI_MIKROTIK_PORT=${FORSETI_MIKROTIK_PORT:-80}
+      - FORSETI_MIKROTIK_PASSWORD=${FORSETI_MIKROTIK_PASSWORD:?FORSETI_MIKROTIK_PASSWORD is required}
+      - FORSETI_PIZERO_HOST=${FORSETI_PIZERO_HOST:?FORSETI_PIZERO_HOST is required}
+      - FORSETI_PIZERO_PORT=${FORSETI_PIZERO_PORT:-80}
+      - FORSETI_PIZERO_PASSWORD=${FORSETI_PIZERO_PASSWORD:?FORSETI_PIZERO_PASSWORD is required}
+      - TZ=${TZ:-Europe/Berlin}
+    volumes:
+      - ./forseti.yaml:/etc/forseti/forseti.yaml:ro
+      - ./overrides:/etc/forseti/overrides:ro
+    healthcheck:
+      test: ["CMD", "/forseti", "healthcheck", "-config", "/etc/forseti/forseti.yaml"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    networks:
+      - default
+      - forseti-net
+    deploy:
+      resources:
+        limits:
+          cpus: "0.15"
+          memory: 128M
+        reservations:
+          memory: 32M
+
+networks:
+  forseti-net:
+    external: true

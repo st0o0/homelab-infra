@@ -1,0 +1,137 @@
+mode: config
+log_level: info
+log_format: json
+
+metrics:
+  port: 9099
+  path: /metrics
+  scrape_interval: 30s
+  collectors:
+    stats: true
+    upstreams: true
+    query_types: true
+    blocking: true
+    reconcile: true
+    gravity: true
+    sessions: true
+    settings_drift: true
+    dhcp: false
+
+targets:
+  - name: mikrotik
+    url: http://${FORSETI_MIKROTIK_HOST}:${FORSETI_MIKROTIK_PORT}
+    password: ${FORSETI_MIKROTIK_PASSWORD}
+    gravity:
+      schedule: "0 2 * * *"
+
+  - name: pizero
+    url: http://${FORSETI_PIZERO_HOST}:${FORSETI_PIZERO_PORT}
+    password: ${FORSETI_PIZERO_PASSWORD}
+    file: /etc/forseti/overrides/pizero.yaml
+    gravity:
+      schedule: "0 3 * * *"
+
+reconcile:
+  interval: 5m
+  marker: "[forseti]"
+  gravity_on_change: true
+
+# ── Groups ─────────────────────────────────────────────────────────────────
+
+groups:
+  - name: default
+    enabled: true
+
+# ── Adlists ────────────────────────────────────────────────────────────────
+
+adlists:
+  # Tier 1 -- Ads & Tracking
+  - url: https://big.oisd.nl/domainswild2
+    comment: "[forseti] OISD Big"
+    groups: [default]
+  - url: https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/pro-onlydomains.txt
+    comment: "[forseti] HaGeZi Pro"
+    groups: [default]
+  - url: https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/popupads-onlydomains.txt
+    comment: "[forseti] HaGeZi Pop-Up Ads"
+    groups: [default]
+  - url: https://hostfiles.frogeye.fr/firstparty-trackers-hosts.txt
+    comment: "[forseti] Frogeye First-Party Trackers"
+    groups: [default]
+
+  # Tier 2 -- Security
+  - url: https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/tif-onlydomains.txt
+    comment: "[forseti] HaGeZi TIF"
+    groups: [default]
+  - url: https://raw.githubusercontent.com/jarelllama/Scam-Blocklist/main/lists/wildcard_domains/scams.txt
+    comment: "[forseti] Jarelllama Scam"
+    groups: [default]
+  - url: https://raw.githubusercontent.com/RPiList/specials/master/Blocklisten/Phishing-Angriffe
+    comment: "[forseti] RPiList Phishing"
+    groups: [default]
+  - url: https://phishing.army/download/phishing_army_blocklist_extended.txt
+    comment: "[forseti] Phishing Army"
+    groups: [default]
+  - url: https://threatfox.abuse.ch/downloads/hostfile/
+    comment: "[forseti] ThreatFox abuse.ch"
+    groups: [default]
+  - url: https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/fake-onlydomains.txt
+    comment: "[forseti] HaGeZi Fake"
+    groups: [default]
+  - url: https://urlhaus.abuse.ch/downloads/hostfile/
+    comment: "[forseti] URLhaus"
+    groups: [default]
+
+  # Tier 3 -- Categories & Extras
+  - url: https://nsfw.oisd.nl/domainswild2
+    comment: "[forseti] OISD NSFW"
+    groups: [default]
+  - url: https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/gambling-onlydomains.txt
+    comment: "[forseti] HaGeZi Gambling"
+    groups: [default]
+  - url: https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/doh-vpn-proxy-bypass-onlydomains.txt
+    comment: "[forseti] HaGeZi DoH Bypass"
+    groups: [default]
+  - url: https://raw.githubusercontent.com/autinerd/anti-axelspringer-hosts/master/axelspringer-hosts
+    comment: "[forseti] anti-axelspringer"
+    groups: [default]
+  - url: https://raw.githubusercontent.com/Perflyst/PiHoleBlocklist/master/SmartTV.txt
+    comment: "[forseti] Perflyst SmartTV"
+    groups: [default]
+  - url: https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.winoffice-onlydomains.txt
+    comment: "[forseti] HaGeZi Native Microsoft"
+    groups: [default]
+  - url: https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.amazon-onlydomains.txt
+    comment: "[forseti] HaGeZi Amazon Native"
+    groups: [default]
+  - url: https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.apple-onlydomains.txt
+    comment: "[forseti] HaGeZi Native Apple"
+    groups: [default]
+
+# ── Settings ───────────────────────────────────────────────────────────────
+
+settings:
+  dns:
+    upstream:
+      - "9.9.9.9"
+      - "149.112.112.112"
+      - "1.1.1.2"
+      - "1.0.0.2"
+      - "2606:4700:4700::1112"
+      - "2606:4700:4700::1002"
+    dnssec: true
+    bogus_priv: true
+    cname_deep_inspect: true
+    listening_mode: local
+    cache:
+      size: 1500
+      force_on_disk: false
+    rate_limit:
+      count: 1000
+      interval: 60
+
+  blocking:
+    mode: "NULL"
+
+  privacy:
+    level: 0

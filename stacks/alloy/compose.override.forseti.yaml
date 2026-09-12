@@ -1,0 +1,13 @@
+services:
+  alloy:
+    volumes:
+      - ../../alloy/features/forseti.alloy:/etc/alloy/forseti.alloy
+    environment:
+      - FORSETI_TARGET=${ALLOY_FORSETI_TARGET:-forseti:9099}
+    networks:
+      - default
+      - forseti-net
+
+networks:
+  forseti-net:
+    external: true

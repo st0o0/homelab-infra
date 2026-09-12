@@ -1,0 +1,5 @@
+settings:
+  dns:
+    cache:
+      size: 500
+      force_on_disk: true

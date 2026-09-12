@@ -1,0 +1,17 @@
+discovery.relabel "forseti" {
+  targets = [{
+    __address__ = coalesce(sys.env("FORSETI_TARGET"), "forseti:9099"),
+  }]
+
+  rule {
+    replacement  = sys.env("HOST_HOSTNAME")
+    target_label = "instance"
+  }
+}
+
+prometheus.scrape "forseti" {
+  targets         = discovery.relabel.forseti.output
+  forward_to      = [prometheus.remote_write.central.receiver]
+  scrape_interval = coalesce(sys.env("SCRAPE_INTERVAL"), "30s")
+  job_name        = "forseti"
+}
