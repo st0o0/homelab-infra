@@ -49,14 +49,11 @@ adlists:
   - url: https://big.oisd.nl/domainswild2
     comment: "[forseti] OISD Big"
     groups: [default]
-  - url: https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/pro-onlydomains.txt
-    comment: "[forseti] HaGeZi Pro"
-    groups: [default]
   - url: https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/popupads-onlydomains.txt
     comment: "[forseti] HaGeZi Pop-Up Ads"
     groups: [default]
-  - url: https://hostfiles.frogeye.fr/firstparty-trackers-hosts.txt
-    comment: "[forseti] Frogeye First-Party Trackers"
+  - url: https://raw.githubusercontent.com/badmojr/1Hosts/master/Lite/domains.txt
+    comment: "[forseti] 1Hosts Lite"
     groups: [default]
 
   # Tier 2 -- Security
@@ -65,9 +62,6 @@ adlists:
     groups: [default]
   - url: https://raw.githubusercontent.com/jarelllama/Scam-Blocklist/main/lists/wildcard_domains/scams.txt
     comment: "[forseti] Jarelllama Scam"
-    groups: [default]
-  - url: https://raw.githubusercontent.com/RPiList/specials/master/Blocklisten/Phishing-Angriffe
-    comment: "[forseti] RPiList Phishing"
     groups: [default]
   - url: https://phishing.army/download/phishing_army_blocklist_extended.txt
     comment: "[forseti] Phishing Army"
@@ -80,6 +74,9 @@ adlists:
     groups: [default]
   - url: https://urlhaus.abuse.ch/downloads/hostfile/
     comment: "[forseti] URLhaus"
+    groups: [default]
+  - url: https://raw.githubusercontent.com/DandelionSprout/adfilt/master/Alternate%20versions%20Anti-Malware%20List/AntiMalwareHosts.txt
+    comment: "[forseti] DandelionSprout Anti-Malware"
     groups: [default]
 
   # Tier 3 -- Categories & Extras
@@ -117,12 +114,10 @@ settings:
       - "149.112.112.112"
       - "1.1.1.2"
       - "1.0.0.2"
-      - "2606:4700:4700::1112"
-      - "2606:4700:4700::1002"
     dnssec: true
     bogus_priv: true
     cname_deep_inspect: true
-    listening_mode: local
+    listening_mode: all
     cache:
       size: 1500
       force_on_disk: false
