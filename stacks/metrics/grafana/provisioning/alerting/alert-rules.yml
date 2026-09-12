@@ -377,7 +377,7 @@ groups:
               to: 0
             datasourceUid: victoriametrics
             model:
-              expr: max by(name, host) (last_over_time(container_memory_working_set_bytes{name!~"|geoipupdate"}[1h])) unless max by(name, host) (container_memory_working_set_bytes{name!~"|geoipupdate"})
+              expr: max by(name, host) (last_over_time(container_memory_working_set_bytes{name!~"|geoipupdate|configarr|tentacle"}[1h])) unless max by(name, host) (container_memory_working_set_bytes{name!~"|geoipupdate|configarr|tentacle"})
               instant: true
               refId: A
           - refId: C

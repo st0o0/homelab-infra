@@ -80,7 +80,7 @@ services:
       resources:
         limits:
           cpus: 0.50
-          memory: 768M
+          memory: 1G
         reservations:
           memory: 256M
 
