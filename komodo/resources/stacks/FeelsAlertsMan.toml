@@ -123,11 +123,6 @@ run_directory = "stacks/forseti"
 file_paths = ["compose.yml"]
 linked_repo = "homelab-infra"
 extra_args = ["--remove-orphans"]
-
-[stack.config.pre_deploy]
-path = "."
-command = "docker network create forseti-net 2>/dev/null || true"
-
 environment = """
 TZ=[[tz]]
 FORSETI_MIKROTIK_HOST=[[FeelsAlertsMan_forseti_mikrotik_host]]
@@ -137,6 +132,10 @@ FORSETI_PIZERO_HOST=[[FeelsAlertsMan_forseti_pizero_host]]
 FORSETI_PIZERO_PORT=[[FeelsAlertsMan_forseti_pizero_port]]
 FORSETI_PIZERO_PASSWORD=[[FeelsAlertsMan_forseti_pizero_password]]
 """
+
+[stack.config.pre_deploy]
+path = "."
+command = "docker network create forseti-net 2>/dev/null || true"
 
 [[stack.config.config_files]]
 path = "forseti.yaml"
