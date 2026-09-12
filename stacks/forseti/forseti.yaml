@@ -105,6 +105,39 @@ adlists:
     comment: "[forseti] HaGeZi Native Apple"
     groups: [default]
 
+# ── Allowlist ──────────────────────────────────────────────────────────────
+
+allow:
+  # Google connectivity & services
+  - domain: android.clients.google.com
+  - domain: clients2.google.com
+  - domain: clients3.google.com
+  - domain: clients4.google.com
+  - domain: connectivitycheck.android.com
+  - domain: connectivitycheck.gstatic.com
+  - domain: appspot-preview.l.google.com
+
+  # Signal
+  - domain: storage.signal.org
+  - domain: cdn.signal.org
+  - domain: udates2.signal.org
+  - domain: textsecure-secure.whispersystems.org
+
+  # Social
+  - domain: www.facebook.com
+  - domain: x.com
+
+  # Misc
+  - domain: ec-ns.sascdn.com
+  - domain: nsl.pi-hole.net
+  - domain: cc-api-data.adobe.io
+
+  # Regex
+  - domain: (\.|^)rittal\.com$
+    kind: regex
+  - domain: (\.|^)bintube\.com$
+    kind: regex
+
 # ── Settings ───────────────────────────────────────────────────────────────
 
 settings:
