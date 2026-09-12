@@ -40,7 +40,7 @@ services:
           memory: 128M
 
   eir:
-    image: ghcr.io/st0o0/eir:0.1.2@sha256:7c955987e9472bea02ee4243fb28ede32ad122a3898b23657511772c876da7bf
+    image: ghcr.io/st0o0/eir:0.1.3@sha256:6fbf124170d9c42e3af96331005679842ee9f6b63152a5b2a8d94dd0e0811901
     container_name: eir
     restart: unless-stopped
     logging: *default-logging
