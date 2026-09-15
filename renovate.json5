@@ -99,6 +99,10 @@
       matchUpdateTypes: ['minor', 'patch'],
     },
     {
+      matchPackageNames: ['/^ghcr\\.io\\/st0o0\\//'],
+      recreateWhen: 'always',
+    },
+    {
       matchPackageNames: [
         'ghcr.io/st0o0/mjolnir',
       ],
