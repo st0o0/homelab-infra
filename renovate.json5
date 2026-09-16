@@ -123,18 +123,19 @@
       versioning: 'docker',
     },
     {
-      description: 'Databases require sequential major upgrades for safe data migration',
-      matchPackageNames: [
-        'mysql',
-        'postgres',
-        'mongo',
-      ],
-      separateMultipleMajor: true,
-    },
-    {
-      description: 'MariaDB pinned to 10.x LTS -- youtarr uses mysql2+sequelize, no upstream testing beyond 10.3',
+      description: 'Pin databases to current major -- major upgrades need manual data migration',
       matchPackageNames: ['mariadb'],
       allowedVersions: '<11',
+    },
+    {
+      description: 'Pin databases to current major -- major upgrades need manual data migration',
+      matchPackageNames: ['postgres'],
+      allowedVersions: '<18',
+    },
+    {
+      description: 'Pin databases to current major -- major upgrades need manual data migration',
+      matchPackageNames: ['mongo'],
+      allowedVersions: '<8',
     },
     {
       description: 'Authentik requires sequential minor upgrades (no skipping)',
