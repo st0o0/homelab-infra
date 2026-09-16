@@ -123,6 +123,16 @@
       versioning: 'docker',
     },
     {
+      description: 'Databases require sequential major upgrades for safe data migration',
+      matchPackageNames: [
+        'mariadb',
+        'mysql',
+        'postgres',
+        'mongo',
+      ],
+      separateMultipleMajor: true,
+    },
+    {
       description: 'Authentik requires sequential minor upgrades (no skipping)',
       matchPackageNames: ['ghcr.io/goauthentik/server'],
       separateMultipleMinor: true,
