@@ -37,3 +37,5 @@ instances:
 schedule:
   intervalMinutes: ${SEEKARR_INTERVAL_MINUTES:-60}
 EOF
+
+chown -R "${PUID}:${PGID}" "${SEEKARR_DIR}"

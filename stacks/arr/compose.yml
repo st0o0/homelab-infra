@@ -182,16 +182,7 @@ services:
       RADARR_API_URL: ${RADARR_API_URL:-http://radarr:7878}
       SONARR_API_KEY: ${SONARR_API_KEY:?SONARR_API_KEY is required}
       RADARR_API_KEY: ${RADARR_API_KEY:?RADARR_API_KEY is required}
-    entrypoint: ["/sbin/tini", "--", "sh", "-c"]
-    command:
-      - |
-        sed \
-          -e "s|\$${SONARR_API_URL}|$$SONARR_API_URL|g" \
-          -e "s|\$${SONARR_API_KEY}|$$SONARR_API_KEY|g" \
-          -e "s|\$${RADARR_API_URL}|$$RADARR_API_URL|g" \
-          -e "s|\$${RADARR_API_KEY}|$$RADARR_API_KEY|g" \
-          /seekarr/config.yml.tmpl > /seekarr/config.yml \
-        && exec node dist/index.js
+    entrypoint: ["/sbin/tini", "--", "node", "dist/index.js"]
     volumes:
       - ${SEEKARR_PATH:-./seekarr}:/seekarr
     networks:
