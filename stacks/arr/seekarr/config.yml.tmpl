@@ -1,0 +1,23 @@
+instances:
+  - name: sonarr
+    type: sonarr
+    url: ${SONARR_API_URL}
+    apiKey: ${SONARR_API_KEY}
+    searchMode: both
+    monitoredOnly: true
+    limit: 10
+    dryRun: false
+    searchFrequencyHours: 1
+
+  - name: radarr
+    type: radarr
+    url: ${RADARR_API_URL}
+    apiKey: ${RADARR_API_KEY}
+    searchMode: both
+    monitoredOnly: true
+    limit: 10
+    dryRun: false
+    searchFrequencyHours: 1
+
+schedule:
+  intervalMinutes: 60

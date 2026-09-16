@@ -333,8 +333,7 @@ SEERR_DB_USER=[[FeelsStrongMan_seerr_db_user]]
 SEERR_DB_PASS=[[FeelsStrongMan_seerr_db_pass]]
 SEERR_DB_NAME=[[FeelsStrongMan_seerr_db_name]]
 # Seekarr
-SEEKARR_PATH_CONFIG=/docker/arr/seekarr/config.yml
-SEEKARR_PATH_DATA=/docker/arr/seekarr/data
+SEEKARR_PATH=/docker/arr/seekarr
 # Youtarr
 YOUTARR_PORT=3087
 YOUTARR_PATH_CONFIG=/docker/arr/youtarr/config
@@ -350,6 +349,10 @@ YOUTARR_PATH_IMAGES=/docker/arr/youtarr/images
 
 [[stack.config.config_files]]
 path = "configarr/config.yml"
+requires = "Redeploy"
+
+[[stack.config.config_files]]
+path = "seekarr/config.yml.tmpl"
 requires = "Redeploy"
 
 [[stack.config.config_files]]
