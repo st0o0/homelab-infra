@@ -45,7 +45,7 @@ services:
 
   audiobookshelf:
     <<: *common
-    image: ghcr.io/advplyr/audiobookshelf:2.36.0@sha256:e388e90e381ae3fa8660346612b2955f2c555ede81c9c286e2218bdf966b4de8
+    image: ghcr.io/advplyr/audiobookshelf:2.36.1@sha256:117b014d317634d66778d6da9174ce90d47449b252c9b7e8f3bce591502af6aa
     container_name: audiobookshelf
     environment:
       - PUID=${PUID:-1000}
