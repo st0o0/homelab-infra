@@ -91,6 +91,12 @@
         'minor',
         'patch',
       ],
+      automerge: true,
+    },
+    {
+      description: 'Digest-only rebuilds carry no functional change -- safe to automerge',
+      matchUpdateTypes: ['digest'],
+      automerge: true,
     },
     {
       groupName: 'devcontainer-tooling',
