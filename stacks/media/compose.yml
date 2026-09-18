@@ -11,7 +11,7 @@ x-common: &common
 services:
   jellyfin:
     <<: *common
-    image: jellyfin/jellyfin:10.11.11@sha256:aefb67e6a7ff1debdd154a78a7bbb780fd0c873d8639210a7f6a2016ad2b35db
+    image: ghcr.io/jellyfin/jellyfin:10.11.11@sha256:45f648c382a0c8b552582fcea40e95cb17c5d475473a891cba0eb7523fb92112
     container_name: jellyfin
     devices:
       - /dev/dri:/dev/dri

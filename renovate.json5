@@ -118,7 +118,7 @@
     {
       matchPackageNames: [
         'redis',
-        'maxmindinc/geoipupdate',
+        'ghcr.io/maxmind/geoipupdate',
       ],
       versioning: 'docker',
     },
@@ -152,7 +152,7 @@
       sourceUrl: 'https://github.com/veerendra2/speedtest_exporter',
     },
     {
-      matchPackageNames: ['jlesage/firefox'],
+      matchPackageNames: ['ghcr.io/jlesage/firefox'],
       sourceUrl: 'https://github.com/jlesage/docker-firefox',
     },
     {
@@ -179,11 +179,11 @@
       sourceUrl: 'https://github.com/moghtech/komodo',
     },
     {
-      matchPackageNames: ['maxmindinc/geoipupdate'],
+      matchPackageNames: ['ghcr.io/maxmind/geoipupdate'],
       sourceUrl: 'https://github.com/maxmind/geoipupdate',
     },
     {
-      matchPackageNames: ['vaultwarden/server'],
+      matchPackageNames: ['ghcr.io/dani-garcia/vaultwarden'],
       sourceUrl: 'https://github.com/dani-garcia/vaultwarden',
     },
     {
@@ -211,7 +211,7 @@
       sourceUrl: 'https://github.com/VictoriaMetrics/VictoriaMetrics',
     },
     {
-      matchPackageNames: ['docker.io/valkey/valkey'],
+      matchPackageNames: ['ghcr.io/valkey-io/valkey'],
       sourceUrl: 'https://github.com/valkey-io/valkey',
     },
     {
@@ -231,11 +231,11 @@
       sourceUrl: 'https://github.com/matter-js/matterjs-server',
     },
     {
-      matchPackageNames: ['crowdsecurity/crowdsec'],
+      matchPackageNames: ['ghcr.io/crowdsecurity/crowdsec'],
       sourceUrl: 'https://github.com/crowdsecurity/crowdsec',
     },
     {
-      matchPackageNames: ['traefik/whoami'],
+      matchPackageNames: ['ghcr.io/traefik/whoami'],
       sourceUrl: 'https://github.com/traefik/whoami',
     },
     {
@@ -243,7 +243,7 @@
       sourceUrl: 'https://github.com/kopia/kopia',
     },
     {
-      matchPackageNames: ['jellyfin/jellyfin'],
+      matchPackageNames: ['ghcr.io/jellyfin/jellyfin'],
       sourceUrl: 'https://github.com/jellyfin/jellyfin',
     },
     {
