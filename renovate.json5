@@ -1,11 +1,8 @@
 {
   $schema: 'https://docs.renovatebot.com/renovate-schema.json',
   extends: [
-    'local>st0o0/renovate-config',
-    'docker:pinDigests',
+    'local>st0o0/renovate-config:docker',
     'helpers:pinGitHubActionDigests',
-    'helpers:githubDigestChangelogs',
-    'workarounds:doNotUpgradeFromAlpineStableToEdge',
   ],
   dependencyDashboard: false,
   ignorePaths: ['ansible/report/**'],
@@ -20,12 +17,6 @@
       concurrentRequestLimit: 2,
     },
   ],
-  'docker-compose': {
-    managerFilePatterns: [
-      '/(^|/)compose\\.ya?ml$/',
-      '/(^|/)compose\\.override\\.[\\w.-]+\\.ya?ml$/',
-    ],
-  },
   customManagers: [
     {
       customType: 'regex',
