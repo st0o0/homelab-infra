@@ -13,8 +13,8 @@ description = "Sync resources, then redeploy changed stacks"
 
 [procedure.config]
 schedule_enabled = true
-schedule_format = "English"
-schedule = "Every 5 minutes"
+schedule_format = "Cron"
+schedule = "0 */5 * * * *"
 schedule_timezone = "Europe/Berlin"
 failure_alert = true
 
