@@ -72,3 +72,47 @@
     enabled: true
     state: started
     daemon_reload: true
+
+- name: Remove pve-smart-collector cron job when disabled
+  ansible.builtin.cron:
+    name: "pve-smart-collector"
+    state: absent
+  when: not pve_exporter_smart_enabled
+
+- name: Skip SMART collector setup when disabled
+  ansible.builtin.meta: end_role
+  when: not pve_exporter_smart_enabled
+
+- name: Install smartmontools
+  ansible.builtin.apt:
+    name: smartmontools
+    state: present
+    update_cache: true
+    cache_valid_time: 3600
+
+- name: Create pve-exporter SMART data directory
+  ansible.builtin.file:
+    path: /var/lib/pve-exporter
+    state: directory
+    mode: "0755"
+    owner: root
+    group: root
+
+- name: Download pve-smart-collector script
+  ansible.builtin.get_url:
+    url: "https://raw.githubusercontent.com/bigtcze/pve-exporter/main/scripts/pve-smart-collector.sh"
+    dest: /usr/local/bin/pve-smart-collector.sh
+    mode: "0755"
+    owner: root
+    group: root
+
+- name: Schedule pve-smart-collector
+  ansible.builtin.cron:
+    name: "pve-smart-collector"
+    job: "/usr/local/bin/pve-smart-collector.sh"
+    minute: "{{ pve_exporter_smart_schedule.split()[0] }}"
+    hour: "{{ pve_exporter_smart_schedule.split()[1] }}"
+    day: "{{ pve_exporter_smart_schedule.split()[2] }}"
+    month: "{{ pve_exporter_smart_schedule.split()[3] }}"
+    weekday: "{{ pve_exporter_smart_schedule.split()[4] }}"
+    user: root

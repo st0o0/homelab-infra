@@ -5,3 +5,5 @@ pve_exporter_pve_host: "localhost"
 pve_exporter_pve_token_id: ""
 pve_exporter_pve_token_secret: ""
 pve_exporter_pve_insecure_skip_verify: true
+pve_exporter_smart_enabled: true
+pve_exporter_smart_schedule: "0 */2 * * *"

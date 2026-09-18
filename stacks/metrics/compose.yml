@@ -69,7 +69,7 @@ services:
       - --dedup.minScrapeInterval=${VM_SCRAPE_INTERVAL:-30s}
       - --search.cacheTimestampOffset=${VM_CACHE_TIMESTAMP_OFFSET:-10m}
       - --memory.allowedPercent=${VM_MEMORY_ALLOWED_PERCENT:-70}
-      - --search.maxConcurrentRequests=${VM_MAX_CONCURRENT_REQUESTS:-4}
+      - --search.maxConcurrentRequests=${VM_MAX_CONCURRENT_REQUESTS:-8}
       - --search.maxMemoryPerQuery=${VM_MAX_MEMORY_PER_QUERY:-256MB}
       - --search.maxUniqueTimeseries=${VM_MAX_UNIQUE_TIMESERIES:-50000}
       - --search.maxQueryDuration=${VM_MAX_QUERY_DURATION:-60s}

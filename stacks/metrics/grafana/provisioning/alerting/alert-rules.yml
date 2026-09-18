@@ -584,7 +584,7 @@ groups:
         for: 2m
         keep_firing_for: 5m
         is_paused: false
-        execErrState: Error
+        execErrState: OK
         labels:
           severity: critical
         annotations:
@@ -626,7 +626,7 @@ groups:
         keep_firing_for: 5m
         is_paused: false
         noDataState: OK
-        execErrState: Error
+        execErrState: OK
         labels:
           severity: critical
         annotations:
@@ -668,7 +668,7 @@ groups:
         keep_firing_for: 5m
         is_paused: false
         noDataState: OK
-        execErrState: Error
+        execErrState: OK
         labels:
           severity: critical
         annotations:
@@ -1041,6 +1041,481 @@ groups:
                 - evaluator:
                     type: lt
                     params: [1]
+                  operator:
+                    type: and
+                  query:
+                    params: [A]
+                  reducer:
+                    type: last
+              refId: C
+
+  - orgId: 1
+    name: proxy
+    folder: Homelab Alerts
+    interval: 1m
+    rules:
+      - uid: caddy-upstream-down
+        title: CaddyReverseProxyUpstreamDown
+        condition: C
+        for: 2m
+        keep_firing_for: 5m
+        is_paused: false
+        execErrState: Error
+        labels:
+          severity: critical
+        annotations:
+          summary: "Caddy upstream {{ $labels.upstream }} ({{ $labels.host }}) is unhealthy"
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: victoriametrics
+            model:
+              expr: caddy_reverse_proxy_upstreams_healthy
+              instant: true
+              refId: A
+          - refId: C
+            relativeTimeRange:
+              from: 0
+              to: 0
+            datasourceUid: "-100"
+            model:
+              type: threshold
+              expression: "A"
+              conditions:
+                - evaluator:
+                    type: lt
+                    params: [1]
+                  operator:
+                    type: and
+                  query:
+                    params: [A]
+                  reducer:
+                    type: last
+              refId: C
+
+      - uid: caddy-high-error-rate
+        title: CaddyHighErrorRate
+        condition: C
+        for: 5m
+        keep_firing_for: 10m
+        is_paused: false
+        execErrState: Error
+        labels:
+          severity: warning
+        annotations:
+          summary: "Caddy {{ $labels.host }} error rate at {{ printf \"%.0f\" $values.A.Value }}%"
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: victoriametrics
+            model:
+              expr: sum by (host) (rate(caddy_http_request_errors_total{server="proxy"}[5m])) / sum by (host) (rate(caddy_http_requests_total{server="proxy"}[5m])) * 100
+              instant: true
+              refId: A
+          - refId: C
+            relativeTimeRange:
+              from: 0
+              to: 0
+            datasourceUid: "-100"
+            model:
+              type: threshold
+              expression: "A"
+              conditions:
+                - evaluator:
+                    type: gt
+                    params: [20]
+                  operator:
+                    type: and
+                  query:
+                    params: [A]
+                  reducer:
+                    type: last
+              refId: C
+
+      - uid: caddy-config-reload-failed
+        title: CaddyConfigReloadFailed
+        condition: C
+        for: 2m
+        keep_firing_for: 5m
+        is_paused: false
+        execErrState: Error
+        labels:
+          severity: critical
+        annotations:
+          summary: "Caddy config reload failed on {{ $labels.host }}"
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: victoriametrics
+            model:
+              expr: caddy_config_last_reload_successful
+              instant: true
+              refId: A
+          - refId: C
+            relativeTimeRange:
+              from: 0
+              to: 0
+            datasourceUid: "-100"
+            model:
+              type: threshold
+              expression: "A"
+              conditions:
+                - evaluator:
+                    type: lt
+                    params: [1]
+                  operator:
+                    type: and
+                  query:
+                    params: [A]
+                  reducer:
+                    type: last
+              refId: C
+
+      - uid: crowdsec-bouncer-stalled
+        title: CrowdSecBouncerStalled
+        condition: C
+        for: 15m
+        keep_firing_for: 5m
+        is_paused: false
+        execErrState: Error
+        labels:
+          severity: critical
+        annotations:
+          summary: "CrowdSec bouncer {{ $labels.bouncer }} on {{ $labels.host }} has stopped pulling decisions"
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 900
+              to: 0
+            datasourceUid: victoriametrics
+            model:
+              expr: rate(cs_lapi_bouncer_requests_total{route="/v1/decisions/stream"}[15m])
+              instant: true
+              refId: A
+          - refId: C
+            relativeTimeRange:
+              from: 0
+              to: 0
+            datasourceUid: "-100"
+            model:
+              type: threshold
+              expression: "A"
+              conditions:
+                - evaluator:
+                    type: lt
+                    params: [0.001]
+                  operator:
+                    type: and
+                  query:
+                    params: [A]
+                  reducer:
+                    type: last
+              refId: C
+
+  - orgId: 1
+    name: identity
+    folder: Homelab Alerts
+    interval: 1m
+    rules:
+      - uid: authentik-outpost-disconnected
+        title: AuthentikOutpostDisconnected
+        condition: C
+        for: 2m
+        keep_firing_for: 5m
+        is_paused: false
+        execErrState: Error
+        labels:
+          severity: critical
+        annotations:
+          summary: "Authentik outpost {{ $labels.outpost_name }} is disconnected"
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: victoriametrics
+            model:
+              expr: authentik_outpost_connection
+              instant: true
+              refId: A
+          - refId: C
+            relativeTimeRange:
+              from: 0
+              to: 0
+            datasourceUid: "-100"
+            model:
+              type: threshold
+              expression: "A"
+              conditions:
+                - evaluator:
+                    type: lt
+                    params: [1]
+                  operator:
+                    type: and
+                  query:
+                    params: [A]
+                  reducer:
+                    type: last
+              refId: C
+
+      - uid: authentik-no-workers
+        title: AuthentikNoWorkers
+        condition: C
+        for: 5m
+        keep_firing_for: 5m
+        is_paused: false
+        execErrState: Error
+        labels:
+          severity: critical
+        annotations:
+          summary: "Authentik has no active task workers"
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: victoriametrics
+            model:
+              expr: sum(authentik_tasks_workers)
+              instant: true
+              refId: A
+          - refId: C
+            relativeTimeRange:
+              from: 0
+              to: 0
+            datasourceUid: "-100"
+            model:
+              type: threshold
+              expression: "A"
+              conditions:
+                - evaluator:
+                    type: lt
+                    params: [1]
+                  operator:
+                    type: and
+                  query:
+                    params: [A]
+                  reducer:
+                    type: last
+              refId: C
+
+  - orgId: 1
+    name: dns
+    folder: Homelab Alerts
+    interval: 1m
+    rules:
+      - uid: pihole-blocking-disabled
+        title: PiholeBlockingDisabled
+        condition: C
+        for: 2m
+        keep_firing_for: 5m
+        is_paused: false
+        execErrState: Error
+        labels:
+          severity: critical
+        annotations:
+          summary: "Pi-hole blocking is disabled on {{ $labels.target }}"
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: victoriametrics
+            model:
+              expr: forseti_blocking_status
+              instant: true
+              refId: A
+          - refId: C
+            relativeTimeRange:
+              from: 0
+              to: 0
+            datasourceUid: "-100"
+            model:
+              type: threshold
+              expression: "A"
+              conditions:
+                - evaluator:
+                    type: lt
+                    params: [1]
+                  operator:
+                    type: and
+                  query:
+                    params: [A]
+                  reducer:
+                    type: last
+              refId: C
+
+      - uid: pihole-gravity-stale
+        title: PiholeGravityStale
+        condition: C
+        for: 0m
+        keep_firing_for: 10m
+        is_paused: false
+        noDataState: OK
+        execErrState: Error
+        labels:
+          severity: warning
+        annotations:
+          summary: "Pi-hole gravity/adlists on {{ $labels.target }} haven't updated in over 36h"
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: victoriametrics
+            model:
+              expr: time() - forseti_gravity_last_update_timestamp
+              instant: true
+              refId: A
+          - refId: C
+            relativeTimeRange:
+              from: 0
+              to: 0
+            datasourceUid: "-100"
+            model:
+              type: threshold
+              expression: "A"
+              conditions:
+                - evaluator:
+                    type: gt
+                    params: [129600]
+                  operator:
+                    type: and
+                  query:
+                    params: [A]
+                  reducer:
+                    type: last
+              refId: C
+
+  - orgId: 1
+    name: proxmox-disks
+    folder: Homelab Alerts
+    interval: 1m
+    rules:
+      - uid: pve-disk-health-degraded
+        title: PveDiskHealthDegraded
+        condition: C
+        for: 2m
+        keep_firing_for: 5m
+        is_paused: false
+        noDataState: OK
+        execErrState: Error
+        labels:
+          severity: critical
+        annotations:
+          summary: "Disk {{ $labels.device }} ({{ $labels.model }}) on {{ $labels.node }} is failing"
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: victoriametrics
+            model:
+              expr: pve_disk_health_status
+              instant: true
+              refId: A
+          - refId: C
+            relativeTimeRange:
+              from: 0
+              to: 0
+            datasourceUid: "-100"
+            model:
+              type: threshold
+              expression: "A"
+              conditions:
+                - evaluator:
+                    type: lt
+                    params: [1]
+                  operator:
+                    type: and
+                  query:
+                    params: [A]
+                  reducer:
+                    type: last
+              refId: C
+
+      - uid: pve-disk-temperature-high
+        title: PveDiskTemperatureHigh
+        condition: C
+        for: 10m
+        keep_firing_for: 10m
+        is_paused: false
+        noDataState: OK
+        execErrState: Error
+        labels:
+          severity: warning
+        annotations:
+          summary: "Disk {{ $labels.device }} ({{ $labels.model }}) on {{ $labels.node }} at {{ printf \"%.0f\" $values.A.Value }}°C"
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: victoriametrics
+            model:
+              expr: pve_disk_temperature_celsius
+              instant: true
+              refId: A
+          - refId: C
+            relativeTimeRange:
+              from: 0
+              to: 0
+            datasourceUid: "-100"
+            model:
+              type: threshold
+              conditions:
+                - evaluator:
+                    type: gt
+                    params: [55]
+                  operator:
+                    type: and
+                  query:
+                    params: [A]
+                  reducer:
+                    type: last
+              expression: "A"
+              refId: C
+
+      - uid: pve-disk-wearout-high
+        title: PveDiskWearoutHigh
+        condition: C
+        for: 10m
+        keep_firing_for: 10m
+        is_paused: false
+        noDataState: OK
+        execErrState: Error
+        labels:
+          severity: warning
+        annotations:
+          summary: "Disk {{ $labels.device }} ({{ $labels.model }}) on {{ $labels.node }} at {{ printf \"%.0f\" $values.A.Value }}% wear"
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: victoriametrics
+            model:
+              expr: pve_disk_percentage_used
+              instant: true
+              refId: A
+          - refId: C
+            relativeTimeRange:
+              from: 0
+              to: 0
+            datasourceUid: "-100"
+            model:
+              type: threshold
+              expression: "A"
+              conditions:
+                - evaluator:
+                    type: gt
+                    params: [90]
                   operator:
                     type: and
                   query:
