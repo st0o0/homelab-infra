@@ -1,7 +1,7 @@
 {$CADDY_DOMAIN_MEALIE} {
 	import defaults
 	import log-service mealie
-	import ratelimit-relaxed mealie
+	import ratelimit-media mealie
 	import access-geo
 	request_body {
 		max_size 200MB
