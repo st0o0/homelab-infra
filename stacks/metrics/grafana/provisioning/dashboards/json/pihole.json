@@ -131,7 +131,8 @@
               }
             ]
           },
-          "unit": "short"
+          "unit": "short",
+          "displayName": "{{target}}"
         }
       },
       "options": {
@@ -220,7 +221,8 @@
               }
             ]
           },
-          "unit": "short"
+          "unit": "short",
+          "displayName": "{{target}}"
         }
       },
       "options": {
@@ -296,7 +298,8 @@
               }
             ]
           },
-          "unit": "short"
+          "unit": "short",
+          "displayName": "{{target}}"
         }
       },
       "options": {
@@ -350,7 +353,8 @@
               }
             ]
           },
-          "unit": "percent"
+          "unit": "percent",
+          "displayName": "{{target}}"
         }
       },
       "options": {
@@ -401,7 +405,8 @@
               }
             ]
           },
-          "unit": "short"
+          "unit": "short",
+          "displayName": "{{target}}"
         }
       },
       "options": {
@@ -454,7 +459,8 @@
               }
             ]
           },
-          "unit": "short"
+          "unit": "short",
+          "displayName": "{{target}}"
         }
       },
       "options": {
@@ -484,7 +490,7 @@
       "id": 8,
       "gridPos": {
         "h": 4,
-        "w": 4,
+        "w": 8,
         "x": 0,
         "y": 5
       },
@@ -507,7 +513,8 @@
               }
             ]
           },
-          "unit": "short"
+          "unit": "short",
+          "displayName": "{{target}}"
         }
       },
       "options": {
@@ -537,8 +544,8 @@
       "id": 9,
       "gridPos": {
         "h": 4,
-        "w": 4,
-        "x": 4,
+        "w": 8,
+        "x": 8,
         "y": 5
       },
       "datasource": {
@@ -568,7 +575,8 @@
               }
             ]
           },
-          "unit": "dtdurations"
+          "unit": "dtdurations",
+          "displayName": "{{target}}"
         }
       },
       "options": {
@@ -598,8 +606,8 @@
       "id": 10,
       "gridPos": {
         "h": 4,
-        "w": 4,
-        "x": 8,
+        "w": 8,
+        "x": 16,
         "y": 5
       },
       "datasource": {
