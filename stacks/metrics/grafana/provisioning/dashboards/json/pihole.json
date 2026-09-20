@@ -1057,7 +1057,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "forseti_upstream_response_seconds{target=~\"$target\"}",
+          "expr": "(forseti_upstream_response_seconds{target=~\"$target\"}) default 0",
           "legendFormat": "{{target}} {{name}}"
         }
       ]
@@ -1133,7 +1133,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "forseti_upstream_response_variance{target=~\"$target\"}",
+          "expr": "(forseti_upstream_response_variance{target=~\"$target\"}) default 0",
           "legendFormat": "{{target}} {{name}}"
         }
       ]
@@ -1297,7 +1297,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (target) (rate(forseti_gravity_duration_seconds_sum{target=~\"$target\"}[15m])) / sum by (target) (rate(forseti_gravity_duration_seconds_count{target=~\"$target\"}[15m]))",
+          "expr": "(sum by (target) (rate(forseti_gravity_duration_seconds_sum{target=~\"$target\"}[15m])) / sum by (target) (rate(forseti_gravity_duration_seconds_count{target=~\"$target\"}[15m]))) default 0",
           "legendFormat": "{{target}}"
         }
       ]

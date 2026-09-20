@@ -74,6 +74,10 @@ path = "grafana/provisioning/dashboards/json/nut.json"
 requires = "Restart"
 
 [[stack.config.config_files]]
+path = "grafana/provisioning/dashboards/json/pihole.json"
+requires = "Restart"
+
+[[stack.config.config_files]]
 path = "grafana/provisioning/dashboards/json/proxmox.json"
 requires = "Restart"
 
