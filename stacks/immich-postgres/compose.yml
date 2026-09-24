@@ -26,6 +26,8 @@ services:
       - "postgres"
       - "-c"
       - "hba_file=/etc/postgresql/pg_hba.conf"
+      - "-c"
+      - "shared_preload_libraries=vchord"
     networks:
       - db-net
     healthcheck:
