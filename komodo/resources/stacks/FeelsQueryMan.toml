@@ -92,6 +92,27 @@ path = "."
 command = "docker network create db-net 2>/dev/null || true"
 
 [[stack]]
+name = "databasus-1"
+tags = ["backup"]
+after = ["postgres-1", "immich-postgres-1", "mongodb-1"]
+[stack.config]
+server = "FeelsQueryMan"
+project_name = "databasus-1"
+run_directory = "stacks/databasus"
+file_paths = ["compose.yml"]
+linked_repo = "homelab-infra"
+extra_args = ["--remove-orphans"]
+environment = """
+TZ=[[tz]]
+DATABASUS_PORT=[[FeelsQueryMan_databasus_port]]
+DATABASUS_PATH_DATA=/docker/databasus/data
+"""
+
+[stack.config.pre_deploy]
+path = "."
+command = "docker network create db-net 2>/dev/null || true"
+
+[[stack]]
 name = "alloy-5"
 tags = ["monitoring"]
 after = ["postgres-1", "immich-postgres-1", "mongodb-1", "valkey-1"]

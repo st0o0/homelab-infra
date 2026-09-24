@@ -1,0 +1,38 @@
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: 10m
+    max-file: "3"
+
+services:
+  databasus:
+    image: databasus/databasus:v3.57.1@sha256:bc227c802db0f0a40b16aecbb63c74b2c0226d8720893bfc670b89639324a983
+    container_name: databasus
+    restart: unless-stopped
+    logging: *default-logging
+    environment:
+      - TZ=${TZ:-}
+    ports:
+      - "${DATABASUS_PORT:-4005}:4005"
+    volumes:
+      - ${DATABASUS_PATH_DATA:?DATABASUS_PATH_DATA is required}:/databasus-data
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - db-net
+    healthcheck:
+      test: ["CMD", "databasus", "healthcheck"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
+        reservations:
+          memory: 64M
+
+networks:
+  db-net:
+    external: true
