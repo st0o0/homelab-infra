@@ -20,7 +20,12 @@ services:
       - "${IMMICH_PG_PORT:-5433}:5432"
     volumes:
       - ${IMMICH_PG_PATH_DATA:?IMMICH_PG_PATH_DATA is required}:/var/lib/postgresql/data
+      - ./pg_hba.conf:/etc/postgresql/pg_hba.conf:ro
     shm_size: 256mb
+    command:
+      - "postgres"
+      - "-c"
+      - "hba_file=/etc/postgresql/pg_hba.conf"
     networks:
       - db-net
     healthcheck:
