@@ -121,10 +121,10 @@ services:
     deploy:
       resources:
         limits:
-          memory: 1GB
+          memory: 3GB
           cpus: "1"
         reservations:
-          memory: 256M
+          memory: 512M
 
 networks:
   media:
