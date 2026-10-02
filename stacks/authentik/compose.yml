@@ -35,6 +35,8 @@ services:
       - AUTHENTIK_IMPERSONATION=false
       # Housekeeping
       - AUTHENTIK_EVENTS__RETENTION=days=90
+      # No Docker socket mounted; only the embedded outpost is used
+      - AUTHENTIK_OUTPOSTS__DISCOVER=false
       - AUTHENTIK_LOG_LEVEL=${AUTHENTIK_LOG_LEVEL:-warning}
       # Email
       - AUTHENTIK_EMAIL__HOST=${AUTHENTIK_EMAIL_HOST:-}
@@ -134,6 +136,8 @@ services:
       - AUTHENTIK_IMPERSONATION=false
       # Housekeeping
       - AUTHENTIK_EVENTS__RETENTION=days=90
+      # No Docker socket mounted; only the embedded outpost is used
+      - AUTHENTIK_OUTPOSTS__DISCOVER=false
       - AUTHENTIK_LOG_LEVEL=${AUTHENTIK_LOG_LEVEL:-warning}
       # Email
       - AUTHENTIK_EMAIL__HOST=${AUTHENTIK_EMAIL_HOST:-}
