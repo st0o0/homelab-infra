@@ -109,7 +109,7 @@ groups:
       - uid: high-memory
         title: HighMemory
         condition: C
-        for: 5m
+        for: 10m
         keep_firing_for: 10m
         is_paused: false
         execErrState: Error
