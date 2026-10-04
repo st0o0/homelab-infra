@@ -1226,7 +1226,7 @@ groups:
       - uid: authentik-outpost-disconnected
         title: AuthentikOutpostDisconnected
         condition: C
-        for: 2m
+        for: 5m
         keep_firing_for: 5m
         is_paused: false
         execErrState: Error
