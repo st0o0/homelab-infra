@@ -1105,7 +1105,7 @@ groups:
         labels:
           severity: warning
         annotations:
-          summary: "Caddy {{ $labels.host }} error rate at {{ printf \"%.0f\" $values.A.Value }}%"
+          summary: "Caddy {{ $labels.host }} at {{ printf \"%.2f\" $values.A.Value }} errors/s"
         data:
           - refId: A
             relativeTimeRange:
@@ -1113,7 +1113,7 @@ groups:
               to: 0
             datasourceUid: victoriametrics
             model:
-              expr: sum by (host) (rate(caddy_http_request_errors_total{server="proxy"}[5m])) / sum by (host) (rate(caddy_http_requests_total{server="proxy"}[5m])) * 100
+              expr: sum by (host) (rate(caddy_http_request_errors_total{server="proxy"}[5m]))
               instant: true
               refId: A
           - refId: C
@@ -1127,7 +1127,7 @@ groups:
               conditions:
                 - evaluator:
                     type: gt
-                    params: [20]
+                    params: [0.5]
                   operator:
                     type: and
                   query:
