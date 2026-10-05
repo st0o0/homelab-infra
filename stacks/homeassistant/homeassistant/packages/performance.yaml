@@ -1,7 +1,7 @@
 recorder:
   db_url: !env_var HA_RECORDER_DB_URL
-  purge_keep_days: 7
-  commit_interval: 5
+  purge_keep_days: 5
+  commit_interval: 10
   auto_purge: true
   auto_repack: true
   exclude:
@@ -12,12 +12,52 @@ recorder:
       - script
       - scene
       - persistent_notification
+      - group
     entity_globs:
-      - sensor.*_linkquality
-      - sensor.*_battery
-      - sensor.*_last_seen
-      - sensor.sun_*
-      - binary_sensor.*_update_available
+      # Zigbee/device metadata
+      - "sensor.*_linkquality"
+      - "sensor.*_battery"
+      - "sensor.*_batteriespannung"
+      - "sensor.*_batterietyp"
+      - "sensor.*_last_seen"
+      - "sensor.*_firmware*"
+      - "sensor.*_update*"
+      - "binary_sensor.*_update_available"
+      - "binary_sensor.*_overpowering"
+      # Sun/time
+      - "sensor.sun_*"
+      # Shelly 3EM detail sensors (high frequency, low value)
+      - "sensor.strom_phase_*_apparent_power"
+      - "sensor.strom_phase_*_reactive_power"
+      - "sensor.strom_phase_*_power_factor"
+      - "sensor.strom_total_apparent_power"
+      # NINA warning slots (almost always unavailable)
+      - "sensor.vreden_stadt_borken_nordrhein_westfalen_*"
+      # Proxmox (already in Prometheus via Alloy)
+      - "sensor.feelsamazingman_*"
+      - "binary_sensor.feelsamazingman_*"
+      - "binary_sensor.it_feelsamazingman_*"
+      # TrueNAS (already in Prometheus via Alloy)
+      - "sensor.truenas_*"
+      - "binary_sensor.truenas_*"
+      # Synology (already in Prometheus via Alloy)
+      - "sensor.ds418_*"
+      - "binary_sensor.ds418_*"
+      # Overseerr/Sonarr/Radarr
+      - "sensor.seerr_*"
+      - "sensor.sonarr_*"
+      - "sensor.radarr_*"
+      - "binary_sensor.radarr_*"
+      # Paperless
+      - "sensor.paperless_*"
+      # Mealie
+      - "sensor.mealie_*"
+      # Immich
+      - "sensor.immich_*"
+      # Thread metadata
+      - "sensor.*_thread_kanal"
+      - "sensor.*_thread_netzwerkname"
+      - "sensor.*_thread_routing_rolle"
     entities:
       - sensor.date
       - sensor.date_time
@@ -31,15 +71,3 @@ logger:
   logs:
     homeassistant.components.mqtt: info
     homeassistant.components.websocket_api: error
-
-logbook:
-  exclude:
-    domains:
-      - automation
-      - script
-      - group
-      - persistent_notification
-    entity_globs:
-      - sensor.*_linkquality
-      - sensor.*_battery
-      - sensor.*_last_seen

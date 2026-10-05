@@ -1,14 +1,52 @@
-default_config:
-
+# Core - replaces default_config
+# Removed: cloud, dhcp, go2rtc, ssdp, stream, usb
 homeassistant:
   packages: !include_dir_named packages
 
+automation: !include automations.yaml
+backup:
+bluetooth:
+config:
+conversation:
+counter:
+energy:
 frontend:
   themes: !include_dir_merge_named themes
-
-automation: !include automations.yaml
-script: !include scripts.yaml
+hardware:
+history:
+homeassistant_alerts:
+image_upload:
+input_boolean:
+input_button:
+input_datetime:
+input_number:
+input_select:
+input_text:
+logbook:
+  exclude:
+    domains:
+      - automation
+      - script
+      - group
+      - persistent_notification
+    entity_globs:
+      - "sensor.*_linkquality"
+      - "sensor.*_battery"
+      - "sensor.*_last_seen"
+media_source:
+mobile_app:
+my:
+person:
 scene: !include scenes.yaml
+schedule:
+script: !include scripts.yaml
+sun:
+system_health:
+tag:
+timer:
+webhook:
+zeroconf:
+zone:
 
 lovelace:
   mode: storage
