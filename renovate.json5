@@ -61,6 +61,12 @@
   ],
   packageRules: [
     {
+      description: 'Docker minor+patch need manual review in homelab -- too many services to risk blind updates',
+      matchManagers: ['dockerfile', 'docker-compose'],
+      matchUpdateTypes: ['minor', 'patch'],
+      automerge: false,
+    },
+    {
       description: 'Group Caddy builder and runtime together (must stay version-aligned)',
       groupName: 'caddy',
       matchPackageNames: ['caddy'],
