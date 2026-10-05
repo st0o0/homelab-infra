@@ -26,6 +26,10 @@
 	}
 	servers :443 {
 		name proxy
+		timeouts {
+			idle 5m
+		}
+		max_header_size 1MB
 	}
 	servers :80 {
 		name honeypot
