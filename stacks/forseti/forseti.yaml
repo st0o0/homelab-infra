@@ -132,6 +132,11 @@ allow:
   - domain: nsl.pi-hole.net
   - domain: cc-api-data.adobe.io
 
+  # ESP / transactional email redirect domains (false positives on Tier 1/2 adlists)
+  - domain: mcf4wh-jdfmxrzzzttwqcrf-d3b4.device.marketingcloudapis.com
+  - domain: sdk.iad-03.braze.com
+  - domain: rossmann-cdn.bloomreach.co
+
   # Regex
   - domain: (\.|^)rittal\.com$
     kind: regex
