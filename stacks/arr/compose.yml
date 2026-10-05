@@ -252,7 +252,7 @@ services:
 
   youtarr:
     <<: *common
-    image: dialmaster/youtarr:v1.87.0@sha256:522d66525bc65051913518bd628df13666409398f6d8f8fe010ad980f49b18f1
+    image: dialmaster/youtarr:v1.87.1@sha256:0c7bbac98e68a2a762b32073a78f9c6e64f3c078882197b265e7ff2d8bca3d4f
     container_name: youtarr
     depends_on:
       youtarr-db:
