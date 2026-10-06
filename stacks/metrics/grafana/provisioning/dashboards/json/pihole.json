@@ -37,6 +37,17 @@
   "templating": {
     "list": [
       {
+        "current": {},
+        "hide": 0,
+        "label": "Data source",
+        "name": "datasource",
+        "options": [],
+        "query": "prometheus,victoriametrics-metrics-datasource",
+        "refresh": 1,
+        "regex": "",
+        "type": "datasource"
+      },
+      {
         "allValue": ".*",
         "current": {
           "selected": true,
@@ -44,8 +55,8 @@
           "value": "$__all"
         },
         "datasource": {
-          "type": "victoriametrics-metrics-datasource",
-          "uid": "victoriametrics"
+          "type": "prometheus",
+          "uid": "${datasource}"
         },
         "definition": "label_values(forseti_blocking_status, target)",
         "hide": 0,
@@ -91,8 +102,8 @@
         "y": 1
       },
       "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -169,8 +180,8 @@
         "y": 1
       },
       "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -259,8 +270,8 @@
         "y": 1
       },
       "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -336,8 +347,8 @@
         "y": 1
       },
       "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -390,8 +401,8 @@
         "y": 1
       },
       "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -445,8 +456,8 @@
         "y": 1
       },
       "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -499,8 +510,8 @@
         "y": 5
       },
       "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -553,8 +564,8 @@
         "y": 5
       },
       "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -615,8 +626,8 @@
         "y": 5
       },
       "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -680,8 +691,8 @@
         "y": 10
       },
       "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -761,8 +772,8 @@
         "y": 10
       },
       "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -839,8 +850,8 @@
         "y": 18
       },
       "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -915,8 +926,8 @@
         "y": 18
       },
       "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1003,8 +1014,8 @@
         "y": 27
       },
       "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1079,8 +1090,8 @@
         "y": 27
       },
       "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1167,8 +1178,8 @@
         "y": 36
       },
       "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1243,8 +1254,8 @@
         "y": 36
       },
       "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1319,8 +1330,8 @@
         "y": 36
       },
       "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1395,8 +1406,8 @@
         "y": 44
       },
       "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1471,8 +1482,8 @@
         "y": 44
       },
       "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1596,8 +1607,8 @@
         "y": 52
       },
       "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1733,8 +1744,8 @@
         "y": 61
       },
       "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1809,8 +1820,8 @@
         "y": 61
       },
       "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1890,8 +1901,8 @@
         "y": 61
       },
       "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1979,8 +1990,8 @@
         "y": 78
       },
       "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2033,8 +2044,8 @@
         "y": 78
       },
       "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2087,8 +2098,8 @@
         "y": 78
       },
       "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2141,8 +2152,8 @@
         "y": 78
       },
       "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2196,8 +2207,8 @@
         "y": 78
       },
       "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2251,8 +2262,8 @@
         "y": 78
       },
       "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2318,8 +2329,8 @@
         "y": 83
       },
       "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2395,8 +2406,8 @@
         "y": 83
       },
       "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2472,8 +2483,8 @@
         "y": 83
       },
       "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2561,8 +2572,8 @@
         "y": 92
       },
       "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2638,8 +2649,8 @@
         "y": 92
       },
       "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2714,8 +2725,8 @@
         "y": 69
       },
       "datasource": {
-        "type": "victoriametrics-metrics-datasource",
-        "uid": "victoriametrics"
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
