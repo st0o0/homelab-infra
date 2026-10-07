@@ -80,7 +80,7 @@
   "panels": [
     {
       "type": "row",
-      "title": "\ud83d\udcca Overview",
+      "title": "📊 Overview",
       "collapsed": false,
       "gridPos": {
         "h": 1,
@@ -505,7 +505,7 @@
       "id": 8,
       "gridPos": {
         "h": 4,
-        "w": 8,
+        "w": 6,
         "x": 0,
         "y": 5
       },
@@ -559,8 +559,8 @@
       "id": 9,
       "gridPos": {
         "h": 4,
-        "w": 8,
-        "x": 8,
+        "w": 6,
+        "x": 6,
         "y": 5
       },
       "datasource": {
@@ -621,8 +621,8 @@
       "id": 10,
       "gridPos": {
         "h": 4,
-        "w": 8,
-        "x": 16,
+        "w": 4,
+        "x": 12,
         "y": 5
       },
       "datasource": {
@@ -669,8 +669,118 @@
       ]
     },
     {
+      "type": "stat",
+      "title": "Version",
+      "description": "Forseti build version and mode",
+      "id": 45,
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 16,
+        "y": 5
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        }
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "name"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "forseti_build_info",
+          "legendFormat": "v{{version}} ({{mode}})"
+        }
+      ]
+    },
+    {
+      "type": "stat",
+      "title": "Request Frequency",
+      "description": "Current request frequency per target (req/s)",
+      "id": 46,
+      "gridPos": {
+        "h": 4,
+        "w": 5,
+        "x": 19,
+        "y": 5
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "reqps"
+        }
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "forseti_request_frequency{target=~\"$target\"}",
+          "legendFormat": "{{target}}"
+        }
+      ]
+    },
+    {
       "type": "row",
-      "title": "\ud83d\udd0d DNS Queries",
+      "title": "🔍 DNS Queries",
       "collapsed": false,
       "gridPos": {
         "h": 1,
@@ -993,7 +1103,7 @@
     },
     {
       "type": "row",
-      "title": "\ud83c\udf10 Upstreams",
+      "title": "🌐 Upstreams",
       "collapsed": false,
       "gridPos": {
         "h": 1,
@@ -1157,7 +1267,7 @@
     },
     {
       "type": "row",
-      "title": "\ud83d\udd04 Gravity & Reconcile",
+      "title": "🔄 Gravity & Reconcile",
       "collapsed": false,
       "gridPos": {
         "h": 1,
@@ -1723,7 +1833,7 @@
     },
     {
       "type": "row",
-      "title": "\u2699\ufe0f Operational Health",
+      "title": "⚙️ Operational Health",
       "collapsed": false,
       "gridPos": {
         "h": 1,
@@ -1963,6 +2073,82 @@
           "refId": "A",
           "expr": "sum by (result) (rate(forseti_config_reload_total[5m]))",
           "legendFormat": "{{result}}"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Session Reauth Events",
+      "id": 30,
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 69
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 20,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": true,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (target) (rate(forseti_session_reauth_total{target=~\"$target\"}[15m]))",
+          "legendFormat": "{{target}}"
         }
       ]
     },
@@ -2319,90 +2505,13 @@
     },
     {
       "type": "timeseries",
-      "title": "Gravity Errors",
-      "id": 39,
-      "description": "Gravity update failures",
-      "gridPos": {
-        "h": 8,
-        "w": 8,
-        "x": 0,
-        "y": 83
-      },
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 20,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "smooth",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": true,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "options": {
-        "legend": {
-          "calcs": [
-            "mean",
-            "max"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "desc"
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum by (target) (rate(forseti_gravity_errors_total{target=~\"$target\"}[15m]))",
-          "legendFormat": "{{target}}"
-        }
-      ]
-    },
-    {
-      "type": "timeseries",
       "title": "Upstream Queries",
       "id": 40,
       "description": "Query volume routed to each upstream resolver",
       "gridPos": {
         "h": 8,
-        "w": 8,
-        "x": 8,
+        "w": 12,
+        "x": 0,
         "y": 83
       },
       "datasource": {
@@ -2478,8 +2587,8 @@
       "description": "Reply types returned to clients",
       "gridPos": {
         "h": 8,
-        "w": 8,
-        "x": 16,
+        "w": 12,
+        "x": 12,
         "y": 83
       },
       "datasource": {
@@ -2710,82 +2819,6 @@
         {
           "refId": "A",
           "expr": "histogram_quantile(0.95, sum by (le, target) (rate(forseti_reconcile_duration_seconds_bucket{target=~\"$target\"}[15m])))",
-          "legendFormat": "{{target}}"
-        }
-      ]
-    },
-    {
-      "type": "timeseries",
-      "title": "Session Reauth Events",
-      "id": 30,
-      "gridPos": {
-        "h": 8,
-        "w": 24,
-        "x": 0,
-        "y": 69
-      },
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 20,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "smooth",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": true,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "options": {
-        "legend": {
-          "calcs": [
-            "mean",
-            "max"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "desc"
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum by (target) (rate(forseti_session_reauth_total{target=~\"$target\"}[15m]))",
           "legendFormat": "{{target}}"
         }
       ]
