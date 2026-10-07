@@ -6,7 +6,7 @@ x-logging: &default-logging
 
 services:
   forseti:
-    image: ghcr.io/st0o0/forseti:0.1.8@sha256:a146ebf861e7894027ca7fac5acd1731766a11ff3e5c36cb9600508c5ba7c479
+    image: ghcr.io/st0o0/forseti:0.1.9@sha256:7ccff6c2ba15cd17858c15393df4eefdc2f1f273899cb93491695d3b8e24f4d5
     container_name: forseti
     restart: unless-stopped
     logging: *default-logging
