@@ -42,7 +42,7 @@
         "label": "Data source",
         "name": "datasource",
         "options": [],
-        "query": "prometheus,victoriametrics-metrics-datasource",
+        "query": "victoriametrics-metrics-datasource",
         "refresh": 1,
         "regex": "",
         "type": "datasource"
