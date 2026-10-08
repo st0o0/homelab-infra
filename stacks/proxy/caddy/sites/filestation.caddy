@@ -1,0 +1,10 @@
+{$CADDY_DOMAIN_FILESTATION} {
+	import defaults
+	import log-service filestation
+	import ratelimit-media filestation
+	import access-geo
+	request_body {
+		max_size 50GB
+	}
+	import proxy {$CADDY_TARGET_FILESTATION}
+}

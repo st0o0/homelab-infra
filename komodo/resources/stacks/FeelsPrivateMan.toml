@@ -69,6 +69,8 @@ CADDY_DOMAIN_VAULTWARDEN=[[FeelsPrivateMan_caddy_domain_vaultwarden]]
 CADDY_TARGET_VAULTWARDEN=[[FeelsPrivateMan_caddy_target_vaultwarden]]
 CADDY_DOMAIN_AUTHENTIK=[[FeelsPrivateMan_caddy_domain_authentik]]
 CADDY_TARGET_AUTHENTIK=[[FeelsPrivateMan_caddy_target_authentik]]
+CADDY_DOMAIN_FILESTATION=[[FeelsPrivateMan_caddy_domain_filestation]]
+CADDY_TARGET_FILESTATION=[[FeelsPrivateMan_caddy_target_filestation]]
 
 # ── CrowdSec firewall bouncer ──────────────────────────────────
 CROWDSEC_FIREWALL_BOUNCER_API_KEY=[[FeelsPrivateMan_crowdsec_firewall_bouncer_api_key]]
