@@ -1060,6 +1060,7 @@ groups:
         for: 2m
         keep_firing_for: 5m
         is_paused: false
+        noDataState: OK
         execErrState: Error
         labels:
           severity: critical
@@ -1101,6 +1102,7 @@ groups:
         for: 5m
         keep_firing_for: 10m
         is_paused: false
+        noDataState: OK
         execErrState: Error
         labels:
           severity: warning
@@ -1142,6 +1144,7 @@ groups:
         for: 2m
         keep_firing_for: 5m
         is_paused: false
+        noDataState: OK
         execErrState: Error
         labels:
           severity: critical
