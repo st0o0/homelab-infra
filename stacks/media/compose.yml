@@ -21,6 +21,8 @@ services:
       - PUID=${PUID:-}
       - PGID=${PGID:-}
       - TZ=${TZ:-}
+      - MALLOC_TRIM_THRESHOLD_=100000
+      - DOTNET_GCHighMemPercent=32
     volumes:
       - ${JELLYFIN_PATH_CONFIG:?JELLYFIN_PATH_CONFIG is required}:/config
       - ${JELLYFIN_PATH_CACHE:?JELLYFIN_PATH_CACHE is required}:/cache
