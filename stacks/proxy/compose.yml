@@ -136,6 +136,8 @@ services:
       - CADDY_TARGET_VAULTWARDEN=${CADDY_TARGET_VAULTWARDEN:?CADDY_TARGET_VAULTWARDEN is required}
       - CADDY_DOMAIN_SEERR=${CADDY_DOMAIN_SEERR:?CADDY_DOMAIN_SEERR is required}
       - CADDY_TARGET_SEERR=${CADDY_TARGET_SEERR:?CADDY_TARGET_SEERR is required}
+      - CADDY_DOMAIN_FILESTATION=${CADDY_DOMAIN_FILESTATION:?CADDY_DOMAIN_FILESTATION is required}
+      - CADDY_TARGET_FILESTATION=${CADDY_TARGET_FILESTATION:?CADDY_TARGET_FILESTATION is required}
     healthcheck:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:2019/config/"]
       interval: 10s
