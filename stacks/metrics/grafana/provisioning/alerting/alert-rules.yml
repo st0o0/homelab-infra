@@ -1061,11 +1061,11 @@ groups:
         keep_firing_for: 5m
         is_paused: false
         noDataState: OK
-        execErrState: Error
+        execErrState: OK
         labels:
           severity: critical
         annotations:
-          summary: "Caddy upstream {{ $labels.upstream }} ({{ $labels.host }}) is unhealthy"
+          summary: "Caddy upstream {{ $labels.upstream | default \"unknown\" }} ({{ $labels.host | default \"unknown\" }}) is unhealthy"
         data:
           - refId: A
             relativeTimeRange:
@@ -1103,11 +1103,11 @@ groups:
         keep_firing_for: 10m
         is_paused: false
         noDataState: OK
-        execErrState: Error
+        execErrState: OK
         labels:
           severity: warning
         annotations:
-          summary: "Caddy {{ $labels.host }} at {{ printf \"%.2f\" $values.A.Value }} errors/s"
+          summary: "Caddy {{ $labels.host | default \"unknown\" }} at {{ if $values.A }}{{ printf \"%.2f\" $values.A.Value }}{{ else }}0{{ end }} errors/s"
         data:
           - refId: A
             relativeTimeRange:
@@ -1145,11 +1145,11 @@ groups:
         keep_firing_for: 5m
         is_paused: false
         noDataState: OK
-        execErrState: Error
+        execErrState: OK
         labels:
           severity: critical
         annotations:
-          summary: "Caddy config reload failed on {{ $labels.host }}"
+          summary: "Caddy config reload failed on {{ $labels.host | default \"unknown\" }}"
         data:
           - refId: A
             relativeTimeRange:
