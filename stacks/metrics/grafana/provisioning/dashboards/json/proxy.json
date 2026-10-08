@@ -3490,6 +3490,128 @@
               "legendFormat": "p95"
             }
           ]
+        },
+        {
+          "id": 420,
+          "type": "timeseries",
+          "title": "Bouncer Blocks",
+          "gridPos": {
+            "x": 0,
+            "y": 52,
+            "w": 12,
+            "h": 8
+          },
+          "datasource": {
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "victoriametrics"
+          },
+          "options": {
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            },
+            "legend": {
+              "calcs": [
+                "mean",
+                "max"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "showLegend": true,
+              "sortBy": "Max",
+              "sortDesc": true
+            }
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "fillOpacity": 20,
+                "lineWidth": 2,
+                "spanNulls": true,
+                "drawStyle": "line",
+                "lineInterpolation": "smooth",
+                "showPoints": "never"
+              },
+              "unit": "reqps",
+              "min": 0
+            },
+            "overrides": []
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
+              },
+              "expr": "sum by (origin) (rate(crowdsec_requests_blocked{instance=~\"$instance\"}[5m]))",
+              "legendFormat": "{{origin}}"
+            }
+          ]
+        },
+        {
+          "id": 421,
+          "type": "timeseries",
+          "title": "Bouncer Processed",
+          "gridPos": {
+            "x": 12,
+            "y": 52,
+            "w": 12,
+            "h": 8
+          },
+          "datasource": {
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "victoriametrics"
+          },
+          "options": {
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            },
+            "legend": {
+              "calcs": [
+                "mean",
+                "max"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "showLegend": true,
+              "sortBy": "Max",
+              "sortDesc": true
+            }
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "fillOpacity": 20,
+                "lineWidth": 2,
+                "spanNulls": true,
+                "drawStyle": "line",
+                "lineInterpolation": "smooth",
+                "showPoints": "never"
+              },
+              "unit": "reqps",
+              "min": 0
+            },
+            "overrides": []
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
+              },
+              "expr": "sum by (ip_type) (rate(crowdsec_requests_processed{instance=~\"$instance\"}[5m]))",
+              "legendFormat": "{{ip_type}}"
+            }
+          ]
         }
       ],
       "id": 400
