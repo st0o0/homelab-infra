@@ -8,6 +8,7 @@
 		api_key {$CROWDSEC_BOUNCER_API_KEY}
 		appsec_url http://localhost:7422
 		enable_caddy_metrics
+		metrics_interval 15m
 	}
 
 	metrics {
