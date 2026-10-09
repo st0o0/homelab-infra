@@ -102,6 +102,16 @@
 	}
 }
 
+(ratelimit-high) {
+	rate_limit {
+		zone high_{args[0]} {
+			key {remote_host}
+			events 1000
+			window 1m
+		}
+	}
+}
+
 (appsec) {
 	appsec
 }
