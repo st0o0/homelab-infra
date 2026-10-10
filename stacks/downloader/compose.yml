@@ -27,6 +27,7 @@ services:
       - WIREGUARD_ADDRESSES=${GLUETUN_WG_ADDRESSES:?GLUETUN_WG_ADDRESSES is required}
       - SERVER_CITIES=${GLUETUN_SERVER_CITIES:?GLUETUN_SERVER_CITIES is required}
       - DOT_PROVIDERS=${GLUETUN_DOT_PROVIDERS:-quad9}
+      - BLOCK_MALICIOUS=${GLUETUN_BLOCK_MALICIOUS:-off}
     volumes:
       - ./gluetun/config:/gluetun
     networks:
