@@ -34,7 +34,7 @@ groups:
         labels:
           severity: critical
         annotations:
-          summary: "Host {{ $labels.host }} is down -- no metrics received for 2 minutes"
+          summary: "Host {{ $labels.host }} is down or stopped sending metrics"
         data:
           - refId: A
             relativeTimeRange:
@@ -42,7 +42,7 @@ groups:
               to: 0
             datasourceUid: victoriametrics
             model:
-              expr: max by(host) (up{host!=""})
+              expr: max by(host) (up{host!=""}) or (max by(host) (last_over_time(up{host!=""}[1d])) * 0)
               instant: true
               refId: A
           - refId: C
@@ -71,6 +71,7 @@ groups:
         for: 5m
         keep_firing_for: 10m
         is_paused: false
+        noDataState: OK
         execErrState: Error
         labels:
           severity: warning
@@ -112,6 +113,7 @@ groups:
         for: 10m
         keep_firing_for: 10m
         is_paused: false
+        noDataState: OK
         execErrState: Error
         labels:
           severity: warning
@@ -195,6 +197,7 @@ groups:
         for: 10m
         keep_firing_for: 10m
         is_paused: false
+        noDataState: OK
         execErrState: Error
         labels:
           severity: warning
@@ -236,6 +239,7 @@ groups:
         for: 5m
         keep_firing_for: 5m
         is_paused: false
+        noDataState: OK
         execErrState: Error
         labels:
           severity: critical
@@ -282,6 +286,7 @@ groups:
         for: 2m
         keep_firing_for: 10m
         is_paused: false
+        noDataState: OK
         execErrState: Error
         labels:
           severity: warning
@@ -323,6 +328,7 @@ groups:
         for: 5m
         keep_firing_for: 10m
         is_paused: false
+        noDataState: OK
         execErrState: Error
         labels:
           severity: warning
@@ -584,6 +590,7 @@ groups:
         for: 2m
         keep_firing_for: 5m
         is_paused: false
+        noDataState: OK
         execErrState: OK
         labels:
           severity: critical
@@ -709,6 +716,7 @@ groups:
         for: 10m
         keep_firing_for: 10m
         is_paused: false
+        noDataState: OK
         execErrState: Error
         labels:
           severity: warning
@@ -750,6 +758,7 @@ groups:
         for: 5m
         keep_firing_for: 5m
         is_paused: false
+        noDataState: OK
         execErrState: Error
         labels:
           severity: critical
@@ -885,6 +894,7 @@ groups:
         for: 2m
         keep_firing_for: 5m
         is_paused: false
+        noDataState: OK
         execErrState: Error
         labels:
           severity: critical
@@ -926,6 +936,7 @@ groups:
         for: 2m
         keep_firing_for: 5m
         is_paused: false
+        noDataState: OK
         execErrState: Error
         labels:
           severity: critical
@@ -972,6 +983,7 @@ groups:
         for: 5m
         keep_firing_for: 5m
         is_paused: false
+        noDataState: OK
         execErrState: Error
         labels:
           severity: critical
@@ -1065,7 +1077,7 @@ groups:
         labels:
           severity: critical
         annotations:
-          summary: "Caddy upstream {{ $labels.upstream | default \"unknown\" }} ({{ $labels.host | default \"unknown\" }}) is unhealthy"
+          summary: "Caddy upstream {{ with $labels.upstream }}{{ . }}{{ else }}unknown{{ end }} ({{ with $labels.host }}{{ . }}{{ else }}unknown{{ end }}) is unhealthy"
         data:
           - refId: A
             relativeTimeRange:
@@ -1107,7 +1119,7 @@ groups:
         labels:
           severity: warning
         annotations:
-          summary: "Caddy {{ $labels.host | default \"unknown\" }} at {{ if $values.A }}{{ printf \"%.2f\" $values.A.Value }}{{ else }}0{{ end }} errors/s"
+          summary: "Caddy {{ with $labels.host }}{{ . }}{{ else }}unknown{{ end }} at {{ if $values.A }}{{ printf \"%.2f\" $values.A.Value }}{{ else }}0{{ end }} errors/s"
         data:
           - refId: A
             relativeTimeRange:
@@ -1149,7 +1161,7 @@ groups:
         labels:
           severity: critical
         annotations:
-          summary: "Caddy config reload failed on {{ $labels.host | default \"unknown\" }}"
+          summary: "Caddy config reload failed on {{ with $labels.host }}{{ . }}{{ else }}unknown{{ end }}"
         data:
           - refId: A
             relativeTimeRange:
@@ -1186,6 +1198,7 @@ groups:
         for: 15m
         keep_firing_for: 5m
         is_paused: false
+        noDataState: OK
         execErrState: Error
         labels:
           severity: critical
@@ -1232,6 +1245,7 @@ groups:
         for: 5m
         keep_firing_for: 5m
         is_paused: false
+        noDataState: OK
         execErrState: Error
         labels:
           severity: critical
@@ -1273,6 +1287,7 @@ groups:
         for: 5m
         keep_firing_for: 5m
         is_paused: false
+        noDataState: OK
         execErrState: Error
         labels:
           severity: critical
@@ -1319,6 +1334,7 @@ groups:
         for: 2m
         keep_firing_for: 5m
         is_paused: false
+        noDataState: OK
         execErrState: Error
         labels:
           severity: critical
