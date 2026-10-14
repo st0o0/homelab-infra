@@ -196,7 +196,7 @@ services:
           memory: 64M
 
   configarr:
-    image: ghcr.io/raydak-labs/configarr:1.34.1@sha256:b039ac42aa17d074f62449772a6b46a62fda246bc6a8da8751350f4405d6e973
+    image: ghcr.io/raydak-labs/configarr:1.35.0@sha256:037a3c1022c719d6a70acb8a712e6ca2dd47ef07b71431e44b58f79097e05c83
     container_name: configarr
     restart: "no"
     logging: *default-logging
