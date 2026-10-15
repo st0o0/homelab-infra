@@ -1373,8 +1373,8 @@ groups:
       - uid: pihole-gravity-stale
         title: PiholeGravityStale
         condition: C
-        for: 0m
-        keep_firing_for: 10m
+        for: 5m
+        keep_firing_for: 0m
         is_paused: false
         noDataState: OK
         execErrState: Error

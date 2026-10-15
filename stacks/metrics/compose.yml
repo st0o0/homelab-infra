@@ -69,7 +69,9 @@ services:
       - --dedup.minScrapeInterval=${VM_SCRAPE_INTERVAL:-30s}
       - --search.cacheTimestampOffset=${VM_CACHE_TIMESTAMP_OFFSET:-10m}
       - --memory.allowedPercent=${VM_MEMORY_ALLOWED_PERCENT:-70}
-      - --search.maxConcurrentRequests=${VM_MAX_CONCURRENT_REQUESTS:-8}
+      - --search.maxConcurrentRequests=${VM_MAX_CONCURRENT_REQUESTS:-16}
+      # Queue bursts (e.g. all alert rules firing at once) instead of returning 429
+      - --search.maxQueueDuration=${VM_MAX_QUEUE_DURATION:-30s}
       - --search.maxMemoryPerQuery=${VM_MAX_MEMORY_PER_QUERY:-256MB}
       - --search.maxUniqueTimeseries=${VM_MAX_UNIQUE_TIMESERIES:-50000}
       - --search.maxQueryDuration=${VM_MAX_QUERY_DURATION:-60s}
