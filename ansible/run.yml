@@ -19,6 +19,8 @@
     # ── System ────────────────────────────────────────────────
     - role: swap
       tags: [system, swap]
+    - role: journald
+      tags: [system, journald]
     - role: unattended_upgrades
       tags: [system, unattended_upgrades]
     - role: docker

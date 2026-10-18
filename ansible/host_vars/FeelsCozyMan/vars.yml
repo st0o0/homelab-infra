@@ -25,6 +25,11 @@ unattended_upgrades_blacklist:
 # swap_enabled: false
 # swap_size: "2G"
 
+# Journald
+# Armbian keeps /var/log on a ~49 MB zram (armbian-ramlog), so a persistent
+# journal would only live in RAM; Alloy ships the journal continuously anyway.
+journald_enabled: false
+
 # Firewall
 # ufw_enabled: false
 # ufw_extra_rules:

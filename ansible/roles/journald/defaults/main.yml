@@ -1,0 +1,2 @@
+journald_enabled: true
+journald_system_max_use: "200M"
