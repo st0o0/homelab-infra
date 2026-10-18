@@ -2,7 +2,7 @@ import.file "modules" {
   filename = "/etc/alloy/modules"
 }
 
-modules.syslog "default" {
+modules.journal "default" {
   forward_to = [loki.secretfilter.redact.receiver]
 }
 

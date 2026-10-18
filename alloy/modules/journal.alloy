@@ -1,0 +1,104 @@
+declare "journal" {
+  argument "forward_to" {
+    optional = false
+  }
+
+  // Keep warning and above, plus every kernel message regardless of priority.
+  // Journal fields are exposed as __journal_<field> (lower case); the JSON line
+  // below carries the fields the pipeline needs.
+  loki.relabel "journal" {
+    forward_to = []
+
+    rule {
+      source_labels = ["__journal_priority_keyword", "__journal__transport"]
+      regex         = "(emerg|alert|crit|err|warning);.*|.*;kernel"
+      action        = "keep"
+    }
+  }
+
+  loki.source.journal "journal" {
+    format_as_json = true
+    max_age        = "12h"
+    labels         = {job = "journal"}
+    relabel_rules  = loki.relabel.journal.rules
+    forward_to     = [loki.process.journal.receiver]
+  }
+
+  loki.process "journal" {
+    stage.json {
+      expressions = {
+        msg    = "MESSAGE",
+        prio   = "PRIORITY",
+        ident  = "SYSLOG_IDENTIFIER",
+        syspid = "SYSLOG_PID",
+        pid    = "_PID",
+        unit   = "_SYSTEMD_UNIT",
+      }
+    }
+
+    // dockerd logs one error per failing container health check; the Alloy
+    // health check noise adds no information.
+    stage.drop {
+      source     = "unit,msg"
+      separator  = ";"
+      expression = "docker\\.service;.*(copy stream failed|Health check for container)"
+    }
+
+    stage.regex {
+      source     = "msg"
+      expression = "(?P<oom_match>Out of memory|invoked oom-killer|Killed process)"
+    }
+
+    stage.regex {
+      source     = "msg"
+      expression = "(?P<disk_error>I/O error|SCSI error|EXT4-fs error|blk_update_request|task abort)"
+    }
+
+    stage.regex {
+      source     = "msg"
+      expression = "(?P<hung_task>blocked for more than)"
+    }
+
+    stage.regex {
+      source     = "msg"
+      expression = "(?P<failed_unit>\\S+\\.service): (?:Main process exited|Failed with result)"
+    }
+
+    stage.regex {
+      source     = "msg"
+      expression = "(?i)(?P<link_event>link( is)? (up|down)|carrier (acquired|lost))"
+    }
+
+    stage.template {
+      source   = "event_type"
+      template = "{{ if .oom_match }}oom_kill{{ else if .disk_error }}disk_error{{ else if .hung_task }}hung_task{{ else if .failed_unit }}service_failed{{ else if .link_event }}link_change{{ end }}"
+    }
+
+    // Journal priority 0-7 mapped to the shared level names; events override it.
+    stage.template {
+      source   = "level"
+      template = "{{ $e := or .event_type \"\" }}{{ if or (eq $e \"oom_kill\") (eq $e \"disk_error\") (eq $e \"hung_task\") (eq $e \"service_failed\") }}error{{ else if eq $e \"link_change\" }}warning{{ else if or (eq .prio \"0\") (eq .prio \"1\") (eq .prio \"2\") }}critical{{ else if eq .prio \"3\" }}error{{ else if eq .prio \"4\" }}warning{{ else if eq .prio \"7\" }}debug{{ else }}info{{ end }}"
+    }
+
+    // Same line format as the former syslog module: program[pid]: message
+    stage.template {
+      source   = "formatted"
+      template = "{{ .ident }}{{ if or .syspid .pid }}[{{ or .syspid .pid }}]{{ end }}: {{ .msg }}"
+    }
+
+    stage.labels {
+      values = {
+        program    = "ident",
+        unit       = "",
+        event_type = "",
+        level      = "",
+      }
+    }
+
+    stage.output {
+      source = "formatted"
+    }
+
+    forward_to = argument.forward_to.value
+  }
+}

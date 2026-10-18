@@ -85,7 +85,7 @@ path = "../../alloy/modules/sudo.alloy"
 requires = "Redeploy"
 
 [[stack.config.config_files]]
-path = "../../alloy/modules/syslog.alloy"
+path = "../../alloy/modules/journal.alloy"
 requires = "Redeploy"
 
 [[stack.config.config_files]]

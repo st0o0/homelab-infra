@@ -322,6 +322,10 @@ services:
       - alloy-data:/var/lib/alloy/data
       - geoip-data:/geoip:ro
       - /var/log:/var/log/host:ro
+      # systemd journal for loki.source.journal (persistent and volatile)
+      - /var/log/journal:/var/log/journal:ro
+      - /run/log/journal:/run/log/journal:ro
+      - /etc/machine-id:/etc/machine-id:ro
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
       - /sys:/sys:ro

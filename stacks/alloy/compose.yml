@@ -40,7 +40,15 @@ services:
       geoipupdate:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:12345/-/ready"]
+      # The grafana/alloy image has no wget/curl, so probe /-/ready with bash /dev/tcp
+      test:
+        - CMD
+        - bash
+        - -c
+        - >-
+          exec 3<>/dev/tcp/127.0.0.1/12345 &&
+          printf 'GET /-/ready HTTP/1.0\r\n\r\n' >&3 &&
+          head -n1 <&3 | grep -q ' 200 '
       interval: 15s
       timeout: 5s
       retries: 3
@@ -70,6 +78,10 @@ services:
       - alloy-data:/var/lib/alloy/data
       - geoip-data:/geoip:ro
       - /var/log:/var/log/host:ro
+      # systemd journal for loki.source.journal (persistent and volatile)
+      - /var/log/journal:/var/log/journal:ro
+      - /run/log/journal:/run/log/journal:ro
+      - /etc/machine-id:/etc/machine-id:ro
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
       - /sys:/sys:ro
