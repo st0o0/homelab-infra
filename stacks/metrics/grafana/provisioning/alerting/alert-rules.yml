@@ -275,6 +275,50 @@ groups:
                     type: last
               refId: C
 
+      # Counters come from the journal Alloy module (event_type disk_error / hung_task).
+      # A metric is used instead of a log query because logs stop arriving when a host fails.
+      - uid: host-disk-errors
+        title: HostDiskErrors
+        condition: C
+        for: 0s
+        keep_firing_for: 15m
+        is_paused: false
+        noDataState: OK
+        execErrState: Error
+        labels:
+          severity: critical
+        annotations:
+          summary: "{{ $labels.host }} logged {{ printf \"%.0f\" $values.A.Value }} disk I/O errors or hung tasks in 10m"
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: victoriametrics
+            model:
+              expr: sum by(host) (increase({__name__=~"loki_process_custom_journal_(disk_errors|hung_tasks)_total"}[10m]))
+              instant: true
+              refId: A
+          - refId: C
+            relativeTimeRange:
+              from: 0
+              to: 0
+            datasourceUid: "-100"
+            model:
+              type: threshold
+              expression: "A"
+              conditions:
+                - evaluator:
+                    type: gt
+                    params: [0]
+                  operator:
+                    type: and
+                  query:
+                    params: [A]
+                  reducer:
+                    type: last
+              refId: C
+
   - orgId: 1
     name: containers
     folder: Homelab Alerts

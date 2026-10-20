@@ -51,7 +51,7 @@ declare "journal" {
 
     stage.regex {
       source     = "msg"
-      expression = "(?P<disk_error>I/O error|SCSI error|EXT4-fs error|blk_update_request|task abort)"
+      expression = "(?P<disk_error>I/O error|SCSI error|medium error|EXT4-fs error|blk_update_request|task abort)"
     }
 
     stage.regex {
@@ -92,6 +92,26 @@ declare "journal" {
         unit       = "",
         event_type = "",
         level      = "",
+      }
+    }
+
+    // Counters for the events worth alerting on. Logs can stop arriving when a
+    // host fails, so the alert rules use these metrics instead of log queries.
+    stage.metrics {
+      metric.counter {
+        name        = "journal_disk_errors_total"
+        description = "Journal entries classified as disk_error"
+        source      = "event_type"
+        value       = "disk_error"
+        action      = "inc"
+      }
+
+      metric.counter {
+        name        = "journal_hung_tasks_total"
+        description = "Journal entries classified as hung_task"
+        source      = "event_type"
+        value       = "hung_task"
+        action      = "inc"
       }
     }
 
