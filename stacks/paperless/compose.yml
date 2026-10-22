@@ -90,7 +90,7 @@ services:
           memory: 768M
 
   tika:
-    image: apache/tika:4.1.0@sha256:06bcdbd09aca073293e5a171ad161418cc93c91d58d9e4e205064eade84889d4
+    image: apache/tika:4.1.0@sha256:fe2c6e3fca77b986ff3368107a20fa5060a3eefd03d14c12b45c0334626335d2
     container_name: tika
     restart: unless-stopped
     logging: *default-logging
