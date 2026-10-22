@@ -97,52 +97,43 @@ requires = "Redeploy"
 # the env vars below, and these config_files:
 #   { path = "../../alloy/features/homeassistant.alloy", requires = "Redeploy" }
 #   { path = "../../alloy/features/mqtt.alloy", requires = "Redeploy" }
-#   { path = "../../alloy/features/njord.alloy", requires = "Redeploy" }
 # ALLOY_HOMEASSISTANT_METRICS_TARGET=homeassistant:8123
 # ALLOY_HOMEASSISTANT_METRICS_TOKEN=[[FeelsCozyMan_ha_metrics_token]]
 # ALLOY_MQTT_EXPORTER_TARGET=mqtt-exporter:9234
 # ALLOY_MQTT_BROKER_ADDRESS=tcp://mosquitto:1883
-# ALLOY_NJORD_METRICS_TARGET=njord:9090
 # Note: Zigbee2MQTT has no Prometheus endpoint and no exporter is wired in
 # this repo yet -- its bridge stats are only available over MQTT topics.
 
-# [[stack]]
-# name = "homeassistant-1"
-# tags = ["iot"]
-# [stack.config]
-# server = "FeelsCozyMan"
-# run_directory = "stacks/homeassistant"
-# file_paths = ["compose.yml"]
-# linked_repo = "homelab-infra"
-# extra_args = ["--remove-orphans"]
-# environment = """
-# TZ=[[tz]]
-# HA_VLAN_IP=[[FeelsCozyMan_ha_vlan_ip]]
-# HA_VLAN_SUBNET=[[FeelsCozyMan_ha_vlan_subnet]]
-# HA_SERIAL_DEVICE=/dev/serial1
-# HA_PORT=8123
-# HA_MAC_DEFAULT=02:42:ac:11:00:02
-# HA_MAC_VLAN=02:42:ac:12:00:02
-# HA_VLAN_PARENT=vlan88
-# HA_PATH_CONFIG=/docker/homeassistant/homeassistant/data
-# MQTT_PORT=8124
-# MQTT_PATH_CONFIG=/docker/homeassistant/mosquitto/config
-# MQTT_PATH_DATA=/docker/homeassistant/mosquitto/data
-# MQTT_PATH_LOG=/docker/homeassistant/mosquitto/log
-# Z2M_PORT=8125
-# Z2M_PATH_DATA=/docker/homeassistant/zigbee2mqtt/data
-# MATTER_LOG_LEVEL=info
-# MATTER_BLE_PROXY=true
-# MATTER_PATH_DATA=/docker/homeassistant/matter/data
-# NJORD_PORT=9090
-# NJORD_HEALTH_PORT=9091
-# NJORD_POLL_INTERVAL=01:00:00
-# NJORD_FORECAST_DAYS=7
-# NJORD_LOCATION_NAME=changeme
-# NJORD_LOCATION_LAT=changeme
-# NJORD_LOCATION_LON=changeme
-# HA_RECORDER_DB_URL=[[FeelsCozyMan_ha_recorder_db_url]]
-# """
+[[stack]]
+name = "homeassistant-1"
+tags = ["iot"]
+[stack.config]
+server = "FeelsCozyMan"
+run_directory = "stacks/homeassistant"
+file_paths = ["compose.yml"]
+linked_repo = "homelab-infra"
+extra_args = ["--remove-orphans"]
+environment = """
+TZ=[[tz]]
+HA_IOT_IP=[[FeelsCozyMan_ha_iot_ip]]
+HA_IOT_SUBNET=[[FeelsCozyMan_ha_iot_subnet]]
+HA_SERIAL_DEVICE=/dev/serial1
+HA_PORT=8123
+HA_BRIDGE_MAC=[[FeelsCozyMan_ha_bridge_mac]]
+HA_IOT_MAC=[[FeelsCozyMan_ha_iot_mac]]
+HA_IOT_PARENT=[[FeelsCozyMan_ha_iot_parent]]
+HA_PATH_CONFIG=/docker/homeassistant/homeassistant/data
+HA_RECORDER_DB_URL=[[FeelsCozyMan_ha_recorder_db_url]]
+MQTT_PORT=8124
+MQTT_PATH_CONFIG=/docker/homeassistant/mosquitto/config
+MQTT_PATH_DATA=/docker/homeassistant/mosquitto/data
+MQTT_PATH_LOG=/docker/homeassistant/mosquitto/log
+Z2M_PORT=8125
+Z2M_PATH_DATA=/docker/homeassistant/zigbee2mqtt/data
+MATTER_LOG_LEVEL=info
+MATTER_BLE_PROXY=true
+MATTER_PATH_DATA=/docker/homeassistant/matter/data
+"""
 
 [[stack]]
 name = "vaultwarden-1"
