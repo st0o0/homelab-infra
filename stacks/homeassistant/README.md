@@ -58,9 +58,8 @@ homeassistant/                       automations.yaml
   configuration.yaml  ─── bootstrap  scripts.yaml
   packages/                          scenes.yaml
     performance.yaml  ─── recorder   secrets.yaml
-    prometheus.yaml   ─── metrics    themes/
-    helpers.yaml                      custom_components/ (HACS)
-                                      .storage/ (dashboards, registries, auth, persons)
+    prometheus.yaml   ─── metrics    custom_components/ (HACS)
+                                      .storage/ (dashboards, helpers, registries, auth, persons)
 ```
 
 - `configuration.yaml` is a minimal bootstrap that loads packages and includes HA-managed files

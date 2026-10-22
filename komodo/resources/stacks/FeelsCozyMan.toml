@@ -123,7 +123,6 @@ HA_BRIDGE_MAC=[[FeelsCozyMan_ha_bridge_mac]]
 HA_IOT_MAC=[[FeelsCozyMan_ha_iot_mac]]
 HA_IOT_PARENT=[[FeelsCozyMan_ha_iot_parent]]
 HA_PATH_CONFIG=/docker/homeassistant/homeassistant/data
-HA_RECORDER_DB_URL=[[FeelsCozyMan_ha_recorder_db_url]]
 MQTT_PORT=8124
 MQTT_PATH_CONFIG=/docker/homeassistant/mosquitto/config
 MQTT_PATH_DATA=/docker/homeassistant/mosquitto/data
