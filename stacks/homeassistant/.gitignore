@@ -1,0 +1,7 @@
+# Runtime state and secrets -- never commit
+homeassistant/data/
+mosquitto/data/*
+mosquitto/log/*
+zigbee2mqtt/data/*
+matter/data/*
+!**/.gitkeep

@@ -1,6 +1,6 @@
 # Home Assistant
 
-Smart home stack with Home Assistant, Mosquitto MQTT, Zigbee2MQTT, Matter.js, and Njord weather forecasting.
+Smart home stack with Home Assistant, Mosquitto MQTT, Zigbee2MQTT and Matter.js.
 
 ```
  host
@@ -8,7 +8,7 @@ Smart home stack with Home Assistant, Mosquitto MQTT, Zigbee2MQTT, Matter.js, an
 │  ┌────────────────┐                              │
 │  │ Home Assistant  │ :8123                       │
 │  │  /dev/serial1   │ Zigbee coordinator          │
-│  │  vlan88        │ IoT network                 │
+│  │  iot (macvlan) │ IoT network                 │
 │  └───────┬────────┘                              │
 │          │                                       │
 │  ┌───────▼────┐  ┌──────────────┐                │
@@ -16,10 +16,10 @@ Smart home stack with Home Assistant, Mosquitto MQTT, Zigbee2MQTT, Matter.js, an
 │  │ MQTT :8124  │◄─│  :8125       │               │
 │  └────────────┘  └──────────────┘                │
 │                                                  │
-│  ┌──────────────┐  ┌──────────┐                  │
-│  │ Matter.js     │  │  Njord   │                 │
-│  │ (host network)│  │  :9090   │                 │
-│  └──────────────┘  └──────────┘                  │
+│  ┌──────────────┐                                │
+│  │ Matter.js     │                               │
+│  │ (host network)│                               │
+│  └──────────────┘                                │
 └──────────────────────────────────────────────────┘
 ```
 
@@ -41,10 +41,11 @@ docker compose up -d
 |---|---|---|---|
 | `HA_PORT` | no | `8123` | Home Assistant web UI |
 | `HA_SERIAL_DEVICE` | no | `/dev/serial1` | Zigbee coordinator device |
-| `HA_VLAN_IP` | no | `10.44.88.254` | HA IP on IoT VLAN |
+| `HA_IOT_IP` | yes | -- | HA IP on IoT VLAN |
+| `HA_IOT_SUBNET` | yes | -- | IoT VLAN subnet |
+| `HA_IOT_PARENT` | yes | -- | Host VLAN interface (macvlan parent) |
 | `MQTT_PORT` | no | `8124` | Mosquitto MQTT port |
 | `Z2M_PORT` | no | `8125` | Zigbee2MQTT web UI |
-| `NJORD_LOCATION_NAME` | no | `vreden` | Weather location |
 | `TZ` | no | `Europe/Berlin` | Timezone |
 
 ## Configuration
@@ -58,16 +59,25 @@ homeassistant/                       automations.yaml
   packages/                          scenes.yaml
     performance.yaml  ─── recorder   secrets.yaml
     prometheus.yaml   ─── metrics    themes/
-    rest_commands.yaml                .storage/
+    helpers.yaml                      custom_components/ (HACS)
+                                      .storage/ (dashboards, registries, auth, persons)
 ```
 
 - `configuration.yaml` is a minimal bootstrap that loads packages and includes HA-managed files
-- `packages/` contains all infrastructure config grouped by concern
+- `packages/` contains infrastructure config grouped by concern
 - To add a new package: create a `.yaml` file in `packages/`, restart HA (no compose change needed)
-- Automations, scripts, and scenes are managed through the HA UI and stay in the data volume
+- Dashboards, automations, scripts, scenes and registries are managed through the HA UI and live in the data volume (`.storage/`), not in the repo -- back up the data volume
+- `HA_RECORDER_DB_URL` defaults to the local SQLite file; set it to a PostgreSQL URL to switch
+
+## Migrating an existing instance
+
+1. Stop the old HA and back up its config directory
+2. Copy the whole directory to `HA_PATH_CONFIG`, preserving ownership (`cp -a` / `rsync -a`)
+3. Reuse the old MAC and IP as `HA_BRIDGE_MAC`, `HA_IOT_MAC`, `HA_IOT_IP` (see `docker inspect homeassistant`)
+4. Validate first: `docker compose run --rm --no-deps homeassistant python -m homeassistant --script check_config -c /config`
+5. `docker compose up -d`; the mounted `configuration.yaml` and `packages/` overlay the copied ones
 
 ## Verify
 
 - Home Assistant: `http://localhost:8123`
 - Zigbee2MQTT: `http://localhost:8125`
-- Njord: `http://localhost:9090`

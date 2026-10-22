@@ -20,18 +20,17 @@ services:
       - "${HA_PORT:-8123}:8123"
     networks:
       default:
-        mac_address: ${HA_MAC_DEFAULT:-02:42:ac:11:00:02}
-      vlan88:
-        mac_address: ${HA_MAC_VLAN:-02:42:ac:12:00:02}
-        ipv4_address: ${HA_VLAN_IP:-10.44.88.254}
+        mac_address: ${HA_BRIDGE_MAC:?HA_BRIDGE_MAC is required}
+      iot:
+        mac_address: ${HA_IOT_MAC:?HA_IOT_MAC is required}
+        ipv4_address: ${HA_IOT_IP:?HA_IOT_IP is required}
     environment:
       - TZ=${TZ:-}
-      - HA_RECORDER_DB_URL=${HA_RECORDER_DB_URL:-}
+      - HA_RECORDER_DB_URL=${HA_RECORDER_DB_URL:-sqlite:////config/home-assistant_v2.db}
     volumes:
       - ${HA_PATH_CONFIG:-./homeassistant/data}:/config
       - ./homeassistant/configuration.yaml:/config/configuration.yaml:ro
       - ./homeassistant/packages:/config/packages:ro
-      - ./homeassistant/dashboards:/config/dashboards:ro
       - /run/dbus:/run/dbus:ro
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8123/"]
@@ -128,80 +127,13 @@ services:
           cpus: "0.25"
           memory: 256M
 
-  njord:
-    image: ghcr.io/st0o0/njord:0.3.0@sha256:d8f21389875bfa35006e1119df512e97be3ea11b6fb623dd09cc0f75a286c496
-    container_name: njord
-    restart: unless-stopped
-    logging: *default-logging
-    network_mode: host
-    deploy:
-      resources:
-        limits:
-          cpus: "1.5"
-          memory: 1G
-        reservations:
-          cpus: "0.5"
-          memory: 512M
-    volumes:
-      - njord-data:/app/data
-    environment:
-      - ASPNETCORE_URLS=http://+:${NJORD_PORT:-9090}
-      - Kestrel__Endpoints__health__Url=http://+:${NJORD_HEALTH_PORT:-9091}
-      - Njord__PollInterval=${NJORD_POLL_INTERVAL:-01:00:00}
-      - Njord__ForecastDays=${NJORD_FORECAST_DAYS:-7}
-      - Njord__Horizons__0=1
-      - Njord__Horizons__1=2
-      - Njord__Horizons__2=3
-      - Njord__Horizons__3=4
-      - Njord__Horizons__4=5
-      - Njord__Horizons__5=6
-      - Njord__Horizons__6=7
-      - Njord__Horizons__7=8
-      - Njord__Horizons__8=9
-      - Njord__Horizons__9=10
-      - Njord__Horizons__10=11
-      - Njord__Horizons__11=12
-      - Njord__Horizons__12=18
-      - Njord__Horizons__13=24
-      - Njord__Horizons__14=36
-      - Njord__Horizons__15=48
-      - Njord__Horizons__16=72
-      - Njord__Horizons__17=96
-      - Njord__Models__0=icon_global
-      - Njord__Models__1=ecmwf_ifs025
-      - Njord__Models__2=icon_eu
-      - Njord__Models__3=arpege_europe
-      - Njord__Models__4=ukmo_seamless
-      - Njord__Models__5=gfs_seamless
-      - Njord__Models__6=dmi_harmonie_arome_europe
-      - Njord__Models__7=knmi_harmonie_arome_europe
-      - Njord__Locations__0__Name=${NJORD_LOCATION_NAME:?NJORD_LOCATION_NAME is required}
-      - Njord__Locations__0__Latitude=${NJORD_LOCATION_LAT:?NJORD_LOCATION_LAT is required}
-      - Njord__Locations__0__Longitude=${NJORD_LOCATION_LON:?NJORD_LOCATION_LON is required}
-      - Njord__Locations__0__Models__0=knmi_harmonie_arome_netherlands
-      - Njord__Locations__0__Models__1=icon_d2
-      - Njord__Parameters__Groups__0=Weather
-      - Njord__Enrichment__Consensus__Enabled=true
-      - Njord__Enrichment__Alerts__Enabled=true
-      - Njord__Enrichment__Alerts__PressureDropThreshold=1
-      - Njord__Enrichment__Indices__Enabled=true
-    healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost:${NJORD_HEALTH_PORT:-9091}/health || exit 1"]
-      interval: 30s
-      timeout: 5s
-      retries: 3
-      start_period: 30s
-
-volumes:
-  njord-data:
-
 networks:
   default:
     driver: bridge
-  vlan88:
+  iot:
     driver: macvlan
     driver_opts:
-      parent: ${HA_VLAN_PARENT:-vlan88}
+      parent: ${HA_IOT_PARENT:?HA_IOT_PARENT is required}
     ipam:
       config:
-        - subnet: ${HA_VLAN_SUBNET:-10.44.88.0/24}
+        - subnet: ${HA_IOT_SUBNET:?HA_IOT_SUBNET is required}
