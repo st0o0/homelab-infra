@@ -173,7 +173,8 @@ services:
         COLLECTIONS=crowdsecurity/caddy crowdsecurity/http-cve
         crowdsecurity/base-http-scenarios crowdsecurity/appsec-virtual-patching
         crowdsecurity/http-dos crowdsecurity/whitelist-good-actors
-      - PARSERS=crowdsecurity/jellyfin-whitelist crowdsecurity/geoip-enrich crowdsecurity/dateparse-enrich
+      # syslog-logs also ships the non-syslog node that every Caddy log line passes through
+      - PARSERS=crowdsecurity/jellyfin-whitelist crowdsecurity/syslog-logs crowdsecurity/geoip-enrich crowdsecurity/dateparse-enrich
       - GID=${PGID:-1000}
       # bump to force CrowdSec recreate on config changes (profiles/scenarios/appsec)
       - CONFIG_VERSION=4
