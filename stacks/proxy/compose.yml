@@ -170,13 +170,13 @@ services:
         condition: service_healthy
     environment:
       - >-
-        COLLECTIONS=crowdsecurity/caddy crowdsecurity/sshd crowdsecurity/http-cve
+        COLLECTIONS=crowdsecurity/caddy crowdsecurity/http-cve
         crowdsecurity/base-http-scenarios crowdsecurity/appsec-virtual-patching
-        crowdsecurity/linux crowdsecurity/http-dos
-      - PARSERS=crowdsecurity/jellyfin-whitelist
+        crowdsecurity/http-dos crowdsecurity/whitelist-good-actors
+      - PARSERS=crowdsecurity/jellyfin-whitelist crowdsecurity/geoip-enrich crowdsecurity/dateparse-enrich
       - GID=${PGID:-1000}
       # bump to force CrowdSec recreate on config changes (profiles/scenarios/appsec)
-      - CONFIG_VERSION=3
+      - CONFIG_VERSION=4
     volumes:
       - ./crowdsec/config.yaml.local:/etc/crowdsec/config.yaml.local:ro
       - ./crowdsec/profiles.yaml:/etc/crowdsec/profiles.yaml:ro
@@ -188,7 +188,6 @@ services:
       - /docker/proxy/crowdsec/data:/var/lib/crowdsec/data
       - /docker/proxy/crowdsec/config:/etc/crowdsec
       - /var/log/caddy:/var/log/caddy:ro
-      - /var/log:/var/log/host:ro
       - /var/log/crowdsec:/var/log/crowdsec
     healthcheck:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8180/health"]
@@ -200,9 +199,9 @@ services:
       resources:
         limits:
           cpus: "0.25"
-          memory: 256M
+          memory: 512M
         reservations:
-          memory: 128M
+          memory: 256M
 
   geoipupdate:
     image: ghcr.io/maxmind/geoipupdate:v8.0.0@sha256:51e70dd6f16cd3e4d845ac02d09940b10772a75b9d741427d235a78570923c1d
