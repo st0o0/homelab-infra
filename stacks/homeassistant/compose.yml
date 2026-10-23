@@ -102,7 +102,7 @@ services:
           memory: 256M
 
   matterjs-server:
-    image: ghcr.io/matter-js/matterjs-server:1.2.8@sha256:cb5696f5d5584d63bcc22eea1565e21d0de9c41e86f212bf2fe5bce21f95897d
+    image: ghcr.io/matter-js/matterjs-server:1.5.2@sha256:47bc4d8354baf4775c1daf87b02b61123b1b61feeb3b2eadb17c610dbbda9a1c
     container_name: matterjs-server
     restart: unless-stopped
     logging: *default-logging
