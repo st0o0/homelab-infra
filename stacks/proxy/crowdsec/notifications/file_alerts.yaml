@@ -1,6 +1,8 @@
 type: file
 name: file_alerts
 log_level: info
+# Batch deliveries to reduce plugin broker pressure; format ranges over the batch, still one JSON line per item
+group_wait: 5s
 format: |
   {{range . -}}
   {{$alert := . -}}
