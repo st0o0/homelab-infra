@@ -1,9 +1,14 @@
 type: trigger
 name: custom/foreign-stack-probe
 description: Ban IPs that request paths of stacks that are not deployed (PHP, WordPress, phpMyAdmin, cgi-bin), independent of the response status
+# Matches the percent-decoded request PATH only (the regex cannot cross the first '?' or '#'), so ?file=x.php on a legitimate route does not trigger.
+# Stack names need a segment boundary, so /library/wp-login.mp4 and /xmlrpc-client stay quiet. Double encoding and %00 are not decoded.
+# rest_route= is a WordPress-only query parameter and is matched on the query part separately.
+# NOTE: if a PHP-based service is ever deployed, add an exclusion for its host or path here.
 filter: >-
   evt.Meta.log_type == 'http_access-log' &&
-  evt.Meta.http_path matches '(?i)([.]php($|[?/#])|/wp-(admin|content|includes|json|login)|/xmlrpc|/phpmyadmin|/cgi-bin/|rest_route=)'
+  (PathUnescape(evt.Meta.http_path) matches '(?i)^[^?#]*([.]php([/?#]|$)|/(wp-(admin|content|includes|json|login)|xmlrpc|phpmyadmin|cgi-bin)([/?#]|$))' ||
+  PathUnescape(evt.Meta.http_path) matches '(?i)[?&]rest_route=')
 groupby: evt.Meta.source_ip
 blackhole: 10m
 labels:
