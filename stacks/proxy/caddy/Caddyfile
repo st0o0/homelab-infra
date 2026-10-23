@@ -113,7 +113,14 @@
 }
 
 (appsec) {
-	appsec
+	# Large multipart uploads (Immich app backup) cannot be processed by AppSec and fail closed with a 403.
+	# Skip AppSec only for this one route; the bouncer ban lookup still applies.
+	@appsec_scan not {
+		host {$CADDY_DOMAIN_IMMICH}
+		method POST
+		path /api/assets
+	}
+	appsec @appsec_scan
 }
 
 (proxy) {
