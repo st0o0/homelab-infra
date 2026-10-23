@@ -17,6 +17,13 @@
 
 	log {
 		level INFO
+		exclude crowdsec.appsec
+	}
+
+	# AppSec "cannot be buffered" warnings are noise; keep errors only
+	log appsec_errors {
+		level ERROR
+		include crowdsec.appsec
 	}
 
 	servers :2019 {
