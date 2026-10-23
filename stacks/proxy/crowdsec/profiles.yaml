@@ -21,20 +21,22 @@ notifications:
   - file_alerts
 on_success: break
 ---
-# Live proof phase: fixed 5 minute bans to confirm that these alerts create decisions.
-# Final values (task 5.4): duration_expr "Sprintf('%.0fh', min(168, 3 ^ GetDecisionsCount(Alert.GetValue())))" with duration 1h.
+# Escalating ban: 1h, 3h, 9h, 27h, 81h, then capped at 168h (7 days). No permanent bans.
+# duration is the base value; duration_expr overrides it per alert.
 name: appsec_escalation
 filters:
   - Alert.GetScenario() == "crowdsecurity/appsec-vpatch"
 decisions:
   - type: ban
     scope: Ip
-    duration: 5m
+    duration: 1h
+duration_expr: "Sprintf('%.0fh', min(168.0, 3 ^ GetDecisionsCount(Alert.GetValue())))"
 notifications:
   - file_appsec
   - file_alerts
 on_success: break
 ---
+# Same escalation as appsec_escalation (1h base, 168h cap).
 # custom/appsec-repeat consumes the same appsec-block events as appsec-vpatch, so it must not use file_appsec (double counting).
 name: probe_escalation
 filters:
@@ -42,7 +44,8 @@ filters:
 decisions:
   - type: ban
     scope: Ip
-    duration: 5m
+    duration: 1h
+duration_expr: "Sprintf('%.0fh', min(168.0, 3 ^ GetDecisionsCount(Alert.GetValue())))"
 notifications:
   - file_alerts
 on_success: break
