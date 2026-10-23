@@ -1,7 +1,10 @@
 # {{ ansible_managed }}
 
+{% if ntp_use_gateway and ansible_default_ipv4.gateway is defined %}
+server {{ ansible_default_ipv4.gateway }} iburst prefer
+{% endif %}
 {% for entry in ntp_servers %}
-server {{ entry.server }} iburst{{ ' prefer' if entry.prefer | default(false) else '' }}
+server {{ entry.server }} iburst{{ ' prefer' if entry.prefer | default(false) and not ntp_use_gateway else '' }}
 {% endfor %}
 
 driftfile /var/lib/chrony/chrony.drift

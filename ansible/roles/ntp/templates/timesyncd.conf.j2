@@ -1,3 +1,8 @@
 # {{ ansible_managed }}
 [Time]
+{% if ntp_use_gateway and ansible_default_ipv4.gateway is defined %}
+NTP={{ ansible_default_ipv4.gateway }}
+FallbackNTP={{ ntp_servers | map(attribute='server') | join(' ') }}
+{% else %}
 NTP={{ ntp_servers | map(attribute='server') | join(' ') }}
+{% endif %}

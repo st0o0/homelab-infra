@@ -1,4 +1,7 @@
 ntp_enabled: true
+# Use the default gateway (the router) as primary time source, no address stored in the repo
+ntp_use_gateway: true
+# Fallback sources, used in addition to the gateway
 ntp_servers:
   - server: ptbtime1.ptb.de
     prefer: true
