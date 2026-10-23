@@ -177,7 +177,7 @@ services:
       - PARSERS=crowdsecurity/jellyfin-whitelist crowdsecurity/syslog-logs crowdsecurity/geoip-enrich crowdsecurity/dateparse-enrich
       - GID=${PGID:-1000}
       # bump to force CrowdSec recreate on config changes (profiles/scenarios/appsec)
-      - CONFIG_VERSION=5
+      - CONFIG_VERSION=6
     volumes:
       - ./crowdsec/config.yaml.local:/etc/crowdsec/config.yaml.local:ro
       - ./crowdsec/profiles.yaml:/etc/crowdsec/profiles.yaml:ro

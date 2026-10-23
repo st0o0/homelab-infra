@@ -4,7 +4,10 @@ api:
 
 db_config:
   flush:
-    max_items: 5000
+    # GetDecisionsCount (ban escalation) counts only decisions of alerts still in the database, so history must
+    # cover the longest escalation step (168h); the ran honeypot alone creates about 4000 alerts per day
+    max_items: 30000
+    max_age: 14d
 
 prometheus:
   enabled: true
