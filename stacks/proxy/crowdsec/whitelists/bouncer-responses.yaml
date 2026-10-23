@@ -1,0 +1,7 @@
+name: custom/whitelist-bouncer-responses
+description: Drop 403 responses written by the CrowdSec bouncer so a banned IP cannot feed scenarios again
+filter: "evt.Meta.log_type == 'http_access-log'"
+whitelist:
+  reason: "Bouncer-written 403 responses have an empty body; counting them re-creates alerts for already banned IPs"
+  expression:
+    - "evt.Unmarshaled.caddy.status == 403 && evt.Unmarshaled.caddy.size == 0"

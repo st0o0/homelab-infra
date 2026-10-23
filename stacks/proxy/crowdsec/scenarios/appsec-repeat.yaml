@@ -1,0 +1,12 @@
+type: leaky
+name: custom/appsec-repeat
+description: Ban IPs that trigger in-band AppSec blocks repeatedly, also when only a single rule matches (crowdsecurity/appsec-vpatch needs two distinct rules)
+filter: "evt.Meta.log_type == 'appsec-block' && evt.Meta.rule_name not startsWith 'native_rule'"
+groupby: evt.Meta.source_ip
+# capacity 2 overflows on the third block within the leakspeed window
+capacity: 2
+leakspeed: 60s
+blackhole: 1m
+labels:
+  type: http
+  remediation: true

@@ -21,6 +21,32 @@ notifications:
   - file_alerts
 on_success: break
 ---
+# Live proof phase: fixed 5 minute bans to confirm that these alerts create decisions.
+# Final values (task 5.4): duration_expr "Sprintf('%.0fh', min(168, 3 ^ GetDecisionsCount(Alert.GetValue())))" with duration 1h.
+name: appsec_escalation
+filters:
+  - Alert.GetScenario() == "crowdsecurity/appsec-vpatch"
+decisions:
+  - type: ban
+    scope: Ip
+    duration: 5m
+notifications:
+  - file_appsec
+  - file_alerts
+on_success: break
+---
+# custom/appsec-repeat consumes the same appsec-block events as appsec-vpatch, so it must not use file_appsec (double counting).
+name: probe_escalation
+filters:
+  - Alert.GetScenario() in ["custom/appsec-repeat", "custom/foreign-stack-probe"]
+decisions:
+  - type: ban
+    scope: Ip
+    duration: 5m
+notifications:
+  - file_alerts
+on_success: break
+---
 name: appsec_detection
 filters:
   - Alert.GetScenario() contains "appsec"

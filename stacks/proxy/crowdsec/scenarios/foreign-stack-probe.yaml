@@ -1,0 +1,11 @@
+type: trigger
+name: custom/foreign-stack-probe
+description: Ban IPs that request paths of stacks that are not deployed (PHP, WordPress, phpMyAdmin, cgi-bin), independent of the response status
+filter: >-
+  evt.Meta.log_type == 'http_access-log' &&
+  evt.Meta.http_path matches '(?i)([.]php($|[?/#])|/wp-(admin|content|includes|json|login)|/xmlrpc|/phpmyadmin|/cgi-bin/|rest_route=)'
+groupby: evt.Meta.source_ip
+blackhole: 10m
+labels:
+  type: http
+  remediation: true

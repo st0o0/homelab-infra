@@ -53,6 +53,8 @@ ufw_extra_rules:
 
 # LXC: chrony cannot set system clock or access /dev/rtc in containers
 ntp_enabled: false
+# Public VPS: the default gateway is the hoster's router, not the homelab MikroTik
+ntp_use_gateway: false
 
 # LXC: auditd requires kernel-level audit subsystem, not available in containers
 auditd_enabled: false
