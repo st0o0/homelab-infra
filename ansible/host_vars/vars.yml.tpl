@@ -25,6 +25,9 @@ unattended_upgrades_enabled: true
 # Firewall (extra rules beyond SSH)
 # ufw_extra_rules:
 #   - { rule: allow, port: 8080, proto: tcp, comment: "Web" }
+# Delete allow rules for ports that are no longer served (also drop them from ufw_extra_rules)
+# ufw_removed_rules:
+#   - { port: 8080, proto: tcp }
 
 # Fail2Ban
 # fail2ban_enabled: true

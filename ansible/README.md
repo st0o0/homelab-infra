@@ -272,6 +272,12 @@ Firewall using UFW. SSH is allowed by default, everything else denied incoming.
     - { rule: allow, port: 8978, proto: tcp, comment: "CloudBeaver" }
     - { rule: allow, port: 5432, proto: tcp, comment: "PostgreSQL" }
   ```
+- `ufw_removed_rules` -- default: `[]`. Ports whose allow rule is deleted when present (ufw only ever adds rules otherwise), e.g.:
+  ```yaml
+  ufw_removed_rules:
+    - { port: 11211, proto: tcp }
+  ```
+  Remove the entry from `ufw_extra_rules` as well, otherwise the rule is re-added on the next run.
 
 ### cron
 

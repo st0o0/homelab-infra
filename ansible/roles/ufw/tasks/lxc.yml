@@ -41,6 +41,18 @@
     - _ufw_rules.rc != 0
     - "'Skipping' not in _ufw_rules.stdout"
 
+- name: Remove firewall rules that are no longer served
+  ansible.builtin.command:
+    cmd: >-
+      /usr/sbin/ufw delete allow proto {{ item.proto | default('tcp') }}
+      from any to any port {{ item.port }}
+  loop: "{{ ufw_removed_rules }}"
+  register: _ufw_removed
+  changed_when: "'Rule deleted' in _ufw_removed.stdout"
+  failed_when:
+    - _ufw_removed.rc != 0
+    - "'non-existent' not in _ufw_removed.stdout"
+
 - name: Set logging level
   ansible.builtin.command:
     cmd: /usr/sbin/ufw logging {{ ufw_logging }}

@@ -23,3 +23,11 @@
 - name: Enable ufw
   community.general.ufw:
     state: enabled
+
+- name: Remove firewall rules that are no longer served
+  community.general.ufw:
+    rule: allow
+    port: "{{ item.port | string }}"
+    proto: "{{ item.proto | default('tcp') }}"
+    delete: true
+  loop: "{{ ufw_removed_rules }}"

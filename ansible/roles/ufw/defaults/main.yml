@@ -6,3 +6,6 @@ ufw_rules:
   - {rule: allow, port: 22, proto: tcp, comment: "SSH"}
 ufw_extra_rules: []
 ufw_disable_sysctl: false
+# Rules to delete when present (ufw never removes rules on its own). Same shape as ufw_rules: {port, proto, comment (optional)}.
+# The deleted rule is always "allow ... from any", matching what ufw_rules/ufw_extra_rules create.
+ufw_removed_rules: []
