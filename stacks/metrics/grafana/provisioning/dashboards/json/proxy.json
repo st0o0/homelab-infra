@@ -5369,7 +5369,7 @@
               {
                 "matcher": {
                   "id": "byName",
-                  "options": "Cached"
+                  "options": "Filtered"
                 },
                 "properties": [
                   {
@@ -5391,7 +5391,7 @@
               {
                 "matcher": {
                   "id": "byName",
-                  "options": "Deduplicated"
+                  "options": "Cooldown"
                 },
                 "properties": [
                   {
@@ -5451,7 +5451,7 @@
                 "uid": "victoriametrics"
               },
               "instant": true,
-              "expr": "sum by (protocol) (increase(ran_crowdsec_pipeline_total{instance=~\"$instance\",stage=\"cached\"}[$__range]))"
+              "expr": "sum by (protocol) (increase(ran_crowdsec_pipeline_total{instance=~\"$instance\",stage=~\"filtered|cached\"}[$__range]))"
             },
             {
               "refId": "C",
@@ -5460,7 +5460,7 @@
                 "uid": "victoriametrics"
               },
               "instant": true,
-              "expr": "sum by (protocol) (increase(ran_crowdsec_pipeline_total{instance=~\"$instance\",stage=\"deduplicated\"}[$__range]))"
+              "expr": "sum by (protocol) (increase(ran_crowdsec_pipeline_total{instance=~\"$instance\",stage=~\"cooldown|deduplicated\"}[$__range]))"
             },
             {
               "refId": "D",
@@ -5486,8 +5486,8 @@
                 "renameByName": {
                   "protocol": "Protocol",
                   "Value #A": "Received",
-                  "Value #B": "Cached",
-                  "Value #C": "Deduplicated",
+                  "Value #B": "Filtered",
+                  "Value #C": "Cooldown",
                   "Value #D": "Sent"
                 }
               }
@@ -5892,6 +5892,331 @@
                   "Last *": "Hits"
                 }
               }
+            }
+          ]
+        },
+        {
+          "id": 527,
+          "type": "timeseries",
+          "title": "CrowdSec Push Errors",
+          "gridPos": {
+            "x": 0,
+            "y": 88,
+            "w": 8,
+            "h": 8
+          },
+          "datasource": {
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "victoriametrics"
+          },
+          "options": {
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            },
+            "legend": {
+              "calcs": [
+                "mean",
+                "max"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "showLegend": true,
+              "sortBy": "Max",
+              "sortDesc": true
+            }
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "fillOpacity": 20,
+                "lineWidth": 2,
+                "spanNulls": true,
+                "drawStyle": "line",
+                "lineInterpolation": "smooth",
+                "showPoints": "never",
+                "stacking": {
+                  "mode": "none",
+                  "group": "A"
+                }
+              },
+              "unit": "ops",
+              "min": 0
+            },
+            "overrides": []
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
+              },
+              "expr": "sum(rate(ran_crowdsec_push_errors_total{instance=~\"$instance\"}[5m]))",
+              "legendFormat": "push errors"
+            }
+          ]
+        },
+        {
+          "id": 528,
+          "type": "timeseries",
+          "title": "CrowdSec Queue Length",
+          "gridPos": {
+            "x": 8,
+            "y": 88,
+            "w": 8,
+            "h": 8
+          },
+          "datasource": {
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "victoriametrics"
+          },
+          "options": {
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            },
+            "legend": {
+              "calcs": [
+                "mean",
+                "max"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "showLegend": true,
+              "sortBy": "Max",
+              "sortDesc": true
+            }
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "fillOpacity": 20,
+                "lineWidth": 2,
+                "spanNulls": true,
+                "drawStyle": "line",
+                "lineInterpolation": "smooth",
+                "showPoints": "never",
+                "stacking": {
+                  "mode": "none",
+                  "group": "A"
+                }
+              },
+              "unit": "short",
+              "min": 0
+            },
+            "overrides": []
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
+              },
+              "expr": "max(ran_crowdsec_queue_length{instance=~\"$instance\"})",
+              "legendFormat": "queued alerts"
+            }
+          ]
+        },
+        {
+          "id": 529,
+          "type": "timeseries",
+          "title": "CrowdSec Push Duration p95",
+          "gridPos": {
+            "x": 16,
+            "y": 88,
+            "w": 8,
+            "h": 8
+          },
+          "datasource": {
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "victoriametrics"
+          },
+          "options": {
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            },
+            "legend": {
+              "calcs": [
+                "mean",
+                "max"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "showLegend": true,
+              "sortBy": "Max",
+              "sortDesc": true
+            }
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "fillOpacity": 20,
+                "lineWidth": 2,
+                "spanNulls": true,
+                "drawStyle": "line",
+                "lineInterpolation": "smooth",
+                "showPoints": "never",
+                "stacking": {
+                  "mode": "none",
+                  "group": "A"
+                }
+              },
+              "unit": "s",
+              "min": 0
+            },
+            "overrides": []
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
+              },
+              "expr": "histogram_quantile(0.95, sum by (le) (rate(ran_crowdsec_push_duration_seconds_bucket{instance=~\"$instance\"}[5m])))",
+              "legendFormat": "p95"
+            }
+          ]
+        },
+        {
+          "id": 530,
+          "type": "timeseries",
+          "title": "Tracked Entries",
+          "gridPos": {
+            "x": 0,
+            "y": 96,
+            "w": 12,
+            "h": 8
+          },
+          "datasource": {
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "victoriametrics"
+          },
+          "options": {
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            },
+            "legend": {
+              "calcs": [
+                "mean",
+                "max"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "showLegend": true,
+              "sortBy": "Max",
+              "sortDesc": true
+            }
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "fillOpacity": 20,
+                "lineWidth": 2,
+                "spanNulls": true,
+                "drawStyle": "line",
+                "lineInterpolation": "smooth",
+                "showPoints": "never",
+                "stacking": {
+                  "mode": "none",
+                  "group": "A"
+                }
+              },
+              "unit": "short",
+              "min": 0
+            },
+            "overrides": []
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
+              },
+              "expr": "max by (map) (ran_tracked_entries{instance=~\"$instance\"})",
+              "legendFormat": "{{map}}"
+            }
+          ]
+        },
+        {
+          "id": 531,
+          "type": "timeseries",
+          "title": "Sessions Rejected by Protocol",
+          "gridPos": {
+            "x": 12,
+            "y": 96,
+            "w": 12,
+            "h": 8
+          },
+          "datasource": {
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "victoriametrics"
+          },
+          "options": {
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            },
+            "legend": {
+              "calcs": [
+                "mean",
+                "max"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "showLegend": true,
+              "sortBy": "Max",
+              "sortDesc": true
+            }
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "fillOpacity": 20,
+                "lineWidth": 2,
+                "spanNulls": true,
+                "drawStyle": "line",
+                "lineInterpolation": "smooth",
+                "showPoints": "never",
+                "stacking": {
+                  "mode": "normal",
+                  "group": "A"
+                }
+              },
+              "unit": "ops",
+              "min": 0
+            },
+            "overrides": []
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "victoriametrics-metrics-datasource",
+                "uid": "victoriametrics"
+              },
+              "expr": "sum by (protocol) (rate(ran_sessions_rejected_total{instance=~\"$instance\"}[5m]))",
+              "legendFormat": "{{protocol}}"
             }
           ]
         }
