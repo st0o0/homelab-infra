@@ -1,24 +1,38 @@
-name: ran_permanent
+# ran honeypot (>= 0.4.0): alerts carry no decisions and the class (probe/attack/scan) is event meta, so use
+# Alert.Events[0].GetMeta("class"); Alert.GetMeta() only reads alert-level meta and would never match.
+# Profiles run top to bottom and stop at the first on_success: break, so scan comes first.
+# Escalation: 1h, 3h, 9h, 27h, 81h, then capped at 168h. The 168.0 float is required (an int cap breaks %.0f formatting).
+# ran 0.3.x pushes alerts with embedded decisions; CrowdSec skips profiles for those, so these profiles are inert there.
+name: ran_scan
 filters:
-  - Alert.GetScenario() startsWith "custom/ran-" && GetDecisionsCount(Alert.GetValue()) >= 5
+  - Alert.GetScenario() startsWith "custom/ran-" && len(Alert.Events) > 0 && Alert.Events[0].GetMeta("class") == "scan"
 decisions:
   - type: ban
     scope: Ip
-    duration: 8760h
+    duration: 1h
+duration_expr: "Sprintf('%.0fh', min(168.0, 3 ^ GetDecisionsCount(Alert.GetValue())))"
 notifications:
   - file_alerts
 on_success: break
 ---
-name: ran_escalation
+name: ran_attack
 filters:
-  - Alert.GetScenario() startsWith "custom/ran-"
+  - Alert.GetScenario() startsWith "custom/ran-" && len(Alert.Events) > 0 && Alert.Events[0].GetMeta("class") == "attack"
 decisions:
   - type: ban
     scope: Ip
-    duration: 4h
-duration_expr: "Sprintf('%.0fh', 4 * (3 ^ GetDecisionsCount(Alert.GetValue())))"
+    duration: 1h
+duration_expr: "Sprintf('%.0fh', min(168.0, 3 ^ GetDecisionsCount(Alert.GetValue())))"
 notifications:
   - file_alerts
+on_success: break
+---
+# Probes (connect and banner only) never ban. Explicit no-op, otherwise default_ip_remediation would ban them
+# (ran sends remediation: true). Probe alerts exist only if RAN_BAN_ON on the ran side includes probe.
+# Any other custom/ran-* alert (unknown or missing class) also ends here, so it can never fall through to a ban.
+name: ran_noban
+filters:
+  - Alert.GetScenario() startsWith "custom/ran-"
 on_success: break
 ---
 # Escalating ban: 1h, 3h, 9h, 27h, 81h, then capped at 168h (7 days). No permanent bans.
