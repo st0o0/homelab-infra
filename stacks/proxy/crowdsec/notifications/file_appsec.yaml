@@ -2,7 +2,7 @@ type: file
 name: file_appsec
 log_level: info
 # Batch deliveries to reduce plugin broker pressure; format ranges over the batch, still one JSON line per item
-group_wait: 5s
+group_wait: 15s
 format: |
   {{range . -}}
   {{$alert := . -}}
