@@ -22,28 +22,21 @@ services:
       - "443:443"
       - "443:443/udp"
       - "127.0.0.1:8888:8888"
-      # honeypot traps (ran)
+      # honeypot traps (ran); smb, mssql, redis, sip, dns, ntp, snmp deliberately not published (see openspec proxy-honeypot-hardening)
       - "21:21"
       - "23:23"
       - "25:25"
-      - "445:445"
       - "587:587"
-      - "1433:1433"
       - "1883:1883"
       - "2222:2222"
       - "3307:3307"
       - "3389:3389"
-      - "5060:5060/udp"
       - "5432:5432"
       - "5555:5555"
       - "5900:5900"
-      - "6379:6379"
       - "8080:8080"
       - "9200:9200"
       - "25565:25565"
-      - "53:53/udp"
-      - "123:123/udp"
-      - "161:161/udp"
       - "1080:1080"
       - "11211:11211"
       # multi-port honeypot variants
@@ -251,7 +244,7 @@ services:
         condition: service_healthy
     # TZ deliberately unset (scratch image without tzdata, UTC RFC3339 logs); see openspec change timezone-mapping
     environment:
-      - RAN_TRAPS=ssh,http,rdp,redis,telnet,mysql,mssql,vnc,mqtt,smb,smtp,ftp,postgres,elasticsearch,httpproxy,sip,adb,minecraft,dns,ntp,snmp,socks5,memcached
+      - RAN_TRAPS=ssh,http,rdp,telnet,mysql,vnc,mqtt,smtp,ftp,postgres,elasticsearch,httpproxy,adb,minecraft,socks5,memcached
       - RAN_LOG_LEVEL=${RAN_LOG_LEVEL:-info}
       - RAN_LOG_FORMAT=json
       - RAN_SESSION_TIMEOUT=${RAN_SESSION_TIMEOUT:-30s}
@@ -262,23 +255,16 @@ services:
       - RAN_SSH_ADDR=:2222
       - RAN_TELNET_ADDR=:23
       - RAN_RDP_ADDR=:3389
-      - RAN_REDIS_ADDR=:6379
       - RAN_MYSQL_ADDR=:3307,:3306
       - RAN_VNC_ADDR=:5900,:5901
       - RAN_MQTT_ADDR=:1883
-      - RAN_SMB_ADDR=:445
       - RAN_FTP_ADDR=:21
       - RAN_SMTP_ADDR=:25,:587
-      - RAN_MSSQL_ADDR=:1433
       - RAN_POSTGRES_ADDR=:5432
       - RAN_HTTPPROXY_ADDR=:8080,:3128
       - RAN_ELASTICSEARCH_ADDR=:9200
-      - RAN_SIP_ADDR=:5060
       - RAN_ADB_ADDR=:5555
       - RAN_MINECRAFT_ADDR=:25565
-      - RAN_DNS_ADDR=:53
-      - RAN_NTP_ADDR=:123
-      - RAN_SNMP_ADDR=:161
       - RAN_SOCKS5_ADDR=:1080
       - RAN_MEMCACHED_ADDR=:11211
       - RAN_CROWDSEC=on
