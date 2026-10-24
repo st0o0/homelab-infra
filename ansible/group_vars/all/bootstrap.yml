@@ -1,4 +1,3 @@
-bootstrap_timezone: Europe/Berlin
 bootstrap_upgrade: false
 bootstrap_packages:
   - btop

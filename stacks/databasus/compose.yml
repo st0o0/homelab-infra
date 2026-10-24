@@ -11,7 +11,7 @@ services:
     restart: unless-stopped
     logging: *default-logging
     environment:
-      - TZ=${TZ:-}
+      - TZ=${TZ:-Europe/Berlin}
     ports:
       - "${DATABASUS_PORT:-4005}:4005"
     volumes:

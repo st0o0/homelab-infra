@@ -80,7 +80,7 @@ volumes = """
 # ── Environment ──────────────────────────────────────────────────────
 environment = """
 NGINX_HOST=example.com
-TZ=[[TZ]]
+TZ=[[tz]]
 """
 # Skip secret interpolation
 skip_secret_interp = false

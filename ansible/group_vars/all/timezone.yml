@@ -1,0 +1,5 @@
+# Single source of truth for the timezone on all hosts and containers.
+# Roles default to this value (bootstrap_timezone, agent_tz, komodo_tz);
+# override a single role or host var only for a deliberate exception.
+# Keep in sync with the Komodo variable `tz` (komodo/resources/variables).
+homelab_timezone: Europe/Berlin

@@ -15,6 +15,7 @@ services:
       - GEOIPUPDATE_LICENSE_KEY=${GEOIPUPDATE_LICENSE_KEY:?GEOIPUPDATE_LICENSE_KEY is required}
       - GEOIPUPDATE_EDITION_IDS=GeoLite2-City
       - GEOIPUPDATE_FREQUENCY=${GEOIPUPDATE_FREQUENCY:-24}
+      - TZ=${TZ:-Europe/Berlin}
     volumes:
       - geoip-data:/usr/share/GeoIP
     healthcheck:
@@ -50,7 +51,10 @@ services:
       - --server.http.listen-addr=0.0.0.0:12345
       - --disable-reporting
       - --stability.level=experimental
+    # TZ is deliberately NOT set here (it does not affect Alloy's timestamp
+    # parsing); the zone-less fail2ban timestamps use LOG_TIMEZONE instead.
     environment:
+      - LOG_TIMEZONE=${TZ:-Europe/Berlin}
       - HOST_HOSTNAME=${ALLOY_HOSTNAME:-}
       - SCRAPE_INTERVAL=${ALLOY_SCRAPE_INTERVAL:-30s}
       - REMOTE_WRITE_URL=${ALLOY_REMOTE_WRITE_URL:?ALLOY_REMOTE_WRITE_URL is required}

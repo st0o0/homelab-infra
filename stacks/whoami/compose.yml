@@ -11,7 +11,7 @@ services:
     restart: always
     logging: *default-logging
     environment:
-      - TZ=${TZ:-}
+      - TZ=${TZ:-Europe/Berlin}
     ports:
       - "${WHOAMI_PORT:-8080}:80"
     deploy:

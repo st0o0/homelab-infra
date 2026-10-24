@@ -4,6 +4,12 @@ declare "fail2ban" {
     default  = "false"
   }
 
+  // IANA zone of the host; fail2ban.log timestamps carry no zone information
+  argument "timezone" {
+    optional = true
+    default  = "Europe/Berlin"
+  }
+
   argument "forward_to" {
     optional = false
   }
@@ -39,8 +45,9 @@ declare "fail2ban" {
       expression = "^(?P<timestamp>\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}),\\d+ fail2ban\\.(?P<component>\\S+)\\s+\\[\\d+\\]:\\s+(?P<priority>\\w+)\\s+(?:\\[(?P<jail>\\S+)\\]\\s+)?(?P<content>.+)"
     }
     stage.timestamp {
-      source = "timestamp"
-      format = "2006-01-02 15:04:05"
+      source   = "timestamp"
+      format   = "2006-01-02 15:04:05"
+      location = argument.timezone.value
     }
 
     stage.template {

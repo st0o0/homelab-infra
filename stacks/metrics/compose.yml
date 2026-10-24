@@ -33,7 +33,9 @@ services:
       - GF_DATAPROXY_TIMEOUT=${GRAFANA_DATAPROXY_TIMEOUT:-60}
       - GF_DATAPROXY_MAX_CONC_HTTP_REQ=${GRAFANA_DATAPROXY_MAX_CONC_HTTP_REQ:-50}
       - DISCORD_WEBHOOK_URL=${GRAFANA_DISCORD_WEBHOOK_URL:?GRAFANA_DISCORD_WEBHOOK_URL is required}
-      - TZ=${TZ:-}
+      # Default for user/org preferences; provisioned dashboards use "browser"
+      - GF_DATE_FORMATS_DEFAULT_TIMEZONE=${TZ:-Europe/Berlin}
+      - TZ=${TZ:-Europe/Berlin}
     volumes:
       - grafana-data:/var/lib/grafana
       - ./grafana/provisioning:/etc/grafana/provisioning:ro
@@ -80,6 +82,8 @@ services:
       - --maxConcurrentInserts=${VM_MAX_CONCURRENT_INSERTS:-10}
       # VictoriaMetrics scrapes its own internals (vm_* metrics)
       - --selfScrapeInterval=${VM_SELF_SCRAPE_INTERVAL:-30s}
+    environment:
+      - TZ=${TZ:-Europe/Berlin}
     ports:
       # Loopback by default; set VM_BIND_IP to the WireGuard IP
       # (e.g. 10.77.32.1) to accept remote observability agents.
@@ -111,6 +115,8 @@ services:
       - --rule=/etc/vmalert/rules/*.yml
       - --rule.defaultRuleType=vlogs
       - --httpListenAddr=:8880
+    environment:
+      - TZ=${TZ:-Europe/Berlin}
     volumes:
       - ./vmalert/rules:/etc/vmalert/rules:ro
     depends_on:
@@ -149,6 +155,8 @@ services:
       - --search.maxConcurrentRequests=${VL_MAX_CONCURRENT_REQUESTS:-3}
       - --maxConcurrentInserts=${VL_MAX_CONCURRENT_INSERTS:-10}
       - --storage.minFreeDiskSpaceBytes=${VL_MIN_FREE_DISK_SPACE:-100MB}
+    environment:
+      - TZ=${TZ:-Europe/Berlin}
     ports:
       # Loopback by default; set VLOGS_BIND_IP to the WireGuard IP
       # (e.g. 10.77.32.1) to accept remote observability agents.

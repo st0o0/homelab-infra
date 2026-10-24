@@ -1,7 +1,7 @@
 agent_deploy_path: /docker/agent
 agent_enabled: false
 agent_bifrost: false
-agent_tz: Europe/Berlin
+agent_tz: "{{ homelab_timezone | default('Europe/Berlin') }}"
 agent_image_tag: "{{ komodo_version }}"
 agent_connect_as: "{{ inventory_hostname }}"
 agent_root_directory: /docker/agent/data

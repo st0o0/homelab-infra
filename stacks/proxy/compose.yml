@@ -55,6 +55,7 @@ services:
       - "8443:8443"
       - "9443:9443"
     environment:
+      - TZ=${TZ:-Europe/Berlin}
       - BIFROST_PRIVATE_KEY=${BIFROST_PRIVATE_KEY:?BIFROST_PRIVATE_KEY is required}
       - BIFROST_ADDRESS=${BIFROST_ADDRESS:?BIFROST_ADDRESS is required}
       - BIFROST_LISTEN_PORT=${BIFROST_LISTEN_PORT:-51821}
@@ -90,6 +91,7 @@ services:
       bifrost:
         condition: service_healthy
     environment:
+      - TZ=${TZ:-Europe/Berlin}
       - EIR_MASTERS=${EIR_MASTERS:-bifrost}
       - EIR_DISCOVERY_MODE=${EIR_DISCOVERY_MODE:-inspect}
       - EIR_STABILIZE_WAIT=${EIR_STABILIZE_WAIT:-15s}
@@ -123,6 +125,7 @@ services:
         condition: service_healthy
       crowdsec:
         condition: service_healthy
+    # TZ deliberately unset (Alloy parses Caddy log timestamps; custom build, image may lack tzdata); see openspec change timezone-mapping
     environment:
       - CROWDSEC_BOUNCER_API_KEY=${CROWDSEC_CADDY_BOUNCER_API_KEY:?CROWDSEC_CADDY_BOUNCER_API_KEY is required}
       - CADDY_DOMAIN_AUDIOBOOKSHELF=${CADDY_DOMAIN_AUDIOBOOKSHELF:?CADDY_DOMAIN_AUDIOBOOKSHELF is required}
@@ -171,6 +174,7 @@ services:
     depends_on:
       bifrost:
         condition: service_healthy
+    # TZ deliberately unset (CrowdSec log time must stay UTC "Z" for the Alloy parser); see openspec change timezone-mapping
     environment:
       - >-
         COLLECTIONS=crowdsecurity/caddy crowdsecurity/http-cve
@@ -213,6 +217,7 @@ services:
     restart: unless-stopped
     logging: *default-logging
     environment:
+      - TZ=${TZ:-Europe/Berlin}
       - GEOIPUPDATE_ACCOUNT_ID=${GEOIPUPDATE_ACCOUNT_ID:?GEOIPUPDATE_ACCOUNT_ID is required}
       - GEOIPUPDATE_LICENSE_KEY=${GEOIPUPDATE_LICENSE_KEY:?GEOIPUPDATE_LICENSE_KEY is required}
       - GEOIPUPDATE_EDITION_IDS=GeoLite2-City
@@ -244,6 +249,7 @@ services:
         condition: service_healthy
       crowdsec:
         condition: service_healthy
+    # TZ deliberately unset (scratch image without tzdata, UTC RFC3339 logs); see openspec change timezone-mapping
     environment:
       - RAN_TRAPS=ssh,http,rdp,redis,telnet,mysql,mssql,vnc,mqtt,smb,smtp,ftp,postgres,elasticsearch,httpproxy,sip,adb,minecraft,dns,ntp,snmp,socks5,memcached
       - RAN_LOG_LEVEL=${RAN_LOG_LEVEL:-info}
@@ -332,6 +338,7 @@ services:
       - --server.http.listen-addr=0.0.0.0:12345
       - --disable-reporting
       - --stability.level=experimental
+    # TZ deliberately unset (pipelines parse zone-less timestamps as UTC); see openspec change timezone-mapping
     environment:
       - HOST_HOSTNAME=${ALLOY_HOSTNAME:-}
       - REMOTE_WRITE_URL=${ALLOY_REMOTE_WRITE_URL:?ALLOY_REMOTE_WRITE_URL is required}

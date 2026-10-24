@@ -60,7 +60,7 @@ file_paths = ["compose.yml", "compose.override.yml"]
 # [[SECRET]] and [[VARIABLE]] are interpolated
 environment = """
 DATABASE_URL=postgresql://user:[[DB_PASSWORD]]@db:5432/app
-TZ=[[TZ]]
+TZ=[[tz]]
 APP_DATA_PATH=/docker/example-stack/data
 """
 # Name of the written .env file (default: .env)

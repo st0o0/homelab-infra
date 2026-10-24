@@ -1,6 +1,6 @@
 komodo_deploy_path: /docker/komodo
 komodo_enabled: false
-komodo_tz: Europe/Berlin
+komodo_tz: "{{ homelab_timezone | default('Europe/Berlin') }}"
 komodo_image_tag: "{{ komodo_version }}"
 komodo_port: 9120
 komodo_bind_ip: "127.0.0.1"

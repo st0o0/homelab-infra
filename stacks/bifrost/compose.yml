@@ -31,6 +31,7 @@ services:
       - BIFROST_RECONNECT=${BIFROST_RECONNECT:-on}
       - BIFROST_HEALTHCHECK=${BIFROST_HEALTHCHECK:-on}
       - BIFROST_PROBE=${BIFROST_PROBE:-off}
+      - TZ=${TZ:-Europe/Berlin}
     deploy:
       resources:
         limits:
@@ -54,6 +55,7 @@ services:
       - EIR_RETRY_BACKOFF=${EIR_RETRY_BACKOFF:-5s}
       - EIR_LOG_LEVEL=${EIR_LOG_LEVEL:-info}
       - EIR_LOG_FORMAT=${EIR_LOG_FORMAT:-text}
+      - TZ=${TZ:-Europe/Berlin}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     healthcheck:

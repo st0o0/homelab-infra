@@ -8,7 +8,7 @@ x-common: &common
   restart: unless-stopped
   logging: *default-logging
   environment: &common-env
-    TZ: ${TZ:-}
+    TZ: ${TZ:-Europe/Berlin}
 
 services:
   sonarr:
@@ -233,6 +233,8 @@ services:
       timeout: 5s
       retries: 5
       start_period: 30s
+    # TZ is deliberately NOT set: the MariaDB session time zone follows the OS
+    # (SYSTEM), so changing it would shift stored TIMESTAMP values. Stays UTC.
     environment:
       MARIADB_ROOT_PASSWORD: ${YOUTARR_DB_ROOT_PASSWORD:?YOUTARR_DB_ROOT_PASSWORD is required}
       MARIADB_DATABASE: ${YOUTARR_DB_NAME:-youtarr}

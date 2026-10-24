@@ -14,7 +14,7 @@ services:
     environment:
       - PUID=${PUID:-}
       - PGID=${PGID:-}
-      - TZ=${TZ:-}
+      - TZ=${TZ:-Europe/Berlin}
       # Database
       - AUTHENTIK_SECRET_KEY=${AUTHENTIK_KEY:?AUTHENTIK_KEY is required}
       - AUTHENTIK_POSTGRESQL__HOST=${AUTHENTIK_DB_HOST:?AUTHENTIK_DB_HOST is required}
@@ -115,7 +115,7 @@ services:
     environment:
       - PUID=${PUID:-}
       - PGID=${PGID:-}
-      - TZ=${TZ:-}
+      - TZ=${TZ:-Europe/Berlin}
       # Database
       - AUTHENTIK_SECRET_KEY=${AUTHENTIK_KEY:?AUTHENTIK_KEY is required}
       - AUTHENTIK_POSTGRESQL__HOST=${AUTHENTIK_DB_HOST:?AUTHENTIK_DB_HOST is required}

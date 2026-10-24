@@ -18,6 +18,7 @@ modules.sudo "default" {
 
 modules.fail2ban "default" {
   enabled    = coalesce(sys.env("FAIL2BAN_LOG_ENABLED"), "false")
+  timezone   = coalesce(sys.env("LOG_TIMEZONE"), "Europe/Berlin")
   forward_to = [loki.secretfilter.redact.receiver]
 }
 

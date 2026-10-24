@@ -14,7 +14,7 @@ services:
       - POSTGRES_USER=${PG_USER:-}
       - POSTGRES_PASSWORD=${PG_PASS:?PG_PASS is required}
       - POSTGRES_DB=${PG_DB:-}
-      - TZ=${TZ:-}
+      - TZ=${TZ:-Europe/Berlin}
     ports:
       - "${PG_PORT:-5432}:5432"
     volumes:

@@ -21,6 +21,7 @@ services:
       - PAPERLESS_EXPORTER_URI=${ALLOY_PAPERLESS_URL:?ALLOY_PAPERLESS_URL is required}
       - PAPERLESS_EXPORTER_AUTH_TOKEN=${ALLOY_PAPERLESS_AUTH_TOKEN:?ALLOY_PAPERLESS_AUTH_TOKEN is required}
       - PAPERLESS_EXPORTER_LISTEN_ADDRESS=:9934
+      - TZ=${TZ:-Europe/Berlin}
     deploy:
       resources:
         limits:

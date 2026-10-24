@@ -20,7 +20,8 @@ services:
     environment:
       - PAPERLESS_SECRET_KEY=${PAPERLESS_SECRET_KEY:?PAPERLESS_SECRET_KEY is required}
       - PAPERLESS_URL=${PAPERLESS_URL:-}
-      - PAPERLESS_TIME_ZONE=${TZ:-}
+      - PAPERLESS_TIME_ZONE=${TZ:-Europe/Berlin}
+      - TZ=${TZ:-Europe/Berlin}
       - PAPERLESS_ADMIN_USER=${PAPERLESS_ADMIN_USER:-}
       - PAPERLESS_ADMIN_PASSWORD=${PAPERLESS_ADMIN_PASS:-}
       - PAPERLESS_ACCOUNT_ALLOW_SIGNUPS=false
@@ -94,6 +95,8 @@ services:
     container_name: tika
     restart: unless-stopped
     logging: *default-logging
+    environment:
+      - TZ=${TZ:-Europe/Berlin}
     healthcheck:
       test: ["CMD-SHELL", "bash -c '</dev/tcp/localhost/9998' || exit 1"]
       interval: 30s
@@ -116,6 +119,8 @@ services:
       - gotenberg
       - --chromium-disable-javascript=true
       - --chromium-allow-list=file:///tmp/.*
+    environment:
+      - TZ=${TZ:-Europe/Berlin}
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
       interval: 30s

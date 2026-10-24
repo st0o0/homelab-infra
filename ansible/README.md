@@ -213,7 +213,7 @@ Sets the server's hostname to match the Ansible inventory name. Runs on every co
 Installs standard tools (`btop`, `git`, `curl`, `ca-certificates`, `figlet`), sets the timezone, and optionally runs `apt dist-upgrade`.
 
 **Variables** (`group_vars/all/base.yml`):
-- `base_timezone` -- default: `Europe/Berlin`
+- `bootstrap_timezone` -- default: `homelab_timezone` (`Europe/Berlin`, set in `group_vars/all/timezone.yml`)
 - `base_packages` -- list of packages to install
 - `base_upgrade` -- set to `true` for dist-upgrade (default: `false`, use `just a upgrade`)
 

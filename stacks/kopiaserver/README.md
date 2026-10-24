@@ -42,7 +42,7 @@ Web UI at `http://localhost:51515`.
 | `KOPIA_SERVER_PASS` | yes | -- | Web UI / server control password |
 | `KOPIA_REPO_PASSWORD` | yes | -- | Repository encryption password |
 | `KOPIA_PORT` | no | `51515` | Published port for Web UI and gRPC |
-| `TZ` | no | -- | Timezone |
+| `TZ` | no | `Europe/Berlin` | Timezone |
 
 ## Add a client
 

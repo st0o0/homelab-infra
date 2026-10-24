@@ -21,6 +21,7 @@ services:
       - MQTT_ADDRESS=${ALLOY_MQTT_BROKER_ADDRESS:?ALLOY_MQTT_BROKER_ADDRESS is required}
       - MQTT_USER=${ALLOY_MQTT_BROKER_USER:-}
       - MQTT_PASS=${ALLOY_MQTT_BROKER_PASS:-}
+      - TZ=${TZ:-Europe/Berlin}
     deploy:
       resources:
         limits:

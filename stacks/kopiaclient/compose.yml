@@ -21,7 +21,7 @@ services:
       - --insecure
     environment:
       - KOPIA_PASSWORD=${KOPIA_REPO_PASSWORD:?KOPIA_REPO_PASSWORD is required}
-      - TZ=${TZ:-}
+      - TZ=${TZ:-Europe/Berlin}
     healthcheck:
       test: ["CMD", "kopia", "server", "status", "--address=http://localhost:51515", "--server-control-username=${KOPIA_CLIENT_USER}", "--server-control-password=${KOPIA_CLIENT_PASS}"]
       interval: 30s

@@ -17,6 +17,7 @@ services:
     devices:
       - /dev/net/tun:/dev/net/tun
     environment:
+      - TZ=${TZ:-Europe/Berlin}
       - BIFROST_PRIVATE_KEY=${BIFROST_PRIVATE_KEY}
       - BIFROST_ADDRESS=${BIFROST_ADDRESS}
       - BIFROST_LISTEN_PORT=${BIFROST_LISTEN_PORT}
@@ -50,6 +51,7 @@ services:
       bifrost:
         condition: service_started
     environment:
+      - TZ=${TZ:-Europe/Berlin}
       - EIR_MASTERS=agent-bifrost
       - EIR_DISCOVERY_MODE=inspect
       - EIR_STABILIZE_WAIT=15s

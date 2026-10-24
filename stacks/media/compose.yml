@@ -20,7 +20,7 @@ services:
     environment:
       - PUID=${PUID:-}
       - PGID=${PGID:-}
-      - TZ=${TZ:-}
+      - TZ=${TZ:-Europe/Berlin}
       - MALLOC_TRIM_THRESHOLD_=100000
       - DOTNET_GCHighMemPercent=32
     volumes:

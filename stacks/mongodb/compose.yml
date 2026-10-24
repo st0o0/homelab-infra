@@ -13,7 +13,7 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=${MONGO_ROOT_USER:?MONGO_ROOT_USER is required}
       - MONGO_INITDB_ROOT_PASSWORD=${MONGO_ROOT_PASS:?MONGO_ROOT_PASS is required}
-      - TZ=${TZ:-}
+      - TZ=${TZ:-Europe/Berlin}
     ports:
       - "${MONGO_PORT:-27017}:27017"
     volumes:

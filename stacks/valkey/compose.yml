@@ -16,6 +16,8 @@ services:
       --maxmemory ${VALKEY_MAXMEMORY:-64mb}
       --maxmemory-policy ${VALKEY_MAXMEMORY_POLICY:-noeviction}
       --appendonly yes
+    environment:
+      - TZ=${TZ:-Europe/Berlin}
     ports:
       - "${VALKEY_PORT:-6379}:6379"
     volumes:

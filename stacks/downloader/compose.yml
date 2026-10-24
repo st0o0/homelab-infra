@@ -18,7 +18,7 @@ services:
       - "${SABNZBD_PORT:-8080}:8080"
       - "${FIREFOX_PORT:-5800}:5800"
     environment:
-      - TZ=${TZ:-}
+      - TZ=${TZ:-Europe/Berlin}
       - VPN_SERVICE_PROVIDER=${GLUETUN_VPN_PROVIDER:?GLUETUN_VPN_PROVIDER is required}
       - VPN_TYPE=${GLUETUN_VPN_TYPE:-wireguard}
       - WIREGUARD_MTU=${GLUETUN_WG_MTU:-1380}
@@ -52,6 +52,7 @@ services:
       - SABNZBD__API_KEY=${SABNZBD_API_KEY:-}
       - SABNZBD__NZB_KEY=${SABNZBD_NZB_KEY:-}
       - SABNZBD__HOST_WHITELIST_ENTRIES=${SABNZBD_HOST_WHITELIST:-}
+      - TZ=${TZ:-Europe/Berlin}
     volumes:
       - ${SABNZBD_PATH_CONFIG:-./sabnzbd/config}:/config
       - ${SABNZBD_PATH_INCOMPLETE:-./sabnzbd/incomplete}:/config/Downloads/incomplete
@@ -80,6 +81,8 @@ services:
     restart: unless-stopped
     logging: *default-logging
     command: /data --allow-all --port 5000
+    environment:
+      - TZ=${TZ:-Europe/Berlin}
     ports:
       - "${DUFS_PORT:-8082}:5000"
     volumes:
@@ -102,7 +105,7 @@ services:
     environment:
       - USER_ID=${PUID:-1000}
       - GROUP_ID=${PGID:-1000}
-      - TZ=${TZ:-}
+      - TZ=${TZ:-Europe/Berlin}
       - LANG=${FIREFOX_LANG:-de_DE.UTF-8}
       - DARK_MODE=1
       - KEEP_APP_RUNNING=1

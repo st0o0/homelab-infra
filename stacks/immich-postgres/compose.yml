@@ -15,7 +15,7 @@ services:
       - POSTGRES_USER=${IMMICH_PG_USER:-}
       - POSTGRES_DB=${IMMICH_PG_DB:-}
       - POSTGRES_INITDB_ARGS=--data-checksums
-      - TZ=${TZ:-}
+      - TZ=${TZ:-Europe/Berlin}
     ports:
       - "${IMMICH_PG_PORT:-5433}:5432"
     volumes:

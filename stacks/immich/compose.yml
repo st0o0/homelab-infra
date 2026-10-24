@@ -14,7 +14,6 @@ services:
       - "${IMMICH_PORT:-2283}:2283"
     volumes:
       - immich_smb:/data
-      - /etc/localtime:/etc/localtime:ro
     environment:
       - DB_HOSTNAME=${IMMICH_DB_HOST:?IMMICH_DB_HOST is required}
       - DB_PORT=${IMMICH_DB_PORT:-5432}
@@ -30,6 +29,7 @@ services:
       - IMMICH_TELEMETRY_INCLUDE=${IMMICH_TELEMETRY_INCLUDE:-all}
       - IMMICH_API_METRICS_PORT=${IMMICH_API_METRICS_PORT:-8081}
       - IMMICH_MICROSERVICES_METRICS_PORT=${IMMICH_MICROSERVICES_METRICS_PORT:-8082}
+      - TZ=${TZ:-Europe/Berlin}
     networks:
       - immich-net
     healthcheck:
@@ -50,7 +50,7 @@ services:
     volumes:
       - ${IMMICH_PATH_CACHE:?IMMICH_PATH_CACHE is required}:/cache
     environment:
-      - TZ=${TZ:-}
+      - TZ=${TZ:-Europe/Berlin}
       - MACHINE_LEARNING_WORKERS=${IMMICH_ML_WORKERS:-1}
       - MACHINE_LEARNING_MODEL_TTL=${IMMICH_ML_MODEL_TTL:-600}
     networks:

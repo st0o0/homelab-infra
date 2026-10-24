@@ -25,7 +25,7 @@ services:
         mac_address: ${HA_IOT_MAC:?HA_IOT_MAC is required}
         ipv4_address: ${HA_IOT_IP:?HA_IOT_IP is required}
     environment:
-      - TZ=${TZ:-}
+      - TZ=${TZ:-Europe/Berlin}
       - HA_RECORDER_DB_URL=${HA_RECORDER_DB_URL:-sqlite:////config/home-assistant_v2.db}
     volumes:
       - ${HA_PATH_CONFIG:-./homeassistant/data}:/config
@@ -52,6 +52,8 @@ services:
     container_name: mosquitto
     restart: always
     logging: *default-logging
+    environment:
+      - TZ=${TZ:-Europe/Berlin}
     volumes:
       - ${MQTT_PATH_CONFIG:-./mosquitto/config}:/mosquitto/config
       - ${MQTT_PATH_DATA:-./mosquitto/data}:/mosquitto/data
@@ -83,7 +85,7 @@ services:
     volumes:
       - ${Z2M_PATH_DATA:-./zigbee2mqtt/data}:/app/data
     environment:
-      - TZ=${TZ:-}
+      - TZ=${TZ:-Europe/Berlin}
     ports:
       - "${Z2M_PORT:-8125}:8080"
     healthcheck:
@@ -110,6 +112,7 @@ services:
     environment:
       - LOG_LEVEL=${MATTER_LOG_LEVEL:-info}
       - BLE_PROXY=${MATTER_BLE_PROXY:-true}
+      - TZ=${TZ:-Europe/Berlin}
     volumes:
       - ${MATTER_PATH_DATA:-./matter/data}:/data
     healthcheck:

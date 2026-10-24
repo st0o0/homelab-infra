@@ -1,6 +1,8 @@
 # Core - replaces default_config
 # Removed: cloud, dhcp, go2rtc, ssdp, stream, usb
 homeassistant:
+  # Same source as the container TZ (shared Komodo variable `tz`)
+  time_zone: !env_var TZ
   packages: !include_dir_named packages
 
 automation: !include automations.yaml
