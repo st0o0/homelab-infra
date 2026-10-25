@@ -5451,7 +5451,7 @@
                 "uid": "victoriametrics"
               },
               "instant": true,
-              "expr": "sum by (protocol) (increase(ran_crowdsec_pipeline_total{instance=~\"$instance\",stage=~\"filtered|cached\"}[$__range]))"
+              "expr": "sum by (protocol) (increase(ran_crowdsec_pipeline_total{instance=~\"$instance\",stage=~\"filtered\"}[$__range]))"
             },
             {
               "refId": "C",
@@ -5460,7 +5460,7 @@
                 "uid": "victoriametrics"
               },
               "instant": true,
-              "expr": "sum by (protocol) (increase(ran_crowdsec_pipeline_total{instance=~\"$instance\",stage=~\"cooldown|deduplicated\"}[$__range]))"
+              "expr": "sum by (protocol) (increase(ran_crowdsec_pipeline_total{instance=~\"$instance\",stage=~\"cooldown\"}[$__range]))"
             },
             {
               "refId": "D",
