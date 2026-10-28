@@ -112,6 +112,7 @@ services:
     environment:
       - LOG_LEVEL=${MATTER_LOG_LEVEL:-info}
       - BLE_PROXY=${MATTER_BLE_PROXY:-true}
+      - ENABLE_TIME_SYNC=${MATTER_ENABLE_TIME_SYNC:-true}
       - TZ=${TZ:-Europe/Berlin}
     volumes:
       - ${MATTER_PATH_DATA:-./matter/data}:/data

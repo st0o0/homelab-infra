@@ -131,6 +131,7 @@ Z2M_PORT=8125
 Z2M_PATH_DATA=/docker/homeassistant/zigbee2mqtt/data
 MATTER_LOG_LEVEL=info
 MATTER_BLE_PROXY=true
+MATTER_ENABLE_TIME_SYNC=true
 MATTER_PATH_DATA=/docker/homeassistant/matter/data
 """
 
