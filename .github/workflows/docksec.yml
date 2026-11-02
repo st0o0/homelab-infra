@@ -43,7 +43,7 @@ jobs:
     permissions:
       contents: read
       security-events: write
-    uses: st0o0/github-workflows/.github/workflows/docksec.yml@main
+    uses: st0o0/github-workflows/.github/workflows/docksec.yml@0aa114017fdb00850eaf9787fca435b0508c0164 # main
     with:
       scan-type: ${{ matrix.scan-type }}
       target: ${{ matrix.target }}
