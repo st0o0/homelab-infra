@@ -22,31 +22,20 @@ services:
       - "443:443"
       - "443:443/udp"
       - "127.0.0.1:8888:8888"
-      # honeypot traps (ran); smb, mssql, redis, sip, dns, ntp, snmp deliberately not published (see openspec proxy-honeypot-hardening)
+      # honeypot traps (ran)
       - "21:21"
       - "23:23"
       - "25:25"
-      - "587:587"
-      - "1883:1883"
       - "2222:2222"
-      - "3307:3307"
+      - "2375:2375"
+      - "3306:3306"
       - "3389:3389"
       - "5432:5432"
-      - "5555:5555"
-      - "5900:5900"
+      - "6443:6443"
       - "8080:8080"
-      - "9200:9200"
-      - "25565:25565"
-      - "1080:1080"
-      - "11211:11211"
-      # multi-port honeypot variants
-      - "3000:3000"
-      - "3128:3128"
-      - "3306:3306"
-      - "5901:5901"
-      - "8081:8081"
       - "8443:8443"
-      - "9443:9443"
+      - "9200:9200"
+      - "27017:27017"
     environment:
       - TZ=${TZ:-Europe/Berlin}
       - BIFROST_PRIVATE_KEY=${BIFROST_PRIVATE_KEY:?BIFROST_PRIVATE_KEY is required}
@@ -232,7 +221,7 @@ services:
           memory: 32M
 
   ran:
-    image: ghcr.io/st0o0/ran:0.4.0@sha256:73a69a04e9f295bc400e2725cba15f032c4ea4723186eda60f768793116ab274
+    image: ghcr.io/st0o0/ran:0.5.1@sha256:607e06aeae61923e06bab0a7ae16c01c01febe3c121bace40c017f892a6dca94
     container_name: ran
     restart: unless-stopped
     logging: *default-logging
@@ -244,41 +233,37 @@ services:
         condition: service_healthy
     # TZ deliberately unset (scratch image without tzdata, UTC RFC3339 logs); see openspec change timezone-mapping
     environment:
-      - RAN_TRAPS=ssh,http,rdp,telnet,mysql,vnc,mqtt,smtp,ftp,postgres,elasticsearch,httpproxy,adb,minecraft,socks5,memcached
+      - RAN_TRAPS=ssh,https,rdp,telnet,mysql,smtp,ftp,postgres,elasticsearch,httpproxy,docker,kubernetes,mongodb
       - RAN_LOG_LEVEL=${RAN_LOG_LEVEL:-info}
       - RAN_LOG_FORMAT=json
       - RAN_SESSION_TIMEOUT=${RAN_SESSION_TIMEOUT:-30s}
       - RAN_MAX_SESSIONS=${RAN_MAX_SESSIONS:-500}
       - RAN_MAX_PER_IP=${RAN_MAX_PER_IP:-10}
       - RAN_METRICS_ADDR=:9550
-      - RAN_HTTP_ADDR=:8181,:8443,:8081,:3000,:9443
       - RAN_SSH_ADDR=:2222
-      - RAN_TELNET_ADDR=:23
+      - RAN_HTTPS_ADDR=:8443
       - RAN_RDP_ADDR=:3389
-      - RAN_MYSQL_ADDR=:3307,:3306
-      - RAN_VNC_ADDR=:5900,:5901
-      - RAN_MQTT_ADDR=:1883
+      - RAN_TELNET_ADDR=:23
+      - RAN_MYSQL_ADDR=:3306
+      - RAN_SMTP_ADDR=:25
       - RAN_FTP_ADDR=:21
-      - RAN_SMTP_ADDR=:25,:587
       - RAN_POSTGRES_ADDR=:5432
-      - RAN_HTTPPROXY_ADDR=:8080,:3128
       - RAN_ELASTICSEARCH_ADDR=:9200
-      - RAN_ADB_ADDR=:5555
-      - RAN_MINECRAFT_ADDR=:25565
-      - RAN_SOCKS5_ADDR=:1080
-      - RAN_MEMCACHED_ADDR=:11211
+      - RAN_HTTPPROXY_ADDR=:8080
+      - RAN_DOCKER_ADDR=:2375
+      - RAN_KUBERNETES_ADDR=:6443
+      - RAN_MONGODB_ADDR=:27017
+      - RAN_SHUN=on
+      - RAN_REPEAT_AFTER=${RAN_REPEAT_AFTER:-5}
+      - RAN_REPEAT_COOLDOWN=${RAN_REPEAT_COOLDOWN:-12h}
       - RAN_CROWDSEC=on
       - RAN_CROWDSEC_URL=http://localhost:8180
       - RAN_CROWDSEC_MACHINE_ID=${RAN_CROWDSEC_MACHINE_ID:?RAN_CROWDSEC_MACHINE_ID is required}
       - RAN_CROWDSEC_PASSWORD=${RAN_CROWDSEC_PASSWORD:?RAN_CROWDSEC_PASSWORD is required}
       - RAN_CROWDSEC_BATCH_INTERVAL=${RAN_CROWDSEC_BATCH_INTERVAL:-10s}
       - RAN_CROWDSEC_BATCH_SIZE=${RAN_CROWDSEC_BATCH_SIZE:-50}
-      # About 75 percent of the 128M container limit
       - GOMEMLIMIT=96MiB
-    # Hardening (safe on 0.3.8, required to be correct on 0.4.0):
-    # - low ports are bound without NET_BIND_SERVICE because the shared bifrost network namespace is created by
-    #   Docker with net.ipv4.ip_unprivileged_port_start=0 (verify after deploy, see proxy-honeypot-hardening tasks)
-    # - 0.4.0 runs as UID 65532 and writes only /data (SSH host key); the volume must be owned by 65532 before the upgrade
+    # Hardening: UID 65532, read-only root, no capabilities, low ports via net.ipv4.ip_unprivileged_port_start=0 on bifrost
     user: "65532:65532"
     read_only: true
     cap_drop:
