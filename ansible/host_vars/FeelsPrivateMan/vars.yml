@@ -22,27 +22,16 @@ ufw_extra_rules:
   - {rule: allow, port: 21, proto: tcp, comment: "ran FTP"}
   - {rule: allow, port: 23, proto: tcp, comment: "ran Telnet"}
   - {rule: allow, port: 25, proto: tcp, comment: "ran SMTP"}
-  - {rule: allow, port: 587, proto: tcp, comment: "ran SMTP-Sub"}
-  - {rule: allow, port: 1883, proto: tcp, comment: "ran MQTT"}
   - {rule: allow, port: 2222, proto: tcp, comment: "ran SSH"}
-  - {rule: allow, port: 3307, proto: tcp, comment: "ran MySQL"}
+  - {rule: allow, port: 2375, proto: tcp, comment: "ran Docker"}
+  - {rule: allow, port: 3306, proto: tcp, comment: "ran MySQL"}
   - {rule: allow, port: 3389, proto: tcp, comment: "ran RDP"}
   - {rule: allow, port: 5432, proto: tcp, comment: "ran PostgreSQL"}
-  - {rule: allow, port: 5555, proto: tcp, comment: "ran ADB"}
-  - {rule: allow, port: 5900, proto: tcp, comment: "ran VNC"}
+  - {rule: allow, port: 6443, proto: tcp, comment: "ran Kubernetes"}
   - {rule: allow, port: 8080, proto: tcp, comment: "ran HTTP-Proxy"}
-  - {rule: allow, port: 9200, proto: tcp, comment: "ran Elasticsearch"}
-  - {rule: allow, port: 25565, proto: tcp, comment: "ran Minecraft"}
-  - {rule: allow, port: 1080, proto: tcp, comment: "ran SOCKS5"}
-  - {rule: allow, port: 11211, proto: tcp, comment: "ran Memcached"}
-  # ran multi-port variants
-  - {rule: allow, port: 3000, proto: tcp, comment: "ran HTTP"}
-  - {rule: allow, port: 3128, proto: tcp, comment: "ran HTTP-Proxy"}
-  - {rule: allow, port: 3306, proto: tcp, comment: "ran MySQL"}
-  - {rule: allow, port: 5901, proto: tcp, comment: "ran VNC"}
-  - {rule: allow, port: 8081, proto: tcp, comment: "ran HTTP"}
   - {rule: allow, port: 8443, proto: tcp, comment: "ran HTTPS"}
-  - {rule: allow, port: 9443, proto: tcp, comment: "ran HTTPS"}
+  - {rule: allow, port: 9200, proto: tcp, comment: "ran Elasticsearch"}
+  - {rule: allow, port: 27017, proto: tcp, comment: "ran MongoDB"}
 
 # Retired ran traps: delete the existing rules (deploy the proxy stack first, then run the ufw role)
 ufw_removed_rules:
@@ -53,6 +42,19 @@ ufw_removed_rules:
   - {port: 53, proto: udp, comment: "ran DNS"}
   - {port: 123, proto: udp, comment: "ran NTP"}
   - {port: 161, proto: udp, comment: "ran SNMP"}
+  - {port: 587, proto: tcp, comment: "ran SMTP-Sub"}
+  - {port: 1080, proto: tcp, comment: "ran SOCKS5"}
+  - {port: 1883, proto: tcp, comment: "ran MQTT"}
+  - {port: 3000, proto: tcp, comment: "ran HTTP"}
+  - {port: 3128, proto: tcp, comment: "ran HTTP-Proxy"}
+  - {port: 3307, proto: tcp, comment: "ran MySQL"}
+  - {port: 5555, proto: tcp, comment: "ran ADB"}
+  - {port: 5900, proto: tcp, comment: "ran VNC"}
+  - {port: 5901, proto: tcp, comment: "ran VNC"}
+  - {port: 8081, proto: tcp, comment: "ran HTTP"}
+  - {port: 9443, proto: tcp, comment: "ran HTTPS"}
+  - {port: 11211, proto: tcp, comment: "ran Memcached"}
+  - {port: 25565, proto: tcp, comment: "ran Minecraft"}
 
 # LXC: chrony cannot set system clock or access /dev/rtc in containers
 ntp_enabled: false
