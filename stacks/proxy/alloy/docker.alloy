@@ -11,6 +11,12 @@ discovery.relabel "containers" {
     target_label  = "container"
   }
 
+  rule {
+    source_labels = ["__meta_docker_container_name"]
+    regex         = "/ran"
+    target_label  = "job"
+    replacement   = "honeypot"
+  }
 }
 
 loki.source.docker "containers" {

@@ -665,7 +665,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "{container=\"ran\"} action:\"disconnect\" | count()",
+          "expr": "{job=\"honeypot\"} action:\"disconnect\" | count()",
           "queryType": "stats"
         }
       ],
@@ -695,7 +695,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "{container=\"ran\"} action:\"disconnect\" | uniq_values(source_ip) | count()",
+          "expr": "{job=\"honeypot\"} action:\"disconnect\" | uniq_values(source_ip) | count()",
           "queryType": "stats"
         }
       ],
@@ -724,7 +724,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "{container=\"ran\"} action:\"disconnect\" | stats by (protocol) count() as sessions | sort by (sessions) desc | limit 1",
+          "expr": "{job=\"honeypot\"} action:\"disconnect\" | stats by (protocol) count() as sessions | sort by (sessions) desc | limit 1",
           "queryType": "stats"
         }
       ],
@@ -758,7 +758,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "{container=\"ran\"} action:\"credential\" | stats by (protocol, username) count() as count | sort by (count) desc | limit 25",
+          "expr": "{job=\"honeypot\"} action:\"credential\" | stats by (protocol, username) count() as count | sort by (count) desc | limit 25",
           "queryType": "stats"
         }
       ],
@@ -792,7 +792,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "{container=\"ran\"} action:\"disconnect\" | fields _time, protocol, source_ip, outcome, duration_ms, auth_attempts",
+          "expr": "{job=\"honeypot\"} action:\"disconnect\" | fields _time, protocol, source_ip, outcome, duration_ms, auth_attempts",
           "queryType": "instant"
         }
       ],
@@ -826,7 +826,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "{container=\"ran\"} protocol:\"ssh\" client_version:* | stats by (client_version, hassh) count() as count | sort by (count) desc | limit 25",
+          "expr": "{job=\"honeypot\"} protocol:\"ssh\" client_version:* | stats by (client_version, hassh) count() as count | sort by (count) desc | limit 25",
           "queryType": "stats"
         }
       ],
@@ -860,7 +860,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "{container=\"ran\"} protocol:\"https\" ja4:* | stats by (ja4, sni) count() as count | sort by (count) desc | limit 25",
+          "expr": "{job=\"honeypot\"} protocol:\"https\" ja4:* | stats by (ja4, sni) count() as count | sort by (count) desc | limit 25",
           "queryType": "stats"
         }
       ],
