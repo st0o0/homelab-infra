@@ -233,7 +233,7 @@ services:
         condition: service_healthy
     # TZ deliberately unset (scratch image without tzdata, UTC RFC3339 logs); see openspec change timezone-mapping
     environment:
-      - RAN_TRAPS=ssh,https,rdp,telnet,mysql,smtp,ftp,postgres,elasticsearch,httpproxy,docker,kubernetes,mongodb
+      - RAN_TRAPS=ssh,http,https,rdp,telnet,mysql,smtp,ftp,postgres,elasticsearch,httpproxy,docker,kubernetes,mongodb
       - RAN_LOG_LEVEL=${RAN_LOG_LEVEL:-info}
       - RAN_LOG_FORMAT=json
       - RAN_SESSION_TIMEOUT=${RAN_SESSION_TIMEOUT:-30s}
@@ -241,6 +241,7 @@ services:
       - RAN_MAX_PER_IP=${RAN_MAX_PER_IP:-10}
       - RAN_METRICS_ADDR=:9550
       - RAN_SSH_ADDR=:2222
+      - RAN_HTTP_ADDR=:8181
       - RAN_HTTPS_ADDR=:8443
       - RAN_RDP_ADDR=:3389
       - RAN_TELNET_ADDR=:23
