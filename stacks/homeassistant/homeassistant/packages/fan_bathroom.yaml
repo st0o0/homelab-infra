@@ -126,7 +126,7 @@ automation:
     description: Keeps the bathroom fan on the state the should-run sensor asks for
     mode: queued
     variables:
-      output: &bathroom_fan_output input_boolean.fan_shadow_bathroom
+      output: &bathroom_fan_output fan.fan_bathroom_0
       should_run: binary_sensor.bathroom_fan_should_run
     triggers:
       - trigger: state
@@ -220,7 +220,6 @@ automation:
   - id: bathroom_fan_rodret
     alias: Bathroom Fan Rodret
     description: Rodret on and off buttons control the shower switch
-    initial_state: false
     use_blueprint:
       path: st0o0/ikea_E1743-E2201-E2213_Z2M_control-anything.yaml
       input:
