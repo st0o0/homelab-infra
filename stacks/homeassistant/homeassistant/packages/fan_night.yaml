@@ -1,0 +1,53 @@
+input_datetime:
+  fan_night_end:
+    name: Fan Night End
+    icon: mdi:clock-end
+    has_date: false
+    has_time: true
+
+timer:
+  fan_night:
+    name: Fan Night
+    icon: mdi:weather-night
+    restore: true
+
+template:
+  - switch:
+      - name: Fan Night Ventilation
+        unique_id: fan_night_ventilation
+        icon: mdi:weather-night
+        state: "{{ is_state('timer.fan_night', 'active') }}"
+        turn_on:
+          - action: timer.cancel
+            target:
+              entity_id:
+                - timer.bathroom_fan_ventilation
+                - timer.storageroom_fan_ventilation
+          - action: timer.start
+            target:
+              entity_id: timer.fan_night
+            data:
+              duration:
+                seconds: >-
+                  {% set end = today_at(states('input_datetime.fan_night_end')) %}
+                  {{ ((end if end > now() else end + timedelta(days=1)) - now()).total_seconds() | int }}
+        turn_off:
+          - action: timer.cancel
+            target:
+              entity_id: timer.fan_night
+
+automation:
+  - id: fan_night_end_changed
+    alias: Fan Night End Changed
+    description: Applies a changed end time to running night ventilation
+    triggers:
+      - trigger: state
+        entity_id: input_datetime.fan_night_end
+    conditions:
+      - condition: state
+        entity_id: timer.fan_night
+        state: active
+    actions:
+      - action: switch.turn_on
+        target:
+          entity_id: switch.fan_night_ventilation

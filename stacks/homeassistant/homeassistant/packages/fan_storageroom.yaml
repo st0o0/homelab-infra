@@ -1,0 +1,139 @@
+input_boolean:
+  storageroom_fan_humidity_demand:
+    name: Storageroom Fan Humidity Demand
+    icon: mdi:water-percent
+  # Replaces the real fan until cutover
+  fan_shadow_storageroom:
+    name: Fan Shadow Storageroom
+    icon: mdi:fan
+
+input_number:
+  storageroom_fan_ventilation_duration:
+    name: Storageroom Fan Ventilation Duration
+    icon: mdi:fan-clock
+    min: 6
+    max: 60
+    step: 1
+    mode: slider
+    unit_of_measurement: min
+
+timer:
+  storageroom_fan_ventilation:
+    name: Storageroom Fan Ventilation
+    icon: mdi:fan-clock
+    restore: true
+  storageroom_fan_run:
+    name: Storageroom Fan Run
+    icon: mdi:fan
+    restore: true
+
+generic_hygrostat:
+  - name: Storageroom Fan Humidity
+    unique_id: storageroom_fan_humidity
+    humidifier: input_boolean.storageroom_fan_humidity_demand
+    target_sensor: sensor.ht_storageroom_0_humidity
+    device_class: dehumidifier
+    target_humidity: 65
+    dry_tolerance: 3
+    wet_tolerance: 3
+    initial_state: true
+    sensor_stale_duration: "00:30:00"
+
+template:
+  - binary_sensor:
+      - name: Storageroom Fan Should Run
+        unique_id: storageroom_fan_should_run
+        icon: mdi:fan
+        state: >-
+          {{ is_state('timer.fan_night', 'active')
+             or is_state('timer.storageroom_fan_ventilation', 'active')
+             or (is_state('humidifier.storageroom_fan_humidity', 'on')
+                 and is_state('input_boolean.storageroom_fan_humidity_demand', 'on'))
+             or is_state('timer.storageroom_fan_run', 'active') }}
+  - switch:
+      - name: Storageroom Fan Ventilation
+        unique_id: storageroom_fan_ventilation
+        icon: mdi:fan-clock
+        state: "{{ not is_state('timer.storageroom_fan_ventilation', 'idle') }}"
+        turn_on:
+          - if:
+              - condition: state
+                entity_id:
+                  - timer.storageroom_fan_ventilation
+                  - timer.fan_night
+                state: idle
+            then:
+              - action: timer.start
+                target:
+                  entity_id: timer.storageroom_fan_ventilation
+                data:
+                  duration:
+                    minutes: "{{ states('input_number.storageroom_fan_ventilation_duration') | int }}"
+        turn_off:
+          - action: timer.cancel
+            target:
+              entity_id: timer.storageroom_fan_ventilation
+
+automation:
+  - id: storageroom_fan_apply
+    alias: Storageroom Fan Apply
+    description: Keeps the storage-room fan on the state the should-run sensor asks for
+    mode: queued
+    variables:
+      output: &storageroom_fan_output input_boolean.fan_shadow_storageroom
+      should_run: binary_sensor.storageroom_fan_should_run
+    triggers:
+      - trigger: state
+        entity_id:
+          - binary_sensor.storageroom_fan_should_run
+          - *storageroom_fan_output
+        to: ~
+      - trigger: homeassistant
+        event: start
+    conditions:
+      - condition: template
+        value_template: "{{ has_value(output) and has_value(should_run) and states(output) != states(should_run) }}"
+    actions:
+      - action: "homeassistant.turn_{{ states(should_run) }}"
+        target:
+          entity_id: "{{ output }}"
+
+  - id: storageroom_fan_hygrostat
+    alias: Storageroom Fan Hygrostat
+    description: Keeps the storage-room hygrostat switched on
+    mode: queued
+    triggers:
+      - trigger: state
+        entity_id: humidifier.storageroom_fan_humidity
+        to: "off"
+      - trigger: homeassistant
+        event: start
+    conditions:
+      - condition: state
+        entity_id: humidifier.storageroom_fan_humidity
+        state: "off"
+    actions:
+      - action: humidifier.turn_on
+        target:
+          entity_id: humidifier.storageroom_fan_humidity
+
+  - id: storageroom_fan_run
+    alias: Storageroom Fan Run
+    description: Starts the short run when the light is switched on
+    mode: queued
+    variables:
+      output: *storageroom_fan_output
+    triggers:
+      - trigger: state
+        entity_id: binary_sensor.lamp_storageroom_0_input_0
+        from: "off"
+        to: "on"
+    conditions:
+      - condition: template
+        value_template: "{{ is_state(output, 'off') }}"
+    actions:
+      - action: timer.start
+        target:
+          entity_id: timer.storageroom_fan_run
+        data:
+          duration: "00:00:45"

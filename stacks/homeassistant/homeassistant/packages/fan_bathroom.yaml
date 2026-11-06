@@ -1,0 +1,240 @@
+input_boolean:
+  bathroom_fan_light_mode:
+    name: Bathroom Fan Light Mode
+    icon: mdi:lightbulb-on
+  bathroom_fan_humidity_demand:
+    name: Bathroom Fan Humidity Demand
+    icon: mdi:water-percent
+  # Replaces the real fan until cutover
+  fan_shadow_bathroom:
+    name: Fan Shadow Bathroom
+    icon: mdi:fan
+
+input_number:
+  bathroom_fan_shower_duration:
+    name: Bathroom Fan Shower Duration
+    icon: mdi:timer-sand
+    min: 10
+    max: 60
+    step: 1
+    mode: slider
+    unit_of_measurement: min
+  bathroom_fan_ventilation_duration:
+    name: Bathroom Fan Ventilation Duration
+    icon: mdi:fan-clock
+    min: 15
+    max: 60
+    step: 1
+    mode: slider
+    unit_of_measurement: min
+
+timer:
+  bathroom_fan_shower:
+    name: Bathroom Fan Shower
+    icon: mdi:shower-head
+    restore: true
+  bathroom_fan_ventilation:
+    name: Bathroom Fan Ventilation
+    icon: mdi:fan-clock
+    restore: true
+  bathroom_fan_run:
+    name: Bathroom Fan Run
+    icon: mdi:fan
+    restore: true
+
+generic_hygrostat:
+  - name: Bathroom Fan Humidity
+    unique_id: bathroom_fan_humidity
+    humidifier: input_boolean.bathroom_fan_humidity_demand
+    target_sensor: sensor.ht_bathroom_0_humidity
+    device_class: dehumidifier
+    target_humidity: 65
+    dry_tolerance: 3
+    wet_tolerance: 3
+    initial_state: true
+    sensor_stale_duration: "00:30:00"
+
+template:
+  - binary_sensor:
+      - name: Bathroom Fan Should Run
+        unique_id: bathroom_fan_should_run
+        icon: mdi:fan
+        state: >-
+          {{ is_state('timer.bathroom_fan_shower', 'idle') and (
+               is_state('timer.fan_night', 'active')
+               or is_state('timer.bathroom_fan_ventilation', 'active')
+               or (is_state('humidifier.bathroom_fan_humidity', 'on')
+                   and is_state('input_boolean.bathroom_fan_humidity_demand', 'on'))
+               or is_state('timer.bathroom_fan_run', 'active')) }}
+      - name: Bathroom Fan Visit
+        unique_id: bathroom_fan_visit
+        device_class: occupancy
+        state: "{{ is_state('binary_sensor.vallhorn_vallhorn_01_occupancy', 'on') }}"
+        availability: "{{ has_value('binary_sensor.vallhorn_vallhorn_01_occupancy') }}"
+        delay_off: "00:02:00"
+  - switch:
+      - name: Bathroom Fan Shower
+        unique_id: bathroom_fan_shower
+        icon: mdi:shower-head
+        state: "{{ not is_state('timer.bathroom_fan_shower', 'idle') }}"
+        turn_on:
+          - if:
+              - condition: state
+                entity_id: timer.bathroom_fan_shower
+                state: idle
+            then:
+              - action: timer.cancel
+                target:
+                  entity_id: timer.bathroom_fan_ventilation
+              - action: timer.start
+                target:
+                  entity_id: timer.bathroom_fan_shower
+                data:
+                  duration:
+                    minutes: "{{ states('input_number.bathroom_fan_shower_duration') | int }}"
+        turn_off:
+          - action: timer.cancel
+            target:
+              entity_id: timer.bathroom_fan_shower
+      - name: Bathroom Fan Ventilation
+        unique_id: bathroom_fan_ventilation
+        icon: mdi:fan-clock
+        state: "{{ not is_state('timer.bathroom_fan_ventilation', 'idle') }}"
+        turn_on:
+          - if:
+              - condition: state
+                entity_id:
+                  - timer.bathroom_fan_shower
+                  - timer.bathroom_fan_ventilation
+                  - timer.fan_night
+                state: idle
+            then:
+              - action: timer.start
+                target:
+                  entity_id: timer.bathroom_fan_ventilation
+                data:
+                  duration:
+                    minutes: "{{ states('input_number.bathroom_fan_ventilation_duration') | int }}"
+        turn_off:
+          - action: timer.cancel
+            target:
+              entity_id: timer.bathroom_fan_ventilation
+
+automation:
+  - id: bathroom_fan_apply
+    alias: Bathroom Fan Apply
+    description: Keeps the bathroom fan on the state the should-run sensor asks for
+    mode: queued
+    variables:
+      output: &bathroom_fan_output input_boolean.fan_shadow_bathroom
+      should_run: binary_sensor.bathroom_fan_should_run
+    triggers:
+      - trigger: state
+        entity_id:
+          - binary_sensor.bathroom_fan_should_run
+          - *bathroom_fan_output
+        to: ~
+      - trigger: homeassistant
+        event: start
+    conditions:
+      - condition: template
+        value_template: "{{ has_value(output) and has_value(should_run) and states(output) != states(should_run) }}"
+    actions:
+      - action: "homeassistant.turn_{{ states(should_run) }}"
+        target:
+          entity_id: "{{ output }}"
+
+  - id: bathroom_fan_hygrostat
+    alias: Bathroom Fan Hygrostat
+    description: Switches the hygrostat off during a shower and on at all other times
+    mode: queued
+    variables:
+      wanted: "{{ 'on' if is_state('timer.bathroom_fan_shower', 'idle') else 'off' }}"
+    triggers:
+      - trigger: state
+        entity_id:
+          - timer.bathroom_fan_shower
+          - humidifier.bathroom_fan_humidity
+        to: ~
+      - trigger: homeassistant
+        event: start
+    conditions:
+      - condition: template
+        value_template: >-
+          {{ has_value('humidifier.bathroom_fan_humidity')
+             and not is_state('humidifier.bathroom_fan_humidity', wanted) }}
+    actions:
+      - action: "humidifier.turn_{{ wanted }}"
+        target:
+          entity_id: humidifier.bathroom_fan_humidity
+
+  - id: bathroom_fan_run
+    alias: Bathroom Fan Run
+    description: Starts the short run after a visit or, in light mode, when the light is switched on
+    mode: queued
+    variables:
+      output: *bathroom_fan_output
+    triggers:
+      - trigger: state
+        entity_id: binary_sensor.bathroom_fan_visit
+        from: "on"
+        to: "off"
+        id: visit_end
+      - trigger: state
+        entity_id: binary_sensor.lamp_bathroom_0_input_0
+        from: "off"
+        to: "on"
+        id: light_on
+    conditions:
+      - condition: state
+        entity_id: timer.bathroom_fan_shower
+        state: idle
+      - condition: template
+        value_template: "{{ is_state(output, 'off') }}"
+      - condition: or
+        conditions:
+          - condition: and
+            conditions:
+              - condition: trigger
+                id: light_on
+              - condition: state
+                entity_id: input_boolean.bathroom_fan_light_mode
+                state: "on"
+          - condition: and
+            conditions:
+              - condition: trigger
+                id: visit_end
+              - condition: state
+                entity_id: input_boolean.bathroom_fan_light_mode
+                state: "off"
+              - condition: template
+                value_template: >-
+                  {{ (trigger.to_state.last_changed - trigger.from_state.last_changed).total_seconds() - 120 >= 60 }}
+    actions:
+      - action: timer.start
+        target:
+          entity_id: timer.bathroom_fan_run
+        data:
+          duration: "00:00:46"
+
+  - id: bathroom_fan_rodret
+    alias: Bathroom Fan Rodret
+    description: Rodret on and off buttons control the shower switch
+    initial_state: false
+    use_blueprint:
+      path: st0o0/ikea_E1743-E2201-E2213_Z2M_control-anything.yaml
+      input:
+        remote_devices:
+          - 370c143b809a7f586e2303560d356a6b
+        helper_double_press_delay: 500
+        on_double_press_exposed: false
+        off_double_press_exposed: false
+        on_double_press_action: []
+        on_press_action:
+          - action: switch.turn_on
+            target:
+              entity_id: switch.bathroom_fan_shower
+        off_press_action:
+          - action: switch.turn_off
+            target:
+              entity_id: switch.bathroom_fan_shower
