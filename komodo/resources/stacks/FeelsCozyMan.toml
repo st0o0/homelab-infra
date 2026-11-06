@@ -135,6 +135,36 @@ MATTER_ENABLE_TIME_SYNC=true
 MATTER_PATH_DATA=/docker/homeassistant/matter/data
 """
 
+[[stack.config.config_files]]
+path = "homeassistant/configuration.yaml"
+services = ["homeassistant"]
+requires = "Restart"
+
+[[stack.config.config_files]]
+path = "homeassistant/packages/performance.yaml"
+services = ["homeassistant"]
+requires = "Restart"
+
+[[stack.config.config_files]]
+path = "homeassistant/packages/prometheus.yaml"
+services = ["homeassistant"]
+requires = "Restart"
+
+[[stack.config.config_files]]
+path = "homeassistant/packages/fan_bathroom.yaml"
+services = ["homeassistant"]
+requires = "Restart"
+
+[[stack.config.config_files]]
+path = "homeassistant/packages/fan_storageroom.yaml"
+services = ["homeassistant"]
+requires = "Restart"
+
+[[stack.config.config_files]]
+path = "homeassistant/packages/fan_night.yaml"
+services = ["homeassistant"]
+requires = "Restart"
+
 [[stack]]
 name = "vaultwarden-1"
 tags = ["infra"]

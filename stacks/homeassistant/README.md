@@ -64,7 +64,8 @@ homeassistant/                       automations.yaml
 
 - `configuration.yaml` is a minimal bootstrap that loads packages and includes HA-managed files
 - `packages/` contains infrastructure config grouped by concern
-- To add a new package: create a `.yaml` file in `packages/`, restart HA (no compose change needed)
+- To add a new package: create a `.yaml` file in `packages/` and list it as `config_files` of `homeassistant-1` in Komodo (no compose change needed)
+- `configuration.yaml` and all packages are listed there, so pushing a change to them restarts HA within 5 minutes
 - Dashboards, automations, scripts, scenes and registries are managed through the HA UI and live in the data volume (`.storage/`), not in the repo -- back up the data volume
 - `HA_RECORDER_DB_URL` defaults to the local SQLite file; set it to a PostgreSQL URL to switch
 
