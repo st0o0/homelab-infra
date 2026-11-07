@@ -5,10 +5,6 @@ input_boolean:
   bathroom_fan_humidity_demand:
     name: Bathroom Fan Humidity Demand
     icon: mdi:water-percent
-  # Replaces the real fan until cutover
-  fan_shadow_bathroom:
-    name: Fan Shadow Bathroom
-    icon: mdi:fan
 
 input_number:
   bathroom_fan_shower_duration:

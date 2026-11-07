@@ -59,11 +59,14 @@ homeassistant/                       automations.yaml
   packages/                          scenes.yaml
     performance.yaml  ─── recorder   secrets.yaml
     prometheus.yaml   ─── metrics    custom_components/ (HACS)
-                                      .storage/ (dashboards, helpers, registries, auth, persons)
+    fan_bathroom.yaml    ─ fans      .storage/ (dashboards, helpers, registries, auth, persons)
+    fan_storageroom.yaml ─ fans
+    fan_night.yaml       ─ fans
 ```
 
 - `configuration.yaml` is a minimal bootstrap that loads packages and includes HA-managed files
 - `packages/` contains infrastructure config grouped by concern
+- `fan_*.yaml` control the bathroom and storage-room fans: shower, ventilation, night ventilation, hygrostats and short runs after a visit or the light
 - To add a new package: create a `.yaml` file in `packages/` and list it as `config_files` of `homeassistant-1` in Komodo (no compose change needed)
 - `configuration.yaml` and all packages are listed there, so pushing a change to them restarts HA within 5 minutes
 - Dashboards, automations, scripts, scenes and registries are managed through the HA UI and live in the data volume (`.storage/`), not in the repo -- back up the data volume

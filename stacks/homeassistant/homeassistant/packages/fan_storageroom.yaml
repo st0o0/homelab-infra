@@ -2,10 +2,6 @@ input_boolean:
   storageroom_fan_humidity_demand:
     name: Storageroom Fan Humidity Demand
     icon: mdi:water-percent
-  # Replaces the real fan until cutover
-  fan_shadow_storageroom:
-    name: Fan Shadow Storageroom
-    icon: mdi:fan
 
 input_number:
   storageroom_fan_ventilation_duration:
