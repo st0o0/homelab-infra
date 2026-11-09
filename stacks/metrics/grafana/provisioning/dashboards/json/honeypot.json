@@ -58,13 +58,14 @@
       "options": {
         "colorMode": "value",
         "graphMode": "none",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "/^version$/", "values": false },
-        "textMode": "value"
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "name"
       },
       "targets": [
         {
           "refId": "A",
-          "expr": "ran_build_info{job=\"ran\"}"
+          "expr": "ran_build_info{job=\"ran\"}",
+          "legendFormat": "{{version}}"
         }
       ],
       "id": 2
@@ -718,8 +719,8 @@
       "options": {
         "colorMode": "value",
         "graphMode": "none",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "/^protocol$/", "values": false },
-        "textMode": "value"
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "/^sessions$/", "values": false },
+        "textMode": "value_and_name"
       },
       "targets": [
         {
