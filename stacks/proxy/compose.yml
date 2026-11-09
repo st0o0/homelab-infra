@@ -232,7 +232,7 @@ services:
           memory: 32M
 
   ran:
-    image: ghcr.io/st0o0/ran:0.4.0@sha256:73a69a04e9f295bc400e2725cba15f032c4ea4723186eda60f768793116ab274
+    image: ghcr.io/st0o0/ran:0.5.1@sha256:f81ef0963d2ad2e6ca546a219ec2076867871e21b382fbec67625e5da6889d49
     container_name: ran
     restart: unless-stopped
     logging: *default-logging
