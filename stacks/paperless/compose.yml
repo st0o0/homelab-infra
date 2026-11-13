@@ -111,7 +111,7 @@ services:
           memory: 128M
 
   gotenberg:
-    image: gotenberg/gotenberg:9.2.0@sha256:ab27164320fd757dcc4df81d512c2b5d2d6554c996f00c0058d94e192d2a8d0b
+    image: gotenberg/gotenberg:9.3.0@sha256:48160a18a71e406f69a7b963165a54582f3cc1e718d9505abc08f6ce2720d2e5
     container_name: gotenberg
     restart: unless-stopped
     logging: *default-logging
