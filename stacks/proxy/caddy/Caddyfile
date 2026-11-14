@@ -4,9 +4,10 @@
 	order rate_limit after appsec
 
 	crowdsec {
-		api_url http://localhost:8180
+		# 127.0.0.1, not localhost: LAPI registers a new bouncer whenever the source IP flips between ::1 and 127.0.0.1
+		api_url http://127.0.0.1:8180
 		api_key {$CROWDSEC_BOUNCER_API_KEY}
-		appsec_url http://localhost:7422
+		appsec_url http://127.0.0.1:7422
 		enable_caddy_metrics
 		metrics_interval 15m
 	}

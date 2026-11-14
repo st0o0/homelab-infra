@@ -1247,7 +1247,7 @@ groups:
         labels:
           severity: critical
         annotations:
-          summary: "CrowdSec bouncer {{ $labels.bouncer }} on {{ $labels.host }} has stopped pulling decisions"
+          summary: "CrowdSec bouncers on {{ $labels.host }} have stopped pulling decisions"
         data:
           - refId: A
             relativeTimeRange:
@@ -1255,7 +1255,10 @@ groups:
               to: 0
             datasourceUid: victoriametrics
             model:
-              expr: rate(cs_lapi_bouncer_requests_total{route="/v1/decisions/stream"}[15m])
+              # summed per host: LAPI names a bouncer "<name>@<ip>" when it connects from a new source IP
+              # (e.g. localhost resolving to 127.0.0.1 instead of ::1), and the old name's counter stays at rate 0
+              # GET only: the HEAD requests come from CrowdSec's own AppSec component, not from a bouncer
+              expr: sum by (host) (rate(cs_lapi_bouncer_requests_total{route="/v1/decisions/stream", method="GET"}[15m]))
               instant: true
               refId: A
           - refId: C
