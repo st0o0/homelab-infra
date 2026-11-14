@@ -3,9 +3,12 @@ api:
     listen_uri: 0.0.0.0:8180
 
 db_config:
+  # without WAL every write locks the whole database, and LAPI stalls during the 2-hourly community blocklist pull
+  use_wal: true
   flush:
     # GetDecisionsCount (ban escalation) counts only decisions of alerts still in the database, so history must
-    # cover the longest escalation step (168h); the ran honeypot alone creates about 4000 alerts per day
+    # cover the longest escalation step (168h); the ran honeypot creates about 300 alerts per day since the
+    # 0.5.1 trap consolidation (about 3000 before), so max_items is only a safety net
     max_items: 30000
     max_age: 14d
 
