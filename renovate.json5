@@ -5,10 +5,18 @@
     'helpers:pinGitHubActionDigests',
   ],
   timezone: 'Europe/Berlin',
-  schedule: ['after 6am and before 6pm'],
-  automergeSchedule: ['after 12am and before 6am'],
-  dependencyDashboard: false,
-  ignorePaths: ['ansible/report/**'],
+  schedule: [
+    'after 6am and before 6pm',
+  ],
+  automergeSchedule: [
+    'after 12am and before 6am',
+  ],
+  dependencyDashboard: {
+    enabled: false,
+  },
+  ignorePaths: [
+    'ansible/report/**',
+  ],
   commitMessageExtra: '({{packageFileDir}})',
   hostRules: [
     {
@@ -65,14 +73,22 @@
   packageRules: [
     {
       description: 'Docker minor+patch need manual review in homelab -- too many services to risk blind updates',
-      matchManagers: ['dockerfile', 'docker-compose'],
-      matchUpdateTypes: ['minor', 'patch'],
+      matchManagers: [
+        'dockerfile',
+        'docker-compose',
+      ],
+      matchUpdateTypes: [
+        'minor',
+        'patch',
+      ],
       automerge: false,
     },
     {
       description: 'Group Caddy builder and runtime together (must stay version-aligned)',
       groupName: 'caddy',
-      matchPackageNames: ['caddy'],
+      matchPackageNames: [
+        'caddy',
+      ],
     },
     {
       description: 'Group Immich components together (must stay version-aligned)',
@@ -94,17 +110,28 @@
     },
     {
       description: 'Digest-only rebuilds carry no functional change -- safe to automerge',
-      matchUpdateTypes: ['digest'],
+      matchUpdateTypes: [
+        'digest',
+      ],
       automerge: true,
     },
     {
       groupName: 'devcontainer-tooling',
-      matchManagers: ['custom.regex'],
-      matchFileNames: ['scripts/**/*.sh'],
-      matchUpdateTypes: ['minor', 'patch'],
+      matchManagers: [
+        'custom.regex',
+      ],
+      matchFileNames: [
+        'scripts/**/*.sh',
+      ],
+      matchUpdateTypes: [
+        'minor',
+        'patch',
+      ],
     },
     {
-      matchPackageNames: ['/^ghcr\\.io\\/st0o0\\//'],
+      matchPackageNames: [
+        '/^ghcr\\.io\\/st0o0\\//',
+      ],
       recreateWhen: 'always',
     },
     {
@@ -129,51 +156,72 @@
     },
     {
       description: 'Pin databases to current major -- major upgrades need manual data migration',
-      matchPackageNames: ['mariadb'],
+      matchPackageNames: [
+        'mariadb',
+      ],
       allowedVersions: '<11',
     },
     {
       description: 'Pin databases to current major -- major upgrades need manual data migration',
-      matchPackageNames: ['postgres'],
+      matchPackageNames: [
+        'postgres',
+      ],
       allowedVersions: '<18',
     },
     {
       description: 'Pin databases to current major -- major upgrades need manual data migration',
-      matchPackageNames: ['mongo'],
+      matchPackageNames: [
+        'mongo',
+      ],
       allowedVersions: '<8',
     },
     {
       description: 'Authentik requires sequential minor upgrades (no skipping)',
-      matchPackageNames: ['ghcr.io/goauthentik/server'],
+      matchPackageNames: [
+        'ghcr.io/goauthentik/server',
+      ],
       separateMultipleMinor: true,
     },
-    // sourceUrl overrides for correct release notes
     {
-      matchPackageNames: ['caddy'],
+      matchPackageNames: [
+        'caddy',
+      ],
       sourceUrl: 'https://github.com/caddyserver/caddy',
     },
     {
-      matchPackageNames: ['ghcr.io/veerendra2/speedtest_exporter'],
+      matchPackageNames: [
+        'ghcr.io/veerendra2/speedtest_exporter',
+      ],
       sourceUrl: 'https://github.com/veerendra2/speedtest_exporter',
     },
     {
-      matchPackageNames: ['ghcr.io/jlesage/firefox'],
+      matchPackageNames: [
+        'ghcr.io/jlesage/firefox',
+      ],
       sourceUrl: 'https://github.com/jlesage/docker-firefox',
     },
     {
-      matchPackageNames: ['ghcr.io/home-operations/sonarr'],
+      matchPackageNames: [
+        'ghcr.io/home-operations/sonarr',
+      ],
       sourceUrl: 'https://github.com/Sonarr/Sonarr',
     },
     {
-      matchPackageNames: ['ghcr.io/home-operations/radarr'],
+      matchPackageNames: [
+        'ghcr.io/home-operations/radarr',
+      ],
       sourceUrl: 'https://github.com/Radarr/Radarr',
     },
     {
-      matchPackageNames: ['ghcr.io/home-operations/prowlarr'],
+      matchPackageNames: [
+        'ghcr.io/home-operations/prowlarr',
+      ],
       sourceUrl: 'https://github.com/Prowlarr/Prowlarr',
     },
     {
-      matchPackageNames: ['ghcr.io/home-operations/sabnzbd'],
+      matchPackageNames: [
+        'ghcr.io/home-operations/sabnzbd',
+      ],
       sourceUrl: 'https://github.com/sabnzbd/sabnzbd',
     },
     {
@@ -184,11 +232,15 @@
       sourceUrl: 'https://github.com/moghtech/komodo',
     },
     {
-      matchPackageNames: ['ghcr.io/maxmind/geoipupdate'],
+      matchPackageNames: [
+        'ghcr.io/maxmind/geoipupdate',
+      ],
       sourceUrl: 'https://github.com/maxmind/geoipupdate',
     },
     {
-      matchPackageNames: ['ghcr.io/dani-garcia/vaultwarden'],
+      matchPackageNames: [
+        'ghcr.io/dani-garcia/vaultwarden',
+      ],
       sourceUrl: 'https://github.com/dani-garcia/vaultwarden',
     },
     {
@@ -200,11 +252,15 @@
       sourceUrl: 'https://github.com/immich-app/immich',
     },
     {
-      matchPackageNames: ['ghcr.io/goauthentik/server'],
+      matchPackageNames: [
+        'ghcr.io/goauthentik/server',
+      ],
       sourceUrl: 'https://github.com/goauthentik/authentik',
     },
     {
-      matchPackageNames: ['ghcr.io/home-assistant/home-assistant'],
+      matchPackageNames: [
+        'ghcr.io/home-assistant/home-assistant',
+      ],
       sourceUrl: 'https://github.com/home-assistant/core',
     },
     {
@@ -216,95 +272,141 @@
       sourceUrl: 'https://github.com/VictoriaMetrics/VictoriaMetrics',
     },
     {
-      matchPackageNames: ['ghcr.io/valkey-io/valkey'],
+      matchPackageNames: [
+        'ghcr.io/valkey-io/valkey',
+      ],
       sourceUrl: 'https://github.com/valkey-io/valkey',
     },
     {
-      matchPackageNames: ['sapcc/mosquitto-exporter'],
+      matchPackageNames: [
+        'sapcc/mosquitto-exporter',
+      ],
       sourceUrl: 'https://github.com/sapcc/mosquitto-exporter',
     },
     {
-      matchPackageNames: ['sigoden/dufs'],
+      matchPackageNames: [
+        'sigoden/dufs',
+      ],
       sourceUrl: 'https://github.com/sigoden/dufs',
     },
     {
-      matchPackageNames: ['dialmaster/youtarr'],
+      matchPackageNames: [
+        'dialmaster/youtarr',
+      ],
       sourceUrl: 'https://github.com/dialmaster/youtarr',
     },
     {
-      matchPackageNames: ['ghcr.io/matter-js/matterjs-server'],
+      matchPackageNames: [
+        'ghcr.io/matter-js/matterjs-server',
+      ],
       sourceUrl: 'https://github.com/matter-js/matterjs-server',
     },
     {
-      matchPackageNames: ['ghcr.io/crowdsecurity/crowdsec'],
+      matchPackageNames: [
+        'ghcr.io/crowdsecurity/crowdsec',
+      ],
       sourceUrl: 'https://github.com/crowdsecurity/crowdsec',
     },
     {
-      matchPackageNames: ['ghcr.io/traefik/whoami'],
+      matchPackageNames: [
+        'ghcr.io/traefik/whoami',
+      ],
       sourceUrl: 'https://github.com/traefik/whoami',
     },
     {
-      matchPackageNames: ['kopia/kopia'],
+      matchPackageNames: [
+        'kopia/kopia',
+      ],
       sourceUrl: 'https://github.com/kopia/kopia',
     },
     {
-      matchPackageNames: ['ghcr.io/jellyfin/jellyfin'],
+      matchPackageNames: [
+        'ghcr.io/jellyfin/jellyfin',
+      ],
       sourceUrl: 'https://github.com/jellyfin/jellyfin',
     },
     {
-      matchPackageNames: ['ghcr.io/advplyr/audiobookshelf'],
+      matchPackageNames: [
+        'ghcr.io/advplyr/audiobookshelf',
+      ],
       sourceUrl: 'https://github.com/advplyr/audiobookshelf',
     },
     {
-      matchPackageNames: ['ghcr.io/mealie-recipes/mealie'],
+      matchPackageNames: [
+        'ghcr.io/mealie-recipes/mealie',
+      ],
       sourceUrl: 'https://github.com/mealie-recipes/mealie',
     },
     {
-      matchPackageNames: ['eclipse-mosquitto'],
+      matchPackageNames: [
+        'eclipse-mosquitto',
+      ],
       sourceUrl: 'https://github.com/eclipse-mosquitto/mosquitto',
     },
     {
-      matchPackageNames: ['ghcr.io/koenkk/zigbee2mqtt'],
+      matchPackageNames: [
+        'ghcr.io/koenkk/zigbee2mqtt',
+      ],
       sourceUrl: 'https://github.com/Koenkk/zigbee2mqtt',
     },
     {
-      matchPackageNames: ['ghcr.io/paperless-ngx/paperless-ngx'],
+      matchPackageNames: [
+        'ghcr.io/paperless-ngx/paperless-ngx',
+      ],
       sourceUrl: 'https://github.com/paperless-ngx/paperless-ngx',
     },
     {
-      matchPackageNames: ['apache/tika'],
+      matchPackageNames: [
+        'apache/tika',
+      ],
       sourceUrl: 'https://github.com/apache/tika',
     },
     {
-      matchPackageNames: ['gotenberg/gotenberg'],
+      matchPackageNames: [
+        'gotenberg/gotenberg',
+      ],
       sourceUrl: 'https://github.com/gotenberg/gotenberg',
     },
     {
-      matchPackageNames: ['ghcr.io/qdm12/gluetun'],
+      matchPackageNames: [
+        'ghcr.io/qdm12/gluetun',
+      ],
       sourceUrl: 'https://github.com/qdm12/gluetun',
     },
     {
-      matchPackageNames: ['grafana/alloy'],
+      matchPackageNames: [
+        'grafana/alloy',
+      ],
       sourceUrl: 'https://github.com/grafana/alloy',
     },
     {
-      matchPackageNames: ['grafana/grafana'],
+      matchPackageNames: [
+        'grafana/grafana',
+      ],
       sourceUrl: 'https://github.com/grafana/grafana',
     },
     {
-      matchPackageNames: ['ghcr.io/seerr-team/seerr'],
+      matchPackageNames: [
+        'ghcr.io/seerr-team/seerr',
+      ],
       sourceUrl: 'https://github.com/seerr-team/seerr',
     },
     {
-      matchPackageNames: ['ghcr.io/scottrobertson/seekarr'],
+      matchPackageNames: [
+        'ghcr.io/scottrobertson/seekarr',
+      ],
       sourceUrl: 'https://github.com/scottrobertson/seekarr',
     },
     {
-      matchPackageNames: ['ghcr.io/raydak-labs/configarr'],
+      matchPackageNames: [
+        'ghcr.io/raydak-labs/configarr',
+      ],
       sourceUrl: 'https://github.com/raydak-labs/configarr',
     },
     {
-      matchPackageNames: ['ghcr.io/hansmi/prometheus-paperless-exporter'],
+      matchPackageNames: [
+        'ghcr.io/hansmi/prometheus-paperless-exporter',
+      ],
       sourceUrl: 'https://github.com/hansmi/prometheus-paperless-exporter',
     },
   ],
