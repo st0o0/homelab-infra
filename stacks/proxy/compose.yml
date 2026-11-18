@@ -28,8 +28,6 @@ services:
       - "25:25"
       - "2222:2222"
       - "2375:2375"
-      - "3389:3389"
-      - "6443:6443"
       - "8080:8080"
       - "8443:8443"
     environment:
@@ -229,7 +227,7 @@ services:
         condition: service_healthy
     # TZ deliberately unset (scratch image without tzdata, UTC RFC3339 logs); see openspec change timezone-mapping
     environment:
-      - RAN_TRAPS=ssh,http,https,rdp,telnet,smtp,ftp,httpproxy,docker,kubernetes
+      - RAN_TRAPS=ssh,http,https,telnet,smtp,ftp,httpproxy
       - RAN_LOG_LEVEL=${RAN_LOG_LEVEL:-info}
       - RAN_LOG_FORMAT=json
       - RAN_SESSION_TIMEOUT=${RAN_SESSION_TIMEOUT:-30s}
@@ -244,8 +242,6 @@ services:
       - RAN_SMTP_ADDR=:25
       - RAN_FTP_ADDR=:21
       - RAN_HTTPPROXY_ADDR=:8080
-      - RAN_DOCKER_ADDR=:2375
-      - RAN_KUBERNETES_ADDR=:6443
       - RAN_SHUN=on
       - RAN_REPEAT_AFTER=${RAN_REPEAT_AFTER:-5}
       - RAN_REPEAT_COOLDOWN=${RAN_REPEAT_COOLDOWN:-12h}

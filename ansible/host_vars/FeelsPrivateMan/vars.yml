@@ -23,16 +23,16 @@ ufw_extra_rules:
   - {rule: allow, port: 23, proto: tcp, comment: "ran Telnet"}
   - {rule: allow, port: 25, proto: tcp, comment: "ran SMTP"}
   - {rule: allow, port: 2222, proto: tcp, comment: "ran SSH"}
-  - {rule: allow, port: 2375, proto: tcp, comment: "ran Docker"}
-  - {rule: allow, port: 3389, proto: tcp, comment: "ran RDP"}
-  - {rule: allow, port: 6443, proto: tcp, comment: "ran Kubernetes"}
   - {rule: allow, port: 8080, proto: tcp, comment: "ran HTTP-Proxy"}
   - {rule: allow, port: 8443, proto: tcp, comment: "ran HTTPS"}
 
 # Retired ran traps: delete the existing rules (deploy the proxy stack first, then run the ufw role)
 ufw_removed_rules:
+  - {port: 2375, proto: tcp, comment: "ran Docker"}
   - {port: 3306, proto: tcp, comment: "ran MySQL"}
+  - {port: 3389, proto: tcp, comment: "ran RDP"}
   - {port: 5432, proto: tcp, comment: "ran PostgreSQL"}
+  - {port: 6443, proto: tcp, comment: "ran Kubernetes"}
   - {port: 9200, proto: tcp, comment: "ran Elasticsearch"}
   - {port: 27017, proto: tcp, comment: "ran MongoDB"}
   - {port: 445, proto: tcp, comment: "ran SMB"}
