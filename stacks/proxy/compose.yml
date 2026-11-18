@@ -28,14 +28,10 @@ services:
       - "25:25"
       - "2222:2222"
       - "2375:2375"
-      - "3306:3306"
       - "3389:3389"
-      - "5432:5432"
       - "6443:6443"
       - "8080:8080"
       - "8443:8443"
-      - "9200:9200"
-      - "27017:27017"
     environment:
       - TZ=${TZ:-Europe/Berlin}
       - BIFROST_PRIVATE_KEY=${BIFROST_PRIVATE_KEY:?BIFROST_PRIVATE_KEY is required}
@@ -233,7 +229,7 @@ services:
         condition: service_healthy
     # TZ deliberately unset (scratch image without tzdata, UTC RFC3339 logs); see openspec change timezone-mapping
     environment:
-      - RAN_TRAPS=ssh,http,https,rdp,telnet,mysql,smtp,ftp,postgres,elasticsearch,httpproxy,docker,kubernetes,mongodb
+      - RAN_TRAPS=ssh,http,https,rdp,telnet,smtp,ftp,httpproxy,docker,kubernetes
       - RAN_LOG_LEVEL=${RAN_LOG_LEVEL:-info}
       - RAN_LOG_FORMAT=json
       - RAN_SESSION_TIMEOUT=${RAN_SESSION_TIMEOUT:-30s}
@@ -245,15 +241,11 @@ services:
       - RAN_HTTPS_ADDR=:8443
       - RAN_RDP_ADDR=:3389
       - RAN_TELNET_ADDR=:23
-      - RAN_MYSQL_ADDR=:3306
       - RAN_SMTP_ADDR=:25
       - RAN_FTP_ADDR=:21
-      - RAN_POSTGRES_ADDR=:5432
-      - RAN_ELASTICSEARCH_ADDR=:9200
       - RAN_HTTPPROXY_ADDR=:8080
       - RAN_DOCKER_ADDR=:2375
       - RAN_KUBERNETES_ADDR=:6443
-      - RAN_MONGODB_ADDR=:27017
       - RAN_SHUN=on
       - RAN_REPEAT_AFTER=${RAN_REPEAT_AFTER:-5}
       - RAN_REPEAT_COOLDOWN=${RAN_REPEAT_COOLDOWN:-12h}
