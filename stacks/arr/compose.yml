@@ -225,7 +225,7 @@ services:
 
   youtarr-db:
     <<: *common
-    image: mariadb:10.11.19@sha256:7d829180b5b2a9ba74f6242876ab401a0d7dd338a807e522ef92bc9698760f20
+    image: mariadb:10.11.19@sha256:6f2eb41478e3b4d3e37ba9ca3abb12736680fb0eb9ad5c2e48eec9a8798f28e7
     container_name: youtarr-db
     healthcheck:
       test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
