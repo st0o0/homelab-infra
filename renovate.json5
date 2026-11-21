@@ -11,6 +11,7 @@
   automergeSchedule: [
     'after 12am and before 6am',
   ],
+  platformAutomerge: true,
   dependencyDashboard: {
     enabled: false,
   },
