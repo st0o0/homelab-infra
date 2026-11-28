@@ -6,7 +6,7 @@ x-logging: &default-logging
 
 services:
   databasus:
-    image: databasus/databasus:v3.68.0@sha256:068d97575f49abf01a3184c9d7987a1a5ec188e6d10150157fcbdc515fd8fb94
+    image: databasus/databasus:v3.73.1@sha256:d00a1c20f02a997536ce5cf666211a4e6e58b4b24190bc97c459d5e0d520645a
     container_name: databasus
     restart: unless-stopped
     logging: *default-logging
